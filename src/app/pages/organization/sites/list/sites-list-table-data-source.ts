@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { ComponentService } from 'services/component.service';
 import { WindowService } from 'services/window.service';
 import { PricingDefinitionsDialogComponent } from 'shared/pricing-definitions/pricing-definitions.dialog.component';
-import { TableSiteGenerateQrCodeConnectorAction, TableSiteGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/sites/table-site-generate-qr-code-connector-action';
+import { TableSiteDownloadQrCodeAction, TableSiteDownloadQrCodeActionDef } from 'shared/table/actions/sites/table-site-download-qr-code-action';
 import { TableViewPricingDefinitionsAction, TableViewPricingDefinitionsActionDef } from 'shared/table/actions/table-view-pricing-definitions-action';
 import { SitesAuthorizations } from 'types/Authorization';
 import { PricingButtonAction, PricingEntity } from 'types/Pricing';
@@ -50,7 +50,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   private deleteAction = new TableDeleteSiteAction().getActionDef();
   private viewAction = new TableViewSiteAction().getActionDef();
   private exportOCPPParamsAction = new TableExportOCPPParamsAction().getActionDef();
-  private siteGenerateQrCodeConnectorAction = new TableSiteGenerateQrCodeConnectorAction().getActionDef();
+  private siteDownloadQrCodeAction = new TableSiteDownloadQrCodeAction().getActionDef();
   private createAction = new TableCreateSiteAction().getActionDef();
   private maintainPricingDefinitionsAction = new TableViewPricingDefinitionsAction().getActionDef();
   private companyFilter: TableFilterDef;
@@ -227,8 +227,8 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     if (site.canExportOCPPParams) {
       moreActions.addActionInMoreActions(this.exportOCPPParamsAction);
     }
-    if (site.canGenerateQrCode) {
-      moreActions.addActionInMoreActions(this.siteGenerateQrCodeConnectorAction);
+    if (site.canDownloadQrCode) {
+      moreActions.addActionInMoreActions(this.siteDownloadQrCodeAction);
     }
     moreActions.addActionInMoreActions(openInMaps);
     if (site.canDelete) {
@@ -295,9 +295,9 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
             this.centralServerService, this.router, this.spinnerService);
         }
         break;
-      case ChargingStationButtonAction.GENERATE_QR_CODE:
+      case ChargingStationButtonAction.DOWNLOAD_QR_CODE:
         if (actionDef.action) {
-          (actionDef as TableSiteGenerateQrCodeConnectorsActionDef).action(
+          (actionDef as TableSiteDownloadQrCodeActionDef).action(
             site, this.translateService, this.spinnerService,
             this.messageService, this.centralServerService, this.router
           );

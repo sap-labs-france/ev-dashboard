@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { WindowService } from 'services/window.service';
-import { TableSiteAreaGenerateQrCodeConnectorAction, TableSiteAreaGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/site-areas/table-site-area-generate-qr-code-connector-action';
+import { TableSiteAreaDownloadQrCodeAction, TableSiteAreaDownloadQrCodeActionActionDef } from 'shared/table/actions/site-areas/table-site-area-download-qr-code-action';
 import { SiteAreasAuthorizations } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -54,7 +54,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   private viewChargingStationsOfSiteArea = new TableViewChargingStationsOfSiteAreaAction().getActionDef();
   private viewAssetsOfSiteArea = new TableViewAssignedAssetsOfSiteAreaAction().getActionDef();
   private exportOCPPParamsAction = new TableExportOCPPParamsAction().getActionDef();
-  private siteAreaGenerateQrCodeConnectorAction = new TableSiteAreaGenerateQrCodeConnectorAction().getActionDef();
+  private siteAreaDownloadQrCodeAction = new TableSiteAreaDownloadQrCodeAction().getActionDef();
   private createAction = new TableCreateSiteAreaAction().getActionDef();
   private siteAreasAuthorizations: SiteAreasAuthorizations;
 
@@ -120,7 +120,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       },
       rowDetails: {
         enabled: true,
-        showDetailsField: 'issuer',
+        showDetailsField: 'canReadConsumption',
         angularComponent: SiteAreaConsumptionChartDetailComponent,
         additionalParameters: this.siteAreasAuthorizations
       },
@@ -263,8 +263,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     if (siteArea.canExportOCPPParams) {
       moreActions.addActionInMoreActions(this.exportOCPPParamsAction);
     }
-    if (siteArea.canGenerateQrCode) {
-      moreActions.addActionInMoreActions(this.siteAreaGenerateQrCodeConnectorAction);
+    if (siteArea.canDownloadQrCode) {
+      moreActions.addActionInMoreActions(this.siteAreaDownloadQrCodeAction);
     }
     if (siteArea.canAssignChargingStations || siteArea.canUnassignChargingStations) {
       rowActions.push(this.assignChargingStationsToSiteAreaAction);
@@ -352,9 +352,9 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
             this.refreshData.bind(this));
         }
         break;
-      case ChargingStationButtonAction.GENERATE_QR_CODE:
+      case ChargingStationButtonAction.DOWNLOAD_QR_CODE:
         if (actionDef.action) {
-          (actionDef as TableSiteAreaGenerateQrCodeConnectorsActionDef).action(
+          (actionDef as TableSiteAreaDownloadQrCodeActionActionDef).action(
             siteArea, this.translateService, this.spinnerService,
             this.messageService, this.centralServerService, this.router
           );

@@ -44,7 +44,6 @@ export interface AuthorizationFilter {
   project: string[];
 }
 
-
 export enum Entity {
   SITE = 'Site',
   SITE_AREA = 'SiteArea',
@@ -81,7 +80,6 @@ export enum Entity {
   TAG = 'Tag',
   PAYMENT_METHOD = 'PaymentMethod',
   SOURCE = 'Source',
-  CONSUMPTION = 'Consumption',
 }
 
 export enum Action {
@@ -167,7 +165,7 @@ export enum Action {
   VIEW_USER_DATA = 'ViewUserData',
   SYNCHRONIZE_REFUNDED_TRANSACTION = 'SynchronizeRefundedTransaction',
   PUSH_TRANSACTION_CDR = 'PushTransactionCDR',
-  GET_ADVENIR_CONSUMPTION = 'GetAdvenirConsumption',
+  READ_ADVENIR_CONSUMPTION = 'ReadAdvenirConsumption',
   GET_CHARGING_STATION_TRANSACTIONS = 'GetChargingStationTransactions',
   GET_ACTIVE_TRANSACTION = 'GetActiveTransaction',
   GET_COMPLETED_TRANSACTION = 'GetCompletedTransaction',
@@ -320,7 +318,7 @@ export interface SiteAreaAuthorizationActions extends AuthorizationActions {
   canUnassignChargingStations?: boolean;
   canReadChargingStations?: boolean;
   canExportOCPPParams?: boolean;
-  canGenerateQrCode?: boolean;
+  canDownloadQrCode?: boolean;
 }
 
 export interface SitesAuthorizations extends AuthorizationAttributes, SitesAuthorizationActions {
@@ -334,7 +332,7 @@ export interface SiteAuthorizationActions extends AuthorizationActions {
   canAssignUnassignUsers?: boolean;
   canListSiteUsers?: boolean;
   canExportOCPPParams?: boolean;
-  canGenerateQrCode?: boolean;
+  canDownloadQrCode?: boolean;
   canMaintainPricingDefinitions?: boolean;
 }
 

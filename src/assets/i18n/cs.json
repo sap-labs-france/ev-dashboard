@@ -78,6 +78,7 @@
     "refresh": "Obnovit",
     "generate_qr": "Generovat QR kód",
     "display_qr": "QR kód",
+    "download_qr": "Download QR Code",
     "save": "Uložit",
     "delete": "Vymazat",
     "export": "Exportovat",

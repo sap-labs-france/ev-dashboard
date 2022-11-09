@@ -78,6 +78,7 @@
     "refresh": "Refresh",
     "generate_qr": "Generate QR Code",
     "display_qr": "QR code",
+    "download_qr": "Download QR Code",
     "save": "Save",
     "delete": "Delete",
     "export": "Export",

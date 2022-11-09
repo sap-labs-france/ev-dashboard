@@ -10,37 +10,37 @@ import { ButtonActionColor } from 'types/GlobalType';
 import { ActionType, TableActionDef } from 'types/Table';
 import { Utils } from 'utils/Utils';
 
-import { Site } from '../../../../types/Site';
+import { SiteArea } from '../../../../types/SiteArea';
 
-export interface TableSiteGenerateQrCodeConnectorsActionDef extends TableActionDef {
-  action: (site: Site, translateService: TranslateService, spinnerService: SpinnerService,
+export interface TableSiteAreaDownloadQrCodeActionActionDef extends TableActionDef {
+  action: (siteArea: SiteArea, translateService: TranslateService, spinnerService: SpinnerService,
     messageService: MessageService, centralServerService: CentralServerService, router: Router) => void;
 }
 
-export class TableSiteGenerateQrCodeConnectorAction implements TableAction {
-  private action: TableSiteGenerateQrCodeConnectorsActionDef = {
-    id: ChargingStationButtonAction.GENERATE_QR_CODE,
+export class TableSiteAreaDownloadQrCodeAction implements TableAction {
+  private action: TableSiteAreaDownloadQrCodeActionActionDef = {
+    id: ChargingStationButtonAction.DOWNLOAD_QR_CODE,
     type: ActionType.BUTTON,
     icon: 'qr_code',
     color: ButtonActionColor.ACCENT,
-    name: 'general.generate_qr',
-    tooltip: 'general.tooltips.generate_qr',
+    name: 'general.download_qr',
+    tooltip: 'general.download_qr',
     action: this.downloadQrCodePDF,
   };
 
-  public getActionDef(): TableSiteGenerateQrCodeConnectorsActionDef {
+  public getActionDef(): TableSiteAreaDownloadQrCodeActionActionDef {
     return this.action;
   }
 
-  private downloadQrCodePDF(site: Site, translateService: TranslateService, spinnerService: SpinnerService,
+  private downloadQrCodePDF(siteArea: SiteArea, translateService: TranslateService, spinnerService: SpinnerService,
     messageService: MessageService, centralServerService: CentralServerService, router: Router) {
     spinnerService.show();
-    centralServerService.downloadSiteQrCodes(site.id).subscribe({
+    centralServerService.downloadSiteAreaQrCodes(siteArea.id).subscribe({
       next: (result) => {
         spinnerService.hide();
-        FileSaver.saveAs(result, `site-${site.name.toLowerCase()}-qr-codes.pdf`);
+        FileSaver.saveAs(result, `site-area-${siteArea.name.toLowerCase()}-qr-codes.pdf`);
       },
-      error:(error) => {
+      error: (error) => {
         spinnerService.hide();
         Utils.handleHttpError(error, router, messageService,
           centralServerService, translateService.instant('chargers.qr_code_generation_error'));

@@ -6,8 +6,6 @@
       </div>
       <h4 class="card-title">
         {{pricingDefinition.name}}
-        <span *ngIf="transaction.stop">({{transaction.stop.priceUnit ? (transaction.stop.roundedPrice | appCurrency:transaction.stop.priceUnit) : '-'}})</span>
-        <span *ngIf="!transaction.stop">({{transaction.priceUnit ? (transaction.currentCumulatedPrice | appCurrency:transaction.priceUnit) : '-'}})</span>
       </h4>
     </div>
     <div class="card-body mat-tab-dialog-body-content">

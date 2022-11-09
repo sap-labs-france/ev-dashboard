@@ -37,6 +37,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Fixed cannot set charging profile after having deleted it`,
               `Do not allow users with Demo role to see the Transactions`,
               `Aligned email notifications with the application theme`,
               `Allow Updating and Deleting all Pricing Definitions in Tenant's settings`,

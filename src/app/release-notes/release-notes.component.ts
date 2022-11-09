@@ -37,6 +37,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Added QR-Codes for Organization in settings`,
               `Fixed cannot set charging profile after having deleted it`,
               `Do not allow users with Demo role to see the Transactions`,
               `Aligned email notifications with the application theme`,

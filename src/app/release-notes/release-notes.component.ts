@@ -32,11 +32,12 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.7.4',
-        date: new Date('2022-11-08'),
+        date: new Date('2022-11-09'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Do not allow users with Demo role to see the Transactions`,
               `Aligned email notifications with the application theme`,
               `Allow Updating and Deleting all Pricing Definitions in Tenant's settings`,
               `Fixed user with Admin role can be set as Site Admin`,

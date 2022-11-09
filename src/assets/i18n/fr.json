@@ -820,7 +820,7 @@
     "status_charging": "En charge",
     "status_suspendedevse": "EVSE suspendu",
     "status_suspendedev": "EV suspendu",
-    "status_finishing": "Terminé",
+    "status_finishing": "Finalisation",
     "status_reserved": "Réservé",
     "show_active_only": "Connecté",
     "status_unavailable": "Indisponible",

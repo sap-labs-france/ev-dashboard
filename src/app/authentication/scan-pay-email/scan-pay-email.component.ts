@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
 import { ReCaptchaV3Service } from 'ngx-captcha';
 import { Utils } from 'utils/Utils';
@@ -19,12 +19,15 @@ import { Constants } from '../../utils/Constants';
 
 export class ScanPayEmailComponent implements OnInit, OnDestroy {
   public email: AbstractControl;
+  public name: AbstractControl;
+  public firstName: AbstractControl;
   public formGroup: UntypedFormGroup;
 
   public tenantLogo = Constants.NO_IMAGE;
 
   private siteKey: string;
   private subDomain: string;
+  private currentSiteAreaID: string;
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -33,21 +36,29 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private reCaptchaV3Service: ReCaptchaV3Service,
     private windowService: WindowService,
-    private configService: ConfigService) {
+    private configService: ConfigService,
+    private activatedRoute: ActivatedRoute) {
     // Get the Site Key
     this.siteKey = this.configService.getUser().captchaSiteKey;
+    if (this.activatedRoute.snapshot.params['siteAreaID']) {
+      this.currentSiteAreaID = this.activatedRoute.snapshot.params['siteAreaID'];
+    }
     // Init Form
     this.formGroup = new UntypedFormGroup({
-      email: new UntypedFormControl('',
+      email: new FormControl(null,
         Validators.compose([
           Validators.required,
           Validators.email,
         ])),
+      name: new FormControl(null),
+      firstName: new FormControl(null),
     });
     // Keep the sub-domain
     this.subDomain = this.windowService.getSubdomain();
     // Form
     this.email = this.formGroup.controls['email'];
+    this.name = this.formGroup.controls['name'];
+    this.firstName = this.formGroup.controls['firstName'];
     setTimeout(() => {
       const card = document.getElementsByClassName('card')[0];
       // After 700 ms we add the class animated to the login/register card
@@ -90,27 +101,36 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
     body.classList.remove('off-canvas-sidebar');
   }
 
-  public resetPassword(data: any) {
-    this.reCaptchaV3Service.execute(this.siteKey, 'ResetPassword', (token) => {
+  public toUpperCase(control: AbstractControl) {
+    control.setValue(control.value.toUpperCase());
+  }
+
+  public firstLetterToUpperCase(control: AbstractControl) {
+    control.setValue(Utils.firstLetterInUpperCase(control.value));
+  }
+
+  public sendEmailVerificationScanAndPay(data: any) {
+    this.reCaptchaV3Service.execute(this.siteKey, 'VerifScanPay', (token) => {
       if (token) {
         data['captcha'] = token;
+        data['siteAreaID'] = this.currentSiteAreaID;
       } else {
         this.messageService.showErrorMessage('authentication.invalid_captcha_token');
         return;
       }
       // Show
       this.spinnerService.show();
-      // Yes: Update
-      this.centralServerService.resetUserPassword(data).subscribe({
+      // launch email verif
+      this.centralServerService.scanPayVerifyEmail(data).subscribe({
         next: (response) => {
           this.spinnerService.hide();
           this.messageService.showSuccessMessage('authentication.reset_password_success');
-          void this.router.navigate(['/auth/login']);
+          // void this.router.navigate(['/auth/login']);
         },
         error: (error) => {
           this.spinnerService.hide();
           this.messageService.showSuccessMessage('authentication.reset_password_success');
-          void this.router.navigate(['/auth/login']);
+          // void this.router.navigate(['/auth/login']);
         }
       });
     });

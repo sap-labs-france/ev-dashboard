@@ -497,6 +497,7 @@ export enum RESTServerRoute {
   REST_END_USER_LICENSE_AGREEMENT_CHECK = 'eula/check',
   REST_MAIL_CHECK = 'mail/check',
   REST_MAIL_RESEND = 'mail/resend',
+  REST_SCAN_PAY_VERIFY_EMAIL = 'mail/scan-pay-verify',
 
   REST_CHARGING_STATIONS = 'charging-stations',
   REST_CHARGING_STATION = 'charging-stations/:id',

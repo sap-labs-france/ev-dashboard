@@ -32,11 +32,12 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.7.4',
-        date: new Date('2022-11-09'),
+        date: new Date('2022-11-10'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Forced y-axis of Charging Plan's chart to 0`,
               `Added QR-Codes for Organization in settings`,
               `Fixed cannot set charging profile after having deleted it`,
               `Do not allow users with Demo role to see the Transactions`,

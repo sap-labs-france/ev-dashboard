@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { ScanPayStripePaymentMethodComponent } from 'scan-pay/stripe/scan-pay-stripe-payment-method.component';
 
 import { AccountOnboardingComponent } from './account-onboarding/account-onboarding.component';
 import { AuthenticationDefinePasswordComponent } from './define-password/authentication-define-password.component';
@@ -8,8 +7,9 @@ import { AuthenticationLoginComponent } from './login/authentication-login.compo
 import { AuthenticationMercedesDataUsageComponent } from './mercedes-data-usage/authentication-mercedes-data-usage.component';
 import { AuthenticationRegisterComponent } from './register/authentication-register.component';
 import { AuthenticationResetPasswordComponent } from './reset-password/authentication-reset-password.component';
-import { ScanPayEmailComponent } from './scan-pay-email/scan-pay-email.component';
 import { AuthenticationVerifyEmailComponent } from './verify-email/authentication-verify-email.component';
+import { ScanPayEmailComponent } from './scan-pay/email/scan-pay-email.component';
+import { ScanPayStripePaymentMethodComponent } from './scan-pay/stripe/scan-pay-stripe-payment-method.component';
 
 export const AuthenticationRoutes: Routes = [
   {

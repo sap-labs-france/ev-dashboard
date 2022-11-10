@@ -76,7 +76,6 @@ export class StripeService {
           this.messageService.showErrorMessage('settings.billing.not_found');
           break;
         default:
-          debugger;
           Utils.handleHttpError(error, this.router, this.messageService,
             this.centralServerService, 'general.unexpected_error_backend');
       }

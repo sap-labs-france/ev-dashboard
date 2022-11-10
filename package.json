@@ -63,7 +63,7 @@
     "test": "npm version && cross-env TS_NODE_FILES=true jest --config='jest.config.ts'  --reporters='default' --reporters='./test/JestEvseReporter' --runInBand --logHeapUsage --verbose --colors"
   },
   "dependencies": {
-    "@angular/animations": "^14.2.8",
+    "@angular/animations": "^14.2.10",
     "@angular/cdk": "^14.2.6",
     "@angular/common": "^14.2.8",
     "@angular/compiler": "^14.2.8",

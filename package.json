@@ -73,7 +73,7 @@
     "@angular/localize": "^14.2.8",
     "@angular/material": "^14.2.6",
     "@angular/platform-browser": "^14.2.8",
-    "@angular/platform-browser-dynamic": "^14.2.8",
+    "@angular/platform-browser-dynamic": "^14.2.10",
     "@angular/router": "^14.2.10",
     "@auth0/angular-jwt": "^5.1.0",
     "@googlemaps/markerclusterer": "^2.0.13",

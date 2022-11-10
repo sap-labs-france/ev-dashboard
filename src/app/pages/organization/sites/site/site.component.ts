@@ -36,6 +36,7 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
   @ViewChild('siteMainComponent') public siteMainComponent!: SiteMainComponent;
   @ViewChild('siteOcpiComponent') public siteOcpiComponent!: SiteOcpiComponent;
   @ViewChild('accountBillingComponent') public accountBillingComponent!: AccountBillingComponent;
+
   public ocpiActive: boolean;
   public ocpiHasVisibleFields: boolean;
 
@@ -68,6 +69,8 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
     // Handle Dialog mode
     this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
+    // Check if OCPI has to be displayed
+    this.ocpiHasVisibleFields = this.sitesAuthorizations.projectFields.includes('tariffID');
     // Load Site
     this.loadSite();
   }

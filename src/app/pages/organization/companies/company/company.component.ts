@@ -8,7 +8,7 @@ import { ComponentService } from 'services/component.service';
 import { WindowService } from 'services/window.service';
 import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab.component';
 import { AccountBillingComponent } from 'shared/component/account-billing/account-billing.component';
-import { DialogMode } from 'types/Authorization';
+import { CompaniesAuthorizations, DialogMode } from 'types/Authorization';
 import { TenantComponents } from 'types/Tenant';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -29,6 +29,7 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentCompanyID!: string;
   @Input() public dialogMode!: DialogMode;
   @Input() public dialogRef!: MatDialogRef<any>;
+  @Input() public companiesAuthorizations!: CompaniesAuthorizations;
 
   @ViewChild('companyMainComponent') public companyMainComponent!: CompanyMainComponent;
   @ViewChild('accountBillingComponent') public accountBillingComponent!: AccountBillingComponent;

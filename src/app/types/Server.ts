@@ -690,6 +690,8 @@ export enum RESTServerRoute {
   REST_BILLING_PAYMENT_METHOD_DETACH = 'users/:userID/payment-methods/:paymentMethodID/detach',
 
   REST_BILLING_SETTING_SCAN_AND_PAY = 'billing-setting-scan-and-pay',
+  REST_SCAN_AND_PAY_PAYMENT_METHOD_SETUP = 'users/:userID/payment-methods-scan-and-pay/setup',
+  REST_SCAN_AND_PAY_PAYMENT_METHOD_ATTACH = 'users/:userID/payment-methods-scan-and-pay/:paymentMethodID/attach',
   REST_BILLING_SETTING = 'billing-setting', // GET and PUT
   REST_BILLING_CHECK = 'billing/check',
   REST_BILLING_CLEAR_TEST_DATA = 'billing/clearTestData',

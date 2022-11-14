@@ -778,7 +778,7 @@ export class CentralServerService {
       return EMPTY;
     }
     // Execute the REST service
-    return this.httpClient.get<Image>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_GENERATE, { id: chargingStationID, connectorId: connectorID}),
+    return this.httpClient.get<Image>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_GENERATE, { id: chargingStationID, connectorId: connectorID }),
       {
         headers: this.buildHttpHeaders(),
       })
@@ -882,7 +882,7 @@ export class CentralServerService {
   public getUserDefaultTagCar(userID: string, chargingStationID: string): Observable<UserDefaultTagCar> {
     // Verify init
     this.checkInit();
-    return this.httpClient.get<UserDefaultTagCar>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_DEFAULT_TAG_CAR, { id: userID } ),
+    return this.httpClient.get<UserDefaultTagCar>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_DEFAULT_TAG_CAR, { id: userID }),
       {
         headers: this.buildHttpHeaders(),
         params: {
@@ -1617,6 +1617,28 @@ export class CentralServerService {
     );
   }
 
+  public setupPaymentMethodScanAndPay(parameters: any): Observable<BillingOperationResult> {
+    this.checkInit();
+    // Build the URL
+    const urlPattern: RESTServerRoute = (!parameters.paymentMethodID) ?
+      RESTServerRoute.REST_SCAN_AND_PAY_PAYMENT_METHOD_SETUP : RESTServerRoute.REST_SCAN_AND_PAY_PAYMENT_METHOD_ATTACH;
+    const url = this.buildUtilRestEndpointUrl(urlPattern, {
+      userID: parameters.userID,
+      paymentMethodID: parameters.paymentMethodID,
+    });
+    // Execute the REST service
+    return this.httpClient.post<BillingOperationResult>(url, {
+      userID: parameters.userID,
+      paymentMethodID: parameters.paymentMethodID,
+      paymentIntentID: parameters.paymentIntentID,
+      Subdomain: this.windowService.getSubdomain(),
+    }, {
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
+  }
+
   public updateBillingSettings(billingSettings: BillingSettings): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
@@ -1741,7 +1763,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_ACCOUNTS), account,{
+    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_ACCOUNTS), account, {
       headers: this.buildHttpHeaders(),
     }).pipe(
       catchError(this.handleHttpError),
@@ -2546,7 +2568,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.put<OICPJobStatusesResponse>(
-      this.buildRestEndpointUrl(RESTServerRoute.REST_OICP_ENDPOINT_SEND_EVSES, {id: oicpEndpoint.id }), {},
+      this.buildRestEndpointUrl(RESTServerRoute.REST_OICP_ENDPOINT_SEND_EVSES, { id: oicpEndpoint.id }), {},
       {
         headers: this.buildHttpHeaders(),
       })
@@ -3170,7 +3192,7 @@ export class CentralServerService {
   }
 
   public getChargingStationCompositeSchedule(id: string, connectorId: number, duration: number, unit: string):
-  Observable<GetCompositeScheduleCommandResult | GetCompositeScheduleCommandResult[]> {
+    Observable<GetCompositeScheduleCommandResult | GetCompositeScheduleCommandResult[]> {
     // Verify init
     this.checkInit();
     // build request
@@ -3206,11 +3228,11 @@ export class CentralServerService {
       ampLimitValue,
       forceUpdateChargingPlan,
     },
-    {
-      headers: this.buildHttpHeaders(),
-    }).pipe(
-      catchError(this.handleHttpError),
-    );
+      {
+        headers: this.buildHttpHeaders(),
+      }).pipe(
+        catchError(this.handleHttpError),
+      );
   }
 
   public chargingStationSetChargingProfile(charger: ChargingStation, connectorId: number, chargingProfile: any): Observable<ActionResponse> {
@@ -3304,11 +3326,11 @@ export class CentralServerService {
       chargingStationID: id,
       forceUpdateOCPPParamsFromTemplate: false,
     },
-    {
-      headers: this.buildHttpHeaders(),
-    }).pipe(
-      catchError(this.handleHttpError),
-    );
+      {
+        headers: this.buildHttpHeaders(),
+      }).pipe(
+        catchError(this.handleHttpError),
+      );
   }
 
   public updateChargingStationOCPPParamWithTemplate(id: string) {
@@ -3398,7 +3420,7 @@ export class CentralServerService {
 
   public getPricingDefinitions(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = [],
-    context?: { entityID: string; entityType: string}): Observable<PricingDefinitionDataResult> {
+    context?: { entityID: string; entityType: string }): Observable<PricingDefinitionDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -3666,7 +3688,7 @@ export class CentralServerService {
     // We might use a remote logging infrastructure
     const errorInfo = { status: 0, message: '', details: null };
     // Handle redirection of Tenant
-    if ( error.status === StatusCodes.MOVED_TEMPORARILY && error.error.size > 0) {
+    if (error.status === StatusCodes.MOVED_TEMPORARILY && error.error.size > 0) {
       return new Observable(observer => {
         const reader = new FileReader();
         reader.readAsText(error.error); // convert blob to Text
@@ -3682,7 +3704,7 @@ export class CentralServerService {
       errorInfo.status = StatusCodes.REQUEST_TIMEOUT;
       errorInfo.message = error.message;
       errorInfo.details = null;
-    } else  {
+    } else {
       errorInfo.status = error.status;
       errorInfo.message = error.message ?? error.toString();
       errorInfo.details = error.error ?? null;

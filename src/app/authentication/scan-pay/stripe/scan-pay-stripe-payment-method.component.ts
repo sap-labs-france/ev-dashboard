@@ -3,13 +3,14 @@ import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { SetupIntent, StripeCardCvcElement, StripeCardExpiryElement, StripeCardNumberElement, StripeElements, StripeError } from '@stripe/stripe-js';
+import { PaymentIntent, SetupIntent, StripeCardCvcElement, StripeCardExpiryElement, StripeCardNumberElement, StripeElements, StripeError } from '@stripe/stripe-js';
 // import { PaymentMethodDialogComponent } from 'pages/users/user/payment-methods/payment-method/payment-method.dialog.component';
 import { CentralServerService } from 'services/central-server.service';
 import { ComponentService } from 'services/component.service';
 import { MessageService } from 'services/message.service';
 import { SpinnerService } from 'services/spinner.service';
 import { StripeService } from 'services/stripe.service';
+import { WindowService } from 'services/window.service';
 import { BillingOperationResult } from 'types/DataResult';
 import { TenantComponents } from 'types/Tenant';
 import { Utils } from 'utils/Utils';
@@ -51,7 +52,8 @@ export class ScanPayStripePaymentMethodComponent implements OnInit {
     private stripeService: StripeService,
     private router: Router,
     private componentService: ComponentService,
-    public translateService: TranslateService) {
+    public translateService: TranslateService,
+    public windowService: WindowService) {
     this.isBillingComponentActive = true;
     this.hasAcceptedConditions = false;
     this.isCardNumberValid = false;
@@ -62,8 +64,7 @@ export class ScanPayStripePaymentMethodComponent implements OnInit {
 
   public ngOnInit(): void {
     void this.initialize();
-    // this.userID = this.dialogRef.componentInstance.userID;
-    this.userID = 'toto';
+    this.userID = this.windowService.getUrlParameterValue('UserID');
     this.formGroup = new UntypedFormGroup({
       acceptConditions: new UntypedFormControl()
     });
@@ -164,7 +165,7 @@ export class ScanPayStripePaymentMethodComponent implements OnInit {
   private async createSetupIntent(): Promise<any> {
     try {
       this.spinnerService.show();
-      const response: BillingOperationResult = await this.centralServerService.setupPaymentMethod({
+      const response: BillingOperationResult = await this.centralServerService.setupPaymentMethodScanAndPay({
         userID: this.userID
       }).toPromise();
       return response?.internalData;
@@ -173,8 +174,8 @@ export class ScanPayStripePaymentMethodComponent implements OnInit {
     }
   }
 
-  private async confirmSetupIntent(setupIntent: any): Promise<{ setupIntent?: SetupIntent; error?: StripeError }> {
-    const result: { setupIntent?: SetupIntent; error?: StripeError } = await this.getStripeFacade().confirmCardSetup(setupIntent.client_secret, {
+  private async confirmSetupIntent(setupIntent: any): Promise<{ paymentIntent?: PaymentIntent; error?: StripeError }> {
+    const result: { paymentIntent?: PaymentIntent; error?: StripeError } = await this.getStripeFacade().confirmCardPayment(setupIntent.client_secret, {
       payment_method: {
         card: this.cardNumber
       },
@@ -182,12 +183,12 @@ export class ScanPayStripePaymentMethodComponent implements OnInit {
     return result;
   }
 
-  private async attachPaymentMethod(operationResult: { setupIntent?: SetupIntent; error?: StripeError }) {
+  private async attachPaymentMethod(operationResult: { paymentIntent?: PaymentIntent; error?: StripeError }) {
     try {
       this.spinnerService.show();
-      const response: BillingOperationResult = await this.centralServerService.setupPaymentMethod({
-        setupIntentId: operationResult.setupIntent?.id,
-        paymentMethodId: operationResult.setupIntent?.payment_method,
+      const response: BillingOperationResult = await this.centralServerService.setupPaymentMethodScanAndPay({
+        paymentIntentID: operationResult.paymentIntent.id,
+        paymentMethodID: operationResult.paymentIntent?.payment_method,
         userID: this.userID
       }).toPromise();
       return response;

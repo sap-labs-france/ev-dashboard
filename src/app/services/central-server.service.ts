@@ -1842,8 +1842,8 @@ export class CentralServerService {
     if (!transferID) {
       return EMPTY;
     }
-    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_DOWNLOAD_TRANSFER, {
-      transferID
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_TRANSFER_DOWNLOAD_INVOICE, {
+      id: transferID
     });
     return this.httpClient.get(url,
       {
@@ -3552,7 +3552,7 @@ export class CentralServerService {
   }
 
   public buildImportTagsUsersHttpHeaders(
-    autoActivateUserAtImport?: string, autoActivateTagAtImport?: string): { name: string; value: string }[] {
+    autoActivateUserAtImport?: boolean, autoActivateTagAtImport?: boolean): { name: string; value: string }[] {
     // Build File Header
     return [
       {
@@ -3561,11 +3561,11 @@ export class CentralServerService {
       },
       {
         name: 'autoActivateUserAtImport',
-        value: autoActivateUserAtImport
+        value: autoActivateUserAtImport.toString()
       },
       {
         name: 'autoActivateTagAtImport',
-        value: autoActivateTagAtImport
+        value: autoActivateTagAtImport.toString()
       },
     ];
   }

@@ -1,5 +1,6 @@
 {
   "general": {
+    "generate": "Generate",
     "captcha_text_1": "Questo sito è protetto da reCAPTCHA e Google",
     "captcha_text_2": "Politica di Privacy",
     "captcha_text_3": " e ",
@@ -2391,7 +2392,7 @@
     "type_placeholder": "Tipo",
     "description": "Interfaccia Fatturazione",
     "id": "ID Fatturazione",
-    "updated_on": "Fatturazione Sincronizzata il",
+    "updated_on": "Sincronizzato il",
     "tabs": {
       "invoices": "Fatture",
       "in_error": "In Errore"

@@ -56,21 +56,21 @@
                   </div>
                 </div>
               </div>
-              <div class="row" *ngIf="type.value === 'mercedes'">
+              <div class="row" *ngIf="type.value === CarConnectorConnectionType.MERCEDES">
                 <div class="col-md-12">
                   <app-settings-mercedes-connection
                     [formGroup]="formGroup" [mercedesConnection]="mercedesConnection">
                   </app-settings-mercedes-connection>
                 </div>
               </div>
-              <div class="row" *ngIf="type.value === 'tronity'">
+              <div class="row" *ngIf="type.value === CarConnectorConnectionType.TRONITY">
                 <div class="col-md-12">
                   <app-settings-tronity-connection
                     [formGroup]="formGroup" [tronityConnection]="tronityConnection">
                   </app-settings-tronity-connection>
                 </div>
               </div>
-              <div class="row" *ngIf="type.value === 'targaTelematics'">
+              <div class="row" *ngIf="type.value === CarConnectorConnectionType.TARGA_TELEMATICS">
                 <div class="col-md-12">
                   <app-settings-targa-telematics-connection
                     [formGroup]="formGroup" [targaTelematicsConnection]="targaTelematicsConnection">

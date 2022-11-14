@@ -21,6 +21,7 @@ export class CarConnectorConnectionComponent implements OnInit {
   public description!: AbstractControl;
   public name!: AbstractControl;
   public type!: AbstractControl;
+  public readonly CarConnectorConnectionType = CarConnectorConnectionType;
 
   public mercedesConnection!: CarConnectorMercedesConnectionType;
   public tronityConnection!: CarConnectorTronityConnectionType;

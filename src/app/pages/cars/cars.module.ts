@@ -16,6 +16,9 @@ import { CarCatalogsListComponent } from './car-catalogs/car-catalogs-list.compo
 import { CarDialogComponent } from './car/car-dialog.component';
 import { CarComponent } from './car/car.component';
 import { CarConnectorComponent } from './car/connector/car-connector.component';
+import { MercedesCarConnectorComponent } from './car/connector/mercedes/mercedes-car-connector.component';
+import { TargaCarConnectorComponent } from './car/connector/targa/targa-car-connector.component';
+import { TronityCarConnectorComponent } from './car/connector/tronity/tronity-car-connector.component';
 import { CarMainComponent } from './car/main/car-main.component';
 import { CarsComponent } from './cars.component';
 import { CarsRoutes } from './cars.routing';
@@ -47,6 +50,9 @@ import { CarImageFormatterCellComponent } from './cell-components/car-image-form
     CarComponent,
     CarMainComponent,
     CarConnectorComponent,
+    TronityCarConnectorComponent,
+    MercedesCarConnectorComponent,
+    TargaCarConnectorComponent,
   ],
   providers: []
 })

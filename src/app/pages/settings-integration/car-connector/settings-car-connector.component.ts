@@ -8,7 +8,6 @@ import { ComponentService } from '../../../services/component.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { RestResponse } from '../../../types/GlobalType';
-import { HTTPError } from '../../../types/HTTPError';
 import { CarConnectorSettings } from '../../../types/Setting';
 import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';

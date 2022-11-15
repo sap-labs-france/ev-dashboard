@@ -60,6 +60,9 @@ export class SettingsAnalyticsComponent implements OnInit {
         this.analyticsSettings = settings;
         // Set Links
         this.analyticsLinksTableDataSource.setLinks(settings.links);
+        // Set authorizations
+        this.analyticsLinksTableDataSource.setAuthorizations(this.authorizations);
+        // Load data
         this.analyticsLinksTableDataSource.loadData().subscribe();
         // Init form
         this.formGroup.markAsPristine();

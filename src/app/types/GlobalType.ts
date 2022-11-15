@@ -75,6 +75,7 @@ export enum ButtonAction {
   SYNCHRONIZE = 'synchronize',
   AUTO_REFRESH = 'auto_refresh',
   OVERVIEW = 'overview',
+  VIEW_ALL = 'view_all',
   EXPORT = 'export',
   ADD = 'add',
   CREATE = 'create',

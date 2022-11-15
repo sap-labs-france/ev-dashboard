@@ -135,7 +135,7 @@ export enum AnalyticsSettingsType {
   SAC = 'sac',
 }
 
-export interface AnalyticsSettings extends Setting {
+export interface AnalyticsSettings extends SettingDB {
   identifier: TenantComponents.ANALYTICS;
   type: AnalyticsSettingsType;
   sac: SacAnalyticsSetting;
@@ -151,7 +151,7 @@ export enum SmartChargingSettingsType {
   SAP_SMART_CHARGING = 'sapSmartCharging',
 }
 
-export interface SmartChargingSettings extends Setting {
+export interface SmartChargingSettings extends SettingDB {
   identifier: TenantComponents.SMART_CHARGING;
   type: SmartChargingSettingsType;
   sapSmartCharging?: SapSmartChargingSetting;
@@ -188,7 +188,7 @@ export interface ConcurRefundSetting {
   reportName: string;
 }
 
-export interface BillingSettings extends Setting {
+export interface BillingSettings extends SettingDB {
   identifier: TenantComponents.BILLING;
   type: BillingSettingsType;
   billing: BillingSetting;
@@ -218,7 +218,7 @@ export enum AssetSettingsType {
   ASSET = 'asset',
 }
 
-export interface AssetSettings extends Setting {
+export interface AssetSettings extends SettingDB {
   identifier: TenantComponents.ASSET;
   type: AssetSettingsType;
   asset?: AssetSetting;
@@ -275,7 +275,7 @@ export enum CarConnectorSettingsType {
   CAR_CONNECTOR = 'carConnector',
 }
 
-export interface CarConnectorSettings extends Setting {
+export interface CarConnectorSettings extends SettingDB {
   identifier: TenantComponents.CAR_CONNECTOR;
   type: CarConnectorSettingsType;
   carConnector?: CarConnectorSetting;
@@ -325,7 +325,7 @@ export enum CryptoSettingsType {
   CRYPTO = 'crypto',
 }
 
-export interface CryptoSettings extends Setting {
+export interface CryptoSettings extends SettingDB {
   identifier: TechnicalSettings.CRYPTO;
   type: CryptoSettingsType;
   crypto?: CryptoSetting;
@@ -348,7 +348,7 @@ export enum UserSettingsType {
   USER = 'user',
 }
 
-export interface UserSettings extends Setting {
+export interface UserSettings extends SettingDB {
   identifier: TechnicalSettings.USER;
   type: UserSettingsType;
   user?: UserSetting;

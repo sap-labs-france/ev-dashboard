@@ -26,9 +26,7 @@ export class SettingsRefundComponent implements OnInit {
   public formGroup!: UntypedFormGroup;
   public refundSettings!: RefundSettings;
   public authorizations: SettingAuthorizationActions;
-
   private tableSyncRefundAction = new TableSyncRefundTransactionsAction().getActionDef();
-
 
   public constructor(
     private centralServerService: CentralServerService,

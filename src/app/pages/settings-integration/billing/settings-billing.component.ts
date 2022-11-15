@@ -63,7 +63,6 @@ export class SettingsBillingComponent implements OnInit {
           canCheckBillingConnection: Utils.convertToBoolean(settings.canCheckBillingConnection),
           canActivateBilling: Utils.convertToBoolean(settings.canUpdate), // Using update auth
         };
-        console.log(settings);
         this.spinnerService.hide();
         // Keep
         this.billingSettings = settings;

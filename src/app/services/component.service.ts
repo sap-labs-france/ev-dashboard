@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Constants } from 'utils/Constants';
 
 import { ActionResponse, BillingAccountDataResult, Ordering, Paging } from '../types/DataResult';
-import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, CarConnectorConnectionType, CarConnectorSettings, CarConnectorSettingsType, CryptoSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType, TechnicalSettings, UserSettings, UserSettingsType } from '../types/Setting';
+import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, CarConnectorConnectionType, CarConnectorSettings, CarConnectorSettingsType, CryptoSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SettingDB, SmartChargingSettings, SmartChargingSettingsType, TechnicalSettings, UserSettings, UserSettingsType } from '../types/Setting';
 import { TenantComponents } from '../types/Tenant';
 import { Utils } from '../utils/Utils';
 import { CentralServerService } from './central-server.service';
@@ -338,7 +338,7 @@ export class ComponentService {
 
   public getSacSettings(): Observable<AnalyticsSettings> {
     return new Observable((observer) => {
-      const analyticsSettings = {
+      let analyticsSettings = {
         identifier: TenantComponents.ANALYTICS,
       } as AnalyticsSettings;
       // Get the Pricing settings
@@ -346,10 +346,9 @@ export class ComponentService {
         next: (settings) => {
           // Get the currency
           if (settings) {
+            analyticsSettings = settings as AnalyticsSettings;
             const config = settings.content;
             // Set
-            analyticsSettings.id = settings.id;
-            analyticsSettings.sensitiveData = settings.sensitiveData;
             analyticsSettings.sac = config.sac;
             analyticsSettings.links = config.links;
           }
@@ -527,7 +526,7 @@ export class ComponentService {
               identifier: TechnicalSettings.USER,
               type: settings.content.type as UserSettingsType,
               user: settings.content.user,
-            };
+            } as UserSettings; // quick hack change this
           }
           observer.next(userSettings);
           observer.complete();

@@ -136,7 +136,7 @@
     "@typescript-eslint/parser": "^5.42.0",
     "convict": "^6.2.3",
     "cross-env": "^7.0.3",
-    "deep-object-diff": "^1.1.7",
+    "deep-object-diff": "^1.1.9",
     "eslint": "^8.26.0",
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-jsdoc": "^39.6.2",

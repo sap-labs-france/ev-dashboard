@@ -390,18 +390,17 @@ export class ComponentService {
 
   public getSmartChargingSettings(): Observable<SmartChargingSettings> {
     return new Observable((observer) => {
-      const smartChargingSettings = {
+      let smartChargingSettings = {
         identifier: TenantComponents.SMART_CHARGING,
       } as SmartChargingSettings;
       // Get the SmartCharging settings
       this.centralServerService.getSetting(TenantComponents.SMART_CHARGING).subscribe({
         next: (settings) => {
           if (settings) {
-            const config = settings.content;
-            // Set
-            smartChargingSettings.id = settings.id;
-            smartChargingSettings.sensitiveData = settings.sensitiveData;
-            smartChargingSettings.sapSmartCharging = config.sapSmartCharging;
+            // Init the setting
+            smartChargingSettings = settings as SmartChargingSettings;
+            // Set specific smart charging setting
+            smartChargingSettings.sapSmartCharging = settings.content.sapSmartCharging;
           }
           observer.next(smartChargingSettings);
           observer.complete();

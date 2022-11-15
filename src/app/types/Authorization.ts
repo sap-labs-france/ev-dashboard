@@ -446,6 +446,7 @@ export interface SettingAuthorizationActions extends AuthorizationActions {
   canSyncRefund?: boolean;
   canCheckBillingConnection?: boolean;
   canActivateBilling?: boolean;
+  canCheckSmartChargingConnection?: boolean;
 }
 
 export enum DialogMode {

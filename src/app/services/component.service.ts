@@ -414,7 +414,7 @@ export class ComponentService {
 
   public getAssetSettings(): Observable<AssetSettings> {
     return new Observable((observer) => {
-      const assetSettings = {
+      let assetSettings = {
         identifier: TenantComponents.ASSET,
       } as AssetSettings;
       // Get the Asset settings
@@ -422,13 +422,10 @@ export class ComponentService {
         next: (settings) => {
           // Get the currency
           if (settings) {
-            const config = settings.content;
-            // ID
-            assetSettings.id = settings.id;
-            // Sensitive data
-            assetSettings.sensitiveData = settings.sensitiveData;
-            // Set
-            assetSettings.asset = config.asset;
+            // Init setting
+            assetSettings = settings as AssetSettings;
+            // Set specific asset setting
+            assetSettings.asset = settings.content.asset;
           }
           observer.next(assetSettings);
           observer.complete();

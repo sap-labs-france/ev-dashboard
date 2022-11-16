@@ -1624,16 +1624,15 @@ export class CentralServerService {
       RESTServerRoute.REST_SCAN_AND_PAY_PAYMENT_METHOD_SETUP : RESTServerRoute.REST_SCAN_AND_PAY_PAYMENT_METHOD_ATTACH;
     // Execute the REST service
     return this.httpClient.post<BillingOperationResult>(this.buildUtilRestEndpointUrl(urlPattern), {
+      Subdomain: this.windowService.getSubdomain(),
+      email: parameters.email,
+      firstName: parameters.firstName,
+      name: parameters.name,
+      siteAreaID: parameters.siteAreaID,
+      locale: parameters.locale,
+      paymentIntentID: parameters.paymentIntentID
+    }, {
       headers: this.buildHttpHeaders(),
-      params: {
-        subdomain: this.windowService.getSubdomain(),
-        email: parameters.email,
-        firstName: parameters.firstName,
-        name: parameters.name,
-        siteAreaID: parameters.siteAreaID,
-        locale: parameters.locale,
-        paymentMethodID: parameters.paymentMethodID,
-      }
     }).pipe(
       catchError(this.handleHttpError),
     );
@@ -3227,11 +3226,11 @@ export class CentralServerService {
       ampLimitValue,
       forceUpdateChargingPlan,
     },
-    {
-      headers: this.buildHttpHeaders(),
-    }).pipe(
-      catchError(this.handleHttpError),
-    );
+      {
+        headers: this.buildHttpHeaders(),
+      }).pipe(
+        catchError(this.handleHttpError),
+      );
   }
 
   public chargingStationSetChargingProfile(charger: ChargingStation, connectorId: number, chargingProfile: any): Observable<ActionResponse> {
@@ -3325,11 +3324,11 @@ export class CentralServerService {
       chargingStationID: id,
       forceUpdateOCPPParamsFromTemplate: false,
     },
-    {
-      headers: this.buildHttpHeaders(),
-    }).pipe(
-      catchError(this.handleHttpError),
-    );
+      {
+        headers: this.buildHttpHeaders(),
+      }).pipe(
+        catchError(this.handleHttpError),
+      );
   }
 
   public updateChargingStationOCPPParamWithTemplate(id: string) {

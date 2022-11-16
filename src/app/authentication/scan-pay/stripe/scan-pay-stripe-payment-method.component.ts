@@ -3,7 +3,7 @@ import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { PaymentIntent, StripeElementLocale, StripeElements, StripeElementsOptions, StripeError, StripePaymentElement } from '@stripe/stripe-js';
+import { PaymentIntent, StripeCardNumberElement, StripeElementLocale, StripeElements, StripeElementsOptions, StripeError, StripePaymentElement } from '@stripe/stripe-js';
 import { PaymentMethodDialogComponent } from 'pages/users/user/payment-methods/payment-method/payment-method.dialog.component';
 import { LocaleService } from 'services/locale.service';
 import { WindowService } from 'services/window.service';
@@ -39,6 +39,7 @@ export class ScanPayStripePaymentMethodComponent implements OnInit {
   public paymentIntent: PaymentIntent;
   // conditions to enable Save
   public hasAcceptedConditions: boolean;
+  public cardNumber: StripeCardNumberElement;
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -127,6 +128,13 @@ export class ScanPayStripePaymentMethodComponent implements OnInit {
 
   private async createPaymentMethod(): Promise<any> {
     try {
+      this.paymentIntent = await this.createPaymentIntent() as PaymentIntent;
+      // Step #2 - Confirm the STRIPE Setup Intent to carry out 3DS authentication (redirects to the bank authentication page)
+      const confirmationResult = await this.confirmPaymentIntent(this.paymentIntent);
+      if (confirmationResult.error) {
+        // 3DS authentication has been aborted or user was not able to authenticate
+        return confirmationResult;
+      }
       // Step #2 - Now attach the payment method to the user
       return this.attachPaymentMethod(this.paymentIntent);
     } catch (error) {
@@ -134,10 +142,19 @@ export class ScanPayStripePaymentMethodComponent implements OnInit {
     }
   }
 
+  private async confirmPaymentIntent(paymentIntent: any): Promise<{ paymentIntent?: PaymentIntent; error?: StripeError }> {
+    const result: { paymentIntent?: PaymentIntent; error?: StripeError } = await this.getStripeFacade().confirmCardPayment( paymentIntent.client_secret, {
+      payment_method: {
+        card: this.cardNumber
+      },
+    });
+    return result;
+  }
+
   private async createPaymentIntent() {
     try {
       this.spinnerService.show();
-      const response  = await this.centralServerService.setupPaymentMethodScanAndPay({
+      const response = await this.centralServerService.setupPaymentMethodScanAndPay({
         email: this.email,
         firstName: this.firstName,
         name: this.name,
@@ -151,20 +168,16 @@ export class ScanPayStripePaymentMethodComponent implements OnInit {
     }
   }
 
-  private async confirmPaymentIntent(): Promise<{ paymentIntent?: PaymentIntent; error?: StripeError }> {
-    const result = await this.getStripeFacade().confirmSetup({
-      elements : this.elements,
-      redirect: 'if_required'
-    });
-    return result;
-  }
-
   private async attachPaymentMethod(paymentIntent: PaymentIntent) {
     try {
       this.spinnerService.show();
       const response: BillingOperationResult = await this.centralServerService.setupPaymentMethodScanAndPay({
         paymentIntentID: paymentIntent.id,
-        // paymentMethodID: paymentIntent.payment_method, plus besoin ??
+        email: this.email,
+        firstName: this.firstName,
+        name: this.name,
+        siteAreaID: this.siteAreaID,
+        locale: this.locale
       }).toPromise();
       return response;
     } finally {

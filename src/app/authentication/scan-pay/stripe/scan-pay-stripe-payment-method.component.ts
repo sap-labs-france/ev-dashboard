@@ -1,19 +1,19 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { PaymentIntent, SetupIntent, StripeCardCvcElement, StripeCardExpiryElement, StripeCardNumberElement, StripeElements, StripeError } from '@stripe/stripe-js';
-// import { PaymentMethodDialogComponent } from 'pages/users/user/payment-methods/payment-method/payment-method.dialog.component';
-import { CentralServerService } from 'services/central-server.service';
-import { ComponentService } from 'services/component.service';
-import { MessageService } from 'services/message.service';
-import { SpinnerService } from 'services/spinner.service';
-import { StripeService } from 'services/stripe.service';
+import { PaymentIntent, StripeElementLocale, StripeElements, StripeElementsOptions, StripeError, StripePaymentElement } from '@stripe/stripe-js';
+import { PaymentMethodDialogComponent } from 'pages/users/user/payment-methods/payment-method/payment-method.dialog.component';
+import { LocaleService } from 'services/locale.service';
 import { WindowService } from 'services/window.service';
-import { BillingOperationResult } from 'types/DataResult';
-import { TenantComponents } from 'types/Tenant';
-import { Utils } from 'utils/Utils';
+
+import { CentralServerService } from '../../../services/central-server.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { StripeService } from '../../../services/stripe.service';
+import { BillingOperationResult } from '../../../types/DataResult';
+import { Utils } from '../../../utils/Utils';
 
 @Component({
   selector: 'app-scan-pay-stripe-payment-method',
@@ -22,28 +22,22 @@ import { Utils } from 'utils/Utils';
 })
 export class ScanPayStripePaymentMethodComponent implements OnInit {
   @Input() public inDialog!: boolean;
-  @Input() public dialogRef!: MatDialogRef<any>;
+  @Input() public dialogRef!: MatDialogRef<PaymentMethodDialogComponent>;
   @Input() public currentUserID!: string;
-  @ViewChild('cardInfo', { static: true }) public cardInfo: ElementRef;
   public formGroup!: UntypedFormGroup;
   public isBillingComponentActive: boolean;
   public userID: string;
+  public locale: string;
+  public email: string;
+  public siteAreaID: string;
+  public name: string;
+  public firstName: string;
   public acceptConditions: AbstractControl;
   // Stripe elements
   public elements: StripeElements;
-  public cardNumber: StripeCardNumberElement;
-  public expirationDate: StripeCardExpiryElement;
-  public cvc: StripeCardCvcElement;
-  // Errors
-  public cardNumberError: string;
-  public expirationDateError: string;
-  public cvcError: string;
+  public paymentElement: StripePaymentElement;
   // conditions to enable Save
   public hasAcceptedConditions: boolean;
-  public isCardNumberValid: boolean;
-  public isExpirationDateValid: boolean;
-  public isCvcValid: boolean;
-  public isSaveClicked: boolean;
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -51,24 +45,27 @@ export class ScanPayStripePaymentMethodComponent implements OnInit {
     private spinnerService: SpinnerService,
     private stripeService: StripeService,
     private router: Router,
-    private componentService: ComponentService,
+    private localeService: LocaleService,
     public translateService: TranslateService,
-    public windowService: WindowService) {
-    this.isBillingComponentActive = true;
+    public windowService: WindowService,) {
+    this.isBillingComponentActive = true; // comment on gere ça ??
     this.hasAcceptedConditions = false;
-    this.isCardNumberValid = false;
-    this.isExpirationDateValid = false;
-    this.isCvcValid = false;
-    this.isSaveClicked = false;
   }
 
   public ngOnInit(): void {
     void this.initialize();
-    this.userID = this.windowService.getUrlParameterValue('UserID');
+    this.userID = this.windowService.getUrlParameterValue('userID');
+    this.email = this.windowService.getUrlParameterValue('email');
+    this.siteAreaID = this.windowService.getUrlParameterValue('siteAreaID');
+    this.name = this.windowService.getUrlParameterValue('name');
+    this.firstName = this.windowService.getUrlParameterValue('firstName');
     this.formGroup = new UntypedFormGroup({
       acceptConditions: new UntypedFormControl()
     });
     this.acceptConditions = this.formGroup.controls['acceptConditions'];
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.locale = locale.currentLocaleJS;
+    });
   }
 
   public handleAcceptConditions() {
@@ -76,18 +73,21 @@ export class ScanPayStripePaymentMethodComponent implements OnInit {
   }
 
   public linkCardToAccount() {
-    this.isSaveClicked = true;
+    // this.isSaveClicked = true;
     void this.doCreatePaymentMethod();
   }
 
   private async initialize(): Promise<void> {
     try {
       this.spinnerService.show();
+      // const stripeFacade = await this.stripeService.initializeStripe();
       const stripeFacade = await this.stripeService.initializeStripeForScanAndPay();
+      // Step #1 - Create A STRIPE Setup Intent
+      const paymentIntent = await this.createPaymentIntent() as PaymentIntent;
       if (!stripeFacade) {
         this.messageService.showErrorMessage('settings.billing.not_properly_set');
       } else {
-        this.initializeCardElements();
+        this.initializeElements(paymentIntent.client_secret);
       }
     } catch (error) {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
@@ -100,44 +100,23 @@ export class ScanPayStripePaymentMethodComponent implements OnInit {
     return this.stripeService.getStripeFacade();
   }
 
-  private initializeCardElements() {
-    this.elements = this.getStripeFacade().elements();
-    // Card number element
-    this.cardNumber = this.elements.create('cardNumber');
-    this.cardNumber.mount('#cardNumber');
-    this.cardNumber.on('change', event => {
-      this.cardNumberError = event.error ? this.translateService.instant('settings.billing.payment_methods_card_number_error') : '';
-      this.isCardNumberValid = !event.error && event.complete;
-    });
-    // Card expiry element
-    this.expirationDate = this.elements.create('cardExpiry');
-    this.expirationDate.mount('#cardExp');
-    this.expirationDate.on('change', event => {
-      this.expirationDateError = event.error ? this.translateService.instant('settings.billing.payment_methods_expiration_date_error') : '';
-      this.isExpirationDateValid = !event.error && event.complete;
-    });
-    // Card CVC element
-    this.cvc = this.elements.create('cardCvc');
-    this.cvc.mount('#cardCvc');
-    this.cvc.on('change', event => {
-      this.cvcError = event.error ? this.translateService.instant('settings.billing.payment_methods_cvc_error') : '';
-      this.isCvcValid = !event.error && event.complete;
-    });
+  private initializeElements(clientSecret: string) {
+    // const language = this.localeService.getLocaleInformation()?.language;
+    const options: StripeElementsOptions = {
+      locale: this.locale as StripeElementLocale,
+      clientSecret
+    };
+    this.elements = this.getStripeFacade().elements(options);
+    this.paymentElement = this.elements.create('payment');
+    this.paymentElement.mount('#payment-element');
   }
 
   private async doCreatePaymentMethod() {
     const operationResult: any = await this.createPaymentMethod();
     if (operationResult.error) {
       // Operation failed
-      if (operationResult.error.code === 'card_declined') {
-        this.isCardNumberValid = false;
-        this.messageService.showErrorMessage('settings.billing.payment_methods_create_error_card_declined');
-        this.cardNumberError = this.translateService.instant('settings.billing.payment_methods_card_declined');
-        this.cardNumber.focus();
-      } else {
-        this.messageService.showErrorMessage('settings.billing.payment_methods_create_error');
-      }
-      this.isSaveClicked = false;
+      this.messageService.showErrorMessage(operationResult.error.message);
+      // this.isSavåeClicked = false;
     } else {
       // Operation succeeded
       this.messageService.showSuccessMessage('settings.billing.payment_methods_create_success', { last4: operationResult.internalData.card.last4 });
@@ -147,49 +126,50 @@ export class ScanPayStripePaymentMethodComponent implements OnInit {
 
   private async createPaymentMethod(): Promise<any> {
     try {
-      // Step #1 - Create A STRIPE Setup Intent
-      const setupIntent = await this.createSetupIntent();
-      // Step #2 - Confirm the STRIPE Setup Intent to carry out 3DS authentication (redirects to the bank authentication page)
-      const confirmationResult = await this.confirmSetupIntent(setupIntent);
+      // Step #1 - Confirm the STRIPE Setup Intent to carry out 3DS authentication (redirects to the bank authentication page)
+      const confirmationResult = await this.confirmPaymentIntent();
       if (confirmationResult.error) {
         // 3DS authentication has been aborted or user was not able to authenticate
         return confirmationResult;
       }
-      // Step #3 - Now attach the payment method to the user
+      // Step #2 - Now attach the payment method to the user
       return this.attachPaymentMethod(confirmationResult);
     } catch (error) {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
     }
   }
 
-  private async createSetupIntent(): Promise<any> {
+  private async createPaymentIntent() {
     try {
       this.spinnerService.show();
-      const response: BillingOperationResult = await this.centralServerService.setupPaymentMethodScanAndPay({
-        userID: this.userID
+      const response  = await this.centralServerService.setupPaymentMethodScanAndPay({
+        email: this.email,
+        firstName: this.firstName,
+        name: this.name,
+        siteAreaID: this.siteAreaID,
+        locale: this.locale,
       }).toPromise();
       return response?.internalData;
+      // return response;
     } finally {
       this.spinnerService.hide();
     }
   }
 
-  private async confirmSetupIntent(setupIntent: any): Promise<{ paymentIntent?: PaymentIntent; error?: StripeError }> {
-    const result: { paymentIntent?: PaymentIntent; error?: StripeError } = await this.getStripeFacade().confirmCardPayment(setupIntent.client_secret, {
-      payment_method: {
-        card: this.cardNumber
-      },
+  private async confirmPaymentIntent(): Promise<{ paymentIntent?: PaymentIntent; error?: StripeError }> {
+    const result = await this.getStripeFacade().confirmSetup({
+      elements : this.elements,
+      redirect: 'if_required'
     });
     return result;
   }
 
-  private async attachPaymentMethod(operationResult: { paymentIntent?: PaymentIntent; error?: StripeError }) {
+  private async attachPaymentMethod(confirmationResult: { paymentIntent?: PaymentIntent; error?: StripeError }) {
     try {
       this.spinnerService.show();
       const response: BillingOperationResult = await this.centralServerService.setupPaymentMethodScanAndPay({
-        paymentIntentID: operationResult.paymentIntent.id,
-        paymentMethodID: operationResult.paymentIntent?.payment_method,
-        userID: this.userID
+        paymentIntentID: confirmationResult.paymentIntent.id,
+        paymentMethodID: confirmationResult.paymentIntent?.payment_method,
       }).toPromise();
       return response;
     } finally {

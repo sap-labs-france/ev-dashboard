@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
-@import '../../../assets/scss/core/variables/theme';
-@import '../../../assets/scss/core/variables/brand';
+@import '../../../../assets/scss/core/variables/theme';
+@import '../../../../assets/scss/core/variables/brand';
 
 .stripe-payment-method-dialog-size {
   max-width: 500px;

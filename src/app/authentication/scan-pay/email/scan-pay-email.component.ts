@@ -40,8 +40,8 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute) {
     // Get the Site Key
     this.siteKey = this.configService.getUser().captchaSiteKey;
-    if (this.activatedRoute.snapshot.params['siteAreaID']) {
-      this.currentSiteAreaID = this.activatedRoute.snapshot.params['siteAreaID'];
+    if (this.windowService.getUrlParameterValue('siteAreaID')) {
+      this.currentSiteAreaID = this.windowService.getUrlParameterValue('siteAreaID');
     }
     // Init Form
     this.formGroup = new UntypedFormGroup({

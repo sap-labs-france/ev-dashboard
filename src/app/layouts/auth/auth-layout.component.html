@@ -12,7 +12,7 @@
         <div class="small">{{"general.version" | translate}} {{version}}</div>
       </div>
     </div>
-    <div class="collapse navbar-collapse justify-content-end">
+    <div class="collapse navbar-collapse justify-content-end" *ngIf="!scanPay">
       <ul class="navbar-nav">
         <li id="sign-in-link" class="nav-item" routerLinkActive="active">
           <a class="nav-link" [routerLink]="['/auth/login']">

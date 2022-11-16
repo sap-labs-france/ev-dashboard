@@ -45,7 +45,7 @@ export const AuthenticationRoutes: Routes = [
     component: ScanPayStripePaymentMethodComponent,
   },
   {
-    path: 'scan-pay-email/:siteAreaID',
+    path: 'scan-pay/:siteAreaID',
     component: ScanPayEmailComponent,
   },
   {

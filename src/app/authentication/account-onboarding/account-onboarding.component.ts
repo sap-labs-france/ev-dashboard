@@ -79,7 +79,7 @@ export class AccountOnboardingComponent implements OnInit, OnDestroy {
   }
 
   private navigateToOnboardingPage() {
-    this.centralServerService.refreshBillingAccount(this.accountID).subscribe({
+    this.centralServerService.refreshBillingAccount(this.tenantID, this.accountID).subscribe({
       next: (billingAccount: BillingAccount) => {
         this.spinnerService.hide();
         if (billingAccount.activationLink) {
@@ -98,7 +98,7 @@ export class AccountOnboardingComponent implements OnInit, OnDestroy {
   }
 
   private triggerAccountActivation() {
-    this.centralServerService.activateBillingAccount(this.accountID).subscribe({
+    this.centralServerService.activateBillingAccount(this.tenantID, this.accountID).subscribe({
       next: (billingAccount: BillingAccount) => {
         this.spinnerService.hide();
         if (!billingAccount.id) {

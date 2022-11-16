@@ -1800,9 +1800,9 @@ export class CentralServerService {
     );
   }
 
-  public refreshBillingAccount(accountID: string): Observable<BillingAccount> {
+  public refreshBillingAccount(tenantID: string, accountID: string): Observable<BillingAccount> {
     this.checkInit();
-    const params: { [param: string]: string } = { TenantID: this.currentUser?.tenantID };
+    const params: { [param: string]: string } = { TenantID: tenantID };
     const url = this.buildUtilRestEndpointUrl(RESTServerRoute.REST_BILLING_ACCOUNT_REFRESH, { id: accountID });
     return this.httpClient.patch<ActionResponse>(url, params, {
       headers: this.buildHttpHeaders(),
@@ -1811,9 +1811,9 @@ export class CentralServerService {
     );
   }
 
-  public activateBillingAccount(accountID: string): Observable<BillingAccount> {
+  public activateBillingAccount(tenantID: string, accountID: string): Observable<BillingAccount> {
     this.checkInit();
-    const params: { [param: string]: string } = { TenantID: this.currentUser?.tenantID };
+    const params: { [param: string]: string } = { TenantID: tenantID };
     const url = this.buildUtilRestEndpointUrl(RESTServerRoute.REST_BILLING_ACCOUNT_ACTIVATE, { id: accountID });
     return this.httpClient.patch<ActionResponse>(url, params, {
       headers: this.buildHttpHeaders(),

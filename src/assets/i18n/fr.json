@@ -37,10 +37,10 @@
     "no_record_found": "Aucun enregistrement n'a été trouvé",
     "no_image_found": "Aucune image n'a été trouvée",
     "no_connector_available": "Aucune connexion disponible",
-    "error_max_length": "Longueur maximale: '{{length}}'",
-    "error_min_length": "Longueur minimale: '{{length}}'",
-    "error_max_value": "Valeur maximale: '{{value}}'",
-    "error_min_value": "Valeur minimale: '{{value}}'",
+    "error_max_length": "Longueur maximale : '{{length}}'",
+    "error_min_length": "Longueur minimale : '{{length}}'",
+    "error_max_value": "Valeur maximale : '{{value}}'",
+    "error_min_value": "Valeur minimale : '{{value}}'",
     "error_url_pattern": "URL invalide",
     "error_number_pattern": "Nombre invalide",
     "invalid_date": "Date invalide",
@@ -1535,7 +1535,7 @@
       "company_name": "Nom de l'entreprise",
       "account_status": "Statut",
       "account_id": "ID du compte connecté",
-      "billing_account": "Compte conecté"
+      "billing_account": "Compte connecté"
     },
     "message": {
       "create_success": "Le compte a été ajoûté avec succès",
@@ -1552,7 +1552,7 @@
       "onboard_action": "Envoyer l'email d'inscription au responsable de l'entreprise",
       "onboarding_title": "Open e-Mobility - Enregistrement et connexion de votre compte",
       "onboarding_message": "Vous avez reçu une invitation afin de connecter le compte de votre société à la platforme Open e-Mobility.",
-      "onboarding_message_to_proceed": "Cliquez le lien ci-dessous pour ternminer la procédure.",
+      "onboarding_message_to_proceed": "Cliquez le lien ci-dessous pour terminer la procédure.",
       "onboarding_congratulations": "Félicitation",
       "onboarding_process_completed": "La procédure de connexion de votre compte est maintenant terminée.",
       "onboarding_button_proceed": "Continuer",
@@ -2392,7 +2392,7 @@
     "type_placeholder": "Type",
     "description": "Interface de facturation",
     "id": "ID Facturation",
-    "updated_on": "Factures synchronisées le",
+    "updated_on": "Synchronisé le",
     "tabs": {
       "invoices": "Factures",
       "in_error": "En Erreur"
@@ -2580,15 +2580,15 @@
           "total_duration": "Durée totale",
           "inactivity": "Temps inactif"
         },
-        "pricing-detail-description": "Description",
-        "pricing-detail-entity-type": "Entité",
-        "pricing-detail-entity-id": "ID de l'entité",
-        "pricing-detail-entity-name": "Entity Name",
-        "pricing-detail-unit-price": "Prix unitaire",
-        "pricing-detail-consumption": "Consommation",
-        "pricing-detail-duration": "Durée",
-        "pricing-detail-amount": "Montant",
-        "pricing-detail-view-all": "Tout voir"
+        "pricing_detail_description": "Description",
+        "pricing_detail_entity_type": "Entité",
+        "pricing_detail_entity_id": "ID de l'entité",
+        "pricing_detail_entity_name": "Entity Name",
+        "pricing_detail_unit_price": "Prix unitaire",
+        "pricing_detail_consumption": "Consommation",
+        "pricing_detail_duration": "Durée",
+        "pricing_detail_amount": "Montant",
+        "pricing_detail_view_all": "Tout voir"
       }
     },
     "notification": {

@@ -19,7 +19,6 @@ export class CarConnectorConnectionComponent implements OnInit {
   @Input() public dialogRef!: MatDialogRef<CarConnectorConnectionDialogComponent>;
   @Input() public dialogMode!: DialogMode;
 
-  public readOnly = true;
   public formGroup!: FormGroup;
   public id!: AbstractControl;
   public description!: AbstractControl;
@@ -41,7 +40,6 @@ export class CarConnectorConnectionComponent implements OnInit {
     private translateService: TranslateService) {}
 
   public ngOnInit(): void {
-    this.readOnly = this.dialogMode === DialogMode.VIEW;
     // Init Form
     this.formGroup = new FormGroup({
       id: new FormControl(''),

@@ -229,7 +229,7 @@ export class AuthorizationService {
     return this.canAccess(Entity.OICP_ENDPOINT, Action.LIST);
   }
 
-  public canReadTeantn(): boolean {
+  public canReadTenant(): boolean {
     return this.canAccess(Entity.TENANT, Action.READ);
   }
 

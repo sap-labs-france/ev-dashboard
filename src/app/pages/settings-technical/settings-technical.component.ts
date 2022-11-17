@@ -17,6 +17,6 @@ export class SettingsTechnicalComponent extends AbstractTabComponent {
     windowService: WindowService,
   ) {
     super(activatedRoute, windowService, ['organization', 'crypto', 'users']);
-    this.canReadTenant = this.authorizationService.canReadTeantn();
+    this.canReadTenant = this.authorizationService.canReadTenant();
   }
 }

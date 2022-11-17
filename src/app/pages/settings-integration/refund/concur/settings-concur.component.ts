@@ -31,7 +31,6 @@ export class SettingsConcurComponent implements OnInit, OnChanges {
         Validators.compose([
           Validators.required,
           Validators.maxLength(100),
-          Validators.minLength(5),
           Validators.pattern(Constants.URL_PATTERN),
         ]),
       ),
@@ -39,14 +38,14 @@ export class SettingsConcurComponent implements OnInit, OnChanges {
         Validators.compose([
           Validators.required,
           Validators.maxLength(100),
-          Validators.minLength(5),
+          Validators.pattern(Constants.URL_PATTERN),
         ]),
       ),
       appUrl: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.maxLength(100),
-          Validators.minLength(5),
+          Validators.pattern(Constants.URL_PATTERN),
         ]),
       ),
       clientId: new FormControl('',

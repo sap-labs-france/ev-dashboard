@@ -18,6 +18,9 @@
           <mat-error *ngIf="concurAuthenticationUrl.errors?.minlength">
             <div [translate]="'general.error_min_length'" [translateParams]="{length: concurAuthenticationUrl.errors?.minlength.requiredLength}"></div>
           </mat-error>
+          <mat-error *ngIf="concurAuthenticationUrl.errors?.pattern">
+            <div [translate]="'general.error_url_pattern'"></div>
+          </mat-error>
         </mat-form-field>
       </div>
       <div class="col-md-6">
@@ -30,6 +33,9 @@
           </mat-error>
           <mat-error *ngIf="concurApiUrl.errors?.minlength">
             <div [translate]="'general.error_min_length'" [translateParams]="{length: concurApiUrl.errors?.minlength.requiredLength}"></div>
+          </mat-error>
+          <mat-error *ngIf="concurApiUrl.errors?.pattern">
+            <div [translate]="'general.error_url_pattern'"></div>
           </mat-error>
         </mat-form-field>
       </div>
@@ -129,6 +135,9 @@
           </mat-error>
           <mat-error *ngIf="concurAppUrl.errors?.minlength">
             <div [translate]="'general.error_min_length'" [translateParams]="{length: concurAppUrl.errors?.minlength.requiredLength}"></div>
+          </mat-error>
+          <mat-error *ngIf="concurAppUrl.errors?.pattern">
+            <div [translate]="'general.error_url_pattern'"></div>
           </mat-error>
         </mat-form-field>
       </div>

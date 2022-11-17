@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
 import { CentralServerService } from 'services/central-server.service';
 import { ComponentService } from 'services/component.service';
 import { MessageService } from 'services/message.service';
 import { SpinnerService } from 'services/spinner.service';
+import { SettingAuthorizationActions } from 'types/Authorization';
 import { RestResponse } from 'types/GlobalType';
 import { CryptoSettings, CryptoSettingsType } from 'types/Setting';
 
@@ -17,8 +18,9 @@ import { Utils } from '../../../utils/Utils';
   templateUrl: 'settings-crypto.component.html',
 })
 export class SettingsCryptoComponent implements OnInit {
-  public formGroup!: UntypedFormGroup;
+  public formGroup!: FormGroup;
   public cryptoSettings: CryptoSettings;
+  public authorizations: SettingAuthorizationActions;
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
@@ -31,7 +33,7 @@ export class SettingsCryptoComponent implements OnInit {
 
   public ngOnInit(): void {
     // Build the form
-    this.formGroup = new UntypedFormGroup({});
+    this.formGroup = new FormGroup({});
     // Load the conf
     this.loadConfiguration();
   }
@@ -40,6 +42,10 @@ export class SettingsCryptoComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.getCryptoSettings().subscribe({
       next: (settings) => {
+        // Init auth
+        this.authorizations = {
+          canUpdate: Utils.convertToBoolean(settings.canUpdate),
+        };
         this.spinnerService.hide();
         // Keep
         this.cryptoSettings = settings;

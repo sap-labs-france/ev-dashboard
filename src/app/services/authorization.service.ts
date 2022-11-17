@@ -229,6 +229,10 @@ export class AuthorizationService {
     return this.canAccess(Entity.OICP_ENDPOINT, Action.LIST);
   }
 
+  public canReadTeantn(): boolean {
+    return this.canAccess(Entity.TENANT, Action.READ);
+  }
+
   public canAccess(resource: string, action: string): boolean {
     return !!this.loggedUser && !!this.loggedUser.scopes && this.loggedUser.scopes.includes(`${resource}:${action}`);
   }

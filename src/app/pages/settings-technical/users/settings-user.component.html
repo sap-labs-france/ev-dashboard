@@ -1,6 +1,8 @@
 <form class="form" [formGroup]="formGroup" height="100%">
   <div class="mat-toolbar-row left-actions">
-    <button mat-raised-button color="warn" (click)="save()" [disabled]="isDisabled">
+    <button mat-raised-button color="warn" (click)="save()" 
+      [hidden]="!authorizations || !authorizations.canUpdate"  
+      [disabled]="isDisabled">
       <mat-icon>save</mat-icon><span>{{ "general.save" | translate }}</span>
     </button>
   </div>

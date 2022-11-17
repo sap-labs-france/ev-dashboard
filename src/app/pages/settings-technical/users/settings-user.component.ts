@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
+import { SettingAuthorizationActions } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { RestResponse } from '../../../types/GlobalType';
-import { HTTPError } from '../../../types/HTTPError';
 import { UserSettings } from '../../../types/Setting';
 import { Utils } from '../../../utils/Utils';
 
@@ -22,8 +22,9 @@ export class SettingsUserComponent implements OnInit {
   public userSettings: UserSettings;
   public router: Router;
 
-  public formGroup!: UntypedFormGroup;
+  public formGroup!: FormGroup;
   public autoActivateAccountAfterValidation!: AbstractControl;
+  public authorizations: SettingAuthorizationActions;
 
   public constructor(
     private messageService: MessageService,
@@ -34,8 +35,8 @@ export class SettingsUserComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.formGroup = new UntypedFormGroup({
-      autoActivateAccountAfterValidation : new UntypedFormControl(),
+    this.formGroup = new FormGroup({
+      autoActivateAccountAfterValidation : new FormControl<boolean>(false),
     });
     this.autoActivateAccountAfterValidation = this.formGroup.controls['autoActivateAccountAfterValidation'];
     // Register check event
@@ -83,11 +84,20 @@ export class SettingsUserComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.getUserSettings().subscribe({
       next: (settings) => {
+        // Init auth
+        this.authorizations = {
+          canUpdate: Utils.convertToBoolean(settings.canUpdate),
+        };
         this.spinnerService.hide();
         // Init values
         this.isDisabled = true;
         this.userSettings = settings;
         this.autoActivateAccountAfterValidation.setValue(this.userSettings.user.autoActivateAccountAfterValidation);
+        // Read only
+        if(!this.authorizations.canUpdate) {
+          // Async call for letting the sub form groups to init
+          setTimeout(() => this.formGroup.disable(), 0);
+        }
       },
       error: (error) => {
         this.spinnerService.hide();

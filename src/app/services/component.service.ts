@@ -44,7 +44,9 @@ export class ComponentService {
         next: (settings) => {
           // Get the currency
           if (settings) {
+            // Init
             pricingSettings = settings as PricingSettings;
+            // Set specific setting data
             const config = settings.content;
             // Simple price
             if (config.simple) {
@@ -346,9 +348,10 @@ export class ComponentService {
         next: (settings) => {
           // Get the currency
           if (settings) {
+            // Init
             analyticsSettings = settings as AnalyticsSettings;
+            // Set specific setting data
             const config = settings.content;
-            // Set
             analyticsSettings.sac = config.sac;
             analyticsSettings.links = config.links;
           }
@@ -372,9 +375,9 @@ export class ComponentService {
         next: (settings) => {
           // Get the currency
           if (settings) {
-            // Init the setting
+            // Init
             refundSettings = settings as RefundSettings;
-            // Set specific refund setting
+            // Set specific setting data
             const config = settings.content;
             refundSettings.concur = config.concur;
           }
@@ -397,10 +400,11 @@ export class ComponentService {
       this.centralServerService.getSetting(TenantComponents.SMART_CHARGING).subscribe({
         next: (settings) => {
           if (settings) {
-            // Init the setting
+            // Init
             smartChargingSettings = settings as SmartChargingSettings;
-            // Set specific smart charging setting
-            smartChargingSettings.sapSmartCharging = settings.content.sapSmartCharging;
+            // Set specific setting data
+            const config = settings.content;
+            smartChargingSettings.sapSmartCharging = config.sapSmartCharging;
           }
           observer.next(smartChargingSettings);
           observer.complete();
@@ -422,10 +426,11 @@ export class ComponentService {
         next: (settings) => {
           // Get the currency
           if (settings) {
-            // Init setting
+            // Init
             assetSettings = settings as AssetSettings;
-            // Set specific asset setting
-            assetSettings.asset = settings.content.asset;
+            // Set specific setting data
+            const config = settings.content;
+            assetSettings.asset = config.asset;
           }
           observer.next(assetSettings);
           observer.complete();
@@ -447,9 +452,11 @@ export class ComponentService {
         next: (settings) => {
           // Get the currency
           if (settings) {
+            // Init
             carConnectorsSettings = settings as CarConnectorSettings;
-            // Set
-            carConnectorsSettings.carConnector = settings.content.carConnector;
+            // Set specific setting data
+            const config = settings.content;
+            carConnectorsSettings.carConnector = config.carConnector;
           }
           observer.next(carConnectorsSettings);
           observer.complete();
@@ -463,7 +470,7 @@ export class ComponentService {
 
   public getCryptoSettings(): Observable<CryptoSettings> {
     return new Observable((observer) => {
-      const cryptoSettings = {
+      let cryptoSettings = {
         identifier: TechnicalSettings.CRYPTO,
       } as CryptoSettings;
       // Get the Asset settings
@@ -471,13 +478,14 @@ export class ComponentService {
         next: (settings) => {
           // Get the currency
           if (settings) {
-            // ID
-            cryptoSettings.id = settings.id;
-            // Crypto Key
+            // Init
+            cryptoSettings = settings as CryptoSettings;
+            // Set specific setting data
+            const config = settings.content;
             cryptoSettings.crypto = {
-              key: settings.content.crypto.key,
-              keyProperties: settings.content.crypto.keyProperties,
-              migrationToBeDone: settings.content.crypto.migrationToBeDone,
+              key: config.crypto.key,
+              keyProperties: config.crypto.keyProperties,
+              migrationToBeDone: config.crypto.migrationToBeDone,
             };
           }
           observer.next(cryptoSettings);
@@ -507,18 +515,20 @@ export class ComponentService {
 
   public getUserSettings(): Observable<UserSettings> {
     return new Observable((observer) => {
+      let userSettings = {
+        identifier: TechnicalSettings.USER,
+      } as UserSettings;
       // Get the user settings
       this.centralServerService.getSetting(TechnicalSettings.USER).subscribe({
         next: (settings) => {
-          let userSettings: UserSettings;
           // Get the needed settings for update
           if (settings) {
-            userSettings = {
-              id: settings.id,
-              identifier: TechnicalSettings.USER,
-              type: settings.content.type as UserSettingsType,
-              user: settings.content.user,
-            } as UserSettings; // quick hack change this
+            // Init
+            userSettings = settings as UserSettings;
+            // Set specific setting data
+            const config = settings.content;
+            userSettings.type = config.type as UserSettingsType;
+            userSettings.user = config.user;
           }
           observer.next(userSettings);
           observer.complete();

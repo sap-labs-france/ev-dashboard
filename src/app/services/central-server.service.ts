@@ -1620,7 +1620,7 @@ export class CentralServerService {
   public setupPaymentMethodScanAndPay(parameters: any): Observable<BillingOperationResult> {
     this.checkInit();
     // Build the URL
-    const urlPattern: RESTServerRoute = (!parameters.paymentMethodID) ?
+    const urlPattern: RESTServerRoute = (!parameters.paymentIntentID) ?
       RESTServerRoute.REST_SCAN_AND_PAY_PAYMENT_METHOD_SETUP : RESTServerRoute.REST_SCAN_AND_PAY_PAYMENT_METHOD_ATTACH;
     // Execute the REST service
     return this.httpClient.post<BillingOperationResult>(this.buildUtilRestEndpointUrl(urlPattern), {

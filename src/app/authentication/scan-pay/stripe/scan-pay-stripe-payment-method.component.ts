@@ -128,9 +128,8 @@ export class ScanPayStripePaymentMethodComponent implements OnInit {
 
   private async createPaymentMethod(): Promise<any> {
     try {
-      this.paymentIntent = await this.createPaymentIntent() as PaymentIntent;
       // Step #2 - Confirm the STRIPE Setup Intent to carry out 3DS authentication (redirects to the bank authentication page)
-      const confirmationResult = await this.confirmPaymentIntent(this.paymentIntent);
+      const confirmationResult = await this.confirmPaymentIntent();
       if (confirmationResult.error) {
         // 3DS authentication has been aborted or user was not able to authenticate
         return confirmationResult;
@@ -142,11 +141,10 @@ export class ScanPayStripePaymentMethodComponent implements OnInit {
     }
   }
 
-  private async confirmPaymentIntent(paymentIntent: any): Promise<{ paymentIntent?: PaymentIntent; error?: StripeError }> {
-    const result: { paymentIntent?: PaymentIntent; error?: StripeError } = await this.getStripeFacade().confirmCardPayment( paymentIntent.client_secret, {
-      payment_method: {
-        card: this.cardNumber
-      },
+  private async confirmPaymentIntent(): Promise<{ paymentIntent?: PaymentIntent; error?: StripeError }> {
+    const result = await this.getStripeFacade().confirmPayment({
+      elements : this.elements,
+      redirect: 'if_required'
     });
     return result;
   }

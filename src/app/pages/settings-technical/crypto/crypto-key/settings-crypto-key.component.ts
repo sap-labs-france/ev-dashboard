@@ -13,7 +13,6 @@ export class SettingsCryptoKeyComponent implements OnInit, OnChanges {
   @Input() public cryptoSettings!: CryptoSettings;
   @Input() public authorizations!: SettingAuthorizationActions;
 
-
   public cryptoKey!: FormGroup;
   public key!: AbstractControl;
   public blockCypher!: AbstractControl;

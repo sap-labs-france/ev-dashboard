@@ -14,13 +14,13 @@
   <form class="form" [formGroup]="formGroup" height="100%">
     <div class="mat-toolbar-row left-actions">
       <button mat-raised-button color="warn" (click)="save(formGroup.value)"
-        [hidden]="authorizations && !authorizations.canUpdate"
+        [hidden]="!authorizations || !authorizations.canUpdate"
         [disabled]="!formGroup.valid || !formGroup.dirty">
         <mat-icon>save</mat-icon>
         <span>{{'general.save' | translate}}</span>
       </button>
       <button mat-raised-button color="primary" (click)="checkConnection()"
-        [hidden]="authorizations && !authorizations.canCheckSmartChargingConnection"
+        [hidden]="!authorizations || !authorizations.canCheckSmartChargingConnection"
         [disabled]="!formGroup.valid || formGroup.dirty">
         <mat-icon>link</mat-icon>
         <span>{{'settings.smart_charging.check_connection' | translate}}</span>

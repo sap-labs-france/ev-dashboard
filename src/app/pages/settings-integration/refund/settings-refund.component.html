@@ -14,11 +14,14 @@
 <form *ngIf="isActive" class="form" [formGroup]="formGroup">
   <div class="mat-toolbar-row left-actions">
     <button mat-raised-button color="warn" (click)="save(formGroup.value)"
-      [disabled]="!formGroup.valid || !formGroup.dirty" [hidden]="authorizations && !authorizations.canUpdate">
+      [hidden]="!authorizations || !authorizations.canUpdate"
+      [disabled]="!formGroup.valid || !formGroup.dirty">
       <mat-icon>save</mat-icon>
       <span>{{'general.save' | translate}}</span>
     </button>
-    <button mat-raised-button color="primary" (click)="synchronize()" [disabled]="!formGroup.valid || formGroup.dirty" [hidden]="authorizations && !authorizations.canSyncRefund">
+    <button mat-raised-button color="primary" (click)="synchronize()"
+      [hidden]="!authorizations || !authorizations.canSyncRefund"
+      [disabled]="!formGroup.valid || formGroup.dirty">
       <mat-icon>sync</mat-icon>
       <span>{{'general.synchronize' | translate}}</span>
     </button>

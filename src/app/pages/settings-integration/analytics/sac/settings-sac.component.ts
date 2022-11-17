@@ -61,12 +61,12 @@ export class SettingsSacComponent implements OnInit, OnChanges {
       if (this.analyticsSettings.sac.timezone && this.analyticsSettings.sac.timezone.length > 0) {
         this.timezone.setValue(this.analyticsSettings.sac.timezone);
       }
+      this.formGroup.markAsPristine();
       // Read only
       if(!this.authorizations.canUpdate) {
-      // Async call for letting the sub form groups to init
+        // Async call for letting the sub form groups to init
         setTimeout(() => this.formGroup.disable(), 0);
       }
-      this.formGroup.markAsPristine();
     }
   }
 }

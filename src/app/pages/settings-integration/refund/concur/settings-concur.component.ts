@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, UntypedFormGroup, Validators } from '@angular/forms';
 import { SettingAuthorizationActions } from 'types/Authorization';
+import { Constants } from 'utils/Constants';
 
 import { RefundSettings } from '../../../../types/Setting';
 
@@ -31,6 +32,7 @@ export class SettingsConcurComponent implements OnInit, OnChanges {
           Validators.required,
           Validators.maxLength(100),
           Validators.minLength(5),
+          Validators.pattern(Constants.URL_PATTERN),
         ]),
       ),
       apiUrl: new FormControl('',

@@ -57,11 +57,11 @@ export class SettingsCarConnectorComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.getCarConnectorSettings().subscribe({
       next: (settings) => {
+        this.spinnerService.hide();
         // Init Auth
         this.authorizations = {
           canUpdate: Utils.convertToBoolean(settings.canUpdate),
         };
-        this.spinnerService.hide();
         // Keep
         this.carConnectorSettings = settings;
         // Set Auth

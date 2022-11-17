@@ -14,7 +14,6 @@ export class SettingsSimplePricingComponent implements OnInit, OnChanges {
   @Input() public isCurrencyCodeReadonly!: boolean;
   @Input() public authorizations!: SettingAuthorizationActions;
 
-
   public simplePricing!: FormGroup;
   public price!: AbstractControl;
   public currency!: AbstractControl;

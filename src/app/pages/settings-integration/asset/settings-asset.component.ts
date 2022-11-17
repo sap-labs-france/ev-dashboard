@@ -56,12 +56,12 @@ export class SettingsAssetComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.getAssetSettings().subscribe({
       next: (settings) => {
+        this.spinnerService.hide();
         // Init Auth
         this.authorizations = {
           canUpdate: Utils.convertToBoolean(settings.canUpdate),
           canCheckAssetConnection: Utils.convertToBoolean(settings.canCheckAssetConnection),
         };
-        this.spinnerService.hide();
         // Keep
         this.assetSettings = settings;
         // Set auth

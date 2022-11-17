@@ -137,8 +137,8 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
     ];
   }
 
-  // We are using static authorizations, should have auth for SettingLink
   public buildTableDynamicRowActions(row: SettingLink): TableActionDef[] {
+    // We are using global settings authorizations
     const tableActionDef: TableActionDef[] = [];
     if(this.authorizations.canUpdate) {
       tableActionDef.push(this.editAction);

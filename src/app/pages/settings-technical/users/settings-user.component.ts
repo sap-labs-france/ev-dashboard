@@ -84,11 +84,11 @@ export class SettingsUserComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.getUserSettings().subscribe({
       next: (settings) => {
+        this.spinnerService.hide();
         // Init auth
         this.authorizations = {
           canUpdate: Utils.convertToBoolean(settings.canUpdate),
         };
-        this.spinnerService.hide();
         // Init values
         this.isDisabled = true;
         this.userSettings = settings;

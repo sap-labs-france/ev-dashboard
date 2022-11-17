@@ -57,13 +57,13 @@ export class SettingsBillingComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.getBillingSettings().subscribe({
       next: (settings) => {
+        this.spinnerService.hide();
         // Init Auth
         this.authorizations = {
           canUpdate: Utils.convertToBoolean(settings.canUpdate),
           canCheckBillingConnection: Utils.convertToBoolean(settings.canCheckBillingConnection),
           canActivateBilling: Utils.convertToBoolean(settings.canUpdate), // Using update auth
         };
-        this.spinnerService.hide();
         // Keep
         this.billingSettings = settings;
         this.isBillingTransactionEnabled = this.billingSettings.billing.isTransactionBillingActivated;

@@ -53,11 +53,11 @@ export class SettingsPricingComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.getPricingSettings().subscribe({
       next: (settings) => {
+        this.spinnerService.hide();
         // Init auth
         this.authorizations = {
           canUpdate: Utils.convertToBoolean(settings.canUpdate)
         };
-        this.spinnerService.hide();
         // Keep
         this.pricingSettings = settings;
         // Check Settings

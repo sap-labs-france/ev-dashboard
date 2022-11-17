@@ -42,11 +42,11 @@ export class SettingsCryptoComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.getCryptoSettings().subscribe({
       next: (settings) => {
+        this.spinnerService.hide();
         // Init auth
         this.authorizations = {
           canUpdate: Utils.convertToBoolean(settings.canUpdate),
         };
-        this.spinnerService.hide();
         // Keep
         this.cryptoSettings = settings;
         // Init form

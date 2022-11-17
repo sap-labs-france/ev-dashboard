@@ -19,7 +19,6 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
   @Input() public billingSettings!: BillingSettings;
   @Input() public authorizations!: SettingAuthorizationActions;
 
-
   public stripe!: UntypedFormGroup;
   public billing!: UntypedFormGroup;
   public url!: AbstractControl;

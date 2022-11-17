@@ -52,11 +52,11 @@ export class SettingsAnalyticsComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.getSacSettings().subscribe({
       next: (settings) => {
+        this.spinnerService.hide();
         // Init Auth
         this.authorizations = {
           canUpdate: Utils.convertToBoolean(settings.canUpdate),
         };
-        this.spinnerService.hide();
         this.analyticsSettings = settings;
         // Set Links
         this.analyticsLinksTableDataSource.setLinks(settings.links);
@@ -66,11 +66,6 @@ export class SettingsAnalyticsComponent implements OnInit {
         this.analyticsLinksTableDataSource.loadData().subscribe();
         // Init form
         this.formGroup.markAsPristine();
-        // Read only
-        if(!this.authorizations.canUpdate) {
-          // Async call for letting the sub form groups to init
-          setTimeout(() => this.formGroup.disable(), 0);
-        }
       },
       error: (error) => {
         this.spinnerService.hide();

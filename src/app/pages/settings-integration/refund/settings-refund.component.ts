@@ -53,12 +53,12 @@ export class SettingsRefundComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.getRefundSettings().subscribe({
       next: (settings) => {
+        this.spinnerService.hide();
         // Init auth
         this.authorizations = {
           canUpdate: Utils.convertToBoolean(settings.canUpdate),
           canSyncRefund: Utils.convertToBoolean(settings.canSyncRefund)
         };
-        this.spinnerService.hide();
         // Keep
         this.refundSettings = settings;
         // Init form

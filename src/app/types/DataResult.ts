@@ -191,7 +191,6 @@ export interface ChargingStationTemplateDataResult extends DataResult<ChargingSt
 export interface SettingDataResult extends DataResult<Setting>, SettingsAuthorizationActions {
 }
 
-
 export interface Ordering {
   field: string;
 }
@@ -210,5 +209,3 @@ export interface BillingOperationResult {
   error?: Error;
   internalData?: unknown; // an object returned by the concrete implementation - e.g.: STRIPE
 }
-
-

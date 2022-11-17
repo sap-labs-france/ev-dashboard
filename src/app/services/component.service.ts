@@ -439,7 +439,7 @@ export class ComponentService {
 
   public getCarConnectorSettings(): Observable<CarConnectorSettings> {
     return new Observable((observer) => {
-      const carConnectorsSettings = {
+      let carConnectorsSettings = {
         identifier: TenantComponents.CAR_CONNECTOR,
       } as CarConnectorSettings;
       // Get the Car Connector settings
@@ -447,13 +447,9 @@ export class ComponentService {
         next: (settings) => {
           // Get the currency
           if (settings) {
-            const config = settings.content;
-            // ID
-            carConnectorsSettings.id = settings.id;
-            // Sensitive data
-            carConnectorsSettings.sensitiveData = settings.sensitiveData;
+            carConnectorsSettings = settings as CarConnectorSettings;
             // Set
-            carConnectorsSettings.carConnector = config.carConnector;
+            carConnectorsSettings.carConnector = settings.content.carConnector;
           }
           observer.next(carConnectorsSettings);
           observer.complete();

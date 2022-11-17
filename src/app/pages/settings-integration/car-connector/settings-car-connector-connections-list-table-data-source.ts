@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { TableViewAction } from 'shared/table/actions/table-view-action';
+import { DialogMode, SettingAuthorizationActions } from 'types/Authorization';
 
 import { DialogService } from '../../../services/dialog.service';
 import { SpinnerService } from '../../../services/spinner.service';
@@ -16,6 +18,10 @@ import { CarConnectorConnectionDialogComponent } from './connection/car-connecto
 
 @Injectable()
 export class SettingsCarConnectorConnectionEditableTableDataSource extends EditableTableDataSource<CarConnectorConnectionSetting> {
+  public authorizations: SettingAuthorizationActions;
+  private editAction = new TableEditAction().getActionDef();
+  private viewAction = new TableViewAction().getActionDef();
+
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -28,6 +34,7 @@ export class SettingsCarConnectorConnectionEditableTableDataSource extends Edita
     // Not really editable datasource
     return new Observable((observer) => {
       if (this.editableRows) {
+        this.addAction.visible = this.authorizations?.canUpdate;
         // Car connector sort by name
         this.editableRows.sort((a, b) => (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0);
         observer.next({
@@ -85,18 +92,27 @@ export class SettingsCarConnectorConnectionEditableTableDataSource extends Edita
     ];
   }
 
-  public buildTableRowActions(): TableActionDef[] {
-    return [
-      new TableEditAction().getActionDef(),
-      ...super.buildTableRowActions()
-    ];
+  public buildTableDynamicRowActions(row: CarConnectorConnectionSetting): TableActionDef[] {
+    // Using global setting authorizations
+    const rowActions: TableActionDef[] = [];
+    // Update or View
+    if(this.authorizations.canUpdate) {
+      rowActions.push(this.editAction);
+    } else {
+      rowActions.push(this.viewAction);
+    }
+    // Delete action
+    if(this.authorizations.canUpdate) {
+      rowActions.push( ...super.buildTableRowActions());
+    }
+    return rowActions;
   }
 
   public actionTriggered(actionDef: TableActionDef) {
     // Action
     switch (actionDef.id) {
       case ButtonAction.ADD:
-        this.showCarConnectorConnectionDialog();
+        this.showCarConnectorConnectionDialog(DialogMode.CREATE);
         break;
     }
   }
@@ -104,7 +120,10 @@ export class SettingsCarConnectorConnectionEditableTableDataSource extends Edita
   public rowActionTriggered(actionDef: TableActionDef, carConnectorConnection: CarConnectorConnectionSetting) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
-        this.showCarConnectorConnectionDialog(carConnectorConnection);
+        this.showCarConnectorConnectionDialog(DialogMode.EDIT, carConnectorConnection);
+        break;
+      case ButtonAction.VIEW:
+        this.showCarConnectorConnectionDialog(DialogMode.VIEW, carConnectorConnection);
         break;
       case ButtonAction.DELETE:
         this.dialogService.createAndShowYesNoDialog(
@@ -142,18 +161,17 @@ export class SettingsCarConnectorConnectionEditableTableDataSource extends Edita
     };
   }
 
-  private showCarConnectorConnectionDialog(carConnectorConnection?: CarConnectorConnectionSetting) {
+  public setAuthorizations(authorizations: SettingAuthorizationActions) {
+    this.authorizations = authorizations;
+  }
+
+  private showCarConnectorConnectionDialog(dialogMode: DialogMode, carConnectorConnection?: CarConnectorConnectionSetting) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';
     dialogConfig.panelClass = 'transparent-dialog-container';
     // Update
-    if (carConnectorConnection) {
-      dialogConfig.data = carConnectorConnection;
-    // Create
-    } else {
-      dialogConfig.data = this.createRow();
-    }
+    dialogConfig.data = { dialogData: carConnectorConnection, dialogMode };
     // Disable outside click close
     dialogConfig.disableClose = true;
     // Open

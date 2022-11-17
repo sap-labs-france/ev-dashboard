@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormArray, UntypedFormGroup } from '@angular/forms';
+import { FormArray, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
+import { SettingAuthorizationActions } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { RestResponse } from '../../../types/GlobalType';
-import { HTTPError } from '../../../types/HTTPError';
 import { CarConnectorSettings } from '../../../types/Setting';
 import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
@@ -22,9 +22,9 @@ import { SettingsCarConnectorConnectionEditableTableDataSource } from './setting
 })
 export class SettingsCarConnectorComponent implements OnInit {
   public isActive = false;
-
-  public formGroup!: UntypedFormGroup;
-  public carConnectors!: UntypedFormArray;
+  public authorizations: SettingAuthorizationActions;
+  public formGroup!: FormGroup;
+  public carConnectors!: FormArray;
 
   public carConnectorSettings!: CarConnectorSettings;
 
@@ -41,11 +41,11 @@ export class SettingsCarConnectorComponent implements OnInit {
   public ngOnInit(): void {
     if (this.isActive) {
       // Build the form
-      this.formGroup = new UntypedFormGroup({
-        carConnectors: new UntypedFormArray([]),
+      this.formGroup = new FormGroup({
+        carConnectors: new FormArray([]),
       });
       // Form Controls
-      this.carConnectors = this.formGroup.controls['carConnectors'] as UntypedFormArray;
+      this.carConnectors = this.formGroup.controls['carConnectors'] as FormArray;
       // Assign connections form to data source
       this.settingsCarConnectorConnectionTableDataSource.setFormArray(this.carConnectors);
       // Load the conf
@@ -57,9 +57,15 @@ export class SettingsCarConnectorComponent implements OnInit {
     this.spinnerService.show();
     this.componentService.getCarConnectorSettings().subscribe({
       next: (settings) => {
+        // Init Auth
+        this.authorizations = {
+          canUpdate: Utils.convertToBoolean(settings.canUpdate),
+        };
         this.spinnerService.hide();
         // Keep
         this.carConnectorSettings = settings;
+        // Set Auth
+        this.settingsCarConnectorConnectionTableDataSource.setAuthorizations(this.authorizations);
         // Set
         this.settingsCarConnectorConnectionTableDataSource.setContent(this.carConnectorSettings.carConnector.connections);
         // Init form

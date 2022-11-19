@@ -32,11 +32,12 @@ export class ReleaseNotesComponent {
     this.releaseNotes = [
       {
         version: '2.7.4',
-        date: new Date('2022-11-15'),
+        date: new Date('2022-11-19'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Fixed date/time format issue in Transaction's chart in english`,
               `Technical library upgrades`,
               `Forced y-axis of Charging Plan's chart to 0`,
               `Added QR-Codes for Organization in settings`,

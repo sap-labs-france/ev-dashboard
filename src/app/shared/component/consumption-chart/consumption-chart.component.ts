@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { TranslateService } from '@ngx-translate/core';
-import { CartesianScaleTypeRegistry, Chart, ChartData, ChartDataset, ChartOptions, ChartTypeRegistry, Color, ScaleOptionsByType } from 'chart.js';
+import { Chart, ChartData, ChartDataset, ChartOptions, Color } from 'chart.js';
 import * as dayjs from 'dayjs';
 import { ConsumptionChartAxis, ConsumptionChartDatasetOrder } from 'types/Chart';
 
@@ -674,10 +674,10 @@ export class ConsumptionChartComponent implements AfterViewInit {
         [ConsumptionChartAxis.X]: {
           type: 'time',
           time: {
-            tooltipFormat: dayjs.localeData().longDateFormat('LT'),
+            tooltipFormat: dayjs.localeData().longDateFormat('LT').replace(' A', ''), // AM/PM is not supported by date fns adapter
             unit: 'minute',
             displayFormats: {
-              minute: dayjs.localeData().longDateFormat('LT'),
+              minute: dayjs.localeData().longDateFormat('LT').replace(' A', ''), // AM/PM is not supported by date fns adapter
             },
           },
           grid: {

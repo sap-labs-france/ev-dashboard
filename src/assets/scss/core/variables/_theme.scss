@@ -81,5 +81,5 @@ $dark-background: map-get($dark-theme, background);
 // https://material.angular.io/guide/theming-your-components
 .dark-theme {
   // Apply theme
-  @include mat.all-legacy-component-themes($dark-theme);
+  @include mat.all-legacy-component-colors($dark-theme);
 }

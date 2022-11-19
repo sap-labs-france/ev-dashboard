@@ -37,8 +37,8 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              `Migration Angular 15 - Updated latest version of all libs`,
               `Fixed date/time format issue in Transaction's chart in english`,
-              `Technical library upgrades`,
               `Forced y-axis of Charging Plan's chart to 0`,
               `Added QR-Codes for Organization in settings`,
               `Fixed cannot set charging profile after having deleted it`,

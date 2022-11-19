@@ -4,7 +4,16 @@
 $min-contrast-ratio: 2.5;
 
 // Material Theming
-@include mat.core();
+// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
+//  The following line adds:
+//    1. Default typography styles for all components
+//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
+//  If you specify typography styles for the components you use elsewhere, you should delete this line.
+//  If you don't need the default component typographies but still want the hierarchy styles,
+//  you can delete this line and instead use:
+//    `@include mat.legacy-typography-hierarchy(mat.define-legacy-typography-config());`
+@include mat.all-legacy-component-typographies();
+@include mat.legacy-core();
 
 // Global ---------------------------------
 $app-success: mat.define-palette(mat.$green-palette, 700);
@@ -28,9 +37,17 @@ $app-primary: mat.define-palette(mat.$blue-palette, 700);
 $app-accent: mat.define-palette(mat.$blue-palette, 500);
 $app-danger: mat.define-palette(mat.$red-palette, 700);
 // Create the theme
-$app-theme: mat.define-light-theme($app-primary, $app-accent, $app-danger);
+$app-theme: mat.define-light-theme((
+  color: (
+    primary: $app-primary,
+    accent: $app-accent,
+    warn: $app-danger,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
 // Apply theme
-@include mat.all-component-themes($app-theme);
+@include mat.all-legacy-component-themes($app-theme);
 // Bg/Fg
 $app-foreground: map-get($app-theme, foreground);
 $app-background: map-get($app-theme, background);
@@ -42,7 +59,15 @@ $dark-primary: mat.define-palette(mat.$grey-palette, 600);
 $dark-accent: mat.define-palette(mat.$grey-palette, A200, A100, A400);
 $dark-danger: mat.define-palette(mat.$red-palette, 300);
 // Create the theme
-$dark-theme: mat.define-dark-theme($dark-primary, $dark-accent, $dark-danger);
+$dark-theme: mat.define-light-theme((
+  color: (
+    primary: $dark-primary,
+    accent: $dark-accent,
+    warn: $dark-danger,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
 // Other
 $dark-success: mat.define-palette(mat.$green-palette, 300);
 $dark-warning: mat.define-palette(mat.$orange-palette, 300);
@@ -56,5 +81,5 @@ $dark-background: map-get($dark-theme, background);
 // https://material.angular.io/guide/theming-your-components
 .dark-theme {
   // Apply theme
-  @include mat.all-component-themes($dark-theme);
+  @include mat.all-legacy-component-themes($dark-theme);
 }

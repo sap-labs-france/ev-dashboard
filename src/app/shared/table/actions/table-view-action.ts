@@ -1,5 +1,5 @@
 import { ComponentType } from '@angular/cdk/portal';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { Observable } from 'rxjs';
 
 import { AuthorizationAttributes, DialogMode, DialogParamsWithAuth } from '../../../types/Authorization';

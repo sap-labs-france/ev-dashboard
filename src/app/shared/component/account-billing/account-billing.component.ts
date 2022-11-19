@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { AccountsDialogComponent } from 'shared/dialogs/accounts/accounts-dialog.component';
 import { DialogMode } from 'types/Authorization';
 import { BillingAccount, BillingAccountData } from 'types/Billing';

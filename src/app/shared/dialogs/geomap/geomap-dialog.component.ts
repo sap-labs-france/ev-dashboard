@@ -1,6 +1,6 @@
 import { Component, Inject, ViewChild } from '@angular/core';
 import { GoogleMap } from '@angular/google-maps';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { GeoMapDialogData, GeoMapDialogResult } from 'types/Dialog';
 

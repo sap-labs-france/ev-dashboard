@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatRadioButton, MatRadioChange } from '@angular/material/radio';
+import { MatLegacyRadioButton as MatRadioButton, MatLegacyRadioChange as MatRadioChange } from '@angular/material/legacy-radio';
 import { Router } from '@angular/router';
 import { Site } from 'types/Site';
 

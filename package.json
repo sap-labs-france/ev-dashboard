@@ -117,7 +117,7 @@
     "@angular-eslint/eslint-plugin-template": "^14.1.2",
     "@angular-eslint/schematics": "^14.1.2",
     "@angular-eslint/template-parser": "^14.1.2",
-    "@angular/cli": "^14.2.8",
+    "@angular/cli": "^15.0.0",
     "@angular/compiler-cli": "^14.2.10",
     "@types/bootstrap": "^5.2.5",
     "@types/chart.js": "^2.9.37",

@@ -7,24 +7,13 @@
             <mat-tab>
               <ng-template mat-tab-label>
                 <mat-icon>payment</mat-icon>
-                <span>please rentre ta CB</span>
+                <span>{{'settings.billing.payment_intent' | translate}}</span>
               </ng-template>
               <div class="card-body mat-tab-dialog-body-content">
                 <form class="form">
                   <div>
                     <div id="payment-element">
                       <!-- Mount the Payment Element here -->
-                    </div>
-                    <div class="row">
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <div>
-                            <mat-checkbox [formControl]="acceptConditions" (change)="handleAcceptConditions()">
-                              {{'settings.billing.payment_methods_check' | translate}}
-                            </mat-checkbox>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </form>
@@ -33,7 +22,6 @@
           </mat-tab-group>
           <div class='tabs-actions-embedded'>
             <button mat-icon-button (click)="linkCardToAccount()" title="{{'general.save' | translate}}">
-            <!-- <button mat-icon-button (click)="linkCardToAccount()" title="{{'general.save' | translate}}" [disabled]="!hasAcceptedConditions || !isCardNumberValid || !isCvcValid || !isExpirationDateValid || isSaveClicked"> -->
               <mat-icon>save</mat-icon>
             </button>
           </div>

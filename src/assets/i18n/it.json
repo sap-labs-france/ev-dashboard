@@ -1765,6 +1765,9 @@
       "payment_methods_card_number_error": "Numero di carta non valido",
       "payment_methods_expiration_date_error": "Data di scadenza non valida",
       "payment_methods_cvc_error": "Codice di verifica non valido",
+      "payment_intent_create_title": "Enter your card details",
+      "payment_intent_create_success": "The payment method has been created successfully",
+      "payment_intent_create_error": "Error occurred while creating the payment method : {{stripeError}}",
       "transaction_billing_activation": "Attivazione Fatturazione",
       "transaction_billing_activation_title": "Attivazione Fatturazione",
       "transaction_billing_activation_confirm": [

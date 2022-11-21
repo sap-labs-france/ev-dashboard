@@ -702,6 +702,12 @@ export enum RESTServerRoute {
   REST_BILLING_ACCOUNT_REFRESH = 'billing/accounts/:id/refresh',
   REST_BILLING_ACCOUNT_ACTIVATE = 'billing/accounts/:id/activate',
 
+  // BILLING / SCAN AND PAY
+  REST_SCAN_PAY_VERIFY_EMAIL = 'billing/scan-pay/verify-email',
+  REST_BILLING_SETTING_SCAN_AND_PAY = 'billing/scan-pay/billing-settings',
+  REST_SCAN_PAY_PAYMENT_INTENT_SETUP = 'billing/scan-pay/setup',
+  REST_SCAN_PAY_PAYMENT_INTENT_CAPTURE = 'billing/scan-pay/capture',
+
   // BILLING URLs for CRUD operations on INVOICES
   REST_BILLING_INVOICES = 'invoices',
   REST_BILLING_INVOICE = 'invoices/:invoiceID',
@@ -721,12 +727,6 @@ export enum RESTServerRoute {
 
   // PRICING URLs for Non-CRUD operations
   REST_PRICING_MODEL_RESOLVE = 'pricing-model/resolve',
-
-  // SCAN AND PAY @caro -> remettre les routes en billing/scan-pay
-  REST_SCAN_PAY_VERIFY_EMAIL = 'scan-pay/verify-email',
-  REST_BILLING_SETTING_SCAN_AND_PAY = 'billing-setting-scan-and-pay',
-  REST_SCAN_AND_PAY_PAYMENT_METHOD_SETUP = 'scan-pay/setup',
-  REST_SCAN_AND_PAY_PAYMENT_METHOD_ATTACH = 'scan-pay/attach',
 }
 
 export enum OCPIServerRoute {

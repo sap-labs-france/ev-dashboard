@@ -1617,14 +1617,13 @@ export class CentralServerService {
     );
   }
 
-  public setupPaymentMethodScanAndPay(parameters: any): Observable<BillingOperationResult> {
+  public scanPaySetupPaymentIntent(parameters: any): Observable<BillingOperationResult> {
     this.checkInit();
     // Build the URL
-    const urlPattern: RESTServerRoute = (!parameters.paymentIntentID) ?
-      RESTServerRoute.REST_SCAN_AND_PAY_PAYMENT_METHOD_SETUP : RESTServerRoute.REST_SCAN_AND_PAY_PAYMENT_METHOD_ATTACH;
+    const urlPattern = RESTServerRoute.REST_SCAN_PAY_PAYMENT_INTENT_SETUP;
     // Execute the REST service
     return this.httpClient.post<BillingOperationResult>(this.buildUtilRestEndpointUrl(urlPattern), {
-      Subdomain: this.windowService.getSubdomain(),
+      subdomain: this.windowService.getSubdomain(),
       email: parameters.email,
       firstName: parameters.firstName,
       name: parameters.name,

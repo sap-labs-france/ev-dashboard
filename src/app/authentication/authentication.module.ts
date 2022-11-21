@@ -16,7 +16,7 @@ import { AuthenticationLoginComponent } from './login/authentication-login.compo
 import { AuthenticationMercedesDataUsageComponent } from './mercedes-data-usage/authentication-mercedes-data-usage.component';
 import { AuthenticationRegisterComponent } from './register/authentication-register.component';
 import { AuthenticationResetPasswordComponent } from './reset-password/authentication-reset-password.component';
-import { ScanPayStripePaymentMethodComponent } from './scan-pay/stripe/scan-pay-stripe-payment-method.component';
+import { ScanPayStripePaymentIntentComponent } from './scan-pay/stripe/scan-pay-stripe-payment-intent.component';
 import { AuthenticationVerifyEmailComponent } from './verify-email/authentication-verify-email.component';
 
 @NgModule({
@@ -39,7 +39,7 @@ import { AuthenticationVerifyEmailComponent } from './verify-email/authenticatio
     AuthenticationDefinePasswordComponent,
     AuthenticationVerifyEmailComponent,
     AccountOnboardingComponent,
-    ScanPayStripePaymentMethodComponent,
+    ScanPayStripePaymentIntentComponent,
     ScanPayEmailComponent
   ],
 })

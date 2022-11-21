@@ -1765,6 +1765,9 @@
       "payment_methods_card_number_error": "Numéro de carte invalide",
       "payment_methods_expiration_date_error": "Date d'expiration invalide",
       "payment_methods_cvc_error": "Code de vérification invalide",
+      "payment_intent_create_title": "Entrez vos détails de paiement",
+      "payment_intent_create_success": "Le moyen de paiement a été créé avec succès",
+      "payment_intent_create_error": "Une erreur est survenue lors de la création du moyen de paiement : {{stripeError}}",
       "transaction_billing_activation": "Activer la facturation",
       "transaction_billing_activation_title": "Activation de la facturation",
       "transaction_billing_activation_confirm": [

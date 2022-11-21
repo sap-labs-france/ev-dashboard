@@ -1765,6 +1765,9 @@
       "payment_methods_card_number_error": "Neplatné číslo karty",
       "payment_methods_expiration_date_error": "Neplatné datum vypršení platnosti",
       "payment_methods_cvc_error": "Neplatný ověřovací kód",
+      "payment_intent_create_title": "Enter your card details",
+      "payment_intent_create_success": "The payment method has been created successfully",
+      "payment_intent_create_error": "Error occurred while creating the payment method : {{stripeError}}",
       "transaction_billing_activation": "Billing Activation",
       "transaction_billing_activation_title": "Activate Billing of Transactions",
       "transaction_billing_activation_confirm": [

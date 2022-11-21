@@ -458,14 +458,20 @@ export abstract class TableDataSource<T extends TableData> {
               }
             });
             for (const tableColumnDef of this.tableColumnsDef) {
-              tableColumnDef.visible = data.projectFields.includes(tableColumnDef.id);
+              // If column visibility is not already set we use the project field
+              if(Utils.isNullOrUndefined(tableColumnDef.visible)) {
+                tableColumnDef.visible =  data.projectFields.includes(tableColumnDef.id);
+              }
             }
           // No projected fields, display all
           } else {
             for (const tableColumnDef of this.tableColumnsDef) {
               // Only if prop is not provided
               if (!Utils.objectHasProperty(tableColumnDef, 'visible')) {
-                tableColumnDef.visible = true;
+              // If column visibility is not already set we display it (project field is empty)
+                if(Utils.isNullOrUndefined(tableColumnDef.visible)) {
+                  tableColumnDef.visible = true;
+                }
               }
             }
           }
@@ -560,6 +566,8 @@ export abstract class TableDataSource<T extends TableData> {
 
   public initDataSource(force: boolean = false): void {
     // Init data from sub-classes
+    console.log('init', this.tableColumnsDef);
+
     this.initTableColumnDefs(force);
     this.initTableDef(force);
     this.initTableFiltersDef(force);

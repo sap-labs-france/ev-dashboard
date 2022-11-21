@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
+import { SettingAuthorizationActions } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { RestResponse } from '../../../types/GlobalType';
-import { HTTPError } from '../../../types/HTTPError';
 import { SmartChargingSettings, SmartChargingSettingsType } from '../../../types/Setting';
 import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
@@ -19,8 +19,9 @@ import { Utils } from '../../../utils/Utils';
 })
 export class SettingsSmartChargingComponent implements OnInit {
   public isActive = false;
-  public formGroup!: UntypedFormGroup;
+  public formGroup!: FormGroup;
   public smartChargingSettings!: SmartChargingSettings;
+  public authorizations: SettingAuthorizationActions;
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -35,7 +36,7 @@ export class SettingsSmartChargingComponent implements OnInit {
   public ngOnInit(): void {
     if (this.isActive) {
       // Build the form
-      this.formGroup = new UntypedFormGroup({});
+      this.formGroup = new FormGroup({});
       // Load the conf
       this.loadConfiguration();
     }
@@ -46,6 +47,11 @@ export class SettingsSmartChargingComponent implements OnInit {
     this.componentService.getSmartChargingSettings().subscribe({
       next: (settings) => {
         this.spinnerService.hide();
+        // Init auth
+        this.authorizations = {
+          canUpdate: Utils.convertToBoolean(settings.canUpdate),
+          canCheckSmartChargingConnection: Utils.convertToBoolean(settings.canCheckSmartChargingConnection)
+        };
         // Keep
         this.smartChargingSettings = settings;
         // Init form

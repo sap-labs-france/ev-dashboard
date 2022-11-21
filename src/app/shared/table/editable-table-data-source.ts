@@ -16,8 +16,8 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
   protected editableRows: T[] = [];
   protected tableChangedSubject: Subject<T[]> = new Subject<T[]>();
   protected refreshEvent = new EventEmitter<void>();
-  private addAction = new TableAddAction().getActionDef();
-  private deleteAction = new TableDeleteAction().getActionDef();
+  protected addAction = new TableAddAction().getActionDef();
+  protected deleteAction = new TableDeleteAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,

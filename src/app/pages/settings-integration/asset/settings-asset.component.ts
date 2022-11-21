@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormArray, UntypedFormGroup } from '@angular/forms';
+import { FormArray, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
+import { SettingAuthorizationActions } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { RestResponse } from '../../../types/GlobalType';
-import { HTTPError } from '../../../types/HTTPError';
 import { AssetSettings } from '../../../types/Setting';
 import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
@@ -22,10 +22,9 @@ import { SettingsAssetConnectionEditableTableDataSource } from './settings-asset
 })
 export class SettingsAssetComponent implements OnInit {
   public isActive = false;
-
-  public formGroup!: UntypedFormGroup;
-  public assetConnections!: UntypedFormArray;
-
+  public authorizations: SettingAuthorizationActions;
+  public formGroup!: FormGroup;
+  public assetConnections!: FormArray;
   public assetSettings!: AssetSettings;
 
   public constructor(
@@ -41,11 +40,11 @@ export class SettingsAssetComponent implements OnInit {
   public ngOnInit(): void {
     if (this.isActive) {
       // Build the form
-      this.formGroup = new UntypedFormGroup({
-        assetConnections: new UntypedFormArray([]),
+      this.formGroup = new FormGroup({
+        assetConnections: new FormArray([]),
       });
       // Form Controls
-      this.assetConnections = this.formGroup.controls['assetConnections'] as UntypedFormArray;
+      this.assetConnections = this.formGroup.controls['assetConnections'] as FormArray;
       // Assign connections form to data source
       this.assetConnectionListTableDataSource.setFormArray(this.assetConnections);
       // Load the conf
@@ -58,9 +57,16 @@ export class SettingsAssetComponent implements OnInit {
     this.componentService.getAssetSettings().subscribe({
       next: (settings) => {
         this.spinnerService.hide();
+        // Init Auth
+        this.authorizations = {
+          canUpdate: Utils.convertToBoolean(settings.canUpdate),
+          canCheckAssetConnection: Utils.convertToBoolean(settings.canCheckAssetConnection),
+        };
         // Keep
         this.assetSettings = settings;
-        // Set
+        // Set auth
+        this.assetConnectionListTableDataSource.setAuthorizations(this.authorizations);
+        // Set content
         this.assetConnectionListTableDataSource.setContent(this.assetSettings.asset.connections);
         // Init form
         this.formGroup.markAsPristine();

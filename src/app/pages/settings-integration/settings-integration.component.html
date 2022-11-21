@@ -2,7 +2,7 @@
   <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex" animationDuration="0ms"
     disableRipple="true" class="h-100 mat-tab-info">
 
-    <mat-tab>
+    <mat-tab *ngIf="canListOCPIEndpoints">
       <ng-template mat-tab-label>
         <mat-icon>cloud</mat-icon><span>{{'settings.tabs.ocpi' | translate}}</span>
       </ng-template>
@@ -11,7 +11,7 @@
       </ng-template>
     </mat-tab>
 
-    <mat-tab>
+    <mat-tab *ngIf="canListOICPEndpoints">
       <ng-template mat-tab-label>
         <mat-icon>cloud</mat-icon><span>{{'settings.tabs.oicp' | translate}}</span>
       </ng-template>

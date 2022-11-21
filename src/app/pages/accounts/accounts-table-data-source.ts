@@ -147,13 +147,13 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
 
   public loadDataImpl(): Observable<DataResult<BillingAccount>> {
     return new Observable((observer) => {
-      this.createAction.visible = true;
       this.componentService.getBillingAccounts(
         this.getPaging(),
         this.getSorting()
       ).subscribe({
         next: (accounts) => {
-          this.accounts = accounts;
+          this.createAction.visible = Utils.convertToBoolean(accounts.canCreate);
+          this.accounts = accounts.result;
           observer.next({
             count: this.accounts.length,
             result: this.accounts,

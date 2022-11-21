@@ -317,9 +317,9 @@ export interface LogsAuthorizationActions extends AuthorizationActions {
   canExport?: boolean;
 }
 
-export interface BillingAccountAuthorizations extends AuthorizationAttributes, BillingInvoicesAuthorizationActions {
+export interface BillingAccountsAuthorizations extends DataResultAuthorizationActions {
+  canListUsers?: boolean;
 }
-
 export interface BillingInvoicesAuthorizations extends AuthorizationAttributes, BillingInvoicesAuthorizationActions {
 }
 
@@ -434,6 +434,20 @@ export interface TransactionAuthorizationActions extends AuthorizationActions {
   canExportOcpiCdr?: boolean;
   canListLogs?: boolean;
   canReadChargingStation?: boolean;
+}
+
+export interface SettingsAuthorizations extends AuthorizationAttributes, SettingsAuthorizationActions {
+}
+
+export interface SettingsAuthorizationActions extends DataResultAuthorizationActions {
+}
+
+export interface SettingAuthorizationActions extends AuthorizationActions {
+  canSyncRefund?: boolean;
+  canCheckBillingConnection?: boolean;
+  canActivateBilling?: boolean;
+  canCheckSmartChargingConnection?: boolean;
+  canCheckAssetConnection?: boolean;
 }
 
 export enum DialogMode {

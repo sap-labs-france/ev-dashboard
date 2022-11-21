@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.7.5',
+        date: new Date('2022-11-21'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              'Authorizations - Migrated settings endpoint to the new authorization framework',
+              'MongoDB - K8S Configuration Flexibility - minimal pool size and maximal pool size can be defined per server'
+            ],
+          },
+        ],
+      },
+      {
         version: '2.7.4',
         date: new Date('2022-11-02'),
         componentChanges: [

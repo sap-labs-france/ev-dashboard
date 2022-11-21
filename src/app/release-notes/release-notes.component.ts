@@ -33,6 +33,7 @@ export class ReleaseNotesComponent {
               'Security - Libraries have been updated to address security issues and avoid vulnerabilities',
               'Billing - STRIPE - Code cleanup to avoid using deprecated methods',
               'Billing - improvement - Some code reorganization for a better abstraction of the underlying implementation',
+              'Pricing - UI improvements - Editing/Deleting pricing definitions is now also possible when viewing the full list',
               'Authorizations - fix - Authorization check on start charging session has been fixed',
               'Authorizations - fix - Assignment of site admin and site owner roles',
               'Authorizations - fix - Admin can refund charging sessions when being site owner',

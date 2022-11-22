@@ -25,6 +25,8 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
   public siteAreaID: string;
   public name: string;
   public firstName: string;
+  public chargingStationID: string;
+  public connectorID: number;
   // Stripe elements
   public elements: StripeElements;
   public paymentElement: StripePaymentElement;
@@ -48,13 +50,15 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
     this.siteAreaID = this.windowService.getUrlParameterValue('siteAreaID');
     this.name = this.windowService.getUrlParameterValue('name');
     this.firstName = this.windowService.getUrlParameterValue('firstName');
+    this.chargingStationID = this.windowService.getUrlParameterValue('chargingStationID');
+    this.connectorID = +this.windowService.getUrlParameterValue('connectorID');
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.locale = locale.currentLocaleJS;
     });
   }
 
   public linkCardToAccount() {
-    void this.doCreatePaymentIntent();
+    void this.doConfirmPaymentIntent();
   }
 
   private async initialize(): Promise<void> {
@@ -89,7 +93,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
     this.paymentElement.mount('#payment-element');
   }
 
-  private async doCreatePaymentIntent() {
+  private async doConfirmPaymentIntent(): Promise<void> {
     try {
       // Step #2 - Confirm the STRIPE Payment Intent to carry out 3DS authentication (redirects to the bank authentication page)
       const operationResult: PaymentIntentResult = await this.getStripeFacade().confirmPayment({
@@ -101,6 +105,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
         this.messageService.showErrorMessage('settings.billing.payment_intent_create_error', { stripeError: operationResult.error.message });
       } else {
         // Operation succeeded
+        const toto = await this.retrievePaymentIntentAndStartTransaction();
         this.messageService.showSuccessMessage('settings.billing.payment_intent_create_success');
       }
     } catch (error) {
@@ -111,7 +116,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
   private async createPaymentIntent() {
     try {
       this.spinnerService.show();
-      const response = await this.centralServerService.scanPaySetupPaymentIntent({
+      const response = await this.centralServerService.scanPayHandlePaymentIntent({
         email: this.email,
         firstName: this.firstName,
         name: this.name,
@@ -119,7 +124,25 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
         locale: this.locale,
       }).toPromise();
       return response?.internalData;
-      // return response;
+    } finally {
+      this.spinnerService.hide();
+    }
+  }
+
+  private async retrievePaymentIntentAndStartTransaction() {
+    try {
+      this.spinnerService.show();
+      const response = await this.centralServerService.scanPayHandlePaymentIntent({
+        email: this.email,
+        firstName: this.firstName,
+        name: this.name,
+        siteAreaID: this.siteAreaID,
+        locale: this.locale,
+        paymentIntentID: this.paymentIntent?.id,
+        chargingStationID: this.chargingStationID,
+        connectorID: this.connectorID
+      }).toPromise();
+      return response?.internalData;
     } finally {
       this.spinnerService.hide();
     }

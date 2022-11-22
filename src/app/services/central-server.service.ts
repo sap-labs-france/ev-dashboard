@@ -1617,10 +1617,11 @@ export class CentralServerService {
     );
   }
 
-  public scanPaySetupPaymentIntent(parameters: any): Observable<BillingOperationResult> {
+  public scanPayHandlePaymentIntent(parameters: any): Observable<BillingOperationResult> {
     this.checkInit();
     // Build the URL
-    const urlPattern = RESTServerRoute.REST_SCAN_PAY_PAYMENT_INTENT_SETUP;
+    const urlPattern: RESTServerRoute = (!parameters.paymentIntentID) ?
+      RESTServerRoute.REST_SCAN_PAY_PAYMENT_INTENT_SETUP : RESTServerRoute.REST_SCAN_PAY_PAYMENT_INTENT_RETRIEVE;
     // Execute the REST service
     return this.httpClient.post<BillingOperationResult>(this.buildUtilRestEndpointUrl(urlPattern), {
       subdomain: this.windowService.getSubdomain(),
@@ -1629,7 +1630,9 @@ export class CentralServerService {
       name: parameters.name,
       siteAreaID: parameters.siteAreaID,
       locale: parameters.locale,
-      paymentIntentID: parameters.paymentIntentID
+      paymentIntentID: parameters.paymentIntentID,
+      chargingStationID: parameters.chargingStationID,
+      connectorID: parameters.connectorID
     }, {
       headers: this.buildHttpHeaders(),
     }).pipe(

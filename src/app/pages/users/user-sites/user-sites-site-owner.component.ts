@@ -7,24 +7,25 @@ import { MessageService } from '../../../services/message.service';
 import { CellContentTemplateDirective } from '../../../shared/table/cell-content-template/cell-content-template.directive';
 import { RestResponse } from '../../../types/GlobalType';
 import { UserSite } from '../../../types/Site';
-import { User, UserToken } from '../../../types/User';
+import { User, UserRole, UserToken } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
   template: `
     <div class="d-flex justify-content-center">
       <mat-checkbox class="mx-auto"
-        [checked]="(row.siteOwner ? row.siteOwner : false)"
-        [disabled]="(!loggedUser.sitesAdmin.includes(row.site.id) && loggedUser.role !== 'A')"
+        [checked]="row?.siteOwner"
+        [disabled]="(!isSiteAdmin && loggedUser.role !== UserRole.ADMIN) || columnDef.disabled"
         (change)="changeSiteOwner($event)">
       </mat-checkbox>
     </div>`
 })
-
-export class UserSitesOwnerRadioComponent extends CellContentTemplateDirective implements OnInit {
+export class UserSitesSiteOwnerComponent extends CellContentTemplateDirective implements OnInit {
   @Input() public row!: UserSite;
   public loggedUser: UserToken;
   public user: User;
+  public isSiteAdmin: boolean;
+  public readonly UserRole = UserRole;
 
   public constructor(
     private messageService: MessageService,
@@ -35,9 +36,8 @@ export class UserSitesOwnerRadioComponent extends CellContentTemplateDirective i
   }
 
   public ngOnInit(): void {
-    this.centralServerService.getUser(this.row.userID).subscribe((user) => {
-      this.user = user;
-    });
+    this.user = this.columnDef.additionalParameters.user;
+    this.isSiteAdmin = this.loggedUser.sitesAdmin.includes(this.row.site.id);
   }
 
   public changeSiteOwner(matCheckboxChange: MatCheckboxChange) {

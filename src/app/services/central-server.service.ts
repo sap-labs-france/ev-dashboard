@@ -879,14 +879,15 @@ export class CentralServerService {
       );
   }
 
-  public getUserSessionContext(userID: string, chargingStationID: string): Observable<UserSessionContext> {
+  public getUserSessionContext(userID: string, chargingStationID: string, connectorID: number): Observable<UserSessionContext> {
     // Verify init
     this.checkInit();
     return this.httpClient.get<UserSessionContext>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_SESSION_CONTEXT, { id: userID } ),
       {
         headers: this.buildHttpHeaders(),
         params: {
-          ChargingStationID: chargingStationID
+          ChargingStationID: chargingStationID,
+          ConnectorID: connectorID
         }
       })
       .pipe(

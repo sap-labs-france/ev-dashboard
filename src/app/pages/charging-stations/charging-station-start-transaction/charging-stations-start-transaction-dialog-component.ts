@@ -16,7 +16,7 @@ import { CarsDialogComponent } from '../../../shared/dialogs/cars/cars-dialog.co
 import { TagsDialogComponent } from '../../../shared/dialogs/tags/tags-dialog.component';
 import { UsersDialogComponent } from '../../../shared/dialogs/users/users-dialog.component';
 import { TenantComponents } from '../../../types/Tenant';
-import { StartTransaction, StartTransactionErrorCode } from '../../../types/Transaction';
+import { StartTransaction, StartTransactionDialogData, StartTransactionErrorCode } from '../../../types/Transaction';
 import { User, UserSessionContext, UserToken } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 
@@ -26,6 +26,7 @@ import { Utils } from '../../../utils/Utils';
 export class ChargingStationsStartTransactionDialogComponent implements OnInit {
   public title = '';
   public chargingStationID = '';
+  public connectorID = null;
   public isCarComponentActive: boolean;
   public selectedUser!: User;
   public selectedTag!: Tag;
@@ -53,12 +54,13 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
     private componentService: ComponentService,
     private centralServerService: CentralServerService,
     private dialogRef: MatDialogRef<ChargingStationsStartTransactionDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: DialogParamsWithAuth<ChargingStation, ChargingStationsAuthorizations> ) {
+    @Inject(MAT_DIALOG_DATA) data: DialogParamsWithAuth<StartTransactionDialogData, ChargingStationsAuthorizations> ) {
     // Set
-    this.title = translateService.instant('chargers.start_transaction_details_title', { chargeBoxID: data.dialogData.id });
-    this.chargingStationID = data.dialogData.id;
+    this.title = translateService.instant('chargers.start_transaction_details_title', { chargeBoxID: data.dialogData.chargingStation.id });
+    this.chargingStationID = data.dialogData.chargingStation.id;
+    this.connectorID = data.dialogData.connector.connectorId;
     this.loggedUser = this.centralServerService.getLoggedUser();
-    this.canListUsers = data.dialogData.canListUsers;
+    this.canListUsers = data.dialogData.chargingStation.canListUsers;
     this.isCarComponentActive = this.componentService.isActive(TenantComponents.CAR);
     Utils.registerValidateCloseKeyEvents(this.dialogRef,
       this.startTransaction.bind(this), this.cancel.bind(this));
@@ -111,7 +113,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
   public loadUserSessionContext() {
     if (this.userID.value) {
       this.spinnerService.show();
-      this.centralServerService.getUserSessionContext(this.userID.value, this.chargingStationID).subscribe({
+      this.centralServerService.getUserSessionContext(this.userID.value, this.chargingStationID, this.connectorID).subscribe({
         next: (userSessionContext: UserSessionContext) => {
           this.spinnerService.hide();
           // Set Tag

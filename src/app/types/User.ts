@@ -3,10 +3,9 @@ import { UserAuthorizationActions } from './Authorization';
 import { BillingUserData } from './Billing';
 import { Car } from './Car';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
-import { PrioritizationParameters } from './Setting';
 import { TableData } from './Table';
 import { Tag } from './Tag';
-import { StartTransactionErrorCode } from './Transaction';
+import { SmartChargingSessionParameters, StartTransactionErrorCode } from './Transaction';
 
 export interface User extends TableData, CreatedUpdatedProps, UserAuthorizationActions {
   id: string;
@@ -75,7 +74,7 @@ export interface UserSessionContext {
   car?: Car;
   tag?: Tag;
   errorCodes?: StartTransactionErrorCode[];
-  prioritizationParameters?: PrioritizationParameters;
+  smartChargingSessionParameters?: SmartChargingSessionParameters;
 }
 
 export interface UserToken {

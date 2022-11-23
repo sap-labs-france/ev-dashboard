@@ -3,6 +3,7 @@ import { UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
+import { SettingAuthorizationActions } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
@@ -11,7 +12,6 @@ import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { TableSyncRefundTransactionsAction } from '../../../shared/table/actions/transactions/table-sync-refund-transactions-action';
 import { RestResponse } from '../../../types/GlobalType';
-import { HTTPError } from '../../../types/HTTPError';
 import { RefundSettings, RefundSettingsType } from '../../../types/Setting';
 import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
@@ -25,6 +25,8 @@ export class SettingsRefundComponent implements OnInit {
 
   public formGroup!: UntypedFormGroup;
   public refundSettings!: RefundSettings;
+  public authorizations: SettingAuthorizationActions;
+  private tableSyncRefundAction = new TableSyncRefundTransactionsAction().getActionDef();
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -52,6 +54,11 @@ export class SettingsRefundComponent implements OnInit {
     this.componentService.getRefundSettings().subscribe({
       next: (settings) => {
         this.spinnerService.hide();
+        // Init auth
+        this.authorizations = {
+          canUpdate: Utils.convertToBoolean(settings.canUpdate),
+          canSyncRefund: Utils.convertToBoolean(settings.canSyncRefund)
+        };
         // Keep
         this.refundSettings = settings;
         // Init form
@@ -107,9 +114,8 @@ export class SettingsRefundComponent implements OnInit {
   }
 
   public synchronize() {
-    const tableSyncRefundAction = new TableSyncRefundTransactionsAction().getActionDef();
-    if (tableSyncRefundAction.action) {
-      tableSyncRefundAction.action(
+    if (this.tableSyncRefundAction.action) {
+      this.tableSyncRefundAction.action(
         this.dialogService,
         this.translateService,
         this.messageService,

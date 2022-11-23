@@ -1,27 +1,31 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Router } from '@angular/router';
+import { Site } from 'types/Site';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { MessageService } from '../../../../services/message.service';
 import { CellContentTemplateDirective } from '../../../../shared/table/cell-content-template/cell-content-template.directive';
 import { RestResponse } from '../../../../types/GlobalType';
-import { SiteUser, UserToken } from '../../../../types/User';
+import { SiteUser, UserRole, UserToken } from '../../../../types/User';
 import { Utils } from '../../../../utils/Utils';
 
 @Component({
   template: `
     <div class="d-flex justify-content-center">
       <mat-checkbox class="mx-auto"
-        [checked]="(row.siteAdmin ? row.siteAdmin : false)"
-        [disabled]="(!loggedUser.sitesAdmin.includes(row.siteID) && loggedUser.role !== 'A')"
+        [checked]="row?.siteAdmin || row?.user?.role === UserRole.ADMIN"
+        [disabled]="(!isSiteAdmin && loggedUser.role !== UserRole.ADMIN) || columnDef.disabled || row?.user?.role === UserRole.ADMIN"
         (change)="changeSiteAdmin($event)">
       </mat-checkbox>
     </div>`,
 })
-export class SiteUsersAdminCheckboxComponent extends CellContentTemplateDirective {
+export class SiteUsersSiteAdminComponent extends CellContentTemplateDirective implements OnInit {
   @Input() public row!: SiteUser;
   public loggedUser: UserToken;
+  public site: Site;
+  public isSiteAdmin: boolean;
+  public readonly UserRole = UserRole;
 
   public constructor(
     private messageService: MessageService,
@@ -29,6 +33,11 @@ export class SiteUsersAdminCheckboxComponent extends CellContentTemplateDirectiv
     private router: Router) {
     super();
     this.loggedUser = centralServerService.getLoggedUser();
+  }
+
+  public ngOnInit(): void {
+    this.site = this.columnDef.additionalParameters.site;
+    this.isSiteAdmin = this.loggedUser.sitesAdmin.includes(this.site.id);
   }
 
   public changeSiteAdmin(matCheckboxChange: MatCheckboxChange) {

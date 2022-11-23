@@ -18,9 +18,9 @@ import { AppUserStatusPipe } from './formatters/user-status.pipe';
 import { UsersInErrorTableDataSource } from './in-error/users-in-error-table-data-source';
 import { UsersInErrorComponent } from './in-error/users-in-error.component';
 import { UsersListComponent } from './list/users-list.component';
-import { UserSitesAdminCheckboxComponent } from './user-sites/user-sites-admin-checkbox.component';
 import { UserSitesDialogComponent } from './user-sites/user-sites-dialog.component';
-import { UserSitesOwnerRadioComponent } from './user-sites/user-sites-owner-radio.component';
+import { UserSitesSiteAdminComponent } from './user-sites/user-sites-site-admin.component';
+import { UserSitesSiteOwnerComponent } from './user-sites/user-sites-site-owner.component';
 import { UserSitesTableDataSource } from './user-sites/user-sites-table-data-source';
 import { UserMercedesCarConnectorComponent } from './user/connectors/car/mercedes/user-mercedes-car-connector.component';
 import { UserConcurRefundConnectorComponent } from './user/connectors/refund/concur/user-concur-refund-connector.component';
@@ -67,12 +67,12 @@ import { UserRoutes } from './users.routing';
     UserMiscsComponent,
     UserDialogComponent,
     UserSitesDialogComponent,
-    UserSitesAdminCheckboxComponent,
+    UserSitesSiteAdminComponent,
     ConcurUserConnectionComponent,
     MercedesUserConnectionComponent,
     AppUserRolePipe,
     AppUserStatusPipe,
-    UserSitesOwnerRadioComponent,
+    UserSitesSiteOwnerComponent,
     StripePaymentMethodComponent,
     PaymentMethodsComponent,
     PaymentMethodDialogComponent,

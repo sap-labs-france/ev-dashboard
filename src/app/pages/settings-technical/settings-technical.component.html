@@ -1,7 +1,7 @@
 <div class="main-content">
   <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex" animationDuration="0ms"
     disableRipple="true" class="h-100 mat-tab-info">
-    <mat-tab>
+    <mat-tab *ngIf="canReadTenant">
       <ng-template mat-tab-label>
         <mat-icon>business</mat-icon><span>{{'technical_settings.tabs.organization' | translate}}</span>
       </ng-template>

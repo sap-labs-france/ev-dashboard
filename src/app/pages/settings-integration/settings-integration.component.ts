@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CentralServerService } from 'services/central-server.service';
 
+import { AuthorizationService } from '../../services/authorization.service';
 import { ComponentService } from '../../services/component.service';
 import { WindowService } from '../../services/window.service';
 import { AbstractTabComponent } from '../../shared/component/abstract-tab/abstract-tab.component';
@@ -24,9 +24,12 @@ export class SettingsIntegrationComponent extends AbstractTabComponent {
   public isSmartChargingActive = false;
   public isAssetActive = false;
   public isCarConnectorActive = false;
+  public canListOCPIEndpoints: boolean;
+  public canListOICPEndpoints: boolean;
 
   public constructor(
     private componentService: ComponentService,
+    private authorizationService: AuthorizationService,
     activatedRoute: ActivatedRoute,
     windowService: WindowService,
   ) {
@@ -41,5 +44,7 @@ export class SettingsIntegrationComponent extends AbstractTabComponent {
     this.isSmartChargingActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
     this.isAssetActive = this.componentService.isActive(TenantComponents.ASSET);
     this.isCarConnectorActive = this.componentService.isActive(TenantComponents.CAR_CONNECTOR);
+    this.canListOCPIEndpoints = this.authorizationService.canListOcpiEndpoint();
+    this.canListOICPEndpoints = this.authorizationService.canListOicpEndpoint();
   }
 }

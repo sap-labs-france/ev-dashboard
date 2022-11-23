@@ -1,15 +1,15 @@
-import { ButtonAction, ButtonActionColor } from '../../../../types/GlobalType';
+import { ButtonAction } from '../../../../types/GlobalType';
 import { TableActionDef } from '../../../../types/Table';
-import { TableAction } from './../table-action';
+import { TableAction } from '../table-action';
 
-export class TablePricingOverviewAction implements TableAction {
+export class TablePricingViewAllAction implements TableAction {
   private action: TableActionDef = {
-    id: ButtonAction.OVERVIEW,
+    id: ButtonAction.VIEW_ALL,
     type: 'slide',
     currentValue: false,
     visible: true,
-    name: 'transactions.dialog.session.pricing-detail-view-all',
-    tooltip: 'transactions.dialog.session.pricing-detail-view-all',
+    name: 'transactions.dialog.session.pricing_detail_view_all',
+    tooltip: 'transactions.dialog.session.pricing_detail_view_all',
   };
 
   public constructor(

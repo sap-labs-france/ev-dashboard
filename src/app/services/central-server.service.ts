@@ -33,7 +33,7 @@ import { StatisticData } from '../types/Statistic';
 import { Tag } from '../types/Tag';
 import { Tenant } from '../types/Tenant';
 import { OcpiData, Transaction } from '../types/Transaction';
-import { User, UserDefaultTagCar, UserToken } from '../types/User';
+import { User, UserSessionContext, UserToken } from '../types/User';
 import { Constants } from '../utils/Constants';
 import { Utils } from '../utils/Utils';
 import { ConfigService } from './config.service';
@@ -879,14 +879,15 @@ export class CentralServerService {
       );
   }
 
-  public getUserDefaultTagCar(userID: string, chargingStationID: string): Observable<UserDefaultTagCar> {
+  public getUserSessionContext(userID: string, chargingStationID: string, connectorID: number): Observable<UserSessionContext> {
     // Verify init
     this.checkInit();
-    return this.httpClient.get<UserDefaultTagCar>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_DEFAULT_TAG_CAR, { id: userID } ),
+    return this.httpClient.get<UserSessionContext>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_SESSION_CONTEXT, { id: userID } ),
       {
         headers: this.buildHttpHeaders(),
         params: {
-          ChargingStationID: chargingStationID
+          ChargingStationID: chargingStationID,
+          ConnectorID: connectorID
         }
       })
       .pipe(

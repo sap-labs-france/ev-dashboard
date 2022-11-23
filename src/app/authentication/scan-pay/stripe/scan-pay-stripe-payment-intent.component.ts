@@ -122,6 +122,8 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
         name: this.name,
         siteAreaID: this.siteAreaID,
         locale: this.locale,
+        chargingStationID: this.chargingStationID,
+        connectorID: this.connectorID
       }).toPromise();
       return response?.internalData;
     } finally {

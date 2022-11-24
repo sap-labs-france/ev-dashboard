@@ -3,6 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { WindowService } from 'services/window.service';
+import { SettingAuthorizationActions } from 'types/Authorization';
 
 import { DialogService } from '../../../../services/dialog.service';
 import { SpinnerService } from '../../../../services/spinner.service';
@@ -22,6 +23,7 @@ import { AnalyticsLinkDialogComponent } from './analytics-link-dialog.component'
 @Injectable()
 export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> {
   public changed = new EventEmitter<boolean>();
+  private authorizations: SettingAuthorizationActions;
   private analyticsLinks!: SettingLink[];
   private editAction = new TableEditAction().getActionDef();
   private openURLAction = new TableOpenURLAction().getActionDef();
@@ -48,9 +50,13 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
     return this.analyticsLinks;
   }
 
+  public setAuthorizations(authorizations: SettingAuthorizationActions) {
+    this.authorizations = authorizations;
+  }
+
   public loadDataImpl(): Observable<DataResult<SettingLink>> {
     return new Observable((observer) => {
-      this.createAction.visible = true;
+      this.createAction.visible = this.authorizations.canUpdate;
       if (this.analyticsLinks) {
         this.analyticsLinks.sort((a, b) => (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0);
         const links = [];
@@ -85,6 +91,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
         enabled: false,
       },
       rowFieldNameIdentifier: 'url',
+      hasDynamicRowAction: true
     };
   }
 
@@ -130,12 +137,18 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
     ];
   }
 
-  public buildTableRowActions(): TableActionDef[] {
-    return [
-      this.editAction,
-      this.openURLAction,
-      this.deleteAction,
-    ];
+  public buildTableDynamicRowActions(row: SettingLink): TableActionDef[] {
+    // We are using global settings authorizations
+    const tableActionDef: TableActionDef[] = [];
+    if(this.authorizations.canUpdate) {
+      tableActionDef.push(this.editAction);
+    }
+    tableActionDef.push(this.openURLAction);
+    // We are using the UPDATE for the delete setting link action
+    if(this.authorizations.canUpdate) {
+      tableActionDef.push(this.deleteAction);
+    }
+    return tableActionDef;
   }
 
   public actionTriggered(actionDef: TableActionDef) {

@@ -411,6 +411,7 @@ export enum ServerAction {
   USER_DELETE = 'UserDelete',
   USER_UPDATE = 'UserUpdate',
   USER_UPDATE_MOBILE_TOKEN = 'UpdateUserMobileToken',
+  USER_UPDATE_MOBILE_DATA = 'UpdateUserMobileData',
   USERS = 'Users',
   USER_SITES = 'UserSites',
   USERS_IN_ERROR = 'UsersInError',
@@ -463,6 +464,7 @@ export enum ServerAction {
   BILLING_TRANSFER_PREPARE = 'BillingTransferPrepare',
   BILLING_TRANSFER_FINALIZE = 'BillingTransferFinalize',
   BILLING_TRANSFER_SEND = 'BillingTransferSend',
+  BILLING_TRANSFER_DISPATCH_FUNDS = 'BillingTransferDispatchFunds',
 
   PRICING = 'Pricing',
   PRICING_DEFINITION = 'PricingDefinition',
@@ -561,9 +563,10 @@ export enum RESTServerRoute {
 
   REST_USERS = 'users',
   REST_USER = 'users/:id',
-  REST_USER_DEFAULT_TAG_CAR = 'users/:id/default-car-tag',
+  REST_USER_SESSION_CONTEXT= 'users/:id/session-context',
   REST_USER_SITES = 'users/:id/sites',
   REST_USER_UPDATE_MOBILE_TOKEN = 'users/:id/mobile-token',
+  REST_USER_UPDATE_MOBILE_DATA = 'users/:id/mobile-data',
   REST_USER_IMAGE = 'users/:id/image',
   REST_USERS_IN_ERROR = 'users/status/in-error',
   REST_USERS_IMPORT = 'users/action/import',
@@ -714,8 +717,7 @@ export enum RESTServerRoute {
   REST_BILLING_TRANSFERS = 'billing/transfers',
   REST_BILLING_TRANSFER_FINALIZE = 'billing/transfers/:id/finalize',
   REST_BILLING_TRANSFER_SEND = 'billing/transfers/:id/send',
-  REST_BILLING_DOWNLOAD_TRANSFER = 'tranfers/:transferID/download',
-
+  REST_BILLING_TRANSFER_DOWNLOAD_INVOICE = 'billing/transfers/:id/invoice/download',
 
   // PRICING URLs for Non-CRUD operations
   REST_PRICING_MODEL_RESOLVE = 'pricing-model/resolve',

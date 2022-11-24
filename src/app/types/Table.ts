@@ -176,6 +176,7 @@ export interface TableColumnDef {
   defaultValue?: any;
   additionalParameters?: any;
   visible?: boolean;
+  disabled?: boolean;
 }
 
 export interface TableSearch {

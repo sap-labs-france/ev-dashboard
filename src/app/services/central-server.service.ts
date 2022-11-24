@@ -33,7 +33,7 @@ import { StatisticData } from '../types/Statistic';
 import { Tag } from '../types/Tag';
 import { Tenant } from '../types/Tenant';
 import { OcpiData, Transaction } from '../types/Transaction';
-import { User, UserDefaultTagCar, UserToken } from '../types/User';
+import { User, UserSessionContext, UserToken } from '../types/User';
 import { Constants } from '../utils/Constants';
 import { Utils } from '../utils/Utils';
 import { ConfigService } from './config.service';
@@ -879,14 +879,15 @@ export class CentralServerService {
       );
   }
 
-  public getUserDefaultTagCar(userID: string, chargingStationID: string): Observable<UserDefaultTagCar> {
+  public getUserSessionContext(userID: string, chargingStationID: string, connectorID: number): Observable<UserSessionContext> {
     // Verify init
     this.checkInit();
-    return this.httpClient.get<UserDefaultTagCar>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_DEFAULT_TAG_CAR, { id: userID } ),
+    return this.httpClient.get<UserSessionContext>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_SESSION_CONTEXT, { id: userID } ),
       {
         headers: this.buildHttpHeaders(),
         params: {
-          ChargingStationID: chargingStationID
+          ChargingStationID: chargingStationID,
+          ConnectorID: connectorID
         }
       })
       .pipe(
@@ -1762,9 +1763,9 @@ export class CentralServerService {
     );
   }
 
-  public refreshBillingAccount(accountID: string): Observable<BillingAccount> {
+  public refreshBillingAccount(tenantID: string, accountID: string): Observable<BillingAccount> {
     this.checkInit();
-    const params: { [param: string]: string } = { TenantID: this.currentUser?.tenantID };
+    const params: { [param: string]: string } = { TenantID: tenantID };
     const url = this.buildUtilRestEndpointUrl(RESTServerRoute.REST_BILLING_ACCOUNT_REFRESH, { id: accountID });
     return this.httpClient.patch<ActionResponse>(url, params, {
       headers: this.buildHttpHeaders(),
@@ -1773,9 +1774,9 @@ export class CentralServerService {
     );
   }
 
-  public activateBillingAccount(accountID: string): Observable<BillingAccount> {
+  public activateBillingAccount(tenantID: string, accountID: string): Observable<BillingAccount> {
     this.checkInit();
-    const params: { [param: string]: string } = { TenantID: this.currentUser?.tenantID };
+    const params: { [param: string]: string } = { TenantID: tenantID };
     const url = this.buildUtilRestEndpointUrl(RESTServerRoute.REST_BILLING_ACCOUNT_ACTIVATE, { id: accountID });
     return this.httpClient.patch<ActionResponse>(url, params, {
       headers: this.buildHttpHeaders(),
@@ -1826,8 +1827,8 @@ export class CentralServerService {
     if (!transferID) {
       return EMPTY;
     }
-    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_DOWNLOAD_TRANSFER, {
-      transferID
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_TRANSFER_DOWNLOAD_INVOICE, {
+      id: transferID
     });
     return this.httpClient.get(url,
       {
@@ -3520,7 +3521,7 @@ export class CentralServerService {
   }
 
   public buildImportTagsUsersHttpHeaders(
-    autoActivateUserAtImport?: string, autoActivateTagAtImport?: string): { name: string; value: string }[] {
+    autoActivateUserAtImport?: boolean, autoActivateTagAtImport?: boolean): { name: string; value: string }[] {
     // Build File Header
     return [
       {
@@ -3529,11 +3530,11 @@ export class CentralServerService {
       },
       {
         name: 'autoActivateUserAtImport',
-        value: autoActivateUserAtImport
+        value: autoActivateUserAtImport.toString()
       },
       {
         name: 'autoActivateTagAtImport',
-        value: autoActivateTagAtImport
+        value: autoActivateTagAtImport.toString()
       },
     ];
   }

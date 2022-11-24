@@ -19,8 +19,8 @@ import { Site } from '../../../../types/Site';
 import { TableActionDef, TableColumnDef, TableDataSourceMode, TableDef } from '../../../../types/Table';
 import { SiteUser, User } from '../../../../types/User';
 import { Utils } from '../../../../utils/Utils';
-import { SiteUsersAdminCheckboxComponent } from './site-users-admin-checkbox.component';
-import { SiteUsersOwnerRadioComponent } from './site-users-owner-radio.component';
+import { SiteUsersSiteAdminComponent } from './site-users-site-admin.component';
+import { SiteUsersSiteOwnerComponent } from './site-users-site-owner.component';
 
 @Injectable()
 export class SiteUsersTableDataSource extends TableDataSource<SiteUser> {
@@ -41,7 +41,7 @@ export class SiteUsersTableDataSource extends TableDataSource<SiteUser> {
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<DataResult<SiteUser>> {
+  public loadDataImpl(requestNumberOfRecords: boolean): Observable<DataResult<SiteUser>> {
     return new Observable((observer) => {
       // Site data provided?
       if (this.site) {
@@ -49,20 +49,26 @@ export class SiteUsersTableDataSource extends TableDataSource<SiteUser> {
         this.centralServerService.getSiteUsers(
           { ...this.buildFilterValues(), SiteID: this.site.id },
           this.getPaging(), this.getSorting()
-        ).subscribe((siteUser) => {
-          // Initialize siteUsers authorization
-          this.siteUsersAuthorization = {
-            // Authorization actions
-            canUpdateSiteUsers: Utils.convertToBoolean(siteUser.canUpdateSiteUsers)
-          };
-          this.setTableColumnDef(this.buildDynamicTableColumnDefs());
-          this.setTableDef(this.buildDynamicTableDef());
-          this.setTableActionDef(this.buildDynamicTableActionsDef());
-          observer.next(siteUser);
-          observer.complete();
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          observer.error(error);
+        ).subscribe({
+          next: (siteUser) => {
+            // Initialize siteUsers authorization
+            this.siteUsersAuthorization = {
+              // Authorization actions
+              canUpdateSiteUsers: Utils.convertToBoolean(siteUser.canUpdateSiteUsers)
+            };
+            // Don't override table def in case of number of record request
+            if (!requestNumberOfRecords) {
+              this.setTableColumnDef(this.buildDynamicTableColumnDefs());
+              this.setTableDef(this.buildDynamicTableDef());
+              this.setTableActionDef(this.buildDynamicTableActionsDef());
+            }
+            observer.next(siteUser);
+            observer.complete();
+          },
+          error: (error) => {
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+            observer.error(error);
+          }
         });
       } else {
         observer.next({
@@ -75,30 +81,7 @@ export class SiteUsersTableDataSource extends TableDataSource<SiteUser> {
   }
 
   public buildTableDef(): TableDef {
-    if (this.getMode() === TableDataSourceMode.READ_WRITE) {
-      return {
-        class: 'table-dialog-list',
-        rowFieldNameIdentifier: 'user.email',
-        rowSelection: {
-          enabled: false,
-          multiple: true,
-        },
-        search: {
-          enabled: true,
-        },
-      };
-    }
-    return {
-      class: 'table-dialog-list',
-      rowFieldNameIdentifier: 'user.email',
-      rowSelection: {
-        enabled: false,
-        multiple: false,
-      },
-      search: {
-        enabled: true,
-      },
-    };
+    return this.buildDynamicTableDef();
   }
 
   public buildDynamicTableDef(): TableDef {
@@ -156,21 +139,30 @@ export class SiteUsersTableDataSource extends TableDataSource<SiteUser> {
       {
         id: 'siteAdmin',
         isAngularComponent: true,
-        angularComponent: SiteUsersAdminCheckboxComponent,
+        angularComponent: SiteUsersSiteAdminComponent,
         name: 'sites.admin_role',
         headerClass: 'text-center',
         class: 'col-10p',
         visible: this.siteUsersAuthorization?.canUpdateSiteUsers,
+        disabled: this.getMode() !== TableDataSourceMode.READ_WRITE,
+        additionalParameters: {
+          site: this.site
+        }
       },
       {
         id: 'siteOwner',
         isAngularComponent: true,
-        angularComponent: SiteUsersOwnerRadioComponent,
+        angularComponent: SiteUsersSiteOwnerComponent,
         name: 'sites.owner_role',
         headerClass: 'text-center',
         class: 'col-10p',
         visible: this.siteUsersAuthorization?.canUpdateSiteUsers,
-      }];
+        disabled: this.getMode() !== TableDataSourceMode.READ_WRITE,
+        additionalParameters: {
+          site: this.site
+        }
+      }
+    ];
     return columns;
   }
 
@@ -246,20 +238,23 @@ export class SiteUsersTableDataSource extends TableDataSource<SiteUser> {
 
   private removeUsers(userIDs: string[]) {
     // Yes: Update
-    this.centralServerService.removeUsersFromSite(this.site.id, userIDs).subscribe((response) => {
-      // Ok?
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage(this.translateService.instant('sites.remove_users_success'));
-        // Refresh
-        this.refreshData().subscribe();
-        // Clear selection
-        this.clearSelectedRows();
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, this.translateService.instant('sites.remove_users_error'));
+    this.centralServerService.removeUsersFromSite(this.site.id, userIDs).subscribe({
+      next: (response) => {
+        // Ok?
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage(this.translateService.instant('sites.remove_users_success'));
+          // Refresh
+          this.refreshData().subscribe();
+          // Clear selection
+          this.clearSelectedRows();
+        } else {
+          Utils.handleError(JSON.stringify(response),
+            this.messageService, this.translateService.instant('sites.remove_users_error'));
+        }
+      },
+      error: (error) => {
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.remove_users_error');
       }
-    }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.remove_users_error');
     });
   }
 
@@ -268,20 +263,23 @@ export class SiteUsersTableDataSource extends TableDataSource<SiteUser> {
       // Get the IDs
       const userIDs = users.map((user) => user.key);
       // Yes: Update
-      this.centralServerService.addUsersToSite(this.site.id, userIDs).subscribe((response) => {
-        // Ok?
-        if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage(this.translateService.instant('sites.update_users_success'));
-          // Refresh
-          this.refreshData().subscribe();
-          // Clear selection
-          this.clearSelectedRows();
-        } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, this.translateService.instant('sites.update_users_error'));
+      this.centralServerService.addUsersToSite(this.site.id, userIDs).subscribe({
+        next: (response) => {
+          // Ok?
+          if (response.status === RestResponse.SUCCESS) {
+            this.messageService.showSuccessMessage(this.translateService.instant('sites.update_users_success'));
+            // Refresh
+            this.refreshData().subscribe();
+            // Clear selection
+            this.clearSelectedRows();
+          } else {
+            Utils.handleError(JSON.stringify(response),
+              this.messageService, this.translateService.instant('sites.update_users_error'));
+          }
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.update_users_error');
         }
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.update_users_error');
       });
     }
   }

@@ -2,7 +2,7 @@
   "name": "ev-dashboard",
   "description": "Dashboard for monitoring the EV Charging Infrastructure",
   "homepage": "https://github.com/sap-labs-france/ev-dashboard",
-  "version": "2.7.2",
+  "version": "2.7.5",
   "engines": {
     "node": "^16.15.x",
     "npm": "^8.11.x"

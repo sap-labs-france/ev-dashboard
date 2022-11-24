@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { SettingAuthorizationActions } from 'types/Authorization';
 
 import { SmartChargingSettings } from '../../../../types/Setting';
 import { Constants } from '../../../../utils/Constants';
@@ -9,10 +10,11 @@ import { Constants } from '../../../../utils/Constants';
   templateUrl: 'settings-sap-smart-charging.component.html',
 })
 export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
-  @Input() public formGroup!: UntypedFormGroup;
+  @Input() public formGroup!: FormGroup;
   @Input() public smartChargingSettings!: SmartChargingSettings;
+  @Input() public authorizations!: SettingAuthorizationActions;
 
-  public sapSmartCharging!: UntypedFormGroup;
+  public sapSmartCharging!: FormGroup;
   public optimizerUrl!: AbstractControl;
   public user!: AbstractControl;
   public password!: AbstractControl;
@@ -25,50 +27,28 @@ export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
   public defaultTargetStateOfCharge!: AbstractControl;
 
   public ngOnInit(): void {
-    this.sapSmartCharging = new UntypedFormGroup({
-      optimizerUrl: new UntypedFormControl('',
+    this.sapSmartCharging = new FormGroup({
+      optimizerUrl: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.pattern(Constants.URL_PATTERN),
         ]),
       ),
-      user: new UntypedFormControl('',
+      user: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.maxLength(100),
         ]),
       ),
-      password: new UntypedFormControl('',
+      password: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.maxLength(100),
         ]),
       ),
-      stickyLimitation: new UntypedFormControl(''),
-      limitBufferDC: new UntypedFormControl(''),
-      limitBufferAC: new UntypedFormControl(''),
-      usePrioritizationParameters: new UntypedFormControl(''),
-      defaultSessionTimeHours: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.min(1),
-          Validators.max(20),
-        ])
-      ),
-      defaultInitialStateOfCharge: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.min(1),
-          Validators.max(100),
-        ])
-      ),
-      defaultTargetStateOfCharge: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.min(1),
-          Validators.max(100),
-        ])
-      ),
+      stickyLimitation: new FormControl<boolean>(false),
+      limitBufferDC: new FormControl<number>(0),
+      limitBufferAC: new FormControl<number>(0),
     });
     // Add
     this.formGroup.addControl('sapSmartCharging', this.sapSmartCharging);
@@ -140,6 +120,12 @@ export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
       this.defaultTargetStateOfCharge.setValue(this.smartChargingSettings.sapSmartCharging.defaultTargetStateOfCharge ?
         this.smartChargingSettings.sapSmartCharging.defaultTargetStateOfCharge : 0);
       this.formGroup.markAsPristine();
+      // Read only
+      if(!this.authorizations.canUpdate) {
+        // Async call for letting the sub form groups to init
+        setTimeout(() => this.formGroup.disable(), 0);
+      }
+
     }
   }
 }

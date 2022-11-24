@@ -458,14 +458,21 @@ export abstract class TableDataSource<T extends TableData> {
               }
             });
             for (const tableColumnDef of this.tableColumnsDef) {
-              tableColumnDef.visible = data.projectFields.includes(tableColumnDef.id);
+              // If column visibility is not already set we use the project field
+              const isColumnIDInProjectedFields = data.projectFields.includes(tableColumnDef.id);
+              if (Utils.isNullOrUndefined(tableColumnDef.visible) || !isColumnIDInProjectedFields) {
+                tableColumnDef.visible = isColumnIDInProjectedFields;
+              }
             }
-          // No projected fields, display all
+            // No projected fields, display all
           } else {
             for (const tableColumnDef of this.tableColumnsDef) {
               // Only if prop is not provided
               if (!Utils.objectHasProperty(tableColumnDef, 'visible')) {
-                tableColumnDef.visible = true;
+                // If column visibility is not already set we display it (project field is empty)
+                if (Utils.isNullOrUndefined(tableColumnDef.visible)) {
+                  tableColumnDef.visible = true;
+                }
               }
             }
           }
@@ -535,7 +542,7 @@ export abstract class TableDataSource<T extends TableData> {
     // Set
     this.setStaticFilters(staticFilters);
     // Load data
-    this.loadDataImpl().pipe(first()).subscribe((data) => {
+    this.loadDataImpl(true).pipe(first()).subscribe((data) => {
       this.setTotalNumberOfRecords(data.count);
       this.tableFooterStats = this.buildTableFooterStats(data);
       // Loading ended
@@ -560,6 +567,8 @@ export abstract class TableDataSource<T extends TableData> {
 
   public initDataSource(force: boolean = false): void {
     // Init data from sub-classes
+    console.log('init', this.tableColumnsDef);
+
     this.initTableColumnDefs(force);
     this.initTableDef(force);
     this.initTableFiltersDef(force);
@@ -740,5 +749,5 @@ export abstract class TableDataSource<T extends TableData> {
 
   public abstract buildTableColumnDefs(): TableColumnDef[];
 
-  public abstract loadDataImpl(): Observable<DataResult<T>>;
+  public abstract loadDataImpl(requestNumberOfRecords?: boolean): Observable<DataResult<T>>;
 }

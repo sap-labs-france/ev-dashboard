@@ -160,7 +160,7 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-12 mb-2">
-            <mat-checkbox [checked]="cpoIsActive" (change)="enableDisableCPO($event.checked)">
+            <mat-checkbox [formControl]="cpoActive" (change)="enableDisableCPO($event.checked)">
               {{'ocpi.enable_cpo' | translate}}
             </mat-checkbox>
           </div>
@@ -171,10 +171,10 @@
               <mat-error *ngIf="cpoCountryCode.errors?.required">{{"general.mandatory_field"
                   | translate}}</mat-error>
               <mat-error *ngIf="cpoCountryCode.errors?.maxlength">
-                <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
+                <div [translate]="'general.error_max_length'" [translateParams]="{length: cpoCountryCode.errors?.maxlength.requiredLength}"></div>
               </mat-error>
               <mat-error *ngIf="cpoCountryCode.errors?.minlength">
-                <div [translate]="'general.error_min_length'" [translateParams]="{length: 2}"></div>
+                <div [translate]="'general.error_min_length'" [translateParams]="{length: cpoCountryCode.errors?.minlength.requiredLength}"></div>
               </mat-error>
             </mat-form-field>
           </div>
@@ -185,10 +185,10 @@
               <mat-error *ngIf="cpoPartyID.errors?.required">{{"general.mandatory_field"
                   | translate}}</mat-error>
               <mat-error *ngIf="cpoPartyID.errors?.maxlength">
-                <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
+                <div [translate]="'general.error_max_length'" [translateParams]="{length: cpoPartyID.errors?.maxlength.requiredLength}"></div>
               </mat-error>
               <mat-error *ngIf="cpoPartyID.errors?.minlength">
-                <div [translate]="'general.error_min_length'" [translateParams]="{length: 3}"></div>
+                <div [translate]="'general.error_min_length'" [translateParams]="{length: cpoPartyID.errors?.minlength.requiredLength}"></div>
               </mat-error>
             </mat-form-field>
           </div>
@@ -199,7 +199,7 @@
                 placeholder="{{'ocpi.tariff_id' | translate}}">
               <mat-error *ngIf="tariffID?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
               <mat-error *ngIf="tariffID?.errors?.maxlength">
-                <div [translate]="'general.error_max_length'" [translateParams]="{length: 36}"></div>
+                <div [translate]="'general.error_max_length'" [translateParams]="{length: tariffID.errors?.maxlength.requiredLength}"></div>
               </mat-error>
             </mat-form-field>
           </div>

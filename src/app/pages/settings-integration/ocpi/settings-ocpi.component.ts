@@ -20,18 +20,21 @@ import { Utils } from '../../../utils/Utils';
 })
 export class SettingsOcpiComponent implements OnInit {
   public isActive = false;
-  public emspIsActive: boolean;
   public authorizations: SettingAuthorizationActions;
 
   public formGroup!: UntypedFormGroup;
   public logoGroup!: UntypedFormGroup;
   public cpoGroup!: UntypedFormGroup;
+  public emspGroup!: UntypedFormGroup;
+
 
   public cpoCountryCode!: AbstractControl;
   public cpoPartyID!: AbstractControl;
   public cpoActive: AbstractControl;
   public emspCountryCode!: AbstractControl;
   public emspPartyID!: AbstractControl;
+  public emspActive: AbstractControl;
+
   public website!: AbstractControl;
 
   public name!: AbstractControl;
@@ -93,20 +96,6 @@ export class SettingsOcpiComponent implements OnInit {
               Validators.pattern(/^[0-9]*$/)),
           }),
         }),
-        emsp: new UntypedFormGroup({
-          countryCode: new UntypedFormControl('',
-            Validators.compose([
-              Validators.required,
-              Validators.maxLength(2),
-              Validators.minLength(2),
-            ])),
-          partyID: new UntypedFormControl('',
-            Validators.compose([
-              Validators.required,
-              Validators.maxLength(3),
-              Validators.minLength(3),
-            ])),
-        }),
         currency: new UntypedFormControl('',
           Validators.compose([
             Validators.required,
@@ -119,7 +108,9 @@ export class SettingsOcpiComponent implements OnInit {
           ]),
         ),
         cpoActive: new UntypedFormControl(false),
+        emspActive: new UntypedFormControl(false),
       });
+
       this.cpoGroup = new UntypedFormGroup({
         countryCode: new UntypedFormControl('',
           Validators.compose([
@@ -135,15 +126,32 @@ export class SettingsOcpiComponent implements OnInit {
           ])),
       });
 
+      this.emspGroup = new UntypedFormGroup({
+        countryCode: new UntypedFormControl('',
+          Validators.compose([
+            Validators.required,
+            Validators.maxLength(2),
+            Validators.minLength(2),
+          ])),
+        partyID: new UntypedFormControl('',
+          Validators.compose([
+            Validators.required,
+            Validators.maxLength(3),
+            Validators.minLength(3),
+          ])),
+      });
+
       this.formGroup.addControl('cpo', this.cpoGroup);
+      this.formGroup.addControl('emsp', this.emspGroup);
 
       // CPO identifier
       this.cpoCountryCode = this.cpoGroup.controls['countryCode'];
       this.cpoPartyID = this.cpoGroup.controls['partyID'];
       this.cpoActive = this.formGroup.controls['cpoActive'];
       // EMSP identifier
-      this.emspCountryCode = (this.formGroup.controls['emsp'] as UntypedFormGroup).controls['countryCode'];
-      this.emspPartyID = (this.formGroup.controls['emsp'] as UntypedFormGroup).controls['partyID'];
+      this.emspCountryCode = this.emspGroup.controls['countryCode'];
+      this.emspPartyID = this.emspGroup.controls['partyID'];
+      this.emspActive =  this.formGroup.controls['emspActive'];
       // business details - image
       this.name = (this.formGroup.controls['businessDetails'] as UntypedFormGroup).controls['name'];
       this.website = (this.formGroup.controls['businessDetails'] as UntypedFormGroup).controls['website'];
@@ -173,13 +181,12 @@ export class SettingsOcpiComponent implements OnInit {
   }
 
   public enableDisableEMSP(checked: boolean) {
-    const emspFormGroup = this.formGroup.controls['emsp'] as UntypedFormGroup;
     if (checked) {
-      emspFormGroup.enable();
+      this.emspGroup.enable();
     } else {
-      emspFormGroup.disable();
+      this.emspGroup.disable();
     }
-    emspFormGroup.markAsDirty();
+    this.emspGroup.markAsDirty();
   }
 
   public loadConfiguration() {
@@ -204,9 +211,9 @@ export class SettingsOcpiComponent implements OnInit {
         if (settings.ocpi.emsp) {
           this.emspCountryCode.setValue(settings.ocpi.emsp.countryCode);
           this.emspPartyID.setValue(settings.ocpi.emsp.partyID);
-          this.emspIsActive = this.emspCountryCode.value &&this.emspPartyID.value;
+          this.emspActive.setValue(this.emspCountryCode.value &&this.emspPartyID.value);
         }
-        this.enableDisableEMSP(this.emspIsActive);
+        this.enableDisableEMSP( this.emspActive.value);
         // Currency
         this.currency.setValue(settings.ocpi.currency);
         // TariffID

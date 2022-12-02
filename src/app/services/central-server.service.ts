@@ -1640,6 +1640,29 @@ export class CentralServerService {
     );
   }
 
+  public scanPayHandleCapturePayment(parameters: any): Observable<BillingOperationResult> {
+    this.checkInit();
+    // Build the URL
+    const urlPattern: RESTServerRoute = RESTServerRoute.REST_SCAN_PAY_PAYMENT_INTENT_CAPTURE;
+    // Execute the REST service
+    return this.httpClient.post<BillingOperationResult>(this.buildUtilRestEndpointUrl(urlPattern), {
+      subdomain: this.windowService.getSubdomain(),
+      email: parameters.email,
+      transactionId: parameters.transactionId
+      // firstName: parameters.firstName,
+      // name: parameters.name,
+      // siteAreaID: parameters.siteAreaID,
+      // locale: parameters.locale,
+      // paymentIntentID: parameters.paymentIntentID,
+      // chargingStationID: parameters.chargingStationID,
+      // connectorID: parameters.connectorID
+    }, {
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
+  }
+
   public updateBillingSettings(billingSettings: BillingSettings): Observable<ActionResponse> {
     // Verify init
     this.checkInit();

@@ -13,23 +13,19 @@ import { WindowService } from '../../../services/window.service';
 import { Constants } from '../../../utils/Constants';
 
 @Component({
-  selector: 'app-scan-pay-email',
-  templateUrl: 'scan-pay-email.component.html',
+  selector: 'app-scan-pay-stop-transaction',
+  templateUrl: 'scan-pay-stop-transaction.component.html',
 })
 
-export class ScanPayEmailComponent implements OnInit, OnDestroy {
+export class ScanPayStopTransactionComponent implements OnInit, OnDestroy {
   public email: AbstractControl;
-  public name: AbstractControl;
-  public firstName: AbstractControl;
   public formGroup: UntypedFormGroup;
-  public isSendClicked: boolean;
+  public isClicked: boolean;
   public tenantLogo = Constants.NO_IMAGE;
 
   private siteKey: string;
   private subDomain: string;
-  private currentSiteAreaID: string;
-  private chargingStationID: string;
-  private connectorID: string;
+  private currentTransactionID: string;
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -42,9 +38,7 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute) {
     // Get the Site Key
     this.siteKey = this.configService.getUser().captchaSiteKey;
-    this.currentSiteAreaID = this.activatedRoute?.snapshot?.params['siteAreaID'];
-    this.chargingStationID = this.activatedRoute?.snapshot?.params['chargingStationID'];
-    this.connectorID = this.activatedRoute?.snapshot?.params['connectorID'];
+    this.currentTransactionID = this.activatedRoute?.snapshot?.params['transactionID'];
     // Init Form
     this.formGroup = new UntypedFormGroup({
       email: new FormControl(null,
@@ -52,21 +46,17 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
           Validators.required,
           Validators.email,
         ])),
-      name: new FormControl(null),
-      firstName: new FormControl(null),
     });
     // Keep the sub-domain
     this.subDomain = this.windowService.getSubdomain();
     // Form
     this.email = this.formGroup.controls['email'];
-    this.name = this.formGroup.controls['name'];
-    this.firstName = this.formGroup.controls['firstName'];
     setTimeout(() => {
       const card = document.getElementsByClassName('card')[0];
       // After 700 ms we add the class animated to the login/register card
       card.classList.remove('card-hidden');
     }, 700);
-    this.isSendClicked = false;
+    this.isClicked = false;
   }
 
   public ngOnInit() {
@@ -114,33 +104,34 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
     }
   }
 
-  public sendEmailVerificationScanAndPay(data: any) {
-    this.isSendClicked = true;
-    this.reCaptchaV3Service.execute(this.siteKey, 'VerifScanPay', (token) => {
-      if (token) {
-        data['captcha'] = token;
-        data['siteAreaID'] = this.currentSiteAreaID;
-        data['chargingStationID'] = this.chargingStationID;
-        data['connectorID'] = this.connectorID;
-      } else {
-        this.messageService.showErrorMessage('authentication.invalid_captcha_token');
-        return;
+  public scanPayStopTransaction(data: any) {
+    this.isClicked = true;
+    // this.reCaptchaV3Service.execute(this.siteKey, 'VerifScanPay', (token) => {
+    //   if (token) {
+    //     // data['captcha'] = token;
+    //     // data['siteAreaID'] = this.currentSiteAreaID;
+    //     // data['chargingStationID'] = this.chargingStationID;
+    //     // data['connectorID'] = this.connectorID;
+    //   } else {
+    //     this.messageService.showErrorMessage('authentication.invalid_captcha_token');
+    //     return;
+    //   }
+    // });
+    // Show
+    this.spinnerService.show();
+    data['transactionId'] = this.currentTransactionID;
+    // launch capture and stop transaction
+    this.centralServerService.scanPayHandleCapturePayment(data).subscribe({
+      next: (response) => {
+        this.spinnerService.hide();
+        this.messageService.showSuccessMessage('settings.billing.payment_intent_create_account_success');
+        // void this.router.navigate(['/auth/login']);
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        this.messageService.showErrorMessage('settings.billing.payment_intent_create_account_error', {error: error.message});
+        // void this.router.navigate(['/auth/login']);
       }
-      // Show
-      this.spinnerService.show();
-      // launch email verif
-      this.centralServerService.scanPayVerifyEmail(data).subscribe({
-        next: (response) => {
-          this.spinnerService.hide();
-          this.messageService.showSuccessMessage('settings.billing.payment_intent_create_account_success');
-          // void this.router.navigate(['/auth/login']);
-        },
-        error: (error) => {
-          this.spinnerService.hide();
-          this.messageService.showErrorMessage('settings.billing.payment_intent_create_account_error', {error: error.message});
-          // void this.router.navigate(['/auth/login']);
-        }
-      });
     });
   }
 }

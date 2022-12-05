@@ -8,6 +8,7 @@ import { AuthenticationMercedesDataUsageComponent } from './mercedes-data-usage/
 import { AuthenticationRegisterComponent } from './register/authentication-register.component';
 import { AuthenticationResetPasswordComponent } from './reset-password/authentication-reset-password.component';
 import { ScanPayEmailComponent } from './scan-pay/email/scan-pay-email.component';
+import { ScanPayStopTransactionComponent } from './scan-pay/stop-transaction/scan-pay-stop-transaction.component';
 import { ScanPayStripePaymentIntentComponent } from './scan-pay/stripe/scan-pay-stripe-payment-intent.component';
 import { AuthenticationVerifyEmailComponent } from './verify-email/authentication-verify-email.component';
 
@@ -45,8 +46,12 @@ export const AuthenticationRoutes: Routes = [
     component: ScanPayStripePaymentIntentComponent,
   },
   {
-    path: 'scan-pay/:siteAreaID',
+    path: 'scan-pay/:siteAreaID/:chargingStationID/:connectorID',
     component: ScanPayEmailComponent,
+  },
+  {
+    path: 'scan-pay/stop/:transactionID',
+    component: ScanPayStopTransactionComponent,
   },
   {
     path: '**',

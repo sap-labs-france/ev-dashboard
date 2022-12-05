@@ -20,6 +20,7 @@ export class UserRoles {
       { key: UserRole.ADMIN, value: 'users.role_admin' },
       { key: UserRole.BASIC, value: 'users.role_basic' },
       { key: UserRole.DEMO, value: 'users.role_demo' },
+      { key: UserRole.EXTERNAL, value: 'users.role_external' },
     ];
   }
 }

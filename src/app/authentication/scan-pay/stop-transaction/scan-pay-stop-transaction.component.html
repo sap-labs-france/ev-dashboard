@@ -7,7 +7,7 @@
             <div class="card-header card-header-primary text-center h-25">
               <div class="social-line">
                 <div style="height: 125px; display: contents; margin: 5px;">
-                  <h4 class="mb2 card-title text-center" style="padding: 10px;">{{"settings.billing.payment_intent_create_account_title" | translate}}</h4>
+                  <h4 class="mb2 card-title text-center" style="padding: 10px;">enter your email to stop your current transaction</h4>
                 </div>
               </div>
             </div>
@@ -25,7 +25,7 @@
                       </mat-form-field>
                     </span>
                   </div>
-                  <div class="input-group-prepend">
+                  <!-- <div class="input-group-prepend">
                     <span class="input-group-text">
                       <mat-icon>account_circle</mat-icon>
                       <mat-form-field class="ms-2">
@@ -46,15 +46,13 @@
                   <a href="https://policies.google.com/privacy"
                     target="_blank">{{"general.captcha_text_2" | translate}}</a>{{"general.captcha_text_3" | translate}}
                   <a href="https://policies.google.com/terms"
-                    target="_blank">{{"general.captcha_text_4" | translate}}</a>{{"general.captcha_text_5" | translate}}.
-                </div>
+                    target="_blank">{{"general.captcha_text_4" | translate}}</a>{{"general.captcha_text_5" | translate}}. -->
+                </div> 
               </span>
             </div>
-            <div class="card-footer justify-content-center mb-4">
-              <button mat-button (click)="sendEmailVerificationScanAndPay(formGroup.value)"
-                [disabled]="!formGroup.valid || isSendClicked">{{"settings.billing.payment_intent_create_account_send_email" | translate}}
-              </button>
-            </div>
+            <!-- <div class="card-footer justify-content-center mb-4"> -->
+              <button mat-button (click)="scanPayStopTransaction(formGroup.value)" [disabled]="!formGroup.valid || isClicked">Stop transaction</button>
+            <!-- </div> -->
           </div>
         </form>
       </div>

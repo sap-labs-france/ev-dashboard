@@ -1,31 +1,29 @@
 <div class="wrapper wrapper-full-page">
-  <div class="page-header" filter-color="black">
+  <div class="page-header login-page header-filter" filter-color="black">
     <div class="container">
-      <div class="main-content">
-        <div class="card card-profile card-testimonial">
-          <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-actions">
-            <mat-tab>
-              <ng-template mat-tab-label>
-                <mat-icon>payment</mat-icon>
-                <span>{{'settings.billing.payment_intent' | translate}}</span>
-              </ng-template>
-              <div class="card-body mat-tab-dialog-body-content">
-                <form class="form">
-                  <div>
-                    <div id="payment-element">
-                      <!-- Mount the Payment Element here -->
-                    </div>
-                  </div>
-                </form>
+      <div class="col-lg-6 ms-auto me-auto">
+          <div class="card card-login">
+            <div class="card-header card-header-primary text-center h-25">
+              <div class="social-line">
+                <div style="height: 125px; display: contents; margin: 5px;">
+                  <h4 class="mb2 card-title text-center" style="padding: 10px;">{{'settings.billing.payment_intent_create_title' | translate}}</h4>
+                </div>
               </div>
-            </mat-tab>
-          </mat-tab-group>
-          <div class='tabs-actions-embedded'>
-            <button mat-icon-button (click)="linkCardToAccount()" title="{{'general.save' | translate}}">
-              <mat-icon>save</mat-icon>
-            </button>
+            </div>
+            <div class="card-body">
+              <form class="form">
+                <div>
+                  <div id="payment-element">
+                    <!-- Mount the Payment Element here -->
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="card-footer justify-content-center mb-4">
+              <!-- To change in i18n once the POC validate -->
+              <button mat-button type="submit" (click)=linkCardToAccount()>{{'settings.billing.payment_intent_save_start' | translate}}</button>
+            </div>
           </div>
-        </div>
       </div>
     </div>
   </div>

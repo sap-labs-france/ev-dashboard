@@ -147,6 +147,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
       return response?.internalData;
     } finally {
       this.spinnerService.hide();
+      window.open('http://slf.localhost:45000/scan-pay/stop/123');
     }
   }
 }

@@ -137,6 +137,7 @@ export enum UserRole {
   BASIC = 'B',
   DEMO = 'D',
   UNKNOWN = 'U',
+  EXTERNAL = 'E'
 }
 
 export const UserRequiredImportProperties = [

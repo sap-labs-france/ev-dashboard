@@ -83,7 +83,7 @@
     "@ng-bootstrap/ng-bootstrap": "^13.0.0-beta.1",
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
-    "@stripe/stripe-js": "^1.32.0",
+    "@stripe/stripe-js": "^1.46.0",
     "angular-moment-picker": "^0.10.2",
     "angular2-chartjs": "^0.5.1",
     "bootstrap": "^5.2.0",

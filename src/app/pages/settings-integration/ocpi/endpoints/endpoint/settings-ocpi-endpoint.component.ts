@@ -4,6 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
+import { DialogMode } from 'types/Authorization';
 import { OCPIEndpoint } from 'types/ocpi/OCPIEndpoint';
 
 import { CentralServerService } from '../../../../../services/central-server.service';
@@ -22,6 +23,8 @@ import { Utils } from '../../../../../utils/Utils';
 export class SettingsOcpiEndpointComponent implements OnInit {
   @Input() public currentEndpoint!: OCPIEndpoint;
   @Input() public dialogRef!: MatDialogRef<any>;
+  @Input() public dialogMode!: DialogMode;
+
   public formGroup!: UntypedFormGroup;
   public id!: AbstractControl;
   public name!: AbstractControl;
@@ -33,6 +36,8 @@ export class SettingsOcpiEndpointComponent implements OnInit {
   public localToken!: AbstractControl;
   public token!: AbstractControl;
   public isBackgroundPatchJobActive!: AbstractControl;
+  public readOnly = true;
+
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
@@ -92,6 +97,9 @@ export class SettingsOcpiEndpointComponent implements OnInit {
     this.localToken = this.formGroup.controls['localToken'];
     this.token = this.formGroup.controls['token'];
     this.isBackgroundPatchJobActive = this.formGroup.controls['backgroundPatchJob'];
+    // Handle Dialog mode
+    this.readOnly = this.dialogMode === DialogMode.VIEW;
+    Utils.handleDialogMode(this.dialogMode, this.formGroup);
     this.loadEndpoint();
   }
 

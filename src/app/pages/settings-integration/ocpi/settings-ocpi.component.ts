@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
 import { SettingAuthorizationActions } from 'types/Authorization';
@@ -22,10 +22,10 @@ export class SettingsOcpiComponent implements OnInit {
   public isActive = false;
   public authorizations: SettingAuthorizationActions;
 
-  public formGroup!: UntypedFormGroup;
-  public logoGroup!: UntypedFormGroup;
-  public cpoGroup!: UntypedFormGroup;
-  public emspGroup!: UntypedFormGroup;
+  public formGroup!: FormGroup;
+  public logoGroup!: FormGroup;
+  public cpoGroup!: FormGroup;
+  public emspGroup!: FormGroup;
 
 
   public cpoCountryCode!: AbstractControl;
@@ -79,46 +79,46 @@ export class SettingsOcpiComponent implements OnInit {
   public ngOnInit() {
     if (this.isActive) {
       // build form
-      this.formGroup = new UntypedFormGroup({
-        businessDetails: new UntypedFormGroup({
-          name: new UntypedFormControl(''),
-          website: new UntypedFormControl('',
+      this.formGroup = new FormGroup({
+        businessDetails: new FormGroup({
+          name: new FormControl(''),
+          website: new FormControl('',
             Validators.pattern(Constants.URL_PATTERN)),
-          logo: new UntypedFormGroup({
-            url: new UntypedFormControl('',
+          logo: new FormGroup({
+            url: new FormControl('',
               Validators.pattern(Constants.URL_PATTERN)),
-            thumbnail: new UntypedFormControl(''),
-            category: new UntypedFormControl(''),
-            type: new UntypedFormControl(''),
-            width: new UntypedFormControl(undefined,
+            thumbnail: new FormControl(''),
+            category: new FormControl(''),
+            type: new FormControl(''),
+            width: new FormControl(undefined,
               Validators.pattern(/^[0-9]*$/)),
-            height: new UntypedFormControl(undefined,
+            height: new FormControl(undefined,
               Validators.pattern(/^[0-9]*$/)),
           }),
         }),
-        currency: new UntypedFormControl('',
+        currency: new FormControl('',
           Validators.compose([
             Validators.required,
             Validators.maxLength(3),
           ]),
         ),
-        tariffID: new UntypedFormControl('',
+        tariffID: new FormControl('',
           Validators.compose([
             Validators.maxLength(36),
           ]),
         ),
-        cpoActive: new UntypedFormControl(false),
-        emspActive: new UntypedFormControl(false),
+        cpoActive: new FormControl(false),
+        emspActive: new FormControl(false),
       });
 
-      this.cpoGroup = new UntypedFormGroup({
-        countryCode: new UntypedFormControl('',
+      this.cpoGroup = new FormGroup({
+        countryCode: new FormControl('',
           Validators.compose([
             Validators.required,
             Validators.maxLength(2),
             Validators.minLength(2),
           ])),
-        partyID: new UntypedFormControl('',
+        partyID: new FormControl('',
           Validators.compose([
             Validators.required,
             Validators.maxLength(3),
@@ -126,14 +126,14 @@ export class SettingsOcpiComponent implements OnInit {
           ])),
       });
 
-      this.emspGroup = new UntypedFormGroup({
-        countryCode: new UntypedFormControl('',
+      this.emspGroup = new FormGroup({
+        countryCode: new FormControl('',
           Validators.compose([
             Validators.required,
             Validators.maxLength(2),
             Validators.minLength(2),
           ])),
-        partyID: new UntypedFormControl('',
+        partyID: new FormControl('',
           Validators.compose([
             Validators.required,
             Validators.maxLength(3),
@@ -153,9 +153,9 @@ export class SettingsOcpiComponent implements OnInit {
       this.emspPartyID = this.emspGroup.controls['partyID'];
       this.emspActive =  this.formGroup.controls['emspActive'];
       // business details - image
-      this.name = (this.formGroup.controls['businessDetails'] as UntypedFormGroup).controls['name'];
-      this.website = (this.formGroup.controls['businessDetails'] as UntypedFormGroup).controls['website'];
-      this.logoGroup = ((this.formGroup.controls['businessDetails'] as UntypedFormGroup).controls['logo'] as UntypedFormGroup);
+      this.name = (this.formGroup.controls['businessDetails'] as FormGroup).controls['name'];
+      this.website = (this.formGroup.controls['businessDetails'] as FormGroup).controls['website'];
+      this.logoGroup = ((this.formGroup.controls['businessDetails'] as FormGroup).controls['logo'] as FormGroup);
       this.logoURL = this.logoGroup.controls['url'];
       this.logoThumbnail = this.logoGroup.controls['thumbnail'];
       this.logoCategory = this.logoGroup.controls['category'];

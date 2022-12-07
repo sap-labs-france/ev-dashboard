@@ -18,7 +18,7 @@
                         [formControl]="name" required>
                       <mat-error *ngIf="name.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                       <mat-error *ngIf="name.errors?.maxlength">
-                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div>
+                        <div [translate]="'general.error_max_length'" [translateParams]="{length: name.errors?.maxlength.requiredLength}"></div>
                       </mat-error>
                     </mat-form-field>
                   </div>
@@ -60,10 +60,10 @@
                       <mat-error *ngIf="countryCode.errors?.required">{{"general.mandatory_field" | translate}}
                       </mat-error>
                       <mat-error *ngIf="countryCode.errors?.maxlength">
-                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
+                        <div [translate]="'general.error_max_length'" [translateParams]="{length: countryCode.errors?.maxlength.requiredLength}"></div>
                       </mat-error>
                       <mat-error *ngIf="countryCode.errors?.minlength">
-                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
+                        <div [translate]="'general.error_min_length'" [translateParams]="{length: countryCode.errors?.minlength.requiredLength}"></div>
                       </mat-error>
                     </mat-form-field>
                   </div>
@@ -75,10 +75,10 @@
                         [formControl]="partyId">
                       <mat-error *ngIf="partyId.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                       <mat-error *ngIf="partyId.errors?.maxlength">
-                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
+                        <div [translate]="'general.error_max_length'" [translateParams]="{length: partyId.errors?.maxlength.requiredLength}"></div>
                       </mat-error>
                       <mat-error *ngIf="partyId.errors?.minlength">
-                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
+                        <div [translate]="'general.error_min_length'" [translateParams]="{length: partyId.errors?.minlength.requiredLength}"></div>
                       </mat-error>
                     </mat-form-field>
                   </div>
@@ -92,7 +92,7 @@
                       <input matInput placeholder="{{'ocpiendpoints.local_token' | translate}}" type="text"
                         [formControl]="localToken">
                       <mat-error *ngIf="localToken.errors?.maxlength">
-                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 64}"></div>
+                        <div [translate]="'general.error_max_length'" [translateParams]="{length: localToken.errors?.maxlength.requiredLength}"></div>
                       </mat-error>
                     </mat-form-field>
                   </div>
@@ -111,7 +111,7 @@
                       <input matInput placeholder="{{'ocpiendpoints.token' | translate}}" type="text"
                         [formControl]="token">
                       <mat-error *ngIf="token.errors?.maxlength">
-                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 64}"></div>
+                        <div [translate]="'general.error_max_length'" [translateParams]="{length: token.errors?.maxlength.requiredLength}"></div>
                       </mat-error>
                     </mat-form-field>
                   </div>

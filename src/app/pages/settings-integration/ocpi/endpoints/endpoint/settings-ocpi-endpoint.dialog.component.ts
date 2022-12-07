@@ -18,7 +18,6 @@ export class SettingsOcpiEndpointDialogComponent implements AfterViewInit {
   public constructor(
     public dialogRef: MatDialogRef<SettingsOcpiEndpointDialogComponent>,
     @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<OCPIEndpoint>) {
-    // Check if data is passed to the dialog
     this.currentEndpoint = dialogParams.dialogData;
     this.dialogMode = dialogParams.dialogMode;
   }

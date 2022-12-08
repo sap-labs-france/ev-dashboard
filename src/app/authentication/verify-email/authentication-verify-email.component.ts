@@ -73,7 +73,8 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
       // Forward to Mobile App
       const mobileAppURL: string = Utils.buildMobileAppDeepLink(
         `verifyAccount/${this.windowService.getSubdomain()}/${this.verificationEmail}/${this.verificationToken}/${this.resetToken}`);
-      window.location.href = mobileAppURL;
+      // ACHTUNG ! hack for email bug sent 800 times - need to find a 
+      // window.location.href = mobileAppURL;
     }
     setTimeout(() => {
       const card = document.getElementsByClassName('card')[0];

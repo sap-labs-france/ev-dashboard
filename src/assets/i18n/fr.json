@@ -843,11 +843,11 @@
         "title": "Activer la configuration manuelle",
         "confirm": "Lorsque l'option configuration manuelle est choisie, la borne ne bénéficie plus de la configuration automatique (provenant de son modèle). Voulez-vous continuer ?"
       },
-      "disable_manual_configuration":{
+      "disable_manual_configuration": {
         "title": "Désactiver la configuration manuelle",
         "confirm": "Si vous désactivez la configuration manuelle, la borne bénificiera de nouveau d'une configuration automatique (provenant de son modèle). Une fois redémarrée, vos changements manuels seront perdus. Voulez-vous continuer?"
       },
-      "manual_configuration_error":{
+      "manual_configuration_error": {
         "title": "Configuration manuelle / Erreur template",
         "confirm": "La configuration manuelle a déjà été désactivèe pour cette borne. Assurez-vous qu'elle redémarre correctement que son modèle peut être appliqué"
       }
@@ -1826,7 +1826,7 @@
         "settings": "Configuration",
         "user": "Utilisateur",
         "password": "Mot de passe",
-        "additional_settings":"Additional settings:",
+        "additional_settings": "Additional settings:",
         "sticky_limitation": "Adjust limit according to current consumption",
         "limit_buffer_dc": "Buffer for Limit DC (%)",
         "limit_buffer_ac": "Buffer for Limit AC (%)",
@@ -1844,7 +1844,12 @@
       "update_error": "Une erreur est survenue durant la mise à jour de la configuration SAP Smart Charging, vérifiez les logs",
       "connection_success": "Connexion vers le service de charge intelligente vérifiée avec succès",
       "connection_error": "Connexion vers le service de charge intelligente impossible. Vérifiez votre configuration.",
-      "check_connection": "Vérifier connexion"
+      "check_connection": "Vérifier connexion",
+      "session_parameters": {
+        "departureTime": "Departure Hour",
+        "carStateOfCharge": "Initial State of Charge",
+        "targetStateOfCharge": "Target State of Charge"
+      }
     },
     "asset": {
       "connection": {
@@ -1889,8 +1894,8 @@
         "type": "Type",
         "authentication_url": "URL d'authentification",
         "api_url": "URL de l'API",
-        "client_id":"Client ID",
-        "client_secret":"Client Secret",
+        "client_id": "Client ID",
+        "client_secret": "Client Secret",
         "delete_title": "Supporession du connecteur",
         "delete_confirm": "Voulez-vous vraiment supprimer le connecteur '{{carConnectorConnectionName}}' ?"
       },

@@ -7,13 +7,14 @@ import { Utils } from '../../../../utils/Utils';
 import { SiteAreaComponent } from './site-area.component';
 
 @Component({
-  template: '<app-site-area #appRef [currentSiteAreaID]="siteAreaID" [siteAreasAuthorizations]="siteAreasAuthorizations" [dialogMode]="dialogMode" [dialogRef]="dialogRef"></app-site-area>'
+  template: '<app-site-area #appRef [currentSiteAreaID]="siteAreaID" [siteAreasAuthorizations]="siteAreasAuthorizations" [dialogMode]="dialogMode" [dialogRef]="dialogRef" [smartChargingSessionParametersActive]="smartChargingSessionParametersActive"></app-site-area>'
 })
 export class SiteAreaDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: SiteAreaComponent;
   public siteAreaID!: string;
   public dialogMode!: DialogMode;
   public siteAreasAuthorizations!: SiteAreasAuthorizations;
+  public smartChargingSessionParametersActive: boolean;
 
   public constructor(
     public dialogRef: MatDialogRef<SiteAreaDialogComponent>,
@@ -21,6 +22,7 @@ export class SiteAreaDialogComponent implements AfterViewInit {
     this.siteAreaID = dialogParams.dialogData?.id;
     this.dialogMode = dialogParams.dialogMode;
     this.siteAreasAuthorizations = dialogParams.authorizations;
+    this.smartChargingSessionParametersActive = dialogParams.dialogData?.smartChargingSessionParametersActive;
   }
 
   public ngAfterViewInit() {

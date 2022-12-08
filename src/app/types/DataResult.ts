@@ -115,6 +115,7 @@ export interface SiteUserDataResult extends DataResult<SiteUser>, SiteUsersAutho
 }
 
 export interface SiteAreaDataResult extends DataResult<SiteArea> {
+  smartChargingSessionParametersActive: boolean;
 }
 
 export interface TagDataResult extends DataResult<Tag>, TagsAuthorizations {

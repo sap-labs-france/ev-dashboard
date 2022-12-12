@@ -567,8 +567,6 @@ export abstract class TableDataSource<T extends TableData> {
 
   public initDataSource(force: boolean = false): void {
     // Init data from sub-classes
-    console.log('init', this.tableColumnsDef);
-
     this.initTableColumnDefs(force);
     this.initTableDef(force);
     this.initTableFiltersDef(force);

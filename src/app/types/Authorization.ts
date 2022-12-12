@@ -450,6 +450,19 @@ export interface SettingAuthorizationActions extends AuthorizationActions {
   canCheckAssetConnection?: boolean;
 }
 
+export interface OcpiEndpointsAuthorizations extends AuthorizationAttributes, OcpiEndpointsAuthorizationActions {
+}
+
+export interface OcpiEndpointsAuthorizationActions extends DataResultAuthorizationActions {
+}
+
+export interface OcpiEndpointAuthorizationActions extends AuthorizationActions {
+  canPing?: boolean;
+  canGenerateLocalToken?: boolean;
+  canRegister?: boolean;
+  canTriggerJob?: boolean;
+}
+
 export enum DialogMode {
   EDIT = 'E',
   CREATE = 'C',

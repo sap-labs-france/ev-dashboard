@@ -74,7 +74,7 @@ export enum RoamingSettingsType {
   OICP = 'oicp',
 }
 
-export interface RoamingSettings extends Setting {
+export interface RoamingSettings extends SettingDB {
   identifier: TenantComponents.OCPI | TenantComponents.OICP;
   type: RoamingSettingsType;
   ocpi?: OcpiSetting;

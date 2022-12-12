@@ -30,7 +30,9 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              'Authorizations - Migrated settings endpoint to the new authorization framework',
+              'Charging Sessions - new endpoint "getUserSessionContext" replacing the former "getUserDefaultTagCar" (which is deprecated).',
+              'Authorizations - Migrated Settings endpoints to the new authorization framework',
+              'Authorizations - Migrated OCPI endpoints to the new authorization framework',
               'MongoDB - K8S Configuration Flexibility - minimal pool size and maximal pool size can be defined per server'
             ],
           },

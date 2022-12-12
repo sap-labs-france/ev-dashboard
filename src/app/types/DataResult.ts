@@ -1,21 +1,23 @@
-import { Asset } from './Asset';
-import { AssetsAuthorizations, BillingAccountsAuthorizations, BillingInvoicesAuthorizations, BillingPaymentMethodsAuthorizationActions, BillingTaxesAuthorizations, BillingTransfersAuthorizations, CarCatalogsAuthorizations, CarsAuthorizations, ChargingProfilesAuthorizations, ChargingStationTemplateAuthorizationActions, ChargingStationsAuthorizations, DataResultAuthorizations, LogsAuthorizationActions, SettingsAuthorizationActions, SiteUsersAuthorizations, SitesAuthorizationActions, TagsAuthorizations, TransactionsAuthorizations, UserSitesAuthorizations, UsersAuthorizations } from './Authorization';
+import { AssetInError, ChargingStationInError, TransactionInError } from './InError';
+import { AssetsAuthorizations, BillingAccountsAuthorizations, BillingInvoicesAuthorizations, BillingPaymentMethodsAuthorizationActions, BillingTaxesAuthorizations, BillingTransfersAuthorizations, CarCatalogsAuthorizations, CarsAuthorizations, ChargingProfilesAuthorizations, ChargingStationTemplateAuthorizationActions, ChargingStationsAuthorizations, DataResultAuthorizations, LogsAuthorizationActions, OcpiEndpointsAuthorizationActions, SettingsAuthorizationActions, SiteUsersAuthorizations, SitesAuthorizationActions, TagsAuthorizations, TransactionsAuthorizations, UserSitesAuthorizations, UsersAuthorizations } from './Authorization';
 import { BillingAccount, BillingInvoice, BillingPaymentMethod, BillingTax, BillingTransfer } from './Billing';
 import { Car, CarCatalog } from './Car';
+import { Site, UserSite } from './Site';
+import { SiteUser, User, UserStatus } from './User';
+
+import { Asset } from './Asset';
 import { ChargingProfile } from './ChargingProfile';
 import { ChargingStation } from './ChargingStation';
 import { ChargingStationTemplate } from './ChargingStationTemplate';
 import { Company } from './Company';
-import { AssetInError, ChargingStationInError, TransactionInError } from './InError';
 import { Log } from './Log';
+import { OCPIEndpoint } from './ocpi/OCPIEndpoint';
 import PricingDefinition from './Pricing';
 import { RegistrationToken } from './RegistrationToken';
 import { Setting } from './Setting';
-import { Site, UserSite } from './Site';
 import { SiteArea } from './SiteArea';
 import { Tag } from './Tag';
 import { Transaction } from './Transaction';
-import { SiteUser, User, UserStatus } from './User';
 
 export interface ActionResponse {
   status: string;
@@ -189,6 +191,10 @@ export interface ChargingStationTemplateDataResult extends DataResult<ChargingSt
 }
 
 export interface SettingDataResult extends DataResult<Setting>, SettingsAuthorizationActions {
+}
+
+export interface OcpiEndpointDataResult extends DataResult<OCPIEndpoint>, OcpiEndpointsAuthorizationActions {
+  canCreate?: boolean;
 }
 
 export interface Ordering {

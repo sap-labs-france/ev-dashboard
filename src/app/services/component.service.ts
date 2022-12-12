@@ -288,7 +288,7 @@ export class ComponentService {
 
   public getOcpiSettings(): Observable<RoamingSettings> {
     return new Observable((observer) => {
-      const ocpiSettings = {
+      let ocpiSettings = {
         identifier: TenantComponents.OCPI,
       } as RoamingSettings;
       // Get the Pricing settings
@@ -296,10 +296,10 @@ export class ComponentService {
         next: (settings) => {
           // Get the currency
           if (settings) {
+            // Init
+            ocpiSettings = settings as RoamingSettings;
+            // Set specific setting data
             const config = settings.content;
-            // Set
-            ocpiSettings.id = settings.id;
-            ocpiSettings.sensitiveData = settings.sensitiveData;
             ocpiSettings.ocpi = config.ocpi;
           }
           observer.next(ocpiSettings);

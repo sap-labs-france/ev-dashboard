@@ -1,10 +1,10 @@
 import CreatedUpdatedProps from 'types/CreatedUpdatedProps';
-
+import { OcpiEndpointAuthorizationActions } from 'types/Authorization';
 import { TableData } from '../Table';
 import { OCPIBusinessDetails } from './OCPIBusinessDetails';
 import { OCPIRole } from './OCPIRole';
 
-export interface OCPIEndpoint extends TableData, CreatedUpdatedProps {
+export interface OCPIEndpoint extends TableData, OcpiEndpointAuthorizationActions, CreatedUpdatedProps {
   id: string;
   role: OCPIRole;
   name: string;

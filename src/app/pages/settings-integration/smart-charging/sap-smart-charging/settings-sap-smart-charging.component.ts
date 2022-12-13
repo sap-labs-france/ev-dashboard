@@ -21,10 +21,6 @@ export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
   public stickyLimitation!: AbstractControl;
   public limitBufferDC!: AbstractControl;
   public limitBufferAC!: AbstractControl;
-  public usePrioritizationParameters!: AbstractControl;
-  public defaultSessionTimeHours!: AbstractControl;
-  public defaultInitialStateOfCharge!: AbstractControl;
-  public defaultTargetStateOfCharge!: AbstractControl;
 
   public ngOnInit(): void {
     this.sapSmartCharging = new FormGroup({
@@ -64,11 +60,6 @@ export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
     if (!this.stickyLimitation.value) {
       this.limitBufferDC.disable();
       this.limitBufferAC.disable();
-    }
-    if (!this.usePrioritizationParameters.value) {
-      this.defaultSessionTimeHours.disable();
-      this.defaultInitialStateOfCharge.disable();
-      this.defaultTargetStateOfCharge.disable();
     }
   }
 

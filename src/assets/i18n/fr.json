@@ -1829,11 +1829,7 @@
         "additional_settings": "Additional settings:",
         "sticky_limitation": "Adjust limit according to current consumption",
         "limit_buffer_dc": "Buffer for Limit DC (%)",
-        "limit_buffer_ac": "Buffer for Limit AC (%)",
-        "use_prioritization_parameters": "Use prioritization parameters for smart charging",
-        "default_session_time": "Default session time (hours)",
-        "default_initial_state_of_charge": "Default initial state of charge (%)",
-        "default_target_state_of_charge": "Default minimum target state of charge (%)"
+        "limit_buffer_ac": "Buffer for Limit AC (%)"
       },
       "description": "E-Mobility peut utiliser un algorithme de charge intelligente pour optimiser la puissance distribuée aux bornes basé sur des contraintes complèxes",
       "setting_do_not_exist": "La configuration n'existe pas",
@@ -1846,7 +1842,7 @@
       "connection_error": "Connexion vers le service de charge intelligente impossible. Vérifiez votre configuration.",
       "check_connection": "Vérifier connexion",
       "session_parameters": {
-        "departureTime": "Departure Hour",
+        "departureTime": "Departure Time (Hour of Day)",
         "carStateOfCharge": "Initial State of Charge",
         "targetStateOfCharge": "Target State of Charge"
       }

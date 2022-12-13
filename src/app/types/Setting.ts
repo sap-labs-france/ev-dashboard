@@ -164,10 +164,6 @@ export interface SapSmartChargingSetting {
   stickyLimitation: boolean;
   limitBufferDC: number;
   limitBufferAC: number;
-  usePrioritizationParameters: boolean;
-  defaultSessionTimeHours: number;
-  defaultInitialStateOfCharge: number;
-  defaultTargetStateOfCharge: number;
 }
 
 export enum RefundSettingsType {

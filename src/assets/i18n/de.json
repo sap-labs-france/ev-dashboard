@@ -1829,11 +1829,7 @@
         "additional_settings": "Zusätzliche Einstellungen:",
         "sticky_limitation": "Limit an akutellen Verbrauch anpassen",
         "limit_buffer_dc": "Puffer für Limit DC (%)",
-        "limit_buffer_ac": "Puffer für Limit AC (%)",
-        "use_prioritization_parameters": "Priorisierungsparameter einbeziehen",
-        "default_session_time": "Standard Ladezeit (Stunden)",
-        "default_initial_state_of_charge": "Standard Startladestand (%)",
-        "default_target_state_of_charge": "Standard minimal zu erreichender Ladestand (%)"
+        "limit_buffer_ac": "Puffer für Limit AC (%)"
       },
       "description": "E-Mobility kann Smart-Charging Algorithmen nutzen um die Leistungsbereitstellung und den Ladezeitplan auf Basis komplexer Abhängigkeiten zu optimieren",
       "setting_do_not_exist": "Konfiguration nicht gefunden",
@@ -1846,7 +1842,7 @@
       "connection_error": "Fehler beim Verbinden zum Smart-Charging-Service. Konfiguration überprüfen.",
       "check_connection": "Verbindung überprüfen",
       "session_parameters": {
-        "departureTime": "Abfahrtszeit - Stunde",
+        "departureTime": "Abfahrtszeit (Stunde vom Tag)",
         "carStateOfCharge": "Batteriestand - Start",
         "targetStateOfCharge": "Batteriestand - Ziel"
       }

@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { ChargingStationsAuthorizations, DialogParamsWithAuth } from 'types/Authorization';
 import { ButtonAction, ButtonActionColor } from 'types/GlobalType';
-import { StartTransaction } from 'types/Transaction';
+import { StartTransaction, StartTransactionDialogData } from 'types/Transaction';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -67,8 +67,12 @@ export class TableChargingStationsStartTransactionAction implements TableAction 
     dialogConfig.minWidth = '40vw';
     dialogConfig.panelClass = '';
     // Build dialog data
-    const dialogData: DialogParamsWithAuth<ChargingStation, ChargingStationsAuthorizations> = {
-      dialogData: chargingStation,
+    const dialogData: DialogParamsWithAuth<StartTransactionDialogData, ChargingStationsAuthorizations> = {
+      dialogData: {
+        id: chargingStation.id,
+        chargingStation,
+        connector,
+      },
     };
     dialogConfig.data = dialogData;
     // Show

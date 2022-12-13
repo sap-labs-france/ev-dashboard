@@ -458,14 +458,21 @@ export abstract class TableDataSource<T extends TableData> {
               }
             });
             for (const tableColumnDef of this.tableColumnsDef) {
-              tableColumnDef.visible = data.projectFields.includes(tableColumnDef.id);
+              // If column visibility is not already set we use the project field
+              const isColumnIDInProjectedFields = data.projectFields.includes(tableColumnDef.id);
+              if (Utils.isNullOrUndefined(tableColumnDef.visible) || !isColumnIDInProjectedFields) {
+                tableColumnDef.visible = isColumnIDInProjectedFields;
+              }
             }
-          // No projected fields, display all
+            // No projected fields, display all
           } else {
             for (const tableColumnDef of this.tableColumnsDef) {
               // Only if prop is not provided
               if (!Utils.objectHasProperty(tableColumnDef, 'visible')) {
-                tableColumnDef.visible = true;
+                // If column visibility is not already set we display it (project field is empty)
+                if (Utils.isNullOrUndefined(tableColumnDef.visible)) {
+                  tableColumnDef.visible = true;
+                }
               }
             }
           }

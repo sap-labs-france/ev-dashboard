@@ -5,7 +5,7 @@ import { Car } from './Car';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { TableData } from './Table';
 import { Tag } from './Tag';
-import { StartTransactionErrorCode } from './Transaction';
+import { SmartChargingSessionParameters, StartTransactionErrorCode } from './Transaction';
 
 export interface User extends TableData, CreatedUpdatedProps, UserAuthorizationActions {
   id: string;
@@ -70,10 +70,11 @@ export interface UserNotifications {
   sendAdminAccountVerificationNotification: boolean;
 }
 
-export interface UserDefaultTagCar {
+export interface UserSessionContext {
   car?: Car;
   tag?: Tag;
   errorCodes?: StartTransactionErrorCode[];
+  smartChargingSessionParameters?: SmartChargingSessionParameters;
 }
 
 export interface UserToken {

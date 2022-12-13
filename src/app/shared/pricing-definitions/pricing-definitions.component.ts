@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { SettingAuthorizationActions } from 'types/Authorization';
 
 import { ComponentService } from '../../services/component.service';
 import { TenantComponents } from '../../types/Tenant';
@@ -20,6 +21,7 @@ export class PricingDefinitionsComponent implements OnInit {
   @Input() public currentEntityID!: string;
   @Input() public currentEntityType!: string;
   @Input() public currentEntityName!: string;
+  @Input() public authorizations!: SettingAuthorizationActions;
 
   public isActive = false;
   public formGroup: UntypedFormGroup;
@@ -31,6 +33,8 @@ export class PricingDefinitionsComponent implements OnInit {
   }
 
   public ngOnInit() {
+    // Set auth
+    this.pricingTableDataSource.setAuthorizations(this.authorizations);
     // Set context with provided entity, will set to tenant by default
     this.pricingTableDataSource.setDefaultContext(this.currentEntityID, this.currentEntityType, this.currentEntityName);
   }

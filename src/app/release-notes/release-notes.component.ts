@@ -33,9 +33,7 @@ export class ReleaseNotesComponent {
               'Charging Sessions - new endpoint "getUserSessionContext" replacing the former "getUserDefaultTagCar" (which is deprecated).',
               'Authorizations - Migrated Settings endpoints to the new authorization framework',
               'Authorizations - Migrated OCPI endpoints to the new authorization framework',
-              'MongoDB - K8S Configuration Flexibility - minimal pool size and maximal pool size can be defined per server',
-              'Kubernetes - Monitoring Capabilities have been extended',
-              'OCPP Server Scalability - WebSocket - OnOpen - Better timeout handling'
+              'MongoDB - K8S Configuration Flexibility - minimal pool size and maximal pool size can be defined per server'
             ],
           },
         ],

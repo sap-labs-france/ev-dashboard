@@ -27,7 +27,6 @@ export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
       optimizerUrl: new FormControl('',
         Validators.compose([
           Validators.required,
-          Validators.pattern(Constants.URL_PATTERN),
         ]),
       ),
       user: new FormControl('',

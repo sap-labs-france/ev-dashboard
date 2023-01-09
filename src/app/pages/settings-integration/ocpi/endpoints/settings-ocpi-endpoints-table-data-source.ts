@@ -236,7 +236,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OCPIEn
     ];
   }
 
-  private showOcpiEndpointDialog(dialogMode: DialogMode, endpoint?: OCPIEndpoint) {
+  private showOcpiEndpointDialog(dialogMode: DialogMode, endpoint: OCPIEndpoint = {} as OCPIEndpoint ) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';

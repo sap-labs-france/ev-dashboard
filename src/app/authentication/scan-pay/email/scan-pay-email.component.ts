@@ -24,6 +24,7 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
   public formGroup: UntypedFormGroup;
   public isSendClicked: boolean;
   public tenantLogo = Constants.NO_IMAGE;
+  public acceptEula: AbstractControl;
 
   private siteKey: string;
   private subDomain: string;
@@ -52,8 +53,18 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
           Validators.required,
           Validators.email,
         ])),
-      name: new FormControl(null),
-      firstName: new FormControl(null),
+      name: new FormControl(null,
+        Validators.compose([
+          Validators.required
+        ])),
+      firstName: new FormControl(null,
+        Validators.compose([
+          Validators.required
+        ])),
+      acceptEula: new FormControl(null,
+        Validators.compose([
+          Validators.required,
+        ])),
     });
     // Keep the sub-domain
     this.subDomain = this.windowService.getSubdomain();
@@ -61,6 +72,7 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
     this.email = this.formGroup.controls['email'];
     this.name = this.formGroup.controls['name'];
     this.firstName = this.formGroup.controls['firstName'];
+    this.acceptEula = this.formGroup.controls['acceptEula'];
     setTimeout(() => {
       const card = document.getElementsByClassName('card')[0];
       // After 700 ms we add the class animated to the login/register card

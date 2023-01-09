@@ -48,6 +48,14 @@
                   <a href="https://policies.google.com/terms"
                     target="_blank">{{"general.captcha_text_4" | translate}}</a>{{"general.captcha_text_5" | translate}}.
                 </div>
+                <div class="input-group-prepend text-center mt-3 ms-2">
+                  <mat-checkbox [formControl]="acceptEula" required>
+                    <span id="eula-checkbox" class="adapt-font-size">{{'authentication.accept' | translate}} </span>
+                    <a class="auth-link" href="/auth/eula" target="_blank">
+                      <span class="adapt-font-size">{{'authentication.eula' | translate}}</span>
+                    </a>
+                  </mat-checkbox>
+                </div>
               </span>
             </div>
             <div class="card-footer justify-content-center mb-4">

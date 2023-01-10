@@ -454,6 +454,8 @@ export interface OcpiEndpointsAuthorizations extends AuthorizationAttributes, Oc
 }
 
 export interface OcpiEndpointsAuthorizationActions extends DataResultAuthorizationActions {
+  canPing?: boolean;
+  canGenerateLocalToken?: boolean;
 }
 
 export interface OcpiEndpointAuthorizationActions extends AuthorizationActions {

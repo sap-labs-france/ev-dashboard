@@ -61,7 +61,9 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OCPIEn
         next: (ocpiEndpoints) => {
           // Init auth
           this.authorizations = {
-            canCreate: Utils.convertToBoolean(ocpiEndpoints.canCreate)
+            canCreate: Utils.convertToBoolean(ocpiEndpoints.canCreate),
+            canGenerateLocalToken: Utils.convertToBoolean(ocpiEndpoints.canGenerateLocalToken),
+            canPing: Utils.convertToBoolean(ocpiEndpoints.canPing),
           };
           // Set visibility
           this.createAction.visible = this.authorizations.canCreate;
@@ -241,7 +243,10 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OCPIEn
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';
     dialogConfig.panelClass = 'transparent-dialog-container';
-    dialogConfig.data = { dialogData: endpoint, dialogMode };
+    dialogConfig.data = {
+      dialogData: endpoint,
+      dialogMode,
+      authorizations: this.authorizations };
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open

@@ -160,6 +160,7 @@
     "invalid_file_error": "Poskytnutý soubor je neplatný",
     "invalid_file_csv_header_error": "Přinejmenším jedno z požadovaných záhlaví není poskytnuto v souboru CSV, akce byla přerušena",
     "import_already_ongoing": "Během importu nelze nahrát karty/čipy",
+    "unexpected_error_payment_intend": "An unexpected error occurred",
     "menu": {
       "dashboard": "Ovládací panel",
       "charging_stations": "Nabíjecí stanice",

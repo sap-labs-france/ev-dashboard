@@ -160,6 +160,7 @@
     "invalid_file_error": "Die bereitgestellte Datei ist ungültig",
     "invalid_file_csv_header_error": "Mindestens ein erforderlicher Header wurde nicht in der CSV-Datei bereitgesellt, der Vorgang wurde abgebrochen.",
     "import_already_ongoing": "Badges können nicht hochgeladen werden, während ein Import stattfindet",
+    "unexpected_error_payment_intend": "An unexpected error occurred",
     "menu": {
       "dashboard": "Dashboard",
       "charging_stations": "Ladestationen",

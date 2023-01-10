@@ -73,7 +73,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
         this.initializeElements(this.paymentIntent.client_secret);
       }
     } catch (error) {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_payment_intend');
     } finally {
       this.spinnerService.hide();
     }

@@ -160,6 +160,7 @@
     "invalid_file_error": "El archivo es inválido",
     "invalid_file_csv_header_error": "Al menos uno de los campos requeridos no fue proporcionado en el archivo CSV, operación anulada",
     "import_already_ongoing": "Impossibile cargar las insignias durante el proceso de importación",
+    "unexpected_error_payment_intend": "An unexpected error occurred",
     "menu": {
       "dashboard": "Tablero",
       "charging_stations": "Estaciones de carga",

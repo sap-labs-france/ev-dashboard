@@ -121,12 +121,14 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
   }
 
   public firstLetterToUpperCase(control: AbstractControl) {
-    if(control.value) {
+    if (control.value) {
       control.setValue(Utils.firstLetterInUpperCase(control.value));
     }
   }
 
   public sendEmailVerificationScanAndPay(data: any) {
+    // Show
+    this.spinnerService.show();
     this.isSendClicked = true;
     this.reCaptchaV3Service.execute(this.siteKey, 'VerifScanPay', (token) => {
       if (token) {
@@ -138,8 +140,6 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
         this.messageService.showErrorMessage('authentication.invalid_captcha_token');
         return;
       }
-      // Show
-      this.spinnerService.show();
       // launch email verif
       this.centralServerService.scanPayVerifyEmail(data).subscribe({
         next: (response) => {
@@ -149,7 +149,7 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
         },
         error: (error) => {
           this.spinnerService.hide();
-          this.messageService.showErrorMessage('settings.billing.payment_intent_create_account_error', {error: error.message});
+          this.messageService.showErrorMessage('settings.billing.payment_intent_create_account_error', { error: error.message });
           // void this.router.navigate(['/auth/login']);
         }
       });

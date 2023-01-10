@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { DialogMode, DialogParams, DialogParamsWithAuth, OcpiEndpointsAuthorizations } from 'types/Authorization';
 
+import { DialogMode, DialogParamsWithAuth, OcpiEndpointsAuthorizations } from '../../../../../types/Authorization';
 import { OCPIEndpoint } from '../../../../../types/ocpi/OCPIEndpoint';
 import { Utils } from '../../../../../utils/Utils';
 import { SettingsOcpiEndpointComponent } from './settings-ocpi-endpoint.component';

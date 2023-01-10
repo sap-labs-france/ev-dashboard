@@ -4,14 +4,14 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
-import { DialogMode, OcpiEndpointsAuthorizations } from 'types/Authorization';
-import { OCPIEndpoint } from 'types/ocpi/OCPIEndpoint';
 
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { DialogService } from '../../../../../services/dialog.service';
 import { MessageService } from '../../../../../services/message.service';
 import { SpinnerService } from '../../../../../services/spinner.service';
+import { DialogMode, OcpiEndpointsAuthorizations } from '../../../../../types/Authorization';
 import { RestResponse } from '../../../../../types/GlobalType';
+import { OCPIEndpoint } from '../../../../../types/ocpi/OCPIEndpoint';
 import { Constants } from '../../../../../utils/Constants';
 import { Utils } from '../../../../../utils/Utils';
 

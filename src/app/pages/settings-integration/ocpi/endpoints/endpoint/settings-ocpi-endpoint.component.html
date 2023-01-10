@@ -98,7 +98,7 @@
                   </div>
                 </div>
                 <div class="col-md-4 text-end">
-                  <button mat-raised-button color="primary" *ngIf="((currentEndpoint | json) === '{}' && canGenerateLocalToken) || currentEndpoint.canGenerateLocalToken" (click)="generateLocalToken(formGroup.value)">
+                  <button mat-raised-button color="primary" *ngIf="canGenerateLocalToken" (click)="generateLocalToken(formGroup.value)">
                     <mat-icon>vpn_key</mat-icon>
                     <span>{{'ocpiendpoints.generate_new_token' | translate}}</span>
                   </button>
@@ -117,7 +117,7 @@
                   </div>
                 </div>
                 <div class="col-md-4 text-end">
-                  <button mat-raised-button color="primary" *ngIf="((currentEndpoint | json) === '{}' && canPing) || currentEndpoint.canPing" (click)="testConnection(formGroup.value)"
+                  <button mat-raised-button color="primary" *ngIf="canPing" (click)="testConnection(formGroup.value)"
                     [disabled]="!token.value || baseUrl.errors?.required || baseUrl.errors?.pattern">
                     <mat-icon>touch_app</mat-icon>
                     <span>{{'ocpiendpoints.test_connection' | translate}}</span>

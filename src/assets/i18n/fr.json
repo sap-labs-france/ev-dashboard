@@ -1774,6 +1774,7 @@
       "payment_intent_create_account_success": "Vérifiez vos emails pour procéder au chargement !",
       "payment_intent_create_account_error": "Une erreur est survenue lors du traitement de vos informations personnelles : {{error}}",
       "payment_intent_save_start": "Enregistrer et commencer la charge",
+      "payment_intent_email_sent": "Email Envoyé",
       "transaction_billing_activation": "Activer la facturation",
       "transaction_billing_activation_title": "Activation de la facturation",
       "transaction_billing_activation_confirm": [

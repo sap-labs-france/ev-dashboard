@@ -1774,6 +1774,7 @@
       "payment_intent_create_account_success": "Check your email to proceed to charging !",
       "payment_intent_create_account_error": "Error occurred while handling your informations : {{error}}",
       "payment_intent_save_start": "Save and start charging",
+      "payment_intent_email_sent": "Email Sent",
       "transaction_billing_activation": "Billing Activation",
       "transaction_billing_activation_title": "Billing Activation",
       "transaction_billing_activation_confirm": [

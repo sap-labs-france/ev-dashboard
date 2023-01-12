@@ -1,0 +1,18 @@
+<div>
+  <mat-form-field appearance="none">
+    <mat-chip-list #chipList aria-label="Stickers" class="chip-list">
+      <mat-chip *ngFor="let sticker of stickers" (removed)="remove(sticker)" class="single-chip">
+        {{sticker}}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+    </mat-chip-list>
+  </mat-form-field>
+  <mat-form-field class="example-chip-list" appearance="fill">
+    <mat-label>Stickers</mat-label>
+    <input matInput [placeholder]="placeholderText"
+            [(ngModel)]="newSticker"
+            (keyup.enter)="add()"/>
+  </mat-form-field>
+</div>

@@ -160,6 +160,7 @@
     "invalid_file_error": "Le fichier fourni est invalide",
     "invalid_file_csv_header_error": "Au moins un des champs obligatoire n'a pas été fourni dans l'en-tête du fichier CSV, l'opération a été annulée",
     "import_already_ongoing": "Impossible de transférer les badges pendant qu'un import est en cours",
+    "add_new_sticker": "Type here to add new sticker",
     "menu": {
       "dashboard": "Tableau de bord",
       "charging_stations": "Bornes",

@@ -129,7 +129,6 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
   public sendEmailVerificationScanAndPay(data: any) {
     // Show
     this.spinnerService.show();
-    this.isSendClicked = true;
     this.reCaptchaV3Service.execute(this.siteKey, 'VerifScanPay', (token) => {
       if (token) {
         data['captcha'] = token;
@@ -143,6 +142,7 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
       // launch email verif
       this.centralServerService.scanPayVerifyEmail(data).subscribe({
         next: (response) => {
+          this.isSendClicked = true;
           this.spinnerService.hide();
           this.messageService.showSuccessMessage('settings.billing.payment_intent_create_account_success');
           // void this.router.navigate(['/auth/login']);

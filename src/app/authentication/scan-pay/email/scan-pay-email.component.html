@@ -31,7 +31,7 @@
                     <span class="input-group-text">
                       <mat-icon>account_circle</mat-icon>
                       <mat-form-field class="ms-2">
-                        <input appAutofocus id="last-name-field" matInput type="text" placeholder="{{'users.name' | translate}}"
+                        <input id="last-name-field" matInput type="text" placeholder="{{'users.name' | translate}}"
                           [formControl]="name" (input)="toUpperCase(name)">
                           <mat-error *ngIf="email.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                       </mat-form-field>

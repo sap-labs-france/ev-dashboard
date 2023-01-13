@@ -19,7 +19,7 @@
           <app-site-area-limits #siteAreaLimitsComponent [formGroup]="formGroup" [siteArea]="siteArea" [readOnly]="readOnly"></app-site-area-limits>
         </div>
       </mat-tab>
-      <mat-tab *ngIf="formGroup.controls['issuer'].value && ocpiActive">
+      <mat-tab *ngIf="ocpiActive && ocpiHasVisibleFields && formGroup.controls.issuer.value">
         <ng-template mat-tab-label>
           <mat-icon>cloud</mat-icon>
           <span>{{'settings.tabs.ocpi' | translate}}</span>

@@ -1,16 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
-import { OCPIEndpoint } from 'types/ocpi/OCPIEndpoint';
 
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { DialogService } from '../../../../../services/dialog.service';
 import { MessageService } from '../../../../../services/message.service';
 import { SpinnerService } from '../../../../../services/spinner.service';
+import { DialogMode, OcpiEndpointsAuthorizations } from '../../../../../types/Authorization';
 import { RestResponse } from '../../../../../types/GlobalType';
+import { OCPIEndpoint } from '../../../../../types/ocpi/OCPIEndpoint';
 import { Constants } from '../../../../../utils/Constants';
 import { Utils } from '../../../../../utils/Utils';
 
@@ -22,7 +23,10 @@ import { Utils } from '../../../../../utils/Utils';
 export class SettingsOcpiEndpointComponent implements OnInit {
   @Input() public currentEndpoint!: OCPIEndpoint;
   @Input() public dialogRef!: MatDialogRef<any>;
-  public formGroup!: UntypedFormGroup;
+  @Input() public dialogMode!: DialogMode;
+  @Input() public authorizations!: OcpiEndpointsAuthorizations;
+
+  public formGroup!: FormGroup;
   public id!: AbstractControl;
   public name!: AbstractControl;
   public role!: AbstractControl;
@@ -33,6 +37,9 @@ export class SettingsOcpiEndpointComponent implements OnInit {
   public localToken!: AbstractControl;
   public token!: AbstractControl;
   public isBackgroundPatchJobActive!: AbstractControl;
+  public readOnly = true;
+  public canGenerateLocalToken: boolean;
+  public canPing: boolean;
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
@@ -45,43 +52,43 @@ export class SettingsOcpiEndpointComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.formGroup = new UntypedFormGroup({
-      id: new UntypedFormControl(''),
-      name: new UntypedFormControl('',
+    this.formGroup = new FormGroup({
+      id: new FormControl(''),
+      name: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.maxLength(100),
         ])),
-      role: new UntypedFormControl('',
+      role: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      baseUrl: new UntypedFormControl('',
+      baseUrl: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.pattern(Constants.URL_PATTERN),
         ])),
-      countryCode: new UntypedFormControl('',
+      countryCode: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.maxLength(2),
           Validators.minLength(2),
         ])),
-      partyId: new UntypedFormControl('',
+      partyId: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.maxLength(3),
           Validators.minLength(3),
         ])),
-      localToken: new UntypedFormControl('',
+      localToken: new FormControl('',
         Validators.compose([
           Validators.maxLength(64),
         ])),
-      token: new UntypedFormControl('',
+      token: new FormControl('',
         Validators.compose([
           Validators.maxLength(64),
         ])),
-      backgroundPatchJob: new UntypedFormControl(false),
+      backgroundPatchJob: new FormControl(false),
     });
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
@@ -92,6 +99,11 @@ export class SettingsOcpiEndpointComponent implements OnInit {
     this.localToken = this.formGroup.controls['localToken'];
     this.token = this.formGroup.controls['token'];
     this.isBackgroundPatchJobActive = this.formGroup.controls['backgroundPatchJob'];
+    this.canGenerateLocalToken = Utils.convertToBoolean(this.authorizations.canGenerateLocalToken);
+    this.canPing = Utils.convertToBoolean(this.authorizations.canPing);
+    // Handle Dialog mode
+    this.readOnly = this.dialogMode === DialogMode.VIEW;
+    Utils.handleDialogMode(this.dialogMode, this.formGroup);
     this.loadEndpoint();
   }
 

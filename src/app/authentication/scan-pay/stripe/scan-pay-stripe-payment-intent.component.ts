@@ -20,13 +20,8 @@ import { Utils } from '../../../utils/Utils';
 export class ScanPayStripePaymentIntentComponent implements OnInit {
   public formGroup!: UntypedFormGroup;
   public isBillingComponentActive: boolean;
+  public data: string;
   public locale: string;
-  public email: string;
-  public siteAreaID: string;
-  public name: string;
-  public firstName: string;
-  public chargingStationID: string;
-  public connectorID: number;
   // Stripe elements
   public elements: StripeElements;
   public paymentElement: StripePaymentElement;
@@ -46,12 +41,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
 
   public ngOnInit(): void {
     void this.initialize();
-    this.email = this.windowService.getUrlParameterValue('email');
-    this.siteAreaID = this.windowService.getUrlParameterValue('siteAreaID');
-    this.name = this.windowService.getUrlParameterValue('name');
-    this.firstName = this.windowService.getUrlParameterValue('firstName');
-    this.chargingStationID = this.windowService.getUrlParameterValue('chargingStationID');
-    this.connectorID = +this.windowService.getUrlParameterValue('connectorID');
+    this.data = this.windowService.getUrlParameterValue('data');
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.locale = locale.currentLocaleJS;
     });
@@ -117,13 +107,8 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
     try {
       this.spinnerService.show();
       const response = await this.centralServerService.scanPayHandlePaymentIntent({
-        email: this.email,
-        firstName: this.firstName,
-        name: this.name,
-        siteAreaID: this.siteAreaID,
-        locale: this.locale,
-        chargingStationID: this.chargingStationID,
-        connectorID: this.connectorID
+        data: this.data,
+        locale: this.locale
       }).toPromise();
       return response?.internalData;
     } finally {
@@ -135,14 +120,10 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
     try {
       this.spinnerService.show();
       const response = await this.centralServerService.scanPayHandlePaymentIntent({
-        email: this.email,
-        firstName: this.firstName,
-        name: this.name,
-        siteAreaID: this.siteAreaID,
+        data: this.data,
         locale: this.locale,
         paymentIntentID: this.paymentIntent?.id,
-        chargingStationID: this.chargingStationID,
-        connectorID: this.connectorID
+
       }).toPromise();
       return response?.internalData;
     } finally {

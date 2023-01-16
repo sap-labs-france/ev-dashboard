@@ -90,6 +90,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
   exports: [
     CarMakersDialogComponent,
     TransactionComponent,
+    TransactionHeaderComponent,
     TransactionDialogComponent,
     SitesDialogComponent,
     UsersDialogComponent,

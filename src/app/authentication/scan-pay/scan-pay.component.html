@@ -11,14 +11,11 @@
             </div>
           </div>
           <div class="card-body">
-            <form class="form">
-              <div id="payment-element">
-                <!-- Mount the Payment Element here -->
-              </div>
-            </form>
+            <app-show-transaction [transactionID]="transactionID"></app-show-transaction>
           </div>
           <div class="card-footer justify-content-center mb-4">
-            <button mat-button type="submit" (click)=linkCardToAccount()>{{'settings.billing.payment_intent_save_start' | translate}}</button>
+            <!-- To change in i18n once the POC validate -->
+            <!-- <button mat-button type="submit" (click)=linkCardToAccount()>{{'settings.billing.payment_intent_save_start' | translate}}</button> -->
           </div>
         </div>
       </div>

@@ -16,7 +16,7 @@
                 <app-transaction-header [transaction]="transaction" [scanPay]="true"></app-transaction-header>
               </div>
             <div class="card-footer justify-content-center mb-4">
-              <button mat-button (click)="scanPayStopTransaction()" [disabled]="isClicked">{{"settings.billing.scan_pay_stop_button" | translate}}</button>
+              <button mat-button (click)="scanPayStopTransaction()" [disabled]="isClicked || transaction?.stop">{{"settings.billing.scan_pay_stop_button" | translate}}</button>
             </div>
           </div>
         </div>

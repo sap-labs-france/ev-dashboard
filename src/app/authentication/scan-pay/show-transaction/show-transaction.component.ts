@@ -96,10 +96,10 @@ export class ShowTransactionComponent implements OnInit, OnDestroy {
   public scanPayStopTransaction() {
     this.isClicked = true;
     const data = {};
-    //TODO: ajuster les params avec l'url hash
-    data['email'] = 'banchereau.caroline.v@gmail.com';
-    // Show
     this.spinnerService.show();
+    //TODO: ajuster les params avec l'url hash
+    data['email'] = this.transaction.user.email;
+    // Show
     data['transactionId'] = this.currentTransactionID;
     // launch capture and stop transaction
     this.centralServerService.scanPayHandleCapturePayment(data).subscribe({

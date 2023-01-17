@@ -1650,13 +1650,6 @@ export class CentralServerService {
       subdomain: this.windowService.getSubdomain(),
       email: parameters.email,
       transactionId: parameters.transactionId
-      // firstName: parameters.firstName,
-      // name: parameters.name,
-      // siteAreaID: parameters.siteAreaID,
-      // locale: parameters.locale,
-      // paymentIntentID: parameters.paymentIntentID,
-      // chargingStationID: parameters.chargingStationID,
-      // connectorID: parameters.connectorID
     }, {
       headers: this.buildHttpHeaders(),
     }).pipe(

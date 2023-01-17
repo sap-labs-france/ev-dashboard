@@ -65,13 +65,7 @@ export class SiteAreaLimitsComponent implements OnInit, OnChanges {
     ));
     if (this.smartChargingSessionParametersActive) {
       this.formGroup.addControl('smartChargingSessionParameters', new UntypedFormGroup({
-        departureTime: new UntypedFormControl(null,
-          Validators.compose([
-            Validators.min(0),
-            Validators.max(23),
-            Validators.pattern('^[+]?[0-9]*$'),
-          ])
-        ),
+        departureTime: new UntypedFormControl(null),
         carStateOfCharge: new UntypedFormControl(null,
           Validators.compose([
             Validators.min(1),
@@ -161,6 +155,11 @@ export class SiteAreaLimitsComponent implements OnInit, OnChanges {
 
   public refreshSmartChargingSessionParameters(){
     this.smartChargingChanged();
+  }
+
+  public resetDepartureTime(){
+    this.departureTime.setValue(null);
+    this.departureTime.markAsDirty();
   }
 
   public maximumPowerChanged() {

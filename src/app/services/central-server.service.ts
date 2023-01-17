@@ -1626,10 +1626,14 @@ export class CentralServerService {
     // Execute the REST service
     return this.httpClient.post<BillingOperationResult>(this.buildUtilRestEndpointUrl(urlPattern), {
       subdomain: this.windowService.getSubdomain(),
-      data: parameters.data,
+      email: parameters.email,
+      firstName: parameters.firstName,
+      name: parameters.name,
+      siteAreaID: parameters.siteAreaID,
       locale: parameters.locale,
       paymentIntentID: parameters.paymentIntentID,
-
+      chargingStationID: parameters.chargingStationID,
+      connectorID: parameters.connectorID
     }, {
       headers: this.buildHttpHeaders(),
     }).pipe(

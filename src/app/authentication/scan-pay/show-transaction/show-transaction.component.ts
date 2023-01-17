@@ -57,7 +57,7 @@ export class ShowTransactionComponent implements OnInit, OnDestroy {
   public loadData() {
     if (this.currentTransactionID) {
       this.spinnerService.show();
-      this.centralServerService.getTransaction(this.currentTransactionID).subscribe({
+      this.centralServerService.getTransactionScanPay(this.currentTransactionID).subscribe({
         next: (transaction: Transaction) => {
           this.spinnerService.hide();
           this.transaction = transaction;

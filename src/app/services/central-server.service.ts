@@ -1618,6 +1618,26 @@ export class CentralServerService {
     );
   }
 
+  public getTransactionScanPay(transactionId: number): Observable<Transaction> {
+    // Verify init
+    this.checkInit();
+    if (!transactionId) {
+      return EMPTY;
+    }
+    const params: { [param: string]: string } = {};
+    params['Subdomain'] = this.windowService.getSubdomain();
+    params['transactionId'] = transactionId.toString();
+    // Execute the REST service
+    return this.httpClient.get<Transaction>(this.buildUtilRestEndpointUrl(RESTServerRoute.REST_SCAN_PAY_TANSACTION),
+      {
+        headers: this.buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public scanPayHandlePaymentIntent(parameters: any): Observable<BillingOperationResult> {
     this.checkInit();
     // Build the URL

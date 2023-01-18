@@ -98,7 +98,7 @@ export class ShowTransactionComponent implements OnInit, OnDestroy {
     const data = {};
     this.spinnerService.show();
     //TODO: ajuster les params avec l'url hash
-    data['email'] = this.transaction.user.email;
+    data['email'] = this.transaction?.user?.email;
     // Show
     data['transactionId'] = this.currentTransactionID;
     // launch capture and stop transaction

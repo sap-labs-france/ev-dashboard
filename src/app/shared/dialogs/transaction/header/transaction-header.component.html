@@ -14,18 +14,18 @@
     <div *ngIf="!transaction?.stop && scanPay" class="d-flex flex-column mb-3 align-items-center " appTooltip
       title="{{'transactions.dialog.session.tooltips.amount' | translate}}">
       <mat-icon>money</mat-icon>
-      <div *ngIf="!transaction?.stop && scanPay" class="first-text">{{transaction.currentCumulatedRoundedPrice ? (transaction.currentCumulatedRoundedPrice | appCurrency:transaction.priceUnit) : '-'}}</div>
+      <div *ngIf="!transaction?.stop && scanPay" class="first-text">{{transaction?.currentCumulatedRoundedPrice ? (transaction?.currentCumulatedRoundedPrice | appCurrency:transaction.priceUnit) : '-'}}</div>
     </div>
     <div *ngIf="!transaction?.stop" class="d-flex flex-column mb-3 align-items-center" appTooltip
       title="{{'transactions.dialog.session.tooltips.current_consumption' | translate}}">
       <mat-icon>flash_on</mat-icon>
-      <div class="first-text">{{transaction.currentInstantWatts | appUnit:'W':'kW'}}</div>
+      <div class="first-text">{{transaction?.currentInstantWatts | appUnit:'W':'kW'}}</div>
     </div>
-    <div *ngIf="!scanPay || (scanPay && transaction.stop)" class="d-flex flex-column align-items-center" appTooltip
+    <div *ngIf="!scanPay || (scanPay && transaction?.stop)" class="d-flex flex-column align-items-center" appTooltip
       title="{{'transactions.dialog.session.tooltips.start_date' | translate}}">
       <mat-icon>timelapse</mat-icon>
-      <div class="first-text">{{transaction.timestamp | appDate}}</div>
-      <div *ngIf="transaction.stop" class="first-text"><small>({{transaction.stop.timestamp | appDate}})</small></div>
+      <div class="first-text">{{transaction?.timestamp | appDate}}</div>
+      <div *ngIf="transaction?.stop" class="first-text"><small>({{transaction.stop.timestamp | appDate}})</small></div>
     </div>
   </div>
   <div class="d-flex flex-column justify-content-around">

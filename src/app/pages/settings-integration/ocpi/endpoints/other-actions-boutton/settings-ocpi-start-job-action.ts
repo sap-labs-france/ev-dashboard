@@ -2,12 +2,12 @@ import { ButtonActionColor } from 'types/GlobalType';
 
 import { TableAction } from '../../../../../shared/table/actions/table-action';
 import { OCPIButtonAction } from '../../../../../types/ocpi/OCPIEndpoint';
-import { TableActionDef } from '../../../../../types/Table';
+import { ActionType, TableActionDef } from '../../../../../types/Table';
 
 export class SettingsOCPIStartJobAction implements TableAction {
   private action: TableActionDef = {
     id: OCPIButtonAction.START_JOB,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'av_timer',
     color: ButtonActionColor.PRIMARY,
     name: 'ocpiendpoints.start_stop_job',

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
@@ -56,20 +56,21 @@ export class UsersInErrorTableDataSource extends TableDataSource<User> {
   public loadDataImpl(): Observable<DataResult<User>> {
     return new Observable((observer) => {
       // Get the Tenants
-      this.centralServerService.getUsersInError(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((users) => {
-        // Initialize authorization actions
-        this.usersAuthorizations = {
-          // Metadata
-          metadata: users.metadata
-        };
-
-        this.formatErrorMessages(users.result);
-        observer.next(users);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getUsersInError(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (users) => {
+          // Initialize authorization actions
+          this.usersAuthorizations = {
+            // Metadata
+            metadata: users.metadata
+          };
+          this.formatErrorMessages(users.result);
+          observer.next(users);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }

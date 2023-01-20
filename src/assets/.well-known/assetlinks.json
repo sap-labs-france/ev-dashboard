@@ -1,11 +1,38 @@
 [
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.emobility",
-      "sha256_cert_fingerprints":
-      ["FD:2C:A5:F5:7B:D6:23:CC:AC:54:05:48:32:0C:E1:23:CB:B5:C4:43:2D:6D:69:70:ED:73:A8:71:E0:66:F5:47"]
+      "package_name": "com.emotum",
+      "sha256_cert_fingerprints": [
+        "F9:D2:CE:D7:F3:A1:4D:3A:62:13:6C:5A:23:EF:BA:F8:9C:EA:2F:71:28:55:72:37:24:70:F6:B6:1C:31:EA:36"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.normatech.lodmi",
+      "sha256_cert_fingerprints": [
+        "D2:B4:FC:74:5F:C8:FB:9C:AB:93:48:C0:75:04:67:E9:BA:05:E3:06:7F:26:53:22:E3:8B:6F:7F:33:EB:E4:51"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.chargeangels",
+      "sha256_cert_fingerprints": [
+        "70:9B:E4:D2:6D:DD:59:44:91:1E:52:69:A7:E9:D5:7F:A7:24:88:DD:21:1F:33:57:04:39:C1:10:3B:40:C0:AB"
+      ]
     }
   }
 ]

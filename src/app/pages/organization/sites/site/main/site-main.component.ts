@@ -1,15 +1,18 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
 import { CentralServerService } from 'services/central-server.service';
+import { ComponentService } from 'services/component.service';
 import { ConfigService } from 'services/config.service';
 import { MessageService } from 'services/message.service';
 import { CompaniesDialogComponent } from 'shared/dialogs/companies/companies-dialog.component';
 import { Address } from 'types/Address';
+import { DialogMode } from 'types/Authorization';
 import { Company } from 'types/Company';
 import { Site } from 'types/Site';
+import { TenantComponents } from 'types/Tenant';
 import { Constants } from 'utils/Constants';
 import { Utils } from 'utils/Utils';
 
@@ -20,13 +23,15 @@ import { Utils } from 'utils/Utils';
 export class SiteMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: UntypedFormGroup;
   @Input() public site!: Site;
-  @Input() public readOnly: boolean;
+  @Input() public dialogMode: DialogMode;
   @Output() public publicChanged = new EventEmitter<boolean>();
 
+  public readonly DialogMode = DialogMode;
   public image = Constants.NO_IMAGE;
   public imageChanged = false;
   public maxSize: number;
   public initialized = false;
+  public isOcpiComponentActive: boolean;
 
   public issuer!: AbstractControl;
   public id!: AbstractControl;
@@ -41,32 +46,34 @@ export class SiteMainComponent implements OnInit, OnChanges {
   // eslint-disable-next-line no-useless-constructor
   public constructor(
     private centralServerService: CentralServerService,
+    private componentService: ComponentService,
     private dialog: MatDialog,
     private configService: ConfigService,
     private messageService: MessageService,
     private router: Router) {
     this.maxSize = this.configService.getSite().maxPictureKb;
+    this.isOcpiComponentActive = this.componentService.isActive(TenantComponents.OCPI);
   }
 
   public ngOnInit(): void {
     // Init the form
-    this.formGroup.addControl('issuer', new UntypedFormControl(true));
-    this.formGroup.addControl('id', new UntypedFormControl(''));
-    this.formGroup.addControl('name', new UntypedFormControl('',
+    this.formGroup.addControl('issuer', new FormControl(true));
+    this.formGroup.addControl('id', new FormControl(''));
+    this.formGroup.addControl('name', new FormControl('',
       Validators.compose([
         Validators.required,
         Validators.maxLength(255),
       ])));
-    this.formGroup.addControl('company', new UntypedFormControl('',
+    this.formGroup.addControl('company', new FormControl('',
       Validators.compose([
         Validators.required,
       ])));
-    this.formGroup.addControl('companyID', new UntypedFormControl('',
+    this.formGroup.addControl('companyID', new FormControl('',
       Validators.compose([
         Validators.required,
       ])));
-    this.formGroup.addControl('autoUserSiteAssignment', new UntypedFormControl(false));
-    this.formGroup.addControl('public', new UntypedFormControl(false));
+    this.formGroup.addControl('autoUserSiteAssignment', new FormControl(false));
+    this.formGroup.addControl('public', new FormControl(false));
     // Form
     this.id = this.formGroup.controls['id'];
     this.issuer = this.formGroup.controls['issuer'];

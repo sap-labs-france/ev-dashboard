@@ -18,7 +18,6 @@
 
   .card-body {
     position: relative;
-    max-height: 90vh;
     & .mat-toolbar {
       padding-left: 0px !important;
       padding-right: 0px !important;
@@ -42,8 +41,8 @@
 
   .big-card-logo {
     height: 125px;
-    max-width: 90%;
-    margin: 5px;
+    max-width: 75%;
+    margin: 10px;
   }
 
   .card-disabled {
@@ -98,6 +97,7 @@
         padding: 10px 10px 10px 0;
         line-height: 24px;
         margin: 0;
+        width: 85%;
       }
       .nav-tabs-navigation {
         .btn-link {

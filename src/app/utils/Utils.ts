@@ -1,12 +1,12 @@
-import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { AbstractControl, FormControl, UntypedFormGroup } from '@angular/forms';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { Data, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import * as dayjs from 'dayjs';
 import { StatusCodes } from 'http-status-codes';
-import * as moment from 'moment';
 import { DialogMode } from 'types/Authorization';
 import { HTTPError } from 'types/HTTPError';
-import { Tag } from 'types/Tag';
+import { Tag, TagLimit } from 'types/Tag';
 import { User, UserToken } from 'types/User';
 
 import { CentralServerService } from '../services/central-server.service';
@@ -26,6 +26,17 @@ export class Utils {
     return [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('').toUpperCase();
   }
 
+  public static displayTagLimit(limit: TagLimit): string {
+    if (!limit?.limitKwhEnabled) {
+      return '-';
+    }
+    if (Utils.isNullOrUndefined(limit.limitKwhConsumed)) {
+      limit.limitKwhConsumed = 0;
+    }
+    const percentageUsed = Utils.roundTo((limit.limitKwhConsumed / limit.limitKwh) * 100, 0);
+    return `${limit.limitKwhConsumed} / ${limit.limitKwh} kWh (${percentageUsed}%)`;
+  }
+
   public static shrinkObjectProperties(properties: any): any  {
     for (const propertyName in properties) {
       if (!properties[propertyName]) {
@@ -36,6 +47,12 @@ export class Utils {
       return null;
     }
     return properties;
+  }
+
+  public static buildGoogleMapUrlFromCoordinates(coordinates: number[]): string {
+    if (Utils.containsGPSCoordinates(coordinates)) {
+      return `https://maps.google.com/maps?q=${coordinates[1]},${coordinates[0]}`;
+    }
   }
 
   public static buildDependentFilters(filterDef: TableFilterDef) {
@@ -51,14 +68,14 @@ export class Utils {
               dependentFilter.exhaustive) {
               continue;
             }
-            filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] =
+            filterDef.dialogComponentData.staticFilter[dependentFilter.httpID] =
               dependentFilter.currentValue.map((obj) => obj.key).join('|');
           } else {
-            filterDef.dialogComponentData.staticFilter[dependentFilter.httpId] =
+            filterDef.dialogComponentData.staticFilter[dependentFilter.httpID] =
               dependentFilter.currentValue[0].key;
           }
         } else {
-          delete filterDef.dialogComponentData.staticFilter[dependentFilter.httpId];
+          delete filterDef.dialogComponentData.staticFilter[dependentFilter.httpID];
         }
       }
     }
@@ -158,10 +175,10 @@ export class Utils {
     validate: () => void, close: () => void) {
     // listen to keystroke
     dialogRef.keydownEvents().subscribe((keydownEvents) => {
-      if (keydownEvents && keydownEvents.code === 'Escape') {
+      if (close && keydownEvents && keydownEvents.code === 'Escape') {
         dialogRef.close();
       }
-      if (keydownEvents && keydownEvents.code === 'Enter') {
+      if (validate && keydownEvents && keydownEvents.code === 'Enter') {
         validate();
       }
     });
@@ -234,8 +251,8 @@ export class Utils {
   }
 
   public static validateEqual(formGroup: UntypedFormGroup, firstField: string, secondField: string) {
-    const field1: UntypedFormControl = formGroup.controls[firstField] as UntypedFormControl;
-    const field2: UntypedFormControl = formGroup.controls[secondField] as UntypedFormControl;
+    const field1: FormControl = formGroup.controls[firstField] as FormControl;
+    const field2: FormControl = formGroup.controls[secondField] as FormControl;
 
     // Null?
     if (!field1.value && !field2.value) {
@@ -295,8 +312,17 @@ export class Utils {
     messageService.showErrorMessage(errorMessage, params);
   }
 
-  public static isInMobileApp(subDomain: string): boolean {
-    return Utils.getMobileVendor() !== null && subDomain !== 'ezcharge';
+  public static isMobile(): boolean {
+    return Utils.getMobileVendor() !== null;
+  }
+
+  public static getMobileVendor(): MobileType | null {
+    if (navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i)) {
+      return MobileType.IOS;
+    } else if (navigator.userAgent.match(/Android/i)) {
+      return MobileType.ANDROID;
+    }
+    return null;
   }
 
   public static replaceSpecialCharsInCSVValueParam(value: string): string {
@@ -814,26 +840,6 @@ export class Utils {
     return converterName;
   }
 
-  public static getMobileVendor(): MobileType | null {
-    const userAgent: string = navigator.userAgent as string || navigator.vendor as string || window['opera'] as string;
-    if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i) || userAgent.match(/iPod/i)) {
-      return MobileType.IOS;
-    } else if (userAgent.match(/Android/i)) {
-      return MobileType.ANDROID;
-    }
-    return null;
-  }
-
-  public static buildMobileAppDeepLink(path: string): string {
-    const mobileVendor = Utils.getMobileVendor();
-    switch (mobileVendor) {
-      case MobileType.IOS:
-        return `eMobility://${path}`;
-      case MobileType.ANDROID:
-        return `intent://${path}#Intent;scheme=eMobility;package=com.emobility;end`;
-    }
-  }
-
   public static handleHttpError(error: any, router: Router, messageService: MessageService,
     centralServerService: CentralServerService, errorMessage: string, params?: Record<string, unknown>): void {
     // Check error
@@ -949,15 +955,11 @@ export class Utils {
   }
 
   public static isValidDate(date: any): boolean {
-    return moment(date).isValid();
+    return dayjs(date).isValid();
   }
 
   public static isUndefined(obj: any): boolean {
     return typeof obj === 'undefined';
-  }
-
-  public static copyToClipboard(content: any) {
-    void navigator.clipboard.writeText(content);
   }
 
   // when exporting values
@@ -986,23 +988,23 @@ export class Utils {
     return locale.replace('_', '-');
   }
 
-  public static convertToMomentLocale(locale: string): string {
-    let momentLocale = Utils.convertToBrowserLocale(locale).toLowerCase(); // Converts 'fr-FR' to 'fr-fr'
-    const fragments = momentLocale.split('-');
-    if (fragments.length === 2 && fragments[0] === fragments[1]) {
-      momentLocale = fragments[0];  // Converts 'fr-fr' to 'fr'
+  public static changeLibLocaleGlobally(currentLocale: string): void {
+    const locale = Utils.convertToLibLocale(currentLocale);
+    if (dayjs.locale() !== locale) {
+      dayjs.locale(locale);
+      console.log('Dayjs - Set dayjs locale to: ' + locale);
+      console.log('Dayjs - Locale as been set to: ' + dayjs.locale());
+      console.log('Dayjs - Current formatted date: ' + dayjs().format('LL') + ' - time: ' + dayjs().format('LT') + '- Full: ' + dayjs().format('LLLL'));
+      console.log('Dayjs - Current date: ' + dayjs().toDate());
     }
-    return momentLocale;
   }
 
-  public static changeMomentLocaleGlobally(currentLocale: string): void {
-    const momentLocale = Utils.convertToMomentLocale(currentLocale);
-    if (moment.locale() !== momentLocale) {
-      console.log('Attempt to set moment locale to: ' + momentLocale);
-      moment.locale(momentLocale);
-      console.log('Moment Locale as been set to: ' + moment.locale());
-      console.log('List of loaded locales: ' + moment.locales());
-      console.log('Current format -  Date: ' + moment().format('LL') + '- time: ' + moment().format('LT'));
+  private static convertToLibLocale(locale: string): string {
+    let nodeLibLocale = Utils.convertToBrowserLocale(locale).toLowerCase(); // Converts 'fr-FR' to 'fr-fr'
+    const fragments = nodeLibLocale.split('-');
+    if (fragments.length === 2 && fragments[0] === fragments[1]) {
+      nodeLibLocale = fragments[0];  // Converts 'fr-fr' to 'fr'
     }
+    return nodeLibLocale;
   }
 }

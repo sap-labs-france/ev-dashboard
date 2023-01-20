@@ -4,7 +4,7 @@ import { ChargingStationButtonAction } from '../../../types/ChargingStation';
 import { ButtonAction, ButtonActionColor } from '../../../types/GlobalType';
 import { OCPIButtonAction } from '../../../types/ocpi/OCPIEndpoint';
 import { SiteButtonAction } from '../../../types/Site';
-import { TableActionDef } from '../../../types/Table';
+import { ActionType, TableActionDef } from '../../../types/Table';
 import { TransactionButtonAction } from '../../../types/Transaction';
 import { UserButtonAction } from '../../../types/User';
 import { TableAction } from './table-action';
@@ -12,7 +12,7 @@ import { TableAction } from './table-action';
 export class TableUploadAction implements TableAction {
   private action: TableActionDef = {
     id: ButtonAction.SEND,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'cloud_upload',
     color: ButtonActionColor.PRIMARY,
     name: 'general.upload',

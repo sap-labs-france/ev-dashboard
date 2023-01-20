@@ -8,10 +8,9 @@ export class LogSourceTableFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'source',
-      httpId: 'Source',
+      httpID: 'Source',
       type: FilterType.DROPDOWN,
       name: 'logs.source',
-      class: 'col-sm-4 col-md-3 col-lg-2 col-xl-1',
       label: '',
       currentValue: [],
       items: Object.assign([], sources),

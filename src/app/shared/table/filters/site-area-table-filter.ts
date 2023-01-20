@@ -8,13 +8,12 @@ export class SiteAreaTableFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'siteAreas',
-      httpId: 'SiteAreaID',
+      httpID: 'SiteAreaID',
       type: FilterType.DIALOG_TABLE,
       defaultValue: '',
       label: '',
       multiple: true,
       name: 'site_areas.titles',
-      class: 'col-md-6 col-lg-3 col-xl-2',
       dialogComponent: SiteAreasDialogComponent,
       cleared: true,
       dependentFilters,

@@ -1,7 +1,8 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
+import { DialogMode } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { ConfigService } from '../../../../../services/config.service';
@@ -18,12 +19,13 @@ import { Utils } from '../../../../../utils/Utils';
 export class CompanyMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: UntypedFormGroup;
   @Input() public company!: Company;
-  @Input() public readOnly: boolean;
+  @Input() public  dialogMode: DialogMode;
 
   public logo = Constants.NO_IMAGE;
   public logoChanged = false;
   public maxSize: number;
   public initialized = false;
+  public readonly  DialogMode = DialogMode;
 
   public issuer!: AbstractControl;
   public id!: AbstractControl;
@@ -39,9 +41,9 @@ export class CompanyMainComponent implements OnInit, OnChanges {
   }
 
   public ngOnInit() {
-    this.formGroup.addControl('issuer', new UntypedFormControl(true));
-    this.formGroup.addControl('id', new UntypedFormControl(''));
-    this.formGroup.addControl('name', new UntypedFormControl('',
+    this.formGroup.addControl('issuer', new FormControl(true));
+    this.formGroup.addControl('id', new FormControl(''));
+    this.formGroup.addControl('name', new FormControl('',
       Validators.compose([
         Validators.required,
       ])

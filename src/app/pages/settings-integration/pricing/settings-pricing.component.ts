@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
 import { DialogService } from 'services/dialog.service';
-import { SettingAuthorizationActions } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ButtonAction, RestResponse } from '../../../types/GlobalType';
+import { HTTPError } from '../../../types/HTTPError';
 import { PricingSettings, PricingSettingsType } from '../../../types/Setting';
 import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
@@ -21,8 +21,7 @@ import { Utils } from '../../../utils/Utils';
 })
 export class SettingsPricingComponent implements OnInit {
   public isActive = false;
-  public authorizations: SettingAuthorizationActions;
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public pricingSettings!: PricingSettings;
   public isCurrencyCodeReadonly = false;
   public showSimplePricing = false;
@@ -43,7 +42,7 @@ export class SettingsPricingComponent implements OnInit {
   public ngOnInit(): void {
     if (this.isActive) {
       // Build the form
-      this.formGroup = new FormGroup({});
+      this.formGroup = new UntypedFormGroup({});
       // Load the conf
       this.loadConfiguration();
     }
@@ -54,10 +53,6 @@ export class SettingsPricingComponent implements OnInit {
     this.componentService.getPricingSettings().subscribe({
       next: (settings) => {
         this.spinnerService.hide();
-        // Init auth
-        this.authorizations = {
-          canUpdate: Utils.convertToBoolean(settings.canUpdate)
-        };
         // Keep
         this.pricingSettings = settings;
         // Check Settings

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ChargingStationsAuthorizations } from 'types/Authorization';
+import { ChargingStationsAuthorizations, DialogMode } from 'types/Authorization';
 
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 import { ChargingStation, ChargingStationCapabilities } from '../../../../types/ChargingStation';
@@ -21,13 +21,16 @@ export interface PropertyDisplay {
 export class ChargingStationPropertiesComponent implements OnInit {
   @Input() public chargingStation!: ChargingStation;
   @Input() public chargingStationsAuthorizations: ChargingStationsAuthorizations;
+  @Input() public dialogMode: DialogMode;
 
+  public readonly DialogMode = DialogMode;
 
   public chargerFormatted: any = {};
   public displayedProperties: PropertyDisplay[] = [
     { key: 'chargePointVendor', title: 'chargers.vendor' },
     { key: 'chargePointModel', title: 'chargers.model' },
-    { key: 'chargeBoxSerialNumber', title: 'chargers.serial_number' },
+    { key: 'chargePointSerialNumber', title: 'chargers.cp_serial_number' },
+    { key: 'chargeBoxSerialNumber', title: 'chargers.cs_serial_number' },
     { key: 'firmwareVersion', title: 'chargers.firmware_version' },
     { key: 'endpoint', title: 'chargers.private_url' },
     { key: 'chargingStationURL', title: 'chargers.public_url' },

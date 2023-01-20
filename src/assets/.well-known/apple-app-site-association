@@ -1,27 +1,76 @@
 {
-   "applinks":{
-      "apps":[],
-      "details":[
-         {
-            "appID":"SG7N28T3A2.com.e-Mobility",
-            "paths":["/auth/verify-email/*", "/auth/define-password/*"],
-            "components":[
-               {
-                  "/":"/auth/verify-email/*",
-                  "?":{
-                     "Email":"?*",
-                     "VerificationToken":"?*",
-                     "ResetToken":"*"
-                  }
-               },
-               {
-                  "/":"/auth/define-password/*",
-                  "?":{
-                     "hash":"?*"
-                  }
-               }
-            ]
-         }
-      ]
-   }
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "28W9F28X2T.com.emotumfr",
+        "paths": [
+          "/auth/verify-email/*",
+          "/auth/define-password/*"
+        ],
+        "components": [
+          {
+            "/": "/auth/verify-email/*",
+            "?": {
+              "Email": "?*",
+              "VerificationToken": "?*",
+              "ResetToken": "*"
+            }
+          },
+          {
+            "/": "/auth/define-password/*",
+            "?": {
+              "hash": "?*"
+            }
+          }
+        ]
+      },
+      {
+        "appID": "5XBG5Q2KVU.com.normatech.lodmi",
+        "paths": [
+          "/auth/verify-email/*",
+          "/auth/define-password/*"
+        ],
+        "components": [
+          {
+            "/": "/auth/verify-email/*",
+            "?": {
+              "Email": "?*",
+              "VerificationToken": "?*",
+              "ResetToken": "*"
+            }
+          },
+          {
+            "/": "/auth/define-password/*",
+            "?": {
+              "hash": "?*"
+            }
+          }
+        ]
+      },
+      {
+        "appID": "296EA3CE69.com.chargeangels",
+        "paths": [
+          "/auth/verify-email/*",
+          "/auth/define-password/*"
+        ],
+        "components": [
+          {
+            "/": "/auth/verify-email/*",
+            "?": {
+              "Email": "?*",
+              "VerificationToken": "?*",
+              "ResetToken": "*"
+            }
+          },
+          {
+            "/": "/auth/define-password/*",
+            "?": {
+              "hash": "?*"
+            }
+          }
+        ]
+      }
+    ]
+  }
 }

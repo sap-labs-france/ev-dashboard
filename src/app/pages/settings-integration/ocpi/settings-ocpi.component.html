@@ -11,9 +11,10 @@
   </div>
 </div>
 <div *ngIf="isActive" class="d-flex flex-column">
-  <div class="mat-toolbar-row mat-toolbar-settings">
+  <div class="mat-toolbar-row mat-toolbar-settings row m-0">
     <button mat-raised-button color="warn" (click)="save(formGroup.value)"
-      [disabled]="!formGroup.valid || !formGroup.dirty">
+        class="col-md-auto mb-2"
+        [disabled]="!formGroup.valid || !formGroup.dirty">
       <mat-icon>save</mat-icon>
       <span>{{'general.save' | translate}}</span>
     </button>
@@ -35,10 +36,10 @@
                 placeholder="{{'ocpi.businessdetails.name' | translate}}" required>
               <mat-error *ngIf="name.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
               <mat-error *ngIf="name.errors?.maxlength">
-                <div [translate]="'general.error_max_length'" [translateParams]="{ length: name.errors?.maxlength.requiredLength }"></div>
+                <div [translate]="'general.error_max_length'" [translateParams]="{ length: 100 }"></div>
               </mat-error>
               <mat-error *ngIf="name.errors?.minlength">
-                <div [translate]="'general.error_min_length'" [translateParams]="{ length: name.errors?.minlength.requiredLength }"></div>
+                <div [translate]="'general.error_min_length'" [translateParams]="{ length: 100 }"></div>
               </mat-error>
             </mat-form-field>
           </div>
@@ -142,7 +143,7 @@
               </mat-select>
               <mat-error *ngIf="currency?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
               <mat-error *ngIf="currency?.errors?.maxlength">
-                <div [translate]="'general.error_max_length'" [translateParams]="{length: currency.errors?.maxlength.requiredLength}"></div>
+                <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
               </mat-error>
             </mat-form-field>
           </div>
@@ -159,10 +160,10 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <div class="col-md-12 mb-2">
-            <mat-checkbox [formControl]="cpoActive" (change)="enableDisableCPO($event.checked)">
+          <div class="col-md-12 mb-3 mt-1">
+            <mat-slide-toggle [checked]="cpoIsActive" (change)="enableDisableCPO($event.checked)">
               {{'ocpi.enable_cpo' | translate}}
-            </mat-checkbox>
+            </mat-slide-toggle>
           </div>
           <div class="col-md-3">
             <mat-form-field>
@@ -171,10 +172,10 @@
               <mat-error *ngIf="cpoCountryCode.errors?.required">{{"general.mandatory_field"
                   | translate}}</mat-error>
               <mat-error *ngIf="cpoCountryCode.errors?.maxlength">
-                <div [translate]="'general.error_max_length'" [translateParams]="{length: cpoCountryCode.errors?.maxlength.requiredLength}"></div>
+                <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
               </mat-error>
               <mat-error *ngIf="cpoCountryCode.errors?.minlength">
-                <div [translate]="'general.error_min_length'" [translateParams]="{length: cpoCountryCode.errors?.minlength.requiredLength}"></div>
+                <div [translate]="'general.error_min_length'" [translateParams]="{length: 2}"></div>
               </mat-error>
             </mat-form-field>
           </div>
@@ -185,10 +186,10 @@
               <mat-error *ngIf="cpoPartyID.errors?.required">{{"general.mandatory_field"
                   | translate}}</mat-error>
               <mat-error *ngIf="cpoPartyID.errors?.maxlength">
-                <div [translate]="'general.error_max_length'" [translateParams]="{length: cpoPartyID.errors?.maxlength.requiredLength}"></div>
+                <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
               </mat-error>
               <mat-error *ngIf="cpoPartyID.errors?.minlength">
-                <div [translate]="'general.error_min_length'" [translateParams]="{length: cpoPartyID.errors?.minlength.requiredLength}"></div>
+                <div [translate]="'general.error_min_length'" [translateParams]="{length: 3}"></div>
               </mat-error>
             </mat-form-field>
           </div>
@@ -199,7 +200,7 @@
                 placeholder="{{'ocpi.tariff_id' | translate}}">
               <mat-error *ngIf="tariffID?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
               <mat-error *ngIf="tariffID?.errors?.maxlength">
-                <div [translate]="'general.error_max_length'" [translateParams]="{length: tariffID.errors?.maxlength.requiredLength}"></div>
+                <div [translate]="'general.error_max_length'" [translateParams]="{length: 36}"></div>
               </mat-error>
             </mat-form-field>
           </div>
@@ -216,10 +217,10 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <div class="col-md-12 mb-2">
-            <mat-checkbox [formControl]="emspActive" (change)="enableDisableEMSP($event.checked)">
+          <div class="col-md-12 mb-3 mt-1">
+            <mat-slide-toggle [checked]="emspIsActive" (change)="enableDisableEMSP($event.checked)">
               {{'ocpi.enable_emsp' | translate}}
-            </mat-checkbox>
+            </mat-slide-toggle>
           </div>
           <div class="col-md-3">
             <mat-form-field>
@@ -228,10 +229,10 @@
               <mat-error *ngIf="emspCountryCode.errors?.required">{{"general.mandatory_field"
                   | translate}}</mat-error>
               <mat-error *ngIf="emspCountryCode.errors?.maxlength">
-                <div [translate]="'general.error_max_length'" [translateParams]="{length: emspCountryCode.errors?.maxlength.requiredLength}"></div>
+                <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
               </mat-error>
               <mat-error *ngIf="emspCountryCode.errors?.minlength">
-                <div [translate]="'general.error_min_length'" [translateParams]="{length: emspCountryCode.errors?.minlength.requiredLength}"></div>
+                <div [translate]="'general.error_min_length'" [translateParams]="{length: 2}"></div>
               </mat-error>
             </mat-form-field>
           </div>
@@ -241,10 +242,10 @@
                 placeholder="{{'ocpi.party_id' | translate}}" (input)="toUpperCase(emspPartyID)" required>
               <mat-error *ngIf="emspPartyID.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
               <mat-error *ngIf="emspPartyID.errors?.maxlength">
-                <div [translate]="'general.error_max_length'" [translateParams]="{length: emspPartyID.errors?.maxlength.requiredLength}"></div>
+                <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
               </mat-error>
               <mat-error *ngIf="emspPartyID.errors?.minlength">
-                <div [translate]="'general.error_min_length'" [translateParams]="{length: emspPartyID.errors?.minlength.requiredLength}"></div>
+                <div [translate]="'general.error_min_length'" [translateParams]="{length: 3}"></div>
               </mat-error>
             </mat-form-field>
           </div>

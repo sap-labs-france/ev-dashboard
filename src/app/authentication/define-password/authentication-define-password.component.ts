@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
 import { Constants } from 'utils/Constants';
@@ -45,13 +45,13 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
     // Init Form
     this.formGroup = new UntypedFormGroup({
       passwords: new UntypedFormGroup({
-        password: new UntypedFormControl('',
+        password: new FormControl('',
           Validators.compose([
             Validators.required,
             Users.passwordWithNoSpace,
             Users.validatePassword,
           ])),
-        repeatPassword: new UntypedFormControl('',
+        repeatPassword: new FormControl('',
           Validators.compose([
             Validators.required,
           ])),
@@ -63,13 +63,6 @@ export class AuthenticationDefinePasswordComponent implements OnInit, OnDestroy 
     this.password = this.passwords.controls['password'];
     this.repeatPassword = this.passwords.controls['repeatPassword'];
     this.resetPasswordHash = this.route.snapshot.queryParamMap.get('hash');
-    // Handle Deep Linking
-    if (Utils.isInMobileApp(this.subDomain)) {
-      // Forward to Mobile App
-      const mobileAppURL = Utils.buildMobileAppDeepLink(
-        `resetPassword/${this.windowService.getSubdomain()}/${this.resetPasswordHash}`);
-      window.location.href = mobileAppURL;
-    }
     setTimeout(() => {
       const card = document.getElementsByClassName('card')[0];
       // After 700 ms we add the class animated to the login/register card

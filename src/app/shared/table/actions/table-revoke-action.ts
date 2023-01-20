@@ -7,14 +7,14 @@ import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ActionResponse } from '../../../types/DataResult';
 import { ButtonAction, ButtonActionColor, RestResponse } from '../../../types/GlobalType';
-import { TableActionDef, TableData } from '../../../types/Table';
+import { ActionType, TableActionDef, TableData } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
 import { TableAction } from './table-action';
 
 export class TableRevokeAction implements TableAction {
   private action: TableActionDef = {
     id: ButtonAction.REVOKE,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'link_off',
     color: ButtonActionColor.WARN,
     name: 'general.revoke',

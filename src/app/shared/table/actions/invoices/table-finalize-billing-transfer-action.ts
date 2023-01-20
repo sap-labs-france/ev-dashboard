@@ -7,7 +7,7 @@ import { CentralServerService } from '../../../../services/central-server.servic
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { TransferButtonAction } from '../../../../types/Billing';
-import { TableActionDef } from '../../../../types/Table';
+import { ActionType, TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
@@ -19,7 +19,7 @@ export interface TableFinalizeBillingTransferDef extends TableActionDef {
 export class TableFinalizeBillingTransferAction implements TableAction {
   private action: TableFinalizeBillingTransferDef = {
     id: TransferButtonAction.FINALIZE_TRANSFER,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'save',
     color: ButtonActionColor.PRIMARY,
     name: 'transfers.tooltips.finalize',

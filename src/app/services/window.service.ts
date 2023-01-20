@@ -1,13 +1,23 @@
+import { Clipboard } from '@angular/cdk/clipboard';
 import { Inject, Injectable } from '@angular/core';
-import { parse } from 'tldts';
+import { fromUrl, parseDomain } from 'parse-domain';
+import { BehaviorSubject } from 'rxjs';
+import { Utils } from 'utils/Utils';
 
 import { WINDOW } from '../providers/window.provider';
 
 @Injectable()
 export class WindowService {
-  // eslint-disable-next-line no-useless-constructor
+  private filterbarVisible!: boolean;
+  private filterbarVisibleSubject = new BehaviorSubject<boolean>(this.filterbarVisible);
+
   public constructor(
-    @Inject(WINDOW) private window: Window) {}
+    @Inject(WINDOW) private window: Window,
+    private clipboard: Clipboard,
+  ) {
+    this.filterbarVisible = !Utils.isMobile();
+    this.filterbarVisibleSubject.next(this.filterbarVisible);
+  }
 
   public getHostname(): string {
     return this.window.location.hostname;
@@ -35,8 +45,20 @@ export class WindowService {
   }
 
   public getSubdomain(): string {
-    const urlParsed = parse(this.window.location.host);
-    return urlParsed.publicSuffix === 'localhost' ? urlParsed.domainWithoutSuffix ?? '' : urlParsed.subdomain;
+    let subDomain = '';
+    const parseResult = parseDomain(fromUrl(this.window.location.href));
+    if ((parseResult.hostname as string).includes('localhost')) {
+      const labels = parseResult['labels'] as string[];
+      if (!Utils.isEmptyArray(labels) && labels.length > 1) {
+        subDomain = labels[0];
+      }
+    } else {
+      const subDomains = parseResult['subDomains'] as string[];
+      if (!Utils.isEmptyArray(subDomains)) {
+        subDomain = subDomains[0];
+      }
+    }
+    return subDomain;
   }
 
   public getLocalStorage(): Storage {
@@ -62,8 +84,21 @@ export class WindowService {
     }
   }
 
+  public getFilterbarVisibleSubject(): BehaviorSubject<boolean> {
+    return this.filterbarVisibleSubject;
+  }
+
+  public setFilterbarVisible(filtersVisible: boolean) {
+    this.filterbarVisible = filtersVisible;
+    this.filterbarVisibleSubject.next(this.filterbarVisible);
+  }
+
+  public isFilterbarVisible(): boolean {
+    return this.filterbarVisible;
+  }
+
   public getUrlParameterValue(name: string): string {
-    let value = '';
+    let value = null;
     if (window.location.search) {
       value = new URLSearchParams(window.location.search).get(name);
     } else if (window.location.hash) {
@@ -107,8 +142,16 @@ export class WindowService {
     this.setUrlQueryParams();
   }
 
+  public buildFullUrl(relativeUrl: string) {
+    return `${this.window.location.protocol}//${this.window.location.host}${!relativeUrl.startsWith('/') ? '/' : ''}${relativeUrl}`;
+  }
+
   public openUrl(url: string) {
     this.window.open(url, '_blank');
+  }
+
+  public copyToClipboard(textToCopy: string) {
+    this.clipboard.copy(textToCopy);
   }
 
   private setUrlQueryParams(queryParams?: string) {

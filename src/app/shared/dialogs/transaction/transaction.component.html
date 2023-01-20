@@ -8,10 +8,9 @@
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content pt-0">
           <div class="tab-content">
-            <!-- header -->
+            <!-- Transaction -->
             <app-transaction-header [transaction]="transaction" [loggedUserImage]="loggedUserImage" [carImage]="carImage"></app-transaction-header>
-            <!-- chart -->
-            <mat-divider class="space-before-chart"></mat-divider>
+            <!-- Chart -->
             <app-transaction-chart #chartConsumption [transaction]="transaction" [transactionId]="transaction.id" [inDialog]="inDialog" class="w-100" ratio="3"></app-transaction-chart>
           </div>
         </div>
@@ -23,12 +22,10 @@
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content pt-0">
           <div class="tab-content">
-            <div class="h-100">
-              <!-- header -->
-              <app-transaction-header [transaction]="transaction" [loggedUserImage]="loggedUserImage" [carImage]="carImage"></app-transaction-header>
-              <mat-divider class="space-before-chart"></mat-divider>
-              <app-transaction-pricing [transaction]="transaction" class="w-100"></app-transaction-pricing>
-            </div>
+            <!-- Transaction -->
+            <app-transaction-header [transaction]="transaction" [loggedUserImage]="loggedUserImage" [carImage]="carImage"></app-transaction-header>
+            <!-- Pricing -->
+            <app-transaction-pricing [transaction]="transaction" class="w-100"></app-transaction-pricing>
           </div>
         </div>
       </mat-tab>

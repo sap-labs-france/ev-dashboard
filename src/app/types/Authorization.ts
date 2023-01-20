@@ -44,12 +44,12 @@ export interface AuthorizationFilter {
   project: string[];
 }
 
-
 export enum Entity {
   SITE = 'Site',
   SITE_AREA = 'SiteArea',
   COMPANY = 'Company',
   CHARGING_STATION = 'ChargingStation',
+  CHARGING_STATION_TEMPLATE = 'ChargingStationTemplate',
   CONNECTOR = 'Connector',
   TENANT = 'Tenant',
   TRANSACTION = 'Transaction',
@@ -80,7 +80,6 @@ export enum Entity {
   TAG = 'Tag',
   PAYMENT_METHOD = 'PaymentMethod',
   SOURCE = 'Source',
-  CHARGING_STATION_TEMPLATE = 'ChargingStationTemplate',
 }
 
 export enum Action {
@@ -123,6 +122,8 @@ export enum Action {
   BILLING_PAYMENT_METHODS = 'BillingPaymentMethods',
   BILLING_DELETE_PAYMENT_METHOD = 'BillingDeletePaymentMethod',
   BILLING_CHARGE_INVOICE = 'BillingChargeInvoice',
+  BILLING_ACTIVATE_ACCOUNT = 'BillingAccountActivate',
+  BILLING_ONBOARD_ACCOUNT = 'BillingAccountOnboard',
   BILLING_FINALIZE_TRANSFER = 'BillingFinalizeTransfer',
   BILLING_SEND_TRANSFER = 'BillingSendTransfer',
   CHECK_CONNECTION = 'CheckConnection',
@@ -138,6 +139,10 @@ export enum Action {
   IMPORT = 'Import',
   ASSIGN_USERS_TO_SITE = 'AssignUsersToSite',
   UNASSIGN_USERS_FROM_SITE = 'UnassignUsersFromSite',
+  ASSIGN_SITES_TO_USER = 'AssignSitesToUser',
+  UNASSIGN_SITES_FROM_USER = 'UnassignSitesFromUser',
+  ASSIGN_UNASSIGN_USERS = 'AssignUnassignUsers',
+  ASSIGN_UNASSIGN_SITES = 'AssignUnassignSites',
   ASSIGN_ASSETS_TO_SITE_AREA = 'AssignAssets',
   UNASSIGN_ASSETS_FROM_SITE_AREA = 'UnassignAssets',
   READ_ASSETS_FROM_SITE_AREA = 'ReadAssets',
@@ -145,8 +150,29 @@ export enum Action {
   UNASSIGN_CHARGING_STATIONS_FROM_SITE_AREA = 'UnassignChargingStations',
   READ_CHARGING_STATIONS_FROM_SITE_AREA = 'ReadChargingStationsFromSiteArea',
   EXPORT_OCPP_PARAMS = 'ExportOCPPParams',
-  GENERATE_QR = 'GenerateQrCode',
   MAINTAIN_PRICING_DEFINITIONS = 'MaintainPricingDefinitions',
+  RESOLVE = 'Resolve',
+  GET_STATUS_NOTIFICATION = 'GetStatusNotification',
+  GET_BOOT_NOTIFICATION = 'GetBootNotification',
+  RESERVE_NOW = 'ReserveNow',
+  UPDATE_OCPP_PARAMS = 'UpdateOCPPParams',
+  LIMIT_POWER = 'LimitPower',
+  DELETE_CHARGING_PROFILE = 'DeleteChargingProfile',
+  GET_OCPP_PARAMS = 'GetOCPPParams',
+  UPDATE_CHARGING_PROFILE = 'UpdateChargingProfile',
+  DOWNLOAD_QR_CODE = 'DownloadQRCode',
+  GENERATE_QR_CODE = 'GenerateQRCode',
+  VIEW_USER_DATA = 'ViewUserData',
+  SYNCHRONIZE_REFUNDED_TRANSACTION = 'SynchronizeRefundedTransaction',
+  PUSH_TRANSACTION_CDR = 'PushTransactionCDR',
+  READ_ADVENIR_CONSUMPTION = 'ReadAdvenirConsumption',
+  GET_CHARGING_STATION_TRANSACTIONS = 'GetChargingStationTransactions',
+  GET_ACTIVE_TRANSACTION = 'GetActiveTransaction',
+  GET_COMPLETED_TRANSACTION = 'GetCompletedTransaction',
+  GET_REFUNDABLE_TRANSACTION = 'GetRefundableTransaction',
+  GET_REFUND_REPORT = 'GetRefundReport',
+  EXPORT_COMPLETED_TRANSACTION = 'ExportCompletedTransaction',
+  EXPORT_OCPI_CDR = 'ExportOcpiCdr',
 }
 
 export interface AuthorizationContext {
@@ -240,6 +266,7 @@ export interface UserAuthorizationActions extends AuthorizationActions {
   canListTags?: boolean;
   canListCompletedTransactions?: boolean;
   canSynchronizeBillingUser?: boolean;
+  canMaintainPricingDefinitions?: boolean;
 }
 
 export interface UserSitesAuthorizations extends AuthorizationAttributes, UserSitesAuthorizationActions {
@@ -291,7 +318,7 @@ export interface SiteAreaAuthorizationActions extends AuthorizationActions {
   canUnassignChargingStations?: boolean;
   canReadChargingStations?: boolean;
   canExportOCPPParams?: boolean;
-  canGenerateQrCode?: boolean;
+  canDownloadQrCode?: boolean;
 }
 
 export interface SitesAuthorizations extends AuthorizationAttributes, SitesAuthorizationActions {
@@ -305,7 +332,7 @@ export interface SiteAuthorizationActions extends AuthorizationActions {
   canAssignUnassignUsers?: boolean;
   canListSiteUsers?: boolean;
   canExportOCPPParams?: boolean;
-  canGenerateQrCode?: boolean;
+  canDownloadQrCode?: boolean;
   canMaintainPricingDefinitions?: boolean;
 }
 
@@ -317,9 +344,9 @@ export interface LogsAuthorizationActions extends AuthorizationActions {
   canExport?: boolean;
 }
 
-export interface BillingAccountsAuthorizations extends DataResultAuthorizationActions {
-  canListUsers?: boolean;
+export interface BillingAccountAuthorizations extends AuthorizationAttributes, BillingInvoicesAuthorizationActions {
 }
+
 export interface BillingInvoicesAuthorizations extends AuthorizationAttributes, BillingInvoicesAuthorizationActions {
 }
 
@@ -393,15 +420,17 @@ export interface ChargingStationAuthorizationActions extends AuthorizationAction
   canRemoteStartTransaction?: boolean;
   canUnlockConnector?: boolean;
   canDataTransfer?: boolean;
-  canGenerateQrCode?: boolean;
+  canGenerateQRCode?: boolean;
+  canDownloadQRCode?: boolean;
   canMaintainPricingDefinitions?: boolean;
   canUpdateOCPPParams?: boolean;
   canLimitPower?: boolean;
   canDeleteChargingProfile?: boolean;
   canGetOCPPParams?: boolean;
   canUpdateChargingProfile?: boolean;
-  canGetConnectorQRCode?: boolean;
+  canPushTransactionCDR?: boolean;
   canListCompletedTransactions?: boolean;
+  canAuthorize?: boolean;
 }
 
 export interface ChargingProfileAuthorizationActions extends AuthorizationActions {
@@ -436,35 +465,6 @@ export interface TransactionAuthorizationActions extends AuthorizationActions {
   canReadChargingStation?: boolean;
 }
 
-export interface SettingsAuthorizations extends AuthorizationAttributes, SettingsAuthorizationActions {
-}
-
-export interface SettingsAuthorizationActions extends DataResultAuthorizationActions {
-}
-
-export interface SettingAuthorizationActions extends AuthorizationActions {
-  canSyncRefund?: boolean;
-  canCheckBillingConnection?: boolean;
-  canActivateBilling?: boolean;
-  canCheckSmartChargingConnection?: boolean;
-  canCheckAssetConnection?: boolean;
-}
-
-export interface OcpiEndpointsAuthorizations extends AuthorizationAttributes, OcpiEndpointsAuthorizationActions {
-}
-
-export interface OcpiEndpointsAuthorizationActions extends DataResultAuthorizationActions {
-  canPing?: boolean;
-  canGenerateLocalToken?: boolean;
-}
-
-export interface OcpiEndpointAuthorizationActions extends AuthorizationActions {
-  canPing?: boolean;
-  canGenerateLocalToken?: boolean;
-  canRegister?: boolean;
-  canTriggerJob?: boolean;
-}
-
 export enum DialogMode {
   EDIT = 'E',
   CREATE = 'C',
@@ -473,8 +473,6 @@ export enum DialogMode {
 
 export interface DialogData {
   id: string | number;
-  projectFields?: string[];
-  metadata?: Record<string, AuthorizationDefinitionFieldMetadata>;
 }
 
 export interface DialogParams<T extends DialogData> {

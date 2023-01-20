@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BillingAccount } from 'types/Billing';
 
@@ -30,7 +30,7 @@ export class AccountOnboardingComponent implements OnInit, OnDestroy {
     private windowService: WindowService) {
     // Init Form
     this.formGroup = new UntypedFormGroup({
-      email: new UntypedFormControl('',
+      email: new FormControl('',
         Validators.compose([
           Validators.required
         ])),
@@ -79,7 +79,7 @@ export class AccountOnboardingComponent implements OnInit, OnDestroy {
   }
 
   private navigateToOnboardingPage() {
-    this.centralServerService.refreshBillingAccount(this.tenantID, this.accountID).subscribe({
+    this.centralServerService.refreshBillingAccount(this.accountID).subscribe({
       next: (billingAccount: BillingAccount) => {
         this.spinnerService.hide();
         if (billingAccount.activationLink) {
@@ -98,7 +98,7 @@ export class AccountOnboardingComponent implements OnInit, OnDestroy {
   }
 
   private triggerAccountActivation() {
-    this.centralServerService.activateBillingAccount(this.tenantID, this.accountID).subscribe({
+    this.centralServerService.activateBillingAccount(this.accountID).subscribe({
       next: (billingAccount: BillingAccount) => {
         this.spinnerService.hide();
         if (!billingAccount.id) {

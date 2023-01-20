@@ -1,0 +1,84 @@
+<div class="row">
+  <!-- Authentication URL -->
+  <div class="col-md-12">
+    <div class="form-group">
+      <mat-form-field>
+        <input appAutofocus matInput
+          placeholder="{{'settings.grid_monitoring.connection.authentication_url' | translate}}" type="url"
+          [formControl]="authenticationUrl" required>
+        <mat-error *ngIf="authenticationUrl.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+        <mat-error *ngIf="authenticationUrl.errors?.pattern">
+          <div [translate]="'general.error_url_pattern'"></div>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <!-- Client ID -->
+  <div class="col-md-6">
+    <div class="form-group">
+      <mat-form-field>
+        <input matInput placeholder="{{'settings.grid_monitoring.connection.client_id' | translate}}" type="text"
+          [formControl]="clientId" required>
+        <mat-error *ngIf="clientId.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <!-- Client Secret -->
+  <div class="col-md-6">
+    <div class="form-group">
+      <mat-form-field>
+        <input matInput placeholder="{{'settings.grid_monitoring.connection.client_secret' | translate}}"
+          type="password" [formControl]="clientSecret" required>
+        <mat-error *ngIf="clientSecret.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <!-- Normal Consumption -->
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <mat-form-field>
+          <span class="point-container-input" matPrefix>
+            <div class="green-point"></div>
+          </span>
+          <input matInput placeholder="{{'settings.grid_monitoring.connection.normalConsumption' | translate}}"
+            type="number" [formControl]="levelGreenPercent" required>
+          <mat-error *ngIf="levelGreenPercent.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+          <mat-error *ngIf="levelGreenPercent.errors?.pattern && !levelGreenPercent.errors?.required">{{"general.error_number_out_of_range" | translate}}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <!-- Electrical System Tense -->
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <mat-form-field>
+          <span class="point-container-input" matPrefix>
+            <div class="orange-point"></div>
+          </span>
+          <input matInput placeholder="{{'settings.grid_monitoring.connection.electricSystemTense' | translate}}"
+            type="number" [formControl]="levelOrangePercent" required>
+          <mat-error *ngIf="levelOrangePercent.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+          <mat-error *ngIf="levelOrangePercent.errors?.pattern && !levelOrangePercent.errors?.required">{{"general.error_number_out_of_range" | translate}}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <!-- Electrical System Very Tense -->
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <mat-form-field>
+          <span class="point-container-input" matPrefix>
+            <div class="red-point"></div>
+          </span>
+          <input matInput placeholder="{{'settings.grid_monitoring.connection.electricSystemVeryTense' | translate}}"
+            type="number" [formControl]="levelRedPercent" required>
+          <mat-error *ngIf="levelRedPercent.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+          <mat-error *ngIf="levelRedPercent.errors?.pattern && !levelRedPercent.errors?.required">{{"general.error_number_out_of_range" | translate}}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>

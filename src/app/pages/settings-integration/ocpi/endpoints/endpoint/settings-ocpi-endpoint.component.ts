@@ -1,17 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
+import { OCPIEndpoint } from 'types/ocpi/OCPIEndpoint';
 
 import { CentralServerService } from '../../../../../services/central-server.service';
 import { DialogService } from '../../../../../services/dialog.service';
 import { MessageService } from '../../../../../services/message.service';
 import { SpinnerService } from '../../../../../services/spinner.service';
-import { DialogMode, OcpiEndpointsAuthorizations } from '../../../../../types/Authorization';
 import { RestResponse } from '../../../../../types/GlobalType';
-import { OCPIEndpoint } from '../../../../../types/ocpi/OCPIEndpoint';
 import { Constants } from '../../../../../utils/Constants';
 import { Utils } from '../../../../../utils/Utils';
 
@@ -23,10 +22,7 @@ import { Utils } from '../../../../../utils/Utils';
 export class SettingsOcpiEndpointComponent implements OnInit {
   @Input() public currentEndpoint!: OCPIEndpoint;
   @Input() public dialogRef!: MatDialogRef<any>;
-  @Input() public dialogMode!: DialogMode;
-  @Input() public authorizations!: OcpiEndpointsAuthorizations;
-
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public id!: AbstractControl;
   public name!: AbstractControl;
   public role!: AbstractControl;
@@ -37,9 +33,6 @@ export class SettingsOcpiEndpointComponent implements OnInit {
   public localToken!: AbstractControl;
   public token!: AbstractControl;
   public isBackgroundPatchJobActive!: AbstractControl;
-  public readOnly = true;
-  public canGenerateLocalToken: boolean;
-  public canPing: boolean;
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
@@ -52,7 +45,7 @@ export class SettingsOcpiEndpointComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.formGroup = new FormGroup({
+    this.formGroup = new UntypedFormGroup({
       id: new FormControl(''),
       name: new FormControl('',
         Validators.compose([
@@ -99,11 +92,6 @@ export class SettingsOcpiEndpointComponent implements OnInit {
     this.localToken = this.formGroup.controls['localToken'];
     this.token = this.formGroup.controls['token'];
     this.isBackgroundPatchJobActive = this.formGroup.controls['backgroundPatchJob'];
-    this.canGenerateLocalToken = Utils.convertToBoolean(this.authorizations.canGenerateLocalToken);
-    this.canPing = Utils.convertToBoolean(this.authorizations.canPing);
-    // Handle Dialog mode
-    this.readOnly = this.dialogMode === DialogMode.VIEW;
-    Utils.handleDialogMode(this.dialogMode, this.formGroup);
     this.loadEndpoint();
   }
 

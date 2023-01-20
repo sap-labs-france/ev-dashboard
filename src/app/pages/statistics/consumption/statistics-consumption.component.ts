@@ -125,9 +125,11 @@ export class StatisticsConsumptionComponent implements OnInit {
     const labelXAxis: string = this.translateService.instant('statistics.graphic_title_month_x_axis');
     const labelYAxis: string = this.translateService.instant('statistics.graphic_title_consumption_y_axis');
     const toolTipUnit: string = this.translateService.instant('statistics.charger_kw_h');
+    // Init Stack chart
     this.barChart = new SimpleChart(this.language, ChartTypeValues.STACKED_BAR,
       this.getChartLabel(), labelXAxis, labelYAxis, toolTipUnit, true);
     this.barChart.initChart(this.ctxBarChart);
+    // Init Pie chart
     this.pieChart = new SimpleChart(this.language, ChartTypeValues.PIE,
       this.getChartLabel(), undefined, undefined, toolTipUnit, true);
     this.pieChart.initChart(this.ctxPieChart);

@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { StatusCodes } from 'http-status-codes';
 import { BehaviorSubject, EMPTY, Observable, Observer, TimeoutError, of, throwError } from 'rxjs';
@@ -15,7 +15,7 @@ import { ChargingStationTemplate } from '../types/ChargingStationTemplate';
 import { Company } from '../types/Company';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
-import { ActionResponse, ActionsResponse, AssetDataResult, AssetInErrorDataResult, BillingAccountDataResult, BillingInvoiceDataResult, BillingOperationResult, BillingPaymentMethodDataResult, BillingTaxDataResult, BillingTransferDataResult, CarCatalogDataResult, CarDataResult, ChargingProfileDataResult, ChargingStationDataResult, ChargingStationInErrorDataResult, ChargingStationTemplateDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OcpiEndpointDataResult, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, SiteUserDataResult, TagDataResult, TransactionDataResult, TransactionInErrorDataResult, UserDataResult, UserSiteDataResult } from '../types/DataResult';
+import { ActionResponse, ActionsResponse, AssetDataResult, AssetInErrorDataResult, BillingAccountDataResult, BillingInvoiceDataResult, BillingOperationResult, BillingPaymentMethodDataResult, BillingTaxDataResult, BillingTransferDataResult, CarCatalogDataResult, CarDataResult, ChargingProfileDataResult, ChargingStationDataResult, ChargingStationInErrorDataResult, ChargingStationTemplateDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, SiteUserDataResult, TagDataResult, TransactionDataResult, TransactionInErrorDataResult, UserDataResult, UserSiteDataResult } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { Log } from '../types/Log';
@@ -33,7 +33,7 @@ import { StatisticData } from '../types/Statistic';
 import { Tag } from '../types/Tag';
 import { Tenant } from '../types/Tenant';
 import { OcpiData, Transaction } from '../types/Transaction';
-import { User, UserSessionContext, UserToken } from '../types/User';
+import { User, UserDefaultTagCar, UserToken } from '../types/User';
 import { Constants } from '../utils/Constants';
 import { Utils } from '../utils/Utils';
 import { ConfigService } from './config.service';
@@ -437,10 +437,40 @@ export class CentralServerService {
     this.checkInit();
     const params: { [param: string]: string } = {};
     params['SiteAreaID'] = siteAreaID;
-    return this.httpClient.get<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_TRIGGER_SMART_CHARGING),
+    return this.httpClient.get<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_SITE_AREA_TRIGGER_SMART_CHARGING),
       {
         headers: this.buildHttpHeaders(),
         params,
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public triggerGridMonitoring(siteAreaID: string): Observable<ActionResponse> {
+    this.checkInit();
+    const params: { [param: string]: string } = {};
+    params['SiteAreaID'] = siteAreaID;
+    return this.httpClient.get<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_SITE_AREA_TRIGGER_GRID_MONITORING),
+      {
+        headers: this.buildHttpHeaders(),
+        params,
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public checkGridMonitoringConnection(gridMonitoringId: string): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    const params: { [param: string]: string } = {};
+    params['gridMonitoringId'] = gridMonitoringId;
+    // Execute
+    return this.httpClient.get<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_SETTINGS_CHECK_GRID_MONITORING_CONNECTION),
+      {
+        headers: this.buildHttpHeaders(),
+        params
       })
       .pipe(
         catchError(this.handleHttpError),
@@ -778,7 +808,20 @@ export class CentralServerService {
       return EMPTY;
     }
     // Execute the REST service
-    return this.httpClient.get<Image>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_GENERATE, { id: chargingStationID, connectorId: connectorID}),
+    return this.httpClient.get<Image>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QR_CODE_GENERATE, { id: chargingStationID, connectorId: connectorID}),
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public getTenantQrCode(tenantID: string): Observable<Image> {
+    // Verify init
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.get<Image>(this.buildRestEndpointUrl(RESTServerRoute.REST_TENANT_QR_CODE_GENERATE, { id: tenantID }),
       {
         headers: this.buildHttpHeaders(),
       })
@@ -879,15 +922,14 @@ export class CentralServerService {
       );
   }
 
-  public getUserSessionContext(userID: string, chargingStationID: string, connectorID: number): Observable<UserSessionContext> {
+  public getUserDefaultTagCar(userID: string, chargingStationID: string): Observable<UserDefaultTagCar> {
     // Verify init
     this.checkInit();
-    return this.httpClient.get<UserSessionContext>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_SESSION_CONTEXT, { id: userID } ),
+    return this.httpClient.get<UserDefaultTagCar>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_DEFAULT_TAG_CAR, { id: userID } ),
       {
         headers: this.buildHttpHeaders(),
         params: {
-          ChargingStationID: chargingStationID,
-          ConnectorID: connectorID
+          ChargingStationID: chargingStationID
         }
       })
       .pipe(
@@ -1079,9 +1121,9 @@ export class CentralServerService {
       );
   }
 
-  public getTenantLogoBySubdomain(tenantSubDomain: string): Observable<string> {
+  public getTenantLogoBySubdomain(tenantSubdomain: string): Observable<string> {
     const params: { [param: string]: string } = {};
-    params['Subdomain'] = tenantSubDomain;
+    params['Subdomain'] = tenantSubdomain;
     // Verify init
     this.checkInit();
     // Execute the REST service
@@ -1341,7 +1383,7 @@ export class CentralServerService {
 
   // eslint-disable-next-line max-len
   public getOcpiEndpoints(params: FilterParams,
-    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<OcpiEndpointDataResult> {
+    paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<DataResult<OCPIEndpoint>> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -1349,7 +1391,7 @@ export class CentralServerService {
     // Build Ordering
     this.getSorting(ordering, params);
     // Execute the REST service
-    return this.httpClient.get<OcpiEndpointDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_OCPI_ENDPOINTS),
+    return this.httpClient.get<DataResult<OCPIEndpoint>>(this.buildRestEndpointUrl(RESTServerRoute.REST_OCPI_ENDPOINTS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1379,10 +1421,13 @@ export class CentralServerService {
       );
   }
 
-  public getSiteAreaConsumption(siteAreaID: string, startDate: Date, endDate: Date): Observable<SiteAreaConsumption> {
+  public getSiteAreaConsumptions(siteAreaID: string, startDate: Date, endDate: Date, loadAllConsumptions?: boolean): Observable<SiteAreaConsumption> {
     const params: { [param: string]: string } = {};
     params['StartDate'] = startDate.toISOString();
     params['EndDate'] = endDate.toISOString();
+    if (loadAllConsumptions) {
+      params['LoadAllConsumptions'] = loadAllConsumptions.toString();
+    }
     // Verify init
     this.checkInit();
     // Execute the REST service
@@ -1396,10 +1441,13 @@ export class CentralServerService {
       );
   }
 
-  public getAssetConsumption(assetID: string, startDate: Date, endDate: Date): Observable<AssetConsumption> {
+  public getAssetConsumptions(assetID: string, startDate: Date, endDate: Date, loadAllConsumptions?: boolean): Observable<AssetConsumption> {
     const params: { [param: string]: string } = {};
     params['StartDate'] = startDate.toISOString();
     params['EndDate'] = endDate.toISOString();
+    if (loadAllConsumptions) {
+      params['LoadAllConsumptions'] = loadAllConsumptions.toString();
+    }
     // Verify init
     this.checkInit();
     // Execute the REST service
@@ -1763,9 +1811,9 @@ export class CentralServerService {
     );
   }
 
-  public refreshBillingAccount(tenantID: string, accountID: string): Observable<BillingAccount> {
+  public refreshBillingAccount(accountID: string): Observable<BillingAccount> {
     this.checkInit();
-    const params: { [param: string]: string } = { TenantID: tenantID };
+    const params: { [param: string]: string } = { TenantID: this.currentUser?.tenantID };
     const url = this.buildUtilRestEndpointUrl(RESTServerRoute.REST_BILLING_ACCOUNT_REFRESH, { id: accountID });
     return this.httpClient.patch<ActionResponse>(url, params, {
       headers: this.buildHttpHeaders(),
@@ -1774,9 +1822,9 @@ export class CentralServerService {
     );
   }
 
-  public activateBillingAccount(tenantID: string, accountID: string): Observable<BillingAccount> {
+  public activateBillingAccount(accountID: string): Observable<BillingAccount> {
     this.checkInit();
-    const params: { [param: string]: string } = { TenantID: tenantID };
+    const params: { [param: string]: string } = { TenantID: this.currentUser?.tenantID };
     const url = this.buildUtilRestEndpointUrl(RESTServerRoute.REST_BILLING_ACCOUNT_ACTIVATE, { id: accountID });
     return this.httpClient.patch<ActionResponse>(url, params, {
       headers: this.buildHttpHeaders(),
@@ -1844,7 +1892,7 @@ export class CentralServerService {
     this.checkInit();
     const params: { [param: string]: string } = {};
     params['SiteID'] = siteID;
-    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_DOWNLOAD),
+    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QR_CODE_DOWNLOAD),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1859,7 +1907,7 @@ export class CentralServerService {
     this.checkInit();
     const params: { [param: string]: string } = {};
     params['SiteAreaID'] = siteAreaID;
-    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_DOWNLOAD),
+    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QR_CODE_DOWNLOAD),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1877,10 +1925,22 @@ export class CentralServerService {
     if (connectorID) {
       params['ConnectorID'] = connectorID.toString();
     }
-    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_DOWNLOAD),
+    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QR_CODE_DOWNLOAD),
       {
         headers: this.buildHttpHeaders(),
         params,
+        responseType: 'blob',
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public downloadTenantQrCode(tenantID: string): Observable<Blob> {
+    this.checkInit();
+    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_TENANT_QR_CODE_DOWNLOAD, {id: tenantID}),
+      {
+        headers: this.buildHttpHeaders(),
         responseType: 'blob',
       })
       .pipe(
@@ -2336,7 +2396,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.get<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_CHECK_SMART_CHARGING_CONNECTION),
+    return this.httpClient.get<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_SETTINGS_CHECK_SMART_CHARGING_CONNECTION),
       {
         headers: this.buildHttpHeaders(),
       })

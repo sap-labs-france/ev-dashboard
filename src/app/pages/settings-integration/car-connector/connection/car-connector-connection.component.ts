@@ -1,9 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { DialogMode } from 'types/Authorization';
-import { Utils } from 'utils/Utils';
 
 import { KeyValue } from '../../../../types/GlobalType';
 import { CarConnectorConnectionSetting, CarConnectorConnectionType, CarConnectorMercedesConnectionType, CarConnectorTargaTelematicsConnectionType, CarConnectorTronityConnectionType } from '../../../../types/Setting';
@@ -17,13 +15,13 @@ import { CarConnectorConnectionDialogComponent } from './car-connector-connectio
 export class CarConnectorConnectionComponent implements OnInit {
   @Input() public currentCarConnectorConnection!: CarConnectorConnectionSetting;
   @Input() public dialogRef!: MatDialogRef<CarConnectorConnectionDialogComponent>;
-  @Input() public dialogMode!: DialogMode;
 
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public id!: AbstractControl;
   public description!: AbstractControl;
   public name!: AbstractControl;
   public type!: AbstractControl;
+  public readonly CarConnectorConnectionType = CarConnectorConnectionType;
 
   public mercedesConnection!: CarConnectorMercedesConnectionType;
   public tronityConnection!: CarConnectorTronityConnectionType;
@@ -41,7 +39,7 @@ export class CarConnectorConnectionComponent implements OnInit {
 
   public ngOnInit(): void {
     // Init Form
-    this.formGroup = new FormGroup({
+    this.formGroup = new UntypedFormGroup({
       id: new FormControl(''),
       name: new FormControl('',
         Validators.compose([
@@ -52,7 +50,7 @@ export class CarConnectorConnectionComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])),
-      type: new FormControl<CarConnectorConnectionType>(CarConnectorConnectionType.NONE,
+      type: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),
@@ -64,10 +62,8 @@ export class CarConnectorConnectionComponent implements OnInit {
     this.type = this.formGroup.controls['type'];
     // Load current values if connection already exists
     this.loadCarConnectorConnection();
-    // Create / Update button translation
+    // Get Create/Update button translation
     this.submitButtonTranslation = this.getSubmitButtonTranslation();
-    // Dialog mode
-    Utils.handleDialogMode(this.dialogMode, this.formGroup);
   }
 
   public loadCarConnectorConnection(): void {

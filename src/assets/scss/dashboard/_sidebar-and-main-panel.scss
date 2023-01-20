@@ -1,22 +1,20 @@
 @use '@angular/material' as mat;
+
 .wrapper {
-  position: relative;
-  top: 0;
+  width: 100vw;
   height: 100vh;
 }
 
 .sidebar {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
   z-index: 2;
-  width: 260px;
+  width: $side-bar-width;
+  padding: 0;
   @include shadow-big();
   .logo-img {
     @extend .animation-transition-general;
-    max-height: 50px;
-    margin: 8px;
+    max-width: 175px;
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
   .small-logo-img {
     @extend .animation-transition-general;
@@ -26,8 +24,8 @@
   }
   .caret {
     display: inline-block;
-    width: 0;
     height: 0;
+    width: 0;
     margin-left: 2px;
     vertical-align: middle;
     border-top: 4px dashed;
@@ -37,9 +35,8 @@
   }
   .sidebar-wrapper {
     position: relative;
-    width: 260px;
+    width: $side-bar-width;
     z-index: 4;
-    padding-bottom: 30px;
     .dropdown .dropdown-backdrop {
       display: none !important;
     }
@@ -77,7 +74,6 @@
           position: relative;
           float: left;
           display: inherit;
-
           .sidebar-mini-icons {
             font-size: 20px;
           }
@@ -99,17 +95,17 @@
     float: left;
     overflow: hidden;
     img {
-      width: 60px;
       height: 60px;
+      width: 60px;
     }
   }
   .nav-content {
-    height: calc(95vh - 200px);
+    height: calc(100vh - 250px);
     overflow-y: auto;
     overflow-x: hidden;
   }
   .nav {
-    margin-top: 15px;
+    padding-top: 15px;
     display: block;
     .caret {
       margin-top: 13px;
@@ -180,25 +176,25 @@
     font-size: $font-paragraph - 1;
   }
   .sidebar-background {
+    @extend .animation-transition-general;
     position: absolute;
-    z-index: 1;
-    height: 100%;
-    width: 100%;
     display: block;
-    top: 0;
-    left: 0;
+    height: 100%;
+    width: $side-bar-width;
     background-image: url('../../img/sidebar-1.jpg');
     background-size: cover;
     background-position: center center;
+    z-index: 1;
     &:after {
+      @extend .animation-transition-general;
       position: absolute;
-      z-index: 3;
-      width: 100%;
-      height: 100%;
-      content: "";
       display: block;
+      height: 100%;
+      width: $side-bar-width;
+      content: "";
       background: $brand-background;
       opacity: .93;
+      z-index: 3;
     }
   }
   .logo {
@@ -247,7 +243,6 @@
       padding-top: 0;
       padding-bottom: 0;
     }
-
     .app-version {
       color: white;
       font-size: 0.8em;
@@ -255,7 +250,6 @@
       padding-top: 0;
       padding-bottom: 0;
     }
-
     a.app-version {
       &:hover {
         color: $brand-text;
@@ -285,8 +279,8 @@
       @include shadow-big();
       @extend .animation-transition-general;
       img {
-        width: 3.5em;
         height: 3.5em;
+        width: 3.5em;
       }
     }
     a {
@@ -317,11 +311,9 @@
     background: $brand-primary;
     opacity: .7;
   }
-
   li.active > a {
     background-color: $brand-background;
   }
-
   .user,
   .logo,
   .nav li.separator {
@@ -361,16 +353,14 @@
 }
 
 .main-panel {
-  position: relative;
-  float: right;
   width: $sidebar-width;
   height: 100%;
+  padding: 15px;
   @include transition (0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1));
   .main-content {
-    padding: 15px;
     content: "";
-    width: 100%;
     height: 100%;
+    width: 100%;
     background: $brand-background;
     background-size: cover;
     will-change: transform;
@@ -381,6 +371,7 @@
   }
   .full-content {
     flex: 1;
+    height: 100%
   }
   .navbar {
     position: relative !important;
@@ -434,10 +425,7 @@
     }
     .sidebar,
     .sidebar .sidebar-wrapper {
-      width: 80px;
-    }
-    .main-panel {
-      width: $sidebar-mini-width;
+      width: $side-bar-mini-width;
     }
     .sidebar {
       display: block;
@@ -448,6 +436,12 @@
           //display: block;
           opacity: 0;
           @include transform-translate-x(-25px);
+        }
+      }
+      .sidebar-background {
+        width: $side-bar-mini-width;
+        &:after {
+          width: $side-bar-mini-width;
         }
       }
       .sidebar-wrapper {
@@ -466,7 +460,7 @@
 .hide-sidebar {
   .sidebar {
     @extend .animation-transition-general;
-    @include transform-translate-x(-260px);
+    @include transform-translate-x(-$side-bar-width);
   }
   .main-panel {
     width: 100%;
@@ -474,7 +468,7 @@
   &.sidebar-mini {
     .sidebar {
       @extend .animation-transition-general;
-      @include transform-translate-x(-80px);
+      @include transform-translate-x(-$side-bar-mini-width);
     }
   }
 }

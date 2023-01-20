@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
-import { SettingAuthorizationActions } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
@@ -22,9 +21,8 @@ export class SettingsUserComponent implements OnInit {
   public userSettings: UserSettings;
   public router: Router;
 
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public autoActivateAccountAfterValidation!: AbstractControl;
-  public authorizations: SettingAuthorizationActions;
 
   public constructor(
     private messageService: MessageService,
@@ -35,8 +33,8 @@ export class SettingsUserComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.formGroup = new FormGroup({
-      autoActivateAccountAfterValidation : new FormControl<boolean>(false),
+    this.formGroup = new UntypedFormGroup({
+      autoActivateAccountAfterValidation : new FormControl(),
     });
     this.autoActivateAccountAfterValidation = this.formGroup.controls['autoActivateAccountAfterValidation'];
     // Register check event
@@ -85,19 +83,10 @@ export class SettingsUserComponent implements OnInit {
     this.componentService.getUserSettings().subscribe({
       next: (settings) => {
         this.spinnerService.hide();
-        // Init auth
-        this.authorizations = {
-          canUpdate: Utils.convertToBoolean(settings.canUpdate),
-        };
         // Init values
         this.isDisabled = true;
         this.userSettings = settings;
         this.autoActivateAccountAfterValidation.setValue(this.userSettings.user.autoActivateAccountAfterValidation);
-        // Read only
-        if(!this.authorizations.canUpdate) {
-          // Async call for letting the sub form groups to init
-          setTimeout(() => this.formGroup.disable(), 0);
-        }
       },
       error: (error) => {
         this.spinnerService.hide();

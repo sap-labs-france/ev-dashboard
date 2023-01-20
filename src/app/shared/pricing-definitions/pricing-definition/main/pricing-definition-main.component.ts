@@ -1,7 +1,8 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatLegacySlideToggleChange as MatSlideToggleChange } from '@angular/material/legacy-slide-toggle';
 import { TranslateService } from '@ngx-translate/core';
+import { DialogMode } from 'types/Authorization';
 import { Utils } from 'utils/Utils';
 
 import { CONNECTOR_TYPE_SELECTION_MAP } from '../../../../shared/formatters/app-connector-type-selection.pipe';
@@ -13,11 +14,10 @@ import { Constants } from '../../../../utils/Constants';
   selector: 'app-pricing-definition-main',
   templateUrl: 'pricing-definition-main.component.html',
 })
-
 export class PricingDefinitionMainComponent implements OnInit, OnChanges {
   @Input() public formGroup!: UntypedFormGroup;
   @Input() public pricingDefinition: PricingDefinition;
-  @Input() public readOnly: boolean;
+  @Input() public dialogMode!: DialogMode;
 
   public initialized = false;
 
@@ -46,20 +46,20 @@ export class PricingDefinitionMainComponent implements OnInit, OnChanges {
   }
 
   public ngOnInit() {
-    this.formGroup.addControl('id', new UntypedFormControl());
-    this.formGroup.addControl('entityID', new UntypedFormControl(''));
-    this.formGroup.addControl('entityType', new UntypedFormControl(''));
-    this.formGroup.addControl('name', new UntypedFormControl('', Validators.required));
-    this.formGroup.addControl('description', new UntypedFormControl('', Validators.required));
+    this.formGroup.addControl('id', new FormControl());
+    this.formGroup.addControl('entityID', new FormControl(''));
+    this.formGroup.addControl('entityType', new FormControl(''));
+    this.formGroup.addControl('name', new FormControl('', Validators.required));
+    this.formGroup.addControl('description', new FormControl('', Validators.required));
     this.formGroup.addControl('staticRestrictions', new UntypedFormGroup({
-      validFrom: new UntypedFormControl(null),
-      validTo: new UntypedFormControl(null),
-      connectorPowerEnabled: new UntypedFormControl(false),
-      connectorPowerkW: new UntypedFormControl({value: null, disabled: true}, Validators.compose([
+      validFrom: new FormControl(null),
+      validTo: new FormControl(null),
+      connectorPowerEnabled: new FormControl(false),
+      connectorPowerkW: new FormControl({value: null, disabled: true}, Validators.compose([
         Validators.required,
         Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
       ])),
-      connectorType: new UntypedFormControl('A', Validators.required),
+      connectorType: new FormControl('A', Validators.required),
     }));
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];

@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction-dialog.component';
 
-import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
@@ -49,7 +48,6 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
     private appUnitPipe: AppUnitPipe,
     private dialog: MatDialog,
     private appUserNamePipe: AppUserNamePipe,
-    private authorizationService: AuthorizationService,
     private messageService: MessageService,
     private router: Router,
     private dialogService: DialogService) {

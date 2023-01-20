@@ -14,6 +14,25 @@ export interface Tag extends TableData, TagAuthorizationActions {
   lastChangedOn?: Date;
   user?: User;
   default?: boolean;
+  limit: TagLimit;
+}
+
+export interface TagLimit {
+  limitKwhEnabled?: boolean;
+  limitKwh?: number;
+  limitKwhConsumed?: number;
+  changeHistory?: TagChangeHistory[];
+}
+
+export interface TagChangeHistory extends TableData {
+  lastChangedOn: Date;
+  lastChangedBy: Partial<User>;
+  oldLimitKwhEnabled: boolean;
+  newLimitKwhEnabled: boolean;
+  oldLimitKwh: number;
+  oldLimitKwhConsumed: number;
+  newLimitKwh: number;
+  newLimitKwhConsumed: number;
 }
 
 export const TagRequiredImportProperties = [
@@ -22,10 +41,11 @@ export const TagRequiredImportProperties = [
 ];
 export const TagOptionalImportProperties = [
   'description',
+  'limitKwh',
   'email',
   'firstName',
   'name',
-  'siteIDs'
+  'siteIDs',
 ];
 
 export enum TagButtonAction {

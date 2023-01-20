@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { MatLegacyProgressBarModule as MatProgressBarModule } from '@angular/material/legacy-progress-bar';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { ChartModule } from 'angular2-chartjs';
-import { MomentModule } from 'ngx-moment';
+import { TagLimitsHistoryTableDataSource } from 'pages/tags/tag/limits-history/tag-limits-history-table-data-source';
 import { PricingDefinitionsModule } from 'shared/pricing-definitions/pricing-definitions.module';
 
 import { MaterialModule } from '../../app.module';
@@ -45,6 +45,8 @@ import { ChargingStationChargePointComponent } from './charging-station/paramete
 import { ChargingStationParametersComponent } from './charging-station/parameters/charging-station-parameters.component';
 import { ChargingStationConnectorComponent } from './charging-station/parameters/connector/charging-station-connector.component';
 import { ChargingStationPropertiesComponent } from './charging-station/properties/charging-station-properties.component';
+import { ChargingStationsMapActionsDialogComponent } from './charging-stations-map/charging-station-map-actions/charging-station-map-actions-dialog-component';
+import { ChargingStationsMapComponent } from './charging-stations-map/charging-stations-map.component';
 import { ChargingStationsComponent } from './charging-stations.component';
 import { ChargingStationsRoutes } from './charging-stations.routing';
 import { ChargingStationsInErrorTableDataSource } from './in-error/charging-stations-in-error-table-data-source';
@@ -70,9 +72,8 @@ import { ChargingStationsRegistrationTokenDialogComponent } from './registration
     MatProgressBarModule,
     FormattersModule,
     ComponentModule,
-    ChartModule,
-    MomentModule,
     PricingDefinitionsModule,
+    GoogleMapsModule
   ],
   declarations: [
     ChargingStationLimitationComponent,
@@ -116,11 +117,14 @@ import { ChargingStationsRegistrationTokenDialogComponent } from './registration
     ChargingStationsRegistrationTokenComponent,
     ChargingStationsRegistrationTokenDialogComponent,
     ChargingStationsRegistrationTokensComponent,
+    ChargingStationsMapComponent,
+    ChargingStationsMapActionsDialogComponent,
   ],
   providers: [
     ChargingStationsInErrorTableDataSource,
     ChargingStationsListTableDataSource,
     ChargingStationConnectorsTableDataSource,
+    TagLimitsHistoryTableDataSource,
     ChargingStationOcppParametersEditableTableDataSource,
     ChargingPlansListTableDataSource,
   ]

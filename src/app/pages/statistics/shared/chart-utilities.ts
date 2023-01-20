@@ -1,8 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { ElementRef } from '@angular/core';
 import { Chart, ChartData, ChartDataset, ChartOptions, ChartType } from 'chart.js';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { Font } from 'chartjs-plugin-datalabels/types/options';
 import { ChartTypeValues } from 'types/Chart';
 import { Utils } from 'utils/Utils';
 
@@ -33,7 +31,6 @@ export class SimpleChart {
   private fontSize: string;
   private fontSizeNumber: number;
   private fontFamily: string;
-  private font: Font;
 
   public constructor(
     language: string,
@@ -44,42 +41,6 @@ export class SimpleChart {
     toolTipUnit?: string,
     withLegend = false,
     roundedChartLabels = true) {
-    Chart.register(ChartDataLabels);
-    // Unregister global activation of Chart labels
-    // Chart.plugins.unregister(ChartDataLabels);
-    // Chart.Tooltip.positioners.customBar = (elements, eventPosition) => {
-    //   // Put the tooltip at the center of the selected bar (or bar section), and not at the top:
-    //   // @param elements {Chart.Element[]} the tooltip elements
-    //   // @param eventPosition {Point} the position of the event in canvas coordinates
-    //   // @returns {Point} the tooltip position
-    //   let yOffset = 0;
-    //   let sum = 0;
-    //   const dataSets = elements[0]._chart.data.datasets;
-    //   if (Array.isArray(dataSets)) {
-    //     if (dataSets.length === 1) {
-    //       yOffset = (elements[0]._chart.scales['y-axis-0'].bottom - elements[0]._model.y) / 2;
-    //     } else {
-    //       for (let i = 0; i < dataSets.length; i++) {
-    //         if (i <= elements[0]._datasetIndex &&
-    //           dataSets[i].stack === dataSets[elements[0]._datasetIndex].stack) {
-    //           sum += dataSets[i].data[elements[0]._index];
-    //         }
-    //       }
-    //       if (sum === 0) {
-    //         yOffset = (elements[0]._chart.scales['y-axis-0'].bottom - elements[0]._model.y) / 2;
-    //       } else {
-    //         yOffset = dataSets[elements[0]._datasetIndex].data[elements[0]._index] / sum;
-    //         yOffset *= (elements[0]._chart.scales['y-axis-0'].bottom - elements[0]._model.y) / 2;
-    //       }
-    //     }
-    //   }
-
-    //   return {
-    //     x: elements[0]._model.x,
-    //     y: elements[0]._model.y + yOffset,
-    //   };
-    // };
-
     this.language = language;
 
     switch (chartType) {
@@ -96,9 +57,10 @@ export class SimpleChart {
 
   public initChart(context: ElementRef): void {
     this.contextElement = context;
+    context.nativeElement.height = '67vh';
+    context.nativeElement.width = '80vw';
     this.chart = new Chart(this.contextElement.nativeElement.getContext('2d'), {
       type: this.chartType,
-      plugins: [ChartDataLabels],
       options: this.chartOptions,
       data: { labels: [], datasets: [] },
     });
@@ -127,7 +89,6 @@ export class SimpleChart {
     if (!this.fontFamily || Utils.isEmptyString(this.fontFamily)) {
       this.fontFamily = 'Roboto, "Helvetica Neue", sans-serif';
     }
-    this.font = { family: this.fontFamily };
     this.fontSize = getComputedStyle(this.contextElement.nativeElement).fontSize;
     if (!this.fontSize || Utils.isEmptyString(this.fontSize)
       || !this.fontSize.endsWith('px')) {
@@ -241,10 +202,6 @@ export class SimpleChart {
       labels: {},
       position: 'bottom',
     };
-    this.chartOptions.plugins = {};
-    this.chartOptions.plugins.datalabels = {
-      display: (context) => context.dataset.data[context.dataIndex] > 0,
-    };
     this.chartOptions.animation = {
       duration: 2000,
       easing: 'easeOutBounce',
@@ -322,10 +279,6 @@ export class SimpleChart {
       labels: {},
       position: 'bottom',
     };
-    this.chartOptions.plugins = {};
-    this.chartOptions.plugins.datalabels = {
-      display: (context) => context.dataset.data[context.dataIndex] > 0,
-    };
     this.chartOptions.animation = {
       duration: 2000,
       easing: 'easeOutBounce',
@@ -353,9 +306,11 @@ export class SimpleChart {
     };
   }
 
-  private updateChartOptions(chartData: ChartData, mainLabel: string, labelYAxis?: string, toolTipUnit?: string): void {
+  private updateChartOptions(chartData: ChartData, mainLabel: string): void {
     let minValue = 0;
     let minDivisor: any;
+    this.chartOptions.responsive = true;
+    this.chartOptions.maintainAspectRatio = false;
     if(!this.chartOptions.plugins.title){
       this.chartOptions.plugins.title = {};
     }
@@ -380,7 +335,6 @@ export class SimpleChart {
         };
       }
       this.chartOptions.plugins.legend.labels.color = this.fontColor;
-      this.chartOptions.plugins.legend.labels.font['family'] = this.fontFamily;
     }
     if (this.chartType === ChartTypeValues.PIE) {
       minDivisor = this.constMinDivisorPie;
@@ -428,18 +382,6 @@ export class SimpleChart {
       });
       minValue = minValue / minDivisor;
     }
-    this.chartOptions.plugins.datalabels = {
-      color: this.fontColor,
-      font: this.font,
-      display: (context) => context.dataset.data[context.dataIndex] > minValue,
-      formatter: (value, context) => {
-        if (this.roundedChartLabels) {
-          return Math.round(value).toLocaleString(this.language);
-        } else {
-          return value.toLocaleString(this.language);
-        }
-      },
-    };
   }
 
   private updateChartData(chartData: ChartData) {

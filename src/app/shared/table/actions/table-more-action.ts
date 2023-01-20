@@ -1,11 +1,11 @@
-import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
-import { TableActionDef } from '../../../types/Table';
+import { ButtonAction, ButtonActionColor } from '../../../types/GlobalType';
+import { ActionType, TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableMoreAction implements TableAction {
   private action: TableActionDef = {
     id: ButtonAction.MORE,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'more_horiz',
     color: ButtonActionColor.BASIC,
     name: 'general.edit',

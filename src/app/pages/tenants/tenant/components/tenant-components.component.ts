@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { AbstractControl, FormControl, UntypedFormGroup } from '@angular/forms';
+import { MatLegacySlideToggleChange as MatSlideToggleChange } from '@angular/material/legacy-slide-toggle';
+import { DialogMode } from 'types/Authorization';
 
 import { ANALYTICS_TYPES, BILLING_TYPES, PRICING_TYPES, REFUND_TYPES, SMART_CHARGING_TYPES } from '../../../../shared/model/tenants.model';
 import { KeyValue } from '../../../../types/GlobalType';
@@ -14,7 +15,9 @@ import { Tenant, TenantComponents } from '../../../../types/Tenant';
 export class TenantComponentsComponent implements OnInit, OnChanges {
   @Input() public tenant!: Tenant;
   @Input() public formGroup!: UntypedFormGroup;
+  @Input() public dialogMode: DialogMode;
 
+  public readonly DialogMode = DialogMode;
   public initialized = false;
 
   public id!: AbstractControl;
@@ -42,8 +45,8 @@ export class TenantComponentsComponent implements OnInit, OnChanges {
     for (const componentIdentifier of Object.values(TenantComponents)) {
       // Create controls
       this.components.addControl(componentIdentifier, new UntypedFormGroup({
-        active: new UntypedFormControl(false),
-        type: new UntypedFormControl(''),
+        active: new FormControl(false),
+        type: new FormControl(''),
       }));
     }
     this.initialized = true;
@@ -54,7 +57,7 @@ export class TenantComponentsComponent implements OnInit, OnChanges {
     this.loadTenant();
   }
 
-  public toggleDropDownActivation(event: MatSlideToggleChange, inputControl: UntypedFormControl) {
+  public toggleDropDownActivation(event: MatSlideToggleChange, inputControl: FormControl) {
     if (inputControl) {
       if (event.checked) {
         inputControl.enable();

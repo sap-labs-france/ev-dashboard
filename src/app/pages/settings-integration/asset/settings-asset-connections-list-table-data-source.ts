@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { TableViewAssetAction } from 'shared/table/actions/assets/table-view-asset-action';
-import { DialogMode, SettingAuthorizationActions } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -23,11 +21,6 @@ import { TableCheckAssetConnectionAction } from './table-actions/table-check-ass
 
 @Injectable()
 export class SettingsAssetConnectionEditableTableDataSource extends EditableTableDataSource<AssetConnectionSetting> {
-  public authorizations: SettingAuthorizationActions;
-  private editAction = new TableEditAction().getActionDef();
-  private checkConnectionAction =  new TableCheckAssetConnectionAction().getActionDef();
-  private viewAction = new TableViewAssetAction().getActionDef();
-
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -43,7 +36,6 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
     // Not really editable datasource
     return new Observable((observer) => {
       if (this.editableRows) {
-        this.addAction.visible = this.authorizations?.canUpdate;
         // Asset sort by name
         this.editableRows.sort((a, b) => (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0);
         observer.next({
@@ -101,31 +93,19 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
     ];
   }
 
-  public buildTableDynamicRowActions(row: AssetConnectionSetting): TableActionDef[] {
-    // Using global setting authorizations
-    const rowActions: TableActionDef[] = [];
-    // Update or View
-    if(this.authorizations.canUpdate) {
-      rowActions.push(this.editAction);
-    } else {
-      rowActions.push(this.viewAction);
-    }
-    // Check connection
-    if(this.authorizations.canCheckAssetConnection) {
-      rowActions.push(this.checkConnectionAction);
-    }
-    // Delete action
-    if(this.authorizations.canUpdate) {
-      rowActions.push( ...super.buildTableRowActions());
-    }
-    return rowActions;
+  public buildTableRowActions(): TableActionDef[] {
+    return [
+      new TableEditAction().getActionDef(),
+      new TableCheckAssetConnectionAction().getActionDef(),
+      ...super.buildTableRowActions()
+    ];
   }
 
   public actionTriggered(actionDef: TableActionDef) {
     // Action
     switch (actionDef.id) {
       case ButtonAction.ADD:
-        this.showAssetConnectionDialog(DialogMode.CREATE);
+        this.showAssetConnectionDialog();
         break;
     }
   }
@@ -133,16 +113,13 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
   public rowActionTriggered(actionDef: TableActionDef, assetConnection: AssetConnectionSetting) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
-        this.showAssetConnectionDialog(DialogMode.EDIT, assetConnection);
+        this.showAssetConnectionDialog(assetConnection);
         break;
       case AssetButtonAction.CHECK_ASSET_CONNECTION:
         if (actionDef.action) {
           actionDef.action(assetConnection, this.formArray, this.dialogService, this.spinnerService, this.translateService,
             this.centralServerService, this.messageService, this.router);
         }
-        break;
-      case AssetButtonAction.VIEW_ASSET:
-        this.showAssetConnectionDialog(DialogMode.VIEW, assetConnection);
         break;
       case ButtonAction.DELETE:
         this.dialogService.createAndShowYesNoDialog(
@@ -182,16 +159,18 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
     };
   }
 
-  public setAuthorizations(authorizations: SettingAuthorizationActions) {
-    this.authorizations = authorizations;
-  }
-
-  private showAssetConnectionDialog(dialogMode: DialogMode, assetConnection?: AssetConnectionSetting) {
+  private showAssetConnectionDialog(assetConnection?: AssetConnectionSetting) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';
     dialogConfig.panelClass = 'transparent-dialog-container';
-    dialogConfig.data = { dialogData: assetConnection, dialogMode };
+    // Update
+    if (assetConnection) {
+      dialogConfig.data = assetConnection;
+    // Create
+    } else {
+      dialogConfig.data = this.createRow();
+    }
     // Disable outside click close
     dialogConfig.disableClose = true;
     // Open

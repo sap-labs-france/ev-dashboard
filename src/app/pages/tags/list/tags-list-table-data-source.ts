@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
@@ -19,13 +19,13 @@ import { TableUnassignTagAction, TableUnassignTagActionDef } from 'shared/table/
 import { TableUnassignTagsAction, TableUnassignTagsActionDef } from 'shared/table/actions/tags/table-unassign-tags-action';
 import { TableViewTagAction, TableViewTagActionDef } from 'shared/table/actions/tags/table-view-tag-action';
 import { TableNavigateToTransactionsAction } from 'shared/table/actions/transactions/table-navigate-to-transactions-action';
-import { organizations } from 'shared/table/filters/issuer-filter';
+import { Organizations } from 'shared/table/filters/issuer-filter';
 import { StatusFilter } from 'shared/table/filters/status-filter';
 import { UserTableFilter } from 'shared/table/filters/user-table-filter';
 import { TagsAuthorizations } from 'types/Authorization';
 import { DataResult } from 'types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from 'types/Table';
-import { Tag, TagButtonAction } from 'types/Tag';
+import { Tag, TagButtonAction, TagLimit } from 'types/Tag';
 import { TransactionButtonAction } from 'types/Transaction';
 import { User, UserButtonAction } from 'types/User';
 
@@ -101,7 +101,7 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
     if (issuer) {
       const issuerTableFilter = this.tableFiltersDef.find(filter => filter.id === 'issuer');
       if (issuerTableFilter) {
-        issuerTableFilter.currentValue = [organizations.find(organisation => organisation.key === issuer)];
+        issuerTableFilter.currentValue = [Organizations.find(organisation => organisation.key === issuer)];
         this.filterChanged(issuerTableFilter);
       }
     }
@@ -144,39 +144,41 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
   public loadDataImpl(): Observable<DataResult<Tag>> {
     return new Observable((observer) => {
       // Get the Tags
-      this.centralServerService.getTags(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((tags) => {
-        // Initialize authorizaiton object
-        this.tagsAuthorizations = {
-          // Authorization action
-          canCreate: Utils.convertToBoolean(tags.canCreate),
-          canAssign: Utils.convertToBoolean(tags.canAssign),
-          canImport: Utils.convertToBoolean(tags.canImport),
-          canExport: Utils.convertToBoolean(tags.canExport),
-          canDelete: Utils.convertToBoolean(tags.canDelete),
-          canUnassign: Utils.convertToBoolean(tags.canUnassign),
-          canListUsers: Utils.convertToBoolean(tags.canListUsers),
-          canListSources: Utils.convertToBoolean(tags.canListSources),
-          // Metadata
-          metadata: tags.metadata,
-          // projected fields
-          projectFields: tags.projectFields
-        };
-        // Update filter visibility
-        this.createAction.visible = this.tagsAuthorizations.canCreate;
-        this.assignAction.visible = this.tagsAuthorizations.canAssign;
-        this.importAction.visible = this.tagsAuthorizations.canImport;
-        this.exportAction.visible = this.tagsAuthorizations.canExport;
-        this.deleteManyAction.visible = this.tagsAuthorizations.canDelete;
-        this.unassignManyAction.visible = this.tagsAuthorizations.canUnassign;
-        this.projectFields = this.tagsAuthorizations.projectFields;
-        this.userFilter.visible = this.tagsAuthorizations.canListUsers;
-        this.issuerFilter.visible = this.tagsAuthorizations.canListSources;
-        observer.next(tags);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getTags(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (tags) => {
+          // Initialize authorizaiton object
+          this.tagsAuthorizations = {
+            // Authorization action
+            canCreate: Utils.convertToBoolean(tags.canCreate),
+            canAssign: Utils.convertToBoolean(tags.canAssign),
+            canImport: Utils.convertToBoolean(tags.canImport),
+            canExport: Utils.convertToBoolean(tags.canExport),
+            canDelete: Utils.convertToBoolean(tags.canDelete),
+            canUnassign: Utils.convertToBoolean(tags.canUnassign),
+            canListUsers: Utils.convertToBoolean(tags.canListUsers),
+            canListSources: Utils.convertToBoolean(tags.canListSources),
+            // Metadata
+            metadata: tags.metadata,
+            // projected fields
+            projectFields: tags.projectFields
+          };
+          // Update filter visibility
+          this.createAction.visible = this.tagsAuthorizations.canCreate;
+          this.assignAction.visible = this.tagsAuthorizations.canAssign;
+          this.importAction.visible = this.tagsAuthorizations.canImport;
+          this.exportAction.visible = this.tagsAuthorizations.canExport;
+          this.deleteManyAction.visible = this.tagsAuthorizations.canDelete;
+          this.unassignManyAction.visible = this.tagsAuthorizations.canUnassign;
+          this.projectFields = this.tagsAuthorizations.projectFields;
+          this.userFilter.visible = this.tagsAuthorizations.canListUsers;
+          this.issuerFilter.visible = this.tagsAuthorizations.canListSources;
+          observer.next(tags);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }
@@ -249,6 +251,14 @@ export class TagsListTableDataSource extends TableDataSource<Tag> {
         class: 'text-center col-10em',
         sortable: true,
         formatter: (defaultTag) => Utils.displayYesNo(this.translateService, defaultTag),
+      },
+      {
+        id: 'limit.limitKwhEnabled',
+        name: 'tags.limit_consumed',
+        headerClass: 'text-center col-5em',
+        class: 'text-center col-10em',
+        sortable: true,
+        formatter: (limit: TagLimit, tag: Tag) => Utils.displayTagLimit(tag.limit),
       },
       {
         id: 'user.name',

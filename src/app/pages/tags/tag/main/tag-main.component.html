@@ -19,7 +19,8 @@
       </div>
     </div>
     <div *ngIf="dialogMode === DialogMode.CREATE" class="col-md-6">
-      <button mat-raised-button [title]="'general.generate' | translate" color="primary" (click)="generateTagID()">
+      <button mat-raised-button class="col-md-auto mb-2"
+          [title]="'general.generate' | translate" color="primary" (click)="generateTagID()">
         <mat-icon>refresh</mat-icon>
         <ng-container>
           <span>{{'general.generate' | translate}}</span>
@@ -82,13 +83,13 @@
       </div>
     </div>
   </div>
-  <div class="row">
+  <div class="row mb-3 mt-2">
     <div class="col-md-12">
       <div class="form-group">
         <div class="text-left">
-          <mat-checkbox value="false" [formControl]="default">
+          <mat-slide-toggle value="false" [formControl]="default">
             {{'tags.default_tag' | translate}}
-          </mat-checkbox>
+          </mat-slide-toggle>
         </div>
       </div>
     </div>

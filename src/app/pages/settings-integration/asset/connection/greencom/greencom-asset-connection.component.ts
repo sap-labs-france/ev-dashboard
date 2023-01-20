@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { AssetGreencomConnectionType } from '../../../../../types/Setting';
 
@@ -18,11 +18,11 @@ export class GreencomAssetConnectionComponent implements OnInit {
   public ngOnInit(): void {
     // Set login credentials form
     this.greencomCredentials = new UntypedFormGroup({
-      clientId: new UntypedFormControl('',
+      clientId: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      clientSecret: new UntypedFormControl('',
+      clientSecret: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),

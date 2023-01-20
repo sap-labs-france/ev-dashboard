@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 import { MaterialModule } from '../../app.module';
 import { ComponentModule } from '../../shared/component/component.module';
@@ -33,7 +32,6 @@ import { StatisticsUsageComponent } from './usage/statistics-usage.component';
     CommonDirectivesModule,
     TableModule,
     DialogsModule,
-    NgxDaterangepickerMd,
   ],
   declarations: [
     StatisticsComponent,

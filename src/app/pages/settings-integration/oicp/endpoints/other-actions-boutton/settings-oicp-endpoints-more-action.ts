@@ -1,12 +1,12 @@
 import { TableAction } from '../../../../../shared/table/actions/table-action';
-import { ButtonAction } from '../../../../../types/GlobalType';
-import { ButtonActionColor, TableActionDef } from '../../../../../types/Table';
+import { ButtonAction, ButtonActionColor } from '../../../../../types/GlobalType';
+import { ActionType, TableActionDef } from '../../../../../types/Table';
 import { SettingsOICPStartJobAction } from './settings-oicp-start-job-action';
 
 export class SettingsOicpEndpointsMoreAction implements TableAction {
   private action: TableActionDef = {
     id: ButtonAction.MORE,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'more_horiz',
     color: ButtonActionColor.PRIMARY,
     name: 'general.edit',

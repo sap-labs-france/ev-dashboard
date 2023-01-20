@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { DialogMode, TagsAuthorizations } from 'types/Authorization';
 
 import { SpinnerService } from '../../../../services/spinner.service';
@@ -15,7 +15,6 @@ import { Utils } from '../../../../utils/Utils';
 export class TagMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: UntypedFormGroup;
   @Input() public tag!: Tag;
-  @Input() public readOnly: boolean;
   @Input() public tagsAuthorizations!: TagsAuthorizations;
   @Input() public dialogMode!: DialogMode;
 
@@ -107,6 +106,7 @@ export class TagMainComponent implements OnInit, OnChanges {
 
   public generateTagID(): void {
     this.id.setValue(Utils.generateTagID());
+    this.formGroup.markAsDirty();
   }
 
   public assignUser() {

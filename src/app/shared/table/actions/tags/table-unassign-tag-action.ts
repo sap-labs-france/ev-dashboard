@@ -7,7 +7,7 @@ import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { ButtonAction, ButtonActionColor, RestResponse } from '../../../../types/GlobalType';
-import { TableActionDef } from '../../../../types/Table';
+import { ActionType, TableActionDef } from '../../../../types/Table';
 import { Tag, TagButtonAction } from '../../../../types/Tag';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
@@ -22,7 +22,7 @@ export class TableUnassignTagAction implements TableAction {
     return {
       id: TagButtonAction.UNASSIGN_TAG,
       action: this.unassignTag,
-      type: 'button',
+      type: ActionType.BUTTON,
       icon: 'delete',
       color: ButtonActionColor.WARN,
       name: 'general.delete',

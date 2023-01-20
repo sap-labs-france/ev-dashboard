@@ -1,15 +1,15 @@
 import { ComponentType } from '@angular/cdk/portal';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 
-import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
+import { ButtonAction, ButtonActionColor } from '../../../types/GlobalType';
 import { RESTServerRoute } from '../../../types/Server';
-import { TableActionDef } from '../../../types/Table';
+import { ActionType, TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableImportAction implements TableAction {
   private action: TableActionDef = {
     id: ButtonAction.IMPORT,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'cloud_upload',
     name: 'general.import',
     color: ButtonActionColor.PRIMARY,

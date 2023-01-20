@@ -22,31 +22,32 @@
 </div>
 <div class="row">
   <!-- From -->
-  <div class="col-md-3">
+  <div class="col-md-3 mb-1">
     <div class="form-group">
-      <mat-form-field>
-        <mat-datetimepicker #pickerDateStart type="date" openOnFocus="false" mode="portrait" timeInterval="1">
-        </mat-datetimepicker>
-        <mat-datetimepicker-toggle [for]="pickerDateStart" matSuffix></mat-datetimepicker-toggle>
-        <input matInput [formControl]="validFrom" placeholder="{{'settings.pricing.valid_from' | translate}}" [matDatetimepicker]="pickerDateStart">
-        <mat-error *ngIf="validFrom?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-      </mat-form-field>
+      <app-date-time ngDefaultControl
+        placeholder="settings.pricing.valid_from"
+        [date]="validFrom?.value"
+        [allowClearDate]="true"
+        [formControl]="validFrom">
+      </app-date-time>
+      <mat-error *ngIf="validFrom?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
     </div>
   </div>
   <!-- To -->
-  <div class="col-md-3">
+  <div class="col-md-3 mb-2">
     <div class="form-group">
-      <mat-form-field>
-        <mat-datetimepicker #pickerDateEnd type="date" openOnFocus="false" mode="portrait" timeInterval="1">
-        </mat-datetimepicker>
-        <mat-datetimepicker-toggle [for]="pickerDateEnd" matSuffix></mat-datetimepicker-toggle>
-        <input matInput [formControl]="validTo" [min]="minDate" placeholder="{{'settings.pricing.valid_to' | translate}}" [matDatetimepicker]="pickerDateEnd">
-        <mat-error *ngIf="validTo?.errors?.matDatepickerMin">{{'settings.pricing.end_date_error' | translate}}</mat-error>
-      </mat-form-field>
+      <app-date-time ngDefaultControl
+        placeholder="settings.pricing.valid_to"
+        [date]="validTo?.value"
+        [minDate]="validFrom?.value"
+        [forceEndOfDay]="true"
+        [allowClearDate]="true"
+        [formControl]="validTo">
+      </app-date-time>
     </div>
   </div>
   <!-- Connector Drop down -->
-  <div class="col-md-5 offset-1">
+  <div class="col-md-5 offset-md-1">
     <div class="form-group">
       <mat-form-field>
         <mat-select placeholder="{{'settings.pricing.connector_type' | translate}}" [formControl]="connectorType">
@@ -71,7 +72,7 @@
 </div>
 <div class="row">
   <!-- Connector -->
-  <div class="col-md-3 offset-7 pricing-dimension align-self-center">
+  <div class="col-md-3 offset-md-7 mb-2 mt-2 pricing-dimension align-self-center">
     <mat-slide-toggle (change)="toggle($event)" id="connectorPower" [formControl]="connectorPowerEnabled">
       {{'settings.pricing.connector_power' | translate}}
     </mat-slide-toggle>

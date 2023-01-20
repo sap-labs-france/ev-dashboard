@@ -7,7 +7,7 @@
           <span>{{'tenants.title' | translate}} - {{formGroup.controls['name'].value}}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content">
-          <app-tenant-main #tenantMainComponent [formGroup]="formGroup" [tenant]="tenant"></app-tenant-main>
+          <app-tenant-main #tenantMainComponent [formGroup]="formGroup" [tenant]="tenant" [dialogMode]="dialogMode"></app-tenant-main>
         </div>
       </mat-tab>
       <mat-tab>
@@ -16,7 +16,16 @@
           <span>{{'general.menu.components' | translate}}</span>
         </ng-template>
         <div class="card-body">
-          <app-tenant-components #tenantComponentsComponent [formGroup]="formGroup" [tenant]="tenant"></app-tenant-components>
+          <app-tenant-components #tenantComponentsComponent [formGroup]="formGroup" [tenant]="tenant" [dialogMode]="dialogMode"></app-tenant-components>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>checklist</mat-icon>
+          <span>{{'general.menu.features' | translate}}</span>
+        </ng-template>
+        <div class="card-body">
+          <app-tenant-features #tenantFeaturesComponent [formGroup]="formGroup" [tenant]="tenant" [dialogMode]="dialogMode"></app-tenant-features>
         </div>
       </mat-tab>
     </mat-tab-group>

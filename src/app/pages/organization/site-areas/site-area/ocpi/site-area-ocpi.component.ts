@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { DialogMode } from 'types/Authorization';
 import { Site } from 'types/Site';
 
 import { SiteArea } from '../../../../../types/SiteArea';
@@ -12,8 +13,9 @@ import { Utils } from '../../../../../utils/Utils';
 export class SiteAreaOcpiComponent implements OnInit, OnChanges {
   @Input() public siteArea!: SiteArea;
   @Input() public formGroup!: UntypedFormGroup;
-  @Input() public readOnly: boolean;
+  @Input() public dialogMode: DialogMode;
 
+  public readonly DialogMode = DialogMode;
   public public = false;
   public initialized = false;
 
@@ -21,13 +23,14 @@ export class SiteAreaOcpiComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     // Init the form
-    this.formGroup.addControl('tariffID', new UntypedFormControl(null,
+    this.formGroup.addControl('tariffID', new FormControl(null,
       Validators.compose([
         Validators.maxLength(36),
       ])));
     // Form
     this.tariffID = this.formGroup.controls['tariffID'];
     this.enableDisableTariffID();
+
     this.initialized = true;
     this.loadSiteArea();
   }
@@ -56,7 +59,7 @@ export class SiteAreaOcpiComponent implements OnInit, OnChanges {
   }
 
   private enableDisableTariffID() {
-    if (!this.readOnly) {
+    if (this.dialogMode !== this.DialogMode.VIEW) {
       if (this.public) {
         this.tariffID.enable();
       } else {

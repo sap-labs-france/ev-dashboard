@@ -1,6 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, FormGroup, UntypedFormControl, Validators } from '@angular/forms';
-import { SettingAuthorizationActions } from 'types/Authorization';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { PricingSettings } from '../../../../types/Setting';
 
@@ -9,26 +8,25 @@ import { PricingSettings } from '../../../../types/Setting';
   templateUrl: 'settings-simple-pricing.component.html',
 })
 export class SettingsSimplePricingComponent implements OnInit, OnChanges {
-  @Input() public formGroup!: FormGroup;
+  @Input() public formGroup!: UntypedFormGroup;
   @Input() public pricingSettings!: PricingSettings;
   @Input() public isCurrencyCodeReadonly!: boolean;
-  @Input() public authorizations!: SettingAuthorizationActions;
 
-  public simplePricing!: FormGroup;
+  public simplePricing!: UntypedFormGroup;
   public price!: AbstractControl;
   public currency!: AbstractControl;
 
   public ngOnInit(): void {
     // Simple pricing
-    this.simplePricing = new FormGroup({
-      price: new UntypedFormControl('',
+    this.simplePricing = new UntypedFormGroup({
+      price: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.pattern(/^-?((\d+(\.\d+)?))$/),
           Validators.maxLength(10),
         ]),
       ),
-      currency: new UntypedFormControl('',
+      currency: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.maxLength(3),
@@ -56,11 +54,6 @@ export class SettingsSimplePricingComponent implements OnInit, OnChanges {
     if (this.simplePricing) {
       this.price.setValue(this.pricingSettings.simple.price);
       this.currency.setValue(this.pricingSettings.simple.currency);
-    }
-    // Read only
-    if(!this.authorizations.canUpdate) {
-      // Async call for letting the sub form groups to init
-      setTimeout(() => this.formGroup.disable(), 0);
     }
   }
 }

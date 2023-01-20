@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ComponentService } from 'services/component.service';
@@ -91,10 +91,10 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     const startDateTime = this.windowService.getUrlParameterValue('StartDateTime');
     const endDateTime = this.windowService.getUrlParameterValue('EndDateTime');
     if (startDateTime) {
-      const startDateTimeValue = moment(startDateTime);
-      let endDateTimeValue = moment(startDateTime).endOf('day');
+      const startDateTimeValue = dayjs(startDateTime);
+      let endDateTimeValue = dayjs(startDateTime).endOf('day');
       if (endDateTime) {
-        endDateTimeValue = moment(endDateTime);
+        endDateTimeValue = dayjs(endDateTime);
       }
       const dateRangeFilter = this.tableFiltersDef.find(filter => filter.id === 'dateRange');
       if (dateRangeFilter) {
@@ -255,8 +255,8 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         new DateRangeTableFilter({
           translateService: this.translateService,
           showSeconds: true,
-          start: moment().startOf('day'),
-          end: moment().endOf('day'),
+          start: dayjs().startOf('day'),
+          end: dayjs().endOf('day'),
         }).getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogSourceTableFilter().getFilterDef(),
@@ -272,8 +272,8 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
         new DateRangeTableFilter({
           translateService: this.translateService,
           showSeconds: true,
-          start: moment().startOf('day'),
-          end: moment().endOf('day'),
+          start: dayjs().startOf('day'),
+          end: dayjs().endOf('day'),
         }).getFilterDef(),
         new LogLevelTableFilter().getFilterDef(),
         new LogSourceTableFilter().getFilterDef(),

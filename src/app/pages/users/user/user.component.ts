@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
@@ -41,18 +41,10 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   @ViewChild('userNotificationsComponent') public userNotificationsComponent!: UserNotificationsComponent;
   @ViewChild('userSecurityComponent') public userSecurityComponent!: UserSecurityComponent;
 
-  public isAdmin = false;
-  public isSuperAdmin = false;
-  public isBasic = false;
-  public isSiteAdmin = false;
-
-  public isBillingComponentActive: boolean;
-
+  public formGroup!: UntypedFormGroup;
   public user!: User;
   public address!: Address;
-
-  public formGroup!: UntypedFormGroup;
-
+  public isBillingComponentActive: boolean;
   public canListPaymentMethods: boolean;
 
   public constructor(
@@ -66,21 +58,13 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     private router: Router,
     protected activatedRoute: ActivatedRoute,
     protected windowService: WindowService) {
-    super(activatedRoute, windowService, ['main', 'notifications', 'address', 'password', 'connections', 'miscs', 'billing'], false);
-    // Admin?
-    this.isAdmin = this.authorizationService.isAdmin();
-    this.isSuperAdmin = this.authorizationService.isSuperAdmin();
-    this.isBasic = this.authorizationService.isBasic();
-    this.isSiteAdmin = this.authorizationService.hasSitesAdminRights();
-    // Set Tab IDs
-    if (this.isBasic || this.isSiteAdmin) {
-      this.setHashArray(['main', 'address', 'password', 'connections', 'miscs', 'billing']);
-    }
-    if (this.isSuperAdmin) {
-      this.setHashArray(['main', 'notifications', 'address', 'password', 'miscs', 'billing']);
-    }
+    super(activatedRoute, windowService, ['main', 'notifications', 'address', 'security', 'connections', 'miscs'], false);
     this.isBillingComponentActive = this.componentService.isActive(TenantComponents.BILLING);
     this.canListPaymentMethods = this.authorizationService.canListPaymentMethods();
+    // Set Tabs
+    if (this.isBillingComponentActive) {
+      this.setHashArray(['main', 'notifications', 'address', 'security', 'connections', 'billing', 'miscs']);
+    }
   }
 
   public updateRoute(event: number) {

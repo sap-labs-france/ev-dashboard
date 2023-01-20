@@ -351,13 +351,13 @@ export abstract class TableDataSource<T extends TableData> {
       for (const filterDef of this.tableFiltersDef) {
         // Check the 'All' value
         if (filterDef.currentValue && filterDef.currentValue !== FilterType.ALL_KEY) {
-          if (filterDef.type === 'date') {
+          if (filterDef.type === FilterType.DATE) {
             // Date
-            filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
+            filterJson[filterDef.httpID] = filterDef.currentValue.toISOString();
           } else if (filterDef.type === FilterType.DATE_RANGE) {
             // Date range
-            filterJson[filterDef.dateRangeTableFilterDef?.startDateTimeHttpId] = filterDef.currentValue.startDate.toISOString();
-            filterJson[filterDef.dateRangeTableFilterDef?.endDateTimeHttpId] = filterDef.currentValue.endDate.toISOString();
+            filterJson[filterDef.dateRangeTableFilterDef?.startDateTimeHttpID] = filterDef.currentValue.startDate.toISOString();
+            filterJson[filterDef.dateRangeTableFilterDef?.endDateTimeHttpID] = filterDef.currentValue.endDate.toISOString();
           } else if (filterDef.type === FilterType.DIALOG_TABLE) {
             // Mono selection
             if (!filterDef.multiple) {
@@ -369,27 +369,27 @@ export abstract class TableDataSource<T extends TableData> {
                     for (const value of filterDef.currentValue) {
                       jsonKeys.push(value.key);
                     }
-                    filterJson[filterDef.httpId] = JSON.stringify(jsonKeys);
+                    filterJson[filterDef.httpID] = JSON.stringify(jsonKeys);
                   } else {
-                    filterJson[filterDef.httpId] = filterDef.currentValue[0].key;
+                    filterJson[filterDef.httpID] = filterDef.currentValue[0].key;
                   }
                 }
               }
-            // Multiple selections
+            // Multiple selection
             } else {
               if (!Utils.isEmptyArray(filterDef.currentValue)) {
-                filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
+                filterJson[filterDef.httpID] = filterDef.currentValue.map((obj) => obj.key).join('|');
               }
             }
-          // Dropdown with multiple selections
+          // Dropdown with multiple selection
           } else if (filterDef.type === FilterType.DROPDOWN && filterDef.multiple) {
             if (!Utils.isEmptyArray(filterDef.currentValue) &&
                 (filterDef.currentValue.length < filterDef.items.length || !filterDef.exhaustive)) {
-              filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
+              filterJson[filterDef.httpID] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
-            // Others
+          // Others
           } else {
-            filterJson[filterDef.httpId] = filterDef.currentValue;
+            filterJson[filterDef.httpID] = filterDef.currentValue;
           }
         }
       }
@@ -458,21 +458,29 @@ export abstract class TableDataSource<T extends TableData> {
               }
             });
             for (const tableColumnDef of this.tableColumnsDef) {
-              // If column visibility is not already set we use the project field
-              const isColumnIDInProjectedFields = data.projectFields.includes(tableColumnDef.id);
-              if (Utils.isNullOrUndefined(tableColumnDef.visible) || !isColumnIDInProjectedFields) {
-                tableColumnDef.visible = isColumnIDInProjectedFields;
+              const visibleInProjectedFields = data.projectFields.includes(tableColumnDef.id);
+              // Not visible in projected field: force to false
+              if (!visibleInProjectedFields) {
+                tableColumnDef.visible = false;
+              } else {
+                // Visible in projected fields but forced to 'false' by the datasource
+                if (Utils.objectHasProperty(tableColumnDef, 'visible') &&
+                    !Utils.isUndefined(tableColumnDef.visible) &&
+                    !tableColumnDef.visible) {
+                  // Use the datasource provided value (false)
+                  tableColumnDef.visible = false;
+                } else {
+                  // Not provided by the datasource but allowed to be displayed
+                  tableColumnDef.visible = true;
+                }
               }
             }
-            // No projected fields, display all
+          // No projected fields, display all
           } else {
             for (const tableColumnDef of this.tableColumnsDef) {
               // Only if prop is not provided
               if (!Utils.objectHasProperty(tableColumnDef, 'visible')) {
-                // If column visibility is not already set we display it (project field is empty)
-                if (Utils.isNullOrUndefined(tableColumnDef.visible)) {
-                  tableColumnDef.visible = true;
-                }
+                tableColumnDef.visible = true;
               }
             }
           }

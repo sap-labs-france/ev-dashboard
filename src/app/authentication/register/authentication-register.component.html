@@ -46,7 +46,7 @@
                     <span class="input-group-text">
                       <mat-icon>smartphone</mat-icon>
                       <mat-form-field class="ms-2">
-                        <input [formControl]="mobile" matInput placeholder="{{'users.mobile' | translate}}" type="text">
+                        <input [formControl]="mobile" matInput placeholder="{{'users.mobile' | translate}}" type="text" required>
                         <mat-error *ngIf="mobile.errors?.invalidPhone">{{"users.invalid_phone_number" | translate}}</mat-error>
                         <mat-error *ngIf="mobile.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                       </mat-form-field>

@@ -1,6 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { SettingAuthorizationActions } from 'types/Authorization';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { SmartChargingSettings } from '../../../../types/Setting';
 import { Constants } from '../../../../utils/Constants';
@@ -10,11 +9,10 @@ import { Constants } from '../../../../utils/Constants';
   templateUrl: 'settings-sap-smart-charging.component.html',
 })
 export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
-  @Input() public formGroup!: FormGroup;
+  @Input() public formGroup!: UntypedFormGroup;
   @Input() public smartChargingSettings!: SmartChargingSettings;
-  @Input() public authorizations!: SettingAuthorizationActions;
 
-  public sapSmartCharging!: FormGroup;
+  public sapSmartCharging!: UntypedFormGroup;
   public optimizerUrl!: AbstractControl;
   public user!: AbstractControl;
   public password!: AbstractControl;
@@ -23,10 +21,11 @@ export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
   public limitBufferAC!: AbstractControl;
 
   public ngOnInit(): void {
-    this.sapSmartCharging = new FormGroup({
+    this.sapSmartCharging = new UntypedFormGroup({
       optimizerUrl: new FormControl('',
         Validators.compose([
           Validators.required,
+          Validators.pattern(Constants.URL_PATTERN),
         ]),
       ),
       user: new FormControl('',
@@ -41,9 +40,9 @@ export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
           Validators.maxLength(100),
         ]),
       ),
-      stickyLimitation: new FormControl<boolean>(false),
-      limitBufferDC: new FormControl<number>(0),
-      limitBufferAC: new FormControl<number>(0),
+      stickyLimitation: new FormControl(''),
+      limitBufferDC: new FormControl(''),
+      limitBufferAC: new FormControl(''),
     });
     // Add
     this.formGroup.addControl('sapSmartCharging', this.sapSmartCharging);
@@ -86,11 +85,6 @@ export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
       this.limitBufferDC.setValue(this.smartChargingSettings.sapSmartCharging.limitBufferDC ? this.smartChargingSettings.sapSmartCharging.limitBufferDC : 0);
       this.limitBufferAC.setValue(this.smartChargingSettings.sapSmartCharging.limitBufferAC ? this.smartChargingSettings.sapSmartCharging.limitBufferAC : 0);
       this.formGroup.markAsPristine();
-      // Read only
-      if(!this.authorizations.canUpdate) {
-        // Async call for letting the sub form groups to init
-        setTimeout(() => this.formGroup.disable(), 0);
-      }
 
     }
   }

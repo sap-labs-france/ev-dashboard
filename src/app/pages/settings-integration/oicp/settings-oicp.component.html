@@ -11,9 +11,10 @@
   </div>
 </div>
 <div *ngIf="isActive" class="d-flex flex-column">
-  <div class="mat-toolbar-row mat-toolbar-settings">
+  <div class="mat-toolbar-row mat-toolbar-settings row m-0">
     <button mat-raised-button color="warn" (click)="save(formGroup.value)"
-      [disabled]="!formGroup.valid || !formGroup.dirty">
+        class="col-md-auto mb-2"
+        [disabled]="!formGroup.valid || !formGroup.dirty">
       <mat-icon>save</mat-icon>
       <span>{{'general.save' | translate}}</span>
     </button>
@@ -28,7 +29,7 @@
       </div>
       <div class="card-body">
         <!-- CPO identifier business details -->
-        <p class="font-weight-bold">{{'oicp.business_details' | translate}}</p>
+        <p class="fw-bold">{{'oicp.business_details' | translate}}</p>
         <div class="row">
           <div class="col-md-6">
             <mat-form-field>
@@ -55,7 +56,7 @@
           </div>
         </div>
 
-        <p class="font-weight-bold">{{'oicp.logo' | translate}}</p>
+        <p class="fw-bold">{{'oicp.logo' | translate}}</p>
         <div class="row">
           <div class="col-md-6">
             <mat-form-field>
@@ -117,7 +118,7 @@
 
         <!-- CPO identifier COUNTRY_CODE/PARTY_ID and Certificates -->
         <div class="dropdown-divider"></div>
-        <p class="font-weight-bold">{{'oicp.cpo' | translate}}</p>
+        <p class="fw-bold">{{'oicp.cpo' | translate}}</p>
         <div class="row">
           <div class="col-md-6">
             <mat-form-field>
@@ -171,7 +172,7 @@
 
         <!-- EMSP identifier COUNTRY_CODE/PARTY_ID -->
         <div class="dropdown-divider"></div>
-        <p class="font-weight-bold">{{'oicp.emsp' | translate}}</p>
+        <p class="fw-bold">{{'oicp.emsp' | translate}}</p>
         <div class="row">
           <div class="col-md-6">
             <mat-form-field>

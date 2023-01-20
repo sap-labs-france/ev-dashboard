@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
 import { Observable } from 'rxjs';
+import { WindowService } from 'services/window.service';
 import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from 'shared/table/filters/site-area-table-filter';
 import { DataResultAuthorizations } from 'types/Authorization';
@@ -52,8 +53,10 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
     private router: Router,
     private dialog: MatDialog,
     private componentService: ComponentService,
+    private windowService: WindowService,
     private centralServerService: CentralServerService,
-    private datePipe: AppDatePipe) {
+    private datePipe: AppDatePipe
+  ) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -187,7 +190,7 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
   }
 
   public buildTableDynamicRowActions(registrationToken: RegistrationToken): TableActionDef[] {
-    const asExpired = moment(registrationToken.expirationDate).isBefore(new Date());
+    const asExpired = dayjs(registrationToken.expirationDate).isBefore(new Date());
     const isRevoked = registrationToken.revocationDate ? true : false;
     const rowActions: TableActionDef[] = [];
     const moreActions = new TableMoreAction([]);
@@ -199,8 +202,8 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
     if (!asExpired && !isRevoked) {
       rowActions.push(new TableMultiCopyAction(
         copyUrlActions,
-        'chargers.connections.copy_url_tooltip',
-        'chargers.connections.copy_url_tooltip').getActionDef());
+        'chargers.connections.copy_url_to_clipboard',
+        'chargers.connections.copy_url_to_clipboard').getActionDef());
     }
     if (registrationToken.canUpdate) {
       rowActions.push(this.editAction);
@@ -265,8 +268,8 @@ export class ChargingStationsRegistrationTokensTableDataSource extends TableData
             url = registrationToken.ocpp16JSONSecureUrl;
             break;
         }
-        void Utils.copyToClipboard(url);
-        this.messageService.showInfoMessage('chargers.connections.url_copied');
+        this.windowService.copyToClipboard(url);
+        this.messageService.showInfoMessage('general.url_copied');
         break;
     }
   }

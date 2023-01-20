@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { DialogMode } from 'types/Authorization';
+import { User } from 'types/User';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { TableEditUserAction } from '../../../shared/table/actions/users/table-edit-user-action';
-import { DialogMode } from '../../../types/Authorization';
-import { User } from '../../../types/User';
 import { UserDialogComponent } from '../user/user-dialog.component';
 import { UserComponent } from '../user/user.component';
 import { UsersListTableDataSource } from './users-list-table-data-source';

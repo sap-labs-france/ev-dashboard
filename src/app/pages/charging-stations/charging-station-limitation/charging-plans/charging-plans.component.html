@@ -11,25 +11,30 @@
         {{"chargers.smart_charging.smart_charging_enabled_charging_profiles" | translate }}
       </div>
     </div>
-    <div class="right-actions d-flex flex-row mat-toolbar-row mb-2">
+    <div class="row mb-2">
       <button mat-raised-button color="primary" (click)="saveAndApplyChargingProfile()"
-        [disabled]="chargingStation.inactive || (isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && !chargingStation.excludeFromSmartCharging) || !scheduleEditableTableDataSource || scheduleEditableTableDataSource.getContent().length === 0 || !formGroup.dirty || !formGroup.valid">
+          class="col-md-auto mb-2 me-2"
+          [disabled]="chargingStation.inactive || (isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && !chargingStation.excludeFromSmartCharging) || !scheduleEditableTableDataSource || scheduleEditableTableDataSource.getContent().length === 0 || !formGroup.dirty || !formGroup.valid">
         <mat-icon>save</mat-icon><span>{{'general.apply' | translate}}</span>
       </button>
       <button mat-raised-button color="primary" (click)="deleteChargingProfile()"
-        [disabled]="chargingStation.inactive || !chargingStation.canDeleteChargingProfile || (isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && !chargingStation.excludeFromSmartCharging) || chargingProfiles.length === 0">
+          class="col-md-auto mb-2 me-2"
+          [disabled]="chargingStation.inactive || !chargingStation.canDeleteChargingProfile || (isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && !chargingStation.excludeFromSmartCharging) || chargingProfiles.length === 0">
         <mat-icon>delete</mat-icon><span>{{'general.delete' | translate}}</span>
       </button>
-      <button mat-raised-button color="primary" (click)="refresh()">
+      <button mat-raised-button color="primary" (click)="refresh()"
+          class="col-md-auto mb-2 me-2">
         <mat-icon>refresh</mat-icon><span>{{'general.refresh' | translate}}</span>
       </button>
       <button mat-raised-button
+        class="col-md-auto mb-2 me-2"
         *ngIf="(isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && !chargingStation.excludeFromSmartCharging)"
         color="primary" (click)="triggerSmartCharging()">
-        <mat-icon>signal_cellular_alt</mat-icon>
+        <mat-icon>bolt</mat-icon>
         <span>{{'chargers.smart_charging.trigger_smart_charging' | translate}}</span>
       </button>
-      <button mat-raised-button color="primary" (click)="navigateToLog()">
+      <button mat-raised-button color="primary" (click)="navigateToLog()"
+        class="col-md-auto mb-2 me-2">
         <mat-icon>open_in_new</mat-icon><span>{{'logs.redirect' | translate}}</span>
       </button>
       <span class="toolbar-spacer"></span>
@@ -64,18 +69,18 @@
             </mat-form-field>
           </div>
           <div class="form-group col-md-12 mb-1">
-            <mat-form-field>
-              <mat-datetimepicker #pickerDateStart type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
-              </mat-datetimepicker>
-              <mat-datetimepicker-toggle matSuffix [for]="pickerDateStart" matSuffix></mat-datetimepicker-toggle>
-              <input matInput placeholder="{{'chargers.smart_charging.start_date' | translate}}" required
-                (dateChange)="startDateFilterChanged($event.value ? $event.value.toDate() : null)"
-                [matDatetimepicker]="pickerDateStart" [formControl]="startDateControl" autocomplete="false">
-              <mat-error *ngIf="startDateControl.errors?.matDatepickerParse">{{"general.invalid_date" | translate}}
-              </mat-error>
-              <mat-error *ngIf="startDateControl.errors?.dateNotInFuture">
-                {{"chargers.smart_charging.date_not_in_past" | translate}}</mat-error>
-            </mat-form-field>
+            <app-date-time ngDefaultControl
+              [timePicker]="true"
+              placeholder="chargers.smart_charging.start_date"
+              [formControl]="startDateControl"
+              (dateTimeChanged)="startDateFilterChanged($event)">
+            </app-date-time>
+            <mat-error *ngIf="startDateControl.errors?.matDatepickerParse">
+              {{"general.invalid_date" | translate}}
+            </mat-error>
+            <mat-error *ngIf="startDateControl.errors?.dateNotInFuture">
+              {{"chargers.smart_charging.date_not_in_past" | translate}}
+            </mat-error>
           </div>
           <div class="form-group col-md-12 mb-1 text-left">
             <mat-error *ngIf="endDateControl.errors?.endDateOutOfRecurringLimit">

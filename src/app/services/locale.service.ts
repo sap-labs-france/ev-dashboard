@@ -1,5 +1,3 @@
-import 'moment/locale/en-au';
-
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
@@ -9,7 +7,6 @@ import { KeyValue } from '../types/GlobalType';
 import { UserToken } from '../types/User';
 import { Utils } from '../utils/Utils';
 import { CentralServerService } from './central-server.service';
-import { ConfigService } from './config.service';
 
 export interface Locale {
   language: string;
@@ -25,7 +22,6 @@ export class LocaleService {
 
   public constructor(
     private translateService: TranslateService,
-    private configService: ConfigService,
     private centralServerService: CentralServerService) {
     this.considerBrowserLocale();
     this.centralServerService.getCurrentUserSubject().subscribe((user) => {
@@ -92,8 +88,7 @@ export class LocaleService {
     if (!this.locale || this.locale.currentLocale !== normalizedLocale) {
       this.locale = this.getSupportedLocale(normalizedLocale);
       this.translateService.use(this.locale.language);
-      // Make sure to inform moment that the locale has been changed
-      Utils.changeMomentLocaleGlobally(this.locale.currentLocale);
+      Utils.changeLibLocaleGlobally(this.locale.currentLocale);
       if (!this.currentLocaleSubject) {
         this.currentLocaleSubject = new BehaviorSubject<Locale>(this.locale);
       } else {

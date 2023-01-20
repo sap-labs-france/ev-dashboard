@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { ComponentService } from 'services/component.service';
+import { TenantComponents } from 'types/Tenant';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -28,16 +30,19 @@ export class UserSitesTableDataSource extends TableDataSource<UserSite> {
   private addAction = new TableAddAction().getActionDef();
   private removeAction = new TableRemoveAction().getActionDef();
   private userSitesAuthorization: UserSitesAuthorizations;
+  private isRefundComponentActive: boolean;
+
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
+    private componentService: ComponentService,
     private router: Router,
     private dialog: MatDialog,
     private dialogService: DialogService,
     private centralServerService: CentralServerService) {
     super(spinnerService, translateService);
-    // Init
+    this.isRefundComponentActive = this.componentService.isActive(TenantComponents.REFUND);
     this.initDataSource();
   }
 
@@ -155,7 +160,7 @@ export class UserSitesTableDataSource extends TableDataSource<UserSite> {
         angularComponent: UserSitesSiteOwnerComponent,
         name: 'sites.owner_role',
         class: 'col-10p',
-        visible: this.userSitesAuthorization?.canUpdateUserSites,
+        visible: this.isRefundComponentActive && this.userSitesAuthorization?.canUpdateUserSites,
         disabled: this.getMode() !== TableDataSourceMode.READ_WRITE,
         additionalParameters: {
           user: this.user
@@ -168,7 +173,7 @@ export class UserSitesTableDataSource extends TableDataSource<UserSite> {
   public setUser(user: User) {
     // Set static filter
     this.setStaticFilters([
-      {UserID: user.id},
+      { UserID: user.id },
     ]);
     // Set user
     this.user = user;

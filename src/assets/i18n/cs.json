@@ -1,6 +1,11 @@
 {
   "general": {
+    "unknown": "Unknown",
+    "url_copied": "The link has been copied with success",
+    "show_filters": "Show Filters",
+    "reset": "Reset",
     "generate": "Generate",
+    "history": "History",
     "captcha_text_1": "Tato stránka je chráněná reCAPTCHA a uplatňuje",
     "captcha_text_2": "zásady ochrany soukromí ",
     "captcha_text_3": "a",
@@ -37,6 +42,8 @@
     "no_record_found": "Nebyly nalezeny žádné záznamy",
     "no_image_found": "Nebyly nalezeny žádné obrázky",
     "no_connector_available": "Spojení není k dispozici",
+    "error_number_out_of_range": "Number out of range",
+    "error_percent_out_of_range": "Invalid percentage, must be between 0 and 100",
     "error_max_length": "Maximální délka je '{{length}}'",
     "error_min_length": "Minimální délka je '{{length}}'",
     "error_max_value": "Maximální hodnota je '{{value}}'",
@@ -73,7 +80,8 @@
     "update": "Aktualizovat",
     "refresh": "Obnovit",
     "generate_qr": "Generovat QR kód",
-    "display_qr": "Zobrazit QR kód",
+    "display_qr": "Display QR Code",
+    "download_qr": "Download QR Code",
     "save": "Uložit",
     "delete": "Vymazat",
     "export": "Exportovat",
@@ -118,6 +126,7 @@
     "search_date_from": "Od",
     "search_date_until": "Pro",
     "search_date_range": "Data",
+    "search_date": "Date",
     "search_charging_station": "Nabíjecí stanice",
     "search_user": "Uživatel",
     "search_site": "Parkoviště",
@@ -182,6 +191,7 @@
       "tenants": "Organizace",
       "pricing": "Ceny",
       "components": "Komponenty",
+      "features": "Features",
       "settings": "Nastavení",
       "integration_settings": "Nastavení integrace",
       "technical_settings": "Technická nastavení",
@@ -191,13 +201,37 @@
       "cars": "Elektromobily",
       "invoices": "Faktury",
       "tags": "Badges",
-      "charging_station_templates": "Charging Station Templates"
+      "charging_station_templates": "Templates"
+    },
+    "components": {
+      "date_time": {
+        "up_second_label": "Add a second",
+        "down_second_label": "Minus a second",
+        "up_minute_label": "Add a minute",
+        "down_minute_label": "Minus a minute",
+        "up_hour_label": "Add a hour",
+        "down_hour_label": "Minus a hour",
+        "prev_month_label": "Previous month",
+        "next_month_label": "Next month",
+        "prev_year_label": "Previous year",
+        "next_year_label": "Next year",
+        "prev_multi_year_label": "Previous 21 years",
+        "next_multi_year_label": "Next 21 years",
+        "switch_to_month_view_label": "Change to month view",
+        "switch_to_multi_year_view_label": "Choose month and year",
+        "cancel_btn_label": "Cancel",
+        "set_btn_label": "Set",
+        "range_from_label": "From",
+        "range_to_label": "To",
+        "hour_12_am_label": "AM",
+        "hour_12_pm_label": "PM"
+      }
     },
     "tooltips": {
       "push_cdr": "Doručit podrobné záznamy o nabíjení CDR",
       "activate": "Aktivovat",
       "deactivate": "Deaktivovat",
-      "export": "Exportovat parametry OCPP",
+      "export": "Exportovat",
       "assign_site_area": "Přiřadit parkoviště",
       "more": "Více akcí",
       "smart_charging": "Smart nabíjení",
@@ -207,6 +241,7 @@
       "more_actions": "Více akcí",
       "add": "Přidat",
       "auto_refresh": "Automatické obnovení",
+      "reset_filters": "Reset Filters",
       "create": "Vytvořit",
       "delete": "Vymazat",
       "edit": "Upravit",
@@ -445,10 +480,22 @@
     "private_limitation": "Some features are not available when the site is private"
   },
   "site_areas": {
+    "grid_monitoring": "Grid Monitoring",
+    "grid_monitoring_connection": "Connection",
+    "grid_status": "Grid Status",
+    "grid_forecast": "Grid Forecast",
+    "edit_ecowatt_level": "Override the default levels",
+    "ecowatt_title_info": "Ecowatt Runtime Data",
+    "site_area_power": "Site Area Power",
+    "current_level": "Current Level",
+    "forecast_level": "Forecast Level",
+    "forecast_date": "Forecast Date",
+    "last_updated_on": "Last Updated on",
+    "jump_to_ecowatt": "Jump to Ecowatt",
     "limits": "Limits",
     "assign_site": "Přiřadit parkoviště",
     "smart_charging": "Smart nabíjení",
-    "export_all_ocpp_params": "Exportovat všechny parametry OCPP ",
+    "export_all_ocpp_params": "Exportovat parametry OCPP ",
     "edit_assets": "Upravit prostředky",
     "display_assets": "Zobrazit prostředky",
     "no_site_areas": "Nebyly nalezeny žádné sekce parkoviště",
@@ -456,6 +503,14 @@
     "show_all_chargers": "Ukázat všechny nabíjecí stanice",
     "enable_access_control": "Umožnit kontrolu přístupu (uživatele se musí prokázat kartou/čipem)",
     "enable_smart_charging": "Povolit Smart nabíjení",
+    "trigger_grid_monitoring_title": "Trigger Grid Monitoring",
+    "trigger_grid_monitoring_confirm": "Do you really want to Trigger Grid Monitoring?",
+    "trigger_grid_monitoring": "Trigger Grid Monitoring",
+    "trigger_grid_monitoring_success": "The latest alert levels have been successfully recovered",
+    "trigger_grid_monitoring_error": "An error occurred while retrieving the latest alert levels, check the logs",
+    "trigger_grid_monitoring_error_too_many_requests": "The maximum number of calls to the service has been exceeded. Please try again later on",
+    "enable_grid_monitoring": "Enable Grid Monitoring",
+    "grid_monitoring_limitation": "Enable smart charging if you want to use the grid monitoring feature",
     "access_control": "Kontrola přístupu",
     "charger_list_source_title": "K dispozici",
     "charger_list_target_title": "Přiřazeno",
@@ -757,7 +812,8 @@
     "public_url": "Veřejná URL",
     "current_ip": "Aktuální IP adresa ",
     "select_chargers": "Vybrat nabíjecí stanici",
-    "serial_number": "Sériové číslo",
+    "cp_serial_number": "CP Serial Number",
+    "cs_serial_number": "CS Serial Number",
     "last_reboot": "Poslední restart",
     "capabilities": "Funkce",
     "ocpp_standard_params": "Standardní parametry OCPP",
@@ -818,7 +874,7 @@
     "status_firmware_installationfailed": "Instalace se nezdařila",
     "status_firmware_downloaded": "Staženo",
     "status_firmware_installed": "Instalováno",
-    "reboot_title": "Restartovat nabíjecí stanici",
+    "reboot_title": "Reboot",
     "soft_reset_title": "Resetovat nabíjecí stanici",
     "charger_id_not_found": "Nabíjecí stanice ID '{{chargerID}}‘ nebyla nalezena",
     "no_transaction_found": "Pro nabíjecí stanici '{{chargerID}}‘ nebyla nalezena žádná relace",
@@ -1003,8 +1059,6 @@
     "reboot_error": "Došlo k chybě při restartování nabíjecí stanice, zkontrolujte protokoly",
     "retrieve_configuration_title": "Získat konfiguraci",
     "retrieve_configuration_confirm": "Chcete opravdu vyhledat konfiguraci nabíjecí stanice '{{chargeBoxID}}'?",
-    "reboot_required_title": "Je vyžadován restart",
-    "reboot_required_confirm": "Chcete restartovat nabíjecí stanici '{{chargeBoxID}}'?",
     "ocpp_params_list_error": "Nebyl nalezen žádný parametr OCPP k zobrazení",
     "ocpp_params_update_from_template_title": "Aktualizovat parametry OCPP",
     "ocpp_params_update_from_template_confirm": "Chcete opravdu aktualizovat parametry OCPP nabíjecí stanice '{{chargeBoxID}}‘ pomocí nejnovější šablony?",
@@ -1093,8 +1147,8 @@
     "unsaved_confirmed": "Chcete uložit změny?",
     "changes_cancelled": "Změny byly zrušeny",
     "unsaved_changes": "Máte neuložené změny. Uložte je nebo zrušte.",
-    "button_retrieve_configuration": "OCPP Retrieve Configuration",
-    "button_force_ocpp_params_update_from_template": "Update OCPP Configuration from Template",
+    "button_retrieve_configuration": "Retrieve OCPP Params (charger)",
+    "button_force_ocpp_params_update_from_template": "Update OCPP Params (template)",
     "created_on": "Vytvořit datum",
     "start_transaction_details_title": "Zahájit relaci na nabíjecí stanici '{{chargeBoxID}}'",
     "start_transaction": "Zahájit relaci",
@@ -1108,9 +1162,17 @@
     "qr_code_generation_error": "Došlo k chybě při generování QR kódu",
     "tabs": {
       "list": "Nabíjecí stanice",
+      "map": "Map",
       "charging_plans": "Plány nabíjení",
       "in_error": "Chyba",
-      "connection": "Přidat novou stanici"
+      "connection": "Onboard New Station"
+    },
+    "map": {
+      "reset_zoom": "Reset Zoom",
+      "marker_dialog_text": "What do you want to do with the Charging Station '{{chargingStationID}}'?",
+      "copy_map_url": "Copy Map Url",
+      "copy_map_url_to_clipboard": "Copy Google Map link in the clipboard",
+      "navigate_to_charging_station": "Navigate to Charging Station"
     },
     "errors": {
       "missing_settings": {
@@ -1162,8 +1224,7 @@
       "registration_token_error": "Došlo k chybě při vyhledávání tokenu, zkontrolujte protokoly",
       "token_restrict_site_area": "Omezený přístup k jedné sekci parkoviště",
       "url": "URL OCPP",
-      "copy_url_tooltip": "Kopírovat URL OCPP ",
-      "url_copied": " URL OCPP byla zkopírována do vaší schránky",
+      "copy_url_to_clipboard": "Copy OCPP link",
       "generate_connection_url": "Připojit nabíjecí stanici",
       "ocpp_15_soap": "OCPP 1.5 SOAP",
       "ocpp_16_json": "OCPP 1.6 JSON",
@@ -1228,7 +1289,7 @@
       "billing": "Fakturace"
     },
     "security": "Security",
-    "import_users": "Importovat uživatele",
+    "import_users": "Importovat",
     "import_users_message": "Import odstraní všechny ostatní dříve nahrané uživatele, kteří ještě nebyli importování do databáze, chcete pokračovat?",
     "import_users_message_auto_activate": "The import will discard all other previously uploaded users not yet imported in the database and users will be automatically activated, do you want to continue?",
     "import_users_auto_activation": "Automatically activate new users",
@@ -1236,10 +1297,24 @@
     "import_users_partial": "{{inSuccess}} uživatelé byli úspěšně nahráni a budou zpracováni asynchronně a {{inError}} uživatele se nepodařilo nahrát, zkontrolujte protokoly",
     "import_users_error": "{{inError}} uživatele se nepodařilo nahrát",
     "import_no_users": "Nebyl nahrán žádný uživatel",
+    "delete_account_title": "Delete Account",
+    "delete_account_description": [
+      "Your account will be deleted with all your personal data which will be unrecoverable.",
+      "All of your activities and histories will also be unrecoverable.",
+      "In the case you'd have on-going invoices, you will have to pay all of them before deleting your account.",
+      "Once your account will have been deleted, you will be disconnected from the application."
+    ],
+    "delete_account_button": "I Understand and I want to Delete my Account",
+    "delete_account_confirm": [
+      "Do you really want to delete your account?",
+      "ALL YOUR PERSONAL DATA WILL BE LOST AND UNRECOVERABLE!!!"
+    ],
+    "delete_account_success": "Your account has been deleted successfully",
+    "delete_account_error": "Error occurred while deleting your account, please contact an administrator",
     "access_mode": "Access Mode",
     "allow_free_access": "Free access to all charging stations",
-    "user_without_freeAccess": "Paying access",
-    "user_with_freeAccess": "Free access",
+    "user_without_free_access": "Paying access",
+    "user_with_free_access": "Free access",
     "number_of_sites": "Počet parkovišť",
     "number_of_transactions": "Počet relací",
     "eula_accepted_on": "EULA přijata dne",
@@ -1428,6 +1503,7 @@
     },
     "id": "ID",
     "accountExternalID": "Connected Account ID",
+    "amount": "Amount",
     "collected_funds": "Collected Funds",
     "document_number": "Invoice",
     "platform_fee_amount": "Collected Fee",
@@ -1442,6 +1518,13 @@
   },
   "tags": {
     "id": "RFID",
+    "limits": "Limits",
+    "limits_history": "Limits History",
+    "limit_consumed": "Consumed",
+    "limits_energy": "Limit Energy",
+    "limits_enabled": "Limit Enabled",
+    "limits_kwh": "Limit (kWh)",
+    "limits_consumed_kwh": "Consumed (kWh)",
     "not_active": "Tato karta/čip není aktivní.",
     "issuer": "Vlastník organizace",
     "visual_id": "Vizuální ID",
@@ -1486,7 +1569,7 @@
     "delete_tags_error": "{{inError}} karty/čipy se nepodařilo vymazat, zkontrolujte protokoly",
     "delete_tags_unexpected_error": "Došlo k chybě při vymazání karet/čipů, zkontrolujte protokoly",
     "delete_no_tag": "Žádné karty/čipy nebyly vymazány",
-    "import_tags": "Importovat karty/čipy",
+    "import_tags": "Importovat",
     "import_tags_message": "Import odstraní všechny ostatní dříve nahrané karty/čipy, které ještě nebyly importovány do databáze, chcete pokračovat?",
     "import_tags_message_auto_activate": "The import will discard all other previously uploaded RFID cards not yet imported in the database, do you want to continue?",
     "import_tags_success": "{{inSuccess}} karty/čipy byly úspěšně nahrány a budou zpracovány asynchronně",
@@ -1520,10 +1603,23 @@
     "save_error_smart_charging": "Chcete-li použít Smart nabíjení, musí být organizace aktivní",
     "save_error_asset": "Chcete-li použít prostředek, musí být organizace aktivní",
     "save_error_car_connector": "Chcete-li použít konektor pro elektromobily, musí být management aut aktivní",
+    "save_error_grid_monitoring": "Smart Charging must be active to use the Grid Monitoring component",
     "smart_charging_still_active_for_site_area": [
       "Smart nabíjení je stále ještě aktivní u konkrétních sekcí parkoviště.",
       "Deaktivujte prosím Smart nabíjení v každé sekci parkoviště v účtu nájemce."
     ],
+    "feature": {
+      "charging_station": {
+        "feature_name": "Charging Station",
+        "feature_map_name": "Map",
+        "feature_map_description": "Map with aggregated Charging Stations"
+      },
+      "user": {
+        "feature_name": "User",
+        "feature_pricing_name": "Pricing",
+        "feature_pricing_description": "Pricing per User"
+      }
+    },
     "logo_size_error": "Překročen limit velikosti loga, limit je menší než '{{maxPictureKb}}' Kb"
   },
   "accounts": {
@@ -1550,8 +1646,8 @@
     },
     "onboarding": {
       "onboard_action": "Send the onboarding email to the business owner",
-      "onboarding_title": "Open e-Mobility - Account Onboarding",
-      "onboarding_message": "You have been invited to onboard your company as an account connected to the Open e-Mobility platform.",
+      "onboarding_title": "Charge Angels - Account Onboarding",
+      "onboarding_message": "You have been invited to onboard your company as an account connected to the Charge Angels platform.",
       "onboarding_message_to_proceed": "Click the link below to complete the onboarding process.",
       "onboarding_congratulations": "Congratulations",
       "onboarding_process_completed": "The onboarding of your account has been completed.",
@@ -1579,7 +1675,8 @@
       "analytics": "Analytika",
       "smart_charging": "Smart nabíjení",
       "asset": "Prostředek",
-      "car_connector": "Konektor elektromobilu"
+      "car_connector": "Konektor elektromobilu",
+      "grid_monitoring": "Grid Monitoring"
     },
     "ocpi": {
       "gireve": {
@@ -1647,6 +1744,38 @@
         "revoke_error": "Došlo k chybě při zrušení vašeho spojení se systémem Concur, zkontrolujte protokoly"
       }
     },
+    "grid_monitoring": {
+      "connection": {
+        "title": "Grid Monitoring",
+        "name": "Name",
+        "description": "Description",
+        "type": "Type",
+        "authentication_url": "Authentication Url",
+        "normalConsumption": "Normal Consumption (% Site Area Power)",
+        "electricSystemTense": "Electric System Tense (% Site Area Power)",
+        "electricSystemVeryTense": "Electric System Very Tense (% Site Area Power)",
+        "api_url": "API Url",
+        "client_id":"Client ID",
+        "client_secret":"Client Secret",
+        "delete_title": "Delete Connector",
+        "delete_confirm": "Do you really want to delete the connector '{{gridMonitoringConnectionName}}'?"
+      },
+      "types": {
+        "ecowatt": "Ecowatt"
+      },
+      "description": [
+        "E-Mobility provides a service to retrieve the state of the electrical network.",
+        "This feature allows, depending on the demand of the electrical network (high or low demand), to modulate the power of the charging stations through the smart charging."
+      ],
+      "setting_do_not_exist": "Configuration has not been found",
+      "setting_not_found": "Grid monitoring settings have not been found",
+      "create_success": "Grid monitoring settings have been created successfully",
+      "create_error": "Error occurred while creating the Grid monitoring settings, check the logs",
+      "update_success": "Grid monitoring settings have been updated successfully",
+      "update_error": "Error occurred while updating the Grid monitoring settings, check the logs",
+      "connection_success": "Connection to the grid monitoring service was tested successfully",
+      "connection_error": "Cannot connect to the grid monitoring service, check your credentials"
+    },
     "pricing": {
       "title": "Pricing",
       "description": "Cenové rozhraní umožňuje poskytovatelům nabíjecích stanic stanovit cenu.",
@@ -1656,7 +1785,7 @@
       "update_success": "Nastavení  ceny bylo úspěšně aktualizováno",
       "update_error": "Došlo k chybě při aktualizaci nastavení  ceny, zkontrolujte protokoly",
       "simple_pricing_title": "Built-in Pricing Module",
-      "full_description": "Open E-Mobility provides a pricing module which allows a flexible definition of your company's pricing strategy.",
+      "full_description": "Charge Angels provides a pricing module which allows a flexible definition of your company's pricing strategy.",
       "pricing_currency_changed_title": "Modification of the currency",
       "pricing_currency_changed_confirm": [
         "You are about to change the currency. This will force you to reconnect after saving.",
@@ -2367,6 +2496,10 @@
       "url": "URL"
     }
   },
+  "grid_monitoring": {
+    "title": "Grid Monitoring",
+    "description": "Monitor the state of the electrical network"
+  },
   "smart_charging": {
     "title": "Smart nabíjení",
     "type_placeholder": "Typ",
@@ -2508,6 +2641,7 @@
     },
     "graph": {
       "battery": "Baterie (%)",
+      "gridMonitoring": "Grid Monitoring (%)",
       "power": "Síťový výkon (kW)",
       "power_l1": "Síťový výkon L1 (kW)",
       "power_l2": "Síťový výkon L2 (kW)",
@@ -2682,6 +2816,7 @@
     },
     "invalid_json": "Invalid JSON format",
     "template_not_found": "Template has not been found",
+    "template_invalid": "The template is invalid, check the logs",
     "create_success": "The template '{{template}}' has been created successfully",
     "create_error": "Error occurred while creating the template, check the logs",
     "update_success": "The template '{{template}}' has been updated successfully",

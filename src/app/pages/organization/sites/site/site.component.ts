@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
@@ -37,14 +37,14 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
   @ViewChild('siteOcpiComponent') public siteOcpiComponent!: SiteOcpiComponent;
   @ViewChild('accountBillingComponent') public accountBillingComponent!: AccountBillingComponent;
 
-  public ocpiActive: boolean;
+  public isOcpiComponentActive: boolean;
   public ocpiHasVisibleFields: boolean;
+  public isBillingComponentActive: boolean;
+  public isBillingPlatformComponentActive: boolean;
 
+  public readonly DialogMode = DialogMode;
   public formGroup!: UntypedFormGroup;
-  public readOnly = true;
   public site!: Site;
-  public isBillingActive = false;
-  public isBillingPlatformActive = false;
   public accountHasVisibleFields: boolean;
 
   public constructor(
@@ -58,16 +58,15 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     protected windowService: WindowService) {
     super(activatedRoute, windowService, ['main', 'ocpi'], false);
-    this.ocpiActive = this.componentService.isActive(TenantComponents.OCPI);
-    this.isBillingActive = this.componentService.isActive(TenantComponents.BILLING);
-    this.isBillingPlatformActive = this.componentService.isActive(TenantComponents.BILLING_PLATFORM);
+    this.isOcpiComponentActive = this.componentService.isActive(TenantComponents.OCPI);
+    this.isBillingComponentActive = this.componentService.isActive(TenantComponents.BILLING);
+    this.isBillingPlatformComponentActive = this.componentService.isActive(TenantComponents.BILLING_PLATFORM);
   }
 
   public ngOnInit() {
     // Init the form
     this.formGroup = new UntypedFormGroup({});
     // Handle Dialog mode
-    this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
     // Check if OCPI has to be displayed
     this.ocpiHasVisibleFields = this.sitesAuthorizations.projectFields.includes('tariffID');
@@ -84,9 +83,7 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
           this.site = site;
           // Check if Account Data is to be displayed
           this.accountHasVisibleFields = site.projectFields.includes('accountData.accountID');
-          // Check if OCPI has to be displayed
-          this.ocpiHasVisibleFields = site.projectFields.includes('tariffID');
-          if (this.readOnly) {
+          if (this.dialogMode === DialogMode.VIEW) {
             // Async call for letting the sub form groups to init
             setTimeout(() => this.formGroup.disable(), 0);
           }

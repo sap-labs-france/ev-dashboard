@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormArray, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
-import { ChargingStationsAuthorizations } from 'types/Authorization';
+import { ChargingStationsAuthorizations, DialogMode } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { LocaleService } from '../../../../services/locale.service';
@@ -23,7 +23,9 @@ import { ChargingStationOcppParametersEditableTableDataSource } from './charging
 export class ChargingStationOcppParametersComponent implements OnInit {
   @Input() public chargingStation!: ChargingStation;
   @Input() public chargingStationsAuthorizations: ChargingStationsAuthorizations;
+  @Input() public dialogMode: DialogMode;
 
+  public readonly DialogMode = DialogMode;
   public formGroup!: UntypedFormGroup;
   public parameters!: UntypedFormArray;
   public userLocales: KeyValue[];

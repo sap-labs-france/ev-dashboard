@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { AbstractControl, UntypedFormArray, FormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { CentralServerService } from 'services/central-server.service';
 import { ComponentService } from 'services/component.service';
@@ -75,28 +75,28 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   public ngOnInit() {
     // Init connectors
     this.formConnectorGroup = new UntypedFormGroup({
-      connectorId: new UntypedFormControl(this.connector.connectorId),
-      type: new UntypedFormControl('',
+      connectorId: new FormControl(this.connector.connectorId),
+      type: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.pattern('^[^U]*$'),
         ])
       ),
-      power: new UntypedFormControl(0,
+      power: new FormControl(0,
         Validators.compose([
           Validators.required,
           Validators.min(1),
           Validators.pattern('^[+]?[0-9]*$'),
         ])
       ),
-      voltage: new UntypedFormControl(Voltage.VOLTAGE_230,
+      voltage: new FormControl(Voltage.VOLTAGE_230,
         Validators.compose([
           Validators.required,
           Validators.min(1),
           Validators.pattern('^[+]?[0-9]*$'),
         ])
       ),
-      amperage: new UntypedFormControl(0,
+      amperage: new FormControl(0,
         Validators.compose([
           Validators.required,
           Validators.min(1),
@@ -104,25 +104,25 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
           this.amperagePhaseValidator.bind(this),
         ])
       ),
-      amperagePerPhase: new UntypedFormControl(0,
+      amperagePerPhase: new FormControl(0,
         Validators.compose([
           Validators.required,
           Validators.min(1),
           Validators.pattern('^[+]?[0-9]*$'),
         ])
       ),
-      numberOfConnectedPhase: new UntypedFormControl(3,
+      numberOfConnectedPhase: new FormControl(3,
         Validators.compose([
           Validators.required,
         ])
       ),
-      phaseAssignmentToGrid: new UntypedFormControl('',
+      phaseAssignmentToGrid: new FormControl('',
         Validators.compose([
           Validators.required,
         ])
       ),
-      currentType: new UntypedFormControl(CurrentType.AC),
-      tariffID: new UntypedFormControl(null,
+      currentType: new FormControl(CurrentType.AC),
+      tariffID: new FormControl(null,
         Validators.compose([
           Validators.maxLength(36)
         ])
@@ -251,9 +251,6 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
         if (qrCode) {
           // Create the dialog
           const dialogConfig = new MatDialogConfig();
-          dialogConfig.minWidth = '70vw';
-          dialogConfig.minHeight = '70vh';
-          dialogConfig.disableClose = false;
           dialogConfig.panelClass = 'transparent-dialog-container';
           // Set data
           dialogConfig.data = {
@@ -261,12 +258,8 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
             connectorID: this.connector.connectorId,
             chargingStationID: this.chargingStation.id,
           };
-          // Disable outside click close
-          dialogConfig.disableClose = true;
           // Open
-          this.dialog.open(QrCodeDialogComponent, dialogConfig)
-            .afterClosed().subscribe((result) => {
-            });
+          this.dialog.open(QrCodeDialogComponent, dialogConfig);
         }
       },
       error: (error) => {

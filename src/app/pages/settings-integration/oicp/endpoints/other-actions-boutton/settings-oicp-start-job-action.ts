@@ -1,11 +1,13 @@
+import { ButtonActionColor } from 'types/GlobalType';
+
 import { TableAction } from '../../../../../shared/table/actions/table-action';
 import { OicpButtonAction } from '../../../../../types/oicp/OICPEndpoint';
-import { ButtonActionColor, TableActionDef } from '../../../../../types/Table';
+import { ActionType, TableActionDef } from '../../../../../types/Table';
 
 export class SettingsOICPStartJobAction implements TableAction {
   private action: TableActionDef = {
     id: OicpButtonAction.START_JOB,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'av_timer',
     color: ButtonActionColor.PRIMARY,
     name: 'oicpendpoints.start_stop_job',

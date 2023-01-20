@@ -25,7 +25,7 @@
     .nav-link:focus {
       border: 0 !important;
       color: $brand-background !important;
-      font-weight: $font-weight-bold;
+      font-weight: $fw-bold;
     }
     &.disabled .nav-link,
     &.disabled .nav-link:hover {
@@ -78,8 +78,8 @@
   top: -15px;
   right: 15px;
   z-index: 999999999;
-  height: 58px;
-  padding-top: 7px;
+  height: 59px;
+  padding-top: 8px;
   padding-right: 8px;
   background: $brand-primary;
   color: $brand-background;
@@ -120,7 +120,7 @@
 }
 
 .mat-tab-header-pagination {
-  background: $brand-primary;
+  background: $brand-primary !important;
   box-shadow: initial;
   min-width: 25px !important;
 }
@@ -222,7 +222,7 @@
   text-transform: uppercase;
   &:focus {
     border: 0 !important;
-    font-weight: $font-weight-bold;
+    font-weight: $fw-bold;
   }
   &:hover {
     background-color: rgba($brand-background, .1);

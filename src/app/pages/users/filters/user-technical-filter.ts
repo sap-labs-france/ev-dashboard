@@ -8,12 +8,11 @@ export class UserTechnicalFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'technical',
-      httpId: 'Technical',
+      httpID: 'Technical',
       type: FilterType.DROPDOWN,
       multiple: true,
       exhaustive: true,
       name: 'users.technical_user',
-      class: 'col-md-6 col-lg-3 col-xl-2',
       label: 'users.technical',
       cleared: true,
       currentValue: defaultValue,

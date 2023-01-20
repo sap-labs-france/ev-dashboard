@@ -1,6 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { SettingAuthorizationActions } from 'types/Authorization';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { CryptoSettings } from '../../../../types/Setting';
 
@@ -9,18 +8,17 @@ import { CryptoSettings } from '../../../../types/Setting';
   templateUrl: 'settings-crypto-key.component.html',
 })
 export class SettingsCryptoKeyComponent implements OnInit, OnChanges {
-  @Input() public formGroup!: FormGroup;
+  @Input() public formGroup!: UntypedFormGroup;
   @Input() public cryptoSettings!: CryptoSettings;
-  @Input() public authorizations!: SettingAuthorizationActions;
 
-  public cryptoKey!: FormGroup;
+  public cryptoKey!: UntypedFormGroup;
   public key!: AbstractControl;
   public blockCypher!: AbstractControl;
   public blockSize!: AbstractControl;
   public operationMode!: AbstractControl;
 
   public ngOnInit(): void {
-    this.cryptoKey = new FormGroup({
+    this.cryptoKey = new UntypedFormGroup({
       key: new FormControl(
         '',
         Validators.compose([
@@ -56,11 +54,6 @@ export class SettingsCryptoKeyComponent implements OnInit, OnChanges {
       this.blockSize.setValue(this.cryptoSettings.crypto.keyProperties.blockSize);
       this.operationMode.setValue(this.cryptoSettings.crypto.keyProperties.operationMode);
       this.formGroup.markAsPristine();
-    }
-    // Read only
-    if(!this.authorizations.canUpdate) {
-      // Async call for letting the sub form groups to init
-      setTimeout(() => this.formGroup.disable(), 0);
     }
   }
 }

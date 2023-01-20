@@ -8,12 +8,11 @@ export class UserTableFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'user',
-      httpId: 'UserID',
+      httpID: 'UserID',
       type: FilterType.DIALOG_TABLE,
       defaultValue: '',
       label: '',
       name: 'logs.users',
-      class: 'col-md-6 col-lg-4 col-xl-2',
       dialogComponent: UsersDialogComponent,
       multiple: true,
       cleared: true,

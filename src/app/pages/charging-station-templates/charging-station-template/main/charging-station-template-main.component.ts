@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { DialogMode } from 'types/Authorization';
 
 import { ChargingStationTemplate } from '../../../../types/ChargingStationTemplate';
 import { Templates } from '../../../../utils/Templates';
@@ -11,7 +12,9 @@ import { Templates } from '../../../../utils/Templates';
 export class ChargingStationTemplateMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
   @Input() public chargingStationTemplate!: ChargingStationTemplate;
+  @Input() public dialogMode: DialogMode;
 
+  public readonly DialogMode = DialogMode;
   public id!: AbstractControl;
   public template!: AbstractControl;
 

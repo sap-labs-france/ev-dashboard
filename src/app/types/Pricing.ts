@@ -10,7 +10,7 @@ export enum PricingEntity {
   SITE = 'Site',
   SITE_AREA = 'SiteArea',
   CHARGING_STATION = 'ChargingStation',
-  // USER = 'User'
+  USER = 'User'
 }
 
 export enum DimensionType {
@@ -37,7 +37,6 @@ export default interface PricingDefinition extends CreatedUpdatedProps, Authoriz
   id: string;
   entityID: string; // id of the entity the pricing definition belongs to
   entityType: PricingEntity; // Type of the entity this model belongs to
-  entityName?: string;
   name: string; // Short marketing name - e.g.: BLUE Tariff,
   description: string; // A long description to explain it, e.g.: Time-based pricing for low charging stations
   staticRestrictions?: PricingStaticRestriction;

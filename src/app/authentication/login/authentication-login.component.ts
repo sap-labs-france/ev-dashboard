@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
@@ -38,7 +38,6 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
   private sidebarVisible: boolean;
   private messages!: Record<string, string>;
   private subDomain: string;
-  private nativeElement: Node;
 
   public constructor(
     private element: ElementRef,
@@ -54,8 +53,6 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
     private authorizationService: AuthorizationService) {
     // Reset the spinner
     this.spinnerService.hide();
-    // Set
-    this.nativeElement = element.nativeElement;
     this.sidebarVisible = false;
     // Load the translated messages
     this.translateService.get('authentication', {}).subscribe((messages) => {
@@ -65,17 +62,17 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
     this.subDomain = this.windowService.getSubdomain();
     // Init Form
     this.formGroup = new UntypedFormGroup({
-      email: new UntypedFormControl('',
+      email: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.email,
         ])),
-      password: new UntypedFormControl('',
+      password: new FormControl('',
         Validators.compose([
           Validators.required,
           Users.passwordWithNoSpace,
         ])),
-      acceptEula: new UntypedFormControl('',
+      acceptEula: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),

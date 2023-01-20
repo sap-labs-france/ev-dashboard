@@ -3,9 +3,9 @@
     <div class="form-group">
       <mat-form-field>
         <mat-label for="carConnectorName">{{ "cars.car_connector_name" | translate }} </mat-label>
-        <mat-select id="carConnectorName" [formControl]="carConnectorID" (selectionChange)="carConnectorChanged($event)">
-          <mat-option *ngFor="let carConnectorConnection of carConnectorConnections" [value]="carConnectorConnection.id">
-            {{carConnectorConnection.name}}
+        <mat-select id="carConnectorName" [formControl]="carConnectorID" (selectionChange)="carConnectorChanged($event.value)">
+          <mat-option *ngFor="let carConnector of carConnectors" [value]="carConnector.id">
+            {{carConnector.name}}
           </mat-option>
         </mat-select>
         <button *ngIf="carConnectorID.value" mat-icon-button matSuffix (click)="clearCarConnectorID(); $event.stopPropagation()" aria-label="Clear">
@@ -14,14 +14,16 @@
       </mat-form-field>
     </div>
   </div>
-  <div class="col-md-5">
-    <div class="form-group">
-      <mat-form-field>
-        <input matInput type="text" placeholder="{{'cars.car_connector_meter_id'|translate}}" [formControl]="carConnectorMeterID"/>
-        <button *ngIf="carConnectorMeterID.value" mat-icon-button matSuffix (click)="clearCarConnectorMeterID()" aria-label="Clear">
-          <mat-icon>clear</mat-icon>
-        </button>
-      </mat-form-field>
-    </div>
+  <div *ngIf="selectedCarConnector?.type === CarConnectorConnectionType.TRONITY" class="col-md-5">
+    <app-tronity-car-connector [formGroup]="formGroup?.controls?.carConnectorData" [car]="car" [carsAuthorizations]="carsAuthorizations" [dialogMode]="dialogMode" [carConnectorID]="selectedCarConnector.id">
+    </app-tronity-car-connector>
+  </div>
+  <div *ngIf="selectedCarConnector?.type === CarConnectorConnectionType.TARGA_TELEMATICS" class="col-md-5">
+    <app-targa-car-connector [formGroup]="formGroup?.controls?.carConnectorData" [car]="car" [carsAuthorizations]="carsAuthorizations" [dialogMode]="dialogMode" [carConnectorID]="selectedCarConnector.id">
+    </app-targa-car-connector>
+  </div>
+  <div *ngIf="selectedCarConnector?.type === CarConnectorConnectionType.MERCEDES" class="col-md-5">
+    <app-mercedes-car-connector [formGroup]="formGroup?.controls?.carConnectorData" [car]="car" [carsAuthorizations]="carsAuthorizations" [dialogMode]="dialogMode" [carConnectorID]="selectedCarConnector.id">
+    </app-mercedes-car-connector>
   </div>
 </form>

@@ -1,11 +1,11 @@
-import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
-import { TableActionDef } from '../../../types/Table';
+import { ButtonAction, ButtonActionColor } from '../../../types/GlobalType';
+import { ActionType, TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableUnregisterAction implements TableAction {
   private action: TableActionDef = {
     id: ButtonAction.UNREGISTER,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'link_off',
     color: ButtonActionColor.PRIMARY,
     name: 'general.unregister',

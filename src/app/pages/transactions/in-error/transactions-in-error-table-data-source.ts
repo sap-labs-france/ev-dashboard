@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
@@ -378,13 +378,16 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   }
 
   protected deleteTransaction(transaction: Transaction) {
-    this.centralServerService.deleteTransaction(transaction.id).subscribe((response: ActionResponse) => {
-      this.messageService.showSuccessMessage(
-        this.translateService.instant('transactions.notification.delete.success',
-          { user: this.appUserNamePipe.transform(transaction.user) }));
-      this.refreshData().subscribe();
-    }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.delete.error');
+    this.centralServerService.deleteTransaction(transaction.id).subscribe({
+      next: (response: ActionResponse) => {
+        this.messageService.showSuccessMessage(
+          this.translateService.instant('transactions.notification.delete.success',
+            { user: this.appUserNamePipe.transform(transaction.user) }));
+        this.refreshData().subscribe();
+      },
+      error: (error) => {
+        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.delete.error');
+      }
     });
   }
 

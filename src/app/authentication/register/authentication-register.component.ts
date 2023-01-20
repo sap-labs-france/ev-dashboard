@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
@@ -63,37 +63,37 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
     this.subDomain = this.windowService.getSubdomain();
     // Init Form
     this.formGroup = new UntypedFormGroup({
-      name: new UntypedFormControl('',
+      name: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      firstName: new UntypedFormControl('',
+      firstName: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      email: new UntypedFormControl('',
+      email: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.email,
         ])),
-      mobile: new UntypedFormControl('',
+      mobile: new FormControl('',
         Validators.compose([
           Validators.required,
           Users.validatePhone,
         ])),
       passwords: new UntypedFormGroup({
-        password: new UntypedFormControl('',
+        password: new FormControl('',
           Validators.compose([
             Validators.required,
             Users.passwordWithNoSpace,
             Users.validatePassword,
           ])),
-        repeatPassword: new UntypedFormControl('',
+        repeatPassword: new FormControl('',
           Validators.compose([
             Validators.required,
           ])),
       }, (passwordFormGroup: UntypedFormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')),
-      acceptEula: new UntypedFormControl('',
+      acceptEula: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),

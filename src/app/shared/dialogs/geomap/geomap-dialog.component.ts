@@ -1,6 +1,6 @@
 import { Component, Inject, ViewChild } from '@angular/core';
 import { GoogleMap } from '@angular/google-maps';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { Address } from 'ngx-google-places-autocomplete/objects/address';
 import { GeoMapDialogData, GeoMapDialogResult } from 'types/Dialog';
 
@@ -8,17 +8,17 @@ import { Utils } from '../../../utils/Utils';
 
 @Component({
   templateUrl: 'geomap-dialog.component.html',
-  styleUrls: ['./geomap-dialog.scss']
+  styleUrls: ['geomap-dialog.component.scss']
 })
 export class GeoMapDialogComponent {
-  @ViewChild(GoogleMap, { static: false }) public map!: GoogleMap;
+  @ViewChild(GoogleMap, { static: false }) public googleMapService!: GoogleMap;
   public labelFormatted: google.maps.MarkerLabel = { text: '', color: 'black', fontWeight: 'bold' };
   public marker: google.maps.LatLngLiteral;
   public center: google.maps.LatLngLiteral;
   public mapOptions: google.maps.MapOptions;
   public zoom = 4;
   public icon: google.maps.Icon = {
-    url: '../../../../assets/img/map-pin-18x30.svg',
+    url: '../../../../assets/img//map/pin.svg',
     labelOrigin: { x: 11, y: -10 } as google.maps.Point
   };
   public displayOnly = false;
@@ -61,7 +61,7 @@ export class GeoMapDialogComponent {
   }
 
   public mapTypeIdChange(mapTypeId: google.maps.MapTypeId) {
-    mapTypeId = mapTypeId ?? this.map.getMapTypeId() as google.maps.MapTypeId;
+    mapTypeId = mapTypeId ?? this.googleMapService.getMapTypeId() as google.maps.MapTypeId;
     // Change the color of the label
     switch (mapTypeId) {
       case google.maps.MapTypeId.HYBRID:
@@ -89,19 +89,5 @@ export class GeoMapDialogComponent {
 
   public cancel() {
     this.dialogRef.close();
-  }
-
-  public maxZoom() {
-    if (this.map) {
-      this.center = {
-        lat: this.marker.lat,
-        lng: this.marker.lng
-      };
-      this.zoom = 20;
-    }
-  }
-
-  public minZoom() {
-    this.zoom = 4;
   }
 }

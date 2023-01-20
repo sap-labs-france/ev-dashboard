@@ -1,7 +1,16 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { CentralServerService } from 'services/central-server.service';
 import { ComponentService } from 'services/component.service';
+import { DialogService } from 'services/dialog.service';
+import { MessageService } from 'services/message.service';
+import { SpinnerService } from 'services/spinner.service';
+import { DialogMode } from 'types/Authorization';
+import { ButtonAction, RestResponse } from 'types/GlobalType';
 import { TenantComponents } from 'types/Tenant';
+import { Utils } from 'utils/Utils';
 
 import { SiteArea } from '../../../../../types/SiteArea';
 
@@ -12,8 +21,10 @@ import { SiteArea } from '../../../../../types/SiteArea';
 export class SiteAreaLimitsComponent implements OnInit, OnChanges {
   @Input() public siteArea!: SiteArea;
   @Input() public formGroup!: UntypedFormGroup;
-  @Input() public readOnly: boolean;
+  @Input() public dialogMode: DialogMode;
+  @Output() public smartChargingChanged = new EventEmitter<boolean>();
 
+  public readonly DialogMode = DialogMode;
   public public = false;
   public isSmartChargingComponentActive = false;
   public initialized = false;
@@ -31,29 +42,36 @@ export class SiteAreaLimitsComponent implements OnInit, OnChanges {
   ];
 
   public constructor(
-    private componentService: ComponentService) {
+    private componentService: ComponentService,
+    private spinnerService: SpinnerService,
+    private translateService: TranslateService,
+    private dialogService: DialogService,
+    private messageService: MessageService,
+    private router: Router,
+    private centralServerService: CentralServerService
+  ) {
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
   }
 
   public ngOnInit() {
     // Init the form
-    this.formGroup.addControl('smartCharging', new UntypedFormControl(false));
-    this.formGroup.addControl('maximumPower', new UntypedFormControl(0,
+    this.formGroup.addControl('smartCharging', new FormControl(false));
+    this.formGroup.addControl('maximumPower', new FormControl(0,
       Validators.compose([
         Validators.pattern(/^[+-]?([0-9]*[.])?[0-9]+$/),
         Validators.required,
       ])
     ));
-    this.formGroup.addControl('maximumTotalPowerAmps', new UntypedFormControl(0));
-    this.formGroup.addControl('maximumPowerAmpsPerPhase', new UntypedFormControl(0));
-    this.formGroup.addControl('voltage', new UntypedFormControl(230,
+    this.formGroup.addControl('maximumTotalPowerAmps', new FormControl(0));
+    this.formGroup.addControl('maximumPowerAmpsPerPhase', new FormControl(0));
+    this.formGroup.addControl('voltage', new FormControl(230,
       Validators.compose([
         Validators.required,
         Validators.min(1),
         Validators.pattern('^[+]?[0-9]*$'),
       ])
     ));
-    this.formGroup.addControl('numberOfPhases', new UntypedFormControl(3,
+    this.formGroup.addControl('numberOfPhases', new FormControl(3,
       Validators.compose([
         Validators.required,
       ])
@@ -107,6 +125,10 @@ export class SiteAreaLimitsComponent implements OnInit, OnChanges {
     this.maximumPowerChanged();
   }
 
+  public smartChargingChange() {
+    this.smartChargingChanged.emit(this.smartCharging.value);
+  }
+
   public maximumPowerChanged() {
     if (!this.maximumPower.errors && this.voltage.value) {
       if (this.numberOfPhases.value) {
@@ -121,5 +143,33 @@ export class SiteAreaLimitsComponent implements OnInit, OnChanges {
       this.maximumPowerAmpsPerPhase.setValue(0);
       this.maximumTotalPowerAmps.setValue(0);
     }
+  }
+
+  public triggerSmartCharging() {
+    // Show yes/no dialog
+    this.dialogService.createAndShowYesNoDialog(
+      this.translateService.instant('chargers.smart_charging.trigger_smart_charging_title'),
+      this.translateService.instant('chargers.smart_charging.trigger_smart_charging_confirm'),
+    ).subscribe((result) => {
+      if (result === ButtonAction.YES) {
+        this.spinnerService.show();
+        this.centralServerService.triggerSmartCharging(this.siteArea.id).subscribe({
+          next: (response) => {
+            this.spinnerService.hide();
+            if (response.status === RestResponse.SUCCESS) {
+              this.messageService.showSuccessMessage(this.translateService.instant('chargers.smart_charging.trigger_smart_charging_success'));
+            } else {
+              Utils.handleError(JSON.stringify(response), this.messageService,
+                this.translateService.instant('chargers.smart_charging.trigger_smart_charging_error'));
+            }
+          },
+          error: (error) => {
+            this.spinnerService.hide();
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'chargers.smart_charging.trigger_smart_charging_error');
+          }
+        });
+      }
+    });
   }
 }

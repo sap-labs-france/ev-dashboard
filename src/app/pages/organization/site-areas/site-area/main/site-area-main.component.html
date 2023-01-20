@@ -1,7 +1,7 @@
 <form class="form" [formGroup]="formGroup">
   <div class="row">
     <div class="col-md-5 d-block mb-auto">
-      <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': !readOnly ? 'all' : 'none'}">
+      <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': dialogMode !== DialogMode.VIEW ? 'all' : 'none'}">
         <div class="card card-rotate card-background app-site-area-image-padding mt-0">
           <div class="front front-background"
             [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
@@ -10,9 +10,9 @@
           </div>
           <div class="back back-background"
             [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
-            <div *ngIf="!readOnly" class="card-body">
+            <div *ngIf="dialogMode !== DialogMode.VIEW" class="card-body">
               <div class="footer text-center">
-                <button mat-flat-button color="primary" class="me-2">
+                <button mat-flat-button color="primary" class="me-1">
                   <mat-icon (click)="file.click()">mode_edit</mat-icon>
                   <div class="d-none">
                     <input #file type="file" name="..." (change)="onImageChanged($event)"
@@ -66,18 +66,19 @@
         <mat-form-field *ngIf="!formGroup.enabled">
           <input matInput type="text" placeholder="{{'site_areas.parent_site_area' | translate}}" [formControl]="parentSiteArea" />
         </mat-form-field>
-        <div *ngIf="issuer?.value" class="text-left mb-2">
-          <mat-checkbox [formControl]="accessControl">
+        <div *ngIf="issuer?.value" class="text-left mb-3 mt-1">
+          <mat-slide-toggle [formControl]="accessControl">
             {{'site_areas.enable_access_control' | translate}}
-          </mat-checkbox>
+          </mat-slide-toggle>
         </div>
       </div>
-      <div *ngIf="!readOnly && siteArea && !formGroup.disabled">
-        <div class="d-flex justify-content-start">
-          <div *ngIf="registrationToken" class="me-2">
-            <button mat-raised-button [matMenuTriggerFor]="ocppUrlMenu" color="primary">
+      <div *ngIf="dialogMode !== DialogMode.VIEW && siteArea && !formGroup.disabled">
+        <div class="row">
+          <div *ngIf="registrationToken">
+            <button mat-raised-button [matMenuTriggerFor]="ocppUrlMenu" color="primary"
+                class="col-12 col-md-auto mb-3 mb-md-0">
               <mat-icon>file_copy</mat-icon>
-              <span>{{'chargers.connections.copy_url_tooltip' | translate}}</span>
+              <span>{{'chargers.connections.copy_url_to_clipboard' | translate}}</span>
             </button>
             <mat-menu #ocppUrlMenu="matMenu" yPosition="below" [overlapTrigger]="false" class="dropdown-button">
               <button *ngIf="registrationToken.ocpp15SOAPSecureUrl" mat-menu-item
@@ -110,7 +111,7 @@
   <div class="row">
     <div class="col-md-12">
       <app-address [address]="address" [formGroup]="formGroup" componentName="{{'site_areas.title' | translate}}"
-        [itemComponentName]="name.value" [onlyReadGeolocation]="readOnly"></app-address>
+        [itemComponentName]="name.value" [onlyReadGeolocation]="dialogMode === DialogMode.VIEW"></app-address>
     </div>
   </div>
   <div class="clearfix"></div>

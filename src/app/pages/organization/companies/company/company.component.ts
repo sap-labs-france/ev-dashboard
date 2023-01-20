@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
@@ -35,11 +35,11 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
   @ViewChild('accountBillingComponent') public accountBillingComponent!: AccountBillingComponent;
 
   public formGroup!: UntypedFormGroup;
-  public readOnly = true;
   public company: Company;
   public isBillingActive = false;
   public isBillingPlatformActive = false;
   public accountHasVisibleFields: boolean;
+  public readonly DialogMode = DialogMode;
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -60,7 +60,6 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
     // Init the form
     this.formGroup = new UntypedFormGroup({});
     // Handle Dialog mode
-    this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
     // Load Company
     this.loadCompany();
@@ -75,7 +74,7 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
           this.company = company;
           // Check if Account Data is to be displayed
           this.accountHasVisibleFields = company.projectFields.includes('accountData.accountID');
-          if (this.readOnly) {
+          if (this.dialogMode === DialogMode.VIEW) {
             // Async call for letting the sub form groups to init
             setTimeout(() => this.formGroup.disable(), 0);
           }

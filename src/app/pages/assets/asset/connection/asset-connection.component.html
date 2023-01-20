@@ -2,16 +2,16 @@
   <div class="row">
     <div class="col-md-12 col-xl-4">
       <div class="form-group">
-        <mat-checkbox [formControl]="dynamicAsset" (change)="disableConnectionDetails()">
+        <mat-slide-toggle [formControl]="dynamicAsset" (change)="disableConnectionDetails()">
           {{'assets.dynamic_asset' | translate}}
-        </mat-checkbox>
+        </mat-slide-toggle>
       </div>
     </div>
     <div class="col-md-12 col-xl-4">
       <div class="form-group">
-        <mat-checkbox [formControl]="usesPushAPI" (change)="disableConnectionDetails()">
+        <mat-slide-toggle [formControl]="usesPushAPI" (change)="disableConnectionDetails()">
           {{'assets.uses_push_api' | translate}}
-        </mat-checkbox>
+        </mat-slide-toggle>
       </div>
     </div>
   </div>

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Constants } from 'utils/Constants';
 
 import { CarConnectorTronityConnectionType } from '../../../../../types/Setting';
@@ -20,16 +20,16 @@ export class TronityCarConnectorConnectionComponent implements OnInit {
   public ngOnInit(): void {
     // Set login credentials form
     this.tronityCredentials = new UntypedFormGroup({
-      apiUrl: new UntypedFormControl('',
+      apiUrl: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.pattern(Constants.URL_PATTERN),
         ])),
-      clientId: new UntypedFormControl('',
+      clientId: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      clientSecret: new UntypedFormControl('',
+      clientSecret: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),

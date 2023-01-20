@@ -5,9 +5,9 @@ import { Car } from './Car';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { TableData } from './Table';
 import { Tag } from './Tag';
-import { SmartChargingSessionParameters, StartTransactionErrorCode } from './Transaction';
+import { StartTransactionErrorCode } from './Transaction';
 
-export interface User extends TableData, CreatedUpdatedProps, UserAuthorizationActions {
+export interface User extends TableData, CreatedUpdatedProps, UserMobileData, UserAuthorizationActions {
   id: string;
   issuer: boolean;
   name: string;
@@ -41,8 +41,18 @@ export interface User extends TableData, CreatedUpdatedProps, UserAuthorizationA
   eulaAcceptedVersion: number;
   eulaAcceptedOn: Date;
   billingData: BillingUserData;
+  mobileData?: UserMobileData;
   technical: boolean;
   freeAccess: boolean;
+}
+
+export interface UserMobileData {
+  mobileOS: 'ios' | 'android' | 'windows' | 'macos' | 'web';
+  mobileToken: string;
+  mobileBundleID: string;
+  mobileAppName: string;
+  mobileVersion: string;
+  mobileLastChangedOn?: Date;
 }
 
 export interface UserNotifications {
@@ -70,11 +80,10 @@ export interface UserNotifications {
   sendAdminAccountVerificationNotification: boolean;
 }
 
-export interface UserSessionContext {
+export interface UserDefaultTagCar {
   car?: Car;
   tag?: Tag;
   errorCodes?: StartTransactionErrorCode[];
-  smartChargingSessionParameters?: SmartChargingSessionParameters;
 }
 
 export interface UserToken {
@@ -99,6 +108,7 @@ export interface UserToken {
   sitesAdmin?: string[];
   sitesOwner?: string[];
   activeComponents?: string[];
+  activeFeatures?: string[];
 }
 
 export interface SiteUser extends TableData {

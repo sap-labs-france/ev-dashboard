@@ -13,7 +13,7 @@ import { AppFormatTransferStatusPipe, TransferStatusFormatterComponent } from '.
 import { InvoicesComponent } from './invoices.component';
 import { InvoicesRoutes } from './invoices.routing';
 import { InvoicesListComponent } from './list/invoices-list.component';
-import { InvoicesTableDataSource } from './list/invoices-table-data-source';
+import { InvoicesListTableDataSource } from './list/invoices-list-table-data-source';
 import { TransfersListComponent } from './transfers/transfers-list.component';
 
 @NgModule({
@@ -38,7 +38,7 @@ import { TransfersListComponent } from './transfers/transfers-list.component';
     AppFormatTransferStatusPipe
   ],
   providers: [
-    InvoicesTableDataSource,
+    InvoicesListTableDataSource,
   ]
 })
 

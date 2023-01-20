@@ -1,6 +1,6 @@
 @import "../core/responsive";
 
-/*          Changes for small display      */
+$side-bar-width: 260px;
 
 @media (max-width: 991px) {
 
@@ -26,7 +26,7 @@
       .navbar .container .navbar-toggler,
       .navbar-fixed > div {
         right: 0;
-        @include transform-translate-x(260px);
+        @include transform-translate-x($side-bar-width);
       }
 
       .navbar .container .navbar-collapse {
@@ -40,7 +40,7 @@
     .navbar-collapse {
       left: 0;
       right: auto;
-      @include transform-translate-x(-260px);
+      @include transform-translate-x(-$side-bar-width);
     }
 
     .close-layer {
@@ -181,7 +181,7 @@
     //.wrapper-full-page,
     .navbar .container .navbar-toggler {
       left: 0;
-      @include transform-translate-x(-260px);
+      @include transform-translate-x(-$side-bar-width);
     }
 
     .sidebar {
@@ -243,7 +243,7 @@
     display: block;
     top: 0;
     height: 100vh;
-    width: 260px;
+    width: $side-bar-width;
     right: 0;
     left: auto;
     z-index: 1032;
@@ -255,7 +255,7 @@
     padding-right: 0;
     padding-left: 0;
 
-    @include transform-translate-x(260px);
+    @include transform-translate-x($side-bar-width);
     @include transitions (0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1));
     > ul {
       position: relative;
@@ -491,7 +491,7 @@
     opacity: 0;
     top: 0;
     left: auto;
-    right: 260px;
+    right: $side-bar-width;
     content: "";
     z-index: 1999;
     overflow-x: hidden;

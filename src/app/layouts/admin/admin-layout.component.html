@@ -1,10 +1,9 @@
-<div class="wrapper">
-  <div class="sidebar" data-image="./assets/img/sidebar-1.jpg">
+<div class="wrapper row ms-0">
+  <div [hidden]="!sidebarVisible" class="sidebar">
     <app-sidebar-cmp></app-sidebar-cmp>
-    <div class="sidebar-background"></div>
   </div>
-  <div class="main-panel d-flex flex-column">
-    <app-navbar></app-navbar>
+  <div class="main-panel col">
+    <app-navbar [hidden]="!sidebarVisible"></app-navbar>
     <div class="full-content">
       <router-outlet></router-outlet>
     </div>

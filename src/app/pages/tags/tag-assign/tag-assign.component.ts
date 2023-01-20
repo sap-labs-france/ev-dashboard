@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
-import { TagsAuthorizationActions } from 'types/Authorization';
+import { DialogMode, TagsAuthorizationActions } from 'types/Authorization';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -26,7 +26,9 @@ export class TagAssignComponent implements OnInit {
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
   @Input() public tagsAuthorizations!: TagsAuthorizationActions;
+  @Input() public dialogMode: DialogMode;
 
+  public readonly DialogMode = DialogMode;
   public formGroup!: UntypedFormGroup;
   public description!: AbstractControl;
   public user!: AbstractControl;
@@ -51,23 +53,23 @@ export class TagAssignComponent implements OnInit {
   public ngOnInit() {
     // Init the form
     this.formGroup = new UntypedFormGroup({
-      user: new UntypedFormControl('',
+      user: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      userID: new UntypedFormControl('',
+      userID: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      description: new UntypedFormControl('',
+      description: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      visualID: new UntypedFormControl('',
+      visualID: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      default: new UntypedFormControl('',
+      default: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),

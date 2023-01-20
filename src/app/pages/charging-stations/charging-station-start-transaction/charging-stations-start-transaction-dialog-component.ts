@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { AbstractControl, FormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ChargingStationsAuthorizations, DialogParamsWithAuth } from 'types/Authorization';
@@ -16,8 +16,8 @@ import { CarsDialogComponent } from '../../../shared/dialogs/cars/cars-dialog.co
 import { TagsDialogComponent } from '../../../shared/dialogs/tags/tags-dialog.component';
 import { UsersDialogComponent } from '../../../shared/dialogs/users/users-dialog.component';
 import { TenantComponents } from '../../../types/Tenant';
-import { StartTransaction, StartTransactionDialogData, StartTransactionErrorCode } from '../../../types/Transaction';
-import { User, UserSessionContext, UserToken } from '../../../types/User';
+import { StartTransaction, StartTransactionErrorCode } from '../../../types/Transaction';
+import { User, UserDefaultTagCar, UserToken } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
@@ -26,7 +26,6 @@ import { Utils } from '../../../utils/Utils';
 export class ChargingStationsStartTransactionDialogComponent implements OnInit {
   public title = '';
   public chargingStationID = '';
-  public connectorID = null;
   public isCarComponentActive: boolean;
   public selectedUser!: User;
   public selectedTag!: Tag;
@@ -54,13 +53,12 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
     private componentService: ComponentService,
     private centralServerService: CentralServerService,
     private dialogRef: MatDialogRef<ChargingStationsStartTransactionDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: DialogParamsWithAuth<StartTransactionDialogData, ChargingStationsAuthorizations> ) {
+    @Inject(MAT_DIALOG_DATA) data: DialogParamsWithAuth<ChargingStation, ChargingStationsAuthorizations> ) {
     // Set
-    this.title = translateService.instant('chargers.start_transaction_details_title', { chargeBoxID: data.dialogData.chargingStation.id });
-    this.chargingStationID = data.dialogData.chargingStation.id;
-    this.connectorID = data.dialogData.connector.connectorId;
+    this.title = translateService.instant('chargers.start_transaction_details_title', { chargeBoxID: data.dialogData.id });
+    this.chargingStationID = data.dialogData.id;
     this.loggedUser = this.centralServerService.getLoggedUser();
-    this.canListUsers = data.dialogData.chargingStation.canListUsers;
+    this.canListUsers = data.dialogData.canListUsers;
     this.isCarComponentActive = this.componentService.isActive(TenantComponents.CAR);
     Utils.registerValidateCloseKeyEvents(this.dialogRef,
       this.startTransaction.bind(this), this.cancel.bind(this));
@@ -69,26 +67,26 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
   public ngOnInit() {
     // Init the form
     this.formGroup = new UntypedFormGroup({
-      user: new UntypedFormControl('',
+      user: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      userID: new UntypedFormControl('',
+      userID: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      car: new UntypedFormControl('',
+      car: new FormControl('',
         Validators.compose([
         ])),
-      carID: new UntypedFormControl('',
+      carID: new FormControl('',
         Validators.compose([
         ])),
-      tag: new UntypedFormControl('',
+      tag: new FormControl('',
         Validators.compose([
           Validators.required,
           this.tagActiveValidator.bind(this),
         ])),
-      visualTagID: new UntypedFormControl('',
+      visualTagID: new FormControl('',
         Validators.compose([
           Validators.required,
         ]))
@@ -102,7 +100,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
     this.visualTagID = this.formGroup.controls['visualTagID'];
     this.user.setValue(Utils.buildUserFullName(this.loggedUser));
     this.userID.setValue(this.loggedUser.id);
-    this.loadUserSessionContext();
+    this.loadUserDefaultTagCar();
   }
 
   public resetCar() {
@@ -110,30 +108,30 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
     this.carID.reset();
   }
 
-  public loadUserSessionContext() {
+  public loadUserDefaultTagCar() {
     if (this.userID.value) {
       this.spinnerService.show();
-      this.centralServerService.getUserSessionContext(this.userID.value, this.chargingStationID, this.connectorID).subscribe({
-        next: (userSessionContext: UserSessionContext) => {
+      this.centralServerService.getUserDefaultTagCar(this.userID.value, this.chargingStationID).subscribe({
+        next: (userDefaultTagCar: UserDefaultTagCar) => {
           this.spinnerService.hide();
           // Set Tag
-          this.selectedTag = userSessionContext.tag;
-          this.tag.setValue(userSessionContext.tag ? Utils.buildTagName(userSessionContext.tag) : '');
-          this.visualTagID.setValue(userSessionContext.tag?.visualID);
+          this.selectedTag = userDefaultTagCar.tag;
+          this.tag.setValue(userDefaultTagCar.tag ? Utils.buildTagName(userDefaultTagCar.tag) : '');
+          this.visualTagID.setValue(userDefaultTagCar.tag?.visualID);
           // Set Car
-          this.selectedCar = userSessionContext.car;
-          this.car.setValue(userSessionContext.car ? Utils.buildCarName(userSessionContext.car, this.translateService, false) : '');
-          this.carID.setValue(userSessionContext.car?.id);
+          this.selectedCar = userDefaultTagCar.car;
+          this.car.setValue(userDefaultTagCar.car ? Utils.buildCarName(userDefaultTagCar.car, this.translateService, false) : '');
+          this.carID.setValue(userDefaultTagCar.car?.id);
           // Update form
           this.formGroup.updateValueAndValidity();
-          if (Utils.isEmptyArray(userSessionContext.errorCodes)) {
+          if (Utils.isEmptyArray(userDefaultTagCar.errorCodes)) {
             this.formGroup.markAsPristine();
             this.formGroup.markAllAsTouched();
           } else {
             // Setting errors automatically disable start transaction button
-            this.formGroup.setErrors(userSessionContext.errorCodes);
+            this.formGroup.setErrors(userDefaultTagCar.errorCodes);
             // Set mat-error message depending on errorCode provided
-            if (userSessionContext.errorCodes[0] === StartTransactionErrorCode.BILLING_NO_PAYMENT_METHOD) {
+            if (userDefaultTagCar.errorCodes[0] === StartTransactionErrorCode.BILLING_NO_PAYMENT_METHOD) {
               this.errorMessage = this.translateService.instant('transactions.error_start_no_payment_method');
             } else {
               this.errorMessage = this.translateService.instant('transactions.error_start_general');
@@ -170,7 +168,7 @@ export class ChargingStationsStartTransactionDialogComponent implements OnInit {
       this.visualTagID.setValue('');
       this.car.setValue('');
       this.carID.setValue('');
-      this.loadUserSessionContext();
+      this.loadUserDefaultTagCar();
     });
   }
 

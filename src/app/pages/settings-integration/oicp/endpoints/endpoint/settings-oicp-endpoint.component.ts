@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
@@ -59,42 +59,42 @@ export class SettingsOicpEndpointComponent implements OnInit {
 
   public ngOnInit(): void {
     this.formGroup = new UntypedFormGroup({
-      id: new UntypedFormControl(''),
-      name: new UntypedFormControl('',
+      id: new FormControl(''),
+      name: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.maxLength(100),
         ])),
-      role: new UntypedFormControl('',
+      role: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),
-      baseUrl: new UntypedFormControl('',
+      baseUrl: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.pattern(Constants.URL_PATTERN),
         ])),
-      countryCode: new UntypedFormControl('',
+      countryCode: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.maxLength(2),
           Validators.minLength(2),
         ])),
-      partyId: new UntypedFormControl('',
+      partyId: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.maxLength(3),
           Validators.minLength(3),
         ])),
-      localToken: new UntypedFormControl('',
+      localToken: new FormControl('',
         Validators.compose([
           Validators.maxLength(64),
         ])),
-      token: new UntypedFormControl('',
+      token: new FormControl('',
         Validators.compose([
           Validators.maxLength(64),
         ])),
-      backgroundPatchJob: new UntypedFormControl(false),
+      backgroundPatchJob: new FormControl(false),
     });
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];

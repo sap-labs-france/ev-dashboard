@@ -1,6 +1,6 @@
 <form class="form" [formGroup]="formGroup">
   <div class="row">
-    <div class="col-md-3 my-auto mb-2">
+    <div class="col-md-3 my-auto mb-3">
       <div class="rotating-card-container img-fluid"
           [ngStyle]="{ 'pointer-events': 'all'}">
         <div class="card card-rotate card-background img-thumbnail app-small-image m-0">
@@ -13,7 +13,7 @@
               [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
             <div class="card-body">
               <div class="text-center">
-                <button mat-flat-button color="primary" class="me-2">
+                <button mat-flat-button color="primary" class="me-1">
                   <mat-icon (click)="file.click()">mode_edit</mat-icon>
                   <div class="d-none">
                     <input #file type="file" accept=".jpg, .jpeg, .png, .gif"
@@ -81,7 +81,7 @@
         </mat-form-field>
       </div>
     </div>
-    <div *ngIf="this.metadata?.status?.visible" class="col-md-6">
+    <div *ngIf="metadata?.status?.visible" class="col-md-6">
       <div class="form-group">
         <mat-form-field>
           <mat-select [formControl]="status" placeholder="{{'users.status' | translate}}" [required]="metadata?.status?.mandatory">
@@ -137,14 +137,14 @@
         </mat-form-field>
       </div>
     </div>
-    <div *ngIf="isBillingComponentActive && freeAccess.enabled" class="col-md-12 text-left">
+    <div *ngIf="isBillingComponentActive && freeAccess.enabled" class="col-md-12 text-left mb-2 mt-2">
       <div class="form-group">
-        <mat-checkbox [formControl]="freeAccess" [checked]="freeAccess">{{"users.allow_free_access" | translate}}</mat-checkbox>
+        <mat-slide-toggle [formControl]="freeAccess" [checked]="freeAccess">{{"users.allow_free_access" | translate}}</mat-slide-toggle>
       </div>
     </div>
-    <div *ngIf="technical.enabled" class="col-md-12 text-left">
+    <div *ngIf="technical.enabled" class="col-md-12 text-left mb-2 mt-1">
       <div class="form-group">
-        <mat-checkbox [formControl]="technical" [checked]="technical">{{"users.technical" | translate}}</mat-checkbox>
+        <mat-slide-toggle [formControl]="technical" [checked]="technical">{{"users.technical" | translate}}</mat-slide-toggle>
       </div>
     </div>
   </div>

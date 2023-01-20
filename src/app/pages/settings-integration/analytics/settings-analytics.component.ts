@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
-import { SettingAuthorizationActions } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { RestResponse } from '../../../types/GlobalType';
+import { HTTPError } from '../../../types/HTTPError';
 import { AnalyticsSettings, AnalyticsSettingsType } from '../../../types/Setting';
 import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
@@ -22,8 +22,7 @@ import { AnalyticsLinksTableDataSource } from './analytics-link/analytics-links-
 export class SettingsAnalyticsComponent implements OnInit {
   public isActive = false;
   public analyticsSettings!: AnalyticsSettings;
-  public authorizations: SettingAuthorizationActions;
-  public formGroup: FormGroup;
+  public formGroup: UntypedFormGroup;
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -42,7 +41,7 @@ export class SettingsAnalyticsComponent implements OnInit {
   public ngOnInit(): void {
     if (this.isActive) {
       // Build form
-      this.formGroup = new FormGroup({});
+      this.formGroup = new UntypedFormGroup({});
       // Load the conf
       this.loadConfiguration();
     }
@@ -53,16 +52,9 @@ export class SettingsAnalyticsComponent implements OnInit {
     this.componentService.getSacSettings().subscribe({
       next: (settings) => {
         this.spinnerService.hide();
-        // Init Auth
-        this.authorizations = {
-          canUpdate: Utils.convertToBoolean(settings.canUpdate),
-        };
         this.analyticsSettings = settings;
         // Set Links
         this.analyticsLinksTableDataSource.setLinks(settings.links);
-        // Set authorizations
-        this.analyticsLinksTableDataSource.setAuthorizations(this.authorizations);
-        // Load data
         this.analyticsLinksTableDataSource.loadData().subscribe();
         // Init form
         this.formGroup.markAsPristine();

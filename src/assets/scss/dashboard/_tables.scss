@@ -62,7 +62,7 @@ $outer-spinner: $brand-danger !default;
   overflow: auto;
   white-space: nowrap;
   height: 25vh;
-  min-height: 100px;
+  min-height: 25vh;
   background-color: mat.get-color-from-palette($app-background, dialog);
 }
 
@@ -101,7 +101,7 @@ tr.mat-header-row {
   @media screen and (max-width: $res375) {
     overflow: auto;
   }
-  background: mat.get-color-from-palette($app-background, dialog);
+  background: initial !important;
   padding: 0 10px;
 }
 
@@ -211,7 +211,7 @@ tr.element-row:not(.expanded-row):active {
   }
 }
 
-.auto-refresh-slider {
+.table-slider {
   margin-right: 5px !important;
   .mat-slide-toggle-label {
     .mat-slide-toggle-bar  {
@@ -239,82 +239,6 @@ tr.element-row:not(.expanded-row):active {
   }
   > button {
     margin-right: 5px;
-  }
-}
-
-.spinner-autorefresh2 {
-  position:relative;
-  top:0;
-  left:2px;
-  width:100%;
-  height:100%;
-  z-index:1003;
-  background: transparent;
-  overflow:display
-}
-
-.spinner-autorefresh2 div:first-child{
-  display:block;
-  position:relative;
-  left:0px;
-  top:0px;
-  width:24px;
-  height:24px;
-  margin:0px 0 0 0px;
-  border-radius:50%;
-  box-shadow:0 2px 2px 0;// rgba(255,56,106,1);
-  transform:translate3d(0,0,0);
-  animation:spin 1.5s linear infinite
-}
-
-.spinner-autorefresh2 div:first-child:after,.spinner div:first-child:before{
-  content:'';
-  position:absolute;
-  border-radius:50%
-}
-
-.spinner-autorefresh2 div:first-child:after{
-  top:4px;
-  left:4px;
-  right:4px;
-  bottom:4px;
-  box-shadow:0 2px 2px 0;// rgba(255, 228, 32,1); //0 3px 3px 0 rgba(61, 175, 255,1);
-  animation:spin 1s linear infinite
-}
-
-.spinner-refresh-button {
-  position: relative;
-  top: 0;
-  left: 0%;
-  width: 100%;
-  height: 100%;
-  z-index: 1003;
-  background: inherit;
-
-  & > div {
-    display: block;
-    position: relative;
-    width: 24px;
-    height: 22px;
-    margin: 0 0 0 0;
-    border-radius: 50%;
-    border: 2px solid transparent;
-    border-top-color: $outer-spinner;
-    transform: translate3d(0, 0, 0);
-    animation: spin 1.5s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
-    &:before {
-      content: "";
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      right: 2px;
-      bottom: 2px;
-      border-radius: 80%;
-      border: 2px solid transparent;
-      border-top-color: $inner-spinner;
-      -webkit-animation: spin 5s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
-      animation: spin 5s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
-    }
   }
 }
 
@@ -537,12 +461,6 @@ tr.element-row:not(.expanded-row):active {
   padding: 10px;
   background: $brand-background;
   z-index: 100;
-
-  .left-bottom-table {
-  }
-  .right-bottom-table {
-    text-align: right;
-  }
 }
 
 .table-no-border {

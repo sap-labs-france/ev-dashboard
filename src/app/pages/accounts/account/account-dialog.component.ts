@@ -1,8 +1,8 @@
 /* eslint-disable no-useless-constructor */
 
 import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { AbstractControl, FormControl, UntypedFormGroup } from '@angular/forms';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from 'services/central-server.service';
 import { DialogService } from 'services/dialog.service';
@@ -16,7 +16,7 @@ import { Utils } from 'utils/Utils';
 
 @Component({
   templateUrl: './account-dialog.component.html',
-  styleUrls: ['./account-dialog.component.scss']
+  styleUrls: ['account-dialog.component.scss']
 })
 export class AccountDialogComponent implements OnInit{
   public currentAccount: BillingAccount;
@@ -42,10 +42,10 @@ export class AccountDialogComponent implements OnInit{
 
   public ngOnInit(): void {
     this.formGroup = new UntypedFormGroup({
-      id: new UntypedFormControl(this.currentAccount ? this.currentAccount.id : null),
-      user: new UntypedFormControl(''),
-      userID: new UntypedFormControl(''),
-      companyName: new UntypedFormControl(''),
+      id: new FormControl(this.currentAccount ? this.currentAccount.id : null),
+      user: new FormControl(''),
+      userID: new FormControl(''),
+      companyName: new FormControl(''),
     });
     this.id = this.formGroup.controls['id'];
     this.user = this.formGroup.controls['user'];

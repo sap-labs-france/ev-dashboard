@@ -10,9 +10,9 @@ export class MessageService {
   private lastLostConnectionDate: Date = new Date();
   // Message Template
   private messageTemplate = `
-    <div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0} alert-with-icon" role="alert">
+    <div data-notify="container" class="col-xs-11 col-md-5 col-xl-3 alert alert-{0} alert-with-icon" role="alert">
       <button mat-raised-button type="button" aria-hidden="true" class="close" data-notify="dismiss">
-        <i class="material-icons">close</i>
+        <i class="material-icons mt-2">close</i>
       </button>
       <i class="material-icons" data-notify="icon">notifications</i>
       <span data-notify="title"><b>{1}</b></span>

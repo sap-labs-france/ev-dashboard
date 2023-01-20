@@ -8,14 +8,14 @@ import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ButtonAction, ButtonActionColor, FilterParams } from '../../../types/GlobalType';
-import { TableActionDef } from '../../../types/Table';
+import { ActionType, TableActionDef } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
 import { TableAction } from './table-action';
 
 export class TableExportAction implements TableAction {
   private action: TableActionDef = {
     id: ButtonAction.EXPORT,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'cloud_download',
     name: 'general.export',
     color: ButtonActionColor.PRIMARY,

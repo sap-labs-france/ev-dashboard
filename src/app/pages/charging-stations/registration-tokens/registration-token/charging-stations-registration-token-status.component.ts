@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
 
 import { CellContentTemplateDirective } from '../../../../shared/table/cell-content-template/cell-content-template.directive';
 import { ChipType } from '../../../../types/GlobalType';
@@ -53,10 +53,10 @@ export class AppRegistrationTokenStatusPipe implements PipeTransform {
   }
 
   private isExpired(registrationToken: RegistrationToken): boolean {
-    return registrationToken.expirationDate && moment().isAfter(registrationToken.expirationDate);
+    return registrationToken.expirationDate && dayjs().isAfter(registrationToken.expirationDate);
   }
 
   private isRevoked(registrationToken: RegistrationToken): boolean {
-    return registrationToken.revocationDate && moment().isAfter(registrationToken.revocationDate);
+    return registrationToken.revocationDate && dayjs().isAfter(registrationToken.revocationDate);
   }
 }

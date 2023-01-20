@@ -8,13 +8,12 @@ export class CompanyTableFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'companies',
-      httpId: 'CompanyID',
+      httpID: 'CompanyID',
       type: FilterType.DIALOG_TABLE,
       defaultValue: '',
       label: '',
       multiple: true,
       name: 'companies.titles',
-      class: 'col-md-6 col-lg-3 col-xl-2',
       dialogComponent: CompaniesDialogComponent,
       cleared: true,
       dependentFilters

@@ -1,8 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import * as moment from 'moment-timezone';
-import { SettingAuthorizationActions } from 'types/Authorization';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
+import timezones from '../../../../../assets/timezone/timezones.json';
 import { AnalyticsSettings } from '../../../../types/Setting';
 import { Constants } from '../../../../utils/Constants';
 import { AnalyticsLinksTableDataSource } from '../analytics-link/analytics-links-table-data-source';
@@ -12,24 +11,22 @@ import { AnalyticsLinksTableDataSource } from '../analytics-link/analytics-links
   templateUrl: 'settings-sac.component.html',
 })
 export class SettingsSacComponent implements OnInit, OnChanges {
-  @Input() public formGroup!: FormGroup;
+  @Input() public formGroup!: UntypedFormGroup;
   @Input() public analyticsSettings!: AnalyticsSettings;
-  @Input() public authorizations!: SettingAuthorizationActions;
 
-  public sac!: FormGroup;
+  public sac!: UntypedFormGroup;
   public mainUrl!: AbstractControl;
   public timezone!: AbstractControl;
   public timezoneList: any = [];
 
   public constructor(
     public analyticsLinksTableDataSource: AnalyticsLinksTableDataSource) {
-    // Initialize timezone list from moment-timezone
-    this.timezoneList = (moment as any).tz.names();
+    this.timezoneList = timezones;
   }
 
   public ngOnInit(): void {
     // Add control
-    this.sac = new FormGroup({
+    this.sac = new UntypedFormGroup({
       mainUrl: new FormControl('',
         Validators.pattern(Constants.URL_PATTERN),
       ),
@@ -62,11 +59,6 @@ export class SettingsSacComponent implements OnInit, OnChanges {
         this.timezone.setValue(this.analyticsSettings.sac.timezone);
       }
       this.formGroup.markAsPristine();
-      // Read only
-      if(!this.authorizations.canUpdate) {
-        // Async call for letting the sub form groups to init
-        setTimeout(() => this.formGroup.disable(), 0);
-      }
     }
   }
 }

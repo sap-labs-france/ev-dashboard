@@ -1,7 +1,7 @@
 import { TransactionAuthorizationActions } from './Authorization';
 import { BillingTransactionData } from './Billing';
 import { Car, CarCatalog } from './Car';
-import { ChargingStation, Connector } from './ChargingStation';
+import { ChargingStation } from './ChargingStation';
 import Consumption, { AbstractCurrentConsumption } from './Consumption';
 import { OCPICdr } from './ocpi/OCPICdr';
 import { OCPISession } from './ocpi/OCPISession';
@@ -120,15 +120,4 @@ export enum StartTransactionErrorCode {
   BILLING_INCONSISTENT_SETTINGS = 'billing_inconsistent_settings', // start transaction not possible - billing settings are inconsistent
   // EULA not accepted : should never be possible with remote start from the app - to be checked if needed in frontend
   EULA_NOT_ACCEPTED = 'eula_not_accepted', // start transaction not possible - user has never accepted the eula (use case : user import + user has never log into the app)
-}
-
-export interface StartTransactionDialogData extends TableData {
-  chargingStation: ChargingStation;
-  connector: Connector;
-}
-
-export interface SmartChargingSessionParameters {
-  departureTime: number;
-  carStateOfCharge: number;
-  targetStateOfCharge: number;
 }

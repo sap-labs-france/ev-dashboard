@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AccountBillingComponent } from 'shared/component/account-billing/account-billing.component';
+import { FormattersModule } from 'shared/formatters/formatters.module';
 import { PricingDefinitionsModule } from 'shared/pricing-definitions/pricing-definitions.module';
 
 import { MaterialModule } from '../../app.module';
@@ -27,6 +28,8 @@ import { SiteAreaAssetsDialogComponent } from './site-areas/site-area-assets/sit
 import { SiteAreaAssetsDataSource } from './site-areas/site-area-assets/site-area-assets-table-data-source';
 import { SiteAreaChargingStationsDialogComponent } from './site-areas/site-area-charging-stations/site-area-charging-stations-dialog.component';
 import { SiteAreaChargingStationsDataSource } from './site-areas/site-area-charging-stations/site-area-charging-stations-table-data-source';
+import { SiteAreaEcowattComponent } from './site-areas/site-area/grid-monitoring/ecowatt/site-area-ecowatt.component';
+import { SiteAreaGridMonitoringComponent } from './site-areas/site-area/grid-monitoring/site-area-grid-monitoring.component';
 import { SiteAreaLimitsComponent } from './site-areas/site-area/limits/site-area-limits.component';
 import { SiteAreaMainComponent } from './site-areas/site-area/main/site-area-main.component';
 import { SiteAreaOcpiComponent } from './site-areas/site-area/ocpi/site-area-ocpi.component';
@@ -54,6 +57,7 @@ import { SiteComponent } from './sites/site/site.component';
     MaterialModule,
     TableModule,
     DialogsModule,
+    FormattersModule,
     RouterModule.forChild(OrganizationRoutes),
     ComponentModule,
     PricingDefinitionsModule,
@@ -83,7 +87,9 @@ import { SiteComponent } from './sites/site/site.component';
     SiteUsersSiteAdminComponent,
     SiteUsersSiteOwnerComponent,
     SiteAreaConsumptionChartComponent,
-    SiteAreaConsumptionChartDetailComponent
+    SiteAreaConsumptionChartDetailComponent,
+    SiteAreaGridMonitoringComponent,
+    SiteAreaEcowattComponent
   ],
   providers: [
     CompaniesListTableDataSource,

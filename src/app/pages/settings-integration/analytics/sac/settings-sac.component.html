@@ -25,7 +25,7 @@
       <div class="col-md-3">
         <mat-form-field>
           <mat-select [formControl]="timezone" placeholder="{{'analytics.timezone' | translate}}">
-            <mat-option *ngFor="let timezoneId of timezoneList" value="{{timezoneId}}">{{timezoneId}}</mat-option>
+            <mat-option *ngFor="let timezone of timezoneList" value="{{timezone.tzCode}}">{{timezone.label}}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>

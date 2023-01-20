@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { TableUpdateOCPICredentialsAction } from 'shared/table/actions/ocpi/table-update-ocpi-credentials-action';
 import { TableMoreAction } from 'shared/table/actions/table-more-action';
-import { TableViewAction } from 'shared/table/actions/table-view-action';
-import { DialogMode, OcpiEndpointsAuthorizationActions } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -20,7 +18,7 @@ import { TableRefreshAction } from '../../../../shared/table/actions/table-refre
 import { TableRegisterAction } from '../../../../shared/table/actions/table-register-action';
 import { TableUnregisterAction } from '../../../../shared/table/actions/table-unregister-action';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
-import { OcpiEndpointDataResult } from '../../../../types/DataResult';
+import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
 import { OCPIButtonAction, OCPIEndpoint, OCPIRegistrationStatus } from '../../../../types/ocpi/OCPIEndpoint';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef } from '../../../../types/Table';
@@ -32,14 +30,9 @@ import { SettingsOcpiEndpointsDetailsComponent } from './ocpi-details/settings-o
 
 @Injectable()
 export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OCPIEndpoint> {
-
-  private authorizations: OcpiEndpointsAuthorizationActions;
-
   private editAction = new TableEditAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
   private createAction = new TableCreateAction().getActionDef();
-  private viewAction = new TableViewAction().getActionDef();
-
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -54,19 +47,12 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OCPIEn
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<OcpiEndpointDataResult> {
+  public loadDataImpl(): Observable<DataResult<OCPIEndpoint>> {
     return new Observable((observer) => {
       // Get the OCPI Endpoints
       this.centralServerService.getOcpiEndpoints(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
         next: (ocpiEndpoints) => {
-          // Init auth
-          this.authorizations = {
-            canCreate: Utils.convertToBoolean(ocpiEndpoints.canCreate),
-            canGenerateLocalToken: Utils.convertToBoolean(ocpiEndpoints.canGenerateLocalToken),
-            canPing: Utils.convertToBoolean(ocpiEndpoints.canPing),
-          };
-          // Set visibility
-          this.createAction.visible = this.authorizations.canCreate;
+          this.createAction.visible = true;
           observer.next(ocpiEndpoints);
           observer.complete();
         },
@@ -163,29 +149,17 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OCPIEn
   }
 
   public buildTableDynamicRowActions(ocpiEndpoint: OCPIEndpoint): TableActionDef[] {
-    const rowActions: TableActionDef[] = [];
+    const rowActions: TableActionDef[] = [
+      this.editAction,
+    ];
     const moreActions = new TableMoreAction([]);
     const registerAction = new TableRegisterAction().getActionDef();
     const unregisterAction = new TableUnregisterAction().getActionDef();
     const updateCredentialsAction = new TableUpdateOCPICredentialsAction().getActionDef();
-    // Edit
-    if (ocpiEndpoint.canUpdate) {
-      rowActions.push(this.editAction);
-    } else {
-      rowActions.push(this.viewAction);
-    }
-    // More action
-    if (ocpiEndpoint.canRegister) {
-      moreActions.addActionInMoreActions(registerAction);
-      moreActions.addActionInMoreActions(unregisterAction);
-      moreActions.addActionInMoreActions(updateCredentialsAction);
-    }
-    if (ocpiEndpoint.canDelete) {
-      moreActions.addActionInMoreActions(this.deleteAction);
-    }
-    if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
-      rowActions.push(moreActions.getActionDef());
-    }
+    moreActions.addActionInMoreActions(registerAction);
+    moreActions.addActionInMoreActions(unregisterAction);
+    moreActions.addActionInMoreActions(updateCredentialsAction);
+    moreActions.addActionInMoreActions(this.deleteAction);
     if (ocpiEndpoint.status === OCPIRegistrationStatus.REGISTERED) {
       registerAction.disabled = true;
       unregisterAction.disabled = false;
@@ -195,6 +169,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OCPIEn
       unregisterAction.disabled = true;
       updateCredentialsAction.disabled = true;
     }
+    rowActions.push(moreActions.getActionDef());
     return rowActions;
   }
 
@@ -203,7 +178,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OCPIEn
     switch (actionDef.id) {
       // Add
       case ButtonAction.CREATE:
-        this.showOcpiEndpointDialog(DialogMode.CREATE);
+        this.showOcpiEndpointDialog();
         break;
     }
   }
@@ -211,10 +186,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OCPIEn
   public rowActionTriggered(actionDef: TableActionDef, ocpiEndpoint: OCPIEndpoint, dropdownItem?: DropdownItem) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
-        this.showOcpiEndpointDialog(DialogMode.EDIT, ocpiEndpoint);
-        break;
-      case ButtonAction.VIEW:
-        this.showOcpiEndpointDialog(DialogMode.VIEW, ocpiEndpoint);
+        this.showOcpiEndpointDialog(ocpiEndpoint);
         break;
       case ButtonAction.REGISTER:
         this.registerOcpiEndpoint(ocpiEndpoint);
@@ -238,15 +210,14 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OCPIEn
     ];
   }
 
-  private showOcpiEndpointDialog(dialogMode: DialogMode, endpoint: OCPIEndpoint = {} as OCPIEndpoint ) {
+  private showOcpiEndpointDialog(endpoint?: OCPIEndpoint) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';
     dialogConfig.panelClass = 'transparent-dialog-container';
-    dialogConfig.data = {
-      dialogData: endpoint,
-      dialogMode,
-      authorizations: this.authorizations };
+    if (endpoint) {
+      dialogConfig.data = endpoint;
+    }
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open

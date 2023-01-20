@@ -8,14 +8,14 @@ import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ActionsResponse } from '../../../types/DataResult';
 import { ButtonAction, ButtonActionColor } from '../../../types/GlobalType';
-import { TableActionDef, TableData } from '../../../types/Table';
+import { ActionType, TableActionDef, TableData } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
 import { TableAction } from './table-action';
 
 export class TableDeleteManyAction implements TableAction {
   private action: TableActionDef = {
     id: ButtonAction.DELETE_MANY,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'delete',
     color: ButtonActionColor.WARN,
     name: 'general.delete',

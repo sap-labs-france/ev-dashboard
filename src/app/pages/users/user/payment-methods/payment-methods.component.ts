@@ -1,5 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { User } from 'types/User';
+import { Component, Input, OnChanges } from '@angular/core';
 
 import { PaymentMethodsTableDataSource } from './payment-methods-table-data-source';
 

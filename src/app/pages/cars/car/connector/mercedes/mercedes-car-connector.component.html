@@ -1,0 +1,12 @@
+<form class="form" [formGroup]="formGroup">
+  <div class="col-12">
+    <div class="form-group">
+      <mat-form-field>
+        <input matInput type="text" placeholder="{{'cars.car_connector_meter_id'|translate}}" [formControl]="carConnectorMeterID"/>
+        <button *ngIf="carConnectorMeterID.value" mat-icon-button matSuffix (click)="clearCarConnectorMeterID()" aria-label="Clear">
+          <mat-icon>clear</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </div>
+</form>

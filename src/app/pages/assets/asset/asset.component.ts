@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
@@ -30,8 +30,8 @@ export class AssetComponent extends AbstractTabComponent implements OnInit {
 
   @ViewChild('assetMainComponent') public assetMainComponent!: AssetMainComponent;
 
+  public readonly DialogMode = DialogMode;
   public formGroup!: UntypedFormGroup;
-  public readOnly = true;
   public asset!: Asset;
 
   public constructor(
@@ -50,7 +50,6 @@ export class AssetComponent extends AbstractTabComponent implements OnInit {
     // Init the form
     this.formGroup = new UntypedFormGroup({});
     // Handle Dialog mode
-    this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
     // Load Asset
     this.loadAsset();
@@ -63,7 +62,7 @@ export class AssetComponent extends AbstractTabComponent implements OnInit {
         next: (asset) => {
           this.spinnerService.hide();
           this.asset = asset;
-          if (this.readOnly) {
+          if (this.dialogMode === DialogMode.VIEW) {
             // Async call for letting the sub form groups to init
             setTimeout(() => this.formGroup.disable(), 0);
           }

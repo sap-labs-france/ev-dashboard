@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
@@ -54,7 +54,7 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     this.siteKey = this.configService.getUser().captchaSiteKey;
     // Init Form
     this.formGroup = new UntypedFormGroup({
-      email: new UntypedFormControl('',
+      email: new FormControl('',
         Validators.compose([
           Validators.required,
           Validators.email,
@@ -68,14 +68,6 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     this.verificationToken = this.route.snapshot.queryParamMap.get('VerificationToken');
     this.resetToken = this.route.snapshot.queryParamMap.get('ResetToken');
     this.verificationEmail = this.route.snapshot.queryParamMap.get('Email');
-    // Handle Deep Linking
-    if (Utils.isInMobileApp(this.subDomain)) {
-      // Forward to Mobile App
-      const mobileAppURL: string = Utils.buildMobileAppDeepLink(
-        `verifyAccount/${this.windowService.getSubdomain()}/${this.verificationEmail}/${this.verificationToken}/${this.resetToken}`);
-      // ACHTUNG ! hack for email bug sent 800 times - need to find a
-      // window.location.href = mobileAppURL;
-    }
     setTimeout(() => {
       const card = document.getElementsByClassName('card')[0];
       // After 700 ms we add the class animated to the login/register card

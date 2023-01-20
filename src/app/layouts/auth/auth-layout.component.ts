@@ -20,7 +20,6 @@ export class AuthLayoutComponent implements OnInit {
 
   public ngOnInit() {
     const navbar: HTMLElement = this.element.nativeElement;
-
     this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       this.sidebarClose();

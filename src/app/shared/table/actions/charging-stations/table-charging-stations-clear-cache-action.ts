@@ -9,7 +9,7 @@ import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { ChargingStation, ChargingStationButtonAction, OCPPGeneralResponse } from '../../../../types/ChargingStation';
 import { ActionResponse } from '../../../../types/DataResult';
-import { TableActionDef } from '../../../../types/Table';
+import { ActionType, TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
@@ -22,7 +22,7 @@ export interface TableChargingStationsClearCacheActionDef extends TableActionDef
 export class TableChargingStationsClearCacheAction implements TableAction {
   private action: TableChargingStationsClearCacheActionDef = {
     id: ChargingStationButtonAction.CLEAR_CACHE,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'layers_clear',
     color: ButtonActionColor.PRIMARY,
     name: 'chargers.clear_cache_action',

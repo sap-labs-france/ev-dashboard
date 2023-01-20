@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SpinnerService } from 'services/spinner.service';
 
 interface ReleaseNotes {
   version: string;
@@ -18,37 +19,93 @@ interface ComponentChange {
 export class ReleaseNotesComponent {
   public releaseNotes: ReleaseNotes[] = [];
 
-  public constructor() {
+  public constructor(
+    private spinnerService: SpinnerService,
+  ) {
+    if (this.spinnerService.isVisible) {
+      this.spinnerService.hide();
+    }
     this.buildReleaseNotes();
   }
+
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
-        version: '2.7.5',
-        date: new Date('2022-11-21'),
+        version: '2.7.7',
+        date: new Date('2023-01-13'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
-              'Charging Sessions - new endpoint "getUserSessionContext" replacing the former "getUserDefaultTagCar" (which is deprecated).',
-              'Authorizations - Migrated Settings endpoints to the new authorization framework',
-              'Authorizations - Migrated OCPI endpoints to the new authorization framework',
-              'MongoDB - K8S Configuration Flexibility - minimal pool size and maximal pool size can be defined per server'
+              `Fixed Statistics CSV export`,
+              `Avoid updating Charging Station from REST WS calls`,
+              `Charging Station WebSocket server performance improvements`,
+              `Handle multiple WS calls of the same Charging Station at the same time`,
+              `Technical updates`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.7.6',
+        date: new Date('2023-01-09'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Added EcoWatt status and forecast columns in both Site Area and Charging Station lists`,
+              `Added EcoWatt runtime data in Site Area`,
+              `Manually trigger EcoWatt service to retrieve latest levels in Site Area`,
+              `Fixed QR-Code sub-domain error in PDF`,
+              `Added Charging Station ID in OCPP Schema validation error`,
+              `Added more logs to better track Web Socket lifecycle`,
+              `Fixed CSS error in Sidebar`,
+              `Security updates`,
+            ],
+          },
+        ],
+      },
+      {
+        version: '2.7.5',
+        date: new Date('2022-12-12'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              `Hide Public Charging Station / Site when OCPI component is not active`,
+              `Hide User's Site Owner when Refund component is not active`,
+              `EcoWatt implementation beta version`,
+              `Optimized Site Area and Asset consumptions`,
+              `Added Charging Station editable fields checked at Boot Notification`,
+              `Full stack security updates`,
+              `Upgraded to latest Kubernetes version`,
+              `Migration Angular 15 - Updated latest version of all libs`,
+              `Fixed OCPI Owner is not disabled when Site is not public`,
             ],
           },
         ],
       },
       {
         version: '2.7.4',
-        date: new Date('2022-11-02'),
+        date: new Date('2022-11-19'),
         componentChanges: [
           {
             name: 'Dashboard',
             changes: [
+              `Fixed date/time format issue in Transaction's chart in english`,
+              `Forced y-axis of Charging Plan's chart to 0`,
+              `Added QR-Codes for Organization in settings`,
+              `Fixed cannot set charging profile after having deleted it`,
+              `Do not allow users with Demo role to see the Transactions`,
+              `Aligned email notifications with the application theme`,
+              `Allow Updating and Deleting all Pricing Definitions in Tenant's settings`,
+              `Fixed user with Admin role can be set as Site Admin`,
+              'Fixed logo size in side bar',
+              'Removed deprecated REST endpoints',
+              'Removed assetID parameter in Asset create consumption in Swagger',
               'Security - Libraries have been updated to address security issues and avoid vulnerabilities',
               'Billing - STRIPE - Code cleanup to avoid using deprecated methods',
               'Billing - improvement - Some code reorganization for a better abstraction of the underlying implementation',
-              'Pricing - UI improvements - Editing/Deleting pricing definitions is now also possible when viewing the full list',
               'Authorizations - fix - Authorization check on start charging session has been fixed',
               'Authorizations - fix - Assignment of site admin and site owner roles',
               'Authorizations - fix - Admin can refund charging sessions when being site owner',

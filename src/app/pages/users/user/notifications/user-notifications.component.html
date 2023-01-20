@@ -1,136 +1,136 @@
 <form class="form" [formGroup]="formGroup">
   <div *ngIf="isSuperAdmin">
-    <div class="row">
+    <div class="row mb-1 mt-1">
       <div class="col-sm-12">
         <div class="form-group mb-0">
-          <mat-checkbox (change)="toggleNotificationsActive($event.checked)"
+          <mat-slide-toggle (change)="toggleNotificationsActive($event.checked)"
             [formControl]="notificationsActive">{{"users.notifications_active" | translate}}
-          </mat-checkbox>
+          </mat-slide-toggle>
         </div>
       </div>
     </div>
     <div class="ms-4">
-      <div class="row">
+      <div class="row mb-1 mt-1">
         <div class="col-sm-12">
           <div class="form-group mb-0">
-            <mat-checkbox [formControl]="sendCarCatalogSynchronizationFailed">{{"notifications.car_catalog_synchronization_failed" | translate}}</mat-checkbox>
+            <mat-slide-toggle [formControl]="sendCarCatalogSynchronizationFailed">{{"notifications.car_catalog_synchronization_failed" | translate}}</mat-slide-toggle>
           </div>
         </div>
       </div>
     </div>
   </div>
   <div  *ngIf="isAdmin || isBasic">
-    <div class="row">
+    <div class="row mb-1 mt-1">
       <div class="col-sm-12">
         <div class="form-group mb-0">
-          <mat-checkbox (click)="toggleNotificationsActive()" [formControl]="notificationsActive">
+          <mat-slide-toggle (click)="toggleNotificationsActive()" [formControl]="notificationsActive">
             {{"users.notifications_active" | translate}}
-          </mat-checkbox>
+          </mat-slide-toggle>
         </div>
       </div>
     </div>
     <div class="ms-4">
-      <div class="row">
+      <div class="row mb-1 mt-1">
         <div class="col-sm-12">
-          <mat-checkbox [formControl]="sendSessionStarted">{{"notifications.session_started" | translate}}</mat-checkbox>
+          <mat-slide-toggle [formControl]="sendSessionStarted">{{"notifications.session_started" | translate}}</mat-slide-toggle>
         </div>
       </div>
-      <div class="row">
+      <div class="row mb-1 mt-1">
         <div class="col-sm-12">
-          <mat-checkbox [formControl]="sendOptimalChargeReached">{{"notifications.optimal_charge_reached" | translate}}</mat-checkbox>
+          <mat-slide-toggle [formControl]="sendOptimalChargeReached">{{"notifications.optimal_charge_reached" | translate}}</mat-slide-toggle>
         </div>
       </div>
-      <div class="row">
+      <div class="row mb-1 mt-1">
         <div class="col-sm-12">
-          <mat-checkbox [formControl]="sendEndOfCharge">{{"notifications.end_of_charge" | translate}}</mat-checkbox>
+          <mat-slide-toggle [formControl]="sendEndOfCharge">{{"notifications.end_of_charge" | translate}}</mat-slide-toggle>
         </div>
       </div>
-      <div class="row">
+      <div class="row mb-1 mt-1">
         <div class="col-sm-12">
-          <mat-checkbox [formControl]="sendEndOfSession">{{"notifications.end_of_session" | translate}}</mat-checkbox>
+          <mat-slide-toggle [formControl]="sendEndOfSession">{{"notifications.end_of_session" | translate}}</mat-slide-toggle>
         </div>
       </div>
-      <div class="row">
+      <div class="row mb-1 mt-1">
         <div class="col-sm-12">
-          <mat-checkbox [formControl]="sendUserAccountStatusChanged">{{"notifications.user_account_status_changed" | translate}}</mat-checkbox>
+          <mat-slide-toggle [formControl]="sendUserAccountStatusChanged">{{"notifications.user_account_status_changed" | translate}}</mat-slide-toggle>
         </div>
       </div>
-      <div class="row">
+      <div class="row mb-1 mt-1">
         <div class="col-sm-12">
-          <mat-checkbox [formControl]="sendSessionNotStarted">{{"notifications.session_not_started" | translate}}</mat-checkbox>
+          <mat-slide-toggle [formControl]="sendSessionNotStarted">{{"notifications.session_not_started" | translate}}</mat-slide-toggle>
         </div>
       </div>
-      <div class="row">
+      <div class="row mb-1 mt-1">
         <div class="col-sm-12">
-          <mat-checkbox [formControl]="sendUserAccountInactivity">{{"notifications.user_account_inactivity" | translate}}</mat-checkbox>
+          <mat-slide-toggle [formControl]="sendUserAccountInactivity">{{"notifications.user_account_inactivity" | translate}}</mat-slide-toggle>
         </div>
       </div>
-      <div class="row">
+      <div class="row mb-1 mt-1">
         <div class="col-sm-12">
-          <mat-checkbox [formControl]="sendPreparingSessionNotStarted">{{"notifications.preparing_session_not_started" | translate}}</mat-checkbox>
+          <mat-slide-toggle [formControl]="sendPreparingSessionNotStarted">{{"notifications.preparing_session_not_started" | translate}}</mat-slide-toggle>
         </div>
       </div>
-      <div class="row">
+      <div class="row mb-1 mt-1">
         <div class="col-sm-12">
-          <mat-checkbox [formControl]="sendBillingNewInvoice">{{"notifications.billing_new_invoice" | translate}}</mat-checkbox>
+          <mat-slide-toggle [formControl]="sendBillingNewInvoice">{{"notifications.billing_new_invoice" | translate}}</mat-slide-toggle>
         </div>
       </div>
       <div *ngIf="currentRole === 'A'" class="row">
         <div class="col-sm-12 m-1 ml-n1">{{"notifications.admin_only" | translate}}</div>
         <div class="ms-3">
-          <div class="row ms-1">
+          <div class="row ms-1 mb-1 mt-1">
             <div class="col-sm-12">
-              <mat-checkbox [formControl]="sendUnknownUserBadged">{{"notifications.unknown_user_badged" | translate}}</mat-checkbox>
+              <mat-slide-toggle [formControl]="sendUnknownUserBadged">{{"notifications.unknown_user_badged" | translate}}</mat-slide-toggle>
             </div>
           </div>
-          <div class="row ms-1">
+          <div class="row ms-1 mb-1 mt-1">
             <div class="col-sm-12">
-              <mat-checkbox [formControl]="sendChargingStationStatusError">{{"notifications.charging_station_status_error" | translate}}</mat-checkbox>
+              <mat-slide-toggle [formControl]="sendChargingStationStatusError">{{"notifications.charging_station_status_error" | translate}}</mat-slide-toggle>
             </div>
           </div>
-          <div class="row ms-1">
+          <div class="row ms-1 mb-1 mt-1">
             <div class="col-sm-12">
-              <mat-checkbox [formControl]="sendChargingStationRegistered">{{"notifications.charging_station_registered" | translate}}</mat-checkbox>
+              <mat-slide-toggle [formControl]="sendChargingStationRegistered">{{"notifications.charging_station_registered" | translate}}</mat-slide-toggle>
             </div>
           </div>
-          <div class="row ms-1">
+          <div class="row ms-1 mb-1 mt-1">
             <div class="col-sm-12">
-              <mat-checkbox [formControl]="sendOfflineChargingStations">{{"notifications.charging_stations_offline" | translate}}</mat-checkbox>
+              <mat-slide-toggle [formControl]="sendOfflineChargingStations">{{"notifications.charging_stations_offline" | translate}}</mat-slide-toggle>
             </div>
           </div>
-          <div class="row ms-1">
+          <div class="row ms-1 mb-1 mt-1">
             <div class="col-sm-12">
-              <mat-checkbox [formControl]="sendOcpiPatchStatusError">{{"notifications.ocpi_patch_status_error" | translate}}</mat-checkbox>
+              <mat-slide-toggle [formControl]="sendOcpiPatchStatusError">{{"notifications.ocpi_patch_status_error" | translate}}</mat-slide-toggle>
             </div>
           </div>
-          <div class="row ms-1">
+          <div class="row ms-1 mb-1 mt-1">
             <div class="col-sm-12">
-              <mat-checkbox [formControl]="sendOicpPatchStatusError">{{"notifications.oicp_patch_status_error" | translate}}</mat-checkbox>
+              <mat-slide-toggle [formControl]="sendOicpPatchStatusError">{{"notifications.oicp_patch_status_error" | translate}}</mat-slide-toggle>
             </div>
           </div>
-          <div class="row ms-1">
+          <div class="row ms-1 mb-1 mt-1">
             <div class="col-sm-12">
-              <mat-checkbox [formControl]="sendBillingSynchronizationFailed">{{"notifications.billing_synchronization_failed" | translate}}</mat-checkbox>
+              <mat-slide-toggle [formControl]="sendBillingSynchronizationFailed">{{"notifications.billing_synchronization_failed" | translate}}</mat-slide-toggle>
             </div>
           </div>
-          <div class="row ms-1">
+          <div class="row ms-1 mb-1 mt-1">
             <div class="col-sm-12">
-              <mat-checkbox [formControl]="sendBillingPeriodicOperationFailed">{{"notifications.billing_periodic_operation_failed" | translate}}</mat-checkbox>
+              <mat-slide-toggle [formControl]="sendBillingPeriodicOperationFailed">{{"notifications.billing_periodic_operation_failed" | translate}}</mat-slide-toggle>
             </div>
           </div>
-          <div class="row ms-1">
+          <div class="row ms-1 mb-1 mt-1">
             <div class="col-sm-12">
-              <mat-checkbox [formControl]="sendComputeAndApplyChargingProfilesFailed">{{"notifications.compute_and_apply_charging_profiles_failed" | translate}}</mat-checkbox>
+              <mat-slide-toggle [formControl]="sendComputeAndApplyChargingProfilesFailed">{{"notifications.compute_and_apply_charging_profiles_failed" | translate}}</mat-slide-toggle>
             </div>
           </div>
-          <div class="row ms-1">
+          <div class="row ms-1 mb-1 mt-1">
             <div class="col-sm-12">
-              <mat-checkbox [formControl]="sendEndUserErrorNotification">{{"notifications.end_user_error_notification" | translate}}</mat-checkbox>
+              <mat-slide-toggle [formControl]="sendEndUserErrorNotification">{{"notifications.end_user_error_notification" | translate}}</mat-slide-toggle>
             </div>
           </div>
-          <div class="row ms-1">
+          <div class="row ms-1 mb-1 mt-1">
             <div class="col-sm-12">
-              <mat-checkbox [formControl]="sendAdminAccountVerificationNotification">{{"notifications.admin_account_verification" | translate}}</mat-checkbox>
+              <mat-slide-toggle [formControl]="sendAdminAccountVerificationNotification">{{"notifications.admin_account_verification" | translate}}</mat-slide-toggle>
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { TranslateService } from '@ngx-translate/core';
 
 import { DialogService } from '../../../../services/dialog.service';
@@ -43,16 +43,16 @@ export class AnalyticsLinkDialogComponent implements OnInit {
       { key: '', value: '' } ];
     this.roleList.forEach((role) => role.value = this.translateService.instant(this.appUserMultipleRolesPipe.transform(role.key)));
     this.formGroup = new UntypedFormGroup({
-      id: new UntypedFormControl(this.currentLink ? this.currentLink.id : ''),
-      name: new UntypedFormControl(this.currentLink ? this.currentLink.name : '',
+      id: new FormControl(this.currentLink ? this.currentLink.id : ''),
+      name: new FormControl(this.currentLink ? this.currentLink.name : '',
         Validators.compose([
           Validators.required,
           Validators.maxLength(100),
         ])),
-      description: new UntypedFormControl(this.currentLink ? this.currentLink.description : '',
+      description: new FormControl(this.currentLink ? this.currentLink.description : '',
         Validators.required),
-      role: new UntypedFormControl(this.currentLink ? this.currentLink.role : ''),
-      url: new UntypedFormControl(this.currentLink ? this.currentLink.url : '',
+      role: new FormControl(this.currentLink ? this.currentLink.role : ''),
+      url: new FormControl(this.currentLink ? this.currentLink.url : '',
         Validators.compose([
           Validators.required,
           Validators.pattern(Constants.URL_PATTERN),

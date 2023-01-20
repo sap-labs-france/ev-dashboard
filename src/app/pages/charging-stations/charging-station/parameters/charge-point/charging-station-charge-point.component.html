@@ -19,19 +19,19 @@
             </mat-form-field>
           </div>
           <div class="ms-2 col-md-3 align-self-center" *ngIf="connectorIDs?.value?.length > 1">
-            <mat-checkbox [formControl]="cannotChargeInParallel" (change)="adjustMaximumPower()">
+            <mat-slide-toggle [formControl]="cannotChargeInParallel" (change)="adjustMaximumPower()">
               {{'chargers.cant_charge_in_parallel' | translate}}
-            </mat-checkbox>
+            </mat-slide-toggle>
           </div>
           <div class="col-md-3 align-self-center" *ngIf="connectorIDs?.value?.length > 1">
-            <mat-checkbox [formControl]="sharePowerToAllConnectors" (change)="adjustMaximumPower()">
+            <mat-slide-toggle [formControl]="sharePowerToAllConnectors" (change)="adjustMaximumPower()">
               {{'chargers.share_power_to_all_connectors' | translate}}
-            </mat-checkbox>
+            </mat-slide-toggle>
           </div>
           <div class="col-md-3 align-self-center">
-            <mat-checkbox [formControl]="excludeFromPowerLimitation">
+            <mat-slide-toggle [formControl]="excludeFromPowerLimitation">
               {{'chargers.exclude_from_power_limitation' | translate}}
-            </mat-checkbox>
+            </mat-slide-toggle>
           </div>
         </div>
         <div class="row">

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
@@ -30,6 +30,7 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
   @Input() public tagsAuthorizations!: TagsAuthorizations;
   @Input() public dialogMode!: DialogMode;
 
+  public readonly DialogMode = DialogMode;
   public formGroup!: UntypedFormGroup;
   public readOnly = true;
   public tag!: Tag;
@@ -44,14 +45,13 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     protected windowService: WindowService,
     private router: Router) {
-    super(activatedRoute, windowService, ['main'], false);
+    super(activatedRoute, windowService, ['main', 'limits'], false);
   }
 
   public ngOnInit() {
     // Init the form
     this.formGroup = new UntypedFormGroup({});
     // Handle Dialog mode
-    this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
     // Load Tag
     this.loadTag();
@@ -64,50 +64,56 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
   public loadTag() {
     if (this.currentTagID) {
       this.spinnerService.show();
-      this.centralServerService.getTag(this.currentTagID).subscribe((tag: Tag) => {
-        this.spinnerService.hide();
-        this.tag = tag;
-        if (this.readOnly) {
-          // Async call for letting the sub form groups to init
-          setTimeout(() => this.formGroup.disable(), 0);
-        }
-        // Update form group
-        this.formGroup.updateValueAndValidity();
-        this.formGroup.markAsPristine();
-        this.formGroup.markAllAsTouched();
-      }, (error) => {
-        this.spinnerService.hide();
-        switch (error.status) {
-          case StatusCodes.NOT_FOUND:
-            this.messageService.showErrorMessage('tags.tag_not_found');
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'tags.tag_error');
+      this.centralServerService.getTag(this.currentTagID).subscribe({
+        next: (tag: Tag) => {
+          this.spinnerService.hide();
+          this.tag = tag;
+          if (this.dialogMode === DialogMode.VIEW) {
+            // Async call for letting the sub form groups to init
+            setTimeout(() => this.formGroup.disable(), 0);
+          }
+          // Update form group
+          this.formGroup.updateValueAndValidity();
+          this.formGroup.markAsPristine();
+          this.formGroup.markAllAsTouched();
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.messageService.showErrorMessage('tags.tag_not_found');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'tags.tag_error');
+          }
         }
       });
     } else if (this.currentTagVisualID) {
       this.spinnerService.show();
-      this.centralServerService.getTagByVisualID(this.currentTagVisualID).subscribe((tag: Tag) => {
-        this.spinnerService.hide();
-        this.tag = tag;
-        if (this.readOnly) {
-          // Async call for letting the sub form groups to init
-          setTimeout(() => this.formGroup.disable(), 0);
-        }
-        // Update form group
-        this.formGroup.updateValueAndValidity();
-        this.formGroup.markAsPristine();
-        this.formGroup.markAllAsTouched();
-      }, (error) => {
-        this.spinnerService.hide();
-        switch (error.status) {
-          case StatusCodes.NOT_FOUND:
-            this.messageService.showErrorMessage('tags.tag_not_found');
-            break;
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'tags.tag_error');
+      this.centralServerService.getTagByVisualID(this.currentTagVisualID).subscribe({
+        next: (tag: Tag) => {
+          this.spinnerService.hide();
+          this.tag = tag;
+          if (this.dialogMode === DialogMode.VIEW) {
+            // Async call for letting the sub form groups to init
+            setTimeout(() => this.formGroup.disable(), 0);
+          }
+          // Update form group
+          this.formGroup.updateValueAndValidity();
+          this.formGroup.markAsPristine();
+          this.formGroup.markAllAsTouched();
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          switch (error.status) {
+            case StatusCodes.NOT_FOUND:
+              this.messageService.showErrorMessage('tags.tag_not_found');
+              break;
+            default:
+              Utils.handleHttpError(error, this.router, this.messageService,
+                this.centralServerService, 'tags.tag_error');
+          }
         }
       });
     }
@@ -134,47 +140,53 @@ export class TagComponent extends AbstractTabComponent implements OnInit {
 
   private updateTag(tag: Tag) {
     this.spinnerService.show();
-    this.centralServerService.updateTag(tag).subscribe((response: ActionResponse) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('tags.update_success', { tagID: tag.id });
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'tags.update_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case HTTPError.TAG_VISUAL_ID_ALREADY_EXIST_ERROR:
-          this.messageService.showErrorMessage('tags.tag_visual_id_already_used', { visualID: tag.visualID });
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tags.update_error');
+    this.centralServerService.updateTag(tag).subscribe({
+      next: (response: ActionResponse) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('tags.update_success', { tagID: tag.id });
+          this.closeDialog(true);
+        } else {
+          Utils.handleError(JSON.stringify(response), this.messageService, 'tags.update_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case HTTPError.TAG_VISUAL_ID_ALREADY_EXIST_ERROR:
+            this.messageService.showErrorMessage('tags.tag_visual_id_already_used', { visualID: tag.visualID });
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tags.update_error');
+        }
       }
     });
   }
 
   private createTag(tag: Tag) {
     this.spinnerService.show();
-    this.centralServerService.createTag(tag).subscribe((response: ActionResponse) => {
-      this.spinnerService.hide();
-      if (response.status === RestResponse.SUCCESS) {
-        this.messageService.showSuccessMessage('tags.create_success', { tagID: tag.id });
-        this.closeDialog(true);
-      } else {
-        Utils.handleError(JSON.stringify(response), this.messageService, 'tags.create_error');
-      }
-    }, (error) => {
-      this.spinnerService.hide();
-      switch (error.status) {
-        case HTTPError.TAG_ALREADY_EXIST_ERROR:
-          this.messageService.showErrorMessage('tags.tag_id_already_used', { tagID: tag.id });
-          break;
-        case HTTPError.TAG_VISUAL_ID_ALREADY_EXIST_ERROR:
-          this.messageService.showErrorMessage('tags.tag_visual_id_already_used', { visualID: tag.visualID });
-          break;
-        default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tags.create_error');
+    this.centralServerService.createTag(tag).subscribe({
+      next: (response: ActionResponse) => {
+        this.spinnerService.hide();
+        if (response.status === RestResponse.SUCCESS) {
+          this.messageService.showSuccessMessage('tags.create_success', { tagID: tag.id });
+          this.closeDialog(true);
+        } else {
+          Utils.handleError(JSON.stringify(response), this.messageService, 'tags.create_error');
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          case HTTPError.TAG_ALREADY_EXIST_ERROR:
+            this.messageService.showErrorMessage('tags.tag_id_already_used', { tagID: tag.id });
+            break;
+          case HTTPError.TAG_VISUAL_ID_ALREADY_EXIST_ERROR:
+            this.messageService.showErrorMessage('tags.tag_visual_id_already_used', { visualID: tag.visualID });
+            break;
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tags.create_error');
+        }
       }
     });
   }

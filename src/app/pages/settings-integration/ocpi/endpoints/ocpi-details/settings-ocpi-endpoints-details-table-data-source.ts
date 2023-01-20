@@ -18,7 +18,7 @@ import { TableStartAction } from '../../../../../shared/table/actions/table-star
 import { TableStopAction } from '../../../../../shared/table/actions/table-stop-action';
 import { TableUploadAction } from '../../../../../shared/table/actions/table-upload-action';
 import { TableDataSource } from '../../../../../shared/table/table-data-source';
-import { OcpiEndpointDataResult } from '../../../../../types/DataResult';
+import { DataResult } from '../../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../../types/GlobalType';
 import { HTTPError } from '../../../../../types/HTTPError';
 import { OCPIButtonAction, OCPIEndpoint } from '../../../../../types/ocpi/OCPIEndpoint';
@@ -56,7 +56,7 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
     this.initDataSource();
   }
 
-  public loadDataImpl(): Observable<OcpiEndpointDataResult> {
+  public loadDataImpl(): Observable<DataResult<OCPIEndpoint>> {
     return new Observable((observer) => {
       if (this.ocpiEndpoint) {
         observer.next({

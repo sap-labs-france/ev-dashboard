@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatLegacySlideToggleChange as MatSlideToggleChange } from '@angular/material/legacy-slide-toggle';
+import { DialogMode } from 'types/Authorization';
 
 import PricingDefinition, { DimensionType, PricingDimension, PricingDimensions } from '../../../../types/Pricing';
 import { Constants } from '../../../../utils/Constants';
@@ -14,7 +15,7 @@ import { PricingHelpers } from '../../../../utils/PricingHelpers';
 export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
   @Input() public formGroup!: UntypedFormGroup;
   @Input() public pricingDefinition: PricingDefinition;
-  @Input() public readOnly: boolean;
+  @Input() public dialogMode!: DialogMode;
 
   public initialized = false;
 
@@ -47,44 +48,44 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
   public ngOnInit(): void {
     this.formGroup.addControl('dimensions', new UntypedFormGroup({
       flatFee: new UntypedFormGroup({
-        flatFeeEnabled: new UntypedFormControl(false),
-        price: new UntypedFormControl({value: null, disabled: true}, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
+        flatFeeEnabled: new FormControl(false),
+        price: new FormControl({value: null, disabled: true}, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
       }),
       energy: new UntypedFormGroup({
-        energyEnabled: new UntypedFormControl(false),
-        price: new UntypedFormControl({value: null, disabled: true}, Validators.compose([
+        energyEnabled: new FormControl(false),
+        price: new FormControl({value: null, disabled: true}, Validators.compose([
           Validators.required,
           Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
         ])),
-        stepSize: new UntypedFormControl({value: null, disabled: true}, Validators.compose([
+        stepSize: new FormControl({value: null, disabled: true}, Validators.compose([
           Validators.required,
           Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
         ])),
-        stepSizeEnabled: new UntypedFormControl({value: false, disabled: true})
+        stepSizeEnabled: new FormControl({value: false, disabled: true})
       }),
       chargingTime: new UntypedFormGroup({
-        chargingTimeEnabled: new UntypedFormControl(false),
-        price: new UntypedFormControl({value: null, disabled: true}, Validators.compose([
+        chargingTimeEnabled: new FormControl(false),
+        price: new FormControl({value: null, disabled: true}, Validators.compose([
           Validators.required,
           Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
         ])),
-        stepSize: new UntypedFormControl({value: null, disabled: true}, Validators.compose([
+        stepSize: new FormControl({value: null, disabled: true}, Validators.compose([
           Validators.required,
           Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
         ])),
-        stepSizeEnabled: new UntypedFormControl({value: false, disabled: true})
+        stepSizeEnabled: new FormControl({value: false, disabled: true})
       }),
       parkingTime: new UntypedFormGroup({
-        parkingTimeEnabled: new UntypedFormControl(false),
-        price: new UntypedFormControl({value: null, disabled: true}, Validators.compose([
+        parkingTimeEnabled: new FormControl(false),
+        price: new FormControl({value: null, disabled: true}, Validators.compose([
           Validators.required,
           Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
         ])),
-        stepSize: new UntypedFormControl({value: null, disabled: true}, Validators.compose([
+        stepSize: new FormControl({value: null, disabled: true}, Validators.compose([
           Validators.required,
           Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
         ])),
-        stepSizeEnabled: new UntypedFormControl({value: false, disabled: true})
+        stepSizeEnabled: new FormControl({value: false, disabled: true})
       }),
     }));
     // Dimensions

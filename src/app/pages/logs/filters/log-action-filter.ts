@@ -8,12 +8,11 @@ export class LogActionTableFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'action',
-      httpId: 'Action',
+      httpID: 'Action',
       type: FilterType.DIALOG_TABLE,
       defaultValue: '',
       label: '',
       name: 'logs.actions',
-      class: 'col-md-6 col-lg-4 col-xl-2',
       dialogComponent: LogActionsDialogComponent,
       multiple: true,
       cleared: true,

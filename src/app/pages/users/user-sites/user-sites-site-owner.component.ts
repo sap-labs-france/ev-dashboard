@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatLegacyCheckboxChange as MatCheckboxChange } from '@angular/material/legacy-checkbox';
 import { Router } from '@angular/router';
 
 import { CentralServerService } from '../../../services/central-server.service';
@@ -13,11 +13,11 @@ import { Utils } from '../../../utils/Utils';
 @Component({
   template: `
     <div class="d-flex justify-content-center">
-      <mat-checkbox class="mx-auto"
+      <mat-slide-toggle class="mx-auto"
         [checked]="row?.siteOwner"
         [disabled]="(!isSiteAdmin && loggedUser.role !== UserRole.ADMIN) || columnDef.disabled"
         (change)="changeSiteOwner($event)">
-      </mat-checkbox>
+      </mat-slide-toggle>
     </div>`
 })
 export class UserSitesSiteOwnerComponent extends CellContentTemplateDirective implements OnInit {

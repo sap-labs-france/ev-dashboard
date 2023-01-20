@@ -1,0 +1,143 @@
+<div class="row mt-3">
+  <div class="mb-3">
+    <div class="col-md-6 text-center mb-3 grid-monitoring-logo-container">
+      <img class="grid-monitoring-logo" src="assets/img/grid-monitoring/ecowatt-logo.jpg" alt="ecowatt-logo" width="50%" height="100%"/>
+    </div>
+    <div class="col-md-6">
+      <div class="text-left">
+        <mat-slide-toggle (change)="checkEditLevelActivated()" [formControl]="levelOverridden">
+          {{'site_areas.edit_ecowatt_level' | translate}}
+        </mat-slide-toggle>
+      </div>
+    </div>
+  </div>
+  <!-- Normal Consumption -->
+  <div class="row">
+    <div class="col-md-6 ms-3">
+      <div class="form-group">
+        <mat-form-field>
+          <span class="point-container-input" matPrefix>
+            <div class="green-point"></div>
+          </span>
+          <input matInput placeholder="{{'settings.grid_monitoring.connection.normalConsumption' | translate}}"
+            type="number" [formControl]="levelGreenPercent" required>
+          <mat-error *ngIf="levelGreenPercent.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+          <mat-error *ngIf="levelGreenPercent.errors?.min && !levelGreenPercent.errors?.required">
+            {{"general.error_percent_out_of_range" | translate}}</mat-error>
+          <mat-error *ngIf="levelGreenPercent.errors?.max && !levelGreenPercent.errors?.required">
+            {{"general.error_percent_out_of_range" | translate}}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <!-- Electrical System Tense -->
+  <div class="row">
+    <div class="col-md-6 ms-3">
+      <div class="form-group">
+        <mat-form-field>
+          <span class="point-container-input" matPrefix>
+            <div class="orange-point"></div>
+          </span>
+          <input matInput placeholder="{{'settings.grid_monitoring.connection.electricSystemTense' | translate}}"
+            type="number" [formControl]="levelOrangePercent" required>
+          <mat-error *ngIf="levelOrangePercent.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+          <mat-error *ngIf="levelOrangePercent.errors?.min && !levelOrangePercent.errors?.required">
+            {{"general.error_percent_out_of_range" | translate}}</mat-error>
+          <mat-error *ngIf="levelOrangePercent.errors?.max && !levelOrangePercent.errors?.required">
+            {{"general.error_percent_out_of_range" | translate}}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <!-- Electrical System Very Tense -->
+  <div class="row">
+    <div class="col-md-6 ms-3">
+      <div class="form-group">
+        <mat-form-field>
+          <span class="point-container-input" matPrefix>
+            <div class="red-point"></div>
+          </span>
+          <input matInput placeholder="{{'settings.grid_monitoring.connection.electricSystemVeryTense' | translate}}"
+            type="number" [formControl]="levelRedPercent" required>
+          <mat-error *ngIf="levelRedPercent.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+          <mat-error *ngIf="levelRedPercent.errors?.min && !levelRedPercent.errors?.required">
+            {{"general.error_percent_out_of_range" | translate}}</mat-error>
+          <mat-error *ngIf="levelRedPercent.errors?.max && !levelRedPercent.errors?.required">
+            {{"general.error_percent_out_of_range" | translate}}</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="grid-monitoring-container">
+    <div class="row mt-3">
+      <div class="border-bottom container-info">
+        <h3 class="title">{{"site_areas.ecowatt_title_info" | translate}}</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-auto col-12 mt-2 container-info absolute-button-container">
+        <button mat-raised-button color="primary" class="col-12" (click)="openEcowattWindow()">
+          <mat-icon>open_in_new</mat-icon>
+          <span>{{'site_areas.jump_to_ecowatt' | translate}}</span>
+        </button>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-sm-3 container-info">
+        <p class="paragraph-info"><strong>{{"site_areas.site_area_power" | translate}}</strong></p>
+      </div>
+      <div *ngIf="gridMonitoringCurrentLevel" class="mt-1 mt-md-0 col-auto point-container container-info">
+        <div class="paragraph-info">
+          {{siteAreaNewMaximumPower | appUnit:'W':'kW':true:1:0:0}} ({{siteArea.maximumPower | appUnit:'W':'kW':true:1:0:0}} * {{gridMonitoringPowerLevelPercent}} %)
+        </div>
+      </div>
+      <div *ngIf="!gridMonitoringCurrentLevel" class="mt-1 mt-md-0 col-auto container-info">
+        <p class="paragraph-info">-</p>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-sm-3 container-info">
+        <p class="paragraph-info"><strong>{{"site_areas.current_level" | translate}}</strong></p>
+      </div>
+      <div *ngIf="gridMonitoringCurrentLevel" class="mt-1 mt-md-0 col-auto point-container container-info">
+        <div class="{{gridMonitoringCurrentLevel}}-point"></div>
+      </div>
+      <div *ngIf="!gridMonitoringCurrentLevel" class="mt-1 mt-md-0 col-auto container-info">
+        <p class="paragraph-info">-</p>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-sm-3 container-info">
+        <p class="paragraph-info"><strong>{{"site_areas.forecast_level" | translate}}</strong></p>
+      </div>
+      <div *ngIf="gridMonitoringForecastLevel" class="mt-1 mt-md-0 col-auto point-container container-info">
+        <div class="{{gridMonitoringForecastLevel}}-point "></div>
+      </div>
+      <div *ngIf="!gridMonitoringForecastLevel" class="mt-1 mt-md-0 col-auto container-info">
+        <p class="paragraph-info">-</p>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-sm-3 container-info">
+        <p class="paragraph-info"><strong>{{"site_areas.forecast_date" | translate}}</strong></p>
+      </div>
+      <div *ngIf="gridMonitoringForecastDate" class="mt-1 mt-md-0 col-auto point-container container-info">
+        <p class="paragraph-info">{{gridMonitoringForecastDate | appDate:'medium'}}</p>
+      </div>
+      <div *ngIf="!gridMonitoringForecastDate" class="mt-1 mt-md-0 col-auto container-info">
+        <p class="paragraph-info">-</p>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-sm-3 container-info">
+        <p class="paragraph-info"><strong>{{"site_areas.last_updated_on" | translate}}</strong></p>
+      </div>
+      <div *ngIf="gridMonitoringLastUpdatedOn" class="mt-1 mt-md-0 col-auto point-container container-info">
+        <p class="paragraph-info">{{gridMonitoringLastUpdatedOn | appDate:'medium'}}</p>
+      </div>
+      <div *ngIf="!gridMonitoringLastUpdatedOn" class="mt-1 mt-md-0 col-auto container-info">
+        <p class="paragraph-info">-</p>
+      </div>
+    </div>
+  </div>
+</div>

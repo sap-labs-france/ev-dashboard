@@ -3,10 +3,7 @@ import { ConnectorCurrentLimitSource, SiteAreaLimitSource } from './ChargingStat
 export interface AbstractCurrentConsumption {
   currentConsumptionWh?: number;
   currentTotalConsumptionWh: number;
-  lastConsumption?: {
-    value: number;
-    timestamp: Date;
-  };
+  currentCumulatedPrice?: number;
   currentInstantWatts: number;
   currentInstantWattsL1?: number;
   currentInstantWattsL2?: number;
@@ -22,28 +19,31 @@ export interface AbstractCurrentConsumption {
   currentInstantAmpsL2?: number;
   currentInstantAmpsL3?: number;
   currentInstantAmpsDC?: number;
+  currentStateOfCharge?: number;
+  lastConsumption?: {
+    value: number;
+    timestamp: Date;
+  };
 }
 
 export interface AbstractConsumption {
-  instantWatts: number;
-  instantWattsL1: number;
-  instantWattsL2: number;
-  instantWattsL3: number;
-  instantWattsDC: number;
-  instantAmps: number;
-  instantAmpsL1: number;
-  instantAmpsL2: number;
-  instantAmpsL3: number;
-  instantAmpsDC: number;
-  instantVolts: number;
-  instantVoltsL1: number;
-  instantVoltsL2: number;
-  instantVoltsL3: number;
-  instantVoltsDC: number;
-  consumptionWh: number;
-  consumptionAmps: number;
-  lastConsumptionWh: number;
-  lastConsumptionDate: Date;
+  instantWatts?: number;
+  instantWattsL1?: number;
+  instantWattsL2?: number;
+  instantWattsL3?: number;
+  instantWattsDC?: number;
+  instantAmps?: number;
+  instantAmpsL1?: number;
+  instantAmpsL2?: number;
+  instantAmpsL3?: number;
+  instantAmpsDC?: number;
+  instantVolts?: number;
+  instantVoltsL1?: number;
+  instantVoltsL2?: number;
+  instantVoltsL3?: number;
+  instantVoltsDC?: number;
+  consumptionWh?: number;
+  consumptionAmps?: number;
 }
 
 export default interface Consumption extends AbstractConsumption {
@@ -63,9 +63,11 @@ export default interface Consumption extends AbstractConsumption {
   roundedAmount?: number;
   cumulatedAmount?: number;
   currencyCode?: string;
+  inactivitySecs?: number;
   totalInactivitySecs?: number;
   totalDurationSecs?: number;
   stateOfCharge?: number;
+  gridMonitoringLevelPercent?: number;
   userID?: string;
   toPrice?: boolean;
   limitAmps?: number;

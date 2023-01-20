@@ -9,6 +9,14 @@
         <app-charging-stations-list></app-charging-stations-list>
       </ng-template>
     </mat-tab>
+    <mat-tab *ngIf="canListChargingStations && chargingStationMapFeatureIsActive">
+      <ng-template mat-tab-label>
+        <mat-icon>map</mat-icon><span>{{'chargers.tabs.map' | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-charging-stations-map></app-charging-stations-map>
+      </ng-template>
+    </mat-tab>
     <mat-tab *ngIf="canListChargingProfiles">
       <ng-template mat-tab-label>
         <mat-icon>show_chart</mat-icon><span>{{'chargers.tabs.charging_plans' | translate}}</span>

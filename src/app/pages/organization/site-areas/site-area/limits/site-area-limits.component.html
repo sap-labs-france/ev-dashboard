@@ -1,10 +1,18 @@
 <form class="form" [formGroup]="formGroup">
-  <div class="row">
-    <div class="col-md-12 mb-3">
+  <div class="row mb-3">
+    <div class="col-md-4 col-12 mt-2 container-info absolute-button-container">
+      <button mat-raised-button color="primary" class="col-12" [disabled]="!smartCharging.value" (click)="triggerSmartCharging()">
+        <mat-icon>bolt</mat-icon>
+        <span>{{'chargers.smart_charging.trigger_smart_charging' | translate}}</span>
+      </button>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-md d-flex align-items-center">
       <div *ngIf="isSmartChargingComponentActive" class="text-left">
-        <mat-checkbox [formControl]="smartCharging">
+        <mat-slide-toggle [formControl]="smartCharging" (change)="smartChargingChange()">
           {{'site_areas.enable_smart_charging' | translate}}
-        </mat-checkbox>
+        </mat-slide-toggle>
       </div>
     </div>
   </div>
@@ -20,10 +28,10 @@
     </div>
     <div class="col-md-4">
       <mat-form-field>
-        <mat-label for="numberOfPhases">{{'site_areas.number_of_phases' | translate}} 
+        <mat-label for="numberOfPhases">{{'site_areas.number_of_phases' | translate}}
         </mat-label>
-        <mat-select id="numberOfPhases" [formControl]="numberOfPhases" 
-          (selectionChange)="numberOfPhasesChanged()" required>
+        <mat-select id="numberOfPhases" [formControl]="numberOfPhases" (selectionChange)="numberOfPhasesChanged()"
+          required>
           <mat-option *ngFor="let phase of phaseMap" [value]="phase.key">
             {{phase.description | translate}}
           </mat-option>

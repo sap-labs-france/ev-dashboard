@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { ComponentService } from 'services/component.service';
+import { TenantComponents } from 'types/Tenant';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -28,16 +30,19 @@ export class SiteUsersTableDataSource extends TableDataSource<SiteUser> {
   private addAction = new TableAddAction().getActionDef();
   private removeAction = new TableRemoveAction().getActionDef();
   private siteUsersAuthorization: SiteUsersAuthorizations;
+  private isRefundComponentActive: boolean;
 
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
     private messageService: MessageService,
+    private componentService: ComponentService,
     private router: Router,
     private dialog: MatDialog,
     private dialogService: DialogService,
     private centralServerService: CentralServerService) {
     super(spinnerService, translateService);
+    this.isRefundComponentActive = this.componentService.isActive(TenantComponents.REFUND);
     this.initDataSource();
   }
 
@@ -156,7 +161,7 @@ export class SiteUsersTableDataSource extends TableDataSource<SiteUser> {
         name: 'sites.owner_role',
         headerClass: 'text-center',
         class: 'col-10p',
-        visible: this.siteUsersAuthorization?.canUpdateSiteUsers,
+        visible: this.isRefundComponentActive && this.siteUsersAuthorization?.canUpdateSiteUsers,
         disabled: this.getMode() !== TableDataSourceMode.READ_WRITE,
         additionalParameters: {
           site: this.site

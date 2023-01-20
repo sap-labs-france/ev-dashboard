@@ -1,6 +1,6 @@
 import { ValidatorFn } from '@angular/forms';
 import { SortDirection } from '@angular/material/sort';
-import * as moment from 'moment';
+import { Dayjs } from 'dayjs';
 
 import { AssetButtonAction } from './Asset';
 import { AuthorizationActions, AuthorizationAttributes } from './Authorization';
@@ -37,7 +37,7 @@ export enum TableDataSourceMode {
 
 export interface TableFilterDef {
   id: string;
-  httpId: string;
+  httpID: string;
   type: FilterType;
   name: string;
   label?: string;
@@ -51,34 +51,28 @@ export interface TableFilterDef {
   multiple?: boolean;
   exhaustive?: boolean;
   cleared?: boolean;
-  dateRangeTableFilterDef?: DateRangeTableFilterDef;
+  dateRangeTableFilterDef?: DateTimeTableFilterDef;
   dependentFilters?: TableFilterDef[];
   visible?: boolean;
 }
 
-export interface DateRangeTableFilterDef {
+export interface DateTimeTableFilterDef {
+  startDate?: Dayjs;
+  endDate?: Dayjs;
+  startDateTimeHttpID?: string;
+  endDateTimeHttpID?: string;
   singleDatePicker?: boolean;
-  minDate?: Date;
-  maxDate?: Date;
   timePicker?: boolean;
-  timePicker24Hour?: boolean;
   timePickerSeconds?: boolean;
-  startDate?: moment.Moment;
-  endDate?: moment.Moment;
-  locale?: Locale;
-  startDateTimeHttpId?: string;
-  endDateTimeHttpId?: string;
-  ranges?: any;
-  updateRanges(): void;
+  minDate?: Dayjs;
+  maxDate?: Dayjs;
 }
 
-export interface Locale {
-  daysOfWeek?: string[];
-  monthNames?: string[];
-  firstDay?: number;
-  displayFormat?: string;
-  applyLabel?: string;
+export interface DateTimeRange {
+  startDate: Date;
+  endDate: Date;
 }
+
 export interface DropdownItem {
   id: string;
   name: string;
@@ -88,10 +82,10 @@ export interface DropdownItem {
   tooltip: string;
 }
 
-// export declare type FilterType = 'dropdown' | 'dialog-table' | 'date' | '';
-export declare type ActionType = 'button' | 'dropdown-button' | 'slide' | '';
-// export declare type DialogType = 'YES_NO' | 'OK_CANCEL' | 'OK' | 'YES_NO_CANCEL' | 'DIRTY_CHANGE' | 'INVALID_CHANGE';
-// export declare type ButtonType = 'OK' | 'CANCEL' | 'YES' | 'NO' | 'SAVE_AND_CLOSE' | 'DO_NOT_SAVE_AND_CLOSE';
+export enum ActionType {
+  BUTTON = 'button',
+  SLIDE = 'slide'
+}
 
 export enum FilterType {
   ALL_KEY = 'all',

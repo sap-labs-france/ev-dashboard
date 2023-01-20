@@ -1,11 +1,12 @@
 
 export class Constants {
+  public static readonly REGEX_PERCENTAGE_NUMBER = /\b([0-9]|[1-9][0-9]|100)\b/;
   public static readonly URL_PATTERN = /^(?:https?|wss?):\/\/((?:[\w-]+)(?:\.[\w-]+)*)(?:[\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?$/;
 
   public static readonly CSV_SEPARATOR = ',';
   public static readonly CR_LF = '\r\n';
 
-  public static readonly MAX_PAGE_SIZE = Number.MAX_SAFE_INTEGER;
+  public static readonly MAX_PAGE_SIZE = 1000;
   public static readonly DEFAULT_PAGE_SIZE = 50;
   public static readonly INFINITE_RECORDS = -1;
 
@@ -43,6 +44,6 @@ export class Constants {
   public static readonly SELECT_ALL = 'A';
 
   /* App Info for STRIPE */
-  public static readonly STRIPE_APP_NAME = 'Open e-Mobility';
+  public static readonly STRIPE_APP_NAME = 'Charge-Angels';
   public static readonly STRIPE_PARTNER_ID = 'TECH-000685';
 }

@@ -1,7 +1,8 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
+import { DialogMode } from 'types/Authorization';
 import { Utils } from 'utils/Utils';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -18,7 +19,9 @@ import { Constants } from '../../../../utils/Constants';
 export class TenantMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: UntypedFormGroup;
   @Input() public tenant!: Tenant;
+  @Input() public dialogMode: DialogMode;
 
+  public readonly DialogMode = DialogMode;
   public initialized = false;
 
   public id!: AbstractControl;
@@ -41,20 +44,20 @@ export class TenantMainComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     // Init main part
-    this.formGroup.addControl('id', new UntypedFormControl(''));
-    this.formGroup.addControl('name', new UntypedFormControl('',
+    this.formGroup.addControl('id', new FormControl(''));
+    this.formGroup.addControl('name', new FormControl('',
       Validators.compose([
         Validators.required,
         Validators.maxLength(100),
       ]))
     );
-    this.formGroup.addControl('email', new UntypedFormControl('',
+    this.formGroup.addControl('email', new FormControl('',
       Validators.compose([
         Validators.required,
         Validators.email,
       ]))
     );
-    this.formGroup.addControl('subdomain', new UntypedFormControl('',
+    this.formGroup.addControl('subdomain', new FormControl('',
       Validators.compose([
         Validators.required,
         Validators.maxLength(20),

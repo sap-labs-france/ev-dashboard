@@ -1,11 +1,11 @@
-import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
-import { TableActionDef } from '../../../types/Table';
+import { ButtonAction, ButtonActionColor } from '../../../types/GlobalType';
+import { ActionType, TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableSynchronizeAction implements TableAction {
   private action: TableActionDef = {
     id: ButtonAction.SYNCHRONIZE,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'sync',
     color: ButtonActionColor.PRIMARY,
     name: 'general.synchronize',

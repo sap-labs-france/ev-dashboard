@@ -7,7 +7,7 @@ import { CentralServerService } from '../../../../services/central-server.servic
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { TransferButtonAction } from '../../../../types/Billing';
-import { TableActionDef } from '../../../../types/Table';
+import { ActionType, TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
@@ -19,7 +19,7 @@ export interface TableSendBillingTransferDef extends TableActionDef {
 export class TableSendBillingTransferAction implements TableAction {
   private action: TableSendBillingTransferDef = {
     id: TransferButtonAction.SEND_TRANSFER,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'cloud_upload',
     color: ButtonActionColor.PRIMARY,
     name: 'transfers.tooltips.send',

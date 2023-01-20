@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
-import { SettingAuthorizationActions } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { RestResponse } from '../../../types/GlobalType';
+import { HTTPError } from '../../../types/HTTPError';
 import { OcpiSetting, RoamingSettings, RoamingSettingsType } from '../../../types/Setting';
 import { TenantComponents } from '../../../types/Tenant';
 import { Constants } from '../../../utils/Constants';
@@ -20,21 +20,16 @@ import { Utils } from '../../../utils/Utils';
 })
 export class SettingsOcpiComponent implements OnInit {
   public isActive = false;
-  public authorizations: SettingAuthorizationActions;
+  public cpoIsActive: boolean;
+  public emspIsActive: boolean;
 
-  public formGroup!: FormGroup;
-  public logoGroup!: FormGroup;
-  public cpoGroup!: FormGroup;
-  public emspGroup!: FormGroup;
-
+  public formGroup!: UntypedFormGroup;
+  public logoGroup!: UntypedFormGroup;
 
   public cpoCountryCode!: AbstractControl;
   public cpoPartyID!: AbstractControl;
-  public cpoActive: AbstractControl;
   public emspCountryCode!: AbstractControl;
   public emspPartyID!: AbstractControl;
-  public emspActive: AbstractControl;
-
   public website!: AbstractControl;
 
   public name!: AbstractControl;
@@ -79,12 +74,12 @@ export class SettingsOcpiComponent implements OnInit {
   public ngOnInit() {
     if (this.isActive) {
       // build form
-      this.formGroup = new FormGroup({
-        businessDetails: new FormGroup({
+      this.formGroup = new UntypedFormGroup({
+        businessDetails: new UntypedFormGroup({
           name: new FormControl(''),
           website: new FormControl('',
             Validators.pattern(Constants.URL_PATTERN)),
-          logo: new FormGroup({
+          logo: new UntypedFormGroup({
             url: new FormControl('',
               Validators.pattern(Constants.URL_PATTERN)),
             thumbnail: new FormControl(''),
@@ -96,66 +91,56 @@ export class SettingsOcpiComponent implements OnInit {
               Validators.pattern(/^[0-9]*$/)),
           }),
         }),
+        cpo: new UntypedFormGroup({
+          countryCode: new FormControl('',
+            Validators.compose([
+              Validators.required,
+              Validators.maxLength(2),
+              Validators.minLength(2),
+            ])),
+          partyID: new FormControl('',
+            Validators.compose([
+              Validators.required,
+              Validators.maxLength(3),
+              Validators.minLength(3),
+            ])),
+        }),
+        emsp: new UntypedFormGroup({
+          countryCode: new FormControl('',
+            Validators.compose([
+              Validators.required,
+              Validators.maxLength(2),
+              Validators.minLength(2),
+            ])),
+          partyID: new FormControl('',
+            Validators.compose([
+              Validators.required,
+              Validators.maxLength(3),
+              Validators.minLength(3),
+            ])),
+        }),
         currency: new FormControl('',
           Validators.compose([
             Validators.required,
             Validators.maxLength(3),
           ]),
         ),
-        tariffID: new FormControl('',
+        tariffID: new FormControl(null,
           Validators.compose([
             Validators.maxLength(36),
           ]),
-        ),
-        cpoActive: new FormControl(false),
-        emspActive: new FormControl(false),
+        )
       });
-
-      this.cpoGroup = new FormGroup({
-        countryCode: new FormControl('',
-          Validators.compose([
-            Validators.required,
-            Validators.maxLength(2),
-            Validators.minLength(2),
-          ])),
-        partyID: new FormControl('',
-          Validators.compose([
-            Validators.required,
-            Validators.maxLength(3),
-            Validators.minLength(3),
-          ])),
-      });
-
-      this.emspGroup = new FormGroup({
-        countryCode: new FormControl('',
-          Validators.compose([
-            Validators.required,
-            Validators.maxLength(2),
-            Validators.minLength(2),
-          ])),
-        partyID: new FormControl('',
-          Validators.compose([
-            Validators.required,
-            Validators.maxLength(3),
-            Validators.minLength(3),
-          ])),
-      });
-
-      this.formGroup.addControl('cpo', this.cpoGroup);
-      this.formGroup.addControl('emsp', this.emspGroup);
-
       // CPO identifier
-      this.cpoCountryCode = this.cpoGroup.controls['countryCode'];
-      this.cpoPartyID = this.cpoGroup.controls['partyID'];
-      this.cpoActive = this.formGroup.controls['cpoActive'];
+      this.cpoCountryCode = (this.formGroup.controls['cpo'] as UntypedFormGroup).controls['countryCode'];
+      this.cpoPartyID = (this.formGroup.controls['cpo'] as UntypedFormGroup).controls['partyID'];
       // EMSP identifier
-      this.emspCountryCode = this.emspGroup.controls['countryCode'];
-      this.emspPartyID = this.emspGroup.controls['partyID'];
-      this.emspActive =  this.formGroup.controls['emspActive'];
+      this.emspCountryCode = (this.formGroup.controls['emsp'] as UntypedFormGroup).controls['countryCode'];
+      this.emspPartyID = (this.formGroup.controls['emsp'] as UntypedFormGroup).controls['partyID'];
       // business details - image
-      this.name = (this.formGroup.controls['businessDetails'] as FormGroup).controls['name'];
-      this.website = (this.formGroup.controls['businessDetails'] as FormGroup).controls['website'];
-      this.logoGroup = ((this.formGroup.controls['businessDetails'] as FormGroup).controls['logo'] as FormGroup);
+      this.name = (this.formGroup.controls['businessDetails'] as UntypedFormGroup).controls['name'];
+      this.website = (this.formGroup.controls['businessDetails'] as UntypedFormGroup).controls['website'];
+      this.logoGroup = ((this.formGroup.controls['businessDetails'] as UntypedFormGroup).controls['logo'] as UntypedFormGroup);
       this.logoURL = this.logoGroup.controls['url'];
       this.logoThumbnail = this.logoGroup.controls['thumbnail'];
       this.logoCategory = this.logoGroup.controls['category'];
@@ -170,23 +155,23 @@ export class SettingsOcpiComponent implements OnInit {
   }
 
   public enableDisableCPO(checked: boolean) {
+    const cpoFormGroup = this.formGroup.controls['cpo'] as UntypedFormGroup;
     if (checked) {
-      this.cpoGroup.enable();
-      this.tariffID.enable();
+      cpoFormGroup.enable();
     } else {
-      this.cpoGroup.disable();
-      this.tariffID.disable();
+      cpoFormGroup.disable();
     }
-    this.cpoGroup.markAsDirty();
+    cpoFormGroup.markAsDirty();
   }
 
   public enableDisableEMSP(checked: boolean) {
+    const emspFormGroup = this.formGroup.controls['emsp'] as UntypedFormGroup;
     if (checked) {
-      this.emspGroup.enable();
+      emspFormGroup.enable();
     } else {
-      this.emspGroup.disable();
+      emspFormGroup.disable();
     }
-    this.emspGroup.markAsDirty();
+    emspFormGroup.markAsDirty();
   }
 
   public loadConfiguration() {
@@ -194,26 +179,22 @@ export class SettingsOcpiComponent implements OnInit {
     this.componentService.getOcpiSettings().subscribe({
       next: (settings) => {
         this.spinnerService.hide();
-        // Init Auth
-        this.authorizations = {
-          canUpdate: Utils.convertToBoolean(settings.canUpdate),
-        };
         // Keep
         this.ocpiSettings = settings;
         // CPO identifier
         if (settings.ocpi.cpo) {
           this.cpoCountryCode.setValue(settings.ocpi.cpo.countryCode);
           this.cpoPartyID.setValue(settings.ocpi.cpo.partyID);
-          this.cpoActive.setValue(this.cpoCountryCode.value && this.cpoPartyID.value);
+          this.cpoIsActive = this.cpoCountryCode.value && this.cpoPartyID.value;
         }
-        this.enableDisableCPO(this.cpoActive.value);
+        this.enableDisableCPO(this.cpoIsActive);
         // EMSP identifier
         if (settings.ocpi.emsp) {
           this.emspCountryCode.setValue(settings.ocpi.emsp.countryCode);
           this.emspPartyID.setValue(settings.ocpi.emsp.partyID);
-          this.emspActive.setValue(this.emspCountryCode.value &&this.emspPartyID.value);
+          this.emspIsActive = this.emspCountryCode.value &&this.emspPartyID.value;
         }
-        this.enableDisableEMSP(this.emspActive.value);
+        this.enableDisableEMSP(this.emspIsActive);
         // Currency
         this.currency.setValue(settings.ocpi.currency);
         // TariffID
@@ -234,11 +215,6 @@ export class SettingsOcpiComponent implements OnInit {
         }
         // Init form
         this.formGroup.markAsPristine();
-        // Read only
-        if(!this.authorizations.canUpdate) {
-          // Async call for letting the sub form groups to init
-          setTimeout(() => this.formGroup.disable(), 0);
-        }
       },
       error: (error) => {
         this.spinnerService.hide();

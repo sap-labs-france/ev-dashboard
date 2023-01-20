@@ -8,6 +8,7 @@ import { SettingsOicpEndpointsTableDataSource } from './settings-oicp-endpoints-
   templateUrl: 'settings-oicp-endpoints.component.html',
 })
 export class SettingsOicpEndpointsComponent {
+  public isAdmin!: boolean;
   public formGroup!: UntypedFormGroup;
   public name!: AbstractControl;
   public countryCode!: AbstractControl;

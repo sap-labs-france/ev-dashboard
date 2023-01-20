@@ -9,7 +9,7 @@ import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { ChargingStationButtonAction, OCPPGeneralResponse } from '../../../../types/ChargingStation';
 import { ActionResponse } from '../../../../types/DataResult';
-import { TableActionDef } from '../../../../types/Table';
+import { ActionType, TableActionDef } from '../../../../types/Table';
 import { Transaction } from '../../../../types/Transaction';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
@@ -24,7 +24,7 @@ export interface TableChargingStationsStopTransactionActionDef extends TableActi
 export class TableChargingStationsStopTransactionAction implements TableAction {
   private action: TableChargingStationsStopTransactionActionDef = {
     id: ChargingStationButtonAction.STOP_TRANSACTION,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'stop',
     color: ButtonActionColor.WARN,
     name: 'general.stop',

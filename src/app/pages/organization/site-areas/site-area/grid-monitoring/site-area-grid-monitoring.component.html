@@ -1,0 +1,43 @@
+<form class="form" [formGroup]="formGroup">
+  <div *ngIf="!isSmartChargingActive" class="col-12 mb-3">
+    <label class="text-danger">
+      {{"site_areas.grid_monitoring_limitation" | translate}}
+    </label>
+  </div>
+  <div class="row mb-3">
+    <div class="col-md-4 col-12 mt-2 container-info absolute-button-container">
+      <button mat-raised-button color="primary" class="col-12" [disabled]="!gridMonitoring.value" (click)="triggerGridMonitoring()">
+        <mat-icon>bolt</mat-icon>
+        <span>{{'site_areas.trigger_grid_monitoring' | translate}}</span>
+      </button>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-md d-flex align-items-center">
+      <div class="text-left">
+        <mat-slide-toggle (change)="gridMonitoringChanged()" [formControl]="gridMonitoring">
+          {{'site_areas.enable_grid_monitoring' | translate}}
+        </mat-slide-toggle>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <mat-form-field>
+        <mat-select [formControl]="gridMonitoringID" placeholder="{{'site_areas.grid_monitoring_connection' | translate}}"
+          (selectionChange)="gridMonitoringConnectionChanged()" required>
+          <mat-option *ngFor="let connection of gridMonitoringSettings?.gridMonitoring?.connections" value="{{connection.id}}">
+            {{ connection.name }} ({{ connection.description }})
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row" *ngIf="gridMonitoringConnectionSetting?.type === GridMonitoringConnectionType.ECOWATT">
+    <div class="col-md-12">
+      <app-site-area-ecowatt #siteAreaEcowattComponent [isGridMonitoringActive]="gridMonitoring.value" [formGroup]="gridMonitoringData"
+        [gridMonitoringConnectionSetting]="gridMonitoringConnectionSetting" [siteArea]="siteArea">
+      </app-site-area-ecowatt>
+    </div>
+  </div>
+</form>

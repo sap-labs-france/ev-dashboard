@@ -22,18 +22,16 @@
                 </div>
               </div>
               <div class="row pb-1">
-                <div class="col-md-6">
-                  <mat-form-field class="form-group">
-                    <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
-                    </mat-datetimepicker>
-                    <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
-                    <input [formControl]="expirationDate" matInput placeholder="{{'general.expired_on' | translate}}"
-                      [matDatetimepicker]="picker" autocomplete="false">
-                  </mat-form-field>
+                <div class="col-md-5">
+                  <app-date-time ngDefaultControl
+                    placeholder="general.expired_on"
+                    [date]="expirationDate?.value"
+                    [formControl]="expirationDate">
+                  </app-date-time>
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-8">
                   <mat-form-field class="form-group" *ngIf="isOrganizationComponentActive">
                     <input matInput type="text" readonly=true placeholder="{{'chargers.site_area' | translate}}"
                       class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteArea" [required]="metadata?.siteAreaID?.mandatory"/>

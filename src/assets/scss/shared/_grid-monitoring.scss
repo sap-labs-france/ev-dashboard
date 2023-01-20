@@ -1,0 +1,78 @@
+@import "../core/variables";
+
+.paragraph-info {
+  margin: 0 !important;
+}
+
+.grid-monitoring-container {
+  padding-left: 4.2%;
+}
+
+.container-info {
+  padding: 0 !important;
+}
+
+.point-container-input {
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.point-container-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.point-container {
+  display: flex;
+  align-items: center;
+}
+
+.unknown-point {
+  padding: 7px;
+  background-color: $brand-disabled;
+  border-radius: 50px;
+}
+
+.green-point {
+  padding: 7px;
+  background-color: $state-success-bg;
+  border-radius: 50px;
+}
+
+.orange-point {
+  padding: 7px;
+  background-color: $state-warning-bg;
+  border-radius: 50px;
+}
+
+.red-point {
+  padding: 7px;
+  background-color: $state-danger-bg;
+  border-radius: 50px;
+}
+
+.grid-monitoring-logo {
+  width: 50%;
+  height: 100%;
+}
+
+@media only screen and (min-width: 768px) {
+  .grid-monitoring-logo-container {
+    position: absolute;
+    right: 0;
+  }
+}
+
+.title {
+  margin: 0 !important
+}
+
+@media only screen and (max-width: 600px) {
+  .grid-monitoring-logo{
+    width: 100% !important;
+    height: 100% !important;
+  }
+}

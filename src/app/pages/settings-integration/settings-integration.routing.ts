@@ -9,7 +9,7 @@ export const SettingsRoutes: Routes = [
     path: '', component: SettingsIntegrationComponent, canActivate: [RouteGuardService], data: {
       auth: {
         entity: Entity.SETTING,
-        action: Action.LIST,
+        action: Action.UPDATE,
       },
     },
   },

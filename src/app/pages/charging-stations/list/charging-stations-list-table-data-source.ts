@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { WindowService } from 'services/window.service';
+import { GridForecastCellComponent } from 'shared/component/grid-monitoring/grid-forecast-cell.component';
+import { GridStatusCellComponent } from 'shared/component/grid-monitoring/grid-status-cell.component';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
@@ -24,13 +26,13 @@ import { TableExportChargingStationsAction, TableExportChargingStationsActionDef
 import { TableViewChargingStationAction, TableViewChargingStationActionDef } from '../../../shared/table/actions/charging-stations/table-view-charging-station-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
-import { TableOpenInMapsAction } from '../../../shared/table/actions/table-open-in-maps-action';
+import { TableOpenInMapsAction, TableOpenInMapsActionDef } from '../../../shared/table/actions/table-open-in-maps-action';
 import { TableOpenURLActionDef } from '../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableViewPricingDefinitionsAction, TableViewPricingDefinitionsActionDef } from '../../../shared/table/actions/table-view-pricing-definitions-action';
 import { TableNavigateToTransactionsAction } from '../../../shared/table/actions/transactions/table-navigate-to-transactions-action';
 import { CompanyTableFilter } from '../../../shared/table/filters/company-table-filter';
-import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
+import { IssuerFilter, Organizations } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
@@ -53,8 +55,9 @@ import { ChargingStationDialogComponent } from '../charging-station/charging-sta
 
 @Injectable()
 export class ChargingStationsListTableDataSource extends TableDataSource<ChargingStation> {
-  private readonly isOrganizationComponentActive: boolean;
-  private readonly isPricingComponentActive: boolean;
+  private isOrganizationComponentActive: boolean;
+  private isPricingComponentActive: boolean;
+  private isOcpiComponentActive: boolean;
   private editAction = new TableEditChargingStationAction().getActionDef();
   private viewAction = new TableViewChargingStationAction().getActionDef();
   private smartChargingAction = new TableChargingStationsSmartChargingAction().getActionDef();
@@ -85,6 +88,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     super(spinnerService, translateService);
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     this.isPricingComponentActive = this.componentService.isActive(TenantComponents.PRICING);
+    this.isOcpiComponentActive = this.componentService.isActive(TenantComponents.OCPI);
     if (this.isOrganizationComponentActive) {
       this.setStaticFilters([{
         WithSite: true,
@@ -93,6 +97,17 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       }]);
     }
     this.initDataSource();
+    // Retrieve filter from URL param
+    const searchValue = this.windowService.getUrlParameterValue('Search');
+    if (searchValue) {
+      this.setSearchValue(searchValue);
+    }
+    const issuer = this.windowService.getUrlParameterValue('Issuer');
+    if (issuer) {
+      this.issuerFilter.currentValue = [
+        Utils.convertToBoolean(issuer) ? Organizations[0] : Organizations[1]
+      ];
+    }
   }
 
   public loadDataImpl(): Observable<ChargingStationDataResult> {
@@ -171,6 +186,24 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         visible: this.isOrganizationComponentActive
       },
       {
+        id: 'siteArea.gridMonitoringData.gridMonitoringID',
+        name: 'site_areas.grid_status',
+        headerClass: 'col-10p text-center',
+        class: 'col-10p text-center',
+        isAngularComponent: true,
+        visible: this.componentService.isActive(TenantComponents.GRID_MONITORING),
+        angularComponent: GridStatusCellComponent,
+      },
+      {
+        id: 'siteArea.gridMonitoringData.gridMonitoringID',
+        name: 'site_areas.grid_forecast',
+        headerClass: 'col-10p text-center',
+        class: 'col-10p text-center',
+        isAngularComponent: true,
+        visible: this.componentService.isActive(TenantComponents.GRID_MONITORING),
+        angularComponent: GridForecastCellComponent,
+      },
+      {
         id: 'inactive',
         name: 'chargers.heartbeat_title',
         headerClass: 'text-center col-30p',
@@ -200,6 +233,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         headerClass: 'text-center col-5em',
         class: 'text-center col-5em',
         sortable: true,
+        visible: this.isOcpiComponentActive,
         formatter: (publicChargingStation: boolean) => Utils.displayYesNo(this.translateService, publicChargingStation)
       },
       {
@@ -303,7 +337,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
         break;
       case ButtonAction.OPEN_IN_MAPS:
         if (actionDef.action) {
-          actionDef.action(chargingStation.coordinates);
+          (actionDef as TableOpenInMapsActionDef).action(chargingStation.coordinates, this.windowService);
         }
         break;
       case ChargingStationButtonAction.DELETE_CHARGING_STATION:
@@ -378,9 +412,9 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     // Create filters
     const filters: TableFilterDef[] = [
       this.issuerFilter,
+      this.companyFilter,
       this.siteFilter,
       this.siteAreaFilter,
-      this.companyFilter
     ];
     return filters;
   }
@@ -428,7 +462,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
       moreActions.addActionInMoreActions(forceUnavailableStatusAction);
     }
     // Generate QR code
-    if (chargingStation.canGenerateQrCode) {
+    if (chargingStation.canDownloadQRCode) {
       moreActions.addActionInMoreActions(this.generateQrCodeConnectorAction);
     }
     if (chargingStation.canListCompletedTransactions) {

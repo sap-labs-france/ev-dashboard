@@ -8,6 +8,7 @@ export interface Tenant extends TableData {
   address: Address;
   subdomain: string;
   components?: TenantComponent;
+  features?: TenantFeature;
   logo: string;
 }
 
@@ -25,6 +26,12 @@ export interface TenantComponent {
   asset?: TenantComponentContent;
   car?: TenantComponentContent;
   carConnector?: TenantComponentContent;
+  gridMonitoring?: TenantComponentContent;
+}
+
+export interface TenantFeature {
+  chargingStationMap?: boolean;
+  userPricing?: boolean;
 }
 
 export interface TenantComponentContent {
@@ -53,4 +60,10 @@ export enum TenantComponents {
   CAR = 'car',
   CAR_CONNECTOR = 'carConnector',
   CHARGING_STATION_TEMPLATE = 'chargingStationTemplate',
+  GRID_MONITORING = 'gridMonitoring'
+}
+
+export enum TenantFeatures {
+  CHARGING_STATION_MAP = 'chargingStationMap',
+  USER_PRICING = 'userPricing',
 }

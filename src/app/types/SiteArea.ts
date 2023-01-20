@@ -15,6 +15,7 @@ export interface SiteArea extends TableData, SiteAreaAuthorizationActions {
   voltage: Voltage;
   accessControl: boolean;
   smartCharging: boolean;
+  gridMonitoring: boolean;
   siteID: string;
   site: Site;
   parentSiteArea?: SiteArea;
@@ -22,21 +23,50 @@ export interface SiteArea extends TableData, SiteAreaAuthorizationActions {
   issuer: boolean;
   chargingStations: ChargingStation[];
   tariffID?: string;
+  gridMonitoringData: GridMonitoringData;
 }
 
 export enum SiteAreaValueTypes {
-  ASSET_CONSUMPTIONS = 'AssetConsumptions',
-  ASSET_CONSUMPTION_WATTS = 'AssetConsumptionWatts',
-  ASSET_CONSUMPTION_AMPS = 'AssetConsumptionAmps',
-  ASSET_PRODUCTIONS = 'AssetProductions',
-  ASSET_PRODUCTION_WATTS = 'AssetProductionWatts',
-  ASSET_PRODUCTION_AMPS = 'AssetProductionAmps',
-  CHARGING_STATION_CONSUMPTIONS = 'ChargingStationConsumptions',
-  CHARGING_STATION_CONSUMPTION_WATTS = 'ChargingStationConsumptionWatts',
-  CHARGING_STATION_CONSUMPTION_AMPS = 'ChargingStationConsumptionAmps',
-  NET_CONSUMPTIONS = 'NetConsumptions',
-  NET_CONSUMPTION_WATTS = 'NetConsumptionWatts',
-  NET_CONSUMPTION_AMPS = 'NetConsumptionAmps',
+  ASSET_CONSUMPTIONS = 'assetConsumptions',
+  ASSET_CONSUMPTION_WATTS = 'assetConsumptionWatts',
+  ASSET_CONSUMPTION_AMPS = 'assetConsumptionAmps',
+  ASSET_PRODUCTIONS = 'assetProductions',
+  ASSET_PRODUCTION_WATTS = 'assetProductionWatts',
+  ASSET_PRODUCTION_AMPS = 'assetProductionAmps',
+  CHARGING_STATION_CONSUMPTIONS = 'chargingStationConsumptions',
+  CHARGING_STATION_CONSUMPTION_WATTS = 'chargingStationConsumptionWatts',
+  CHARGING_STATION_CONSUMPTION_AMPS = 'chargingStationConsumptionAmps',
+  NET_CONSUMPTIONS = 'netConsumptions',
+  NET_CONSUMPTION_WATTS = 'netConsumptionWatts',
+  NET_CONSUMPTION_AMPS = 'netConsumptionAmps',
+}
+
+export interface GridMonitoringData {
+  gridMonitoringID?: string;
+  type: GridMonitoringConnectionType;
+  ecowatt?: EcowattGridMonitoringData;
+}
+
+export enum GridMonitoringConnectionType {
+  ECOWATT = 'ecowatt',
+}
+
+export interface EcowattGridMonitoringData {
+  lastUpdated?: Date;
+  currentLevel?: EcowattGridMonitoringLevel;
+  forecastLevel?: EcowattGridMonitoringLevel;
+  forecastDate?: Date;
+  levelOverridden?: boolean;
+  levelGreenPercent?: number;
+  levelOrangePercent?: number;
+  levelRedPercent?: number;
+}
+
+export enum EcowattGridMonitoringLevel {
+  LEVEL_GREEN = 'green',
+  LEVEL_ORANGE = 'orange',
+  LEVEL_RED = 'red',
+  UNKNOWN = 'unknown',
 }
 
 export interface SiteAreaConsumption {

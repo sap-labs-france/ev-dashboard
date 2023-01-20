@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
@@ -15,7 +15,6 @@ import { AbstractTabComponent } from '../../../shared/component/abstract-tab/abs
 import { DialogMode } from '../../../types/Authorization';
 import { ActionResponse } from '../../../types/DataResult';
 import { RestResponse } from '../../../types/GlobalType';
-import { HTTPError } from '../../../types/HTTPError';
 import PricingDefinition, { PricingEntity } from '../../../types/Pricing';
 import { Utils } from '../../../utils/Utils';
 import { PricingDefinitionDimensionsComponent } from './dimensions/pricing-definition-dimensions.component';

@@ -3,7 +3,6 @@ import { UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
-import { SettingAuthorizationActions } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
@@ -25,8 +24,6 @@ export class SettingsRefundComponent implements OnInit {
 
   public formGroup!: UntypedFormGroup;
   public refundSettings!: RefundSettings;
-  public authorizations: SettingAuthorizationActions;
-  private tableSyncRefundAction = new TableSyncRefundTransactionsAction().getActionDef();
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -54,11 +51,6 @@ export class SettingsRefundComponent implements OnInit {
     this.componentService.getRefundSettings().subscribe({
       next: (settings) => {
         this.spinnerService.hide();
-        // Init auth
-        this.authorizations = {
-          canUpdate: Utils.convertToBoolean(settings.canUpdate),
-          canSyncRefund: Utils.convertToBoolean(settings.canSyncRefund)
-        };
         // Keep
         this.refundSettings = settings;
         // Init form
@@ -114,8 +106,9 @@ export class SettingsRefundComponent implements OnInit {
   }
 
   public synchronize() {
-    if (this.tableSyncRefundAction.action) {
-      this.tableSyncRefundAction.action(
+    const tableSyncRefundAction = new TableSyncRefundTransactionsAction().getActionDef();
+    if (tableSyncRefundAction.action) {
+      tableSyncRefundAction.action(
         this.dialogService,
         this.translateService,
         this.messageService,

@@ -2,7 +2,7 @@ import { ChargingStationButtonAction } from '../../../types/ChargingStation';
 import { ButtonAction, ButtonActionColor } from '../../../types/GlobalType';
 import { OCPIButtonAction } from '../../../types/ocpi/OCPIEndpoint';
 import { SiteButtonAction } from '../../../types/Site';
-import { TableActionDef } from '../../../types/Table';
+import { ActionType, TableActionDef } from '../../../types/Table';
 import { TransactionButtonAction } from '../../../types/Transaction';
 import { UserButtonAction } from '../../../types/User';
 import { TableAction } from './table-action';
@@ -10,7 +10,7 @@ import { TableAction } from './table-action';
 export class TableDownloadAction implements TableAction {
   private action: TableActionDef = {
     id: ButtonAction.DOWNLOAD,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'cloud_download',
     color: ButtonActionColor.PRIMARY,
     name: 'general.download',

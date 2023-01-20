@@ -1,19 +1,20 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { AccountsDialogComponent } from 'shared/dialogs/accounts/accounts-dialog.component';
+import { DialogMode } from 'types/Authorization';
 import { BillingAccount, BillingAccountData } from 'types/Billing';
 import { Utils } from 'utils/Utils';
 
 @Component({
   selector: 'app-account-billing',
   templateUrl: 'account-billing.component.html',
-  styleUrls: ['./account-billing.component.scss']
+  styleUrls: ['account-billing.component.scss']
 })
 export class AccountBillingComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
   @Input() public entity: { accountData?: BillingAccountData };
-  @Input() public readOnly: boolean;
+  @Input() public dialogMode: DialogMode;
 
   public initialized = false;
   public accountID!: AbstractControl;
@@ -21,6 +22,7 @@ export class AccountBillingComponent implements OnInit, OnChanges {
   public flatFee!: AbstractControl;
   public percentage!: AbstractControl;
   public businessOwnerName!: string;
+  public readonly DialogMode = DialogMode;
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
@@ -59,8 +61,8 @@ export class AccountBillingComponent implements OnInit, OnChanges {
         const accountData = this.entity.accountData;
         this.accountID.setValue(accountData.accountID);
         this.companyName.setValue(accountData.account.companyName);
-        this.flatFee.setValue(accountData.platformFeeStrategy.flatFeePerSession);
-        this.percentage.setValue(accountData.platformFeeStrategy.percentage);
+        this.flatFee.setValue(accountData.platformFeeStrategy?.flatFeePerSession);
+        this.percentage.setValue(accountData.platformFeeStrategy?.percentage);
         this.businessOwnerName = Utils.buildUserFullName(accountData.account.businessOwner);
       }
     }

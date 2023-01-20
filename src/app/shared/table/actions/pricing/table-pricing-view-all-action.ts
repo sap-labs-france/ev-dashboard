@@ -1,11 +1,11 @@
 import { ButtonAction } from '../../../../types/GlobalType';
-import { TableActionDef } from '../../../../types/Table';
+import { ActionType, TableActionDef } from '../../../../types/Table';
 import { TableAction } from '../table-action';
 
 export class TablePricingViewAllAction implements TableAction {
   private action: TableActionDef = {
     id: ButtonAction.VIEW_ALL,
-    type: 'slide',
+    type: ActionType.SLIDE,
     currentValue: false,
     visible: true,
     name: 'transactions.dialog.session.pricing_detail_view_all',

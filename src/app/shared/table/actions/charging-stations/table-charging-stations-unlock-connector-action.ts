@@ -10,7 +10,7 @@ import { ChargingStation, ChargingStationButtonAction, Connector } from 'types/C
 import { ActionResponse } from 'types/DataResult';
 import { ButtonAction, ButtonActionColor } from 'types/GlobalType';
 import { OCPPUnlockStatus } from 'types/ocpp/OCPP';
-import { TableActionDef } from 'types/Table';
+import { ActionType, TableActionDef } from 'types/Table';
 import { Utils } from 'utils/Utils';
 
 export interface TableChargingStationsUnlockConnectorActionDef extends TableActionDef {
@@ -23,7 +23,7 @@ export interface TableChargingStationsUnlockConnectorActionDef extends TableActi
 export class TableChargingStationsUnlockConnectorAction implements TableAction {
   private action: TableChargingStationsUnlockConnectorActionDef = {
     id: ChargingStationButtonAction.UNLOCK_CONNECTOR,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'lock_open',
     color: ButtonActionColor.ACCENT,
     name: 'general.unlock',

@@ -1,11 +1,11 @@
 import { ComponentType } from '@angular/cdk/portal';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { ChargingStationsAuthorizations, DialogParamsWithAuth } from 'types/Authorization';
 import { ButtonAction, ButtonActionColor } from 'types/GlobalType';
-import { StartTransaction, StartTransactionDialogData } from 'types/Transaction';
+import { StartTransaction } from 'types/Transaction';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { DialogService } from '../../../../services/dialog.service';
@@ -13,7 +13,7 @@ import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { ChargePointStatus, ChargingStation, ChargingStationButtonAction, Connector, OCPPGeneralResponse } from '../../../../types/ChargingStation';
 import { ActionResponse } from '../../../../types/DataResult';
-import { TableActionDef } from '../../../../types/Table';
+import { ActionType, TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
@@ -27,7 +27,7 @@ export interface TableChargingStationsStartTransactionActionDef extends TableAct
 export class TableChargingStationsStartTransactionAction implements TableAction {
   private action: TableChargingStationsStartTransactionActionDef = {
     id: ChargingStationButtonAction.START_TRANSACTION,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'play_arrow',
     color: ButtonActionColor.ACCENT,
     name: 'general.start',
@@ -67,12 +67,8 @@ export class TableChargingStationsStartTransactionAction implements TableAction 
     dialogConfig.minWidth = '40vw';
     dialogConfig.panelClass = '';
     // Build dialog data
-    const dialogData: DialogParamsWithAuth<StartTransactionDialogData, ChargingStationsAuthorizations> = {
-      dialogData: {
-        id: chargingStation.id,
-        chargingStation,
-        connector,
-      },
+    const dialogData: DialogParamsWithAuth<ChargingStation, ChargingStationsAuthorizations> = {
+      dialogData: chargingStation,
     };
     dialogConfig.data = dialogData;
     // Show

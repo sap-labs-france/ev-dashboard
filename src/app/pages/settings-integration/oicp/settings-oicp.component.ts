@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
 
@@ -8,6 +8,7 @@ import { ComponentService } from '../../../services/component.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { RestResponse } from '../../../types/GlobalType';
+import { HTTPError } from '../../../types/HTTPError';
 import { OicpSetting, RoamingSettings, RoamingSettingsType } from '../../../types/Setting';
 import { TenantComponents } from '../../../types/Tenant';
 import { Constants } from '../../../utils/Constants';
@@ -74,60 +75,60 @@ export class SettingsOicpComponent implements OnInit {
       // build form
       this.formGroup = new UntypedFormGroup({
         businessDetails: new UntypedFormGroup({
-          name: new UntypedFormControl(''),
-          website: new UntypedFormControl('',
+          name: new FormControl(''),
+          website: new FormControl('',
             Validators.pattern(Constants.URL_PATTERN)),
           logo: new UntypedFormGroup({
-            url: new UntypedFormControl('',
+            url: new FormControl('',
               Validators.pattern(Constants.URL_PATTERN)),
-            thumbnail: new UntypedFormControl(''),
-            category: new UntypedFormControl(''),
-            type: new UntypedFormControl(''),
-            width: new UntypedFormControl(undefined,
+            thumbnail: new FormControl(''),
+            category: new FormControl(''),
+            type: new FormControl(''),
+            width: new FormControl(undefined,
               Validators.pattern(/^[0-9]*$/)),
-            height: new UntypedFormControl(undefined,
+            height: new FormControl(undefined,
               Validators.pattern(/^[0-9]*$/)),
           }),
         }),
         cpo: new UntypedFormGroup({
-          countryCode: new UntypedFormControl('',
+          countryCode: new FormControl('',
             Validators.compose([
               Validators.required,
               Validators.maxLength(2),
               Validators.minLength(2),
             ])),
-          partyID: new UntypedFormControl('',
+          partyID: new FormControl('',
             Validators.compose([
               Validators.required,
               Validators.maxLength(3),
               Validators.minLength(3),
             ])),
-          key: new UntypedFormControl('',
+          key: new FormControl('',
             Validators.compose([
               Validators.required,
               Validators.minLength(2),
             ])),
-          cert: new UntypedFormControl('',
+          cert: new FormControl('',
             Validators.compose([
               Validators.required,
               Validators.minLength(3),
             ])),
         }),
         emsp: new UntypedFormGroup({
-          countryCode: new UntypedFormControl('',
+          countryCode: new FormControl('',
             Validators.compose([
               Validators.required,
               Validators.maxLength(2),
               Validators.minLength(2),
             ])),
-          partyID: new UntypedFormControl('',
+          partyID: new FormControl('',
             Validators.compose([
               Validators.required,
               Validators.maxLength(3),
               Validators.minLength(3),
             ])),
         }),
-        currency: new UntypedFormControl('',
+        currency: new FormControl('',
           Validators.compose([
             Validators.required,
             Validators.maxLength(3),

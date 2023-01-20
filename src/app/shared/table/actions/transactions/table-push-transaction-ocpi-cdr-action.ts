@@ -9,7 +9,7 @@ import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { ActionsResponse } from '../../../../types/DataResult';
 import { HTTPError } from '../../../../types/HTTPError';
-import { TableActionDef } from '../../../../types/Table';
+import { ActionType, TableActionDef } from '../../../../types/Table';
 import { Transaction, TransactionButtonAction } from '../../../../types/Transaction';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
@@ -23,7 +23,7 @@ export interface TablePushTransactionOcpiCdrActionDef extends TableActionDef {
 export class TablePushTransactionOcpiCdrAction implements TableAction {
   private action: TablePushTransactionOcpiCdrActionDef = {
     id: TransactionButtonAction.PUSH_TRANSACTION_CDR,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'cloud_upload',
     color: ButtonActionColor.PRIMARY,
     name: 'general.tooltips.push_cdr',

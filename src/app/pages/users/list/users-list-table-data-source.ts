@@ -1,8 +1,17 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { AuthorizationService } from 'services/authorization.service';
+import { FeatureService } from 'services/feature.service';
+import { ImportDialogComponent } from 'shared/dialogs/import/import-dialog.component';
+import { PricingDefinitionsDialogComponent } from 'shared/pricing-definitions/pricing-definitions.dialog.component';
+import { TableViewPricingDefinitionsAction, TableViewPricingDefinitionsActionDef } from 'shared/table/actions/table-view-pricing-definitions-action';
+import { TableImportUsersAction, TableImportUsersActionDef } from 'shared/table/actions/users/table-import-users-action';
+import { UsersAuthorizations } from 'types/Authorization';
+import { PricingButtonAction, PricingEntity } from 'types/Pricing';
+import { TagButtonAction } from 'types/Tag';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
@@ -10,7 +19,6 @@ import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { WindowService } from '../../../services/window.service';
-import { ImportDialogComponent } from '../../../shared/dialogs/import/import-dialog.component';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
@@ -25,16 +33,13 @@ import { TableDeleteUserAction, TableDeleteUserActionDef } from '../../../shared
 import { TableEditUserAction, TableEditUserActionDef } from '../../../shared/table/actions/users/table-edit-user-action';
 import { TableExportUsersAction, TableExportUsersActionDef } from '../../../shared/table/actions/users/table-export-users-action';
 import { TableForceSyncBillingUserAction } from '../../../shared/table/actions/users/table-force-sync-billing-user-action';
-import { TableImportUsersAction, TableImportUsersActionDef } from '../../../shared/table/actions/users/table-import-users-action';
-import { IssuerFilter, organizations } from '../../../shared/table/filters/issuer-filter';
+import { IssuerFilter, Organizations } from '../../../shared/table/filters/issuer-filter';
 import { SiteTableFilter } from '../../../shared/table/filters/site-table-filter';
 import { TagTableFilter } from '../../../shared/table/filters/tag-table-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { UsersAuthorizations } from '../../../types/Authorization';
 import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import { TagButtonAction } from '../../../types/Tag';
-import { TenantComponents } from '../../../types/Tenant';
+import { TenantComponents, TenantFeatures } from '../../../types/Tenant';
 import { TransactionButtonAction } from '../../../types/Transaction';
 import { User, UserButtonAction } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
@@ -49,6 +54,7 @@ import { UserDialogComponent } from '../user/user-dialog.component';
 
 @Injectable()
 export class UsersListTableDataSource extends TableDataSource<User> {
+  private readonly isPricingComponentActive: boolean;
   private editAction = new TableEditUserAction().getActionDef();
   private assignSitesToUser = new TableAssignSitesToUserAction().getActionDef();
   private deleteAction = new TableDeleteUserAction().getActionDef();
@@ -66,6 +72,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   private siteFilter: TableFilterDef;
   private userTechnicalFilter: TableFilterDef;
   private userFreeAccessFilter: TableFilterDef;
+  private maintainPricingDefinitionsAction = new TableViewPricingDefinitionsAction().getActionDef();
   private usersAuthorizations: UsersAuthorizations;
 
   public constructor(
@@ -76,12 +83,18 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     private router: Router,
     private dialog: MatDialog,
     private centralServerService: CentralServerService,
+    private authorizationService: AuthorizationService,
     private componentService: ComponentService,
+    private featureService: FeatureService,
     private appUserRolePipe: AppUserRolePipe,
     private datePipe: AppDatePipe,
     private windowService: WindowService) {
     super(spinnerService, translateService);
     // Init
+    this.isPricingComponentActive = this.componentService.isActive(TenantComponents.PRICING);
+    if (this.authorizationService.hasSitesAdminRights()) {
+      this.setStaticFilters([{ SiteID: this.authorizationService.getSitesAdmin().join('|') }]);
+    }
     this.initDataSource();
     this.initFilters();
   }
@@ -103,7 +116,7 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     if (issuer) {
       const issuerTableFilter = this.tableFiltersDef.find(filter => filter.id === 'issuer');
       if (issuerTableFilter) {
-        issuerTableFilter.currentValue = [organizations.find(organisation => organisation.key === issuer)];
+        issuerTableFilter.currentValue = [Organizations.find(organisation => organisation.key === issuer)];
         this.filterChanged(issuerTableFilter);
       }
     }
@@ -112,28 +125,30 @@ export class UsersListTableDataSource extends TableDataSource<User> {
   public loadDataImpl(): Observable<DataResult<User>> {
     return new Observable((observer) => {
       // Get the Tenants
-      this.centralServerService.getUsers(this.buildFilterValues(),
-        this.getPaging(), this.getSorting()).subscribe((users) => {
-        // Initialize authorization actions
-        this.usersAuthorizations = {
-          // Authorization action
-          canCreate: Utils.convertToBoolean(users.canCreate),
-          canImport: Utils.convertToBoolean(users.canImport),
-          canExport: Utils.convertToBoolean(users.canExport),
-          // Metadata
-          metadata: users.metadata
-        };
-        this.createAction.visible = this.usersAuthorizations.canCreate;
-        this.importAction.visible = this.usersAuthorizations.canImport;
-        this.exportAction.visible = this.usersAuthorizations.canExport;
-        this.tagFilter.visible = Utils.convertToBoolean(users.canListTags);
-        this.siteFilter.visible = Utils.convertToBoolean(users.canListSites) && this.componentService.isActive(TenantComponents.ORGANIZATION);
-        this.userFreeAccessFilter.visible = this.componentService.isActive(TenantComponents.BILLING);
-        observer.next(users);
-        observer.complete();
-      }, (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        observer.error(error);
+      this.centralServerService.getUsers(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
+        next: (users) => {
+          // Initialize authorization actions
+          this.usersAuthorizations = {
+            // Authorization action
+            canCreate: Utils.convertToBoolean(users.canCreate),
+            canImport: Utils.convertToBoolean(users.canImport),
+            canExport: Utils.convertToBoolean(users.canExport),
+            // Metadata
+            metadata: users.metadata
+          };
+          this.createAction.visible = this.usersAuthorizations.canCreate;
+          this.importAction.visible = this.usersAuthorizations.canImport;
+          this.exportAction.visible = this.usersAuthorizations.canExport;
+          this.tagFilter.visible = Utils.convertToBoolean(users.canListTags);
+          this.siteFilter.visible = Utils.convertToBoolean(users.canListSites) && this.componentService.isActive(TenantComponents.ORGANIZATION);
+          this.userFreeAccessFilter.visible = this.componentService.isActive(TenantComponents.BILLING);
+          observer.next(users);
+          observer.complete();
+        },
+        error: (error) => {
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          observer.error(error);
+        }
       });
     });
   }
@@ -301,6 +316,10 @@ export class UsersListTableDataSource extends TableDataSource<User> {
     if (user.canDelete) {
       moreActions.addActionInMoreActions(this.deleteAction);
     }
+    if (this.isPricingComponentActive && user.canMaintainPricingDefinitions &&
+        this.featureService.isActive(TenantFeatures.USER_PRICING)) {
+      rowActions.push(this.maintainPricingDefinitionsAction);
+    }
     if (!Utils.isEmptyArray(moreActions.getActionsInMoreActions())) {
       rowActions.push(moreActions.getActionDef());
     }
@@ -375,6 +394,20 @@ export class UsersListTableDataSource extends TableDataSource<User> {
       case TransactionButtonAction.NAVIGATE_TO_TRANSACTIONS:
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action('transactions#history?UserID=' + user.id + '&Issuer=' + user.issuer, this.windowService);
+        }
+        break;
+      case PricingButtonAction.VIEW_PRICING_DEFINITIONS:
+        if (actionDef.action) {
+          (actionDef as TableViewPricingDefinitionsActionDef).action(PricingDefinitionsDialogComponent, this.dialog, {
+            dialogData: {
+              id: null,
+              context: {
+                entityID: user.id,
+                entityType: PricingEntity.USER,
+                entityName: user.id
+              }
+            },
+          }, this.refreshData.bind(this));
         }
         break;
     }

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { DialogMode, DialogParams, DialogParamsWithAuth, SiteAreasAuthorizations } from 'types/Authorization';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { DialogMode, DialogParamsWithAuth, SiteAreasAuthorizations } from 'types/Authorization';
 import { SiteArea } from 'types/SiteArea';
 
 import { Utils } from '../../../../utils/Utils';

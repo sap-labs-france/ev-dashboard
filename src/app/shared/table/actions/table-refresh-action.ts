@@ -1,11 +1,11 @@
-import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
-import { TableActionDef } from '../../../types/Table';
+import { ButtonAction, ButtonActionColor } from '../../../types/GlobalType';
+import { ActionType, TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableRefreshAction implements TableAction {
   private action: TableActionDef = {
     id: ButtonAction.REFRESH,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'refresh',
     color: ButtonActionColor.PRIMARY,
     name: 'general.refresh',

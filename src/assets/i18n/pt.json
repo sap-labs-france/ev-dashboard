@@ -1,6 +1,11 @@
 {
   "general": {
+    "unknown": "Unknown",
+    "url_copied": "The link has been copied with success",
+    "show_filters": "Show Filters",
+    "reset": "Reset",
     "generate": "Generate",
+    "history": "History",
     "captcha_text_1": "Este site esta protegido com reCAPTCHA e Google",
     "captcha_text_2": "Politica Privada",
     "captcha_text_3": " e ",
@@ -28,7 +33,7 @@
     "connectors": "Conexões",
     "notifications": "Notificações",
     "general": "Main",
-    "app_name": "Open e-Mobility",
+    "app_name": "Charge Angels",
     "version": "Versão",
     "about_us": "Sobre Nós",
     "unexpected_error_backend": "Ocurreu um erro inesperado",
@@ -37,6 +42,8 @@
     "no_record_found": "Não foram encontrados registos",
     "no_image_found": "No images have been found",
     "no_connector_available": "Conexão não disponível",
+    "error_number_out_of_range": "Number out of range",
+    "error_percent_out_of_range": "Invalid percentage, must be between 0 and 100",
     "error_max_length": "O tamanho máximo é {{length}}",
     "error_min_length": "O tamanho mínimo é {{length}}",
     "error_max_value": "O valor maximo é {{value}}",
@@ -72,8 +79,9 @@
     "create": "Criar",
     "update": "Atualizar",
     "refresh": "Refresh",
-    "generate_qr": "Generate QR code",
-    "display_qr": "Display QR code",
+    "generate_qr": "Generate QR Code",
+    "display_qr": "Display QR Code",
+    "download_qr": "Download QR Code",
     "save": "Gravar",
     "delete": "Eliminar",
     "export": "Exportar",
@@ -118,6 +126,7 @@
     "search_date_from": "De",
     "search_date_until": "Para",
     "search_date_range": "Datas",
+    "search_date": "Date",
     "search_charging_station": "Estação de Carregamento",
     "search_user": "Utilizador",
     "search_site": "Site",
@@ -182,6 +191,7 @@
       "tenants": "Organizações",
       "pricing": "Preços",
       "components": "Componentes",
+      "features": "Features",
       "settings": "Configurações",
       "integration_settings": "Integration Settings",
       "technical_settings": "Technical Settings",
@@ -191,13 +201,37 @@
       "cars": "Carros",
       "invoices": "Faturas",
       "tags": "Badges",
-      "charging_station_templates": "Charging Station Templates"
+      "charging_station_templates": "Templates"
+    },
+    "components": {
+      "date_time": {
+        "up_second_label": "Add a second",
+        "down_second_label": "Minus a second",
+        "up_minute_label": "Add a minute",
+        "down_minute_label": "Minus a minute",
+        "up_hour_label": "Add a hour",
+        "down_hour_label": "Minus a hour",
+        "prev_month_label": "Previous month",
+        "next_month_label": "Next month",
+        "prev_year_label": "Previous year",
+        "next_year_label": "Next year",
+        "prev_multi_year_label": "Previous 21 years",
+        "next_multi_year_label": "Next 21 years",
+        "switch_to_month_view_label": "Change to month view",
+        "switch_to_multi_year_view_label": "Choose month and year",
+        "cancel_btn_label": "Cancel",
+        "set_btn_label": "Set",
+        "range_from_label": "From",
+        "range_to_label": "To",
+        "hour_12_am_label": "AM",
+        "hour_12_pm_label": "PM"
+      }
     },
     "tooltips": {
       "push_cdr": "Buscar CDR",
       "activate": "Ativo",
       "deactivate": "Inativo",
-      "export": "Exportar parametros OCPP",
+      "export": "Exportar",
       "assign_site_area": "Adicionar site",
       "more": "Mais acções",
       "smart_charging": "Carregamento Inteligente",
@@ -207,6 +241,7 @@
       "more_actions": "Mais acções",
       "add": "Adicionar",
       "auto_refresh": "Atualização automática",
+      "reset_filters": "Reset Filters",
       "create": "Criar",
       "delete": "Apagar",
       "edit": "Editar",
@@ -445,10 +480,22 @@
     "private_limitation": "Some features are not available when the site is private"
   },
   "site_areas": {
+    "grid_monitoring": "Grid Monitoring",
+    "grid_monitoring_connection": "Connection",
+    "grid_status": "Grid Status",
+    "grid_forecast": "Grid Forecast",
+    "edit_ecowatt_level": "Override the default levels",
+    "ecowatt_title_info": "Ecowatt Runtime Data",
+    "site_area_power": "Site Area Power",
+    "current_level": "Current Level",
+    "forecast_level": "Forecast Level",
+    "forecast_date": "Forecast Date",
+    "last_updated_on": "Last Updated on",
+    "jump_to_ecowatt": "Jump to Ecowatt",
     "limits": "Limits",
     "assign_site": "Atribuir Site",
     "smart_charging": "Carregamento Inteligente",
-    "export_all_ocpp_params": "Exportar todos os parametros OCPP",
+    "export_all_ocpp_params": "Exportar parametros OCPP",
     "edit_assets": "Editar contas",
     "display_assets": "Mostrar Contas",
     "no_site_areas": "Não foi encontrado nenhum site",
@@ -456,6 +503,14 @@
     "show_all_chargers": "Mostrar todas as estações de carga",
     "enable_access_control": "Habilitar o Controlo de Acesso (o utilizador deve-se autenticar com o badge)",
     "enable_smart_charging": "Habilitar o carregamento Inteligente",
+    "trigger_grid_monitoring_title": "Trigger Grid Monitoring",
+    "trigger_grid_monitoring_confirm": "Do you really want to Trigger Grid Monitoring?",
+    "trigger_grid_monitoring": "Trigger Grid Monitoring",
+    "trigger_grid_monitoring_success": "The latest alert levels have been successfully recovered",
+    "trigger_grid_monitoring_error": "An error occurred while retrieving the latest alert levels, check the logs",
+    "trigger_grid_monitoring_error_too_many_requests": "The maximum number of calls to the service has been exceeded. Please try again later on",
+    "enable_grid_monitoring": "Enable Grid Monitoring",
+    "grid_monitoring_limitation": "Enable smart charging if you want to use the grid monitoring feature",
     "access_control": "Controlo de acessos",
     "charger_list_source_title": "Disponível",
     "charger_list_target_title": "Atibuido",
@@ -553,7 +608,7 @@
     "eula": "Acordo de licenciamento unico",
     "must_accept_eula": "Você deve aceitar o licneciamento unico",
     "no_space_in_password": "Nenhum espaço é permitido no início e no final",
-    "title": "Faça login no Open e-Mobility",
+    "title": "Faça login no Charge Angels",
     "register": "Registar",
     "signup_link": "Novo utilizador? Registar!",
     "signin_link": "Você ja tem uma conta? Faça Login!",
@@ -757,7 +812,8 @@
     "public_url": "URL Publico",
     "current_ip": "Rota de IP corrente",
     "select_chargers": "Selecionar estações de carga",
-    "serial_number": "Numero de Série",
+    "cp_serial_number": "CP Serial Number",
+    "cs_serial_number": "CS Serial Number",
     "last_reboot": "Ultimo Reboot",
     "capabilities": "Capacidades",
     "ocpp_standard_params": "Parametros Standard OCPP",
@@ -818,7 +874,7 @@
     "status_firmware_installationfailed": "Falha na instalação",
     "status_firmware_downloaded": "Download efetuado",
     "status_firmware_installed": "Instalado",
-    "reboot_title": "Reiniciar estação de carregamento",
+    "reboot_title": "Reboot",
     "soft_reset_title": "Reiniciar estação de carregamento",
     "charger_id_not_found": "A estção de carregamento ID '{{chargerID}}' não foi encontrada",
     "no_transaction_found": "Não foram encontradas sessões na estação '{{chargerID}}'",
@@ -872,7 +928,7 @@
       "static_limit": "Limitação Estática",
       "charging_profile_limit": "Plano de Carregamentos",
       "debug_charging_station": "Avançado",
-      "debug_charging_station_title": "Recupere o plano de carregamento da estação de carregamento '{{chargeBoxID}}'",
+      "debug_charging_station_title": "Recupere o plano de carregamento da '{{chargeBoxID}}'",
       "reset_button": "Redefinir",
       "maximum_energy_limit": "Limite de potência de '{{chargeBoxID}}'",
       "invalid_min_duration": "A duração minima é {{minDuration}} min",
@@ -1003,8 +1059,6 @@
     "reboot_error": "Ocorreu um erro ao reiniciar a estação de carregamento",
     "retrieve_configuration_title": "Obter configuração",
     "retrieve_configuration_confirm": "Você realmente deseja recuperar a configuração da estação de carregamento '{{chargeBoxID}}'?",
-    "reboot_required_title": "Reinicialização necessária",
-    "reboot_required_confirm": "Você quer reiniciar a estação de carregamento '{{chargeBoxID}}'?",
     "ocpp_params_list_error": "Nenhum parâmetro OCPP para exibir",
     "ocpp_params_update_from_template_title": "Atualizar parâmetros OCPP",
     "ocpp_params_update_from_template_confirm": "Você realmente deseja atualizar os parâmetros OCPP da estação de carregamento '{{chargeBoxID}}' com o último modelo?",
@@ -1093,8 +1147,8 @@
     "unsaved_confirmed": "Você quer gravar as mudanças?",
     "changes_cancelled": "Mudanças canceladas",
     "unsaved_changes": "Você quer gravar as mudancas. Gravar ou Cancelar.",
-    "button_retrieve_configuration": "OCPP Retrieve Configuration",
-    "button_force_ocpp_params_update_from_template": "Update OCPP Configuration from Template",
+    "button_retrieve_configuration": "Retrieve OCPP Params (charger)",
+    "button_force_ocpp_params_update_from_template": "Update OCPP Params (template)",
     "created_on": "Criar Data",
     "start_transaction_details_title": "Start session on charging station '{{chargeBoxID}}'",
     "start_transaction": "Start session",
@@ -1108,9 +1162,17 @@
     "qr_code_generation_error": "Error occurred while generating QR code",
     "tabs": {
       "list": "Estações de Carregamento",
+      "map": "Map",
       "charging_plans": "Planos de Carregamento",
       "in_error": "Em Erro",
       "connection": "Onboard New Station"
+    },
+    "map": {
+      "reset_zoom": "Reset Zoom",
+      "marker_dialog_text": "What do you want to do with the Charging Station '{{chargingStationID}}'?",
+      "copy_map_url": "Copy Map Url",
+      "copy_map_url_to_clipboard": "Copy Google Map link in the clipboard",
+      "navigate_to_charging_station": "Navigate to Charging Station"
     },
     "errors": {
       "missing_settings": {
@@ -1162,8 +1224,7 @@
       "registration_token_error": "Error occurred while retrieving the token, check the logs",
       "token_restrict_site_area": "Acesso retrito a Area de Site",
       "url": "OCPP URL",
-      "copy_url_tooltip": "Copiar OCPP URL",
-      "url_copied": "O URL OCPP foi copiado para sua área de transferência",
+      "copy_url_to_clipboard": "Copy OCPP link",
       "generate_connection_url": "Conecte uma estação de carregamento",
       "ocpp_15_soap": "OCPP 1.5 SOAP",
       "ocpp_16_json": "OCPP 1.6 JSON",
@@ -1228,7 +1289,7 @@
       "billing": "Billing"
     },
     "security": "Security",
-    "import_users": "Import users",
+    "import_users": "Import",
     "import_users_message": "The import will discard all other previously uploaded users not yet imported in the database, do you want to continue?",
     "import_users_message_auto_activate": "The import will discard all other previously uploaded users not yet imported in the database and users will be automatically activated, do you want to continue?",
     "import_users_auto_activation": "Automatically activate new users",
@@ -1236,10 +1297,24 @@
     "import_users_partial": "{{inSuccess}} users have been uploaded successfully and will be processed asynchronously and {{inError}} failed, check the logs",
     "import_users_error": "{{inError}} users failed to be uploaded",
     "import_no_users": "No user have been uploaded",
+    "delete_account_title": "Delete Account",
+    "delete_account_description": [
+      "Your account will be deleted with all your personal data which will be unrecoverable.",
+      "All of your activities and histories will also be unrecoverable.",
+      "In the case you'd have on-going invoices, you will have to pay all of them before deleting your account.",
+      "Once your account will have been deleted, you will be disconnected from the application."
+    ],
+    "delete_account_button": "I Understand and I want to Delete my Account",
+    "delete_account_confirm": [
+      "Do you really want to delete your account?",
+      "ALL YOUR PERSONAL DATA WILL BE LOST AND UNRECOVERABLE!!!"
+    ],
+    "delete_account_success": "Your account has been deleted successfully",
+    "delete_account_error": "Error occurred while deleting your account, please contact an administrator",
     "access_mode": "Access Mode",
     "allow_free_access": "Free access to all charging stations",
-    "user_with_freeAccess": "Free access",
-    "user_without_freeAccess": "Paying access",
+    "user_with_free_access": "Free access",
+    "user_without_free_access": "Paying access",
     "number_of_sites": "Nb Sites",
     "number_of_transactions": "Nb Sessões",
     "eula_accepted_on": "EULA Aceite em",
@@ -1442,6 +1517,13 @@
   },
   "tags": {
     "id": "Tag ID",
+    "limits": "Limits",
+    "limits_history": "Limits History",
+    "limit_consumed": "Consumed",
+    "limits_energy": "Limit Energy",
+    "limits_enabled": "Limit Enabled",
+    "limits_kwh": "Limit (kWh)",
+    "limits_consumed_kwh": "Consumed (kWh)",
     "not_active": "This badge is not active",
     "issuer": "Dono da Organização",
     "visual_id": "Visual Tag ID",
@@ -1486,7 +1568,7 @@
     "delete_tags_error": "{{inError}} badges failed to be deleted, check the logs",
     "delete_tags_unexpected_error": "Unexpected error occurred while deleting the badges, check the logs",
     "delete_no_tag": "No badge has been deleted",
-    "import_tags": "Import Badges",
+    "import_tags": "Import",
     "import_tags_message": "The import will discard all other previously uploaded badges not yet imported in the database, do you want to continue?",
     "import_tags_message_auto_activate": "The import will discard all other previously uploaded badges not yet imported in the database, do you want to continue?",
     "import_tags_success": "{{inSuccess}} badges have been uploaded successfully and will be processed asynchronously",
@@ -1520,10 +1602,23 @@
     "save_error_smart_charging": "A organização deve estar ativa para usar o Carregamento Inteligente",
     "save_error_asset": "A organização deve estar ativa para usar o ativo",
     "save_error_car_connector": "Car Management must be active to use Car Connector",
+    "save_error_grid_monitoring": "Smart Charging must be active to use the Grid Monitoring component",
     "smart_charging_still_active_for_site_area": [
       "O Carregamento inteligente Charging ainda está ativo para determinadas áreas do site.",
       " Desative o Carregamento Inteligente para cada área do site no locatário."
     ],
+    "feature": {
+      "charging_station": {
+        "feature_name": "Charging Station",
+        "feature_map_name": "Map",
+        "feature_map_description": "Map with aggregated Charging Stations"
+      },
+      "user": {
+        "feature_name": "User",
+        "feature_pricing_name": "Pricing",
+        "feature_pricing_description": "Pricing per User"
+      }
+    },
     "logo_size_error": "O limite de tamanho do logotipo foi excedido, o limite está abaixo de {{maxPictureKb}} Kb"
   },
   "accounts": {
@@ -1550,8 +1645,8 @@
     },
     "onboarding": {
       "onboard_action": "Send the onboarding email to the business owner",
-      "onboarding_title": "Open e-Mobility - Account Onboarding",
-      "onboarding_message": "You have been invited to onboard your company as an account connected to the Open e-Mobility platform.",
+      "onboarding_title": "Charge Angels - Account Onboarding",
+      "onboarding_message": "You have been invited to onboard your company as an account connected to the Charge Angels platform.",
       "onboarding_message_to_proceed": "Click the link below to complete the onboarding process.",
       "onboarding_congratulations": "Congratulations",
       "onboarding_process_completed": "The onboarding of your account has been completed.",
@@ -1579,7 +1674,8 @@
       "analytics": "Analises",
       "smart_charging": "Carregamento Inteligente",
       "asset": "Ativos",
-      "car_connector": "Car Connector"
+      "car_connector": "Car Connector",
+      "grid_monitoring": "Grid Monitoring"
     },
     "ocpi": {
       "gireve": {
@@ -1647,6 +1743,38 @@
         "revoke_error": "Ocorreu um erro ao revogar sua conexão com o Concur"
       }
     },
+    "grid_monitoring": {
+      "connection": {
+        "title": "Grid Monitoring",
+        "name": "Name",
+        "description": "Description",
+        "type": "Type",
+        "authentication_url": "Authentication Url",
+        "normalConsumption": "Normal Consumption (% Site Area Power)",
+        "electricSystemTense": "Electric System Tense (% Site Area Power)",
+        "electricSystemVeryTense": "Electric System Very Tense (% Site Area Power)",
+        "api_url": "API Url",
+        "client_id":"Client ID",
+        "client_secret":"Client Secret",
+        "delete_title": "Delete Connector",
+        "delete_confirm": "Do you really want to delete the connector '{{gridMonitoringConnectionName}}'?"
+      },
+      "types": {
+        "ecowatt": "Ecowatt"
+      },
+      "description": [
+        "E-Mobility provides a service to retrieve the state of the electrical network.",
+        "This feature allows, depending on the demand of the electrical network (high or low demand), to modulate the power of the charging stations through the smart charging."
+      ],
+      "setting_do_not_exist": "Configuration has not been found",
+      "setting_not_found": "Grid monitoring settings have not been found",
+      "create_success": "Grid monitoring settings have been created successfully",
+      "create_error": "Error occurred while creating the Grid monitoring settings, check the logs",
+      "update_success": "Grid monitoring settings have been updated successfully",
+      "update_error": "Error occurred while updating the Grid monitoring settings, check the logs",
+      "connection_success": "Connection to the grid monitoring service was tested successfully",
+      "connection_error": "Cannot connect to the grid monitoring service, check your credentials"
+    },
     "pricing": {
       "title": "Pricing",
       "description": "A interface de preços permite recursos de preços para fornecedores de estações de carregamento.",
@@ -1656,7 +1784,7 @@
       "update_success": "As configurações de preços foram atualizadas com sucesso",
       "update_error": "Ocorreu um erro ao atualizar as configurações de preços",
       "simple_pricing_title": "Built-in Pricing Module",
-      "full_description": "Open E-Mobility provides a pricing module which allows a flexible definition of your company's pricing strategy.",
+      "full_description": "Charge Angels provides a pricing module which allows a flexible definition of your company's pricing strategy.",
       "pricing_currency_changed_title": "Modification of the currency",
       "pricing_currency_changed_confirm": [
         "You are about to change the currency. This will force you to reconnect after saving.",
@@ -2367,6 +2495,10 @@
       "url": "URL"
     }
   },
+  "grid_monitoring": {
+    "title": "Grid Monitoring",
+    "description": "Monitor the state of the electrical network"
+  },
   "smart_charging": {
     "title": "Carregamento Inteligente",
     "type_placeholder": "Tipo",
@@ -2508,6 +2640,7 @@
     },
     "graph": {
       "battery": "Bateria (%)",
+      "gridMonitoring": "Grid Monitoring (%)",
       "power": "Rede de energia (kW)",
       "power_l1": "Rede de energia L1 (kW)",
       "power_l2": "Rede de energia L2 (kW)",
@@ -2538,7 +2671,7 @@
       "limit": "Limite",
       "limit_watts": "Limite de Potência (kW)",
       "limit_amps": "Limite de Potência (A)",
-      "load_all_consumptions": "Mostra a resolução completa do gráfico",
+      "load_all_consumptions": "Mostra a resolução completa",
       "unit_kilowatts": "kW",
       "unit_amperage": "Amp"
     },
@@ -2682,6 +2815,7 @@
     },
     "invalid_json": "Invalid JSON format",
     "template_not_found": "Template has not been found",
+    "template_invalid": "The template is invalid, check the logs",
     "create_success": "The template '{{template}}' has been created successfully",
     "create_error": "Error occurred while creating the template, check the logs",
     "update_success": "The template '{{template}}' has been updated successfully",

@@ -10,7 +10,7 @@ import { CentralServerService } from '../../../../services/central-server.servic
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
-import { TableActionDef } from '../../../../types/Table';
+import { ActionType, TableActionDef } from '../../../../types/Table';
 import { TableAction } from '../table-action';
 
 export interface TableUnassignTagsActionDef extends TableActionDef {
@@ -24,7 +24,7 @@ export class TableUnassignTagsAction implements TableAction {
     return {
       id: TagButtonAction.UNASSIGN_TAGS,
       action: this.unassignTags,
-      type: 'button',
+      type: ActionType.BUTTON,
       icon: 'delete',
       color: ButtonActionColor.WARN,
       name: 'general.delete',

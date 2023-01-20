@@ -13,16 +13,16 @@
 </div>
 <div *ngIf="isActive" class="h-100">
   <form class="form h-100" [formGroup]="formGroup">
-    <div class="mat-toolbar-row mat-toolbar-settings">
+    <div class="mat-toolbar-row mat-toolbar-settings row m-0 p-0">
       <button mat-raised-button color="warn" (click)="save(formGroup.value)"
-          [disabled]="!formGroup.valid || !formGroup.dirty"
-          [hidden]="!authorizations || !authorizations.canUpdate">
+          class="col-md-auto mb-2"
+          [disabled]="!formGroup.valid || !formGroup.dirty">
         <mat-icon>save</mat-icon>
         <span>{{'general.save' | translate}}</span>
       </button>
     </div>
     <!-- Settings -->
-    <app-settings-sac *ngIf="analyticsSettings?.sac" [analyticsSettings]="analyticsSettings" [formGroup]="formGroup" [authorizations]="authorizations"></app-settings-sac>
+    <app-settings-sac *ngIf="analyticsSettings?.sac" [analyticsSettings]="analyticsSettings" [formGroup]="formGroup"></app-settings-sac>
     <!-- Links -->
     <div class="card analytics-settings-links">
       <div class="card-header card-header-icon card-header-primary">

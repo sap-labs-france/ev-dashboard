@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
@@ -36,10 +36,10 @@ export class CarComponent extends AbstractTabComponent implements OnInit {
   @ViewChild('carMainComponent') public carMainComponent!: CarMainComponent;
   @ViewChild('carConnectorComponent') public carConnectorComponent!: CarConnectorComponent;
 
+  public readonly DialogMode = DialogMode;
   public formGroup!: UntypedFormGroup;
   public isCarConnectorComponentActive: boolean;
   public canListUsers: boolean;
-  public readOnly = true;
   public car: Car;
 
   public constructor(
@@ -60,7 +60,6 @@ export class CarComponent extends AbstractTabComponent implements OnInit {
     // Init the form
     this.formGroup = new UntypedFormGroup({});
     // Handle Dialog mode
-    this.readOnly = this.dialogMode === DialogMode.VIEW;
     this.canListUsers = Utils.convertToBoolean(this.carsAuthorizations.canListUsers);
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
     // Load Car
@@ -79,7 +78,7 @@ export class CarComponent extends AbstractTabComponent implements OnInit {
         next: (car: Car) => {
           this.spinnerService.hide();
           this.car = car;
-          if (this.readOnly) {
+          if (this.dialogMode === DialogMode.VIEW) {
             // Async call for letting the sub form groups to init
             setTimeout(() => this.formGroup.disable(), 0);
           }

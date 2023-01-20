@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { AbstractControl, FormControl, UntypedFormGroup } from '@angular/forms';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SetupIntent, StripeCardCvcElement, StripeCardExpiryElement, StripeCardNumberElement, StripeElements, StripeError } from '@stripe/stripe-js';
@@ -65,7 +65,7 @@ export class StripePaymentMethodComponent implements OnInit {
     void this.initialize();
     this.userID = this.dialogRef.componentInstance.userID;
     this.formGroup = new UntypedFormGroup({
-      acceptConditions: new UntypedFormControl()
+      acceptConditions: new FormControl()
     });
     this.acceptConditions = this.formGroup.controls['acceptConditions'];
   }

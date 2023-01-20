@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
+import { UntypedFormArray, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
-import { SettingAuthorizationActions } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
@@ -22,9 +21,9 @@ import { SettingsCarConnectorConnectionEditableTableDataSource } from './setting
 })
 export class SettingsCarConnectorComponent implements OnInit {
   public isActive = false;
-  public authorizations: SettingAuthorizationActions;
-  public formGroup!: FormGroup;
-  public carConnectors!: FormArray;
+
+  public formGroup!: UntypedFormGroup;
+  public carConnectors!: UntypedFormArray;
 
   public carConnectorSettings!: CarConnectorSettings;
 
@@ -41,11 +40,11 @@ export class SettingsCarConnectorComponent implements OnInit {
   public ngOnInit(): void {
     if (this.isActive) {
       // Build the form
-      this.formGroup = new FormGroup({
-        carConnectors: new FormArray([]),
+      this.formGroup = new UntypedFormGroup({
+        carConnectors: new UntypedFormArray([]),
       });
       // Form Controls
-      this.carConnectors = this.formGroup.controls['carConnectors'] as FormArray;
+      this.carConnectors = this.formGroup.controls['carConnectors'] as UntypedFormArray;
       // Assign connections form to data source
       this.settingsCarConnectorConnectionTableDataSource.setFormArray(this.carConnectors);
       // Load the conf
@@ -58,14 +57,8 @@ export class SettingsCarConnectorComponent implements OnInit {
     this.componentService.getCarConnectorSettings().subscribe({
       next: (settings) => {
         this.spinnerService.hide();
-        // Init Auth
-        this.authorizations = {
-          canUpdate: Utils.convertToBoolean(settings.canUpdate),
-        };
         // Keep
         this.carConnectorSettings = settings;
-        // Set Auth
-        this.settingsCarConnectorConnectionTableDataSource.setAuthorizations(this.authorizations);
         // Set
         this.settingsCarConnectorConnectionTableDataSource.setContent(this.carConnectorSettings.carConnector.connections);
         // Init form

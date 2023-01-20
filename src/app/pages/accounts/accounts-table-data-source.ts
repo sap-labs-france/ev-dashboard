@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { CentralServerService } from 'services/central-server.service';
@@ -147,13 +147,13 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
 
   public loadDataImpl(): Observable<DataResult<BillingAccount>> {
     return new Observable((observer) => {
+      this.createAction.visible = true;
       this.componentService.getBillingAccounts(
         this.getPaging(),
         this.getSorting()
       ).subscribe({
         next: (accounts) => {
-          this.createAction.visible = Utils.convertToBoolean(accounts.canCreate);
-          this.accounts = accounts.result;
+          this.accounts = accounts;
           observer.next({
             count: this.accounts.length,
             result: this.accounts,

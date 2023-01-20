@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { WindowService } from 'services/window.service';
-import { TableSiteAreaGenerateQrCodeConnectorAction, TableSiteAreaGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/site-areas/table-site-area-generate-qr-code-connector-action';
+import { GridForecastCellComponent } from 'shared/component/grid-monitoring/grid-forecast-cell.component';
+import { GridStatusCellComponent } from 'shared/component/grid-monitoring/grid-status-cell.component';
+import { TableSiteAreaDownloadQrCodeAction, TableSiteAreaDownloadQrCodeActionActionDef } from 'shared/table/actions/site-areas/table-site-area-download-qr-code-action';
 import { SiteAreasAuthorizations } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -25,7 +27,7 @@ import { TableViewChargingStationsOfSiteAreaAction, TableViewChargingStationsOfS
 import { TableViewSiteAreaAction, TableViewSiteAreaActionDef } from '../../../../shared/table/actions/site-areas/table-view-site-area-action';
 import { TableAutoRefreshAction } from '../../../../shared/table/actions/table-auto-refresh-action';
 import { TableMoreAction } from '../../../../shared/table/actions/table-more-action';
-import { TableOpenInMapsAction } from '../../../../shared/table/actions/table-open-in-maps-action';
+import { TableOpenInMapsAction, TableOpenInMapsActionDef } from '../../../../shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import { SiteTableFilter } from '../../../../shared/table/filters/site-table-filter';
@@ -54,7 +56,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   private viewChargingStationsOfSiteArea = new TableViewChargingStationsOfSiteAreaAction().getActionDef();
   private viewAssetsOfSiteArea = new TableViewAssignedAssetsOfSiteAreaAction().getActionDef();
   private exportOCPPParamsAction = new TableExportOCPPParamsAction().getActionDef();
-  private siteAreaGenerateQrCodeConnectorAction = new TableSiteAreaGenerateQrCodeConnectorAction().getActionDef();
+  private siteAreaDownloadQrCodeAction = new TableSiteAreaDownloadQrCodeAction().getActionDef();
   private createAction = new TableCreateSiteAreaAction().getActionDef();
   private siteAreasAuthorizations: SiteAreasAuthorizations;
 
@@ -120,7 +122,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       },
       rowDetails: {
         enabled: true,
-        showDetailsField: 'issuer',
+        showDetailsField: 'canReadConsumption',
         angularComponent: SiteAreaConsumptionChartDetailComponent,
         additionalParameters: this.siteAreasAuthorizations
       },
@@ -145,6 +147,24 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         sorted: true,
         direction: 'asc',
         sortable: true,
+      },
+      {
+        id: 'gridMonitoringData.gridMonitoringID',
+        name: 'site_areas.grid_status',
+        headerClass: 'col-10p text-center',
+        class: 'col-10p text-center',
+        isAngularComponent: true,
+        visible: this.componentService.isActive(TenantComponents.GRID_MONITORING),
+        angularComponent: GridStatusCellComponent,
+      },
+      {
+        id: 'gridMonitoringData.gridMonitoringID',
+        name: 'site_areas.grid_forecast',
+        headerClass: 'col-10p text-center',
+        class: 'col-10p text-center',
+        isAngularComponent: true,
+        visible: this.componentService.isActive(TenantComponents.GRID_MONITORING),
+        angularComponent: GridForecastCellComponent,
       },
       {
         id: 'maximumPower',
@@ -263,8 +283,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     if (siteArea.canExportOCPPParams) {
       moreActions.addActionInMoreActions(this.exportOCPPParamsAction);
     }
-    if (siteArea.canGenerateQrCode) {
-      moreActions.addActionInMoreActions(this.siteAreaGenerateQrCodeConnectorAction);
+    if (siteArea.canDownloadQrCode) {
+      moreActions.addActionInMoreActions(this.siteAreaDownloadQrCodeAction);
     }
     if (siteArea.canAssignChargingStations || siteArea.canUnassignChargingStations) {
       rowActions.push(this.assignChargingStationsToSiteAreaAction);
@@ -328,7 +348,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
         break;
       case ButtonAction.OPEN_IN_MAPS:
         if (actionDef.action) {
-          actionDef.action(siteArea.address.coordinates);
+          (actionDef as TableOpenInMapsActionDef).action(siteArea.address.coordinates, this.windowService);
         }
         break;
       case ChargingStationButtonAction.EXPORT_OCPP_PARAMS:
@@ -352,9 +372,9 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
             this.refreshData.bind(this));
         }
         break;
-      case ChargingStationButtonAction.GENERATE_QR_CODE:
+      case ChargingStationButtonAction.DOWNLOAD_QR_CODE:
         if (actionDef.action) {
-          (actionDef as TableSiteAreaGenerateQrCodeConnectorsActionDef).action(
+          (actionDef as TableSiteAreaDownloadQrCodeActionActionDef).action(
             siteArea, this.translateService, this.spinnerService,
             this.messageService, this.centralServerService, this.router
           );

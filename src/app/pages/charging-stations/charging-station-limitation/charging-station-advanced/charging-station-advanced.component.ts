@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ChargingStationsAuthorizations } from 'types/Authorization';
@@ -45,11 +45,11 @@ export class ChargingStationAdvancedComponent implements OnInit {
 
     // Init the form
     this.formGroup = new UntypedFormGroup({
-      connectorControl: new UntypedFormControl(this.translateService.instant('chargers.smart_charging.connectors_all'),
+      connectorControl: new FormControl(this.translateService.instant('chargers.smart_charging.connectors_all'),
         Validators.compose([
           Validators.required,
         ])),
-      durationControl: new UntypedFormControl(600,
+      durationControl: new FormControl(600,
         Validators.compose([
           Validators.required,
         ])),

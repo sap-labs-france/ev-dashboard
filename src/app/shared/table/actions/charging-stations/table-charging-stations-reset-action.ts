@@ -9,7 +9,7 @@ import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { ChargingStation, ChargingStationButtonAction, OCPPGeneralResponse } from '../../../../types/ChargingStation';
 import { ActionResponse } from '../../../../types/DataResult';
-import { TableActionDef } from '../../../../types/Table';
+import { ActionType, TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
@@ -22,7 +22,7 @@ export interface TableChargingStationsResetActionDef extends TableActionDef {
 export class TableChargingStationsResetAction implements TableAction {
   private action: TableChargingStationsResetActionDef = {
     id: ChargingStationButtonAction.SOFT_RESET,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'refresh',
     color: ButtonActionColor.PRIMARY,
     name: 'chargers.soft_reset_action',

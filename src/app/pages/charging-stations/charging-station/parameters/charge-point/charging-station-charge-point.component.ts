@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormArray, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { ChargePoint, ChargingStation, CurrentType, Voltage } from '../../../../../types/ChargingStation';
 
@@ -39,54 +39,54 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
   public ngOnInit() {
     // Init charge point
     this.formChargePointGroup = new UntypedFormGroup({
-      chargePointID: new UntypedFormControl(this.chargePoint.chargePointID),
-      ocppParamForPowerLimitation: new UntypedFormControl(this.chargePoint.ocppParamForPowerLimitation),
-      currentType: new UntypedFormControl(CurrentType.AC,
+      chargePointID: new FormControl(this.chargePoint.chargePointID),
+      ocppParamForPowerLimitation: new FormControl(this.chargePoint.ocppParamForPowerLimitation),
+      currentType: new FormControl(CurrentType.AC,
         Validators.compose([
         ])
       ),
-      voltage: new UntypedFormControl(Voltage.VOLTAGE_230,
-        Validators.compose([
-          Validators.min(1),
-          Validators.pattern('^[+]?[0-9]*$'),
-        ])
-      ),
-      amperage: new UntypedFormControl(0,
+      voltage: new FormControl(Voltage.VOLTAGE_230,
         Validators.compose([
           Validators.min(1),
           Validators.pattern('^[+]?[0-9]*$'),
         ])
       ),
-      numberOfConnectedPhase: new UntypedFormControl(3,
+      amperage: new FormControl(0,
+        Validators.compose([
+          Validators.min(1),
+          Validators.pattern('^[+]?[0-9]*$'),
+        ])
+      ),
+      numberOfConnectedPhase: new FormControl(3,
         Validators.compose([
           Validators.required,
         ])
       ),
-      cannotChargeInParallel: new UntypedFormControl(false,
+      cannotChargeInParallel: new FormControl(false,
         Validators.compose([
         ])
       ),
-      sharePowerToAllConnectors: new UntypedFormControl(false,
+      sharePowerToAllConnectors: new FormControl(false,
         Validators.compose([
         ])
       ),
-      excludeFromPowerLimitation: new UntypedFormControl(false,
+      excludeFromPowerLimitation: new FormControl(false,
         Validators.compose([
         ])
       ),
-      power: new UntypedFormControl(0,
+      power: new FormControl(0,
         Validators.compose([
           Validators.min(1),
           Validators.pattern('^[+]?[0-9]*$'),
         ])
       ),
-      efficiency: new UntypedFormControl(0,
+      efficiency: new FormControl(0,
         Validators.compose([
           Validators.max(100),
           Validators.pattern('^[+]?[0-9]*$'),
         ])
       ),
-      connectorIDs: new UntypedFormControl([]),
+      connectorIDs: new FormControl([]),
     });
     // Add to form array
     this.formChargePointsArray.push(this.formChargePointGroup);

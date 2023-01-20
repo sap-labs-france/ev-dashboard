@@ -7,17 +7,17 @@ import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { WindowService } from '../../../services/window.service';
 import { InvoicesComponent } from '../invoices.component';
-import { InvoicesTableDataSource } from './invoices-table-data-source';
+import { InvoicesListTableDataSource } from './invoices-list-table-data-source';
 
 @Component({
   selector: 'app-invoices-list',
   template: '<app-table [dataSource]="invoicesListTableDataSource"></app-table>',
-  providers: [InvoicesTableDataSource, InvoicesComponent],
+  providers: [InvoicesListTableDataSource, InvoicesComponent],
 })
 export class InvoicesListComponent implements OnInit {
   // eslint-disable-next-line no-useless-constructor
   public constructor(
-    public invoicesListTableDataSource: InvoicesTableDataSource,
+    public invoicesListTableDataSource: InvoicesListTableDataSource,
     public activatedRoute: ActivatedRoute,
     public centralServerService: CentralServerService,
     public spinnerService: SpinnerService,

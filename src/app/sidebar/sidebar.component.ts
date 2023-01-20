@@ -68,18 +68,13 @@ export class SidebarComponent {
   }
 
   public logout() {
-    // Logoff
     this.centralServerService.logout().subscribe({
       next: () => {
-        // Clear
         this.centralServerService.clearLoginInformation();
-        // Redirect to login page with the return url
         void this.router.navigate(['/auth/login']);
       },
       error: (error) => {
-        // Clear
         this.centralServerService.clearLoginInformation();
-        // Redirect to login page with the return url
         void this.router.navigate(['/auth/login']);
       }
     });

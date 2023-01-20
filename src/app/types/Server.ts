@@ -2,15 +2,15 @@
 export enum ServerAction {
   UNKNOWN_ACTION = 'Unknown',
 
-  SAP_CONCUR_REQUEST = 'SapConcurRequest',
-  RECAPTCHA_REQUEST = 'RecaptchaRequest',
-  GREENCOM_REQUEST = 'GreencomRequest',
-  STRIPE_REQUEST = 'StripeRequest',
-  IOTHINK_REQUEST = 'IOThinkRequest',
-  LACROIX_REQUEST = 'LacroixRequest',
-  EV_DATABASE_REQUEST = 'EVDatabaseRequest',
-  WIT_REQUEST = 'WitRequest',
-  SAP_SMART_CHARGING_REQUEST = 'SapSmartChargingRequest',
+  SAP_CONCUR_REQUEST = 'SapConcur',
+  RECAPTCHA_REQUEST = 'Recaptcha',
+  GREENCOM_REQUEST = 'Greencom',
+  STRIPE_REQUEST = 'Stripe',
+  IOTHINK_REQUEST = 'IOThink',
+  LACROIX_REQUEST = 'Lacroix',
+  EV_DATABASE_REQUEST = 'EVDatabase',
+  WIT_REQUEST = 'Wit',
+  SAP_SMART_CHARGING_REQUEST = 'SapSmartCharging',
 
   DEPRECATED_REST_ENDPOINT = 'DeprecatedRestEndpoint',
   LOGIN = 'Login',
@@ -39,7 +39,8 @@ export enum ServerAction {
 
   CHARGING_STATION_REQUEST_OCPP_PARAMETERS = 'ChargingStationRequestOcppParameters',
   CHARGING_STATION_CLIENT_INITIALIZATION = 'ChargingStationClientInitialization',
-  CHARGING_STATION_DOWNLOAD_QR_CODE_PDF = 'ChargingStationDownloadQrCodePdf',
+  CHARGING_STATION_DOWNLOAD_QR_CODE = 'ChargingStationDownloadQrCode',
+  CHARGING_STATION_GENERATE_QR_CODE = 'ChargingStationGenerateQrCode',
   CHARGING_STATIONS_EXPORT = 'ChargingStationsExport',
   CHARGING_STATIONS_OCPP_PARAMS_EXPORT = 'ChargingStationsOcppParamsExport',
   CHARGING_STATION = 'ChargingStation',
@@ -59,6 +60,12 @@ export enum ServerAction {
   REGISTRATION_TOKEN_DELETE = 'RegistrationTokenDelete',
   REGISTRATION_TOKEN_REVOKE = 'RegistrationTokenRevoke',
   REGISTRATION_TOKEN_UPDATE = 'RegistrationTokenUpdate',
+
+  CHARGING_STATION_TEMPLATE = 'ChargingStationTemplate',
+  CHARGING_STATION_TEMPLATES = 'ChargingStationTemplates',
+  CHARGING_STATION_TEMPLATE_DELETE = 'ChargingStationTemplateDelete',
+  CHARGING_STATION_TEMPLATE_UPDATE = 'ChargingStationTemplateUpdate',
+  CHARGING_STATION_TEMPLATE_CREATE = 'ChargingStationTemplateCreate',
 
   BOOT_NOTIFICATIONS = 'BootNotifications',
   STATUS_NOTIFICATIONS = 'StatusNotifications',
@@ -94,7 +101,6 @@ export enum ServerAction {
   CHARGING_PROFILE_DELETE = 'ChargingProfileDelete',
   CHARGING_PROFILE_UPDATE = 'ChargingProfileUpdate',
   CHARGING_PROFILE_CREATE = 'ChargingProfileCreate',
-  GENERATE_QR_CODE_FOR_CONNECTOR = 'GenerateQrCodeForConnector',
   OCPP_PARAM_UPDATE = 'OcppParamUpdate',
   RESEND_VERIFICATION_MAIL = 'ResendVerificationEmail',
   END_USER_LICENSE_AGREEMENT = 'EndUserLicenseAgreement',
@@ -264,15 +270,19 @@ export enum ServerAction {
   WS_SERVER_MESSAGE = 'WsServerMessage',
   WS_SERVER_CONNECTION = 'WsServerConnection',
   WS_SERVER_CONNECTION_PING = 'WsServerConnectionPing',
+  WS_SERVER_CONNECTION_LAST_SEEN = 'WsServerConnectionLastSeen',
   WS_SERVER_CONNECTION_CLOSE = 'WsServerConnectionClose',
   WS_SERVER_CONNECTION_OPEN = 'WsServerConnectionOpen',
   WS_SERVER_CONNECTION_ERROR = 'WsServerConnectionError',
+  WS_SERVER_CONNECTION_BACK_PRESSURE = 'WsServerConnectionBackPressure',
 
   WS_CLIENT_ERROR = 'WsClientError',
   WS_CLIENT_MESSAGE = 'WsClientMessage',
   WS_CLIENT_CONNECTION = 'WsClientConnection',
-  WS_CLIENT_CONNECTION_CLOSE = 'WsClientConnectionClose',
   WS_CLIENT_CONNECTION_OPEN = 'WsClientConnectionOpen',
+  WS_CLIENT_CONNECTION_PING = 'WsClientConnectionPing',
+  WS_CLIENT_CONNECTION_PONG = 'WsClientConnectionPong',
+  WS_CLIENT_CONNECTION_CLOSE = 'WsClientConnectionClose',
   WS_CLIENT_CONNECTION_ERROR = 'WsClientConnectionError',
 
   NOTIFICATION = 'Notification',
@@ -359,8 +369,11 @@ export enum ServerAction {
   TENANTS = 'Tenants',
   TENANT = 'Tenant',
   TENANT_UPDATE = 'TenantUpdate',
+  TENANT_UPDATE_DATA = 'TenantUpdateData',
   TENANT_DELETE = 'TenantDelete',
   TENANT_LOGO = 'TenantLogo',
+  TENANT_GENERATE_QR_CODE = 'TenantGenerateQrCode',
+  TENANT_DOWNLOAD_QR_CODE = 'TenantDownloadQrCode',
 
   COMPANY_CREATE = 'CompanyCreate',
   COMPANIES = 'Companies',
@@ -410,7 +423,6 @@ export enum ServerAction {
   USER_CREATE = 'UserCreate',
   USER_DELETE = 'UserDelete',
   USER_UPDATE = 'UserUpdate',
-  USER_UPDATE_MOBILE_TOKEN = 'UpdateUserMobileToken',
   USER_UPDATE_MOBILE_DATA = 'UpdateUserMobileData',
   USERS = 'Users',
   USER_SITES = 'UserSites',
@@ -446,6 +458,7 @@ export enum ServerAction {
   BILLING_INVOICE = 'BillingInvoice',
   BILLING_PERFORM_OPERATIONS = 'BillingPeriodicOperations',
   BILLING_DOWNLOAD_INVOICE = 'BillingDownloadInvoice',
+  BILLING_DOWNLOAD_TRANSFER = 'BillingDownloadTransfer',
   BILLING_NEW_INVOICE = 'BillingNewInvoice',
   BILLING_SETUP_PAYMENT_METHOD = 'BillingSetupPaymentMethod',
   BILLING_PAYMENT_METHODS = 'BillingPaymentMethods',
@@ -480,6 +493,12 @@ export enum ServerAction {
   COMPUTE_AND_APPLY_CHARGING_PROFILES_FAILED = 'ComputeAndApplyChargingProfilesFailed',
   SMART_CHARGING = 'SmartCharging',
 
+  GRID_MONITORING = 'GridMonitoring',
+  ECOWATT_GRID_MONITORING = 'EcowattGridMonitoring',
+  GRID_MONITORING_UPDATE_SITE_AREAS = 'GridMonitoringUpdateSiteAreas',
+  TRIGGER_GRID_MONITORING = 'TriggerGridMonitoring',
+  CHECK_GRID_MONITORING_CONNECTION = 'CheckGridMonitoringConnection',
+
   INSTANTIATE_DUMMY_MODULE = 'InstantiateDummyModule',
 
   HTTP_REQUEST = 'HttpRequest',
@@ -497,8 +516,12 @@ export enum RESTServerRoute {
   REST_PASSWORD_RESET = 'password/reset',
   REST_END_USER_LICENSE_AGREEMENT = 'eula',
   REST_END_USER_LICENSE_AGREEMENT_CHECK = 'eula/check',
+  REST_END_USER_LICENSE_AGREEMENT_HTML = 'eula/html',
   REST_MAIL_CHECK = 'mail/check',
   REST_MAIL_RESEND = 'mail/resend',
+
+  REST_CHARGING_STATION_TEMPLATES = 'charging-station-templates',
+  REST_CHARGING_STATION_TEMPLATE = 'charging-station-templates/:id',
 
   REST_CHARGING_STATIONS = 'charging-stations',
   REST_CHARGING_STATION = 'charging-stations/:id',
@@ -519,8 +542,8 @@ export enum RESTServerRoute {
   REST_CHARGING_STATIONS_CANCEL_RESERVATION = 'charging-stations/:id/reservation/cancel',
 
   REST_CHARGING_STATIONS_DOWNLOAD_FIRMWARE = 'charging-stations/firmware/download',
-  REST_CHARGING_STATIONS_QRCODE_GENERATE = 'charging-stations/:id/connectors/:connectorId/qrcode/generate',
-  REST_CHARGING_STATIONS_QRCODE_DOWNLOAD = 'charging-stations/qrcode/download',
+  REST_CHARGING_STATIONS_QR_CODE_GENERATE = 'charging-stations/:id/connectors/:connectorId/qrcode/generate',
+  REST_CHARGING_STATIONS_QR_CODE_DOWNLOAD = 'charging-stations/qrcode/download',
 
   REST_CHARGING_STATION_GET_OCPP_PARAMETERS = 'charging-stations/:id/ocpp/parameters',
   REST_CHARGING_STATIONS_REQUEST_OCPP_PARAMETERS = 'charging-stations/ocpp/parameters',
@@ -534,14 +557,8 @@ export enum RESTServerRoute {
   REST_CHARGING_STATIONS_BOOT_NOTIFICATIONS = 'charging-stations/notifications/boot',
   REST_CHARGING_STATIONS_STATUS_NOTIFICATIONS = 'charging-stations/notifications/status',
 
-  REST_CHARGING_STATION_CHECK_SMART_CHARGING_CONNECTION = 'charging-stations/smartcharging/connection/check',
-  REST_CHARGING_STATION_TRIGGER_SMART_CHARGING = 'charging-stations/smartcharging/trigger',
-
   REST_CHARGING_PROFILES = 'charging-profiles',
   REST_CHARGING_PROFILE = 'charging-profiles/:id',
-
-  REST_CHARGING_STATION_TEMPLATES = 'charging-station-templates',
-  REST_CHARGING_STATION_TEMPLATE = 'charging-station-templates/:id',
 
   REST_TRANSACTIONS = 'transactions',
   REST_TRANSACTIONS_IN_ERROR = 'transactions/status/in-error',
@@ -552,6 +569,7 @@ export enum RESTServerRoute {
   REST_TRANSACTION_CDR = 'transactions/:id/ocpi/cdr',
   REST_TRANSACTION_CDR_EXPORT = 'transactions/:id/ocpi/cdr/export',
   REST_TRANSACTION_CONSUMPTIONS = 'transactions/:id/consumptions',
+  REST_TRANSACTION_CONSUMPTIONS_FOR_ADVENIR = 'transactions/:id/consumptions-for-advenir',
   REST_TRANSACTION_START = 'transactions/start',
   REST_TRANSACTION_STOP = 'transactions/:id/stop',
   REST_TRANSACTION_SOFT_STOP = 'transactions/:id/soft-stop',
@@ -563,7 +581,7 @@ export enum RESTServerRoute {
 
   REST_USERS = 'users',
   REST_USER = 'users/:id',
-  REST_USER_SESSION_CONTEXT= 'users/:id/session-context',
+  REST_USER_DEFAULT_TAG_CAR = 'users/:id/default-car-tag',
   REST_USER_SITES = 'users/:id/sites',
   REST_USER_UPDATE_MOBILE_TOKEN = 'users/:id/mobile-token',
   REST_USER_UPDATE_MOBILE_DATA = 'users/:id/mobile-data',
@@ -603,6 +621,9 @@ export enum RESTServerRoute {
   REST_TENANT = 'tenants/:id',
   REST_TENANT_DATA = 'tenants/:id/data',
   REST_TENANT_LOGO = 'tenants/logo',
+  REST_TENANT_QR_CODE_GENERATE = 'tenants/:id/qrcode/generate',
+  REST_TENANT_QR_CODE_DOWNLOAD = 'tenants/:id/qrcode/download',
+  REST_TENANT_EMAIL_LOGO = 'tenants/email-logo',
 
   REST_COMPANIES = 'companies',
   REST_COMPANY = 'companies/:id',
@@ -645,6 +666,8 @@ export enum RESTServerRoute {
 
   REST_SETTINGS = 'settings',
   REST_SETTING = 'settings/:id',
+  REST_SETTINGS_CHECK_GRID_MONITORING_CONNECTION = 'settings/grid-monitoring/connection/check',
+  REST_SETTINGS_CHECK_SMART_CHARGING_CONNECTION = 'settings/smart-charging/connection/check',
 
   REST_REGISTRATION_TOKENS = 'registration-tokens',
   REST_REGISTRATION_TOKEN = 'registration-tokens/:id',
@@ -658,6 +681,8 @@ export enum RESTServerRoute {
   REST_SITE_AREA_REMOVE_CHARGING_STATIONS = 'site-areas/:id/charging-stations/unassign',
   REST_SITE_AREA_ASSIGN_ASSETS = 'site-areas/:id/assets/assign',
   REST_SITE_AREA_REMOVE_ASSETS = 'site-areas/:id/assets/unassign',
+  REST_SITE_AREA_TRIGGER_SMART_CHARGING = 'site-areas/smart-charging/trigger',
+  REST_SITE_AREA_TRIGGER_GRID_MONITORING = 'site-areas/grid-monitoring/trigger',
 
   REST_SITES = 'sites',
   REST_SITE = 'sites/:id',
@@ -709,15 +734,15 @@ export enum RESTServerRoute {
   // BILLING URLs for Non-CRUD operations on INVOICES
   REST_BILLING_DOWNLOAD_INVOICE = 'invoices/:invoiceID/download',
 
-  // PRICING URLs for CRUD operations
-  REST_PRICING_DEFINITIONS = 'pricing-definitions',
-  REST_PRICING_DEFINITION = 'pricing-definitions/:id',
-
-  // Billing Transfers
   REST_BILLING_TRANSFERS = 'billing/transfers',
+  REST_BILLING_TRANSFER = 'billing/transfers/:id',
   REST_BILLING_TRANSFER_FINALIZE = 'billing/transfers/:id/finalize',
   REST_BILLING_TRANSFER_SEND = 'billing/transfers/:id/send',
   REST_BILLING_TRANSFER_DOWNLOAD_INVOICE = 'billing/transfers/:id/invoice/download',
+
+  // PRICING URLs for CRUD operations
+  REST_PRICING_DEFINITIONS = 'pricing-definitions',
+  REST_PRICING_DEFINITION = 'pricing-definitions/:id',
 
   // PRICING URLs for Non-CRUD operations
   REST_PRICING_MODEL_RESOLVE = 'pricing-model/resolve',

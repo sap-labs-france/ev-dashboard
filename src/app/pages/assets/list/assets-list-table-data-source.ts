@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { WindowService } from 'services/window.service';
 import { SiteAreaTableFilter } from 'shared/table/filters/site-area-table-filter';
 import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
 import { AssetsAuthorizations } from 'types/Authorization';
@@ -18,7 +19,7 @@ import { TableRetrieveAssetConsumptionAction, TableRetrieveAssetConsumptionActio
 import { TableViewAssetAction, TableViewAssetActionDef } from '../../../shared/table/actions/assets/table-view-asset-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
-import { TableOpenInMapsAction } from '../../../shared/table/actions/table-open-in-maps-action';
+import { TableOpenInMapsAction, TableOpenInMapsActionDef } from '../../../shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { TableDataSource } from '../../../shared/table/table-data-source';
@@ -26,7 +27,6 @@ import { Asset, AssetButtonAction, AssetType } from '../../../types/Asset';
 import { AssetDataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
-import { Constants } from '../../../utils/Constants';
 import { Utils } from '../../../utils/Utils';
 import { AssetDialogComponent } from '../asset/asset-dialog.component';
 import { AssetConsumptionCellComponent } from '../cell-components/asset-consumption-cell.component';
@@ -49,6 +49,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     public translateService: TranslateService,
     private messageService: MessageService,
     private dialogService: DialogService,
+    private windowService: WindowService,
     private router: Router,
     private dialog: MatDialog,
     private centralServerService: CentralServerService,
@@ -263,7 +264,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         break;
       case ButtonAction.OPEN_IN_MAPS:
         if (actionDef.action) {
-          actionDef.action(asset.coordinates);
+          (actionDef as TableOpenInMapsActionDef).action(asset.coordinates, this.windowService);
         }
         break;
     }

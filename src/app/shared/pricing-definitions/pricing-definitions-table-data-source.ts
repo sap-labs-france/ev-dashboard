@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { TablePricingViewAllAction } from 'shared/table/actions/pricing/table-pricing-view-all-action';
-import { TableViewAction } from 'shared/table/actions/table-view-action';
-import { TableViewPricingDefinitionsActionDef } from 'shared/table/actions/table-view-pricing-definitions-action';
-import { DialogMode, SettingAuthorizationActions } from 'types/Authorization';
 import { ButtonAction } from 'types/GlobalType';
 
 import { CentralServerService } from '../../services/central-server.service';
@@ -31,13 +28,10 @@ import { PricingDefinitionDialogComponent } from './pricing-definition/pricing-d
 @Injectable()
 export class PricingDefinitionsTableDataSource extends DialogTableDataSource<PricingDefinition> {
   private viewingAllComponents = false;
-  private authorizations: SettingAuthorizationActions;
   private viewAllAction = new TablePricingViewAllAction(this.viewingAllComponents).getActionDef();
   private createAction = new TableCreatePricingDefinitionAction().getActionDef();
   private editAction = new TableEditPricingDefinitionAction().getActionDef();
   private deleteAction = new TableDeletePricingDefinitionAction().getActionDef();
-  private viewAction = new TableViewAction().getActionDef();
-
   private defaultContext = {
     entityID: null,
     entityType: null,
@@ -64,12 +58,8 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
     this.initDataSource();
   }
 
-  public setAuthorizations(authorizations: SettingAuthorizationActions) {
-    this.authorizations = authorizations;
-  }
-
   public setDefaultContext(entityID: string = null, entityType: string = null, entityName: string = null) {
-    if (!entityID) {
+    if(!entityID) {
       this.context.entityID = this.defaultContext.entityID = this.centralServerService.getLoggedUser().tenantID;
       this.context.entityType = this.defaultContext.entityType = PricingEntity.TENANT;
     } else {
@@ -112,28 +102,32 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
-    return [
+    const tableActions: TableColumnDef[] = [
       {
         id: 'name',
         name: 'chargers.name',
         headerClass: 'col-15p',
         class: 'col-15p',
         sortable: true,
-      },
-      {
-        id: 'entityType',
-        name: 'transactions.dialog.session.pricing_detail_entity_type',
-        headerClass: 'col-15p',
-        class: 'col-15p',
-        visible: this.viewingAllComponents
-      },
-      {
-        id: 'entityName',
-        name: 'transactions.dialog.session.pricing_detail_entity_name',
-        headerClass: 'col-15p',
-        class: 'col-15p',
-        visible: this.viewingAllComponents
-      },
+      }
+    ];
+    if (this.viewingAllComponents) {
+      tableActions.push(...[
+        {
+          id: 'entityType',
+          name: 'transactions.dialog.session.pricing_detail_entity_type',
+          headerClass: 'col-15p',
+          class: 'col-15p',
+        },
+        {
+          id: 'entityName',
+          name: 'transactions.dialog.session.pricing_detail_entity_name',
+          headerClass: 'col-15p',
+          class: 'col-15p',
+        }
+      ]);
+    }
+    tableActions.push(
       {
         id: 'id',
         name: 'settings.pricing.restrictions_title',
@@ -145,7 +139,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
       {
         id: 'staticRestrictions.validFrom',
         name: 'settings.pricing.valid_from',
-        formatter: (validFrom: Date) => this.datePipe.transform(validFrom, 'shortDate'),
+        formatter: (validFrom: Date) => this.datePipe.transform(validFrom),
         headerClass: 'col-15p',
         class: 'col-15p',
         sortable: true,
@@ -153,7 +147,7 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
       {
         id: 'staticRestrictions.validTo',
         name: 'settings.pricing.valid_to',
-        formatter: (validTo: Date) => this.datePipe.transform(validTo, 'shortDate'),
+        formatter: (validTo: Date) => this.datePipe.transform(validTo),
         headerClass: 'col-15p',
         class: 'col-15p',
         sortable: true,
@@ -186,7 +180,8 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
         headerClass: 'col-15p',
         class: 'col-15p',
       }
-    ];
+    );
+    return tableActions;
   }
 
   public buildTableActionsDef(): TableActionDef[] {
@@ -208,9 +203,6 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
     }
     if (pricingDefinition.canDelete) {
       rowActions.push(this.deleteAction);
-    }
-    if (Utils.isEmptyArray(rowActions)) {
-      rowActions.push(this.viewAction);
     }
     return rowActions;
   }
@@ -255,37 +247,18 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
     switch (actionDef.id) {
       case PricingButtonAction.EDIT_PRICING_DEFINITION:
         if (actionDef.action) {
-          (actionDef as TableEditPricingDefinitionActionDef).action(
-            PricingDefinitionDialogComponent, this.dialog,
+          (actionDef as TableEditPricingDefinitionActionDef).action(PricingDefinitionDialogComponent, this.dialog,
             {
               dialogData: {
                 ...pricingDefinition,
                 context: {
                   entityID: pricingDefinition.entityID,
                   entityType: pricingDefinition.entityType,
-                  entityName: pricingDefinition.entityName
+                  entityName: pricingDefinition.name
                 }
               }
-            },
-            this.refreshData.bind(this));
-        }
-        break;
-      case ButtonAction.VIEW:
-        if (actionDef.action) {
-          (actionDef as TableViewPricingDefinitionsActionDef).action(
-            PricingDefinitionDialogComponent, this.dialog,
-            {
-              dialogData: {
-                ...pricingDefinition,
-                context: {
-                  entityID: pricingDefinition.entityID,
-                  entityType: pricingDefinition.entityType,
-                  entityName: pricingDefinition.entityName
-                }
-              },
-              dialogMode: DialogMode.VIEW
-            },
-            this.refreshData.bind(this));
+            }, this.refreshData.bind(this)
+          );
         }
         break;
       case PricingButtonAction.DELETE_PRICING_DEFINITION:

@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import { ComponentType } from '@angular/cdk/portal';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Observable } from 'rxjs';
 
 import { DialogParams } from '../../../../types/Authorization';

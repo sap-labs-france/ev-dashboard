@@ -1,7 +1,7 @@
 <!-- Duration -->
 <div class="row mb-1">
   <!-- Toggle Min Furation -->
-  <div class="col-md-3 align-self-center">
+  <div class="col-md-3 align-self-center mb-2 mt-2">
     <mat-slide-toggle (change)="toggleDuration($event)" id="minDuration" [formControl]="minDurationEnabled">
       {{'settings.pricing.restriction_min_duration' | translate}}
     </mat-slide-toggle>
@@ -15,7 +15,7 @@
     </mat-form-field>
   </div>
   <!-- Toggle Max Duration -->
-  <div class="col-md-3 align-self-center">
+  <div class="col-md-3 align-self-center mb-2 mt-2">
     <mat-slide-toggle (change)="toggleDuration($event)" id="maxDuration" [formControl]="maxDurationEnabled">
       {{'settings.pricing.restriction_max_duration' | translate}}
     </mat-slide-toggle>
@@ -33,7 +33,7 @@
 <!-- Energy -->
 <div class="row mb-1">
   <!-- Toggle Min Energy -->
-  <div class="col-md-3 align-self-center">
+  <div class="col-md-3 align-self-center mb-2 mt-2">
     <mat-slide-toggle (change)="toggleEnergy($event)" id="minEnergyKWh" [formControl]="minEnergyKWhEnabled">
       {{'settings.pricing.restriction_min_energy' | translate}}
     </mat-slide-toggle>
@@ -47,7 +47,7 @@
     </mat-form-field>
   </div>
   <!-- Toggle Max Energy -->
-  <div class="col-md-3 align-self-center">
+  <div class="col-md-3 align-self-center mb-2 mt-2">
     <mat-slide-toggle (change)="toggleEnergy($event)" id="maxEnergyKWh" [formControl]="maxEnergyKWhEnabled">
       {{'settings.pricing.restriction_max_energy' | translate}}
     </mat-slide-toggle>
@@ -64,7 +64,7 @@
 </div>
 <!-- Time range -->
 <div class="row mb-1">
-  <div class="col-md-3 align-self-center">
+  <div class="col-md-3 align-self-center mb-2 mt-2">
     <mat-slide-toggle (change)="toggleTimeRange($event)" id="timeFrom" [formControl]="timeRangeEnabled">
       {{'settings.pricing.restriction_time_range' | translate}}
     </mat-slide-toggle>
@@ -90,15 +90,16 @@
 <!-- Days of Week -->
 <div class="row mb-1">
   <!-- Toggle Days -->
-  <div class="col-md-3 align-self-center">
+  <div class="col-md-3 align-self-center mb-2 mt-2">
     <mat-slide-toggle (change)="toggleDaysOfWeek($event)" id="daysOfWeek" [formControl]="daysOfWeekEnabled">
       {{'settings.pricing.restriction_days_of_week' | translate}}
     </mat-slide-toggle>
   </div>
   <!-- Value -->
-  <div class="col-md-8">
-    <mat-button-toggle-group [value]="selectedDays" [formControl]="selectedDays" name="daysOfWeekToggle" aria-label="Days of week" multiple>
-      <mat-button-toggle *ngFor="let dayNumber of daysOfTheWeek" value={{dayNumber}} class="mat-raised-button days-of-week-button">
+  <div class="col-md-8 mb-3">
+    <mat-button-toggle-group [value]="selectedDays" class="row" [formControl]="selectedDays" name="daysOfWeekToggle" aria-label="Days of week" multiple>
+      <mat-button-toggle *ngFor="let dayNumber of daysOfTheWeek" value={{dayNumber}}
+          class="md-12 col-md-auto mat-raised-button days-of-week-button">
         <span>{{dayNumber | appDay}}</span>
       </mat-button-toggle>
     </mat-button-toggle-group>

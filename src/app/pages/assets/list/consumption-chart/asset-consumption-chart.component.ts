@@ -1,9 +1,10 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, UntypedFormControl, Validators } from '@angular/forms';
+import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart, ChartData, ChartDataset, ChartOptions, Color } from 'chart.js';
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
 import { ConsumptionChartAxis, ConsumptionChartDatasetOrder } from 'types/Chart';
+import { DateTimeRange } from 'types/Table';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { SpinnerService } from '../../../../services/spinner.service';
@@ -20,7 +21,7 @@ import { Utils } from '../../../../utils/Utils';
   templateUrl: 'asset-consumption-chart.component.html',
 })
 
-export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
+export class AssetConsumptionChartComponent implements AfterViewInit {
   @Input() public assetID!: string;
   @Input() public asset!: AssetConsumption;
   @Input() public assetType!: AssetType;
@@ -31,9 +32,9 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
   @ViewChild('chart', { static: true }) public chartElement!: ElementRef;
 
   public selectedUnit = ConsumptionUnit.KILOWATT;
-  public dateControl!: AbstractControl;
-  public startDate = moment().startOf('d').toDate();
-  public endDate = moment().endOf('d').toDate();
+  public startDate = dayjs().startOf('d').toDate();
+  public endDate = dayjs().endOf('d').toDate();
+  public loadAllConsumptions = false;
 
   private graphCreated = false;
   private lineTension = 0;
@@ -69,15 +70,6 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
     private durationPipe: AppDurationPipe) {
   }
 
-  public ngOnInit() {
-    // Date control
-    this.dateControl = new UntypedFormControl('dateControl',
-      Validators.compose([
-        Validators.required,
-      ]));
-    this.dateControl.setValue(this.startDate);
-  }
-
   public ngAfterViewInit() {
     this.instantPowerColor = this.getStyleColor(this.primaryElement.nativeElement);
     this.limitColor = this.getStyleColor(this.dangerElement.nativeElement);
@@ -92,16 +84,25 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
 
   public refresh() {
     this.spinnerService.show();
-    // Change Date for testing e.g.:
-    this.centralServerService.getAssetConsumption(this.assetID, this.startDate, this.endDate)
-      .subscribe((assetConsumption: AssetConsumption) => {
-        this.spinnerService.hide();
-        this.asset = assetConsumption;
-        this.prepareOrUpdateGraph();
-      }, (error) => {
-        this.spinnerService.hide();
-        delete this.asset;
+    this.centralServerService.getAssetConsumptions(this.assetID, this.startDate, this.endDate, this.loadAllConsumptions)
+      .subscribe({
+        next: (assetConsumption: AssetConsumption) => {
+          this.spinnerService.hide();
+          this.asset = assetConsumption;
+          this.prepareOrUpdateGraph();
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          delete this.asset;
+        }
       });
+  }
+
+  public loadAllConsumptionsChanged(matCheckboxChange: MatCheckboxChange) {
+    if (matCheckboxChange) {
+      this.loadAllConsumptions = matCheckboxChange.checked;
+      this.refresh();
+    }
   }
 
   public unitChanged(key: ConsumptionUnit) {
@@ -113,12 +114,10 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
     this.spinnerService.hide();
   }
 
-  public dateFilterChanged(value: Date) {
-    if (value) {
-      this.startDate = moment(value).startOf('d').toDate();
-      this.endDate = moment(value).endOf('d').toDate();
-      this.refresh();
-    }
+  public dateFilterChanged(dateRangeValue: DateTimeRange) {
+    this.startDate = dateRangeValue.startDate;
+    this.endDate = dateRangeValue.endDate;
+    this.refresh();
   }
 
   private updateVisibleDatasets() {
@@ -225,12 +224,12 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
   }
 
   private getDataSetByOrder(order: number): number[] | null {
-    const dataSet = this.data.datasets.find((d) => d.order === order);
-    return dataSet ? dataSet.data as number[] : null;
+    const foundDataSet = this.data.datasets.find((dataSet) => dataSet.order === order);
+    return foundDataSet ? foundDataSet.data as number[] : null;
   }
 
   private canDisplayGraph() {
-    return this.asset?.values?.length > 1;
+    return this.asset?.values?.length > 0;
   }
 
   private refreshDataSets() {
@@ -342,22 +341,22 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
               let tooltipLabel = '';
               switch (context.dataset.order) {
                 case ConsumptionChartDatasetOrder.INSTANT_WATTS:
-                  tooltipLabel =   ' ' + this.unitPipe.transform(value, 'W', 'kW', true, 1, 0, 1);
+                  tooltipLabel = ` ${this.unitPipe.transform(value, 'W', 'kW', true, 1, 0, 1)}`;
                   break;
                 case ConsumptionChartDatasetOrder.INSTANT_AMPS:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value, '1.0-0') + 'A';
+                  tooltipLabel = ` ${this.decimalPipe.transform(value, '1.0-0')}A`;
                   break;
                 case ConsumptionChartDatasetOrder.LIMIT_WATTS:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value / 1000, '1.0-1') + 'kW';
+                  tooltipLabel = ` ${this.decimalPipe.transform(value / 1000, '1.0-1')}kW`;
                   break;
                 case ConsumptionChartDatasetOrder.LIMIT_AMPS:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value, '1.0-0') + 'A';
+                  tooltipLabel = ` ${this.decimalPipe.transform(value, '1.0-0')}A`;
                   break;
                 case ConsumptionChartDatasetOrder.STATE_OF_CHARGE:
-                  tooltipLabel =   ` ${value} %`;
+                  tooltipLabel =  ` ${value} %`;
                   break;
                 default:
-                  tooltipLabel =   value + '';
+                  tooltipLabel = `${value}`;
               }
               return `${label}: ${tooltipLabel}`;
             },
@@ -377,11 +376,11 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
         [ConsumptionChartAxis.X]:{
           type: 'time',
           time: {
-            tooltipFormat: moment.localeData().longDateFormat('LT'),
+            tooltipFormat: dayjs.localeData().longDateFormat('LT'),
             unit: 'minute',
             displayFormats: {
-              second: moment.localeData().longDateFormat('LTS'),
-              minute: moment.localeData().longDateFormat('LT'),
+              second: dayjs.localeData().longDateFormat('LTS'),
+              minute: dayjs.localeData().longDateFormat('LT'),
             },
           },
           grid: {

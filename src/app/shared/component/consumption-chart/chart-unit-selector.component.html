@@ -1,5 +1,5 @@
 <div class="btn-group mat-button-group">
-  <button mat-raised-button *ngFor="let unit of unitMap" (click)="buttonUnitChanged(unit.key)" [color]="'primary'"
+  <button mat-raised-button *ngFor="let unit of unitMap" (click)="buttonUnitChanged(unit.key)" color="primary"
     [class.selected-button]="activeUnitButtonGroup && (activeUnitButtonGroup.key === unit.key)"
     [class.inactive-button]="unit.inactive" [title]="unit.description | translate">
     <span>{{unit.description | translate}}</span>

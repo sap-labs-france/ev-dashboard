@@ -1,4 +1,7 @@
 // Modals
+$side-bar-mini-width: 80px;
+$side-bar-width: 260px;
+
 $modal-content-xs-box-shadow: $bmd-shadow-24dp !default;
 
 $modal-backdrop-opacity: .26 !default; // .5
@@ -8,8 +11,8 @@ $transition-ease-out: ease-out !default;
 $ultra-fast-transition-time: 60ms !default;
 $navbar-padding-a: 10px 15px;
 $padding-zero: 0px !default;
-$sidebar-width: calc(100% - 260px) !default;
-$sidebar-mini-width: calc(100% - 80px) !default;
+$sidebar-width: calc(100% - $side-bar-width) !default;
+$sidebar-mini-width: calc(100% - $side-bar-mini-width) !default;
 $topbar-back: topbar-back !default;
 $bottombar-back: bottombar-back !default;
 $topbar-x: topbar-x !default;

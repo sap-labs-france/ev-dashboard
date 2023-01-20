@@ -7,7 +7,7 @@ import { SpinnerService } from 'services/spinner.service';
 import { TableAction } from 'shared/table/actions/table-action';
 import { ChargingStation, ChargingStationButtonAction } from 'types/ChargingStation';
 import { ButtonActionColor } from 'types/GlobalType';
-import { TableActionDef } from 'types/Table';
+import { ActionType, TableActionDef } from 'types/Table';
 import { Utils } from 'utils/Utils';
 
 export interface TableChargingStationGenerateQrCodeConnectorActionDef extends TableActionDef {
@@ -18,7 +18,7 @@ export interface TableChargingStationGenerateQrCodeConnectorActionDef extends Ta
 export class TableChargingStationGenerateQrCodeConnectorAction implements TableAction {
   private action: TableChargingStationGenerateQrCodeConnectorActionDef = {
     id: ChargingStationButtonAction.GENERATE_QR_CODE,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'qr_code',
     color: ButtonActionColor.ACCENT,
     name: 'general.generate_qr',

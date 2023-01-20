@@ -1,9 +1,10 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
+import { DialogMode } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -27,10 +28,13 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentTenantID!: string;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<any>;
+  @Input() public dialogMode: DialogMode;
 
   @ViewChild('tenantMainComponent') public tenantMainComponent!: TenantMainComponent;
   @ViewChild('tenantComponentsComponent') public tenantComponentsComponent!: TenantComponentsComponent;
+  @ViewChild('tenantFeaturesComponent') public tenantFeaturesComponent!: TenantComponentsComponent;
 
+  public readonly DialogMode = DialogMode;
   public formGroup!: UntypedFormGroup;
   public tenant!: Tenant;
 
@@ -114,6 +118,7 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
     let carConnectorActive = false;
     let ocpiActive = false;
     let oicpActive = false;
+    let gridMonitoringActive = false;
     for (const component in tenant.components) {
       if (Utils.objectHasProperty(tenant.components, component)) {
         if (!tenant.components[component].active) {
@@ -152,6 +157,9 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
         if (component === TenantComponents.OICP) {
           oicpActive = tenant.components[component].active;
         }
+        if (component === TenantComponents.GRID_MONITORING) {
+          gridMonitoringActive = tenant.components[component].active;
+        }
       }
     }
     if (oicpActive && ocpiActive) {
@@ -180,6 +188,10 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
     }
     if (carConnectorActive && !carActive) {
       this.messageService.showErrorMessage('tenants.save_error_car_connector');
+      return;
+    }
+    if (gridMonitoringActive && !smartChargingActive) {
+      this.messageService.showErrorMessage('tenants.save_error_grid_monitoring');
       return;
     }
     if (this.tenant) {

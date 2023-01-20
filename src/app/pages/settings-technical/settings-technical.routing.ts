@@ -9,7 +9,7 @@ export const TechnicalSettingsRoutes: Routes = [
     path: '', component: SettingsTechnicalComponent, canActivate: [RouteGuardService], data: {
       auth: {
         entity: Entity.SETTING,
-        action: Action.LIST,
+        action: Action.CREATE,
       },
     },
   },

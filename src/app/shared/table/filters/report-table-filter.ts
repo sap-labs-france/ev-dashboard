@@ -10,12 +10,11 @@ export class ReportTableFilter extends TableFilter {
     // Define filter
     const filterDef: TableFilterDef = {
       id: 'refundData',
-      httpId: 'ReportIDs',
+      httpID: 'ReportIDs',
       type: FilterType.DIALOG_TABLE,
       defaultValue: '',
       label: '',
       name: 'transactions.reportId',
-      class: 'col-md-6 col-lg-3 col-xl-2',
       dialogComponent: ReportsDialogComponent,
       multiple: true,
       cleared: true,

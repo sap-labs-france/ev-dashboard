@@ -7,18 +7,13 @@ import { InactivityStatus } from '../../types/Transaction';
 export class AppColorByStatusPipe implements PipeTransform {
 
   public transform(status?: InactivityStatus): string {
-    let classResult = 'ms-1 ';
     switch (status) {
       case InactivityStatus.INFO:
-        classResult += LevelText.INFO;
-        break;
+        return LevelText.INFO;
       case InactivityStatus.ERROR:
-        classResult += LevelText.DANGER;
-        break;
+        return LevelText.DANGER;
       case InactivityStatus.WARNING:
-        classResult += LevelText.WARNING;
-        break;
+        return LevelText.WARNING;
     }
-    return classResult;
   }
 }

@@ -1,4 +1,3 @@
-import { SettingAuthorizationActions } from './Authorization';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { TableData } from './Table';
 import { TenantComponents } from './Tenant';
@@ -7,7 +6,7 @@ export enum TechnicalSettings {
   USER = 'user',
   CRYPTO = 'crypto'
 }
-export interface Setting extends TableData, CreatedUpdatedProps, SettingAuthorizationActions {
+export interface Setting extends TableData, CreatedUpdatedProps {
   identifier: TenantComponents | TechnicalSettings;
   sensitiveData?: string[];
   category?: 'business' | 'technical';
@@ -25,6 +24,7 @@ type SettingsType = CryptoSettingsType
 | SmartChargingSettingsType
 | AssetSettingsType
 | CarConnectorSettingsType
+| GridMonitoringSettingsType
 | UserSettingsType;
 
 export interface SettingDBContent {
@@ -40,6 +40,7 @@ export interface SettingDBContent {
   sapSmartCharging?: SapSmartChargingSetting;
   asset?: AssetSetting;
   carConnector?: CarConnectorSetting;
+  gridMonitoring?: GridMonitoringSetting;
   crypto?: CryptoSetting;
   user?: UserSetting;
 }
@@ -56,7 +57,7 @@ export enum PricingSettingsType {
   SIMPLE = 'simple',
 }
 
-export interface PricingSettings extends SettingDB {
+export interface PricingSettings extends Setting {
   identifier: TenantComponents.PRICING;
   type: PricingSettingsType;
   simple: SimplePricingSetting;
@@ -74,7 +75,7 @@ export enum RoamingSettingsType {
   OICP = 'oicp',
 }
 
-export interface RoamingSettings extends SettingDB {
+export interface RoamingSettings extends Setting {
   identifier: TenantComponents.OCPI | TenantComponents.OICP;
   type: RoamingSettingsType;
   ocpi?: OcpiSetting;
@@ -135,7 +136,7 @@ export enum AnalyticsSettingsType {
   SAC = 'sac',
 }
 
-export interface AnalyticsSettings extends SettingDB {
+export interface AnalyticsSettings extends Setting {
   identifier: TenantComponents.ANALYTICS;
   type: AnalyticsSettingsType;
   sac: SacAnalyticsSetting;
@@ -151,7 +152,7 @@ export enum SmartChargingSettingsType {
   SAP_SMART_CHARGING = 'sapSmartCharging',
 }
 
-export interface SmartChargingSettings extends SettingDB {
+export interface SmartChargingSettings extends Setting {
   identifier: TenantComponents.SMART_CHARGING;
   type: SmartChargingSettingsType;
   sapSmartCharging?: SapSmartChargingSetting;
@@ -170,7 +171,7 @@ export enum RefundSettingsType {
   CONCUR = 'concur',
 }
 
-export interface RefundSettings extends SettingDB {
+export interface RefundSettings extends Setting {
   identifier: TenantComponents.REFUND;
   type: RefundSettingsType;
   concur?: ConcurRefundSetting;
@@ -188,7 +189,7 @@ export interface ConcurRefundSetting {
   reportName: string;
 }
 
-export interface BillingSettings extends SettingDB {
+export interface BillingSettings extends Setting {
   identifier: TenantComponents.BILLING;
   type: BillingSettingsType;
   billing: BillingSetting;
@@ -218,7 +219,7 @@ export enum AssetSettingsType {
   ASSET = 'asset',
 }
 
-export interface AssetSettings extends SettingDB {
+export interface AssetSettings extends Setting {
   identifier: TenantComponents.ASSET;
   type: AssetSettingsType;
   asset?: AssetSetting;
@@ -275,7 +276,7 @@ export enum CarConnectorSettingsType {
   CAR_CONNECTOR = 'carConnector',
 }
 
-export interface CarConnectorSettings extends SettingDB {
+export interface CarConnectorSettings extends Setting {
   identifier: TenantComponents.CAR_CONNECTOR;
   type: CarConnectorSettingsType;
   carConnector?: CarConnectorSetting;
@@ -284,7 +285,6 @@ export interface CarConnectorSettings extends SettingDB {
 export interface CarConnectorSetting {
   connections: CarConnectorConnectionSetting[];
 }
-
 export interface CarConnectorConnectionSetting extends TableData {
   id: string;
   name: string;
@@ -295,11 +295,44 @@ export interface CarConnectorConnectionSetting extends TableData {
   targaTelematicsConnection?: CarConnectorTargaTelematicsConnectionType;
 }
 
+export enum GridMonitoringSettingsType {
+  GRID_MONITORING = 'gridMonitoring',
+}
+
+export interface GridMonitoringSetting {
+  connections: GridMonitoringConnectionSetting[];
+}
+
+export interface GridMonitoringSettings extends Setting {
+  identifier: TenantComponents.GRID_MONITORING;
+  type: GridMonitoringSettingsType;
+  gridMonitoring?: GridMonitoringSetting;
+}
+export interface GridMonitoringConnectionSetting extends TableData {
+  id: string;
+  name: string;
+  description: string;
+  type: GridMonitoringConnectionType;
+  ecowattConnection?: GridMonitoringEcowattConnectionType;
+}
+
+export interface GridMonitoringEcowattConnectionType extends OAuth2ConnectionType {
+  authenticationUrl: string;
+  levelGreenPercent?: number;
+  levelOrangePercent?: number;
+  levelRedPercent?: number;
+}
+
 export enum CarConnectorConnectionType {
   NONE = '',
   MERCEDES = 'mercedes',
   TRONITY = 'tronity',
   TARGA_TELEMATICS = 'targaTelematics'
+}
+
+export enum GridMonitoringConnectionType {
+  NONE = '',
+  ECOWATT = 'ecowatt'
 }
 
 export interface OAuth2ConnectionType {
@@ -325,7 +358,7 @@ export enum CryptoSettingsType {
   CRYPTO = 'crypto',
 }
 
-export interface CryptoSettings extends SettingDB {
+export interface CryptoSettings extends Setting {
   identifier: TechnicalSettings.CRYPTO;
   type: CryptoSettingsType;
   crypto?: CryptoSetting;
@@ -348,7 +381,7 @@ export enum UserSettingsType {
   USER = 'user',
 }
 
-export interface UserSettings extends SettingDB {
+export interface UserSettings extends Setting {
   identifier: TechnicalSettings.USER;
   type: UserSettingsType;
   user?: UserSetting;

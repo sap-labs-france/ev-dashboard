@@ -1,5 +1,5 @@
 import { EventEmitter } from '@angular/core';
-import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, ValidatorFn } from '@angular/forms';
+import { AbstractControl, UntypedFormArray, FormControl, UntypedFormGroup, ValidatorFn } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subject, from, of } from 'rxjs';
 
@@ -16,8 +16,8 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
   protected editableRows: T[] = [];
   protected tableChangedSubject: Subject<T[]> = new Subject<T[]>();
   protected refreshEvent = new EventEmitter<void>();
-  protected addAction = new TableAddAction().getActionDef();
-  protected deleteAction = new TableDeleteAction().getActionDef();
+  private addAction = new TableAddAction().getActionDef();
+  private deleteAction = new TableDeleteAction().getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -110,7 +110,7 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
 
   public setPropertyValue(row: T, propertyName: string, propertyValue: string | boolean | number) {
     row[propertyName] = propertyValue;
-    (row[`${propertyName}FormControl`] as UntypedFormControl).setValue(propertyValue);
+    (row[`${propertyName}FormControl`] as FormControl).setValue(propertyValue);
   }
 
   public rowCellUpdated(cellValue: any, rowIndex: number, columnDef: TableColumnDef, postDataProcessing?: () => void) {
@@ -118,13 +118,13 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
     const contentRows = this.getContent();
     if (this.formArray) {
       const row = contentRows[rowIndex];
-      const formControl = row[`${columnDef.id}FormControl`] as UntypedFormControl;
+      const formControl = row[`${columnDef.id}FormControl`] as FormControl;
       // Clear previous selection
       if (columnDef.editType === TableEditType.RADIO_BUTTON) {
         for (const contentRow of contentRows) {
           // Set value + form value
           contentRow[columnDef.id] = false;
-          (row[`${columnDef.id}FormControl`] as UntypedFormControl).setValue(false);
+          (row[`${columnDef.id}FormControl`] as FormControl).setValue(false);
         }
       }
       // Set value + form value
@@ -211,7 +211,7 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
         }
         tableColumnDef.validators.push(this.uniqValidator(this.formArray, tableColumnDef.id));
       }
-      const formControl = new UntypedFormControl(value, tableColumnDef.validators);
+      const formControl = new FormControl(value, tableColumnDef.validators);
       if (tableColumnDef.canBeDisabled && this.isCellDisabled(tableColumnDef, editableRow)) {
         formControl.disable({ onlySelf: true });
       }

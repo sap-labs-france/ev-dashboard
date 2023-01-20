@@ -12,21 +12,21 @@
   </div>
 </div>
 <form *ngIf="isActive" class="form" [formGroup]="formGroup">
-  <div class="mat-toolbar-row left-actions">
+  <div class="mat-toolbar-row left-actions row m-0">
     <button mat-raised-button color="warn" (click)="save(formGroup.value)"
-      [hidden]="!authorizations || !authorizations.canUpdate"
-      [disabled]="!formGroup.valid || !formGroup.dirty">
+        class="col-md-auto mb-2"
+        [disabled]="!formGroup.valid || !formGroup.dirty">
       <mat-icon>save</mat-icon>
       <span>{{'general.save' | translate}}</span>
     </button>
     <button mat-raised-button color="primary" (click)="synchronize()"
-      [hidden]="!authorizations || !authorizations.canSyncRefund"
-      [disabled]="!formGroup.valid || formGroup.dirty">
+        class="col-md-auto mb-2"
+        [disabled]="!formGroup.valid || formGroup.dirty">
       <mat-icon>sync</mat-icon>
       <span>{{'general.synchronize' | translate}}</span>
     </button>
   </div>
   <!-- Concur -->
-  <app-settings-concur *ngIf="refundSettings?.concur" [refundSettings]="refundSettings" [formGroup]="formGroup" [authorizations]="authorizations">
+  <app-settings-concur *ngIf="refundSettings?.concur" [refundSettings]="refundSettings" [formGroup]="formGroup">
   </app-settings-concur>
 </form>

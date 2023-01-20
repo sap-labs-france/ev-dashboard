@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
 import { CentralServerService } from 'services/central-server.service';
 import { ConfigService } from 'services/config.service';
 import { MessageService } from 'services/message.service';
 import { USER_STATUSES, UserRoles } from 'shared/model/users.model';
-import { AuthorizationDefinitionFieldMetadata } from 'types/Authorization';
+import { AuthorizationDefinitionFieldMetadata, DialogMode } from 'types/Authorization';
 import { KeyValue } from 'types/GlobalType';
 import { User, UserRole, UserStatus } from 'types/User';
 import { Constants } from 'utils/Constants';
@@ -26,6 +26,7 @@ import { TenantComponents } from '../../../../types/Tenant';
 export class UserMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: UntypedFormGroup;
   @Input() public user!: User;
+  @Input() public dialogMode!: DialogMode;
   @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;
   @Output() public roleChanged = new EventEmitter<UserRole>();
 
@@ -84,61 +85,61 @@ export class UserMainComponent implements OnInit, OnChanges {
 
   public ngOnInit(): void {
     // Init the form
-    this.formGroup.addControl('id', new UntypedFormControl(''));
-    this.formGroup.addControl('issuer', new UntypedFormControl(true));
-    this.formGroup.addControl('name', new UntypedFormControl('',
+    this.formGroup.addControl('id', new FormControl(''));
+    this.formGroup.addControl('issuer', new FormControl(true));
+    this.formGroup.addControl('name', new FormControl('',
       Validators.compose([
         Validators.required,
         Validators.maxLength(255)
       ]))
     );
-    this.formGroup.addControl('firstName', new UntypedFormControl('',
+    this.formGroup.addControl('firstName', new FormControl('',
       Validators.compose([
         Validators.required,
         Validators.maxLength(255)
       ]))
     );
-    this.formGroup.addControl('email', new UntypedFormControl('',
+    this.formGroup.addControl('email', new FormControl('',
       Validators.compose([
         Validators.required,
         Validators.email,
       ]))
     );
-    this.formGroup.addControl('phone', new UntypedFormControl('',
+    this.formGroup.addControl('phone', new FormControl('',
       Validators.compose([
         Users.validatePhone,
       ]))
     );
-    this.formGroup.addControl('mobile', new UntypedFormControl('',
+    this.formGroup.addControl('mobile', new FormControl('',
       Validators.compose([
         Users.validatePhone,
       ]))
     );
-    this.formGroup.addControl('plateID', new UntypedFormControl('',
+    this.formGroup.addControl('plateID', new FormControl('',
       Validators.compose([
         Validators.pattern('^[A-Z0-9- ]*$'),
       ]))
     );
-    this.formGroup.addControl('status', new UntypedFormControl(
+    this.formGroup.addControl('status', new FormControl(
       UserStatus.ACTIVE,
       Validators.compose([
         Validators.required,
       ]))
     );
-    this.formGroup.addControl('role', new UntypedFormControl(
+    this.formGroup.addControl('role', new FormControl(
       this.isSuperAdmin ? UserRole.SUPER_ADMIN : UserRole.BASIC,
       Validators.compose([
         Validators.pattern('^[A-Z0-9- ]*$'),
       ]))
     );
-    this.formGroup.addControl('locale', new UntypedFormControl(
+    this.formGroup.addControl('locale', new FormControl(
       this.currentLocale,
       Validators.compose([
         Validators.required,
       ]))
     );
-    this.formGroup.addControl('technical', new UntypedFormControl(false));
-    this.formGroup.addControl('freeAccess', new UntypedFormControl(false));
+    this.formGroup.addControl('technical', new FormControl(false));
+    this.formGroup.addControl('freeAccess', new FormControl(false));
     // Form
     this.id = this.formGroup.controls['id'];
     this.issuer = this.formGroup.controls['issuer'];

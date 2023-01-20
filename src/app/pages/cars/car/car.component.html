@@ -7,7 +7,7 @@
           <span>{{'car.title' | translate}} - {{formGroup.controls['carCatalog'].value}}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content">
-          <app-car-main #carMainComponent [formGroup]="formGroup" [car]="car" [carsAuthorizations]="carsAuthorizations" [readOnly]="readOnly"></app-car-main>
+          <app-car-main #carMainComponent [formGroup]="formGroup" [car]="car" [carsAuthorizations]="carsAuthorizations" [dialogMode]="dialogMode"></app-car-main>
         </div>
       </mat-tab>
       <mat-tab *ngIf="isCarConnectorComponentActive" >
@@ -16,12 +16,12 @@
           <span>{{"car_connector.title"|translate}}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content">
-          <app-car-connector #carConnectorComponent [formGroup]="formGroup" [car]="car" [carsAuthorizations]="carsAuthorizations" [readOnly]="readOnly"></app-car-connector>
+          <app-car-connector #carConnectorComponent [formGroup]="formGroup" [car]="car" [carsAuthorizations]="carsAuthorizations" [dialogMode]="dialogMode"></app-car-connector>
         </div>
       </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-icon-button *ngIf="!readOnly" (click)="saveCar(formGroup.getRawValue())" title="{{'general.save' | translate}}"
+      <button mat-icon-button *ngIf="this.dialogMode !== DialogMode.VIEW" (click)="saveCar(formGroup.getRawValue())" title="{{'general.save' | translate}}"
           [disabled]="!formGroup.valid || !formGroup.dirty" >
         <mat-icon>save</mat-icon>
       </button>

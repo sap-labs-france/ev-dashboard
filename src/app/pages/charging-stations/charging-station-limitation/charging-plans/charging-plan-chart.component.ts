@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnChanges, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Chart, ChartData, ChartDataset, ChartOptions, Color, Point } from 'chart.js';
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
 import { ConsumptionChartAxis, ConsumptionChartDatasetOrder } from 'types/Chart';
 
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
@@ -16,7 +16,7 @@ import { Utils } from '../../../../utils/Utils';
   selector: 'app-charging-station-smart-charging-limit-planner-chart',
   template: `
     <div class="row">
-      <div class="offset-8 col-4">
+      <div class="offset-md-6 col-md-4 offset-lg-8 col-lg-2">
         <app-chart-unit-selector (unitChanged)="unitChanged($event)"></app-chart-unit-selector>
       </div>
     </div>
@@ -239,10 +239,10 @@ export class ChargingPlanChartComponent implements OnChanges {
         [ConsumptionChartAxis.X]: {
           type: 'time',
           time: {
-            tooltipFormat: moment.localeData().longDateFormat('LT'),
+            tooltipFormat: dayjs.localeData().longDateFormat('LT'),
             unit: 'hour',
             displayFormats: {
-              hour: moment.localeData().longDateFormat('LT'),
+              hour: dayjs.localeData().longDateFormat('LT'),
             },
           },
           grid: {
@@ -257,6 +257,7 @@ export class ChargingPlanChartComponent implements OnChanges {
         [ConsumptionChartAxis.POWER]: {
           type: 'linear',
           position: 'left',
+          beginAtZero: true,
           ticks: {
             callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-2'), 10) + 'kW',
             color: this.defaultColor,
@@ -270,6 +271,7 @@ export class ChargingPlanChartComponent implements OnChanges {
         [ConsumptionChartAxis.AMPERAGE]: {
           type: 'linear',
           position: 'left',
+          beginAtZero: true,
           ticks: {
             callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + 'A',
             color: this.defaultColor,

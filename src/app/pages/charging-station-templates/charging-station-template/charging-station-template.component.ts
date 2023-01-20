@@ -1,9 +1,10 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
+import { HTTPError } from 'types/HTTPError';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
@@ -30,8 +31,8 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
 
   @ViewChild('chargingStationTemplateMainComponent') public chargingStationTemplateMainComponent!: ChargingStationTemplateMainComponent;
 
+  public readonly DialogMode = DialogMode;
   public formGroup!: FormGroup;
-  public readOnly = true;
   public chargingStationTemplate!: ChargingStationTemplate;
 
   public constructor(
@@ -50,7 +51,6 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
     // Init the form
     this.formGroup = new FormGroup({});
     // Handle Dialog mode
-    this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
     // Load templates
     this.loadChargingStationTemplate();
@@ -63,7 +63,7 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
         next: (chargingStationTemplate) => {
           this.spinnerService.hide();
           this.chargingStationTemplate = chargingStationTemplate;
-          if (this.readOnly) {
+          if (this.dialogMode === DialogMode.VIEW) {
             // Async call for letting the sub form groups to init
             setTimeout(() => this.formGroup.disable(), 0);
           }
@@ -100,10 +100,10 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
 
   public saveTemplate() {
     const chargingStationTemplate: ChargingStationTemplate = {
-      id: this.currentTemplateID || '',
       template: JSON.parse(this.formGroup.controls.template.value)
-    };
+    } as ChargingStationTemplate;
     if (this.currentTemplateID) {
+      chargingStationTemplate.id = this.currentTemplateID;
       this.updateChargingStationTemplate(chargingStationTemplate);
     } else {
       this.createChargingStationTemplate(chargingStationTemplate);
@@ -131,6 +131,10 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
           case StatusCodes.NOT_FOUND:
             this.messageService.showErrorMessage('templates.template_not_found');
             break;
+          case StatusCodes.BAD_REQUEST:
+          case HTTPError.CHARGING_STATION_TEMPLATE_IS_INVALID_ERROR:
+            this.messageService.showErrorMessage('templates.template_invalid');
+            break;
           default:
             Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'templates.create_error');
         }
@@ -157,6 +161,10 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
         switch (error.status) {
           case StatusCodes.NOT_FOUND:
             this.messageService.showErrorMessage('templates.template_not_found');
+            break;
+          case StatusCodes.BAD_REQUEST:
+          case HTTPError.CHARGING_STATION_TEMPLATE_IS_INVALID_ERROR:
+            this.messageService.showErrorMessage('templates.template_invalid');
             break;
           default:
             Utils.handleHttpError(error, this.router, this.messageService,

@@ -1,8 +1,8 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { AbstractControl, FormControl, UntypedFormArray, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { ChargingStationsAuthorizations } from 'types/Authorization';
+import { ChargingStationsAuthorizations, DialogMode } from 'types/Authorization';
 import { GeoMapDialogData, GeoMapDialogResult } from 'types/Dialog';
 
 import { ComponentService } from '../../../../services/component.service';
@@ -25,16 +25,21 @@ import { Utils } from '../../../../utils/Utils';
 export class ChargingStationParametersComponent implements OnInit, OnChanges {
   @Input() public chargingStation!: ChargingStation;
   @Input() public formGroup: UntypedFormGroup;
-  @Input() public readOnly: boolean;
+  @Input() public dialogMode: DialogMode;
   @Input() public chargingStationsAuthorizations: ChargingStationsAuthorizations;
 
+  public readonly DialogMode = DialogMode;
   public userLocales: KeyValue[];
-  public ocpiActive: boolean;
-  public isSmartChargingComponentActive = false;
+  public isOcpiComponentActive: boolean;
+  public isSmartChargingComponentActive: boolean;
+  public isOrganizationComponentActive: boolean;
 
   public id!: AbstractControl;
   public chargingStationURL!: AbstractControl;
   public public!: AbstractControl;
+  public chargePointVendor!: AbstractControl;
+  public chargePointModel!: AbstractControl;
+  public chargePointSerialNumber!: AbstractControl;
   public excludeFromSmartCharging: AbstractControl;
   public forceInactive: AbstractControl;
   public manualConfiguration: AbstractControl;
@@ -50,7 +55,6 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
   public connectors!: UntypedFormArray;
   public chargePoints!: UntypedFormArray;
   public tariffID: AbstractControl;
-  public isOrganizationComponentActive: boolean;
 
   private initialized: boolean;
 
@@ -65,43 +69,58 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.userLocales = this.localeService.getLocales();
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
-    this.ocpiActive = this.componentService.isActive(TenantComponents.OCPI);
+    this.isOcpiComponentActive = this.componentService.isActive(TenantComponents.OCPI);
   }
 
   public ngOnInit(): void {
     // Init the form
-    this.formGroup.addControl('id', new UntypedFormControl());
-    this.formGroup.addControl('chargingStationURL', new UntypedFormControl('',
+    this.formGroup.addControl('id', new FormControl());
+    this.formGroup.addControl('chargingStationURL', new FormControl('',
       Validators.compose([
         Validators.required,
         Validators.pattern(Constants.URL_PATTERN),
       ]))
     );
-    this.formGroup.addControl('public', new UntypedFormControl(false));
-    this.formGroup.addControl('issuer', new UntypedFormControl(false));
-    this.formGroup.addControl('forceInactive', new UntypedFormControl(false));
-    this.formGroup.addControl('manualConfiguration', new UntypedFormControl(false));
-    this.formGroup.addControl('masterSlave', new UntypedFormControl(false));
-    this.formGroup.addControl('maximumPower', new UntypedFormControl(0,
+    this.formGroup.addControl('public', new FormControl(false));
+    this.formGroup.addControl('issuer', new FormControl(false));
+    this.formGroup.addControl('forceInactive', new FormControl(false));
+    this.formGroup.addControl('manualConfiguration', new FormControl(false));
+    this.formGroup.addControl('masterSlave', new FormControl(false));
+    this.formGroup.addControl('maximumPower', new FormControl(0,
       Validators.compose([
         Validators.required,
         Validators.min(1),
         Validators.pattern('^[+]?[0-9]*$'),
       ]))
     );
-    this.formGroup.addControl('maximumPowerAmps', new UntypedFormControl(0,
+    this.formGroup.addControl('maximumPowerAmps', new FormControl(0,
       Validators.compose([
         Validators.required,
         Validators.min(1),
         Validators.pattern('^[+]?[0-9]*$'),
       ]))
     );
-    this.formGroup.addControl('siteArea', new UntypedFormControl('',
+    this.formGroup.addControl('chargePointVendor', new FormControl(0,
       Validators.compose([
         Validators.required,
       ]))
     );
-    this.formGroup.addControl('siteAreaID', new UntypedFormControl('',
+    this.formGroup.addControl('chargePointModel', new FormControl(0,
+      Validators.compose([
+        Validators.required,
+      ]))
+    );
+    this.formGroup.addControl('chargePointSerialNumber', new FormControl(0,
+      Validators.compose([
+        Validators.required,
+      ]))
+    );
+    this.formGroup.addControl('siteArea', new FormControl('',
+      Validators.compose([
+        Validators.required,
+      ]))
+    );
+    this.formGroup.addControl('siteAreaID', new FormControl('',
       Validators.compose([
         Validators.required,
       ]))
@@ -109,13 +128,13 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.formGroup.addControl('connectors', new UntypedFormArray([]));
     this.formGroup.addControl('chargePoints', new UntypedFormArray([]));
     this.formGroup.addControl('coordinates', new UntypedFormArray([
-      new UntypedFormControl('',
+      new FormControl('',
         Validators.compose([
           Validators.max(180),
           Validators.min(-180),
           Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
         ])),
-      new UntypedFormControl('',
+      new FormControl('',
         Validators.compose([
           Validators.max(90),
           Validators.min(-90),
@@ -123,12 +142,12 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
         ])),
     ])
     );
-    this.formGroup.addControl('tariffID', new UntypedFormControl(null,
+    this.formGroup.addControl('tariffID', new FormControl(null,
       Validators.compose([
         Validators.maxLength(36)
       ])
     ));
-    this.formGroup.addControl('excludeFromSmartCharging', new UntypedFormControl(false));
+    this.formGroup.addControl('excludeFromSmartCharging', new FormControl(false));
     // Form
     this.id = this.formGroup.controls['id'];
     this.chargingStationURL = this.formGroup.controls['chargingStationURL'];
@@ -140,6 +159,9 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     this.masterSlave = this.formGroup.controls['masterSlave'];
     this.maximumPower = this.formGroup.controls['maximumPower'];
     this.maximumPowerAmps = this.formGroup.controls['maximumPowerAmps'];
+    this.chargePointVendor = this.formGroup.controls['chargePointVendor'];
+    this.chargePointModel = this.formGroup.controls['chargePointModel'];
+    this.chargePointSerialNumber = this.formGroup.controls['chargePointSerialNumber'];
     this.siteArea = this.formGroup.controls['siteArea'];
     this.siteAreaID = this.formGroup.controls['siteAreaID'];
     this.coordinates = this.formGroup.controls['coordinates'] as UntypedFormArray;
@@ -173,6 +195,9 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       this.tariffID.setValue(this.chargingStation.tariffID);
       this.maximumPower.setValue(this.chargingStation.maximumPower);
       this.maximumPowerAmps.setValue(Utils.computeChargingStationTotalAmps(this.chargingStation));
+      this.chargePointVendor.setValue(this.chargingStation.chargePointVendor);
+      this.chargePointModel.setValue(this.chargingStation.chargePointModel);
+      this.chargePointSerialNumber.setValue(this.chargingStation.chargePointSerialNumber);
       if (!this.chargingStation.site.public) {
         this.public.disable();
       }

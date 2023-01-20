@@ -1,0 +1,48 @@
+<div class="h-100 w-100 overflow-hidden">
+  <div class="row" [hidden]="!toolbarVisible">
+    <div class="col">
+      <button mat-raised-button
+        class="me-0 col-12 col-md-auto me-md-2 mb-2"
+        color="primary"
+        (click)="resetZoom()"
+        [disabled]="chargingStations?.length === 0"
+        [title]="'chargers.map.reset_zoom' | translate">
+        <mat-icon>cancel</mat-icon>
+        <span>{{'chargers.map.reset_zoom' | translate}}</span>
+      </button>
+    </div>
+    <div class="col-xs-12 col-md-auto">
+      <div class="row">
+        <!-- Auto Refresh -->
+        <app-refresh
+          class="col mb-2 d-flex"
+          [loading]="loading"
+          color="primary"
+          [hideRefresh]="true"
+          [autoRefreshInitialValue]="true"
+          (autoRefresh)="loadMapData(true)">
+        </app-refresh>
+        <!-- Refresh -->
+        <app-refresh
+          class="col-auto mb-2"
+          [loading]="loading"
+          color="primary"
+          [hideAutoRefresh]="true"
+          (refresh)="loadMapData(false)">
+        </app-refresh>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-2" [hidden]="!filterbarVisible">
+    <div class="col-12">
+      <mat-form-field>
+        <input appAutofocus autocomplete="off" #searchInput [placeholder]="'general.search' | translate" matInput>
+        <button mat-icon-button matSuffix (click)="resetSearchFilter()" aria-label="Clear">
+          <mat-icon>clear</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </div>
+  <google-map width="100%" height="90%" [options]="mapOptions" [center]="center" [zoom]="zoom" (zoomChanged)="zoomChanged()">
+  </google-map>
+</div>

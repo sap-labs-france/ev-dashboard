@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { Observable } from 'rxjs';
 import { CustomDialogComponent } from 'shared/dialogs/custom/custom-dialog.component';
 import { ButtonAction, CustomButton } from 'types/GlobalType';

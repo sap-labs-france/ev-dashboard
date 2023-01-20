@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ComponentService } from 'services/component.service';
-import { SettingAuthorizationActions } from 'types/Authorization';
 import { TenantComponents } from 'types/Tenant';
 import { Utils } from 'utils/Utils';
 
@@ -17,7 +16,6 @@ import { Constants } from '../../../../utils/Constants';
 export class SettingsStripeComponent implements OnInit, OnChanges {
   @Input() public formGroup!: UntypedFormGroup;
   @Input() public billingSettings!: BillingSettings;
-  @Input() public authorizations!: SettingAuthorizationActions;
 
   public stripe!: UntypedFormGroup;
   public billing!: UntypedFormGroup;
@@ -45,31 +43,31 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     this.stripe = new UntypedFormGroup({
-      url: new UntypedFormControl('',
+      url: new FormControl('',
         Validators.compose([
           Validators.maxLength(200),
           Validators.pattern(Constants.URL_PATTERN),
         ]),
       ),
-      secretKey: new UntypedFormControl('',
+      secretKey: new FormControl('',
         Validators.compose([
           Validators.required,
         ]),
       ),
-      publicKey: new UntypedFormControl('',
+      publicKey: new FormControl('',
         Validators.compose([
           this.validatePublicKey,
         ]),
       ),
     });
     this.billing = new UntypedFormGroup({
-      immediateBillingAllowed: new UntypedFormControl(false),
-      periodicBillingAllowed: new UntypedFormControl(false),
-      taxID: new UntypedFormControl('',
+      immediateBillingAllowed: new FormControl(false),
+      periodicBillingAllowed: new FormControl(false),
+      taxID: new FormControl('',
         Validators.compose([
         ]),
       ),
-      platformFeeTaxID: new UntypedFormControl('',
+      platformFeeTaxID: new FormControl('',
         Validators.compose([
         ]),
       )
@@ -140,11 +138,6 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
       this.periodicBillingAllowed.setValue(!!billingSetting.periodicBillingAllowed);
       this.taxID.setValue(billingSetting.taxID || '');
       this.platformFeeTaxID.setValue(billingSetting.platformFeeTaxID || '');
-    }
-    // Read only
-    if(!this.authorizations.canUpdate) {
-      // Async call for letting the sub form groups to init
-      setTimeout(() => this.formGroup.disable(), 0);
     }
   }
 }

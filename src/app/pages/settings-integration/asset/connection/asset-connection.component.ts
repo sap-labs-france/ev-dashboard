@@ -1,9 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { DialogMode } from 'types/Authorization';
-import { Utils } from 'utils/Utils';
 
 import { KeyValue } from '../../../../types/GlobalType';
 import { AssetConnectionSetting, AssetConnectionType, AssetGreencomConnectionType, AssetIothinkConnectionType, AssetLacroixConnectionType, AssetSchneiderConnectionType, AssetWitConnectionType } from '../../../../types/Setting';
@@ -19,9 +17,8 @@ export class AssetConnectionComponent implements OnInit {
   @Input() public currentAssetConnection!: AssetConnectionSetting;
   @Input() public inDialog!: boolean;
   @Input() public dialogRef!: MatDialogRef<AssetConnectionDialogComponent>;
-  @Input() public dialogMode!: DialogMode;
 
-  public formGroup!: FormGroup;
+  public formGroup!: UntypedFormGroup;
   public id!: AbstractControl;
   public description!: AbstractControl;
   public name!: AbstractControl;
@@ -49,7 +46,7 @@ export class AssetConnectionComponent implements OnInit {
 
   public ngOnInit(): void {
     // Init Form
-    this.formGroup = new FormGroup({
+    this.formGroup = new UntypedFormGroup({
       id: new FormControl(''),
       name: new FormControl('',
         Validators.compose([
@@ -60,7 +57,7 @@ export class AssetConnectionComponent implements OnInit {
         Validators.compose([
           Validators.required,
         ])),
-      type: new FormControl<AssetConnectionType>(AssetConnectionType.NONE,
+      type: new FormControl('',
         Validators.compose([
           Validators.required,
         ])),
@@ -69,7 +66,7 @@ export class AssetConnectionComponent implements OnInit {
           Validators.required,
           Validators.pattern(Constants.URL_PATTERN),
         ])),
-      refreshIntervalMins: new FormControl<number>(1,
+      refreshIntervalMins: new FormControl('',
         Validators.compose([
           Validators.min(1),
         ])),
@@ -82,10 +79,8 @@ export class AssetConnectionComponent implements OnInit {
     this.url = this.formGroup.controls['url'];
     this.refreshIntervalMins = this.formGroup.controls['refreshIntervalMins'];
     this.loadAssetConnection();
-    // Create / Update button translation
+    // Get Create/Update button translation
     this.submitButtonTranslation = this.getSubmitButtonTranslation();
-    // Dialog mode
-    Utils.handleDialogMode(this.dialogMode, this.formGroup);
   }
 
   public loadAssetConnection(): void {

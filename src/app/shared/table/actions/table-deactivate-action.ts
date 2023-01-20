@@ -1,11 +1,11 @@
-import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
-import { TableActionDef } from '../../../types/Table';
+import { ButtonAction, ButtonActionColor } from '../../../types/GlobalType';
+import { ActionType, TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
 
 export class TableDeactivateAction implements TableAction {
   private action: TableActionDef = {
     id: ButtonAction.DEACTIVATE,
-    type: 'button',
+    type: ActionType.BUTTON,
     icon: 'link_off',
     color: ButtonActionColor.PRIMARY,
     name: 'general.deactivate',

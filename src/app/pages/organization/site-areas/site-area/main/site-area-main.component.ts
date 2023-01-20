@@ -1,11 +1,13 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import * as dayjs from 'dayjs';
 import { StatusCodes } from 'http-status-codes';
-import * as moment from 'moment';
+import { WindowService } from 'services/window.service';
 import { SiteAreasDialogComponent } from 'shared/dialogs/site-areas/site-areas-dialog.component';
+import { DialogMode } from 'types/Authorization';
 import { ButtonAction } from 'types/GlobalType';
 
 import { CentralServerService } from '../../../../../services/central-server.service';
@@ -28,8 +30,10 @@ import { Utils } from '../../../../../utils/Utils';
 export class SiteAreaMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: UntypedFormGroup;
   @Input() public siteArea!: SiteArea;
-  @Input() public readOnly: boolean;
+  @Input() public dialogMode: DialogMode;
   @Output() public siteChanged = new EventEmitter<Site>();
+
+  public readonly DialogMode = DialogMode;
 
   public image = Constants.NO_IMAGE;
   public imageChanged = false;
@@ -56,6 +60,7 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
     private dialog: MatDialog,
     private dialogService: DialogService,
     private router: Router,
+    private windowService: WindowService,
     private translateService: TranslateService,
     private configService: ConfigService) {
     this.maxSize = this.configService.getSiteArea().maxPictureKb;
@@ -63,27 +68,27 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     // Init the form
-    this.formGroup.addControl('issuer', new UntypedFormControl(true));
-    this.formGroup.addControl('id', new UntypedFormControl(''));
-    this.formGroup.addControl('name', new UntypedFormControl('',
+    this.formGroup.addControl('issuer', new FormControl(true));
+    this.formGroup.addControl('id', new FormControl(''));
+    this.formGroup.addControl('name', new FormControl('',
       Validators.compose([
         Validators.required,
         Validators.maxLength(255),
       ])
     ));
-    this.formGroup.addControl('site', new UntypedFormControl('',
+    this.formGroup.addControl('site', new FormControl('',
       Validators.compose([
         Validators.required,
       ])
     ));
-    this.formGroup.addControl('siteID', new UntypedFormControl('',
+    this.formGroup.addControl('siteID', new FormControl('',
       Validators.compose([
         Validators.required,
       ])
     ));
-    this.formGroup.addControl('parentSiteArea', new UntypedFormControl(null));
-    this.formGroup.addControl('parentSiteAreaID', new UntypedFormControl(null));
-    this.formGroup.addControl('accessControl', new UntypedFormControl(true));
+    this.formGroup.addControl('parentSiteArea', new FormControl(null));
+    this.formGroup.addControl('parentSiteAreaID', new FormControl(null));
+    this.formGroup.addControl('accessControl', new FormControl(true));
     // Form
     this.issuer = this.formGroup.controls['issuer'];
     this.id = this.formGroup.controls['id'];
@@ -295,8 +300,8 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
   }
 
   public copyChargingStationConnectionUrl(url: string) {
-    void Utils.copyToClipboard(url);
-    this.messageService.showInfoMessage('chargers.connections.url_copied');
+    this.windowService.copyToClipboard(url);
+    this.messageService.showInfoMessage('general.url_copied');
   }
 
   private loadRegistrationToken() {
@@ -316,7 +321,7 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
   }
 
   private isRegistrationTokenValid(registrationToken: RegistrationToken): boolean {
-    const now = moment();
+    const now = dayjs();
     return registrationToken.expirationDate && now.isBefore(registrationToken.expirationDate)
       && (!registrationToken.revocationDate || now.isBefore(registrationToken.revocationDate));
   }

@@ -1,8 +1,9 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { AbstractControl, UntypedFormArray, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Address as GoogleAddress } from 'ngx-google-places-autocomplete/objects/address';
+import { DialogMode } from 'types/Authorization';
 import { GeoMapDialogData, GeoMapDialogResult } from 'types/Dialog';
 
 import { Address } from '../../types/Address';
@@ -21,6 +22,8 @@ export class AddressComponent implements OnInit, OnChanges {
   @Input() public componentName!: string;
   @Input() public itemComponentName!: string;
   @Input() public mandatory!: boolean;
+  @Input() public dialogMode!: DialogMode;
+
   public addressFormGroup!: UntypedFormGroup;
   public address1!: AbstractControl;
   public address2!: AbstractControl;
@@ -42,21 +45,21 @@ export class AddressComponent implements OnInit, OnChanges {
   public ngOnInit() {
     // Set Address form group
     this.addressFormGroup = new UntypedFormGroup({
-      address1: new UntypedFormControl(''),
-      address2: new UntypedFormControl(''),
-      postalCode: new UntypedFormControl(''),
-      city: new UntypedFormControl(''),
-      department: new UntypedFormControl(''),
-      region: new UntypedFormControl(''),
-      country: new UntypedFormControl(''),
+      address1: new FormControl(''),
+      address2: new FormControl(''),
+      postalCode: new FormControl(''),
+      city: new FormControl(''),
+      department: new FormControl(''),
+      region: new FormControl(''),
+      country: new FormControl(''),
       coordinates: new UntypedFormArray([
-        new UntypedFormControl('',
+        new FormControl('',
           Validators.compose([
             Validators.max(180),
             Validators.min(-180),
             Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
           ])),
-        new UntypedFormControl('',
+        new FormControl('',
           Validators.compose([
             Validators.max(90),
             Validators.min(-90),

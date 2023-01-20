@@ -1,0 +1,42 @@
+<form class="form" [formGroup]="formGroup">
+  <div class="row">
+    <div class="col-md-12">
+      <mat-accordion>
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <strong>{{"tenants.feature.charging_station.feature_name" | translate}}</strong>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="row feature-item">
+            <div class="col-md-6">
+              <mat-slide-toggle class="align-self-start mt-2" [formControl]="chargingStationMap">
+                <strong>{{"tenants.feature.charging_station.feature_map_name" | translate}}</strong>
+                <div class="text-truncate">{{"tenants.feature.charging_station.feature_map_description" | translate}}</div>
+              </mat-slide-toggle>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+    <div class="col-md-12">
+      <mat-accordion>
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <strong>{{"tenants.feature.user.feature_name" | translate}}</strong>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="row feature-item">
+            <div class="col-md-6">
+              <mat-slide-toggle class="align-self-start mt-2" [formControl]="userPricing">
+                <strong>{{"tenants.feature.user.feature_pricing_name" | translate}}</strong>
+                <div class="text-truncate">{{"tenants.feature.user.feature_pricing_description" | translate}}</div>
+              </mat-slide-toggle>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
+</form>

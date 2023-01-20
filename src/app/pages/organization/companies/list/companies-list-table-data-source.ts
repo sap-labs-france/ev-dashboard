@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { WindowService } from 'services/window.service';
 import { CompaniesAuthorizations } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -16,7 +17,7 @@ import { TableEditCompanyAction, TableEditCompanyActionDef } from '../../../../s
 import { TableViewCompanyAction, TableViewCompanyActionDef } from '../../../../shared/table/actions/companies/table-view-company-action';
 import { TableAutoRefreshAction } from '../../../../shared/table/actions/table-auto-refresh-action';
 import { TableMoreAction } from '../../../../shared/table/actions/table-more-action';
-import { TableOpenInMapsAction } from '../../../../shared/table/actions/table-open-in-maps-action';
+import { TableOpenInMapsAction, TableOpenInMapsActionDef } from '../../../../shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
@@ -42,6 +43,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
     public translateService: TranslateService,
     private messageService: MessageService,
     private dialogService: DialogService,
+    private windowService: WindowService,
     private router: Router,
     private dialog: MatDialog,
     private centralServerService: CentralServerService,
@@ -223,7 +225,7 @@ export class CompaniesListTableDataSource extends TableDataSource<Company> {
         break;
       case ButtonAction.OPEN_IN_MAPS:
         if (actionDef.action) {
-          actionDef.action(company.address.coordinates);
+          (actionDef as TableOpenInMapsActionDef).action(company.address.coordinates, this.windowService);
         }
         break;
     }

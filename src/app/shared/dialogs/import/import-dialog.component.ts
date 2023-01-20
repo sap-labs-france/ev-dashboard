@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
 import { FileItem, FileUploader, ParsedResponseHeaders } from 'ng2-file-upload';
@@ -114,13 +114,11 @@ export class ImportDialogComponent implements OnInit {
             break;
         }
       }
-      this.uploader.destroy();
       this.dialogRef.close();
     };
   }
 
   public cancel() {
-    this.uploader.destroy();
     this.dialogRef.close();
   }
 

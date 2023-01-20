@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, UntypedFormGroup } from '@angular/forms';
+import { AuthorizationDefinitionFieldMetadata, DialogMode } from 'types/Authorization';
 import { User, UserNotifications, UserRole } from 'types/User';
 
 import { AuthorizationService } from '../../../../services/authorization.service';
@@ -13,6 +14,8 @@ import { Utils } from '../../../../utils/Utils';
 export class UserNotificationsComponent implements OnInit, OnChanges {
   @Input() public formGroup: UntypedFormGroup;
   @Input() public user!: User;
+  @Input() public dialogMode!: DialogMode;
+  @Input() public metadata!: Record<string, AuthorizationDefinitionFieldMetadata>;
 
   public isAdmin = false;
   public isSuperAdmin = false;
@@ -56,29 +59,29 @@ export class UserNotificationsComponent implements OnInit, OnChanges {
 
   public ngOnInit(): void {
     // Init the form
-    this.formGroup.addControl('notificationsActive', new UntypedFormControl(true));
+    this.formGroup.addControl('notificationsActive', new FormControl(true));
     this.formGroup.addControl('notifications', new UntypedFormGroup({
-      sendSessionStarted: new UntypedFormControl(true),
-      sendOptimalChargeReached: new UntypedFormControl(true),
-      sendCarCatalogSynchronizationFailed: new UntypedFormControl(true),
-      sendEndOfCharge: new UntypedFormControl(true),
-      sendEndOfSession: new UntypedFormControl(true),
-      sendUserAccountStatusChanged: new UntypedFormControl(true),
-      sendSessionNotStarted: new UntypedFormControl(true),
-      sendUserAccountInactivity: new UntypedFormControl(true),
-      sendUnknownUserBadged: new UntypedFormControl(false),
-      sendChargingStationStatusError: new UntypedFormControl(false),
-      sendChargingStationRegistered: new UntypedFormControl(false),
-      sendOfflineChargingStations: new UntypedFormControl(false),
-      sendPreparingSessionNotStarted: new UntypedFormControl(false),
-      sendOcpiPatchStatusError: new UntypedFormControl(false),
-      sendOicpPatchStatusError: new UntypedFormControl(false),
-      sendBillingSynchronizationFailed: new UntypedFormControl(false),
-      sendBillingPeriodicOperationFailed: new UntypedFormControl(false),
-      sendComputeAndApplyChargingProfilesFailed: new UntypedFormControl(false),
-      sendEndUserErrorNotification: new UntypedFormControl(false),
-      sendBillingNewInvoice: new UntypedFormControl(true),
-      sendAdminAccountVerificationNotification: new UntypedFormControl(true)
+      sendSessionStarted: new FormControl(true),
+      sendOptimalChargeReached: new FormControl(true),
+      sendCarCatalogSynchronizationFailed: new FormControl(true),
+      sendEndOfCharge: new FormControl(true),
+      sendEndOfSession: new FormControl(true),
+      sendUserAccountStatusChanged: new FormControl(true),
+      sendSessionNotStarted: new FormControl(true),
+      sendUserAccountInactivity: new FormControl(true),
+      sendUnknownUserBadged: new FormControl(false),
+      sendChargingStationStatusError: new FormControl(false),
+      sendChargingStationRegistered: new FormControl(false),
+      sendOfflineChargingStations: new FormControl(false),
+      sendPreparingSessionNotStarted: new FormControl(false),
+      sendOcpiPatchStatusError: new FormControl(false),
+      sendOicpPatchStatusError: new FormControl(false),
+      sendBillingSynchronizationFailed: new FormControl(false),
+      sendBillingPeriodicOperationFailed: new FormControl(false),
+      sendComputeAndApplyChargingProfilesFailed: new FormControl(false),
+      sendEndUserErrorNotification: new FormControl(false),
+      sendBillingNewInvoice: new FormControl(true),
+      sendAdminAccountVerificationNotification: new FormControl(true)
     }));
     // Form
     this.notificationsActive = this.formGroup.controls['notificationsActive'];

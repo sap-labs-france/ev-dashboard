@@ -221,18 +221,6 @@ export class AuthorizationService {
     return this.canAccess(Entity.INVOICE, Action.SYNCHRONIZE);
   }
 
-  public canListOcpiEndpoint(): boolean {
-    return this.canAccess(Entity.OCPI_ENDPOINT, Action.LIST);
-  }
-
-  public canListOicpEndpoint(): boolean {
-    return this.canAccess(Entity.OICP_ENDPOINT, Action.LIST);
-  }
-
-  public canReadTenant(): boolean {
-    return this.canAccess(Entity.TENANT, Action.READ);
-  }
-
   public canAccess(resource: string, action: string): boolean {
     return !!this.loggedUser && !!this.loggedUser.scopes && this.loggedUser.scopes.includes(`${resource}:${action}`);
   }

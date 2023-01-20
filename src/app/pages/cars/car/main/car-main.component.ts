@@ -1,10 +1,10 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { MatSelectChange } from '@angular/material/select';
+import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { MatLegacySelectChange as MatSelectChange } from '@angular/material/legacy-select';
 import { TranslateService } from '@ngx-translate/core';
 import { UsersDialogComponent } from 'shared/dialogs/users/users-dialog.component';
-import { CarsAuthorizations } from 'types/Authorization';
+import { CarsAuthorizations, DialogMode } from 'types/Authorization';
 
 import { SpinnerService } from '../../../../services/spinner.service';
 import { CarCatalogsDialogComponent } from '../../../../shared/dialogs/car-catalogs/car-catalogs-dialog.component';
@@ -20,11 +20,12 @@ import { Utils } from '../../../../utils/Utils';
   templateUrl: 'car-main.component.html',
 })
 export class CarMainComponent implements OnInit, OnChanges {
-  @Input() public formGroup: FormGroup;
+  @Input() public formGroup: UntypedFormGroup;
   @Input() public car!: Car;
-  @Input() public readOnly: boolean;
+  @Input() public dialogMode: DialogMode;
   @Input() public carsAuthorizations!: CarsAuthorizations;
 
+  public readonly DialogMode = DialogMode;
   public carCatalogImage: string;
   public selectedCarCatalog: CarCatalog;
   public carCatalogConverters: { type: CarConverterType; value: string; converter: CarConverter }[] = [];
@@ -86,8 +87,8 @@ export class CarMainComponent implements OnInit, OnChanges {
       ])));
     this.formGroup.addControl('user', new FormControl(''));
     this.formGroup.addControl('userID', new FormControl(''));
-    this.formGroup.addControl('default', new FormControl<boolean>(false));
-    this.formGroup.addControl('type', new FormControl<CarType>(CarType.COMPANY,
+    this.formGroup.addControl('default', new FormControl(''));
+    this.formGroup.addControl('type', new FormControl(CarType.COMPANY,
       Validators.compose([
         Validators.required,
       ])));

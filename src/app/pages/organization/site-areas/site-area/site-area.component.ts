@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
@@ -19,6 +19,7 @@ import { HTTPError } from '../../../../types/HTTPError';
 import { SiteArea, SiteAreaButtonAction, SubSiteAreaAction } from '../../../../types/SiteArea';
 import { TenantComponents } from '../../../../types/Tenant';
 import { Utils } from '../../../../utils/Utils';
+import { SiteAreaGridMonitoringComponent } from './grid-monitoring/site-area-grid-monitoring.component';
 import { SiteAreaLimitsComponent } from './limits/site-area-limits.component';
 import { SiteAreaMainComponent } from './main/site-area-main.component';
 import { SiteAreaOcpiComponent } from './ocpi/site-area-ocpi.component';
@@ -37,12 +38,14 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
   @ViewChild('siteAreaMainComponent') public siteAreaMainComponent!: SiteAreaMainComponent;
   @ViewChild('siteAreaLimitsComponent') public siteAreaLimitsComponent!: SiteAreaLimitsComponent;
   @ViewChild('siteAreaOcpiComponent') public siteAreaOcpiComponent!: SiteAreaOcpiComponent;
+  @ViewChild('siteAreaGridMonitoringComponent') public siteAreaGridMonitoringComponent!: SiteAreaGridMonitoringComponent;
 
   public ocpiActive: boolean;
   public ocpiHasVisibleFields: boolean;
+  public isGridMonitoringActive: boolean;
 
+  public readonly DialogMode = DialogMode;
   public formGroup!: UntypedFormGroup;
-  public readOnly = true;
   public siteArea: SiteArea;
 
   private subSiteAreaActions: SubSiteAreaAction[] = [];
@@ -59,13 +62,13 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
     protected activatedRoute: ActivatedRoute) {
     super(activatedRoute, windowService, ['main', 'limits', 'ocpi'], false);
     this.ocpiActive = this.componentService.isActive(TenantComponents.OCPI);
+    this.isGridMonitoringActive = this.componentService.isActive(TenantComponents.GRID_MONITORING);
   }
 
   public ngOnInit() {
     // Init the form
     this.formGroup = new UntypedFormGroup({});
     // Handle Dialog mode
-    this.readOnly = this.dialogMode === DialogMode.VIEW;
     Utils.handleDialogMode(this.dialogMode, this.formGroup);
     // Check if OCPI has to be displayed
     this.ocpiHasVisibleFields = this.siteAreasAuthorizations.projectFields.includes('tariffID');
@@ -80,9 +83,7 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
         next: (siteArea) => {
           this.spinnerService.hide();
           this.siteArea = siteArea;
-          // Check if OCPI has to be displayed
-          this.ocpiHasVisibleFields = siteArea.projectFields.includes('tariffID');
-          if (this.readOnly) {
+          if (this.dialogMode === DialogMode.VIEW) {
             // Async call for letting the sub form groups to init
             setTimeout(() => this.formGroup.disable(), 0);
           }
@@ -121,8 +122,19 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
     this.siteAreaOcpiComponent?.siteChanged(site);
   }
 
+  public smartChargingChanged(value: boolean) {
+    this.siteAreaGridMonitoringComponent.smartChargingChanged(value);
+  }
+
+  public siteAreaChanged() {
+    this.loadSiteArea();
+  }
+
   public saveSiteArea(siteArea: SiteArea, subSiteAreaActions: SubSiteAreaAction[]) {
     if (this.currentSiteAreaID) {
+      if (!siteArea.gridMonitoring) {
+        siteArea.gridMonitoringData = null;
+      }
       this.updateSiteArea(siteArea, subSiteAreaActions);
     } else {
       this.createSiteArea(siteArea, subSiteAreaActions);
@@ -131,6 +143,9 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
 
   private createSiteArea(siteArea: SiteArea, subSiteAreaActions: SubSiteAreaAction[] = []) {
     this.spinnerService.show();
+    if (!siteArea.gridMonitoring) {
+      siteArea.gridMonitoringData = null;
+    }
     // Set the image
     this.siteAreaMainComponent.updateSiteAreaImage(siteArea);
     // Set coordinates
@@ -164,6 +179,9 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
 
   private updateSiteArea(siteArea: SiteArea, subSiteAreaActions: SubSiteAreaAction[] = []) {
     this.spinnerService.show();
+    if (!siteArea.gridMonitoring) {
+      siteArea.gridMonitoringData = null;
+    }
     // Set the image
     this.siteAreaMainComponent.updateSiteAreaImage(siteArea);
     // Set coordinates

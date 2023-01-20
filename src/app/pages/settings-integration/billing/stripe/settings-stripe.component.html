@@ -64,21 +64,21 @@
         <label id="stripe-billing-method-selection">{{'settings.billing.stripe.billing_method' | translate}}</label>
       </div>
     </div>
-    <div class="row">
+    <div class="row mb-2 mt-2">
       <div class="col-md-6 col-xl-6 text-left">
         <div class="form-group">
-          <mat-checkbox [formControl]="immediateBillingAllowed">
+          <mat-slide-toggle [formControl]="immediateBillingAllowed">
             {{'settings.billing.stripe.immediate_billing' | translate}}
-          </mat-checkbox>
+          </mat-slide-toggle>
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row mb-2 mt-1">
       <div class="col-md-6 col-xl-6 text-left">
         <div class="form-group">
-          <mat-checkbox [formControl]="periodicBillingAllowed">
+          <mat-slide-toggle [formControl]="periodicBillingAllowed">
             {{'settings.billing.stripe.periodic_billing' | translate}}
-          </mat-checkbox>
+          </mat-slide-toggle>
         </div>
       </div>
     </div>

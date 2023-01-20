@@ -1,3 +1,12 @@
+import 'dayjs/locale/cs';
+import 'dayjs/locale/de';
+import 'dayjs/locale/en';
+import 'dayjs/locale/en-au';
+import 'dayjs/locale/es';
+import 'dayjs/locale/fr';
+import 'dayjs/locale/it';
+import 'dayjs/locale/pt';
+
 import { registerLocaleData } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import localeCs from '@angular/common/locales/cs'; // ACHTUNG - cz does not exists ==> cs-CZ
@@ -11,51 +20,54 @@ import localePt from '@angular/common/locales/pt';
 import { APP_INITIALIZER, Injectable, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatCardModule } from '@angular/material/card';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatChipsModule } from '@angular/material/chips';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
+import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
 import { MatRippleModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
+import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
+import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
+import { MatLegacyProgressBarModule as MatProgressBarModule } from '@angular/material/legacy-progress-bar';
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
+import { MatLegacyRadioModule as MatRadioModule } from '@angular/material/legacy-radio';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatSliderModule } from '@angular/material/slider';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatLegacySlideToggleModule as MatSlideToggleModule } from '@angular/material/legacy-slide-toggle';
+import { MatLegacySliderModule as MatSliderModule } from '@angular/material/legacy-slider';
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatStepperModule } from '@angular/material/stepper';
-import { MatTableModule } from '@angular/material/table';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
+import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { DatetimeAdapter, MatDatetimepickerModule } from '@mat-datetimepicker/core';
-import { MatMomentDatetimeModule, MomentDatetimeAdapter } from '@mat-datetimepicker/moment';
 import { TranslateDefaultParser, TranslateLoader, TranslateModule, TranslateParser, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { ChartModule } from 'angular2-chartjs';
+import * as dayjs from 'dayjs';
+import localeData from 'dayjs/plugin/localeData';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+import { OWL_DATE_TIME_FORMATS, OwlDateTimeIntl, OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { NgxCaptchaModule } from 'ngx-captcha';
-import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { Observable, Observer } from 'rxjs';
+import { FeatureService } from 'services/feature.service';
 import { UtilsService } from 'services/utils.service';
 
-import pkg from '../../package.json';
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app.routing';
 import { BrowserNotSupportedModule } from './browser-not-supported/browser-not-supported.module';
 import { DevEnvGuard } from './guard/development.guard';
 import { RouteGuardService } from './guard/route-guard';
@@ -78,14 +90,63 @@ import { NavbarModule } from './shared/navbar/navbar.module';
 import { SidebarModule } from './sidebar/sidebar.module';
 import { Utils } from './utils/Utils';
 
-registerLocaleData(localeEn);
-registerLocaleData(localeFr);
-registerLocaleData(localeDe);
-registerLocaleData(localeEs);
-registerLocaleData(localePt);
-registerLocaleData(localeIt);
+// Init locales
 registerLocaleData(localeCs);
+registerLocaleData(localeDe);
+registerLocaleData(localeEn);
 registerLocaleData(localeEnAU);
+registerLocaleData(localeEs);
+registerLocaleData(localeFr);
+registerLocaleData(localeIt);
+registerLocaleData(localePt);
+dayjs.extend(localeData);
+dayjs.extend(localizedFormat);
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+@Injectable()
+class OwlDateTimeTranslatedIntl extends OwlDateTimeIntl {
+  public constructor(private translate: TranslateService) {
+    super();
+    this.loadTranslation();
+    this.translate.onLangChange.subscribe(() => {
+      this.loadTranslation();
+    });
+  }
+
+  private loadTranslation() {
+    this.upSecondLabel = this.translate.instant('general.components.date_time.up_second_label');
+    this.downSecondLabel = this.translate.instant('general.components.date_time.down_second_label');
+    this.upMinuteLabel = this.translate.instant('general.components.date_time.up_minute_label');
+    this.downMinuteLabel = this.translate.instant('general.components.date_time.down_minute_label');
+    this.upHourLabel = this.translate.instant('general.components.date_time.up_hour_label');
+    this.downHourLabel = this.translate.instant('general.components.date_time.down_hour_label');
+    this.prevMonthLabel = this.translate.instant('general.components.date_time.prev_month_label');
+    this.nextMonthLabel = this.translate.instant('general.components.date_time.next_month_label');
+    this.prevYearLabel = this.translate.instant('general.components.date_time.prev_year_label');
+    this.nextYearLabel = this.translate.instant('general.components.date_time.next_year_label');
+    this.prevMultiYearLabel = this.translate.instant('general.components.date_time.prev_multi_year_label');
+    this.nextMultiYearLabel = this.translate.instant('general.components.date_time.next_multi_year_label');
+    this.switchToMonthViewLabel = this.translate.instant('general.components.date_time.switch_to_month_view_label');
+    this.switchToMultiYearViewLabel = this.translate.instant('general.components.date_time.switch_to_multi_year_view_label');
+    this.cancelBtnLabel = this.translate.instant('general.components.date_time.cancel_btn_label');
+    this.setBtnLabel = this.translate.instant('general.components.date_time.set_btn_label');
+    this.rangeFromLabel = this.translate.instant('general.components.date_time.range_from_label');
+    this.rangeToLabel = this.translate.instant('general.components.date_time.range_to_label');
+    this.hour12AMLabel = this.translate.instant('general.components.date_time.hour_12_am_label');
+    this.hour12PMLabel = this.translate.instant('general.components.date_time.hour_12_pm_label');
+  }
+};
+
+const OWL_DATE_TIME_CUSTOM_FORMATS = {
+  fullPickerInput: {year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric'},
+  datePickerInput: {year: 'numeric', month: 'short', day: 'numeric'},
+  timePickerInput: {hour: 'numeric', minute: 'numeric'},
+  monthYearLabel: {year: 'numeric', month: 'short'},
+  dateA11yLabel: {year: 'numeric', month: 'long', day: 'numeric'},
+  monthYearA11yLabel: {year: 'numeric', month: 'long'},
+};
+
 @NgModule({
   exports: [
     MatAutocompleteModule,
@@ -96,12 +157,13 @@ registerLocaleData(localeEnAU);
     MatChipsModule,
     MatStepperModule,
     MatDatepickerModule,
-    MatMomentDatetimeModule,
-    MatDatetimepickerModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
     MatDialogModule,
     MatExpansionModule,
     MatGridListModule,
     MatIconModule,
+    MatFormFieldModule,
     MatInputModule,
     MatListModule,
     MatMenuModule,
@@ -121,14 +183,16 @@ registerLocaleData(localeEnAU);
     MatToolbarModule,
   ],
   providers: [
-    { provide: DatetimeAdapter, useClass: MomentDatetimeAdapter },
-  ],
+    { provide: OwlDateTimeIntl, useClass: OwlDateTimeTranslatedIntl },
+    { provide: OWL_DATE_TIME_FORMATS, useValue: OWL_DATE_TIME_CUSTOM_FORMATS },
+  ]
 })
 export class MaterialModule {
 }
 
 // Load translations from "/assets/i18n/[lang].json" ([lang] is the lang
-export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/', `.json?version=${pkg.version}`);
+export const httpLoaderFactory = (http: HttpClient) =>
+  new TranslateHttpLoader(http, './assets/i18n/', '.json?version=2.7.3');
 
 const initAppFactory = (centralServerService: CentralServerService, configService: ConfigService,
   messageService: MessageService, translateService: TranslateService): () => Observable<void> =>
@@ -166,19 +230,6 @@ const initAppFactory = (centralServerService: CentralServerService, configServic
     });
   }));
 
-// To be used where the Material Date Time picker is imported (never called in this module)
-export const initMaterialLocaleFactory = (centralServerService: CentralServerService, translateService: TranslateService): () => string =>
-  () => {
-    // Init Material locale
-    const loggedUser = centralServerService.getLoggedUser();
-    if (loggedUser?.locale) {
-      // Locale of the current user (if any)
-      return Utils.convertToMomentLocale(loggedUser.locale);
-    }
-    // Locale of the browser
-    const browserLocale = translateService.getBrowserCultureLang();
-    return Utils.convertToMomentLocale(browserLocale);
-  };
 
 @Injectable()
 class CustomTranslateDefaultParser extends TranslateDefaultParser {
@@ -205,9 +256,7 @@ class CustomTranslateDefaultParser extends TranslateDefaultParser {
     NavbarModule,
     FooterModule,
     HttpClientModule,
-    ChartModule,
     BrowserNotSupportedModule,
-    NgxDaterangepickerMd.forRoot(),
     GoogleMapsModule,
     TranslateModule.forRoot({
       loader: {
@@ -235,6 +284,7 @@ class CustomTranslateDefaultParser extends TranslateDefaultParser {
     CentralServerService,
     AuthorizationService,
     ComponentService,
+    FeatureService,
     DevEnvGuard,
     RouteGuardService,
     SpinnerService,
@@ -247,27 +297,8 @@ class CustomTranslateDefaultParser extends TranslateDefaultParser {
     WindowService,
     StripeService,
     { provide: APP_INITIALIZER, useFactory: initAppFactory, deps: [CentralServerService, ConfigService, MessageService, TranslateService], multi: true },
-    { provide: DatetimeAdapter, useClass: MomentDatetimeAdapter },
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  public constructor(
-    private centralServerService: CentralServerService,
-    private translateService: TranslateService) {
-
-    // Default
-    let language = this.translateService.getBrowserLang();
-    // Get current user
-    const loggedUser = this.centralServerService.getLoggedUser();
-    if (loggedUser && loggedUser.language) {
-      language = loggedUser.language;
-    }
-    // Supported
-    translateService.addLangs(['en', 'fr', 'es', 'de', 'pt', 'it', 'cs']); // TODO - this seems to have no impact
-    // Default EN
-    translateService.setDefaultLang('en');
-    // Use the browser's language or default to EN
-    translateService.use(language.match(/en|fr|es|de|pt|it|cs/) ? language : 'en');
-  }
 }

@@ -4,7 +4,7 @@ import { ChargingStationsRegistrationTokensTableDataSource } from './charging-st
 
 @Component({
   selector: 'app-charging-stations-registration-tokens',
-  templateUrl: 'charging-stations-registration-tokens.component.html',
+  template: '<app-table [dataSource]="registrationTokenDataSource"></app-table>',
   providers: [ChargingStationsRegistrationTokensTableDataSource],
 })
 export class ChargingStationsRegistrationTokensComponent {

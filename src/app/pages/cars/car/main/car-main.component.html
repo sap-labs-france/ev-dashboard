@@ -1,6 +1,6 @@
 <form class="form" [formGroup]="formGroup">
-  <div class="row w-100">
-    <div class="col-md-12 col-xl-5 d-block">
+  <div class="row">
+    <div class="col-md-12 col-xl-5 d-block mb-3">
       <div class="card card-background mt-0 mb-0">
         <img class="front front-background" alt="" crossorigin="anonymous"
           [ngStyle]="{'background-size' : 'contain', 'background-repeat': 'no-repeat'}"
@@ -62,17 +62,17 @@
           <mat-error *ngIf="userID.errors?.required"> {{ "general.mandatory_field" | translate }}</mat-error>
         </mat-form-field>
       </div>
-      <div class="form-group">
+      <div class="form-group mb-3 mt-1">
         <div class="text-left">
-          <mat-checkbox value="false" [formControl]="default">
+          <mat-slide-toggle value="false" [formControl]="default">
             {{ "cars.default_car" | translate }}
-          </mat-checkbox>
+          </mat-slide-toggle>
         </div>
       </div>
       <div class="form-group">
         <div class="text-left">
           <mat-radio-group [formControl]="type">
-            <div *ngFor="let type of carTypes" class="mt-1">
+            <div *ngFor="let type of carTypes" class="mt-2">
               <mat-radio-button value="{{ type.key }}">
                 {{type.value | translate}}
               </mat-radio-button>

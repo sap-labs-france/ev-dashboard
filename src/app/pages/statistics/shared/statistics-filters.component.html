@@ -1,51 +1,49 @@
 <!-- Toolbar -->
-<div class="mat-toolbar">
+<div class="mat-toolbar p-0" [hidden]="!filterAreaVisible">
   <!-- Actions  -->
-  <div class="left-actions d-flex flex-row mat-toolbar-row ">
+  <div class="row m-0">
     <!-- Create Left Actions -->
-    <!-- Export data -->
-    <button mat-raised-button (click)="exportData()" [color]="'primary'" appTooltip
-      [title]="'general.export' | translate">
-      <mat-icon>cloud_download</mat-icon><span>{{'general.export' | translate}}</span>
-    </button>
-
-    <!-- Reset Filters -->
-    <button mat-raised-button (click)="resetFilters()" [color]="'primary'" appTooltip
-      [title]="'general.reset_filters' | translate">
-      <mat-icon>cancel</mat-icon><span>{{'general.reset_filters' | translate}}</span>
-    </button>
-
-    <!-- SAC links -->
-    <div *ngIf="sacLinksActive">
-      <button mat-raised-button [matMenuTriggerFor]="sacLinksButton" [color]="'primary'" appTooltip
-        [title]="'analytics.links' | translate">
-        <mat-icon>visibility</mat-icon><span>{{'settings.tabs.analytics' | translate}}</span>
+    <div class="col">
+      <!-- Export data -->
+      <button mat-raised-button (click)="exportData()" color="primary" appTooltip
+        class="col-12 col-md-auto me-0 me-md-2 mb-2"
+        [title]="'general.export' | translate">
+        <mat-icon>cloud_download</mat-icon><span>{{'general.export' | translate}}</span>
       </button>
-      <mat-menu #sacLinksButton="matMenu" yPosition="below" [overlapTrigger]="false" class="dropdown-button">
-        <ng-template ngFor let-sacLink [ngForOf]="sacLinks">
-          <a mat-menu-item href="{{sacLink.url}}" target="_blank">{{sacLink.description}}</a>
-        </ng-template>
-      </mat-menu>
+      <!-- Reset Filters -->
+      <button mat-raised-button (click)="resetFilters()" color="primary" appTooltip
+        class="col-12 col-md-auto me-0 me-md-2 mb-2"
+        [title]="'general.reset_filters' | translate">
+        <mat-icon>cancel</mat-icon><span>{{'general.reset_filters' | translate}}</span>
+      </button>
+      <!-- SAC links -->
+      <div *ngIf="sacLinksActive">
+        <button mat-raised-button [matMenuTriggerFor]="sacLinksButton" color="primary" appTooltip
+          class="col-12 col-md-auto me-0 me-md-2 mb-2"
+          [title]="'analytics.links' | translate">
+          <mat-icon>visibility</mat-icon><span>{{'settings.tabs.analytics' | translate}}</span>
+        </button>
+        <mat-menu #sacLinksButton="matMenu" yPosition="below" [overlapTrigger]="false" class="dropdown-button">
+          <ng-template ngFor let-sacLink [ngForOf]="sacLinks">
+            <a mat-menu-item href="{{sacLink.url}}" target="_blank">{{sacLink.description}}</a>
+          </ng-template>
+        </mat-menu>
+      </div>
     </div>
-
-    <!-- Spacer -->
-    <span class="toolbar-spacer"></span>
-
     <!-- Create Right Actions -->
-    <div class="right-actions d-flex align-items-center justify-content-md-end align-self-md-start">
-
+    <div class="col-xs-12 col-md-auto">
       <!-- Button group for scope (months, etc.) -->
-      <div class="btn-group mat-button-group me-2">
+      <div class="btn-group mat-button-group col me-2">
         <button mat-raised-button *ngFor="let button of buttonsOfScopeGroup"
-          (click)="buttonOfScopeGroupChanged(button.name)" [color]="'primary'" appTooltip
+          (click)="buttonOfScopeGroupChanged(button.name)" color="primary" appTooltip
           [class.selected-button]="activeButtonOfScopeGroup && (activeButtonOfScopeGroup.name === button.name)"
           [class.inactive-button]="button.inactive" [title]="button.title | translate">
           <span>{{button.title | translate}}</span>
         </button>
       </div>
-
       <!-- Refresh -->
-      <button mat-raised-button class="button-refresh" (click)="refresh()" [color]="'primary'" appTooltip
+      <button mat-raised-button
+        class="button-refresh col-auto mb-2" (click)="refresh()" color="primary" appTooltip
         [title]="'general.refresh' | translate">
         <div *ngIf="ongoingRefresh" class="spinner-autorefresh2">
           <div class="loader"></div>
@@ -56,10 +54,8 @@
       </button>
     </div>
   </div>
-
-
   <!-- filters -->
-  <div class="d-flex flex-row me-auto flex-wrap mat-toolbar-row filter-row">
+  <div class="row m-0">
     <!-- Category of statistics -->
     <div *ngIf="isAdmin" class="col-sm-4 col-md-3 col-lg-2 col-xl-2">
       <mat-form-field>
@@ -70,7 +66,6 @@
         </mat-select>
       </mat-form-field>
     </div>
-
     <!-- transaction year -->
     <div class="col-sm-4 col-md-3 col-lg-2 col-xl-1">
       <mat-form-field>
@@ -85,7 +80,6 @@
         </mat-select>
       </mat-form-field>
     </div>
-
     <!-- dynamically defined filters, like for Site ID -->
     <ng-template ngFor let-filterDef [ngForOf]="tableFiltersDef">
       <div *ngIf="filterDef.visible !== false" [class]="(filterDef.class ? filterDef.class : '')">
@@ -122,22 +116,17 @@
             <mat-icon>clear</mat-icon>
           </button>
         </mat-form-field>
-        <!-- Date Filter -->
-        <mat-form-field *ngIf="filterDef.type === 'date'">
-          <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
-          </mat-datetimepicker>
-          <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
-          <input matInput [placeholder]="filterDef.name | translate" (dateChange)="dateFilterChanged(filterDef, $event)"
-            [matDatetimepicker]="picker" [value]="filterDef.currentValue" autocomplete="false">
-        </mat-form-field>
-        <mat-form-field *ngIf="filterDef.type === 'date-range'">
-          <input matInput ngxDaterangepickerMd [timePicker]="filterDef.dateRangeTableFilterDef.timePicker"
+        <!-- Date Range Filter -->
+        <div *ngIf="filterDef.type === 'date-range'">
+          <app-date-time-range
+            placeholder="site_areas.consumption_date"
+            [timePicker]="filterDef.dateRangeTableFilterDef.timePicker"
             [timePickerSeconds]="filterDef.dateRangeTableFilterDef.timePickerSeconds"
-            [timePicker24Hour]="filterDef.dateRangeTableFilterDef.timePicker24Hour" [(ngModel)]="filterDef.currentValue"
-            [locale]="filterDef.dateRangeTableFilterDef.locale" (change)="dateRangeChange(filterDef,$event)" />
-          <mat-icon matSuffix class="ngx-daterangepicker-action date-range-picker-icon mt-1" (click)="openDateRange()">
-            date_range</mat-icon>
-        </mat-form-field>
+            [startDate]="filterDef.currentValue?.startDate"
+            [endDate]="filterDef.currentValue?.endDate"
+            (dateTimeRangeChanged)="dateTimeRangeChanged(filterDef, $event)">
+          </app-date-time-range>
+        </div>
       </div>
     </ng-template>
   </div>

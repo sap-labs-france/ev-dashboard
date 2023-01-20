@@ -36,6 +36,11 @@ import { TargaTelematicsCarConnectorConnectionComponent } from './car-connector/
 import { TronityCarConnectorConnectionComponent } from './car-connector/connection/tronity/tronity-car-connector-connection.component';
 import { SettingsCarConnectorConnectionEditableTableDataSource } from './car-connector/settings-car-connector-connections-list-table-data-source';
 import { SettingsCarConnectorComponent } from './car-connector/settings-car-connector.component';
+import { EcowattGridMonitoringConnectionComponent } from './grid-monitoring/connection/ecowatt/ecowatt-grid-monitoring-connection';
+import { GridMonitoringConnectionComponent } from './grid-monitoring/connection/grid-monitoring-connection.component';
+import { GridMonitoringConnectionDialogComponent } from './grid-monitoring/connection/grid-monitoring-connection.dialog.component';
+import { SettingsGridMonitoringConnectionEditableTableDataSource } from './grid-monitoring/settings-grid-monitoring-connections-list-table-data-source';
+import { SettingsGridMonitoringComponent } from './grid-monitoring/settings-grid-monitoring.component';
 import { SettingsOcpiEndpointComponent } from './ocpi/endpoints/endpoint/settings-ocpi-endpoint.component';
 import { SettingsOcpiEndpointDialogComponent } from './ocpi/endpoints/endpoint/settings-ocpi-endpoint.dialog.component';
 import { OcpiDetailFailureFormatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-failure-formatter.component';
@@ -151,7 +156,11 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     AccountDialogComponent,
     AccountStatusFormatterComponent,
     AppFormatAccountStatusPipe,
-    AccountsComponent
+    AccountsComponent,
+    SettingsGridMonitoringComponent,
+    GridMonitoringConnectionComponent,
+    GridMonitoringConnectionDialogComponent,
+    EcowattGridMonitoringConnectionComponent
   ],
   providers: [
     SettingsOcpiEndpointsDetailsTableDataSource,
@@ -160,6 +169,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsOicpEndpointsTableDataSource,
     SettingsAssetConnectionEditableTableDataSource,
     SettingsCarConnectorConnectionEditableTableDataSource,
+    SettingsGridMonitoringConnectionEditableTableDataSource,
     AnalyticsLinksTableDataSource,
     BillingAccountsTableDataSource,
   ]

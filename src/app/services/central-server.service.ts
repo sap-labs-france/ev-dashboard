@@ -1653,7 +1653,8 @@ export class CentralServerService {
       locale: parameters.locale,
       paymentIntentID: parameters.paymentIntentID,
       chargingStationID: parameters.chargingStationID,
-      connectorID: parameters.connectorID
+      connectorID: parameters.connectorID,
+      verificationToken: parameters.verificationToken,
     }, {
       headers: this.buildHttpHeaders(),
     }).pipe(

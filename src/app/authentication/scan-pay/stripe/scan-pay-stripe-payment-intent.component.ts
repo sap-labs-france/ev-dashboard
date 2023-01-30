@@ -145,7 +145,8 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
         locale: this.locale,
         paymentIntentID: this.paymentIntent?.id,
         chargingStationID: this.chargingStationID,
-        connectorID: this.connectorID
+        connectorID: this.connectorID,
+        verificationToken: this.token,
       }).toPromise();
       return response?.internalData;
     } finally {

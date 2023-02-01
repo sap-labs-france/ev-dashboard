@@ -52,8 +52,12 @@ export const AuthenticationRoutes: Routes = [
     component: ScanPayStripePaymentIntentComponent,
   },
   // Step #3 - show and can stop transaction
+  // {
+  //   path: 'scan-pay/stop/:transactionID/:token',
+  //   component: ShowTransactionComponent,
+  // },
   {
-    path: 'scan-pay/stop/:transactionID/:token',
+    path: 'scan-pay/stop/:transactionID',
     component: ShowTransactionComponent,
   },
   {

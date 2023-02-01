@@ -26,7 +26,7 @@ export class ShowTransactionComponent implements OnInit, OnDestroy {
   @ViewChild('transactionHeader') public transactionHeader!: TransactionHeaderComponent;
 
   @Input() public transactionID!: number;
-  @Input() public token!: number;
+  @Input() public token!: string;
 
   public currentTransactionID!: number;
   public transaction: Transaction;
@@ -43,7 +43,8 @@ export class ShowTransactionComponent implements OnInit, OnDestroy {
     private configService: ConfigService,
     private activatedRoute: ActivatedRoute) {
     this.currentTransactionID = this.activatedRoute?.snapshot?.params['transactionID'];
-    this.token = this.activatedRoute?.snapshot?.params['token'];
+    // this.token = this.activatedRoute?.snapshot?.params['token'];
+    this.token = this.activatedRoute?.snapshot?.queryParams['token'];
   }
 
   public ngOnInit(): void {

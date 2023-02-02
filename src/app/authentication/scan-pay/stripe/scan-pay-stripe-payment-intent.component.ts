@@ -27,6 +27,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
   public firstName: string;
   public chargingStationID: string;
   public connectorID: number;
+  public token: string;
   // Stripe elements
   public elements: StripeElements;
   public paymentElement: StripePaymentElement;
@@ -52,6 +53,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
     this.firstName = this.windowService.getUrlParameterValue('firstName');
     this.chargingStationID = this.windowService.getUrlParameterValue('chargingStationID');
     this.connectorID = +this.windowService.getUrlParameterValue('connectorID');
+    this.token = this.windowService.getUrlParameterValue('VerificationToken');
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.locale = locale.currentLocaleJS;
     });
@@ -123,7 +125,8 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
         siteAreaID: this.siteAreaID,
         locale: this.locale,
         chargingStationID: this.chargingStationID,
-        connectorID: this.connectorID
+        connectorID: this.connectorID,
+        verificationToken: this.token,
       }).toPromise();
       return response?.internalData;
     } finally {
@@ -142,7 +145,8 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
         locale: this.locale,
         paymentIntentID: this.paymentIntent?.id,
         chargingStationID: this.chargingStationID,
-        connectorID: this.connectorID
+        connectorID: this.connectorID,
+        verificationToken: this.token,
       }).toPromise();
       return response?.internalData;
     } finally {

@@ -41,14 +41,21 @@ export const AuthenticationRoutes: Routes = [
     path: 'account-onboarding',
     component: AccountOnboardingComponent,
   },
-  {
-    path: 'scan-pay',
-    component: ScanPayStripePaymentIntentComponent,
-  },
+  // Step #1 - flash QR code
   {
     path: 'scan-pay/:siteAreaID/:chargingStationID/:connectorID',
     component: ScanPayEmailComponent,
   },
+  // Step #2 - click on the link from the email
+  {
+    path: 'scan-pay',
+    component: ScanPayStripePaymentIntentComponent,
+  },
+  // Step #3 - show and can stop transaction
+  // {
+  //   path: 'scan-pay/stop/:transactionID/:token',
+  //   component: ShowTransactionComponent,
+  // },
   {
     path: 'scan-pay/stop/:transactionID',
     component: ShowTransactionComponent,

@@ -3,6 +3,10 @@ import { UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { PaymentIntent, PaymentIntentResult, StripeElementLocale, StripeElements, StripeElementsOptions, StripePaymentElement } from '@stripe/stripe-js';
+import { StatusCodes } from 'http-status-codes';
+import { AuthorizationService } from 'services/authorization.service';
+import { HTTPError } from 'types/HTTPError';
+import { User } from 'types/User';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
@@ -41,22 +45,25 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
     private router: Router,
     private localeService: LocaleService,
     public translateService: TranslateService,
-    public windowService: WindowService,) {
+    public windowService: WindowService,
+    public authorizationService: AuthorizationService) {
     this.isBillingComponentActive = true; // comment on gere ça ??
   }
 
   public ngOnInit(): void {
-    void this.initialize();
+    this.token = this.windowService.getUrlParameterValue('VerificationToken');
     this.email = this.windowService.getUrlParameterValue('email');
-    this.siteAreaID = this.windowService.getUrlParameterValue('siteAreaID');
+    const user = { email: this.email, password: this.token, acceptEula: true } as Partial<User>;
     this.name = this.windowService.getUrlParameterValue('name');
+    this.siteAreaID = this.windowService.getUrlParameterValue('siteAreaID');
     this.firstName = this.windowService.getUrlParameterValue('firstName');
     this.chargingStationID = this.windowService.getUrlParameterValue('chargingStationID');
     this.connectorID = +this.windowService.getUrlParameterValue('connectorID');
-    this.token = this.windowService.getUrlParameterValue('VerificationToken');
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.locale = locale.currentLocaleJS;
     });
+    void this.initialize();
+    this.login(user as User);
   }
 
   public linkCardToAccount() {
@@ -85,6 +92,27 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
     return this.stripeService.getStripeFacade();
   }
 
+  private login(user: User): void {
+    this.spinnerService.show();
+    // clear User and UserAuthorization
+    this.authorizationService.cleanUserAndUserAuthorization();
+    // Login
+    this.centralServerService.login(user).subscribe({
+      next: (result) => {
+        this.spinnerService.hide();
+        this.centralServerService.loginSucceeded(result.token);
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
+      }
+    });
+  }
+
   private initializeElements(clientSecret: string) {
     const options: StripeElementsOptions = {
       locale: this.locale as StripeElementLocale,
@@ -99,7 +127,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
     try {
       // Step #2 - Confirm the STRIPE Payment Intent to carry out 3DS authentication (redirects to the bank authentication page)
       const operationResult: PaymentIntentResult = await this.getStripeFacade().confirmPayment({
-        elements : this.elements,
+        elements: this.elements,
         redirect: 'if_required'
       });
       if (operationResult.error) {

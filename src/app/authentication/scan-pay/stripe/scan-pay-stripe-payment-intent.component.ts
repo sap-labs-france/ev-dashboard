@@ -1,11 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { PaymentIntent, PaymentIntentResult, StripeElementLocale, StripeElements, StripeElementsOptions, StripePaymentElement } from '@stripe/stripe-js';
-import { StatusCodes } from 'http-status-codes';
 import { AuthorizationService } from 'services/authorization.service';
-import { HTTPError } from 'types/HTTPError';
 import { User } from 'types/User';
 
 import { CentralServerService } from '../../../services/central-server.service';
@@ -62,8 +60,8 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.locale = locale.currentLocaleJS;
     });
-    void this.initialize();
     this.login(user as User);
+    void this.initialize();
   }
 
   public linkCardToAccount() {
@@ -73,7 +71,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
   private async initialize(): Promise<void> {
     try {
       this.spinnerService.show();
-      const stripeFacade = await this.stripeService.initializeStripeForScanAndPay();
+      const stripeFacade = await this.stripeService.initializeStripe();
       // Step #1 - Create A STRIPE Payment Intent to be able to initialize the payment elements
       this.paymentIntent = await this.createPaymentIntent() as PaymentIntent;
       if (!stripeFacade) {

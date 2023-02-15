@@ -1602,22 +1602,6 @@ export class CentralServerService {
     );
   }
 
-  public getBillingSettingsScanAndPay(): Observable<BillingSettings> {
-    // verify init
-    this.checkInit();
-    const params: { [param: string]: string } = {};
-    params['Subdomain'] = this.windowService.getSubdomain();
-    // Build the URL
-    const url = this.buildUtilRestEndpointUrl(RESTServerRoute.REST_BILLING_SETTING_SCAN_AND_PAY);
-    // Execute the REST Service
-    return this.httpClient.get<BillingSettings>(url, {
-      headers: this.buildHttpHeaders(),
-      params
-    }).pipe(
-      catchError(this.handleHttpError),
-    );
-  }
-
   public getTransactionScanPay(transactionId: number): Observable<Transaction> {
     // Verify init
     this.checkInit();

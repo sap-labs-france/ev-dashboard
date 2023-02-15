@@ -271,21 +271,6 @@ export class ComponentService {
     });
   }
 
-  public getBillingSettingsSanAndPay(): Observable<BillingSettings> {
-    return new Observable((observer) => {
-      // Get the Billing settings
-      this.centralServerService.getBillingSettingsScanAndPay().subscribe({
-        next: (billingSettings) => {
-          observer.next(billingSettings);
-          observer.complete();
-        },
-        error: (error) => {
-          observer.error(error);
-        }
-      });
-    });
-  }
-
   public getBillingAccounts(paging: Paging = Constants.DEFAULT_PAGING,
     ordering: Ordering[] = []): Observable<BillingAccountDataResult> {
     return new Observable((observer) => {

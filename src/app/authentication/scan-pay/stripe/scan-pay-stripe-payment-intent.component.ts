@@ -3,7 +3,9 @@ import { UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { PaymentIntent, PaymentIntentResult, StripeElementLocale, StripeElements, StripeElementsOptions, StripePaymentElement } from '@stripe/stripe-js';
+import { Observable, firstValueFrom } from 'rxjs';
 import { AuthorizationService } from 'services/authorization.service';
+import { LoginResponse } from 'types/DataResult';
 import { User } from 'types/User';
 
 import { CentralServerService } from '../../../services/central-server.service';
@@ -51,7 +53,6 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
   public ngOnInit(): void {
     this.token = this.windowService.getUrlParameterValue('VerificationToken');
     this.email = this.windowService.getUrlParameterValue('email');
-    const user = { email: this.email, password: this.token, acceptEula: true } as Partial<User>;
     this.name = this.windowService.getUrlParameterValue('name');
     this.siteAreaID = this.windowService.getUrlParameterValue('siteAreaID');
     this.firstName = this.windowService.getUrlParameterValue('firstName');
@@ -60,7 +61,6 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.locale = locale.currentLocaleJS;
     });
-    this.login(user as User);
     void this.initialize();
   }
 
@@ -68,17 +68,27 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
     void this.doConfirmPaymentIntent();
   }
 
-  private async initialize(): Promise<void> {
+  private initialize() {
     try {
       this.spinnerService.show();
-      const stripeFacade = await this.stripeService.initializeStripe();
-      // Step #1 - Create A STRIPE Payment Intent to be able to initialize the payment elements
-      this.paymentIntent = await this.createPaymentIntent() as PaymentIntent;
-      if (!stripeFacade) {
-        this.messageService.showErrorMessage('settings.billing.not_properly_set');
-      } else {
-        this.initializeElements(this.paymentIntent.client_secret);
-      }
+      const user = { email: this.email, password: this.token, acceptEula: true } as Partial<User>;
+      this.centralServerService.login(user).subscribe({
+        next: async (result) => {
+          this.centralServerService.loginSucceeded(result.token);
+          const stripeFacade = await this.stripeService.initializeStripe();
+          // Step #1 - Create A STRIPE Payment Intent to be able to initialize the payment elements
+          this.paymentIntent = await this.createPaymentIntent() as PaymentIntent;
+          if (!stripeFacade) {
+            this.messageService.showErrorMessage('settings.billing.not_properly_set');
+          } else {
+            this.initializeElements(this.paymentIntent.client_secret);
+          }
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          this.messageService.showErrorMessage('settings.billing.not_properly_set');
+        }
+      });
     } catch (error) {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_payment_intend');
     } finally {
@@ -88,27 +98,6 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
 
   private getStripeFacade() {
     return this.stripeService.getStripeFacade();
-  }
-
-  private login(user: User): void {
-    this.spinnerService.show();
-    // clear User and UserAuthorization
-    this.authorizationService.cleanUserAndUserAuthorization();
-    // Login
-    this.centralServerService.login(user).subscribe({
-      next: (result) => {
-        this.spinnerService.hide();
-        this.centralServerService.loginSucceeded(result.token);
-      },
-      error: (error) => {
-        this.spinnerService.hide();
-        switch (error.status) {
-          default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
-        }
-      }
-    });
   }
 
   private initializeElements(clientSecret: string) {
@@ -144,7 +133,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
   private async createPaymentIntent() {
     try {
       this.spinnerService.show();
-      const response = await this.centralServerService.scanPayHandlePaymentIntent({
+      const response = await this.centralServerService.scanPayHandlePaymentIntentSetup({
         email: this.email,
         firstName: this.firstName,
         name: this.name,
@@ -163,7 +152,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
   private async retrievePaymentIntentAndStartTransaction() {
     try {
       this.spinnerService.show();
-      const response = await this.centralServerService.scanPayHandlePaymentIntent({
+      const response = await this.centralServerService.scanPayHandlePaymentIntentRetrieve({
         email: this.email,
         firstName: this.firstName,
         name: this.name,

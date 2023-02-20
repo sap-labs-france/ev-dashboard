@@ -882,7 +882,7 @@ export class CentralServerService {
   public getUserSessionContext(userID: string, chargingStationID: string, connectorID: number): Observable<UserSessionContext> {
     // Verify init
     this.checkInit();
-    return this.httpClient.get<UserSessionContext>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_SESSION_CONTEXT, { id: userID } ),
+    return this.httpClient.get<UserSessionContext>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_SESSION_CONTEXT, { id: userID }),
       {
         headers: this.buildHttpHeaders(),
         params: {
@@ -1622,13 +1622,35 @@ export class CentralServerService {
       );
   }
 
-  public scanPayHandlePaymentIntent(parameters: any): Observable<BillingOperationResult> {
+  public scanPayHandlePaymentIntentSetup(parameters: any): Observable<BillingOperationResult> {
     this.checkInit();
     // Build the URL
-    const urlPattern: RESTServerRoute = (!parameters.paymentIntentID) ?
-      RESTServerRoute.REST_SCAN_PAY_PAYMENT_INTENT_SETUP : RESTServerRoute.REST_SCAN_PAY_PAYMENT_INTENT_RETRIEVE;
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_SCAN_PAY_PAYMENT_INTENT_SETUP);
     // Execute the REST service
-    return this.httpClient.post<BillingOperationResult>(this.buildUtilRestEndpointUrl(urlPattern), {
+    return this.httpClient.post<BillingOperationResult>(url, {
+      subdomain: this.windowService.getSubdomain(),
+      email: parameters.email,
+      firstName: parameters.firstName,
+      name: parameters.name,
+      siteAreaID: parameters.siteAreaID,
+      locale: parameters.locale,
+      paymentIntentID: parameters.paymentIntentID,
+      chargingStationID: parameters.chargingStationID,
+      connectorID: parameters.connectorID,
+      verificationToken: parameters.verificationToken,
+    }, {
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
+  }
+
+  public scanPayHandlePaymentIntentRetrieve(parameters: any): Observable<BillingOperationResult> {
+    this.checkInit();
+    // Build the URL
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_SCAN_PAY_PAYMENT_INTENT_RETRIEVE);
+    // Execute the REST service
+    return this.httpClient.post<BillingOperationResult>(url, {
       subdomain: this.windowService.getSubdomain(),
       email: parameters.email,
       firstName: parameters.firstName,

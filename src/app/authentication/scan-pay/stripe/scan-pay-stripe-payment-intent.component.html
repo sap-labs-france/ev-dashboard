@@ -6,18 +6,20 @@
           <div class="card-header card-header-primary text-center h-25">
             <div class="social-line">
               <div style="height: 125px; display: contents; margin: 5px;">
-                <h4 class="mb2 card-title text-center" style="padding: 10px;">{{'settings.billing.payment_intent_create_title' | translate}}</h4>
+                <h4 class="mb2 card-title text-center" style="padding: 10px;" *ngIf="!isSendClicked">{{'settings.billing.payment_intent_create_title' | translate}}</h4>
+                <h4 class="mb2 card-title text-center" style="padding: 10px;" *ngIf="isSendClicked">{{"settings.billing.payment_intent_email_sent" | translate}}</h4>
               </div>
             </div>
           </div>
           <div class="card-body">
-            <form class="form">
+            <h4 class="mb2 card-title text-center" style="padding: 10px;" *ngIf="isSendClicked">{{"settings.billing.scan_pay_session_started" | translate}}</h4>
+            <form class="form" *ngIf="!isSendClicked">
               <div id="payment-element">
                 <!-- Mount the Payment Element here -->
               </div>
             </form>
           </div>
-          <div class="card-footer justify-content-center mb-4">
+          <div class="card-footer justify-content-center mb-4" *ngIf="!isSendClicked">
             <button mat-button type="submit" (click)=linkCardToAccount()>{{'settings.billing.payment_intent_save_start' | translate}}</button>
           </div>
         </div>

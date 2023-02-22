@@ -3,9 +3,7 @@ import { UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { PaymentIntent, PaymentIntentResult, StripeElementLocale, StripeElements, StripeElementsOptions, StripePaymentElement } from '@stripe/stripe-js';
-import { Observable, firstValueFrom } from 'rxjs';
 import { AuthorizationService } from 'services/authorization.service';
-import { LoginResponse } from 'types/DataResult';
 import { User } from 'types/User';
 
 import { CentralServerService } from '../../../services/central-server.service';
@@ -32,6 +30,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
   public chargingStationID: string;
   public connectorID: number;
   public token: string;
+  public isSendClicked: boolean;
   // Stripe elements
   public elements: StripeElements;
   public paymentElement: StripePaymentElement;
@@ -72,6 +71,8 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
     try {
       this.spinnerService.show();
       const user = { email: this.email, password: this.token, acceptEula: true } as Partial<User>;
+      // clear User and UserAuthorization
+      this.authorizationService.cleanUserAndUserAuthorization();
       this.centralServerService.login(user).subscribe({
         next: async (result) => {
           this.centralServerService.loginSucceeded(result.token);
@@ -122,7 +123,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
         this.messageService.showErrorMessage('settings.billing.payment_intent_create_error', { stripeError: operationResult.error.message });
       } else {
         // Operation succeeded
-        const toto = await this.retrievePaymentIntentAndStartTransaction();
+        await this.retrievePaymentIntentAndStartTransaction();
         this.messageService.showSuccessMessage('settings.billing.payment_intent_create_success');
       }
     } catch (error) {
@@ -166,8 +167,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
       return response?.internalData;
     } finally {
       this.spinnerService.hide();
-      //TODO: open same tab the /stop avec l'ID de la transaction current
-      // window.open('http://slf.localhost:45000/scan-pay/stop/123');
+      this.isSendClicked = true;
     }
   }
 }

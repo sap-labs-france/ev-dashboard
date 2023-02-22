@@ -1775,6 +1775,11 @@
       "payment_intent_create_account_error": "Une erreur est survenue lors du traitement de vos informations personnelles : {{error}}",
       "payment_intent_save_start": "Enregistrer et commencer la charge",
       "payment_intent_email_sent": "Email Envoyé",
+      "scan_pay_stop_title": "Refresh this page to follow your current transaction details",
+      "scan_pay_stop_button": "Stop transaction",
+      "scan_pay_stop_success": "The session has been stopped successfully. You can unplug your car",
+      "scan_pay_stop_error": "Error occurred while stopping the session, try stopping transaction from your car or contact the support",
+      "scan_pay_session_started": "Session started, check your email for more details",
       "transaction_billing_activation": "Activer la facturation",
       "transaction_billing_activation_title": "Activation de la facturation",
       "transaction_billing_activation_confirm": [

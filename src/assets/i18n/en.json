@@ -1780,6 +1780,7 @@
       "scan_pay_stop_button": "Stop transaction",
       "scan_pay_stop_success": "The session has been stopped successfully. You can unplug your car",
       "scan_pay_stop_error": "Error occurred while stopping the session, try stopping transaction from your car or contact the support",
+      "scan_pay_session_started": "Session started, check your email for more details",
       "transaction_billing_activation": "Billing Activation",
       "transaction_billing_activation_title": "Activate Billing of Transactions",
       "transaction_billing_activation_confirm": [

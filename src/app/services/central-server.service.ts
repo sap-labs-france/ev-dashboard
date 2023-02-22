@@ -1602,26 +1602,6 @@ export class CentralServerService {
     );
   }
 
-  public getTransactionScanPay(transactionId: number): Observable<Transaction> {
-    // Verify init
-    this.checkInit();
-    if (!transactionId) {
-      return EMPTY;
-    }
-    const params: { [param: string]: string } = {};
-    params['Subdomain'] = this.windowService.getSubdomain();
-    params['transactionId'] = transactionId.toString();
-    // Execute the REST service
-    return this.httpClient.get<Transaction>(this.buildUtilRestEndpointUrl(RESTServerRoute.REST_SCAN_PAY_TANSACTION),
-      {
-        headers: this.buildHttpHeaders(),
-        params
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
   public scanPayHandlePaymentIntentSetup(parameters: any): Observable<BillingOperationResult> {
     this.checkInit();
     // Build the URL
@@ -1661,22 +1641,6 @@ export class CentralServerService {
       chargingStationID: parameters.chargingStationID,
       connectorID: parameters.connectorID,
       verificationToken: parameters.verificationToken,
-    }, {
-      headers: this.buildHttpHeaders(),
-    }).pipe(
-      catchError(this.handleHttpError),
-    );
-  }
-
-  public scanPayHandleCapturePayment(parameters: any): Observable<BillingOperationResult> {
-    this.checkInit();
-    // Build the URL
-    const urlPattern: RESTServerRoute = RESTServerRoute.REST_SCAN_PAY_PAYMENT_INTENT_CAPTURE;
-    // Execute the REST service
-    return this.httpClient.post<BillingOperationResult>(this.buildUtilRestEndpointUrl(urlPattern), {
-      subdomain: this.windowService.getSubdomain(),
-      email: parameters.email,
-      transactionId: parameters.transactionId
     }, {
       headers: this.buildHttpHeaders(),
     }).pipe(

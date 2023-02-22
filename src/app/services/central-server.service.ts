@@ -1602,7 +1602,26 @@ export class CentralServerService {
     );
   }
 
-  public scanPayHandlePaymentIntentSetup(parameters: any): Observable<BillingOperationResult> {
+  public getTransactionScanPay(transactionId: number): Observable<Transaction> {
+    // Verify init
+    this.checkInit();
+    if (!transactionId) {
+      return EMPTY;
+    }
+    const params: { [param: string]: string } = {};
+    params['ID'] = transactionId.toString();
+    // Execute the REST service
+    return this.httpClient.get<Transaction>(this.buildRestEndpointUrl(RESTServerRoute.REST_SCAN_PAY_TANSACTION),
+      {
+        headers: this.buildHttpHeaders(),
+        params
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public scanPayHandlePaymentIntent(parameters: any): Observable<BillingOperationResult> {
     this.checkInit();
     // Build the URL
     const url = this.buildRestEndpointUrl(RESTServerRoute.REST_SCAN_PAY_PAYMENT_INTENT_SETUP);
@@ -1628,19 +1647,13 @@ export class CentralServerService {
   public scanPayHandlePaymentIntentRetrieve(parameters: any): Observable<BillingOperationResult> {
     this.checkInit();
     // Build the URL
-    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_SCAN_PAY_PAYMENT_INTENT_RETRIEVE);
+    // const urlPattern: RESTServerRoute = RESTServerRoute.REST_SCAN_PAY_PAYMENT_INTENT_CAPTURE;
+    const params: { [param: string]: string } = {};
+    params['ID'] = parameters.transactionId.toString();
+    params['email'] = parameters.email;
     // Execute the REST service
-    return this.httpClient.post<BillingOperationResult>(url, {
-      subdomain: this.windowService.getSubdomain(),
-      email: parameters.email,
-      firstName: parameters.firstName,
-      name: parameters.name,
-      siteAreaID: parameters.siteAreaID,
-      locale: parameters.locale,
-      paymentIntentID: parameters.paymentIntentID,
-      chargingStationID: parameters.chargingStationID,
-      connectorID: parameters.connectorID,
-      verificationToken: parameters.verificationToken,
+    return this.httpClient.post<BillingOperationResult>(this.buildUtilRestEndpointUrl(RESTServerRoute.REST_SCAN_PAY_PAYMENT_INTENT_CAPTURE), {
+      params
     }, {
       headers: this.buildHttpHeaders(),
     }).pipe(
@@ -3236,11 +3249,11 @@ export class CentralServerService {
       ampLimitValue,
       forceUpdateChargingPlan,
     },
-      {
-        headers: this.buildHttpHeaders(),
-      }).pipe(
-        catchError(this.handleHttpError),
-      );
+    {
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
   }
 
   public chargingStationSetChargingProfile(charger: ChargingStation, connectorId: number, chargingProfile: any): Observable<ActionResponse> {
@@ -3334,11 +3347,11 @@ export class CentralServerService {
       chargingStationID: id,
       forceUpdateOCPPParamsFromTemplate: false,
     },
-      {
-        headers: this.buildHttpHeaders(),
-      }).pipe(
-        catchError(this.handleHttpError),
-      );
+    {
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
   }
 
   public updateChargingStationOCPPParamWithTemplate(id: string) {

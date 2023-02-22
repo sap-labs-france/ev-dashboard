@@ -1768,6 +1768,7 @@
       "payment_methods_cvc_error": "Ungültiger Verifizierungscode",
       "payment_intent_create_title": "Enter your card details",
       "payment_intent_create_success": "The payment method has been created successfully",
+      "payment_intent_create_success_title": "Payment succeeded",
       "payment_intent_create_error": "Error occurred while creating the payment method : {{stripeError}}",
       "payment_intent_create_account_title": "Enter your personnal information",
       "payment_intent_create_account_send_email": "Send me verification email",

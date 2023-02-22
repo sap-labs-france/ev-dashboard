@@ -1,12 +1,11 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthorizationService } from 'services/authorization.service';
-import { ConfigService } from 'services/config.service';
-import { WindowService } from 'services/window.service';
 import { TransactionHeaderComponent } from 'shared/dialogs/transaction/header/transaction-header.component';
 import { User } from 'types/User';
 
 import { CentralServerService } from '../../../services/central-server.service';
+import { ConfigService } from '../../../services/config.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { Transaction } from '../../../types/Transaction';
@@ -27,25 +26,26 @@ export class ShowTransactionComponent implements OnInit, OnDestroy {
   public transaction: Transaction;
   public isClicked: boolean;
   public token: string;
+  public user: Partial<User>;
   public email: string;
 
   private refreshInterval;
-
   public constructor(
     private spinnerService: SpinnerService,
     private messageService: MessageService,
     private router: Router,
     private centralServerService: CentralServerService,
-    private authorizationService: AuthorizationService,
-    private windowService: WindowService,
     private configService: ConfigService,
+    private authorizationService: AuthorizationService,
     private activatedRoute: ActivatedRoute) {
     this.currentTransactionID = this.activatedRoute?.snapshot?.params['transactionID'];
-    this.email = this.windowService.getUrlParameterValue('email');
-    this.token = this.windowService.getUrlParameterValue('token');
+    this.email = this.activatedRoute?.snapshot?.params['email'];
+    this.token = this.activatedRoute?.snapshot?.params['token'];
+    this.user = { email: this.email, verificationToken: this.token, password: this.token, acceptEula: true } as Partial<User>;
   }
 
   public ngOnInit(): void {
+    this.login(this.user);
     // Load
     this.loadData();
   }
@@ -106,6 +106,27 @@ export class ShowTransactionComponent implements OnInit, OnDestroy {
     });
   }
 
+  private login(user: Partial<User>): void {
+    this.spinnerService.show();
+    // clear User and UserAuthorization
+    this.authorizationService.cleanUserAndUserAuthorization();
+    // Login
+    this.centralServerService.login(user).subscribe({
+      next: (result) => {
+        this.spinnerService.hide();
+        this.centralServerService.loginSucceeded(result.token);
+
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        switch (error.status) {
+          default:
+            Utils.handleHttpError(error, this.router, this.messageService,
+              this.centralServerService, 'general.unexpected_error_backend');
+        }
+      }
+    });
+  }
 
   private destroyTransactionRefresh() {
     if (this.refreshInterval) {

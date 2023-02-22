@@ -125,6 +125,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
         // Operation succeeded
         await this.retrievePaymentIntentAndStartTransaction();
         this.messageService.showSuccessMessage('settings.billing.payment_intent_create_success');
+        this.isSendClicked = true;
       }
     } catch (error) {
       Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_payment_intend');

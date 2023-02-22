@@ -1768,6 +1768,7 @@
       "payment_methods_cvc_error": "Invalid verification code",
       "payment_intent_create_title": "Enter your card details",
       "payment_intent_create_success": "The payment method has been created successfully",
+      "payment_intent_create_success_title": "Payment succeeded",
       "payment_intent_create_error": "Error occurred while creating the payment method : {{stripeError}}",
       "transaction_billing_activation": "Billing Activation",
       "payment_intent_create_account_title": "Enter your personnal information",

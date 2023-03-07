@@ -1629,11 +1629,16 @@ export class CentralServerService {
     this.checkInit();
     // Execute the REST service
     return this.httpClient.post<BillingOperationResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_SCAN_PAY_PAYMENT_INTENT_RETRIEVE), {
+      subdomain: this.windowService.getSubdomain(),
       email: parameters.email,
+      firstName: parameters.firstName,
+      name: parameters.name,
       siteAreaID: parameters.siteAreaID,
-      verificationToken: parameters.verificationToken,
+      locale: parameters.locale,
       paymentIntentID: parameters.paymentIntentID,
       chargingStationID: parameters.chargingStationID,
+      connectorID: parameters.connectorID,
+      verificationToken: parameters.verificationToken,
     }, {
       headers: this.buildHttpHeaders(),
     }).pipe(

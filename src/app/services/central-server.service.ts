@@ -1602,25 +1602,6 @@ export class CentralServerService {
     );
   }
 
-  public getTransactionScanPay(transactionId: number): Observable<Transaction> {
-    // Verify init
-    this.checkInit();
-    if (!transactionId) {
-      return EMPTY;
-    }
-    const params: { [param: string]: string } = {};
-    params['ID'] = transactionId.toString();
-    // Execute the REST service
-    return this.httpClient.get<Transaction>(this.buildRestEndpointUrl(RESTServerRoute.REST_SCAN_PAY_TANSACTION),
-      {
-        headers: this.buildHttpHeaders(),
-        params
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
   public scanPayHandlePaymentIntent(parameters: any): Observable<BillingOperationResult> {
     this.checkInit();
     // Build the URL
@@ -1646,14 +1627,13 @@ export class CentralServerService {
 
   public scanPayHandlePaymentIntentRetrieve(parameters: any): Observable<BillingOperationResult> {
     this.checkInit();
-    // Build the URL
-    // const urlPattern: RESTServerRoute = RESTServerRoute.REST_SCAN_PAY_PAYMENT_INTENT_CAPTURE;
-    const params: { [param: string]: string } = {};
-    params['ID'] = parameters.transactionId.toString();
-    params['email'] = parameters.email;
     // Execute the REST service
-    return this.httpClient.post<BillingOperationResult>(this.buildUtilRestEndpointUrl(RESTServerRoute.REST_SCAN_PAY_PAYMENT_INTENT_CAPTURE), {
-      params
+    return this.httpClient.post<BillingOperationResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_SCAN_PAY_PAYMENT_INTENT_RETRIEVE), {
+      email: parameters.email,
+      siteAreaID: parameters.siteAreaID,
+      verificationToken: parameters.verificationToken,
+      paymentIntentID: parameters.paymentIntentID,
+      chargingStationID: parameters.chargingStationID,
     }, {
       headers: this.buildHttpHeaders(),
     }).pipe(

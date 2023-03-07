@@ -135,7 +135,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
   private async createPaymentIntent() {
     try {
       this.spinnerService.show();
-      const response = await this.centralServerService.scanPayHandlePaymentIntentSetup({
+      const response = await this.centralServerService.scanPayHandlePaymentIntent({
         email: this.email,
         firstName: this.firstName,
         name: this.name,

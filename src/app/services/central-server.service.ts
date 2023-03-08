@@ -33,7 +33,7 @@ import { StatisticData } from '../types/Statistic';
 import { Tag } from '../types/Tag';
 import { Tenant } from '../types/Tenant';
 import { OcpiData, Transaction } from '../types/Transaction';
-import { User, UserSessionContext, UserToken } from '../types/User';
+import { User, UserRole, UserSessionContext, UserToken } from '../types/User';
 import { Constants } from '../utils/Constants';
 import { Utils } from '../utils/Utils';
 import { ConfigService } from './config.service';
@@ -2099,7 +2099,7 @@ export class CentralServerService {
   }
 
   public isAuthenticated(): boolean {
-    return this.getLoggedUserToken() && !new JwtHelperService().isTokenExpired(this.getLoggedUserToken());
+    return this.getLoggedUserToken() && !new JwtHelperService().isTokenExpired(this.getLoggedUserToken()) && this.getLoggedUser().role !== UserRole.EXTERNAL;
   }
 
   public getCurrentUserSubject(): BehaviorSubject<UserToken> {

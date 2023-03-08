@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { PaymentIntent, PaymentIntentResult, StripeElementLocale, StripeElements, StripeElementsOptions, StripePaymentElement } from '@stripe/stripe-js';
 import { AuthorizationService } from 'services/authorization.service';
+import { HTTPError } from 'types/HTTPError';
 import { User } from 'types/User';
 
 import { CentralServerService } from '../../../services/central-server.service';
@@ -31,6 +32,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
   public connectorID: number;
   public token: string;
   public isSendClicked: boolean;
+  public isTokenValid = true;
   // Stripe elements
   public elements: StripeElements;
   public paymentElement: StripePaymentElement;
@@ -146,6 +148,17 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
         verificationToken: this.token,
       }).toPromise();
       return response?.internalData;
+    } catch (error) {
+      this.spinnerService.hide();
+      switch (error.status) {
+        case HTTPError.INVALID_TOKEN_ERROR:
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'authentication.verify_email_token_not_valid');
+          this.isTokenValid = false;
+          break;
+        default:
+          Utils.handleHttpError(error, this.router, this.messageService,
+            this.centralServerService, 'general.unexpected_error_backend');
+      }
     } finally {
       this.spinnerService.hide();
     }

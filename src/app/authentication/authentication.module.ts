@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ScanPayEmailComponent } from 'authentication/scan-pay/email/scan-pay-email.component';
 import { ComponentModule } from 'shared/component/component.module';
-import { TransactionComponent } from 'shared/dialogs/transaction/transaction.component';
 import { FormattersModule } from 'shared/formatters/formatters.module';
 
 import { MaterialModule } from '../app.module';
@@ -19,6 +18,7 @@ import { AuthenticationLoginComponent } from './login/authentication-login.compo
 import { AuthenticationMercedesDataUsageComponent } from './mercedes-data-usage/authentication-mercedes-data-usage.component';
 import { AuthenticationRegisterComponent } from './register/authentication-register.component';
 import { AuthenticationResetPasswordComponent } from './reset-password/authentication-reset-password.component';
+import { ScanPayInvoiceComponent } from './scan-pay/invoices/scan-pay-invoice.component';
 import { ScanPayComponent } from './scan-pay/scan-pay.component';
 import { ShowTransactionComponent } from './scan-pay/show-transaction/show-transaction.component';
 import { ScanPayStripePaymentIntentComponent } from './scan-pay/stripe/scan-pay-stripe-payment-intent.component';
@@ -50,6 +50,7 @@ import { AuthenticationVerifyEmailComponent } from './verify-email/authenticatio
     ScanPayEmailComponent,
     ShowTransactionComponent,
     ScanPayComponent,
+    ScanPayInvoiceComponent,
   ],
 })
 

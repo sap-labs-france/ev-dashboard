@@ -57,10 +57,9 @@ export class ShowTransactionComponent implements OnInit, OnDestroy {
 
   public loadData() {
     this.spinnerService.show();
-    const user = { email: this.email, password: this.token, acceptEula: true } as Partial<User>;
     // clear User and UserAuthorization
     this.authorizationService.cleanUserAndUserAuthorization();
-    this.centralServerService.login(user).subscribe({
+    this.centralServerService.login(this.user).subscribe({
       next: (result) => {
         this.centralServerService.loginSucceeded(result.token);
         this.centralServerService.getTransaction(this.currentTransactionID).subscribe({

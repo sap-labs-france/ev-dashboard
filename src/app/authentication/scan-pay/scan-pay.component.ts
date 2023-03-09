@@ -10,7 +10,6 @@ import { TenantComponents } from '../../types/Tenant';
 @Component({
   selector: 'app-scan-pay',
   templateUrl: 'scan-pay.component.html',
-  // styleUrls: ['tenant.component.scss']
 })
 export class ScanPayComponent extends AbstractTabComponent{
   @Input() public transactionID!: number;
@@ -20,9 +19,7 @@ export class ScanPayComponent extends AbstractTabComponent{
   public canListTransactionsInError: boolean;
 
   public constructor(
-    private authorizationService: AuthorizationService,
-    private componentService: ComponentService,
     activatedRoute: ActivatedRoute, windowService: WindowService) {
-    super(activatedRoute, windowService, ['inprogress', 'history', 'inerror', 'refund']);
+    super(activatedRoute, windowService, ['all']);
   }
 }

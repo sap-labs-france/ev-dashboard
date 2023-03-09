@@ -12,10 +12,9 @@
           </div>
           <div class="card-body">
             <app-show-transaction [transactionID]="transactionID"></app-show-transaction>
+            <app-scan-pay-invoice></app-scan-pay-invoice>
           </div>
           <div class="card-footer justify-content-center mb-4">
-            <!-- To change in i18n once the POC validate -->
-            <!-- <button mat-button type="submit" (click)=linkCardToAccount()>{{'settings.billing.payment_intent_save_start' | translate}}</button> -->
           </div>
         </div>
       </div>

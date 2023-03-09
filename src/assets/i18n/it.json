@@ -1256,6 +1256,7 @@
     "role_super_admin": "Super Amministratore",
     "role_basic": "Base",
     "role_demo": "Demo",
+    "role_external": "External",
     "role_invalid": "Ruolo non valido",
     "role_mult_all": "Tutti i Ruoli",
     "role_mult_admin_demo": "Amministratore o Demo",
@@ -1781,6 +1782,8 @@
       "scan_pay_stop_success": "The session has been stopped successfully. You can unplug your car",
       "scan_pay_stop_error": "Error occurred while stopping the session, try stopping transaction from your car or contact the support",
       "scan_pay_session_started": "Session started, check your email for more details",
+      "scan_pay_download_title": "Invoice downloading",
+      "scan_pay_download": "Invoice will be downloaded, please don't close this page.",
       "transaction_billing_activation": "Attivazione Fatturazione",
       "transaction_billing_activation_title": "Attivazione Fatturazione",
       "transaction_billing_activation_confirm": [

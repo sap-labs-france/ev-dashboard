@@ -53,16 +53,13 @@ export const AuthenticationRoutes: Routes = [
     component: ScanPayStripePaymentIntentComponent,
   },
   // Step #3 - show and can stop transaction
-  // {
-  //   path: 'scan-pay/stop/:transactionID/:token',
-  //   component: ShowTransactionComponent,
-  // },
   {
     path: 'scan-pay/stop/:transactionID/:email/:token',
     component: ShowTransactionComponent,
   },
+  // Step #4 - download invoice from email once transaction is billed
   {
-    path: ':invoiceID/download',
+    path: 'scan-pay/:invoiceID/download',
     component: ScanPayInvoiceComponent
   },
   {

@@ -124,9 +124,13 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
         // 3DS authentication has been aborted or user was not able to authenticate
         this.messageService.showErrorMessage('settings.billing.payment_intent_create_error', { stripeError: operationResult.error.message });
       } else {
-        // Operation succeeded
-        await this.retrievePaymentIntentAndStartTransaction();
-        this.messageService.showSuccessMessage('settings.billing.payment_intent_create_success');
+        // Operation succeeded - try to start transaction
+        const operationResultRetrieve: any = await this.retrievePaymentIntentAndStartTransaction();
+        if (operationResultRetrieve.error) {
+          this.messageService.showErrorMessage('settings.billing.payment_intent_create_error', { stripeError: operationResult.error.message });
+        } else {
+          this.messageService.showSuccessMessage('settings.billing.payment_intent_create_success');
+        }
         this.isSendClicked = true;
       }
     } catch (error) {

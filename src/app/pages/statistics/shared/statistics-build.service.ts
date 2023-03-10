@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartData, ChartDataset } from 'chart.js';
 import * as moment from 'moment';
+import { StatisticDataResult } from 'types/DataResult';
 
 import { LocaleService } from '../../../services/locale.service';
 import { StatisticData } from '../../../types/Statistic';
@@ -312,7 +313,7 @@ export class StatisticsBuildService {
     return count;
   }
 
-  public calculateTotalsWithUnits(statisticsData: any, roundingDecimals: number = 0, ignoreEmptyUnit = true): StatisticsBuildValueWithUnit[] {
+  public calculateTotalsWithUnits(statisticsData: StatisticDataResult, roundingDecimals: number = 0, ignoreEmptyUnit = true): StatisticsBuildValueWithUnit[] {
     let roundingFactor = 1;
     let index = 0;
     let localString: any;
@@ -322,7 +323,7 @@ export class StatisticsBuildService {
     let totalOfLastUnit = 0;
     let totalWithUnit: StatisticsBuildValueWithUnit;
     const totalsWithUnit: StatisticsBuildValueWithUnit[] = [];
-    const transactionValues = statisticsData;
+    const transactionValues = statisticsData.result;
     if (roundingDecimals !== 0) {
       if (roundingDecimals > 0) {
         for (let i = 0; i < roundingDecimals; i++) {

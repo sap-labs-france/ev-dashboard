@@ -1,7 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartData } from 'chart.js';
+import { StatisticsAuthorizations } from 'types/Authorization';
 import { ChartTypeValues } from 'types/Chart';
+import { Utils } from 'utils/Utils';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
@@ -27,6 +29,7 @@ export class StatisticsConsumptionComponent implements OnInit {
   public selectedYear!: number;
   public allYears = true;
   public chartsInitialized = false;
+  public authorizations: StatisticsAuthorizations;
 
   private filterParams!: FilterParams;
   private barChart!: SimpleChart;
@@ -156,11 +159,20 @@ export class StatisticsConsumptionComponent implements OnInit {
   }
 
   public buildCharts(): void {
+    // Append withAuth filter to retrieve auth - this also changes the response into datasource
+    this.filterParams['WithAuth'] = 'true';
     this.spinnerService.show();
     if (this.selectedCategory === 'C') {
       this.centralServerService.getChargingStationConsumptionStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
-          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2);
+          this.authorizations = {
+            canListUsers:  Utils.convertToBoolean(statisticsData.canListUsers),
+            canListChargingStations:  Utils.convertToBoolean(statisticsData.canListChargingStations),
+            canListSites:  Utils.convertToBoolean(statisticsData.canListSites),
+            canListSiteAreas:  Utils.convertToBoolean(statisticsData.canListSiteAreas),
+            canExport:  Utils.convertToBoolean(statisticsData.canExport),
+          };
+          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData.result, 2);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
           this.totalConsumption = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
           if (this.selectedChart === 'month') {
@@ -173,7 +185,14 @@ export class StatisticsConsumptionComponent implements OnInit {
     } else {
       this.centralServerService.getUserConsumptionStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
-          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2);
+          this.authorizations = {
+            canListUsers:  Utils.convertToBoolean(statisticsData.canListUsers),
+            canListChargingStations:  Utils.convertToBoolean(statisticsData.canListChargingStations),
+            canListSites:  Utils.convertToBoolean(statisticsData.canListSites),
+            canListSiteAreas:  Utils.convertToBoolean(statisticsData.canListSiteAreas),
+            canExport:  Utils.convertToBoolean(statisticsData.canExport),
+          };
+          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData.result, 2);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
           this.totalConsumption = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
 

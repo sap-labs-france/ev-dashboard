@@ -178,6 +178,8 @@ export class StatisticsPricingComponent implements OnInit {
   }
 
   public buildCharts(): void {
+    // Append withAuth filter to retrieve auth - this also changes the response into datasource
+    this.filterParams['WithAuth'] = 'true';
     this.spinnerService.show();
     let newToolTipUnit: string;
     let newLabelYAxis: string;
@@ -193,7 +195,7 @@ export class StatisticsPricingComponent implements OnInit {
             newToolTipUnit = this.totalPriceWithUnit[0].unit;
           }
           newLabelYAxis = this.translateService.instant('statistics.graphic_title_pricing_y_axis', { currency: newToolTipUnit });
-          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2, addUnitToLabel);
+          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData.result, 2, addUnitToLabel);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
           this.barChart.updateChart(this.barChartData, this.getChartLabel(), newToolTipUnit, newLabelYAxis);
           this.pieChart.updateChart(this.pieChartData, this.getChartLabel(), newToolTipUnit);
@@ -202,7 +204,7 @@ export class StatisticsPricingComponent implements OnInit {
     } else {
       this.centralServerService.getUserPricingStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
-          if (statisticsData.length > 1) {
+          if (statisticsData.count > 1) {
             this.totalPriceWithUnit = this.statisticsBuildService.calculateTotalsWithUnits(statisticsData, 2);
           }
           if (this.totalPriceWithUnit.length > 1) {
@@ -212,7 +214,7 @@ export class StatisticsPricingComponent implements OnInit {
             newToolTipUnit = this.totalPriceWithUnit[0].unit;
           }
           newLabelYAxis = this.translateService.instant('statistics.graphic_title_pricing_y_axis', { currency: newToolTipUnit });
-          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2, addUnitToLabel);
+          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData.result, 2, addUnitToLabel);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
           this.barChart.updateChart(this.barChartData, this.getChartLabel(), newToolTipUnit, newLabelYAxis);
           this.pieChart.updateChart(this.pieChartData, this.getChartLabel(), newToolTipUnit);

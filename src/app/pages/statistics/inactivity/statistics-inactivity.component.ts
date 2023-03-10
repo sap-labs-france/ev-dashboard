@@ -157,11 +157,13 @@ export class StatisticsInactivityComponent implements OnInit {
   }
 
   public buildCharts(): void {
+    // Append withAuth filter to retrieve auth - this also changes the response into datasource
+    this.filterParams['WithAuth'] = 'true';
     this.spinnerService.show();
     if (this.selectedCategory === 'C') {
       this.centralServerService.getChargingStationInactivityStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
-          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2);
+          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData.result, 2);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
           this.totalInactivity = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
           if (this.selectedChart === 'month') {
@@ -174,7 +176,7 @@ export class StatisticsInactivityComponent implements OnInit {
     } else {
       this.centralServerService.getUserInactivityStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
-          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2);
+          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData.result, 2);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
           this.totalInactivity = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
           if (this.selectedChart === 'month') {

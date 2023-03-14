@@ -3,6 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ChartData } from 'chart.js';
 import { StatisticsAuthorizations } from 'types/Authorization';
 import { ChartTypeValues } from 'types/Chart';
+import { StatisticDataResult } from 'types/DataResult';
 import { Utils } from 'utils/Utils';
 
 import { CentralServerService } from '../../../services/central-server.service';
@@ -165,13 +166,7 @@ export class StatisticsConsumptionComponent implements OnInit {
     if (this.selectedCategory === 'C') {
       this.centralServerService.getChargingStationConsumptionStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
-          this.authorizations = {
-            canListUsers:  Utils.convertToBoolean(statisticsData.canListUsers),
-            canListChargingStations:  Utils.convertToBoolean(statisticsData.canListChargingStations),
-            canListSites:  Utils.convertToBoolean(statisticsData.canListSites),
-            canListSiteAreas:  Utils.convertToBoolean(statisticsData.canListSiteAreas),
-            canExport:  Utils.convertToBoolean(statisticsData.canExport),
-          };
+          this.initAuth(statisticsData);
           this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData.result, 2);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
           this.totalConsumption = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
@@ -185,13 +180,7 @@ export class StatisticsConsumptionComponent implements OnInit {
     } else {
       this.centralServerService.getUserConsumptionStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
-          this.authorizations = {
-            canListUsers:  Utils.convertToBoolean(statisticsData.canListUsers),
-            canListChargingStations:  Utils.convertToBoolean(statisticsData.canListChargingStations),
-            canListSites:  Utils.convertToBoolean(statisticsData.canListSites),
-            canListSiteAreas:  Utils.convertToBoolean(statisticsData.canListSiteAreas),
-            canExport:  Utils.convertToBoolean(statisticsData.canExport),
-          };
+          this.initAuth(statisticsData);
           this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData.result, 2);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
           this.totalConsumption = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
@@ -204,5 +193,15 @@ export class StatisticsConsumptionComponent implements OnInit {
           this.spinnerService.hide();
         });
     }
+  }
+
+  private initAuth(statisticsData: StatisticDataResult) {
+    this.authorizations = {
+      canListUsers:  Utils.convertToBoolean(statisticsData.canListUsers),
+      canListChargingStations:  Utils.convertToBoolean(statisticsData.canListChargingStations),
+      canListSites:  Utils.convertToBoolean(statisticsData.canListSites),
+      canListSiteAreas:  Utils.convertToBoolean(statisticsData.canListSiteAreas),
+      canExport:  Utils.convertToBoolean(statisticsData.canExport),
+    };
   }
 }

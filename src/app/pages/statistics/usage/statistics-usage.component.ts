@@ -1,7 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartData } from 'chart.js';
+import { StatisticsAuthorizations } from 'types/Authorization';
 import { ChartTypeValues } from 'types/Chart';
+import { StatisticDataResult } from 'types/DataResult';
+import { Utils } from 'utils/Utils';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
@@ -27,6 +30,7 @@ export class StatisticsUsageComponent implements OnInit {
   public selectedYear!: number;
   public allYears = true;
   public chartsInitialized = false;
+  public authorizations: StatisticsAuthorizations;
 
   private filterParams = {};
   private barChart!: SimpleChart;
@@ -162,6 +166,7 @@ export class StatisticsUsageComponent implements OnInit {
     if (this.selectedCategory === 'C') {
       this.centralServerService.getChargingStationUsageStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
+          this.initAuth(statisticsData);
           this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData.result, 2);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
           this.totalUsage = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
@@ -175,6 +180,7 @@ export class StatisticsUsageComponent implements OnInit {
     } else {
       this.centralServerService.getUserUsageStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
+          this.initAuth(statisticsData);
           this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData.result, 2);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
           this.totalUsage = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
@@ -186,5 +192,15 @@ export class StatisticsUsageComponent implements OnInit {
           this.spinnerService.hide();
         });
     }
+  }
+
+  private initAuth(statisticsData: StatisticDataResult) {
+    this.authorizations = {
+      canListUsers:  Utils.convertToBoolean(statisticsData.canListUsers),
+      canListChargingStations:  Utils.convertToBoolean(statisticsData.canListChargingStations),
+      canListSites:  Utils.convertToBoolean(statisticsData.canListSites),
+      canListSiteAreas:  Utils.convertToBoolean(statisticsData.canListSiteAreas),
+      canExport:  Utils.convertToBoolean(statisticsData.canExport),
+    };
   }
 }

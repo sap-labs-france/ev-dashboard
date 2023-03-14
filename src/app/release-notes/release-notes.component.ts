@@ -16,13 +16,25 @@ interface ComponentChange {
   styleUrls: ['release-notes.component.scss']
 })
 export class ReleaseNotesComponent {
-  public releaseNotes: ReleaseNotes[] = [];
+  public releaseNotes: ReleaseNotes[] = [];s;
 
   public constructor() {
     this.buildReleaseNotes();
   }
   public buildReleaseNotes() {
     this.releaseNotes = [
+      {
+        version: '2.7.6',
+        date: new Date('2023-03-14'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              'Smart Charging - Limit the number of periods to 16 (4 hours)'
+            ],
+          },
+        ],
+      },
       {
         version: '2.7.5',
         date: new Date('2022-11-21'),

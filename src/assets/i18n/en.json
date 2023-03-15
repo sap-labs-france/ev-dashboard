@@ -1768,7 +1768,7 @@
       "payment_methods_expiration_date_error": "Invalid expiration date",
       "payment_methods_cvc_error": "Invalid verification code",
       "payment_intent_create_title": "Enter your card details",
-      "payment_intent_create_success": "The payment method has been accepted and charging has started",
+      "payment_intent_create_success": "The payment succeeded and charging has started, you can whether stop the session from your car or from the email you will receive.",
       "payment_intent_create_success_title": "Payment succeeded",
       "payment_intent_create_error": "Error occurred while creating the payment method : {{stripeError}}",
       "payment_intent_create_account_title": "Enter your personnal information",

@@ -23,7 +23,7 @@
             </form>
           </div>
           <div *ngIf="!isSendClicked && isTokenValid" class="card-footer justify-content-center mb-4">
-            <button mat-button type="submit" (click)=linkCardToAccount()>{{'settings.billing.payment_intent_save_start' | translate}}</button>
+            <button mat-raised-button color="primary" type="submit" (click)=linkCardToAccount()>{{'settings.billing.payment_intent_save_start' | translate}}</button>
           </div>
         </div>
       </div>

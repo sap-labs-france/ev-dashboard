@@ -63,7 +63,7 @@
               </span>
             </div>
             <div class="card-footer justify-content-center mb-4" *ngIf="!isSendClicked">
-              <button mat-button (click)="sendEmailVerificationScanAndPay(formGroup.value)"
+              <button mat-raised-button color="primary" (click)="sendEmailVerificationScanAndPay(formGroup.value)"
                 [disabled]="!formGroup.valid || isSendClicked">{{"settings.billing.payment_intent_create_account_send_email" | translate}}
               </button>
             </div>

@@ -1859,7 +1859,12 @@
       "update_error": "Došlo k chybě při aktualizaci nastavení SAP Smart Charging, zkontrolujte protokoly",
       "connection_success": "Spojení se službou Smart nabíjení bylo úspěšně otestováno",
       "connection_error": "Nelze se připojit ke službě Smart nabíjení. Zkontrolujte svou konfiguraci.",
-      "check_connection": "Zkontrolujte připojení"
+      "check_connection": "Zkontrolujte připojení",
+      "session_parameters": {
+        "departureTime": "Departure Time (Hour of Day)",
+        "carStateOfCharge": "Initial State of Charge",
+        "targetStateOfCharge": "Target State of Charge"
+      }
     },
     "asset": {
       "connection": {

@@ -840,15 +840,15 @@
         "fixed_url_for_ocpp": "From OCPP 1.6 on, the URL is fixed by the server",
         "callback_url_for_ocpp": "Callback URL to send HTTP request to the charging station"
       },
-      "enable_manual_configuration":{
+      "enable_manual_configuration": {
         "title": "Enable manual configuration",
         "confirm": "If you enable the manual configuration, the charging station will not be adjusted with the automatic configuration template anymore. Do you want to continue?"
       },
-      "disable_manual_configuration":{
+      "disable_manual_configuration": {
         "title": "Disable manual configuration",
         "confirm": "If you disable the manual configuration, the charging station will be adjusted with the automatic configuration template, rebooted and your manual changes will be lost. Do you want to continue?"
       },
-      "manual_configuration_error":{
+      "manual_configuration_error": {
         "title": "Manual Configuration/Template error",
         "confirm": "Manual Configuration has been already disabled for this station. Please make sure it boots correctly and that the template can be applied"
       }
@@ -1274,7 +1274,7 @@
     "locale_desc_de_DE": "German",
     "locale_desc_pt_PT": "Portuguese",
     "locale_desc_it_IT": "Italian",
-    "locale_desc_cs_CZ":"Czech",
+    "locale_desc_cs_CZ": "Czech",
     "locale_desc_en_AU": "Australian",
     "role_unknown": "Unknown",
     "locale_unknown": "Unknown",
@@ -1845,7 +1845,7 @@
         "settings": "Settings",
         "user": "User",
         "password": "Password",
-        "additional_settings":"Additional settings:",
+        "additional_settings": "Additional settings:",
         "sticky_limitation": "Adjust limit according to current consumption",
         "limit_buffer_dc": "Buffer for Limit DC (%)",
         "limit_buffer_ac": "Buffer for Limit AC (%)"
@@ -1859,7 +1859,12 @@
       "update_error": "Error occurred while updating the SAP Smart Charging settings, check the logs",
       "connection_success": "Connection to the smart charging service was tested with success",
       "connection_error": "Impossible to connect to the smart charging service. Check your configuration.",
-      "check_connection": "Check Connection"
+      "check_connection": "Check Connection",
+      "session_parameters": {
+        "departureTime": "Departure Time (Hour of Day)",
+        "carStateOfCharge": "Initial State of Charge",
+        "targetStateOfCharge": "Target State of Charge"
+      }
     },
     "asset": {
       "connection": {
@@ -1904,8 +1909,8 @@
         "type": "Type",
         "authentication_url": "Authentication Url",
         "api_url": "API Url",
-        "client_id":"Client ID",
-        "client_secret":"Client Secret",
+        "client_id": "Client ID",
+        "client_secret": "Client Secret",
         "delete_title": "Delete Connector",
         "delete_confirm": "Do you really want to delete the connector '{{carConnectorConnectionName}}'?"
       },

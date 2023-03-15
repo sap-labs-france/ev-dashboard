@@ -30,6 +30,7 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
+              'Smart Charging - Advanced Parameters for Departure Time',
               'Smart Charging - Limit the number of periods to 16 (4 hours)'
             ],
           },

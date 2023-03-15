@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import FileSaver from 'file-saver';
+import { ComponentService } from 'services/component.service';
+import { TenantComponents } from 'types/Tenant';
 import { User } from 'types/User';
 
 import { AuthorizationService } from '../../../services/authorization.service';
@@ -24,6 +26,7 @@ export class ScanPayInvoiceComponent implements OnInit {
 
   public constructor(
     private centralServerService: CentralServerService,
+    private componentService: ComponentService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private router: Router,
@@ -31,7 +34,7 @@ export class ScanPayInvoiceComponent implements OnInit {
     public activatedRoute: ActivatedRoute,
     public windowService: WindowService,
     private authorizationService: AuthorizationService) {
-    this.isBillingComponentActive = true; // comment on gere ça ??
+    this.isBillingComponentActive = this.componentService.isActive(TenantComponents.BILLING);
     this.invoiceID = this.activatedRoute?.snapshot?.params['invoiceID'];
     this.email = this.activatedRoute?.snapshot?.queryParams['email'];
     this.token = this.activatedRoute?.snapshot?.queryParams['VerificationToken'];

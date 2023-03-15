@@ -17,7 +17,7 @@ export class AuthLayoutComponent implements OnInit {
 
   public constructor(private router: Router, private element: ElementRef) {
     this.sidebarVisible = false;
-    this.scanPay = true;
+    this.scanPay = this.router.url.includes('scan-pay');
   }
 
   public ngOnInit() {

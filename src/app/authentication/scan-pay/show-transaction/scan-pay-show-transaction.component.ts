@@ -1,23 +1,20 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthorizationService } from 'services/authorization.service';
-import { TransactionHeaderComponent } from 'shared/dialogs/transaction/header/transaction-header.component';
-import { User } from 'types/User';
 
+import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { ConfigService } from '../../../services/config.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
+import { TransactionHeaderComponent } from '../../../shared/dialogs/transaction/header/transaction-header.component';
 import { Transaction } from '../../../types/Transaction';
+import { User } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
-  selector: 'app-show-transaction',
-  templateUrl: 'show-transaction.component.html',
-  // styleUrls: ['transaction.component.scss']
+  selector: 'app-scan-pay-show-transaction',
+  templateUrl: 'scan-pay-show-transaction.component.html',
 })
-export class ShowTransactionComponent implements OnInit, OnDestroy {
-  // @ViewChild('chartConsumption') public chartComponent!: ConsumptionChartComponent;
+export class ScanPayShowTransactionComponent implements OnInit, OnDestroy {
   @ViewChild('transactionHeader') public transactionHeader!: TransactionHeaderComponent;
 
   @Input() public transactionID!: number;
@@ -28,14 +25,13 @@ export class ShowTransactionComponent implements OnInit, OnDestroy {
   public token: string;
   public user: Partial<User>;
   public email: string;
-
   private refreshInterval;
+
   public constructor(
     private spinnerService: SpinnerService,
     private messageService: MessageService,
     private router: Router,
     private centralServerService: CentralServerService,
-    private configService: ConfigService,
     private authorizationService: AuthorizationService,
     private activatedRoute: ActivatedRoute) {
     this.currentTransactionID = this.activatedRoute?.snapshot?.params['transactionID'];
@@ -85,9 +81,7 @@ export class ShowTransactionComponent implements OnInit, OnDestroy {
     this.isClicked = true;
     const data = {};
     this.spinnerService.show();
-    //TODO: ajuster les params avec l'url hash
     data['email'] = this.transaction?.user?.email;
-    // Show
     data['transactionId'] = this.currentTransactionID;
     data['token'] = this.token;
     // launch capture and stop transaction
@@ -95,12 +89,10 @@ export class ShowTransactionComponent implements OnInit, OnDestroy {
       next: (response) => {
         this.spinnerService.hide();
         this.messageService.showSuccessMessage('settings.billing.scan_pay_stop_success');
-        // void this.router.navigate(['/auth/login']);
       },
       error: (error) => {
         this.spinnerService.hide();
         this.messageService.showErrorMessage('settings.billing.scan_pay_stop_error');
-        // void this.router.navigate(['/auth/login']);
       }
     });
   }

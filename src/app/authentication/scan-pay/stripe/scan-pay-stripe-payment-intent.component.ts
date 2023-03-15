@@ -4,7 +4,9 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { PaymentIntent, PaymentIntentResult, StripeElementLocale, StripeElements, StripeElementsOptions, StripePaymentElement } from '@stripe/stripe-js';
 import { AuthorizationService } from 'services/authorization.service';
+import { ComponentService } from 'services/component.service';
 import { HTTPError } from 'types/HTTPError';
+import { TenantComponents } from 'types/Tenant';
 import { User } from 'types/User';
 
 import { CentralServerService } from '../../../services/central-server.service';
@@ -41,6 +43,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
 
   public constructor(
     private centralServerService: CentralServerService,
+    private componentService: ComponentService,
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private stripeService: StripeService,
@@ -49,8 +52,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
     public translateService: TranslateService,
     public windowService: WindowService,
     public authorizationService: AuthorizationService) {
-    this.isBillingComponentActive = true; // comment on gere ça ??
-    // this.isBackendConnectionValid = false;
+    this.isBillingComponentActive = this.componentService.isActive(TenantComponents.BILLING);
   }
 
   public ngOnInit(): void {

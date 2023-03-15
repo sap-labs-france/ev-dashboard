@@ -20,7 +20,7 @@ import { AuthenticationRegisterComponent } from './register/authentication-regis
 import { AuthenticationResetPasswordComponent } from './reset-password/authentication-reset-password.component';
 import { ScanPayInvoiceComponent } from './scan-pay/invoices/scan-pay-invoice.component';
 import { ScanPayComponent } from './scan-pay/scan-pay.component';
-import { ShowTransactionComponent } from './scan-pay/show-transaction/show-transaction.component';
+import { ScanPayShowTransactionComponent } from './scan-pay/show-transaction/scan-pay-show-transaction.component';
 import { ScanPayStripePaymentIntentComponent } from './scan-pay/stripe/scan-pay-stripe-payment-intent.component';
 import { AuthenticationVerifyEmailComponent } from './verify-email/authentication-verify-email.component';
 
@@ -48,7 +48,7 @@ import { AuthenticationVerifyEmailComponent } from './verify-email/authenticatio
     AccountOnboardingComponent,
     ScanPayStripePaymentIntentComponent,
     ScanPayEmailComponent,
-    ShowTransactionComponent,
+    ScanPayShowTransactionComponent,
     ScanPayComponent,
     ScanPayInvoiceComponent,
   ],

@@ -16,7 +16,7 @@ interface ComponentChange {
   styleUrls: ['release-notes.component.scss']
 })
 export class ReleaseNotesComponent {
-  public releaseNotes: ReleaseNotes[] = [];s;
+  public releaseNotes: ReleaseNotes[] = [];
 
   public constructor() {
     this.buildReleaseNotes();
@@ -31,7 +31,9 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               'Smart Charging - Advanced Parameters for Departure Time',
-              'Smart Charging - Limit the number of periods to 16 (4 hours)'
+              'Smart Charging - Limit the number of periods to 16 (4 hours)',
+              'Billing - Stripe Integration - update dependency to the latest API version - 2022-11-15',
+              'Security - removed vulnerability from strong-soap dependencies'
             ],
           },
         ],

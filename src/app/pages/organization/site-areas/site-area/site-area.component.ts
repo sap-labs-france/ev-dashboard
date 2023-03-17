@@ -33,6 +33,7 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
   @Input() public dialogMode!: DialogMode;
   @Input() public dialogRef!: MatDialogRef<any>;
   @Input() public siteAreasAuthorizations!: SiteAreasAuthorizations;
+  @Input() public smartChargingSessionParametersActive!: boolean;
 
   @ViewChild('siteAreaMainComponent') public siteAreaMainComponent!: SiteAreaMainComponent;
   @ViewChild('siteAreaLimitsComponent') public siteAreaLimitsComponent!: SiteAreaLimitsComponent;

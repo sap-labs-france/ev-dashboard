@@ -11,6 +11,7 @@ import { SiteArea } from '../../../../../types/SiteArea';
 })
 export class SiteAreaLimitsComponent implements OnInit, OnChanges {
   @Input() public siteArea!: SiteArea;
+  @Input() public smartChargingSessionParametersActive!: boolean;
   @Input() public formGroup!: UntypedFormGroup;
   @Input() public readOnly: boolean;
 
@@ -24,6 +25,10 @@ export class SiteAreaLimitsComponent implements OnInit, OnChanges {
   public voltage!: AbstractControl;
   public smartCharging!: AbstractControl;
   public numberOfPhases!: AbstractControl;
+  public smartChargingSessionParameters!: UntypedFormGroup;
+  public departureTime!: AbstractControl;
+  public carStateOfCharge!: AbstractControl;
+  public targetStateOfCharge!: AbstractControl;
 
   public phaseMap = [
     { key: 1, description: 'site_areas.single_phased' },
@@ -58,6 +63,25 @@ export class SiteAreaLimitsComponent implements OnInit, OnChanges {
         Validators.required,
       ])
     ));
+    if (this.smartChargingSessionParametersActive) {
+      this.formGroup.addControl('smartChargingSessionParameters', new UntypedFormGroup({
+        departureTime: new UntypedFormControl(null),
+        carStateOfCharge: new UntypedFormControl(null,
+          Validators.compose([
+            Validators.min(1),
+            Validators.max(100),
+            Validators.pattern('^[+]?[0-9]*$'),
+          ])
+        ),
+        targetStateOfCharge: new UntypedFormControl(null,
+          Validators.compose([
+            Validators.min(1),
+            Validators.max(100),
+            Validators.pattern('^[+]?[0-9]*$'),
+          ])
+        ),
+      }));
+    }
     // Form
     this.smartCharging = this.formGroup.controls['smartCharging'];
     this.maximumPower = this.formGroup.controls['maximumPower'];
@@ -67,6 +91,12 @@ export class SiteAreaLimitsComponent implements OnInit, OnChanges {
     this.numberOfPhases = this.formGroup.controls['numberOfPhases'];
     this.maximumPowerAmpsPerPhase.disable();
     this.maximumTotalPowerAmps.disable();
+    if (this.smartChargingSessionParametersActive) {
+      this.smartChargingSessionParameters = this.formGroup.controls['smartChargingSessionParameters'] as UntypedFormGroup;
+      this.departureTime = this.smartChargingSessionParameters.controls['departureTime'];
+      this.carStateOfCharge = this.smartChargingSessionParameters.controls['carStateOfCharge'];
+      this.targetStateOfCharge = this.smartChargingSessionParameters.controls['targetStateOfCharge'];
+    }
     this.initialized = true;
     this.loadSiteArea();
   }
@@ -88,10 +118,26 @@ export class SiteAreaLimitsComponent implements OnInit, OnChanges {
       }
       if (this.siteArea.smartCharging) {
         this.smartCharging.setValue(this.siteArea.smartCharging);
+        if (this.smartChargingSessionParametersActive && this.siteArea.smartChargingSessionParameters) {
+          this.departureTime.setValue(this.siteArea.smartChargingSessionParameters.departureTime);
+          this.carStateOfCharge.setValue(this.siteArea.smartChargingSessionParameters.carStateOfCharge);
+          this.targetStateOfCharge.setValue(this.siteArea.smartChargingSessionParameters.targetStateOfCharge);
+        }
       } else {
         this.smartCharging.setValue(false);
       }
       this.refreshMaximumAmps();
+    }
+    this.refreshSmartChargingSessionParameters();
+  }
+
+  public smartChargingChanged() {
+    if(this.smartChargingSessionParametersActive && this.smartCharging) {
+      if (this.smartCharging.value) {
+        this.smartChargingSessionParameters.enable();
+      } else {
+        this.smartChargingSessionParameters.disable();
+      }
     }
   }
 
@@ -105,6 +151,15 @@ export class SiteAreaLimitsComponent implements OnInit, OnChanges {
 
   public refreshMaximumAmps() {
     this.maximumPowerChanged();
+  }
+
+  public refreshSmartChargingSessionParameters(){
+    this.smartChargingChanged();
+  }
+
+  public resetDepartureTime(){
+    this.departureTime.setValue(null);
+    this.departureTime.markAsDirty();
   }
 
   public maximumPowerChanged() {

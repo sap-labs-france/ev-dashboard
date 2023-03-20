@@ -114,6 +114,7 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
     let carConnectorActive = false;
     let ocpiActive = false;
     let oicpActive = false;
+    let scanPayActive = false;
     for (const component in tenant.components) {
       if (Utils.objectHasProperty(tenant.components, component)) {
         if (!tenant.components[component].active) {
@@ -152,6 +153,9 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
         if (component === TenantComponents.OICP) {
           oicpActive = tenant.components[component].active;
         }
+        if (component === TenantComponents.SCAN_PAY) {
+          scanPayActive = tenant.components[component].active;
+        }
       }
     }
     if (oicpActive && ocpiActive) {
@@ -180,6 +184,10 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
     }
     if (carConnectorActive && !carActive) {
       this.messageService.showErrorMessage('tenants.save_error_car_connector');
+      return;
+    }
+    if (scanPayActive && (!billingActive || !pricingActive)) {
+      this.messageService.showErrorMessage('tenants.save_error_scan_pay');
       return;
     }
     if (this.tenant) {

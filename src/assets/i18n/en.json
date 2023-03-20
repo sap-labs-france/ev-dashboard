@@ -1522,6 +1522,7 @@
     "save_error_smart_charging": "Organization must be active to use Smart Charging",
     "save_error_asset": "Organization must be active to use Asset",
     "save_error_car_connector": "Car Management must be active to use Car Connector",
+    "save_error_scan_pay": "Billing and Pricing must be active to use Scan & Pay",
     "smart_charging_still_active_for_site_area": [
       "Smart Charging is still active for certain Site Areas.",
       "Please deactivate Smart Charging for every Site Area in the tenant."
@@ -2425,6 +2426,10 @@
   "billingPlatform": {
     "title": "Billing Platform",
     "description": "Manage several billing accounts"
+  },
+  "scanPay": {
+    "title": "Scan & Pay",
+    "description": "Allow external user to pay by credit card"
   },
   "transactions": {
     "id": "Id",

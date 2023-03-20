@@ -2426,6 +2426,10 @@
     "title": "Piattaforma di fatturazione",
     "description": "Gestisci molteplici account di fatturazione"
   },
+  "scanPay": {
+    "title": "Scan & Pay",
+    "description": "Allow external user to pay by credit card"
+  },
   "transactions": {
     "id": "Id",
     "date_from": "Data",

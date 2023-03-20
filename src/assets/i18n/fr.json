@@ -2426,6 +2426,10 @@
     "title": "Plateforme de facturation",
     "description": "Gestion de plusieurs comptes de facturation"
   },
+  "scanPay": {
+    "title": "Scanner et payer",
+    "description": "Permet aux utilisateurs externes de payer par carte bancaire"
+  },
   "transactions": {
     "id": "Id",
     "date_from": "Date",

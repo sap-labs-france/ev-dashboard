@@ -16,7 +16,7 @@
           <span>{{'site_areas.limits' | translate}}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content">
-          <app-site-area-limits #siteAreaLimitsComponent [formGroup]="formGroup" [siteArea]="siteArea" [readOnly]="readOnly"></app-site-area-limits>
+          <app-site-area-limits #siteAreaLimitsComponent [formGroup]="formGroup" [siteArea]="siteArea" [smartChargingSessionParametersActive]="smartChargingSessionParametersActive" [readOnly]="readOnly"></app-site-area-limits>
         </div>
       </mat-tab>
       <mat-tab *ngIf="ocpiActive && ocpiHasVisibleFields && formGroup.controls.issuer.value">

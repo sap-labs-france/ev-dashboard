@@ -57,6 +57,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   private siteAreaGenerateQrCodeConnectorAction = new TableSiteAreaGenerateQrCodeConnectorAction().getActionDef();
   private createAction = new TableCreateSiteAreaAction().getActionDef();
   private siteAreasAuthorizations: SiteAreasAuthorizations;
+  private smartChargingSessionParametersActive: boolean;
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -100,6 +101,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
           // Build TableDef using the initialized auth object
           this.setTableDef(this.buildTableDef());
           this.createAction.visible = this.siteAreasAuthorizations.canCreate;
+          this.smartChargingSessionParametersActive = siteAreas.smartChargingSessionParametersActive;
           observer.next(siteAreas);
           observer.complete();
         },
@@ -284,7 +286,8 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       case SiteAreaButtonAction.CREATE_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableCreateSiteAreaActionDef).action(SiteAreaDialogComponent, this.dialog,
-            { authorizations: this.siteAreasAuthorizations }, this.refreshData.bind(this));
+            { dialogData: {smartChargingSessionParametersActive: this.smartChargingSessionParametersActive} as SiteArea,
+              authorizations: this.siteAreasAuthorizations }, this.refreshData.bind(this));
         }
         break;
     }
@@ -296,13 +299,15 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       case SiteAreaButtonAction.EDIT_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableEditSiteAreaActionDef).action(SiteAreaDialogComponent, this.dialog,
-            { dialogData: siteArea, authorizations: this.siteAreasAuthorizations }, this.refreshData.bind(this));
+            { dialogData: {...siteArea, smartChargingSessionParametersActive: this.smartChargingSessionParametersActive},
+              authorizations: this.siteAreasAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.VIEW_SITE_AREA:
         if (actionDef.action) {
           (actionDef as TableViewSiteAreaActionDef).action(SiteAreaDialogComponent, this.dialog,
-            { dialogData: siteArea, authorizations: this.siteAreasAuthorizations }, this.refreshData.bind(this));
+            { dialogData: {...siteArea, smartChargingSessionParametersActive: this.smartChargingSessionParametersActive},
+              authorizations: this.siteAreasAuthorizations }, this.refreshData.bind(this));
         }
         break;
       case SiteAreaButtonAction.ASSIGN_CHARGING_STATIONS_TO_SITE_AREA:

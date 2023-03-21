@@ -27,6 +27,7 @@ import { SchneiderAssetConnectionComponent } from './asset/connection/schneider/
 import { WitAssetConnectionComponent } from './asset/connection/wit/wit-asset-connection.component';
 import { SettingsAssetConnectionEditableTableDataSource } from './asset/settings-asset-connections-list-table-data-source';
 import { SettingsAssetComponent } from './asset/settings-asset.component';
+import { SettingsScanPayComponent } from './billing/scan-pay/settings-scan-pay.component';
 import { SettingsBillingComponent } from './billing/settings-billing.component';
 import { SettingsStripeComponent } from './billing/stripe/settings-stripe.component';
 import { CarConnectorConnectionComponent } from './car-connector/connection/car-connector-connection.component';
@@ -95,6 +96,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsSimplePricingComponent,
     SettingsBillingComponent,
     SettingsStripeComponent,
+    SettingsScanPayComponent,
     SettingsAnalyticsComponent,
     SettingsSacComponent,
     SettingsSmartChargingComponent,

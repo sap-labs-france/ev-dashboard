@@ -202,6 +202,7 @@ export interface BillingSetting {
   taxID: string;
   platformFeeTaxID?: string;
   usersLastSynchronizedOn?: Date;
+  scanPayAmount?: number;
 }
 
 export interface StripeBillingSetting {

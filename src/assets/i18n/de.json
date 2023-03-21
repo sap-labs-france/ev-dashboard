@@ -1523,6 +1523,7 @@
     "save_error_smart_charging": "Organisation muss für Smart-Charging aktiv sein",
     "save_error_asset": "Organisation muss aktiv sein, um Assets zu nutzen zu können",
     "save_error_car_connector": "Fahrzeug Management muss aktiv sein, um Fahrzeug Verbindungen zu nutzen",
+    "save_error_scan_pay": "Billing and Pricing must be active to use Scan & Pay",
     "smart_charging_still_active_for_site_area": [
       "Smart-Charging ist für ausgewählte Standortbereiche noch immer aktiv.",
       "Bitte deaktivieren Sie Smart-Charging für alle Standortbereiche des Mandanten."
@@ -1778,6 +1779,9 @@
       "payment_intent_create_account_error": "Error occurred while handling your informations : {{error}}",
       "payment_intent_save_start": "Save and start charging",
       "payment_intent_email_sent": "Email Sent",
+      "scan_pay_title": "Scan & Pay",
+      "scan_pay_hold_amount": "Amount that will be holded on the user's credit card",
+      "scan_pay_pattern_error": "Amount entered must be a positive integer",
       "scan_pay_stop_title": "Refresh this page to follow your current transaction details",
       "scan_pay_stop_button": "Stop transaction",
       "scan_pay_stop_success": "The session has been stopped successfully. You can unplug your car",

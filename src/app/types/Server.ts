@@ -708,7 +708,6 @@ export enum RESTServerRoute {
   REST_SCAN_PAY_PAYMENT_INTENT_SETUP = 'billing/scan-pay/setup',
   REST_SCAN_PAY_PAYMENT_INTENT_RETRIEVE = 'billing/scan-pay/retrieve',
 
-
   // BILLING URLs for CRUD operations on INVOICES
   REST_BILLING_INVOICES = 'invoices',
   REST_BILLING_INVOICE = 'invoices/:invoiceID',

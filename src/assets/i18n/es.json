@@ -1523,6 +1523,7 @@
     "save_error_smart_charging": "La organización debe ser activada para usar la carga inteligente",
     "save_error_asset": "La organización debe ser activada para usar los activos",
     "save_error_car_connector": "La admisitration de vehículos debe estar activa para usar al Car Connector",
+    "save_error_scan_pay": "Billing and Pricing must be active to use Scan & Pay",
     "smart_charging_still_active_for_site_area": [
       "La carga inteligente todavía está activada para ciertas áreas del sitio.",
       "Desactive la carga inteligente para cada zona en la organización."
@@ -1772,13 +1773,15 @@
       "payment_intent_create_success": "The payment succeeded and charging has started, you can whether stop the session from your car or from the email you will receive.",
       "payment_intent_create_success_title": "Payment succeeded",
       "payment_intent_create_error": "Error occurred while creating the payment method : {{stripeError}}",
-      "transaction_billing_activation": "Billing Activation",
       "payment_intent_create_account_title": "Enter your personnal information",
       "payment_intent_create_account_send_email": "Send me verification email",
       "payment_intent_create_account_success": "Check your email to proceed to charging !",
       "payment_intent_create_account_error": "Error occurred while handling your informations : {{error}}",
       "payment_intent_save_start": "Save and start charging",
       "payment_intent_email_sent": "Email Sent",
+      "scan_pay_title": "Scan & Pay",
+      "scan_pay_hold_amount": "Amount that will be holded on the user's credit card",
+      "scan_pay_pattern_error": "Amount entered must be a positive integer",
       "scan_pay_stop_title": "Refresh this page to follow your current transaction details",
       "scan_pay_stop_button": "Stop transaction",
       "scan_pay_stop_success": "The session has been stopped successfully. You can unplug your car",
@@ -1786,6 +1789,7 @@
       "scan_pay_download_title": "Invoice downloading",
       "scan_pay_download": "Invoice will be downloaded, please don't close this page.",
       "scan_pay_session_started": "Session started, check your email for more details",
+      "transaction_billing_activation": "Billing Activation",
       "transaction_billing_activation_title": "Billing Activation",
       "transaction_billing_activation_confirm": [
         "Do you really want to activate the billing of charging sessions?",

@@ -1,0 +1,24 @@
+<div class="card">
+  <div class="card-header card-header-icon card-header-primary">
+    <div class="card-icon">
+      <mat-icon>business</mat-icon>
+    </div>
+    <h3 class="card-title">{{'settings.billing.scan_pay_title' | translate}}</h3>
+  </div>
+  <div class="card-body">
+    <div class="row mt-1">
+      <div *ngIf="!isScanPayActive" class="col-md-12 mb-2">
+        <span class="mat-subheading-2 text-danger">{{'settings.billing.deactivated_setting_message' | translate}}</span>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field>
+          <input appAutofocus matInput type="text" [formControl]="scanPayAmount"
+                 placeholder="{{'settings.billing.scan_pay_hold_amount' | translate}}">
+          <mat-error *ngIf="scanPayAmount.errors?.pattern">
+            {{"settings.billing.scan_pay_pattern_error" | translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>

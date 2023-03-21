@@ -21,6 +21,8 @@ import { Utils } from '../../../utils/Utils';
 })
 export class SettingsBillingComponent implements OnInit {
   public isBillingActive = false;
+  public isPricingActive = false;
+  public isScanPayActive = false;
   public authorizations: SettingAuthorizationActions;
   public isBillingPlatformActive = false;
   public isBillingTransactionEnabled = false;
@@ -42,6 +44,8 @@ export class SettingsBillingComponent implements OnInit {
   ) {
     this.isBillingActive = this.componentService.isActive(TenantComponents.BILLING);
     this.isBillingPlatformActive = this.componentService.isActive(TenantComponents.BILLING_PLATFORM);
+    this.isPricingActive = this.componentService.isActive(TenantComponents.PRICING);
+    this.isScanPayActive = this.componentService.isActive(TenantComponents.SCAN_PAY);
   }
 
   public ngOnInit(): void {
@@ -97,6 +101,7 @@ export class SettingsBillingComponent implements OnInit {
     this.billingSettings.billing = newSettings.billing as BillingSetting;
     this.billingSettings.billing.isTransactionBillingActivated = this.transactionBillingActivated;
     this.billingSettings.stripe = newSettings.stripe as StripeBillingSetting;
+    this.billingSettings.billing.scanPayAmount = newSettings.scanPay.scanPayAmount || '';
     // Save
     this.spinnerService.show();
     this.componentService.saveBillingSettings(this.billingSettings).subscribe({

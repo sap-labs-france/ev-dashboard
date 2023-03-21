@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { WindowService } from 'services/window.service';
 import { TableSiteAreaGenerateQrCodeConnectorAction, TableSiteAreaGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/site-areas/table-site-area-generate-qr-code-connector-action';
+import { TableSiteAreaGenerateQrCodeScanPayConnectorAction, TableSiteAreaGenerateQrCodeScanPayConnectorsActionDef } from 'shared/table/actions/site-areas/table-site-area-generate-qr-code-scan-pay-connector-action';
 import { SiteAreasAuthorizations } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
@@ -46,6 +47,7 @@ import { SiteAreaConsumptionChartDetailComponent } from './consumption-chart/sit
 @Injectable()
 export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   private readonly isAssetComponentActive: boolean;
+  private readonly isScanPayComponentActive: boolean;
   private editAction = new TableEditSiteAreaAction().getActionDef();
   private assignChargingStationsToSiteAreaAction = new TableAssignChargingStationsToSiteAreaAction().getActionDef();
   private assignAssetsToSiteAreaAction = new TableAssignAssetsToSiteAreaAction().getActionDef();
@@ -55,6 +57,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
   private viewAssetsOfSiteArea = new TableViewAssignedAssetsOfSiteAreaAction().getActionDef();
   private exportOCPPParamsAction = new TableExportOCPPParamsAction().getActionDef();
   private siteAreaGenerateQrCodeConnectorAction = new TableSiteAreaGenerateQrCodeConnectorAction().getActionDef();
+  private siteAreaGenerateQrCodeScanPayConnectorAction = new TableSiteAreaGenerateQrCodeScanPayConnectorAction().getActionDef();
   private createAction = new TableCreateSiteAreaAction().getActionDef();
   private siteAreasAuthorizations: SiteAreasAuthorizations;
   private smartChargingSessionParametersActive: boolean;
@@ -74,6 +77,7 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     super(spinnerService, translateService);
     // Init
     this.isAssetComponentActive = this.componentService.isActive(TenantComponents.ASSET);
+    this.isScanPayComponentActive = this.componentService.isActive(TenantComponents.SCAN_PAY);
     this.setStaticFilters([{ WithSite: true }, { WithParentSiteArea: true },]);
     this.initDataSource();
     this.initUrlParams();
@@ -268,6 +272,9 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
     if (siteArea.canGenerateQrCode) {
       moreActions.addActionInMoreActions(this.siteAreaGenerateQrCodeConnectorAction);
     }
+    if (this.isScanPayComponentActive && siteArea.canGenerateQrCodeScanPay) {
+      moreActions.addActionInMoreActions(this.siteAreaGenerateQrCodeScanPayConnectorAction);
+    }
     if (siteArea.canAssignChargingStations || siteArea.canUnassignChargingStations) {
       rowActions.push(this.assignChargingStationsToSiteAreaAction);
     } else if (siteArea.canReadChargingStations) {
@@ -360,6 +367,14 @@ export class SiteAreasListTableDataSource extends TableDataSource<SiteArea> {
       case ChargingStationButtonAction.GENERATE_QR_CODE:
         if (actionDef.action) {
           (actionDef as TableSiteAreaGenerateQrCodeConnectorsActionDef).action(
+            siteArea, this.translateService, this.spinnerService,
+            this.messageService, this.centralServerService, this.router
+          );
+        }
+        break;
+      case ChargingStationButtonAction.GENERATE_QR_CODE_SCAN_PAY:
+        if (actionDef.action) {
+          (actionDef as TableSiteAreaGenerateQrCodeScanPayConnectorsActionDef).action(
             siteArea, this.translateService, this.spinnerService,
             this.messageService, this.centralServerService, this.router
           );

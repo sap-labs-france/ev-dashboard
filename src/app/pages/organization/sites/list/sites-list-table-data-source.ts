@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { ComponentService } from 'services/component.service';
 import { PricingDefinitionsDialogComponent } from 'shared/pricing-definitions/pricing-definitions.dialog.component';
 import { TableSiteGenerateQrCodeConnectorAction, TableSiteGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/sites/table-site-generate-qr-code-connector-action';
+import { TableSiteGenerateQrCodeScanPayConnectorAction, TableSiteGenerateQrCodeScanPayConnectorsActionDef } from 'shared/table/actions/sites/table-site-generate-qr-code-scan-pay-connector-action';
 import { TableViewPricingDefinitionsAction, TableViewPricingDefinitionsActionDef } from 'shared/table/actions/table-view-pricing-definitions-action';
 import { SitesAuthorizations } from 'types/Authorization';
 import { PricingButtonAction, PricingEntity } from 'types/Pricing';
@@ -43,6 +44,7 @@ import { SiteDialogComponent } from '../site/site-dialog.component';
 @Injectable()
 export class SitesListTableDataSource extends TableDataSource<Site> {
   private readonly isPricingComponentActive: boolean;
+  private readonly isScanPayComponentActive: boolean;
   private editAction = new TableEditSiteAction().getActionDef();
   private assignUsersToSite = new TableAssignUsersToSiteAction().getActionDef();
   private viewUsersOfSite = new TableViewAssignedUsersOfSiteAction().getActionDef();
@@ -50,6 +52,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   private viewAction = new TableViewSiteAction().getActionDef();
   private exportOCPPParamsAction = new TableExportOCPPParamsAction().getActionDef();
   private siteGenerateQrCodeConnectorAction = new TableSiteGenerateQrCodeConnectorAction().getActionDef();
+  private siteGenerateQrCodeScanPayConnectorAction = new TableSiteGenerateQrCodeScanPayConnectorAction().getActionDef();
   private createAction = new TableCreateSiteAction().getActionDef();
   private maintainPricingDefinitionsAction = new TableViewPricingDefinitionsAction().getActionDef();
   private companyFilter: TableFilterDef;
@@ -68,6 +71,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     private componentService: ComponentService) {
     super(spinnerService, translateService);
     this.isPricingComponentActive = this.componentService.isActive(TenantComponents.PRICING);
+    this.isScanPayComponentActive = this.componentService.isActive(TenantComponents.SCAN_PAY);
     this.setStaticFilters([{ WithCompany: true }]);
     this.initDataSource();
   }
@@ -228,6 +232,9 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     if (site.canGenerateQrCode) {
       moreActions.addActionInMoreActions(this.siteGenerateQrCodeConnectorAction);
     }
+    if (this.isScanPayComponentActive && site.canGenerateQrCodeScanPay) {
+      moreActions.addActionInMoreActions(this.siteGenerateQrCodeScanPayConnectorAction);
+    }
     moreActions.addActionInMoreActions(openInMaps);
     if (site.canDelete) {
       moreActions.addActionInMoreActions(this.deleteAction);
@@ -248,6 +255,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     }
   }
 
+  // eslint-disable-next-line complexity
   public rowActionTriggered(actionDef: TableActionDef, site: Site) {
     switch (actionDef.id) {
       case SiteButtonAction.EDIT_SITE:
@@ -296,6 +304,14 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       case ChargingStationButtonAction.GENERATE_QR_CODE:
         if (actionDef.action) {
           (actionDef as TableSiteGenerateQrCodeConnectorsActionDef).action(
+            site, this.translateService, this.spinnerService,
+            this.messageService, this.centralServerService, this.router
+          );
+        }
+        break;
+      case ChargingStationButtonAction.GENERATE_QR_CODE_SCAN_PAY:
+        if (actionDef.action) {
+          (actionDef as TableSiteGenerateQrCodeScanPayConnectorsActionDef).action(
             site, this.translateService, this.spinnerService,
             this.messageService, this.centralServerService, this.router
           );

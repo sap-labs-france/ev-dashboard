@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { WindowService } from 'services/window.service';
+import { TableChargingStationGenerateQrCodeScanPayConnectorAction, TableChargingStationGenerateQrCodeScanPayConnectorActionDef } from 'shared/table/actions/charging-stations/table-charging-station-generate-qr-code-scan-pay-connector-action';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
@@ -55,11 +56,13 @@ import { ChargingStationDialogComponent } from '../charging-station/charging-sta
 export class ChargingStationsListTableDataSource extends TableDataSource<ChargingStation> {
   private readonly isOrganizationComponentActive: boolean;
   private readonly isPricingComponentActive: boolean;
+  private readonly isScanPayComponentActive: boolean;
   private editAction = new TableEditChargingStationAction().getActionDef();
   private viewAction = new TableViewChargingStationAction().getActionDef();
   private smartChargingAction = new TableChargingStationsSmartChargingAction().getActionDef();
   private deleteAction = new TableDeleteChargingStationAction().getActionDef();
   private generateQrCodeConnectorAction = new TableChargingStationGenerateQrCodeConnectorAction().getActionDef();
+  private generateQrCodeScanPayConnectorAction = new TableChargingStationGenerateQrCodeScanPayConnectorAction().getActionDef();
   private canExport = new TableExportChargingStationsAction().getActionDef();
   private maintainPricingDefinitionsAction = new TableViewPricingDefinitionsAction().getActionDef();
   private navigateToTransactionsAction = new TableNavigateToTransactionsAction().getActionDef();
@@ -85,6 +88,7 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     super(spinnerService, translateService);
     this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
     this.isPricingComponentActive = this.componentService.isActive(TenantComponents.PRICING);
+    this.isScanPayComponentActive = this.componentService.isActive(TenantComponents.SCAN_PAY);
     if (this.isOrganizationComponentActive) {
       this.setStaticFilters([{
         WithSite: true,
@@ -341,6 +345,13 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
             this.centralServerService, this.router);
         }
         break;
+      case ChargingStationButtonAction.GENERATE_QR_CODE_SCAN_PAY:
+        if (actionDef.action) {
+          (actionDef as TableChargingStationGenerateQrCodeScanPayConnectorActionDef).action(
+            chargingStation, this.translateService, this.spinnerService, this.messageService,
+            this.centralServerService, this.router);
+        }
+        break;
       case ChargingStationButtonAction.FORCE_UNAVAILABLE_STATUS:
         if (actionDef.action) {
           (actionDef as TableChargingStationsForceUnavailableStatusActionDef).action(
@@ -433,6 +444,10 @@ export class ChargingStationsListTableDataSource extends TableDataSource<Chargin
     // Generate QR code
     if (chargingStation.canGenerateQrCode) {
       moreActions.addActionInMoreActions(this.generateQrCodeConnectorAction);
+    }
+    // Generate QR code scan pay
+    if (this.isScanPayComponentActive && chargingStation.canGenerateQrCodeScanPay) {
+      moreActions.addActionInMoreActions(this.generateQrCodeScanPayConnectorAction);
     }
     if (chargingStation.canListCompletedTransactions) {
       moreActions.addActionInMoreActions(this.navigateToTransactionsAction);

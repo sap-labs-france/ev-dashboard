@@ -34,6 +34,7 @@ import { ImportDialogComponent } from './import/import-dialog.component';
 import { LogActionsDialogTableDataSource } from './logs/log-actions-dialog-table-data-source';
 import { LogActionsDialogComponent } from './logs/log-actions-dialog.component';
 import { QrCodeDialogComponent } from './qr-code/qr-code-dialog.component';
+import { QrCodeScanPayDialogComponent } from './qr-code/qr-code-scan-pay-dialog.component';
 import { ReportsDialogTableDataSource } from './reports/reports-dialog-table-data-source';
 import { ReportsDialogComponent } from './reports/reports-dialog.component';
 import { SiteAreasDialogTableDataSource } from './site-areas/site-areas-dialog-table-data-source';
@@ -79,6 +80,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     CompaniesDialogComponent,
     GeoMapDialogComponent,
     QrCodeDialogComponent,
+    QrCodeScanPayDialogComponent,
     ImportDialogComponent,
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent,
@@ -103,6 +105,7 @@ import { UsersDialogComponent } from './users/users-dialog.component';
     CompaniesDialogComponent,
     GeoMapDialogComponent,
     QrCodeDialogComponent,
+    QrCodeScanPayDialogComponent,
     ImportDialogComponent,
     ErrorCodeDetailsDialogComponent,
     ErrorCodeDetailsComponent,

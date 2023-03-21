@@ -1916,11 +1916,41 @@ export class CentralServerService {
       );
   }
 
+  public downloadSiteQrCodesScanPay(siteID: string): Observable<Blob> {
+    this.checkInit();
+    const params: { [param: string]: string } = {};
+    params['SiteID'] = siteID;
+    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_SCAN_PAY_DOWNLOAD),
+      {
+        headers: this.buildHttpHeaders(),
+        params,
+        responseType: 'blob',
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public downloadSiteAreaQrCodes(siteAreaID?: string): Observable<Blob> {
     this.checkInit();
     const params: { [param: string]: string } = {};
     params['SiteAreaID'] = siteAreaID;
     return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_DOWNLOAD),
+      {
+        headers: this.buildHttpHeaders(),
+        params,
+        responseType: 'blob',
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public downloadSiteAreaQrCodesScanPay(siteAreaID?: string): Observable<Blob> {
+    this.checkInit();
+    const params: { [param: string]: string } = {};
+    params['SiteAreaID'] = siteAreaID;
+    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_SCAN_PAY_DOWNLOAD),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1939,6 +1969,24 @@ export class CentralServerService {
       params['ConnectorID'] = connectorID.toString();
     }
     return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_DOWNLOAD),
+      {
+        headers: this.buildHttpHeaders(),
+        params,
+        responseType: 'blob',
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
+  public downloadChargingStationScanPayQrCodes(chargingStationID: string, connectorID?: number): Observable<Blob> {
+    this.checkInit();
+    const params: { [param: string]: string } = {};
+    params['ChargingStationID'] = chargingStationID;
+    if (connectorID) {
+      params['ConnectorID'] = connectorID.toString();
+    }
+    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_SCAN_PAY_DOWNLOAD),
       {
         headers: this.buildHttpHeaders(),
         params,

@@ -7,6 +7,7 @@ import { ComponentService } from 'services/component.service';
 import { MessageService } from 'services/message.service';
 import { SpinnerService } from 'services/spinner.service';
 import { QrCodeDialogComponent } from 'shared/dialogs/qr-code/qr-code-dialog.component';
+import { QrCodeScanPayDialogComponent } from 'shared/dialogs/qr-code/qr-code-scan-pay-dialog.component';
 import { CONNECTOR_TYPE_MAP } from 'shared/formatters/app-connector-type.pipe';
 import { ChargePoint, ChargingStation, Connector, CurrentType, OCPPPhase, Voltage } from 'types/ChargingStation';
 import { Image } from 'types/GlobalType';
@@ -300,7 +301,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
           // Disable outside click close
           dialogConfig.disableClose = true;
           // Open
-          this.dialog.open(QrCodeDialogComponent, dialogConfig)
+          this.dialog.open(QrCodeScanPayDialogComponent, dialogConfig)
             .afterClosed().subscribe((result) => {
             });
         }

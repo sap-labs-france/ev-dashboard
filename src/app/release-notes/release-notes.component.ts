@@ -24,6 +24,21 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.7.6',
+        date: new Date('2023-03-14'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              'Smart Charging - Advanced Parameters for Departure Time',
+              'Smart Charging - Limit the number of periods to 16 (4 hours)',
+              'Billing - Stripe Integration - update dependency to the latest API version - 2022-11-15',
+              'Security - removed vulnerability from strong-soap dependencies'
+            ],
+          },
+        ],
+      },
+      {
         version: '2.7.5',
         date: new Date('2022-11-21'),
         componentChanges: [

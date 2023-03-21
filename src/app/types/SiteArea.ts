@@ -4,8 +4,9 @@ import { ChargingStation, Voltage } from './ChargingStation';
 import Consumption from './Consumption';
 import { Site } from './Site';
 import { TableData } from './Table';
+import { SmartChargingSessionParameters } from './Transaction';
 
-export interface SiteArea extends TableData, SiteAreaAuthorizationActions {
+export interface SiteArea extends TableData, SiteAreaAuthorizationActions, SmartChargingSessionParametersActive {
   id: string;
   name: string;
   image: string;
@@ -15,6 +16,7 @@ export interface SiteArea extends TableData, SiteAreaAuthorizationActions {
   voltage: Voltage;
   accessControl: boolean;
   smartCharging: boolean;
+  smartChargingSessionParameters: SmartChargingSessionParameters;
   siteID: string;
   site: Site;
   parentSiteArea?: SiteArea;
@@ -23,6 +25,10 @@ export interface SiteArea extends TableData, SiteAreaAuthorizationActions {
   chargingStations: ChargingStation[];
   tariffID?: string;
 }
+export interface SmartChargingSessionParametersActive {
+  smartChargingSessionParametersActive?: boolean;
+}
+
 
 export enum SiteAreaValueTypes {
   ASSET_CONSUMPTIONS = 'AssetConsumptions',

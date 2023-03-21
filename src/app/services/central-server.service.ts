@@ -787,6 +787,23 @@ export class CentralServerService {
       );
   }
 
+  public getConnectorQrCodeScanPay(chargingStationID: string, connectorID: number): Observable<Image> {
+    // Verify init
+    this.checkInit();
+    if (!chargingStationID || connectorID < 0) {
+      return EMPTY;
+    }
+    // Execute the REST service
+    return this.httpClient.get<Image>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_GENERATE_SCAN_PAY,
+      { id: chargingStationID, connectorId: connectorID }),
+    {
+      headers: this.buildHttpHeaders(),
+    })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   // eslint-disable-next-line max-len
   public getChargingStationsInError(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = []): Observable<ChargingStationInErrorDataResult> {

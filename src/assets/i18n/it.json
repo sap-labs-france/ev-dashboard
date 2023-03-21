@@ -74,6 +74,7 @@
     "refresh": "Refresh",
     "generate_qr": "Genera il codice QR",
     "display_qr": "Display QR code",
+    "display_qr_scan_pay": "Display QR code scan pay",
     "save": "Salva",
     "delete": "Cancella",
     "export": "Esporta",

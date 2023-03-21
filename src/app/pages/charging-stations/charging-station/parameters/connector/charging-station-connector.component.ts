@@ -28,6 +28,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   @Output() public connectorChanged = new EventEmitter<any>();
 
   public ocpiActive: boolean;
+  public scanPayActive: boolean;
   public connectorTypeMap = CONNECTOR_TYPE_MAP;
   public connectedPhaseMap = [
     { key: 1, description: 'chargers.single_phase' },
@@ -70,6 +71,7 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
     private router: Router,
     private messageService: MessageService) {
     this.ocpiActive = this.componentService.isActive(TenantComponents.OCPI);
+    this.scanPayActive = this.componentService.isActive(TenantComponents.SCAN_PAY);
   }
 
   public ngOnInit() {
@@ -246,6 +248,40 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   public generateQRCode() {
     this.spinnerService.show();
     this.centralServerService.getConnectorQrCode(this.chargingStation.id, this.connector.connectorId).subscribe({
+      next: (qrCode: Image) => {
+        this.spinnerService.hide();
+        if (qrCode) {
+          // Create the dialog
+          const dialogConfig = new MatDialogConfig();
+          dialogConfig.minWidth = '70vw';
+          dialogConfig.minHeight = '70vh';
+          dialogConfig.disableClose = false;
+          dialogConfig.panelClass = 'transparent-dialog-container';
+          // Set data
+          dialogConfig.data = {
+            qrCode: qrCode.image,
+            connectorID: this.connector.connectorId,
+            chargingStationID: this.chargingStation.id,
+          };
+          // Disable outside click close
+          dialogConfig.disableClose = true;
+          // Open
+          this.dialog.open(QrCodeDialogComponent, dialogConfig)
+            .afterClosed().subscribe((result) => {
+            });
+        }
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        Utils.handleHttpError(error, this.router, this.messageService,
+          this.centralServerService, 'chargers.qr_code_generation_error');
+      }
+    });
+  }
+
+  public generateQRCodeScanPay() {
+    this.spinnerService.show();
+    this.centralServerService.getConnectorQrCodeScanPay(this.chargingStation.id, this.connector.connectorId).subscribe({
       next: (qrCode: Image) => {
         this.spinnerService.hide();
         if (qrCode) {

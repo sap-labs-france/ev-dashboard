@@ -74,6 +74,7 @@
     "refresh": "Obnovit",
     "generate_qr": "Generovat QR kód",
     "display_qr": "Zobrazit QR kód",
+    "display_qr_scan_pay": "Display QR code scan pay",
     "save": "Uložit",
     "delete": "Vymazat",
     "export": "Exportovat",

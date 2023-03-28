@@ -34,12 +34,14 @@ export class ReleaseNotesComponent {
               'Smart Charging - Limit the number of periods to 16 (4 hours)',
               'Smart Charging - fix - default value not properly used',
               'Billing - Stripe Integration - update dependency to the latest API version - 2022-11-15',
+              'Pricing - fix - Delete pricing definitions',
               'Security - Removed vulnerability from strong-soap dependencies',
               'Statistics - Export to CSV files - filtering is now taken into account',
               'Authorizations - Migrated Statistics endpoints to the new authorization framework',
               'Authorizations - Site owners can change the power limit of a site',
               'OCPP - Allow a distinct CPMS Domain Name per Tenant',
-              'Performance - Fix - Partial index creation'
+              'Performance - Fix - Partial index creation',
+              'Performance - some logs less verbose'
             ],
           },
         ],

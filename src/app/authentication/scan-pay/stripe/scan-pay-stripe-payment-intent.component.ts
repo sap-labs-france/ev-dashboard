@@ -34,6 +34,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
   public connectorID: number;
   public token: string;
   public isSendClicked: boolean;
+  public showButton: boolean;
   public isTokenValid = true;
   public isBackendConnectionValid = false;
   // Stripe elements
@@ -70,6 +71,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
   }
 
   public linkCardToAccount() {
+    this.showButton = true;
     void this.doConfirmPaymentIntent();
   }
 

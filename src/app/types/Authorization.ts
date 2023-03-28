@@ -468,6 +468,17 @@ export interface OcpiEndpointAuthorizationActions extends AuthorizationActions {
   canTriggerJob?: boolean;
 }
 
+export interface StatisticsAuthorizations extends AuthorizationAttributes, StatisticsAuthorizationActions {
+  canListUsers?: boolean;
+  canListChargingStations?: boolean;
+  canListSites?: boolean;
+  canListSiteAreas?: boolean;
+  canExport?: boolean;
+}
+
+export interface StatisticsAuthorizationActions extends AuthorizationActions {
+}
+
 export enum DialogMode {
   EDIT = 'E',
   CREATE = 'C',

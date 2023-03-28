@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
@@ -10,11 +10,10 @@ import { IssuerFilter } from 'shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from 'shared/table/filters/site-area-table-filter';
 import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
 import { UserTableFilter } from 'shared/table/filters/user-table-filter';
+import { StatisticsAuthorizations } from 'types/Authorization';
 
-import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
-import { LocaleService } from '../../../services/locale.service';
 import { FilterParams } from '../../../types/GlobalType';
 import { SettingLink } from '../../../types/Setting';
 import { FilterType, TableFilterDef } from '../../../types/Table';
@@ -31,11 +30,12 @@ export interface StatisticsButtonGroup {
   selector: 'app-statistics-filters',
   templateUrl: 'statistics-filters.component.html',
 })
-export class StatisticsFiltersComponent implements OnInit {
+export class StatisticsFiltersComponent implements OnInit, OnChanges {
   @ViewChild(DaterangepickerComponent) public dateRangePickerComponent: DaterangepickerComponent;
   @ViewChild(DaterangepickerDirective) public picker: DaterangepickerDirective;
 
   @Input() public allYears ?= false;
+  @Input() public authorizations: StatisticsAuthorizations;
 
   @Output() public category = new EventEmitter();
   @Output() public year = new EventEmitter();
@@ -48,7 +48,6 @@ export class StatisticsFiltersComponent implements OnInit {
   @Output() public export = new EventEmitter();
 
   public ongoingRefresh = false;
-  public isAdmin!: boolean;
   public selectedYear!: number;
   public transactionYears!: number[];
   public sacLinks!: SettingLink[];
@@ -65,38 +64,47 @@ export class StatisticsFiltersComponent implements OnInit {
 
   private filterParams = {};
 
+  private issuerFilter: TableFilterDef;
+  private dateRangeFilter: TableFilterDef;
+  private siteFilter: TableFilterDef;
+  private siteAreaFilter: TableFilterDef;
+  private chargingStationFilter: TableFilterDef;
+  private userFilter: TableFilterDef;
+
   public constructor(
-    private authorizationService: AuthorizationService,
     private translateService: TranslateService,
     private componentService: ComponentService,
     private centralServerService: CentralServerService,
-    private localeService: LocaleService,
     private dialog: MatDialog) {
-    this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
-    const issuerFilter = new IssuerFilter().getFilterDef();
-    const dateRangeFilter = new DateRangeTableFilter({
-      translateService: this.translateService
-    }).getFilterDef();
-    this.tableFiltersDef.push(dateRangeFilter);
-    const siteFilter = new SiteTableFilter([issuerFilter]).getFilterDef();
-    this.tableFiltersDef.push(siteFilter);
-    const siteAreaFilter = new SiteAreaTableFilter([issuerFilter, siteFilter]).getFilterDef();
-    this.tableFiltersDef.push(siteAreaFilter);
-    const chargingStationFilter = new ChargingStationTableFilter([issuerFilter, siteFilter, siteAreaFilter]).getFilterDef();
-    this.tableFiltersDef.push(chargingStationFilter);
-    const userFilter = new UserTableFilter([issuerFilter, siteFilter]).getFilterDef();
-    this.tableFiltersDef.push(userFilter);
-    if (!this.componentService.isActive(TenantComponents.ORGANIZATION)) {
-      siteFilter.visible = false;
-      siteAreaFilter.visible = false;
-    }
-    if (this.isAdmin) {
-      userFilter.visible = true;
-    }
+    this.initFilters();
   }
 
-  public openDateRange() {
-    this.picker.open();
+  public initFilters() {
+    this.issuerFilter = new IssuerFilter().getFilterDef();
+    this.dateRangeFilter = new DateRangeTableFilter({
+      translateService: this.translateService
+    }).getFilterDef();
+    this.tableFiltersDef.push(this.dateRangeFilter);
+    this.siteFilter = new SiteTableFilter([this.issuerFilter]).getFilterDef();
+    this.tableFiltersDef.push(this.siteFilter);
+    this.siteAreaFilter = new SiteAreaTableFilter([this.issuerFilter, this.siteFilter]).getFilterDef();
+    this.tableFiltersDef.push(this.siteAreaFilter);
+    this.chargingStationFilter = new ChargingStationTableFilter([this.issuerFilter, this.siteFilter, this.siteAreaFilter]).getFilterDef();
+    this.tableFiltersDef.push(this.chargingStationFilter);
+    this.userFilter = new UserTableFilter([this.issuerFilter, this.siteFilter]).getFilterDef();
+    this.tableFiltersDef.push(this.userFilter);
+    this.updateFilterVisibilityWithAuth();
+  }
+
+  public ngOnChanges() {
+    this.updateFilterVisibilityWithAuth();
+  }
+
+  public updateFilterVisibilityWithAuth() {
+    this.siteFilter.visible = Utils.convertToBoolean(this.authorizations?.canListSites);
+    this.siteAreaFilter.visible = Utils.convertToBoolean(this.authorizations?.canListSiteAreas);
+    this.userFilter.visible =  Utils.convertToBoolean(this.authorizations?.canListUsers);
+    this.chargingStationFilter.visible = Utils.convertToBoolean(this.authorizations?.canListChargingStations);
   }
 
   public ngOnInit(): void {
@@ -120,16 +128,7 @@ export class StatisticsFiltersComponent implements OnInit {
     // Get SAC links
     if (this.componentService.isActive(TenantComponents.ANALYTICS)) {
       this.componentService.getSacSettings().subscribe((sacSettings) => {
-        if (this.isAdmin) {
-          this.sacLinks = sacSettings.links;
-        } else {
-          this.sacLinks = [];
-          for (const sacLink of sacSettings.links) {
-            if (sacLink.role === 'D') {
-              this.sacLinks.push(sacLink);
-            }
-          }
-        }
+        this.sacLinks = sacSettings.links;
         if (!Utils.isEmptyArray(this.sacLinks)) {
           this.sacLinksActive = true;
         } else {
@@ -143,6 +142,10 @@ export class StatisticsFiltersComponent implements OnInit {
     this.filterParams = this.buildFilterValues();
     this.filters.emit(this.filterParams);
     this.update.emit(true);
+  }
+
+  public openDateRange() {
+    this.picker.open();
   }
 
   public dateRangeChange(filterDef: TableFilterDef, event): void {

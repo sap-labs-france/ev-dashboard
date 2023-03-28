@@ -1,7 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartData } from 'chart.js';
+import { StatisticsAuthorizations } from 'types/Authorization';
 import { ChartTypeValues } from 'types/Chart';
+import { StatisticDataResult } from 'types/DataResult';
+import { Utils } from 'utils/Utils';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { LocaleService } from '../../../services/locale.service';
@@ -28,6 +31,7 @@ export class StatisticsTransactionsComponent implements OnInit {
   public selectedYear!: number;
   public allYears = true;
   public chartsInitialized = false;
+  public authorizations: StatisticsAuthorizations;
 
   private filterParams!: FilterParams;
   private barChart!: SimpleChart;
@@ -159,11 +163,14 @@ export class StatisticsTransactionsComponent implements OnInit {
   }
 
   public buildCharts(): void {
+    // Append withAuth filter to retrieve auth - this also changes the response into datasource
+    this.filterParams['WithAuth'] = 'true';
     this.spinnerService.show();
     if (this.selectedCategory === 'C') {
       this.centralServerService.getChargingStationTransactionsStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
-          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2);
+          this.initAuth(statisticsData);
+          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData.result, 2);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
           this.totalTransactions = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
           if (this.selectedChart === 'month') {
@@ -176,7 +183,8 @@ export class StatisticsTransactionsComponent implements OnInit {
     } else {
       this.centralServerService.getUserTransactionsStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
-          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2);
+          this.initAuth(statisticsData);
+          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData.result, 2);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
           this.totalTransactions = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
           if (this.selectedChart === 'month') {
@@ -187,5 +195,15 @@ export class StatisticsTransactionsComponent implements OnInit {
           this.spinnerService.hide();
         });
     }
+  }
+
+  private initAuth(statisticsData: StatisticDataResult) {
+    this.authorizations = {
+      canListUsers:  Utils.convertToBoolean(statisticsData.canListUsers),
+      canListChargingStations:  Utils.convertToBoolean(statisticsData.canListChargingStations),
+      canListSites:  Utils.convertToBoolean(statisticsData.canListSites),
+      canListSiteAreas:  Utils.convertToBoolean(statisticsData.canListSiteAreas),
+      canExport:  Utils.convertToBoolean(statisticsData.canExport),
+    };
   }
 }

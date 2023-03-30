@@ -1772,7 +1772,7 @@
       "payment_methods_expiration_date_error": "Date d'expiration invalide",
       "payment_methods_cvc_error": "Code de vérification invalide",
       "payment_intent_create_title": "Entrez vos détails de paiement",
-      "payment_intent_create_success": "Le paiement a fonctionné, vous pouvez arrêter la chargge soit depuis votre véhicule soit depuis le mail que vous allez recevoir.",
+      "payment_intent_create_success": "Le paiement a fonctionné, vous pouvez arrêter la charge soit depuis votre véhicule soit depuis le mail que vous allez recevoir.",
       "payment_intent_create_error": "Une erreur est survenue lors de la création du moyen de paiement : {{stripeError}}",
       "payment_intent_create_success_title": "Paiement effectué avec succès",
       "payment_intent_create_account_title": "Entrez vos informations personnelles",
@@ -1781,16 +1781,6 @@
       "payment_intent_create_account_error": "Une erreur est survenue lors du traitement de vos informations personnelles : {{error}}",
       "payment_intent_save_start": "Enregistrer et commencer la charge",
       "payment_intent_email_sent": "Email Envoyé",
-      "scan_pay_title": "Scanner et payer",
-      "scan_pay_hold_amount": "Montant qui sera réservé sur la carte bancaire de l'utilisateur",
-      "scan_pay_pattern_error": "Le montant entré doit être un nombre positif entier",
-      "scan_pay_stop_title": "Refresh this page to follow your current transaction details",
-      "scan_pay_stop_button": "Stop transaction",
-      "scan_pay_stop_success": "The session has been stopped successfully. You can unplug your car",
-      "scan_pay_stop_error": "Error occurred while stopping the session, try stopping transaction from your car or contact the support",
-      "scan_pay_session_started": "Session started, check your email for more details",
-      "scan_pay_download_title": "Invoice downloading",
-      "scan_pay_download": "Invoice will be downloaded, please don't close this page.",
       "transaction_billing_activation": "Activer la facturation",
       "transaction_billing_activation_title": "Activation de la facturation",
       "transaction_billing_activation_confirm": [
@@ -1826,6 +1816,23 @@
         "platform_fee_tax": "Taux de taxe sur frais de commission",
         "no_tax": "Aucune Taxe"
       }
+    },
+    "scan_pay": {
+      "create_success": "La configuration pour scanner et payer a été créée avec succès",
+      "create_error": "Une erreur est survenue lors de la creation de la configuration pour scanner et payer, vérifiez les logs",
+      "update_success": "La configuration pour scanner et payer a été mise à jour avec succès",
+      "update_error": "Une erreur est survenue lors de la mise à jour de la configuration pour scanner et payer, vérifiez les logs",
+      "not_found": "La configuration pour scanner et payer n'est pas disponible",
+      "title": "Scanner et payer",
+      "hold_amount": "Montant qui sera réservé sur la carte bancaire de l'utilisateur",
+      "hold_amount_not_set": "La configuration pour scanner et payer n'est pas correcte, veuillez contacter le support",
+      "pattern_error": "Le montant entré doit être un nombre positif entier",
+      "stop_title": "Rafraichissez la page pour suivre les détails de votre session en cours",
+      "stop_button": "Stopper la transaction",
+      "stop_success": "La session a été stoppée avec succès. Vous pouvez débrancher votre voiture.",
+      "stop_error": "Une erreur est survenue pendant l'arrêt de la charge, essayez de stopper la charge depuis votre véhicule ou contactez le support.",
+      "download_title": "Téléchargement de la facture",
+      "download": "Téléchargement de la facture, veuillez ne pas fermer cette page."
     },
     "analytics": {
       "sac": {

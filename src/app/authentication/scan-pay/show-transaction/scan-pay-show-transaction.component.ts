@@ -88,11 +88,11 @@ export class ScanPayShowTransactionComponent implements OnInit, OnDestroy {
     this.centralServerService.chargingStationStopTransaction(this.transaction.chargeBoxID, this.currentTransactionID).subscribe({
       next: (response) => {
         this.spinnerService.hide();
-        this.messageService.showSuccessMessage('settings.billing.scan_pay_stop_success');
+        this.messageService.showSuccessMessage('settings.scan_pay.stop_success');
       },
       error: (error) => {
         this.spinnerService.hide();
-        this.messageService.showErrorMessage('settings.billing.scan_pay_stop_error');
+        this.messageService.showErrorMessage('settings.scan_pay.stop_error');
       }
     });
   }

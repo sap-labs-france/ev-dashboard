@@ -25,7 +25,8 @@ type SettingsType = CryptoSettingsType
 | SmartChargingSettingsType
 | AssetSettingsType
 | CarConnectorSettingsType
-| UserSettingsType;
+| UserSettingsType
+| ScanPaySettingsType;
 
 export interface SettingDBContent {
   type: SettingsType;
@@ -42,6 +43,7 @@ export interface SettingDBContent {
   carConnector?: CarConnectorSetting;
   crypto?: CryptoSetting;
   user?: UserSetting;
+  scanPay?: ScanPaySetting;
 }
 
 export interface SettingLink extends TableData {
@@ -202,7 +204,7 @@ export interface BillingSetting {
   taxID: string;
   platformFeeTaxID?: string;
   usersLastSynchronizedOn?: Date;
-  scanPayAmount?: number;
+  amount?: number;
 }
 
 export interface StripeBillingSetting {
@@ -357,4 +359,18 @@ export interface UserSettings extends SettingDB {
 
 export interface UserSetting {
   autoActivateAccountAfterValidation: boolean;
+}
+
+export enum ScanPaySettingsType {
+  SCAN_PAY = 'scanPay',
+}
+
+export interface ScanPaySettings extends SettingDB {
+  identifier: TenantComponents.SCAN_PAY;
+  type: ScanPaySettingsType;
+  scanPay?: ScanPaySetting;
+}
+
+export interface ScanPaySetting {
+  amount: number;
 }

@@ -166,9 +166,13 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
           Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'authentication.verify_email_token_not_valid');
           this.isTokenValid = false;
           break;
+        case HTTPError.SCAN_PAY_HOLD_AMOUNT_MISSING:
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.scan_pay.hold_amount_not_set');
+          this.isTokenValid = false;
+          this.isSendClicked = true;
+          break;
         default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'general.unexpected_error_backend');
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
       }
     } finally {
       this.spinnerService.hide();

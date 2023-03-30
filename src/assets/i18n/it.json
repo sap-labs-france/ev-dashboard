@@ -1781,16 +1781,6 @@
       "payment_intent_create_account_error": "Error occurred while handling your informations : {{error}}",
       "payment_intent_save_start": "Save and start charging",
       "payment_intent_email_sent": "Email Sent",
-      "scan_pay_title": "Scan & Pay",
-      "scan_pay_hold_amount": "Amount that will be holded on the user's credit card",
-      "scan_pay_pattern_error": "Amount entered must be a positive integer",
-      "scan_pay_stop_title": "Refresh this page to follow your current transaction details",
-      "scan_pay_stop_button": "Stop transaction",
-      "scan_pay_stop_success": "The session has been stopped successfully. You can unplug your car",
-      "scan_pay_stop_error": "Error occurred while stopping the session, try stopping transaction from your car or contact the support",
-      "scan_pay_session_started": "Session started, check your email for more details",
-      "scan_pay_download_title": "Invoice downloading",
-      "scan_pay_download": "Invoice will be downloaded, please don't close this page.",
       "transaction_billing_activation": "Attivazione Fatturazione",
       "transaction_billing_activation_title": "Attivazione Fatturazione",
       "transaction_billing_activation_confirm": [
@@ -1826,6 +1816,23 @@
         "platform_fee_tax": "Piattaforma tassa",
         "no_tax": "Nessuna tassa"
       }
+    },
+    "scan_pay": {
+      "create_success": "Scan & Pay settings have been created successfully",
+      "create_error": "Error occurred while creating the Scan & Pay settings, check the logs",
+      "update_success": "Scan & Pay settings have been updated successfully",
+      "update_error": "Error occurred while updating the Scan & Pay settings, check the logs",
+      "not_found": "Scan & Pay settings not found",
+      "title": "Scan & Pay",
+      "hold_amount": "Amount that will be holded on the user's credit card",
+      "hold_amount_not_set": "Scan & Pay is not properly configured, please contact the support",
+      "pattern_error": "Amount entered must be a positive integer",
+      "stop_title": "Refresh this page to follow your current transaction details",
+      "stop_button": "Stop transaction",
+      "stop_success": "The session has been stopped successfully. You can unplug your car",
+      "stop_error": "Error occurred while stopping the session, try stopping transaction from your car or contact the support",
+      "download_title": "Invoice downloading",
+      "download": "Invoice will be downloaded, please don't close this page."
     },
     "analytics": {
       "sac": {

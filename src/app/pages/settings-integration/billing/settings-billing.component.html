@@ -42,11 +42,15 @@
     [authorizations]="authorizations"
     [formGroup]="formGroup">
   </app-settings-stripe-billing>
-  <app-settings-scan-pay *ngIf="isBillingActive && isPricingActive && isScanPayActive"
-    [billingSettings]="billingSettings"
+  <!-- Scan & Pay -->
+  <app-settings-scan-pay #settingsScanPayComponent *ngIf="isBillingActive && isPricingActive && isScanPayActive && billingSettings?.type === 'stripe'"
+    [scanPaySettings]="scanPaySettings"
+    [isBillingActive]="isBillingActive"
+    [isPricingActive]="isPricingActive"
     [authorizations]="authorizations"
     [formGroup]="formGroup">
   </app-settings-scan-pay>
+  <!-- Billing platform accounts -->
   <app-billing-accounts *ngIf="isBillingActive && isBillingPlatformActive && isBillingTransactionEnabled && isBillingAccountTaxSet"
     [authorizations]="authorizations">
   </app-billing-accounts>

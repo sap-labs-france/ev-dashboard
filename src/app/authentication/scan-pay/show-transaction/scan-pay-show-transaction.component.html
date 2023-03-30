@@ -6,7 +6,7 @@
             <div class="card-header card-header-primary text-center h-25">
               <div class="social-line">
                 <div style="height: 125px; display: contents; margin: 5px;">
-                  <h4 class="mb2 card-title text-center" style="padding: 10px;">{{"settings.billing.scan_pay_stop_title" | translate}}</h4>
+                  <h4 class="mb2 card-title text-center" style="padding: 10px;">{{"settings.scan_pay.stop_title" | translate}}</h4>
                 </div>
               </div>
             </div>
@@ -16,7 +16,7 @@
                 <app-transaction-header [transaction]="transaction" [scanPay]="true"></app-transaction-header>
               </div>
             <div class="card-footer justify-content-center mb-4">
-              <button mat-raised-button color="primary" (click)="scanPayStopTransaction()" [disabled]="isClicked || transaction?.stop">{{"settings.billing.scan_pay_stop_button" | translate}}</button>
+              <button mat-raised-button color="primary" (click)="scanPayStopTransaction()" [disabled]="isClicked || transaction?.stop">{{"settings.scan_pay.stop_button" | translate}}</button>
             </div>
           </div>
         </div>

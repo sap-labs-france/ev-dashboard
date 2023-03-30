@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Constants } from 'utils/Constants';
 
 import { ActionResponse, BillingAccountDataResult, Ordering, Paging } from '../types/DataResult';
-import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, CarConnectorConnectionType, CarConnectorSettings, CarConnectorSettingsType, CryptoSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SmartChargingSettings, SmartChargingSettingsType, TechnicalSettings, UserSettings, UserSettingsType } from '../types/Setting';
+import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, CarConnectorConnectionType, CarConnectorSettings, CarConnectorSettingsType, CryptoSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, ScanPaySettings, ScanPaySettingsType, SmartChargingSettings, SmartChargingSettingsType, TechnicalSettings, UserSettings, UserSettingsType } from '../types/Setting';
 import { TenantComponents } from '../types/Tenant';
 import { Utils } from '../utils/Utils';
 import { CentralServerService } from './central-server.service';
@@ -83,53 +83,14 @@ export class ComponentService {
     return this.centralServerService.updateSetting(settingsToSave);
   }
 
-  // public getScanPaySettings(): Observable<ScanPaySettings> {
-  //   return new Observable((observer) => {
-  //     let scanPaySettings = {
-  //       identifier: TenantComponents.SCAN_PAY,
-  //     } as ScanPaySettings;
-  //     // Get the Pricing settings
-  //     this.centralServerService.getSetting(TenantComponents.SCAN_PAY).subscribe({
-  //       next: (settings) => {
-  //         // Get the currency
-  //         if (settings) {
-  //           // Init
-  //           scanPaySettings = settings as ScanPaySettings;
-  //           // Set specific setting data
-  //           const config = settings.content;
-  //           // Simple price
-  //           if (config.scanPay) {
-  //             scanPaySettings.type = ScanPaySettingsType.SCANPAY;
-  //             scanPaySettings.scanPay = {
-  //               amount: config.scanPay.amount ? Utils.convertToFloat(config.scanPay.amount) : 0,
-  //             };
-  //           }
-  //         }
-  //         observer.next(scanPaySettings);
-  //         observer.complete();
-  //       },
-  //       error: (error) => {
-  //         observer.error(error);
-  //       }
-  //     });
-  //   });
-  // }
-
-  // public saveScanPaySettings(settings: ScanPaySettings): Observable<ActionResponse> {
-  //   // Build setting payload
-  //   const settingsToSave = {
-  //     id: settings.id,
-  //     identifier: TenantComponents.SCAN_PAY,
-  //     sensitiveData: [],
-  //     content: Utils.cloneObject(settings),
-  //   };
-  //   // Delete IDS
-  //   delete settingsToSave.content.id;
-  //   delete settingsToSave.content.identifier;
-  //   delete settingsToSave.content.sensitiveData;
-  //   // Save
-  //   return this.centralServerService.updateSetting(settingsToSave);
-  // }
+  public saveScanPaySettings(settings: ScanPaySettings): Observable<ActionResponse> {
+    // Check the type
+    if (!settings.type) {
+      settings.type = ScanPaySettingsType.SCAN_PAY;
+    }
+    // Save
+    return this.centralServerService.updateSetting(settings);
+  }
 
   public saveBillingSettings(settings: BillingSettings): Observable<ActionResponse> {
     // Check the type
@@ -319,6 +280,21 @@ export class ComponentService {
     });
   }
 
+  public getScanPaySettings(): Observable<ScanPaySettings> {
+    return new Observable((observer) => {
+      // Get the Scan & Pay settings
+      this.centralServerService.getSetting(TenantComponents.SCAN_PAY).subscribe({
+        next: (settings) => {
+          observer.next(settings as ScanPaySettings);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
+        }
+      });
+    });
+  }
+
   public getBillingAccounts(paging: Paging = Constants.DEFAULT_PAGING,
     ordering: Ordering[] = []): Observable<BillingAccountDataResult> {
     return new Observable((observer) => {
@@ -333,21 +309,6 @@ export class ComponentService {
       });
     });
   }
-
-  // public getScanPaySettings(): Observable<ScanPaySettings> {
-  //   return new Observable((observer) => {
-  //     // Get the Billing settings
-  //     this.centralServerService.getBillingSettings().subscribe({
-  //       next: (billingSettings) => {
-  //         observer.next(billingSettings);
-  //         observer.complete();
-  //       },
-  //       error: (error) => {
-  //         observer.error(error);
-  //       }
-  //     });
-  //   });
-  // }
 
   public getOcpiSettings(): Observable<RoamingSettings> {
     return new Observable((observer) => {

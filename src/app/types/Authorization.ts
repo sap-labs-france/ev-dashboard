@@ -451,6 +451,7 @@ export interface SettingAuthorizationActions extends AuthorizationActions {
   canActivateBilling?: boolean;
   canCheckSmartChargingConnection?: boolean;
   canCheckAssetConnection?: boolean;
+  canSetScanPayAmount?: boolean;
 }
 
 export interface OcpiEndpointsAuthorizations extends AuthorizationAttributes, OcpiEndpointsAuthorizationActions {

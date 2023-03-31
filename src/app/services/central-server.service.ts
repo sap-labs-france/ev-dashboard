@@ -1697,11 +1697,8 @@ export class CentralServerService {
   }
 
   public forceSynchronizeUserForBilling(userID: string): Observable<ActionResponse> {
-    this.checkInit();
-    // Execute the REST service
-    return this.httpClient.post<BillingOperationResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_FORCE_SYNCHRONIZE_USER), {
-      id: userID
-    }, {
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_USER_SYNCHRONIZE, { id: userID });
+    return this.httpClient.patch<ActionResponse>(url, {}, {
       headers: this.buildHttpHeaders(),
     }).pipe(
       catchError(this.handleHttpError),

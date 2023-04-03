@@ -1826,6 +1826,7 @@
       "title": "Scan & Pay",
       "hold_amount": "Amount that will be holded on the user's credit card",
       "hold_amount_not_set": "Scan & Pay is not properly configured, please contact the support",
+      "connector_not_available": "Connector currently unavailable, please scan onther one",
       "pattern_error": "Amount entered must be a positive integer",
       "stop_title": "Refresh this page to follow your current transaction details",
       "stop_button": "Stop transaction",

@@ -1826,6 +1826,7 @@
       "title": "Scanner et payer",
       "hold_amount": "Montant qui sera réservé sur la carte bancaire de l'utilisateur",
       "hold_amount_not_set": "La configuration pour scanner et payer n'est pas correcte, veuillez contacter le support",
+      "connector_not_available": "Le connecteur est momentanément indisponible, veuillez réessayer avec autre connecteur",
       "pattern_error": "Le montant entré doit être un nombre positif entier",
       "stop_title": "Rafraichissez la page pour suivre les détails de votre session en cours",
       "stop_button": "Stopper la transaction",

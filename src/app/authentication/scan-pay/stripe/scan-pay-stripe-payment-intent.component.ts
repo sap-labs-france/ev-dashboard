@@ -132,10 +132,8 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
       } else {
         // Operation succeeded - try to start transaction
         const operationResultRetrieve: any = await this.retrievePaymentIntentAndStartTransaction();
-        if (operationResultRetrieve?.error) {
-          this.messageService.showErrorMessage('settings.billing.payment_intent_create_error', { stripeError: operationResult.error.message });
-        } else {
-          this.isBackendConnectionValid = true;
+        this.isBackendConnectionValid = true;
+        if (operationResultRetrieve) {
           this.messageService.showSuccessMessage('settings.billing.payment_intent_create_success');
         }
         this.isSendClicked = true;
@@ -193,7 +191,16 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
         connectorID: this.connectorID,
         verificationToken: this.token,
       }).toPromise();
-      return response?.internalData;
+      return response;
+    } catch (error) {
+      this.spinnerService.hide();
+      switch (error.status) {
+        case HTTPError.CANNOT_REMOTE_START_CONNECTOR:
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.scan_pay.connector_not_available');
+          break;
+        default:
+          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+      }
     } finally {
       this.spinnerService.hide();
       this.isSendClicked = true;

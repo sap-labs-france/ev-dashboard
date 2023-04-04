@@ -24,6 +24,19 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.7.7',
+        date: new Date('2023-04-04'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              'Rate Limiter - new settings to prevent DDOS',
+              'Monitoring - new metrics on notifications'
+            ],
+          },
+        ],
+      },
+      {
         version: '2.7.6',
         date: new Date('2023-03-28'),
         componentChanges: [

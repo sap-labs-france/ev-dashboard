@@ -1758,17 +1758,14 @@ export class CentralServerService {
   }
 
   public forceSynchronizeUserForBilling(userID: string): Observable<ActionResponse> {
-    this.checkInit();
-    // Execute the REST service
-    return this.httpClient.post<ActionResponse>(`${this.centralRestServerServiceSecuredURL}/${ServerAction.BILLING_FORCE_SYNCHRONIZE_USER}`,
-      { id: userID },
-      {
-        headers: this.buildHttpHeaders(),
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_USER_SYNCHRONIZE, { id: userID });
+    return this.httpClient.patch<ActionResponse>(url, {}, {
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
   }
+
 
   public getBillingTaxes(): Observable<BillingTaxDataResult> {
     this.checkInit();

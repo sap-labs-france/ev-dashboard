@@ -15,7 +15,7 @@ import { ChargingStationTemplate } from '../types/ChargingStationTemplate';
 import { Company } from '../types/Company';
 import CentralSystemServerConfiguration from '../types/configuration/CentralSystemServerConfiguration';
 import { IntegrationConnection, UserConnection } from '../types/Connection';
-import { ActionResponse, ActionsResponse, AssetDataResult, AssetInErrorDataResult, BillingAccountDataResult, BillingInvoiceDataResult, BillingOperationResult, BillingPaymentMethodDataResult, BillingTaxDataResult, BillingTransferDataResult, CarCatalogDataResult, CarDataResult, ChargingProfileDataResult, ChargingStationDataResult, ChargingStationInErrorDataResult, ChargingStationTemplateDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OcpiEndpointDataResult, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, SiteUserDataResult, TagDataResult, TransactionDataResult, TransactionInErrorDataResult, UserDataResult, UserSiteDataResult } from '../types/DataResult';
+import { ActionResponse, ActionsResponse, AssetDataResult, AssetInErrorDataResult, BillingAccountDataResult, BillingInvoiceDataResult, BillingOperationResult, BillingPaymentMethodDataResult, BillingTaxDataResult, BillingTransferDataResult, CarCatalogDataResult, CarDataResult, ChargingProfileDataResult, ChargingStationDataResult, ChargingStationInErrorDataResult, ChargingStationTemplateDataResult, CheckAssetConnectionResponse, CheckBillingConnectionResponse, CompanyDataResult, DataResult, LogDataResult, LoginResponse, OCPIGenerateLocalTokenResponse, OCPIJobStatusesResponse, OCPIPingResponse, OICPJobStatusesResponse, OICPPingResponse, OcpiEndpointDataResult, Ordering, Paging, PricingDefinitionDataResult, RegistrationTokenDataResult, SiteAreaDataResult, SiteDataResult, SiteUserDataResult, StatisticDataResult, TagDataResult, TransactionDataResult, TransactionInErrorDataResult, UserDataResult, UserSiteDataResult } from '../types/DataResult';
 import { EndUserLicenseAgreement } from '../types/Eula';
 import { FilterParams, Image, KeyValue } from '../types/GlobalType';
 import { Log } from '../types/Log';
@@ -29,7 +29,6 @@ import { RESTServerRoute, ServerAction } from '../types/Server';
 import { BillingSettings, SettingDB } from '../types/Setting';
 import { Site } from '../types/Site';
 import { SiteArea, SiteAreaConsumption, SubSiteAreaAction } from '../types/SiteArea';
-import { StatisticData } from '../types/Statistic';
 import { Tag } from '../types/Tag';
 import { Tenant } from '../types/Tenant';
 import { OcpiData, Transaction } from '../types/Transaction';
@@ -554,12 +553,12 @@ export class CentralServerService {
   }
 
   public getChargingStationConsumptionStatistics(year: number,
-    params: FilterParams = {}): Observable<StatisticData[]> {
+    params: FilterParams = {}): Observable<StatisticDataResult> {
     params['Year'] = year + '';
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<StatisticData[]>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_CONSUMPTION_STATISTICS),
+    return this.httpClient.get<StatisticDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_CONSUMPTION_STATISTICS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -570,12 +569,12 @@ export class CentralServerService {
   }
 
   public getUserConsumptionStatistics(year: number,
-    params: FilterParams = {}): Observable<StatisticData[]> {
+    params: FilterParams = {}): Observable<StatisticDataResult> {
     params['Year'] = year + '';
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<StatisticData[]>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_CONSUMPTION_STATISTICS),
+    return this.httpClient.get<StatisticDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_CONSUMPTION_STATISTICS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -586,12 +585,12 @@ export class CentralServerService {
   }
 
   public getChargingStationUsageStatistics(year: number,
-    params: FilterParams = {}): Observable<StatisticData[]> {
+    params: FilterParams = {}): Observable<StatisticDataResult> {
     params['Year'] = year + '';
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<StatisticData[]>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_USAGE_STATISTICS),
+    return this.httpClient.get<StatisticDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_USAGE_STATISTICS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -602,12 +601,12 @@ export class CentralServerService {
   }
 
   public getUserUsageStatistics(year: number,
-    params: FilterParams = {}): Observable<StatisticData[]> {
+    params: FilterParams = {}): Observable<StatisticDataResult> {
     params['Year'] = year + '';
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<StatisticData[]>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_USAGE_STATISTICS),
+    return this.httpClient.get<StatisticDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_USAGE_STATISTICS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -618,12 +617,12 @@ export class CentralServerService {
   }
 
   public getChargingStationInactivityStatistics(year: number,
-    params: FilterParams = {}): Observable<StatisticData[]> {
+    params: FilterParams = {}): Observable<StatisticDataResult> {
     params['Year'] = year + '';
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<StatisticData[]>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_INACTIVITY_STATISTICS),
+    return this.httpClient.get<StatisticDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_INACTIVITY_STATISTICS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -634,12 +633,12 @@ export class CentralServerService {
   }
 
   public getUserInactivityStatistics(year: number,
-    params: FilterParams = {}): Observable<StatisticData[]> {
+    params: FilterParams = {}): Observable<StatisticDataResult> {
     params['Year'] = year + '';
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<StatisticData[]>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_INACTIVITY_STATISTICS),
+    return this.httpClient.get<StatisticDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_INACTIVITY_STATISTICS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -669,12 +668,12 @@ export class CentralServerService {
   }
 
   public getChargingStationTransactionsStatistics(year: number,
-    params: FilterParams = {}): Observable<StatisticData[]> {
+    params: FilterParams = {}): Observable<StatisticDataResult> {
     params['Year'] = year + '';
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<StatisticData[]>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_TRANSACTIONS_STATISTICS),
+    return this.httpClient.get<StatisticDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_TRANSACTIONS_STATISTICS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -685,12 +684,12 @@ export class CentralServerService {
   }
 
   public getUserTransactionsStatistics(year: number,
-    params: FilterParams = {}): Observable<StatisticData[]> {
+    params: FilterParams = {}): Observable<StatisticDataResult> {
     params['Year'] = year + '';
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<StatisticData[]>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_TRANSACTIONS_STATISTICS),
+    return this.httpClient.get<StatisticDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_TRANSACTIONS_STATISTICS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -701,12 +700,12 @@ export class CentralServerService {
   }
 
   public getChargingStationPricingStatistics(year: number,
-    params: FilterParams = {}): Observable<StatisticData[]> {
+    params: FilterParams = {}): Observable<StatisticDataResult> {
     params['Year'] = year + '';
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<StatisticData[]>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_PRICING_STATISTICS),
+    return this.httpClient.get<StatisticDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATION_PRICING_STATISTICS),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -717,12 +716,12 @@ export class CentralServerService {
   }
 
   public getUserPricingStatistics(year: number,
-    params: FilterParams = {}): Observable<StatisticData[]> {
+    params: FilterParams = {}): Observable<StatisticDataResult> {
     params['Year'] = year + '';
     // Verify init
     this.checkInit();
     // Execute the REST service
-    return this.httpClient.get<StatisticData[]>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_PRICING_STATISTICS),
+    return this.httpClient.get<StatisticDataResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_PRICING_STATISTICS),
       {
         headers: this.buildHttpHeaders(),
         params,

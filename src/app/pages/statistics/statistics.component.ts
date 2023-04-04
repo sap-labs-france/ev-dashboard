@@ -12,17 +12,14 @@ import { TenantComponents } from '../../types/Tenant';
   templateUrl: 'statistics.component.html',
 })
 export class StatisticsComponent extends AbstractTabComponent {
-  public isAdmin: boolean;
   public isPricingActive = false;
 
   public constructor(
-    private authorizationService: AuthorizationService,
     private componentService: ComponentService,
     activatedRoute: ActivatedRoute,
     windowService: WindowService,
   ) {
     super(activatedRoute, windowService, ['consumption', 'usage', 'inactivity', 'transactions', 'pricing']);
-    this.isAdmin = this.authorizationService.isAdmin();
     this.isPricingActive = this.componentService.isActive(TenantComponents.PRICING);
   }
 }

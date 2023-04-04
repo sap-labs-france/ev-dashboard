@@ -1,14 +1,16 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ChartData } from 'chart.js';
+import { StatisticsAuthorizations } from 'types/Authorization';
 import { ChartTypeValues } from 'types/Chart';
+import { StatisticDataResult } from 'types/DataResult';
+import { Utils } from 'utils/Utils';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { LocaleService } from '../../../services/locale.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { FilterParams } from '../../../types/GlobalType';
-import { TableFilterDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
 import { SimpleChart } from '../shared/chart-utilities';
 import { StatisticsBuildService, StatisticsBuildValueWithUnit } from '../shared/statistics-build.service';
@@ -31,6 +33,7 @@ export class StatisticsPricingComponent implements OnInit {
   public selectedYear!: number;
   public allYears = true;
   public chartsInitialized = false;
+  public authorizations: StatisticsAuthorizations;
 
   private filterParams!: FilterParams;
   private barChart!: SimpleChart;
@@ -178,6 +181,8 @@ export class StatisticsPricingComponent implements OnInit {
   }
 
   public buildCharts(): void {
+    // Append withAuth filter to retrieve auth - this also changes the response into datasource
+    this.filterParams['WithAuth'] = 'true';
     this.spinnerService.show();
     let newToolTipUnit: string;
     let newLabelYAxis: string;
@@ -185,6 +190,7 @@ export class StatisticsPricingComponent implements OnInit {
     if (this.selectedCategory === 'C') {
       this.centralServerService.getChargingStationPricingStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
+          this.initAuth(statisticsData);
           this.totalPriceWithUnit = this.statisticsBuildService.calculateTotalsWithUnits(statisticsData, 2);
           if (this.totalPriceWithUnit.length > 1) {
             addUnitToLabel = true;
@@ -193,7 +199,7 @@ export class StatisticsPricingComponent implements OnInit {
             newToolTipUnit = this.totalPriceWithUnit[0].unit;
           }
           newLabelYAxis = this.translateService.instant('statistics.graphic_title_pricing_y_axis', { currency: newToolTipUnit });
-          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2, addUnitToLabel);
+          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData.result, 2, addUnitToLabel);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
           this.barChart.updateChart(this.barChartData, this.getChartLabel(), newToolTipUnit, newLabelYAxis);
           this.pieChart.updateChart(this.pieChartData, this.getChartLabel(), newToolTipUnit);
@@ -202,7 +208,8 @@ export class StatisticsPricingComponent implements OnInit {
     } else {
       this.centralServerService.getUserPricingStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
-          if (statisticsData.length > 1) {
+          this.initAuth(statisticsData);
+          if (statisticsData.count > 1) {
             this.totalPriceWithUnit = this.statisticsBuildService.calculateTotalsWithUnits(statisticsData, 2);
           }
           if (this.totalPriceWithUnit.length > 1) {
@@ -212,12 +219,22 @@ export class StatisticsPricingComponent implements OnInit {
             newToolTipUnit = this.totalPriceWithUnit[0].unit;
           }
           newLabelYAxis = this.translateService.instant('statistics.graphic_title_pricing_y_axis', { currency: newToolTipUnit });
-          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData, 2, addUnitToLabel);
+          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData.result, 2, addUnitToLabel);
           this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
           this.barChart.updateChart(this.barChartData, this.getChartLabel(), newToolTipUnit, newLabelYAxis);
           this.pieChart.updateChart(this.pieChartData, this.getChartLabel(), newToolTipUnit);
           this.spinnerService.hide();
         });
     }
+  }
+
+  private initAuth(statisticsData: StatisticDataResult) {
+    this.authorizations = {
+      canListUsers:  Utils.convertToBoolean(statisticsData.canListUsers),
+      canListChargingStations:  Utils.convertToBoolean(statisticsData.canListChargingStations),
+      canListSites:  Utils.convertToBoolean(statisticsData.canListSites),
+      canListSiteAreas:  Utils.convertToBoolean(statisticsData.canListSiteAreas),
+      canExport:  Utils.convertToBoolean(statisticsData.canExport),
+    };
   }
 }

@@ -4,7 +4,7 @@
   <div class="left-actions d-flex flex-row mat-toolbar-row ">
     <!-- Create Left Actions -->
     <!-- Export data -->
-    <button mat-raised-button (click)="exportData()" [color]="'primary'" appTooltip
+    <button *ngIf="authorizations?.canExport" mat-raised-button (click)="exportData()" [color]="'primary'" appTooltip
       [title]="'general.export' | translate">
       <mat-icon>cloud_download</mat-icon><span>{{'general.export' | translate}}</span>
     </button>
@@ -61,7 +61,7 @@
   <!-- filters -->
   <div class="d-flex flex-row me-auto flex-wrap mat-toolbar-row filter-row">
     <!-- Category of statistics -->
-    <div *ngIf="isAdmin" class="col-sm-4 col-md-3 col-lg-2 col-xl-2">
+    <div *ngIf="authorizations?.canListUsers && authorizations?.canListChargingStations" class="col-sm-4 col-md-3 col-lg-2 col-xl-2">
       <mat-form-field>
         <mat-select (selectionChange)="categoryChanged()" [(value)]="selectedCategory"
           [placeholder]="'statistics.category_label' | translate">

@@ -31,7 +31,8 @@ export class ReleaseNotesComponent {
             name: 'Dashboard',
             changes: [
               'Rate Limiter - new settings to prevent DDOS',
-              'Monitoring - new metrics on notifications'
+              'Monitoring - new metrics on notifications',
+              'Smart Charging - fix - targetStateOfCharge can be null'
             ],
           },
         ],

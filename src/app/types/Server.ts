@@ -2,6 +2,9 @@
 export enum ServerAction {
   UNKNOWN_ACTION = 'Unknown',
 
+  RATE_LIMITER = 'RateLimiter',
+  SHIELD ='Shield',
+
   SAP_CONCUR_REQUEST = 'SapConcurRequest',
   RECAPTCHA_REQUEST = 'RecaptchaRequest',
   GREENCOM_REQUEST = 'GreencomRequest',

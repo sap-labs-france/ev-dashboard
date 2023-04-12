@@ -6,15 +6,13 @@
           <div class="card-header card-header-primary text-center h-25">
             <div class="social-line">
               <div style="height: 125px; display: contents; margin: 5px;">
-                <h4 class="mb2 card-title text-center" style="padding: 10px;">{{'settings.billing.payment_intent_create_title' | translate}}</h4>
+                <h4 class="mb2 card-title text-center" style="padding: 10px;">{{'settings.scan_pay.payment_intent.create_title' | translate}}</h4>
               </div>
             </div>
           </div>
           <div class="card-body">
             <app-scan-pay-show-transaction [transactionID]="transactionID"></app-scan-pay-show-transaction>
             <app-scan-pay-invoice></app-scan-pay-invoice>
-          </div>
-          <div class="card-footer justify-content-center mb-4">
           </div>
         </div>
       </div>

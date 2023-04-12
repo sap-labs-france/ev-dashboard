@@ -1,21 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { PaymentIntent, PaymentIntentResult, StripeElementLocale, StripeElements, StripeElementsOptions, StripePaymentElement } from '@stripe/stripe-js';
-import { AuthorizationService } from 'services/authorization.service';
-import { ComponentService } from 'services/component.service';
-import { HTTPError } from 'types/HTTPError';
-import { TenantComponents } from 'types/Tenant';
-import { User } from 'types/User';
 
+import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
+import { ComponentService } from '../../../services/component.service';
 import { LocaleService } from '../../../services/locale.service';
-import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { StripeService } from '../../../services/stripe.service';
 import { WindowService } from '../../../services/window.service';
-import { Utils } from '../../../utils/Utils';
+import { HTTPError } from '../../../types/HTTPError';
+import { TenantComponents } from '../../../types/Tenant';
+import { User } from '../../../types/User';
 
 @Component({
   selector: 'app-scan-pay-stripe-payment-intent',
@@ -33,10 +30,13 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
   public chargingStationID: string;
   public connectorID: number;
   public token: string;
-  public isSendClicked: boolean;
+  public isSendClicked = false;
   public showButton = true;
   public isTokenValid = true;
-  public isBackendConnectionValid = false;
+  public isConnectorAvailable = true;
+  public headerClass = 'card-header-primary';
+  public title = 'settings.scan_pay.payment_intent.create_title';
+  public message: string;
   // Stripe elements
   public elements: StripeElements;
   public paymentElement: StripePaymentElement;
@@ -45,10 +45,8 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
   public constructor(
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
-    private messageService: MessageService,
     private spinnerService: SpinnerService,
     private stripeService: StripeService,
-    private router: Router,
     private localeService: LocaleService,
     public translateService: TranslateService,
     public windowService: WindowService,
@@ -88,18 +86,24 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
           // Step #1 - Create A STRIPE Payment Intent to be able to initialize the payment elements
           this.paymentIntent = await this.createPaymentIntent() as PaymentIntent;
           if (!stripeFacade) {
-            this.messageService.showErrorMessage('settings.billing.not_properly_set');
+            this.headerClass = 'card-header-danger';
+            this.title = 'settings.scan_pay.billing_not_properly_set_title';
+            this.message = 'settings.scan_pay.billing_not_properly_set';
           } else {
             this.initializeElements(this.paymentIntent.client_secret);
           }
         },
         error: (error) => {
           this.spinnerService.hide();
-          this.messageService.showErrorMessage('settings.billing.not_properly_set');
+          this.headerClass = 'card-header-danger';
+          this.title = 'settings.scan_pay.billing_not_properly_set_title';
+          this.message = 'settings.scan_pay.billing_not_properly_set';
         }
       });
     } catch (error) {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_payment_intend');
+      this.headerClass = 'card-header-danger';
+      this.title = 'settings.scan_pay.unexpected_error_title';
+      this.message = 'settings.scan_pay.unexpected_error_payment_intend';
     } finally {
       this.spinnerService.hide();
     }
@@ -121,6 +125,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
 
   private async doConfirmPaymentIntent(): Promise<void> {
     try {
+      this.isSendClicked = true;
       // Step #2 - Confirm the STRIPE Payment Intent to carry out 3DS authentication (redirects to the bank authentication page)
       const operationResult: PaymentIntentResult = await this.getStripeFacade().confirmPayment({
         elements: this.elements,
@@ -128,18 +133,22 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
       });
       if (operationResult?.error) {
         // 3DS authentication has been aborted or user was not able to authenticate
-        this.messageService.showErrorMessage('settings.billing.payment_intent_create_error', { stripeError: operationResult.error.message });
+        this.headerClass = 'card-header-danger';
+        this.title = 'settings.scan_pay.payment_intent.create_error_title';
+        this.message = 'settings.scan_pay.payment_intent.create_error';
       } else {
         // Operation succeeded - try to start transaction
         const operationResultRetrieve: any = await this.retrievePaymentIntentAndStartTransaction();
-        this.isBackendConnectionValid = true;
         if (operationResultRetrieve) {
-          this.messageService.showSuccessMessage('settings.billing.payment_intent_create_success');
+          this.headerClass = 'card-header-success';
+          this.title = 'settings.scan_pay.payment_intent.create_success_title';
+          this.message = 'settings.scan_pay.payment_intent.create_success';
         }
-        this.isSendClicked = true;
       }
     } catch (error) {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_payment_intend');
+      this.headerClass = 'card-header-danger';
+      this.title = 'settings.scan_pay.unexpected_error_title';
+      this.message = 'settings.scan_pay.unexpected_error_payment_intend';
     }
   }
 
@@ -161,16 +170,22 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
       this.spinnerService.hide();
       switch (error.status) {
         case HTTPError.INVALID_TOKEN_ERROR:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'authentication.verify_email_token_not_valid');
+          this.headerClass = 'card-header-danger';
+          this.title = 'settings.scan_pay.verify_email_token_not_valid_title';
+          this.message = 'settings.scan_pay.verify_email_token_not_valid';
           this.isTokenValid = false;
           break;
         case HTTPError.SCAN_PAY_HOLD_AMOUNT_MISSING:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.scan_pay.hold_amount_not_set');
+          this.headerClass = 'card-header-danger';
+          this.message = 'settings.scan_pay.hold_amount_not_set_title';
+          this.message = 'settings.scan_pay.hold_amount_not_set';
           this.isTokenValid = false;
           this.isSendClicked = true;
           break;
         default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+          this.headerClass = 'card-header-danger';
+          this.title = 'settings.scan_pay.unexpected_error_title';
+          this.message = 'settings.scan_pay.unexpected_error_payment_intend';
       }
     } finally {
       this.spinnerService.hide();
@@ -196,10 +211,15 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
       this.spinnerService.hide();
       switch (error.status) {
         case HTTPError.CANNOT_REMOTE_START_CONNECTOR:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.scan_pay.connector_not_available');
+          this.isConnectorAvailable = false;
+          this.headerClass = 'card-header-danger';
+          this.title = 'settings.scan_pay.connector_not_available_title';
+          this.message = 'settings.scan_pay.connector_not_available';
           break;
         default:
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+          this.headerClass = 'card-header-danger';
+          this.title = 'settings.scan_pay.unexpected_error_title';
+          this.message = 'settings.scan_pay.unexpected_error_payment_intend';
       }
     } finally {
       this.spinnerService.hide();

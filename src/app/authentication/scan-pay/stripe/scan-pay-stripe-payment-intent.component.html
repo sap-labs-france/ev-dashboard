@@ -3,27 +3,23 @@
     <div class="container">
       <div class="col-lg-6 ms-auto me-auto">
         <div class="card card-login">
-          <div class="card-header card-header-primary text-center h-25">
+          <div class="card-header {{headerClass}} text-center h-25">
             <div class="social-line">
               <div style="height: 125px; display: contents; margin: 5px;">
-                <h4 *ngIf="!isSendClicked && isTokenValid" class="mb2 card-title text-center" style="padding: 10px;">{{'settings.billing.payment_intent_create_title' | translate}}</h4>
-                <h4 *ngIf="isSendClicked && isTokenValid && isBackendConnectionValid" class="mb2 card-title text-center" style="padding: 10px;">{{'settings.billing.payment_intent_create_success_title' | translate}}</h4>
-                <h4 *ngIf="(isSendClicked || !isTokenValid) && !isBackendConnectionValid" class="mb2 card-title text-center" style="padding: 10px;">{{'general.unexpected_error_payment_intend' | translate}}</h4>
+                <h4 class="mb2 card-title text-center titleClass" style="padding: 10px;">{{title | translate}}</h4>
               </div>
             </div>
           </div>
           <div class="card-body">
-            <h4 class="mb2 card-title text-center" style="padding: 10px;" *ngIf="isSendClicked && isBackendConnectionValid">{{"settings.billing.payment_intent_create_success" | translate}}</h4>
-            <h4 class="mb2 card-title text-center" style="padding: 10px;" *ngIf="!isTokenValid">{{"authentication.verify_email_token_not_valid" | translate}}</h4>
-            <h4 class="mb2 card-title text-center" style="padding: 10px;" *ngIf="isSendClicked && isTokenValid && !isBackendConnectionValid">{{"general.unexpected_error_payment_intend" | translate}}</h4>
+            <h4 *ngIf="isSendClicked || !isTokenValid" class="mb2 card-title text-center" style="padding: 10px;">{{message | translate}}</h4>
             <form *ngIf="!isSendClicked && isTokenValid" class="form">
               <div id="payment-element">
                 <!-- Mount the Payment Element here -->
               </div>
             </form>
           </div>
-          <div class="card-footer justify-content-center mb-4">
-            <button [disabled]="!showButton || !isTokenValid" mat-raised-button color="primary" type="submit" (click)=linkCardToAccount()>{{'settings.billing.payment_intent_save_start' | translate}}</button>
+          <div *ngIf="isTokenValid && !isSendClicked" class="card-footer justify-content-center mb-4">
+            <button [disabled]="!showButton || !isTokenValid" mat-raised-button color="primary" type="submit" (click)=linkCardToAccount()>{{'settings.scan_pay.payment_intent.save_start' | translate}}</button>
           </div>
         </div>
       </div>

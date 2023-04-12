@@ -1,14 +1,12 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { TransactionHeaderComponent } from '../../../shared/dialogs/transaction/header/transaction-header.component';
 import { Transaction } from '../../../types/Transaction';
 import { User } from '../../../types/User';
-import { Utils } from '../../../utils/Utils';
 
 @Component({
   selector: 'app-scan-pay-show-transaction',
@@ -21,16 +19,17 @@ export class ScanPayShowTransactionComponent implements OnInit, OnDestroy {
 
   public currentTransactionID!: number;
   public transaction: Transaction;
-  public isClicked: boolean;
+  public isSendClicked: boolean;
   public token: string;
   public user: Partial<User>;
   public email: string;
+  public headerClass = 'card-header-primary';
+  public title = 'settings.scan_pay.stop_title';
+  public message: string;
   private refreshInterval;
 
   public constructor(
     private spinnerService: SpinnerService,
-    private messageService: MessageService,
-    private router: Router,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private activatedRoute: ActivatedRoute) {
@@ -42,6 +41,7 @@ export class ScanPayShowTransactionComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.login(this.user);
+    this.isSendClicked = false;
     // Load
     this.loadData();
   }
@@ -62,23 +62,29 @@ export class ScanPayShowTransactionComponent implements OnInit, OnDestroy {
           next: (transaction: Transaction) => {
             this.spinnerService.hide();
             this.transaction = transaction;
+            if (this.transaction?.stop) {
+              this.headerClass = 'card-header-success';
+              this.title = 'settings.scan_pay.stop_success';
+            }
           },
           error: (error) => {
             this.spinnerService.hide();
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.load_transaction_error');
+            this.headerClass = 'card-header-danger';
+            this.title = 'transactions.load_transaction_error';
           }
         });
       },
       error: (error) => {
         this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService,
-          this.centralServerService, 'general.unexpected_error_backend');
+        this.headerClass = 'card-header-danger';
+        this.title = 'settings.scan_pay.unexpected_error_title';
+        this.message = 'settings.scan_pay.unexpected_error_payment_intend';
       }
     });
   }
 
   public scanPayStopTransaction() {
-    this.isClicked = true;
+    this.isSendClicked = true;
     const data = {};
     this.spinnerService.show();
     data['email'] = this.transaction?.user?.email;
@@ -88,11 +94,14 @@ export class ScanPayShowTransactionComponent implements OnInit, OnDestroy {
     this.centralServerService.chargingStationStopTransaction(this.transaction.chargeBoxID, this.currentTransactionID).subscribe({
       next: (response) => {
         this.spinnerService.hide();
-        this.messageService.showSuccessMessage('settings.scan_pay.stop_success');
+        this.headerClass = 'card-header-success';
+        this.title = 'settings.scan_pay.stop_success';
       },
       error: (error) => {
         this.spinnerService.hide();
-        this.messageService.showErrorMessage('settings.scan_pay.stop_error');
+        this.headerClass = 'card-header-danger';
+        this.title = 'settings.scan_pay.unexpected_error_title';
+        this.message = 'settings.scan_pay.stop_error';
       }
     });
   }
@@ -106,14 +115,14 @@ export class ScanPayShowTransactionComponent implements OnInit, OnDestroy {
       next: (result) => {
         this.spinnerService.hide();
         this.centralServerService.loginSucceeded(result.token);
-
       },
       error: (error) => {
         this.spinnerService.hide();
         switch (error.status) {
           default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
+            this.headerClass = 'card-header-danger';
+            this.title = 'settings.scan_pay.unexpected_error_title';
+            this.message = 'settings.scan_pay.unexpected_error_payment_intend';
         }
       }
     });

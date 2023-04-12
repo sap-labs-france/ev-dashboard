@@ -1,16 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
 import { ReCaptchaV3Service } from 'ngx-captcha';
-import { Utils } from 'utils/Utils';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ConfigService } from '../../../services/config.service';
-import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { WindowService } from '../../../services/window.service';
 import { Constants } from '../../../utils/Constants';
+import { Utils } from '../../../utils/Utils';
 
 @Component({
   selector: 'app-scan-pay-email',
@@ -25,6 +24,9 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
   public isSendClicked: boolean;
   public tenantLogo = Constants.NO_IMAGE;
   public acceptEula: AbstractControl;
+  public headerClass = 'card-header-primary';
+  public title = 'settings.scan_pay.payment_intent.create_account_title';
+  public message: string;
 
   private siteKey: string;
   private subDomain: string;
@@ -34,9 +36,7 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
 
   public constructor(
     private centralServerService: CentralServerService,
-    private router: Router,
     private spinnerService: SpinnerService,
-    private messageService: MessageService,
     private reCaptchaV3Service: ReCaptchaV3Service,
     private windowService: WindowService,
     private configService: ConfigService,
@@ -100,8 +100,10 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
               this.tenantLogo = Constants.NO_IMAGE;
               break;
             default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'general.unexpected_error_backend');
+              this.isSendClicked = true;
+              this.headerClass = 'card-header-danger';
+              this.title = 'settings.scan_pay.unexpected_error_title';
+              this.message = 'settings.scan_pay.unexpected_error_payment_intend';
           }
         }
       });
@@ -136,7 +138,9 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
         data['chargingStationID'] = this.chargingStationID;
         data['connectorID'] = this.connectorID;
       } else {
-        this.messageService.showErrorMessage('authentication.invalid_captcha_token');
+        this.headerClass = 'card-header-danger';
+        this.title = 'settings.scan_pay.unexpected_error_title';
+        this.message = 'settings.scan_pay.payment_intent.authentication.invalid_captcha_token';
         return;
       }
       // launch email verif
@@ -144,13 +148,16 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
         next: (response) => {
           this.isSendClicked = true;
           this.spinnerService.hide();
-          this.messageService.showSuccessMessage('settings.billing.payment_intent_create_account_success');
-          // void this.router.navigate(['/auth/login']);
+          this.headerClass = 'card-header-success';
+          this.title = 'settings.scan_pay.payment_intent.create_account_success_title';
+          this.message = 'settings.scan_pay.payment_intent.create_account_success';
         },
         error: (error) => {
+          this.isSendClicked = true;
           this.spinnerService.hide();
-          this.messageService.showErrorMessage('settings.billing.payment_intent_create_account_error', { error: error.message });
-          // void this.router.navigate(['/auth/login']);
+          this.headerClass = 'card-header-danger';
+          this.title = 'settings.scan_pay.unexpected_error_title';
+          this.message = 'settings.scan_pay.payment_intent.create_account_error';
         }
       });
     });

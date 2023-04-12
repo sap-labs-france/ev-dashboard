@@ -1,17 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import FileSaver from 'file-saver';
-import { ComponentService } from 'services/component.service';
-import { TenantComponents } from 'types/Tenant';
-import { User } from 'types/User';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
-import { MessageService } from '../../../services/message.service';
+import { ComponentService } from '../../../services/component.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { WindowService } from '../../../services/window.service';
-import { Utils } from '../../../utils/Utils';
+import { TenantComponents } from '../../../types/Tenant';
+import { User } from '../../../types/User';
 
 @Component({
   selector: 'app-scan-pay-invoice',
@@ -23,13 +21,14 @@ export class ScanPayInvoiceComponent implements OnInit {
   public invoiceID: string;
   public user: Partial<User>;
   public email: string;
+  public headerClass = 'card-header-primary';
+  public title = 'settings.scan_pay.download_title';
+  public message = 'settings.scan_pay.download';
 
   public constructor(
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
-    private messageService: MessageService,
     private spinnerService: SpinnerService,
-    private router: Router,
     public translateService: TranslateService,
     public activatedRoute: ActivatedRoute,
     public windowService: WindowService,
@@ -56,19 +55,23 @@ export class ScanPayInvoiceComponent implements OnInit {
             },
             error: (error) => {
               this.spinnerService.hide();
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, this.translateService.instant('invoices.cannot_download_invoice'));
+              this.headerClass = 'card-header-danger';
+              this.title = 'settings.scan_pay.unexpected_error_title';
+              this.message = 'invoices.cannot_download_invoice';
             }
           });
         },
         error: (error) => {
           this.spinnerService.hide();
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'general.unexpected_error_backend');
+          this.headerClass = 'card-header-danger';
+          this.title = 'settings.scan_pay.unexpected_error_title';
+          this.message = 'general.unexpected_error_payment_intend';
         }
       });
     } catch (error) {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_payment_intend');
+      this.headerClass = 'card-header-danger';
+      this.title = 'settings.scan_pay.unexpected_error_title';
+      this.message = 'general.unexpected_error_payment_intend';
     } finally {
       this.spinnerService.hide();
     }

@@ -2,6 +2,9 @@
 export enum ServerAction {
   UNKNOWN_ACTION = 'Unknown',
 
+  RATE_LIMITER = 'RateLimiter',
+  SHIELD ='Shield',
+
   SAP_CONCUR_REQUEST = 'SapConcurRequest',
   RECAPTCHA_REQUEST = 'RecaptchaRequest',
   GREENCOM_REQUEST = 'GreencomRequest',
@@ -359,6 +362,7 @@ export enum ServerAction {
   TENANTS = 'Tenants',
   TENANT = 'Tenant',
   TENANT_UPDATE = 'TenantUpdate',
+  TENANT_UPDATE_DATA = 'TenantUpdateData',
   TENANT_DELETE = 'TenantDelete',
   TENANT_LOGO = 'TenantLogo',
 
@@ -692,6 +696,7 @@ export enum RESTServerRoute {
 
   REST_BILLING_SETTING = 'billing-setting', // GET and PUT
   REST_BILLING_CHECK = 'billing/check',
+  REST_BILLING_USER_SYNCHRONIZE = 'billing/users/:id/synchronize',
   REST_BILLING_CLEAR_TEST_DATA = 'billing/clearTestData',
 
   REST_BILLING_TAXES = 'billing/taxes',

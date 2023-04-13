@@ -2,16 +2,16 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
-import { CentralServerService } from 'services/central-server.service';
-import { ComponentService } from 'services/component.service';
-import { MessageService } from 'services/message.service';
-import { SpinnerService } from 'services/spinner.service';
-import { SettingAuthorizationActions } from 'types/Authorization';
-import { RestResponse } from 'types/GlobalType';
-import { TenantComponents } from 'types/Tenant';
-import { Utils } from 'utils/Utils';
 
+import { CentralServerService } from '../../../../services/central-server.service';
+import { ComponentService } from '../../../../services/component.service';
+import { MessageService } from '../../../../services/message.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { SettingAuthorizationActions } from '../../../../types/Authorization';
+import { RestResponse } from '../../../../types/GlobalType';
 import { ScanPaySettings, ScanPaySettingsType } from '../../../../types/Setting';
+import { TenantComponents } from '../../../../types/Tenant';
+import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-settings-scan-pay',
@@ -100,7 +100,7 @@ export class SettingsScanPayComponent implements OnInit, OnChanges {
         if (response.status === RestResponse.SUCCESS) {
           this.messageService.showSuccessMessage(
             (!this.scanPaySettings.id ? 'settings.scan_pay.create_success' : 'settings.scan_pay.update_success'));
-          // this.refresh();
+          this.refresh();
         } else {
           Utils.handleError(JSON.stringify(response),
             this.messageService, (!this.scanPaySettings.id ? 'settings.scan_pay.create_error' : 'settings.scan_pay.update_error'));
@@ -118,6 +118,10 @@ export class SettingsScanPayComponent implements OnInit, OnChanges {
         }
       }
     });
+  }
+
+  public refresh() {
+    this.loadScanPayConfiguration();
   }
 
   private updateFormData() {

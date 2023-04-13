@@ -3,14 +3,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction-dialog.component';
 
-import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ConsumptionChartDetailComponent } from '../../../shared/component/consumption-chart/consumption-chart-detail.component';
+import { TransactionDialogComponent } from '../../../shared/dialogs/transaction/transaction-dialog.component';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableChargingStationsStartTransactionAction, TableChargingStationsStartTransactionActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-start-transaction-action';
@@ -49,7 +48,6 @@ export class ChargingStationConnectorsTableDataSource extends TableDataSource<Co
     private appUnitPipe: AppUnitPipe,
     private dialog: MatDialog,
     private appUserNamePipe: AppUserNamePipe,
-    private authorizationService: AuthorizationService,
     private messageService: MessageService,
     private router: Router,
     private dialogService: DialogService) {

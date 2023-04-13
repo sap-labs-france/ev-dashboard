@@ -3,13 +3,13 @@ import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
-import { SettingAuthorizationActions } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
+import { SettingAuthorizationActions } from '../../../types/Authorization';
 import { ButtonAction, RestResponse } from '../../../types/GlobalType';
 import { BillingSetting, BillingSettings, BillingSettingsType, ScanPaySettings, StripeBillingSetting } from '../../../types/Setting';
 import { TenantComponents } from '../../../types/Tenant';

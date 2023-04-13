@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Constants } from 'utils/Constants';
 
 import { ActionResponse, BillingAccountDataResult, Ordering, Paging } from '../types/DataResult';
 import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, CarConnectorConnectionType, CarConnectorSettings, CarConnectorSettingsType, CryptoSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, ScanPaySettings, ScanPaySettingsType, SmartChargingSettings, SmartChargingSettingsType, TechnicalSettings, UserSettings, UserSettingsType } from '../types/Setting';
 import { TenantComponents } from '../types/Tenant';
+import { Constants } from '../utils/Constants';
 import { Utils } from '../utils/Utils';
 import { CentralServerService } from './central-server.service';
 

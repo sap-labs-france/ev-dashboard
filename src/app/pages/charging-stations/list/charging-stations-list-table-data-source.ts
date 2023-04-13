@@ -3,16 +3,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { WindowService } from 'services/window.service';
-import { TableChargingStationGenerateQrCodeScanPayConnectorAction, TableChargingStationGenerateQrCodeScanPayConnectorActionDef } from 'shared/table/actions/charging-stations/table-charging-station-generate-qr-code-scan-pay-connector-action';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
+import { WindowService } from '../../../services/window.service';
 import { PricingDefinitionsDialogComponent } from '../../../shared/pricing-definitions/pricing-definitions.dialog.component';
 import { TableChargingStationGenerateQrCodeConnectorAction, TableChargingStationGenerateQrCodeConnectorActionDef } from '../../../shared/table/actions/charging-stations/table-charging-station-generate-qr-code-connector-action';
+import { TableChargingStationGenerateQrCodeScanPayConnectorAction, TableChargingStationGenerateQrCodeScanPayConnectorActionDef } from '../../../shared/table/actions/charging-stations/table-charging-station-generate-qr-code-scan-pay-connector-action';
 import { TableChargingStationsClearCacheAction, TableChargingStationsClearCacheActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-clear-cache-action';
 import { TableChargingStationsForceAvailableStatusAction, TableChargingStationsForceAvailableStatusActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-force-available-status-action';
 import { TableChargingStationsForceUnavailableStatusAction, TableChargingStationsForceUnavailableStatusActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-force-unavailable-status-action';

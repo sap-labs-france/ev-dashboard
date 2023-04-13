@@ -33,7 +33,7 @@ export class TableChargingStationGenerateQrCodeConnectorAction implements TableA
   private downloadQrCodePDF(chargingStation: ChargingStation, translateService: TranslateService, spinnerService: SpinnerService,
     messageService: MessageService, centralServerService: CentralServerService, router: Router) {
     spinnerService.show();
-    centralServerService.downloadChargingStationQrCodes(chargingStation.id).subscribe({
+    centralServerService.downloadChargingStationQrCodes(chargingStation.id, false).subscribe({
       next: (result) => {
         spinnerService.hide();
         FileSaver.saveAs(result, `${chargingStation.id.toLowerCase()}-qr-codes.pdf`);

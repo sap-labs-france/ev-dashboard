@@ -3,16 +3,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { WindowService } from 'services/window.service';
-import { TableSiteAreaGenerateQrCodeConnectorAction, TableSiteAreaGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/site-areas/table-site-area-generate-qr-code-connector-action';
-import { TableSiteAreaGenerateQrCodeScanPayConnectorAction, TableSiteAreaGenerateQrCodeScanPayConnectorsActionDef } from 'shared/table/actions/site-areas/table-site-area-generate-qr-code-scan-pay-connector-action';
-import { SiteAreasAuthorizations } from 'types/Authorization';
 
 import { CentralServerService } from '../../../../services/central-server.service';
 import { ComponentService } from '../../../../services/component.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
+import { WindowService } from '../../../../services/window.service';
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 import { AppUnitPipe } from '../../../../shared/formatters/app-unit.pipe';
 import { TableExportOCPPParamsAction, TableExportOCPPParamsActionDef } from '../../../../shared/table/actions/charging-stations/table-export-ocpp-params-action';
@@ -22,6 +19,8 @@ import { TableViewAssignedAssetsOfSiteAreaAction, TableViewAssignedAssetsOfSiteA
 import { TableCreateSiteAreaAction, TableCreateSiteAreaActionDef } from '../../../../shared/table/actions/site-areas/table-create-site-area-action';
 import { TableDeleteSiteAreaAction, TableDeleteSiteAreaActionDef } from '../../../../shared/table/actions/site-areas/table-delete-site-area-action';
 import { TableEditSiteAreaAction, TableEditSiteAreaActionDef } from '../../../../shared/table/actions/site-areas/table-edit-site-area-action';
+import { TableSiteAreaGenerateQrCodeConnectorAction, TableSiteAreaGenerateQrCodeConnectorsActionDef } from '../../../../shared/table/actions/site-areas/table-site-area-generate-qr-code-connector-action';
+import { TableSiteAreaGenerateQrCodeScanPayConnectorAction, TableSiteAreaGenerateQrCodeScanPayConnectorsActionDef } from '../../../../shared/table/actions/site-areas/table-site-area-generate-qr-code-scan-pay-connector-action';
 import { TableViewChargingStationsOfSiteAreaAction, TableViewChargingStationsOfSiteAreaActionDef } from '../../../../shared/table/actions/site-areas/table-view-charging-stations-of-site-area-action';
 import { TableViewSiteAreaAction, TableViewSiteAreaActionDef } from '../../../../shared/table/actions/site-areas/table-view-site-area-action';
 import { TableAutoRefreshAction } from '../../../../shared/table/actions/table-auto-refresh-action';
@@ -31,6 +30,7 @@ import { TableRefreshAction } from '../../../../shared/table/actions/table-refre
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import { SiteTableFilter } from '../../../../shared/table/filters/site-table-filter';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
+import { SiteAreasAuthorizations } from '../../../../types/Authorization';
 import { ChargingStationButtonAction } from '../../../../types/ChargingStation';
 import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction } from '../../../../types/GlobalType';

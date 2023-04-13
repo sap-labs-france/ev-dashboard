@@ -2,17 +2,17 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angu
 import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { CentralServerService } from 'services/central-server.service';
-import { ComponentService } from 'services/component.service';
-import { MessageService } from 'services/message.service';
-import { SpinnerService } from 'services/spinner.service';
-import { QrCodeDialogComponent } from 'shared/dialogs/qr-code/qr-code-dialog.component';
-import { QrCodeScanPayDialogComponent } from 'shared/dialogs/qr-code/qr-code-scan-pay-dialog.component';
-import { CONNECTOR_TYPE_MAP } from 'shared/formatters/app-connector-type.pipe';
-import { ChargePoint, ChargingStation, Connector, CurrentType, OCPPPhase, Voltage } from 'types/ChargingStation';
-import { Image } from 'types/GlobalType';
-import { TenantComponents } from 'types/Tenant';
-import { Utils } from 'utils/Utils';
+
+import { CentralServerService } from '../../../../../services/central-server.service';
+import { ComponentService } from '../../../../../services/component.service';
+import { MessageService } from '../../../../../services/message.service';
+import { SpinnerService } from '../../../../../services/spinner.service';
+import { QrCodeDialogComponent } from '../../../../../shared/dialogs/qr-code/qr-code-dialog.component';
+import { CONNECTOR_TYPE_MAP } from '../../../../../shared/formatters/app-connector-type.pipe';
+import { ChargePoint, ChargingStation, Connector, CurrentType, OCPPPhase, Voltage } from '../../../../../types/ChargingStation';
+import { Image } from '../../../../../types/GlobalType';
+import { TenantComponents } from '../../../../../types/Tenant';
+import { Utils } from '../../../../../utils/Utils';
 
 @Component({
   selector: 'app-charging-station-connector',
@@ -246,16 +246,14 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
     this.refreshTotalAmperage();
   }
 
-  public generateQRCode() {
+  public generateQRCode(isScanPayQRCode: boolean) {
     this.spinnerService.show();
-    this.centralServerService.getConnectorQrCode(this.chargingStation.id, this.connector.connectorId).subscribe({
+    this.centralServerService.getConnectorQrCode(this.chargingStation.id, this.connector.connectorId, isScanPayQRCode).subscribe({
       next: (qrCode: Image) => {
         this.spinnerService.hide();
         if (qrCode) {
           // Create the dialog
           const dialogConfig = new MatDialogConfig();
-          dialogConfig.minWidth = '70vw';
-          dialogConfig.minHeight = '70vh';
           dialogConfig.disableClose = false;
           dialogConfig.panelClass = 'transparent-dialog-container';
           // Set data
@@ -263,45 +261,12 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
             qrCode: qrCode.image,
             connectorID: this.connector.connectorId,
             chargingStationID: this.chargingStation.id,
+            isScanPayQRCode
           };
           // Disable outside click close
           dialogConfig.disableClose = true;
           // Open
           this.dialog.open(QrCodeDialogComponent, dialogConfig)
-            .afterClosed().subscribe((result) => {
-            });
-        }
-      },
-      error: (error) => {
-        this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService,
-          this.centralServerService, 'chargers.qr_code_generation_error');
-      }
-    });
-  }
-
-  public generateQRCodeScanPay() {
-    this.spinnerService.show();
-    this.centralServerService.getConnectorQrCodeScanPay(this.chargingStation.id, this.connector.connectorId).subscribe({
-      next: (qrCode: Image) => {
-        this.spinnerService.hide();
-        if (qrCode) {
-          // Create the dialog
-          const dialogConfig = new MatDialogConfig();
-          dialogConfig.minWidth = '70vw';
-          dialogConfig.minHeight = '70vh';
-          dialogConfig.disableClose = false;
-          dialogConfig.panelClass = 'transparent-dialog-container';
-          // Set data
-          dialogConfig.data = {
-            qrCode: qrCode.image,
-            connectorID: this.connector.connectorId,
-            chargingStationID: this.chargingStation.id,
-          };
-          // Disable outside click close
-          dialogConfig.disableClose = true;
-          // Open
-          this.dialog.open(QrCodeScanPayDialogComponent, dialogConfig)
             .afterClosed().subscribe((result) => {
             });
         }

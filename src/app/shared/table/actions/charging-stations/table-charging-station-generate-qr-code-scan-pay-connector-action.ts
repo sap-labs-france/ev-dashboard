@@ -33,7 +33,7 @@ export class TableChargingStationGenerateQrCodeScanPayConnectorAction implements
   private downloadQrCodeScanPayPDF(chargingStation: ChargingStation, translateService: TranslateService, spinnerService: SpinnerService,
     messageService: MessageService, centralServerService: CentralServerService, router: Router) {
     spinnerService.show();
-    centralServerService.downloadChargingStationScanPayQrCodes(chargingStation.id).subscribe({
+    centralServerService.downloadChargingStationQrCodes(chargingStation.id, true).subscribe({
       next: (result) => {
         spinnerService.hide();
         FileSaver.saveAs(result, `${chargingStation.id.toLowerCase()}-qr-codes-scan-pay.pdf`);

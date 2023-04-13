@@ -35,7 +35,7 @@ export class TableSiteGenerateQrCodeScanPayConnectorAction implements TableActio
   private downloadQrCodeScanPayPDF(site: Site, translateService: TranslateService, spinnerService: SpinnerService,
     messageService: MessageService, centralServerService: CentralServerService, router: Router) {
     spinnerService.show();
-    centralServerService.downloadSiteQrCodesScanPay(site.id).subscribe({
+    centralServerService.downloadSiteQrCodes(site.id, true).subscribe({
       next: (result) => {
         spinnerService.hide();
         FileSaver.saveAs(result, `site-${site.name.toLowerCase()}-qr-codes-scan-pay.pdf`);

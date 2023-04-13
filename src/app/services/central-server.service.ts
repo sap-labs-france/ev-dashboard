@@ -25,7 +25,7 @@ import { OicpEndpoint } from '../types/oicp/OICPEndpoint';
 import PricingDefinition from '../types/Pricing';
 import { RefundReport } from '../types/Refund';
 import { RegistrationToken } from '../types/RegistrationToken';
-import { RESTServerRoute, ServerAction } from '../types/Server';
+import { RESTServerRoute } from '../types/Server';
 import { BillingSettings, SettingDB } from '../types/Setting';
 import { Site } from '../types/Site';
 import { SiteArea, SiteAreaConsumption, SubSiteAreaAction } from '../types/SiteArea';
@@ -770,34 +770,18 @@ export class CentralServerService {
       );
   }
 
-  public getConnectorQrCode(chargingStationID: string, connectorID: number): Observable<Image> {
+  public getConnectorQrCode(chargingStationID: string, connectorID: number, isScanPayQRCode: boolean): Observable<Image> {
     // Verify init
     this.checkInit();
     if (!chargingStationID || connectorID < 0) {
       return EMPTY;
     }
+    const urlPattern: RESTServerRoute = isScanPayQRCode ? RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_GENERATE_SCAN_PAY : RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_GENERATE;
     // Execute the REST service
-    return this.httpClient.get<Image>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_GENERATE, { id: chargingStationID, connectorId: connectorID }),
+    return this.httpClient.get<Image>(this.buildRestEndpointUrl(urlPattern, { id: chargingStationID, connectorId: connectorID }),
       {
         headers: this.buildHttpHeaders(),
       })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
-  public getConnectorQrCodeScanPay(chargingStationID: string, connectorID: number): Observable<Image> {
-    // Verify init
-    this.checkInit();
-    if (!chargingStationID || connectorID < 0) {
-      return EMPTY;
-    }
-    // Execute the REST service
-    return this.httpClient.get<Image>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_GENERATE_SCAN_PAY,
-      { id: chargingStationID, connectorId: connectorID }),
-    {
-      headers: this.buildHttpHeaders(),
-    })
       .pipe(
         catchError(this.handleHttpError),
       );
@@ -1897,11 +1881,12 @@ export class CentralServerService {
       );
   }
 
-  public downloadSiteQrCodes(siteID: string): Observable<Blob> {
+  public downloadSiteQrCodes(siteID: string, isScanPayQRCode: boolean): Observable<Blob> {
     this.checkInit();
     const params: { [param: string]: string } = {};
     params['SiteID'] = siteID;
-    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_DOWNLOAD),
+    const urlPattern: RESTServerRoute = isScanPayQRCode ? RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_SCAN_PAY_DOWNLOAD : RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_DOWNLOAD;
+    return this.httpClient.get(this.buildRestEndpointUrl(urlPattern),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1912,26 +1897,12 @@ export class CentralServerService {
       );
   }
 
-  public downloadSiteQrCodesScanPay(siteID: string): Observable<Blob> {
-    this.checkInit();
-    const params: { [param: string]: string } = {};
-    params['SiteID'] = siteID;
-    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_SCAN_PAY_DOWNLOAD),
-      {
-        headers: this.buildHttpHeaders(),
-        params,
-        responseType: 'blob',
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
-  public downloadSiteAreaQrCodes(siteAreaID?: string): Observable<Blob> {
+  public downloadSiteAreaQrCodes(siteAreaID: string, isScanPayQRCode: boolean): Observable<Blob> {
     this.checkInit();
     const params: { [param: string]: string } = {};
     params['SiteAreaID'] = siteAreaID;
-    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_DOWNLOAD),
+    const urlPattern: RESTServerRoute = isScanPayQRCode ? RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_SCAN_PAY_DOWNLOAD : RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_DOWNLOAD;
+    return this.httpClient.get(this.buildRestEndpointUrl(urlPattern),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1942,47 +1913,16 @@ export class CentralServerService {
       );
   }
 
-  public downloadSiteAreaQrCodesScanPay(siteAreaID?: string): Observable<Blob> {
-    this.checkInit();
-    const params: { [param: string]: string } = {};
-    params['SiteAreaID'] = siteAreaID;
-    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_SCAN_PAY_DOWNLOAD),
-      {
-        headers: this.buildHttpHeaders(),
-        params,
-        responseType: 'blob',
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
-  public downloadChargingStationQrCodes(chargingStationID: string, connectorID?: number): Observable<Blob> {
+  public downloadChargingStationQrCodes(chargingStationID: string, isScanPayQRCode: boolean, connectorID?: number): Observable<Blob> {
     this.checkInit();
     const params: { [param: string]: string } = {};
     params['ChargingStationID'] = chargingStationID;
     if (connectorID) {
       params['ConnectorID'] = connectorID.toString();
     }
-    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_DOWNLOAD),
-      {
-        headers: this.buildHttpHeaders(),
-        params,
-        responseType: 'blob',
-      })
-      .pipe(
-        catchError(this.handleHttpError),
-      );
-  }
-
-  public downloadChargingStationScanPayQrCodes(chargingStationID: string, connectorID?: number): Observable<Blob> {
-    this.checkInit();
-    const params: { [param: string]: string } = {};
-    params['ChargingStationID'] = chargingStationID;
-    if (connectorID) {
-      params['ConnectorID'] = connectorID.toString();
-    }
-    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_SCAN_PAY_DOWNLOAD),
+    const urlPattern: RESTServerRoute = isScanPayQRCode ? RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_SCAN_PAY_DOWNLOAD : RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_DOWNLOAD;
+    // Execute the REST service
+    return this.httpClient.get(this.buildRestEndpointUrl(urlPattern),
       {
         headers: this.buildHttpHeaders(),
         params,

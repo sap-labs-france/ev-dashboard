@@ -11,8 +11,8 @@
             </div>
           </div>
           <div class="card-body">
-            <h4 *ngIf="message" class="mb2 card-title text-center" style="padding: 10px;">{{message | translate}}</h4>
-            <form *ngIf="!isSendClicked && isTokenValid" class="form">
+            <h4 *ngIf="isSendClicked || !isTokenValid" class="mb2 card-title text-center" style="padding: 10px;">{{message | translate}}</h4>
+            <form [hidden]="isSendClicked || !isTokenValid" class="form">
               <div id="payment-element">
                 <!-- Mount the Payment Element here -->
               </div>

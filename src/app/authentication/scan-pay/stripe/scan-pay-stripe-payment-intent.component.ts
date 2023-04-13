@@ -33,7 +33,6 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
   public isSendClicked = false;
   public showButton = true;
   public isTokenValid = true;
-  public isConnectorAvailable = true;
   public headerClass = 'card-header-primary';
   public title = 'settings.scan_pay.payment_intent.create_title';
   public message: string;
@@ -177,7 +176,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
           break;
         case HTTPError.SCAN_PAY_HOLD_AMOUNT_MISSING:
           this.headerClass = 'card-header-danger';
-          this.message = 'settings.scan_pay.hold_amount_not_set_title';
+          this.title = 'settings.scan_pay.hold_amount_not_set_title';
           this.message = 'settings.scan_pay.hold_amount_not_set';
           this.isTokenValid = false;
           this.isSendClicked = true;
@@ -211,7 +210,6 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
       this.spinnerService.hide();
       switch (error.status) {
         case HTTPError.CANNOT_REMOTE_START_CONNECTOR:
-          this.isConnectorAvailable = false;
           this.headerClass = 'card-header-danger';
           this.title = 'settings.scan_pay.connector_not_available_title';
           this.message = 'settings.scan_pay.connector_not_available';

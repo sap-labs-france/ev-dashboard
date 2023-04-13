@@ -528,7 +528,6 @@ export enum RESTServerRoute {
   REST_CHARGING_STATIONS_QRCODE_DOWNLOAD = 'charging-stations/qrcode/download',
   REST_CHARGING_STATIONS_QRCODE_SCAN_PAY_DOWNLOAD = 'charging-stations/qrcode/scan-pay/download',
 
-
   REST_CHARGING_STATION_GET_OCPP_PARAMETERS = 'charging-stations/:id/ocpp/parameters',
   REST_CHARGING_STATIONS_REQUEST_OCPP_PARAMETERS = 'charging-stations/ocpp/parameters',
   REST_CHARGING_STATIONS_EXPORT_OCPP_PARAMETERS = 'charging-stations/ocpp/parameters/export',

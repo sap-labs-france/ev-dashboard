@@ -185,6 +185,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
           this.headerClass = 'card-header-danger';
           this.title = 'settings.scan_pay.unexpected_error_title';
           this.message = 'settings.scan_pay.unexpected_error_payment_intend';
+          this.isSendClicked = true;
       }
     } finally {
       this.spinnerService.hide();

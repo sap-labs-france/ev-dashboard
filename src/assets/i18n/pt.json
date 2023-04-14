@@ -1833,14 +1833,14 @@
       "unexpected_error_payment_intend": "An unexpected error occurred, please contact the support",
       "payment_intent": {
         "create_title": "Enter your card details",
-        "create_success": "The payment succeeded and charging has started, you can whether stop the session from your car or from the email you will receive.",
-        "create_success_title": "Payment succeeded",
-        "create_error": "Error occurred while creating the payment method : {{stripeError}}",
+        "create_success_title": "Prepayment succeeded",
+        "create_success": "The prepayment has succeeded, plug your car to start charging. You can whether stop the session from your car or from the email you will receive.",
         "create_error_title": "Error occurred",
+        "create_error": "Error occurred while handling the prepayment",
         "create_account_title": "Enter your personnal information",
-        "create_account_send_email": "Send me verification email",
-        "create_account_success": "Check your email to proceed to charging !",
+        "create_account_send_email": "Send me a verification email",
         "create_account_success_title": "Email sent",
+        "create_account_success": "Check your email to proceed to charging !",
         "create_account_error": "Error occurred while handling your informations, please refresh the page or scan again the QR code to try again.",
         "save_start": "Save and start charging"
       }

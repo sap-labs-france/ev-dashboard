@@ -65,13 +65,13 @@ export class ScanPayInvoiceComponent implements OnInit {
           this.spinnerService.hide();
           this.headerClass = 'card-header-danger';
           this.title = 'settings.scan_pay.unexpected_error_title';
-          this.message = 'general.unexpected_error_payment_intend';
+          this.message = 'settings.scan_pay.unexpected_error_payment_intend';
         }
       });
     } catch (error) {
       this.headerClass = 'card-header-danger';
       this.title = 'settings.scan_pay.unexpected_error_title';
-      this.message = 'general.unexpected_error_payment_intend';
+      this.message = 'settings.scan_pay.unexpected_error_payment_intend';
     } finally {
       this.spinnerService.hide();
     }

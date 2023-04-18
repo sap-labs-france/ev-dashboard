@@ -32,7 +32,7 @@
                       <mat-form-field class="ms-2">
                         <input id="last-name-field" matInput type="text" placeholder="{{'users.name' | translate}}"
                           [formControl]="name" (input)="toUpperCase(name)">
-                          <mat-error *ngIf="email.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                          <mat-error *ngIf="name.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                       </mat-form-field>
                     </span>
                   </div>
@@ -40,7 +40,7 @@
                     <mat-form-field class="ms-2">
                       <input id="first-name-field" matInput type="text" placeholder="{{'users.first_name' | translate}}"
                         [formControl]="firstName" (input)="firstLetterToUpperCase(firstName)">
-                        <mat-error *ngIf="email.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                        <mat-error *ngIf="firstName.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
                     </mat-form-field>
                   </div>
                 </div>

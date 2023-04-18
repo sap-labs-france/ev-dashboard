@@ -6,6 +6,7 @@ import { ReCaptchaV3Service } from 'ngx-captcha';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ConfigService } from '../../../services/config.service';
+import { LocaleService } from '../../../services/locale.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { WindowService } from '../../../services/window.service';
 import { Constants } from '../../../utils/Constants';
@@ -27,6 +28,7 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
   public headerClass = 'card-header-primary';
   public title = 'settings.scan_pay.payment_intent.create_account_title';
   public message: string;
+  public locale: string;
 
   private siteKey: string;
   private subDomain: string;
@@ -40,7 +42,12 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
     private reCaptchaV3Service: ReCaptchaV3Service,
     private windowService: WindowService,
     private configService: ConfigService,
-    private activatedRoute: ActivatedRoute) {
+    private activatedRoute: ActivatedRoute,
+    private localeService: LocaleService) {
+    this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
+      this.locale = locale.currentLocaleJS;
+    });
+
     // Get the Site Key
     this.siteKey = this.configService.getUser().captchaSiteKey;
     this.currentSiteAreaID = this.activatedRoute?.snapshot?.params['siteAreaID'];
@@ -137,6 +144,7 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
         data['siteAreaID'] = this.currentSiteAreaID;
         data['chargingStationID'] = this.chargingStationID;
         data['connectorID'] = this.connectorID;
+        data['locale'] = this.locale;
       } else {
         this.headerClass = 'card-header-danger';
         this.title = 'settings.scan_pay.unexpected_error_title';

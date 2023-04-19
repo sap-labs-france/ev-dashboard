@@ -24,6 +24,18 @@ export class ReleaseNotesComponent {
   public buildReleaseNotes() {
     this.releaseNotes = [
       {
+        version: '2.7.8',
+        date: new Date('2023-04-18'),
+        componentChanges: [
+          {
+            name: 'Dashboard',
+            changes: [
+              'OCPI - Roaming - Push CDRs only when the extra inactivity is known'
+            ],
+          },
+        ],
+      },
+      {
         version: '2.7.7',
         date: new Date('2023-04-04'),
         componentChanges: [

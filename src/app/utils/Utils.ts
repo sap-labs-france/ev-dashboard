@@ -968,8 +968,12 @@ export class Utils {
   }
 
   public static normalizeLocaleString(locale: string): string {
+    locale = this.convertToLocale(locale); // When browser send fr-FR
     if (Constants.SUPPORTED_LOCALES.includes(locale)) {
       return locale;
+    } else if (Constants.SUPPORTED_LANGUAGES.includes(locale)) { // When browser send a language instead of a locale we find the first corresponding element in the locales list
+      const foundSupportedLanguage = Constants.SUPPORTED_LOCALES.find(element => element.split('_')[0] === locale);
+      return foundSupportedLanguage || Constants.DEFAULT_LOCALE;
     }
     return Constants.DEFAULT_LOCALE; // en_US
   }

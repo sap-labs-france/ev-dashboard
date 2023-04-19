@@ -6,7 +6,7 @@ import { PaymentIntent, PaymentIntentResult, StripeElementLocale, StripeElements
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
-import { LocaleService } from '../../../services/locale.service';
+import { Locale, LocaleService } from '../../../services/locale.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { StripeService } from '../../../services/stripe.service';
 import { WindowService } from '../../../services/window.service';
@@ -22,7 +22,7 @@ import { User } from '../../../types/User';
 export class ScanPayStripePaymentIntentComponent implements OnInit {
   public formGroup!: UntypedFormGroup;
   public isBillingComponentActive: boolean;
-  public locale: string;
+  public locale: Locale;
   public email: string;
   public siteAreaID: string;
   public name: string;
@@ -62,7 +62,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
     this.chargingStationID = this.windowService.getUrlParameterValue('chargingStationID');
     this.connectorID = +this.windowService.getUrlParameterValue('connectorID');
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
-      this.locale = locale.currentLocaleJS;
+      this.locale = locale;
     });
     void this.initialize();
   }
@@ -114,7 +114,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
 
   private initializeElements(clientSecret: string) {
     const options: StripeElementsOptions = {
-      locale: this.locale as StripeElementLocale,
+      locale: this.locale.language as StripeElementLocale,
       clientSecret
     };
     this.elements = this.getStripeFacade().elements(options);
@@ -159,7 +159,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
         firstName: this.firstName,
         name: this.name,
         siteAreaID: this.siteAreaID,
-        locale: this.locale,
+        locale: this.locale.currentLocaleJS,
         chargingStationID: this.chargingStationID,
         connectorID: this.connectorID,
         verificationToken: this.token,
@@ -200,7 +200,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
         firstName: this.firstName,
         name: this.name,
         siteAreaID: this.siteAreaID,
-        locale: this.locale,
+        locale: this.locale.currentLocaleJS,
         paymentIntentID: this.paymentIntent?.id,
         chargingStationID: this.chargingStationID,
         connectorID: this.connectorID,

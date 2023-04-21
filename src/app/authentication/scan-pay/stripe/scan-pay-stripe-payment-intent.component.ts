@@ -73,6 +73,13 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
   }
 
   private initialize() {
+    // Allows to show an error if user delete subdomain in the url
+    if (!this.isBillingComponentActive) {
+      this.headerClass = 'card-header-danger';
+      this.title = 'settings.scan_pay.unexpected_error_title';
+      this.message = 'settings.scan_pay.billing_not_properly_set';
+      this.isSendClicked = true;
+    }
     try {
       this.spinnerService.show();
       const user = { email: this.email, password: this.token, acceptEula: true } as Partial<User>;
@@ -97,12 +104,14 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
           this.headerClass = 'card-header-danger';
           this.title = 'settings.scan_pay.billing_not_properly_set_title';
           this.message = 'settings.scan_pay.billing_not_properly_set';
+          this.isSendClicked = true;
         }
       });
     } catch (error) {
       this.headerClass = 'card-header-danger';
       this.title = 'settings.scan_pay.unexpected_error_title';
       this.message = 'settings.scan_pay.unexpected_error_payment_intend';
+      this.isSendClicked = true;
     } finally {
       this.spinnerService.hide();
     }
@@ -156,9 +165,6 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
       this.spinnerService.show();
       const response = await this.centralServerService.scanPayHandlePaymentIntent({
         email: this.email,
-        firstName: this.firstName,
-        name: this.name,
-        siteAreaID: this.siteAreaID,
         locale: this.locale.currentLocaleJS,
         chargingStationID: this.chargingStationID,
         connectorID: this.connectorID,
@@ -197,9 +203,6 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
       this.spinnerService.show();
       const response = await this.centralServerService.scanPayHandlePaymentIntentRetrieve({
         email: this.email,
-        firstName: this.firstName,
-        name: this.name,
-        siteAreaID: this.siteAreaID,
         locale: this.locale.currentLocaleJS,
         paymentIntentID: this.paymentIntent?.id,
         chargingStationID: this.chargingStationID,

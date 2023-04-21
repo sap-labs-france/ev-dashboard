@@ -44,7 +44,7 @@ export const AuthenticationRoutes: Routes = [
   },
   // Step #1 - flash QR code
   {
-    path: 'scan-pay/:siteAreaID/:chargingStationID/:connectorID',
+    path: 'scan-pay/:chargingStationID/:connectorID',
     component: ScanPayEmailComponent,
   },
   // Step #2 - click on the link from the email

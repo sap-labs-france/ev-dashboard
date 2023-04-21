@@ -32,7 +32,6 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
 
   private siteKey: string;
   private subDomain: string;
-  private currentSiteAreaID: string;
   private chargingStationID: string;
   private connectorID: string;
 
@@ -50,7 +49,6 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
 
     // Get the Site Key
     this.siteKey = this.configService.getUser().captchaSiteKey;
-    this.currentSiteAreaID = this.activatedRoute?.snapshot?.params['siteAreaID'];
     this.chargingStationID = this.activatedRoute?.snapshot?.params['chargingStationID'];
     this.connectorID = this.activatedRoute?.snapshot?.params['connectorID'];
     // Init Form
@@ -141,7 +139,6 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
     this.reCaptchaV3Service.execute(this.siteKey, 'VerifScanPay', (token) => {
       if (token) {
         data['captcha'] = token;
-        data['siteAreaID'] = this.currentSiteAreaID;
         data['chargingStationID'] = this.chargingStationID;
         data['connectorID'] = this.connectorID;
         data['locale'] = this.locale;

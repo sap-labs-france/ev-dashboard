@@ -145,7 +145,7 @@ export class StripePaymentMethodComponent implements OnInit {
       this.isSaveClicked = false;
     } else {
       // Operation succeeded
-      this.messageService.showSuccessMessage('settings.billing.payment_methods_create_success', { last4: operationResult.internalData.card.last4 });
+      this.messageService.showSuccessMessage('settings.billing.payment_methods_create_success');
       this.close(true);
     }
   }

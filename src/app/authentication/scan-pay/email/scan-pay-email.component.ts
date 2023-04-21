@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
 import { ReCaptchaV3Service } from 'ngx-captcha';
 
@@ -32,8 +32,7 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
 
   private siteKey: string;
   private subDomain: string;
-  private chargingStationID: string;
-  private connectorID: string;
+  private params: Params;
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -49,8 +48,7 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
 
     // Get the Site Key
     this.siteKey = this.configService.getUser().captchaSiteKey;
-    this.chargingStationID = this.activatedRoute?.snapshot?.params['chargingStationID'];
-    this.connectorID = this.activatedRoute?.snapshot?.params['connectorID'];
+    this.params = this.activatedRoute?.snapshot?.params;
     // Init Form
     this.formGroup = new UntypedFormGroup({
       email: new FormControl(null,
@@ -139,8 +137,9 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
     this.reCaptchaV3Service.execute(this.siteKey, 'VerifScanPay', (token) => {
       if (token) {
         data['captcha'] = token;
-        data['chargingStationID'] = this.chargingStationID;
-        data['connectorID'] = this.connectorID;
+        data['siteAreaID'] = this.params['siteAreaID'];
+        data['chargingStationID'] = this.params['chargingStationID'];
+        data['connectorID'] = this.params['connectorID'];
         data['locale'] = this.locale;
       } else {
         this.headerClass = 'card-header-danger';

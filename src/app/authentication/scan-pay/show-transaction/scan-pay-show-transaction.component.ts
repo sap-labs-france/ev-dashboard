@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -27,20 +27,18 @@ export class ScanPayShowTransactionComponent implements OnInit, OnDestroy {
   public title = 'settings.scan_pay.stop_title';
   public message: string;
   private refreshInterval;
+  private params: Params;
 
   public constructor(
     private spinnerService: SpinnerService,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
     private activatedRoute: ActivatedRoute) {
-    this.currentTransactionID = this.activatedRoute?.snapshot?.params['transactionID'];
-    this.email = this.activatedRoute?.snapshot?.params['email'];
-    this.token = this.activatedRoute?.snapshot?.params['token'];
-    this.user = { email: this.email, verificationToken: this.token, password: this.token, acceptEula: true } as Partial<User>;
+    this.params = this.activatedRoute?.snapshot?.params;
   }
 
   public ngOnInit(): void {
-    this.login(this.user);
+    this.login();
     this.isSendClicked = false;
     // Load
     this.loadData();
@@ -52,6 +50,7 @@ export class ScanPayShowTransactionComponent implements OnInit, OnDestroy {
   }
 
   public loadData() {
+    this.currentTransactionID = this.params['transactionID'];
     this.spinnerService.show();
     // clear User and UserAuthorization
     this.authorizationService.cleanUserAndUserAuthorization();
@@ -106,12 +105,15 @@ export class ScanPayShowTransactionComponent implements OnInit, OnDestroy {
     });
   }
 
-  private login(user: Partial<User>): void {
+  private login(): void {
+    this.email = this.params['email'];
+    this.token = this.params['token'];
+    this.user = { email: this.email, verificationToken: this.token, password: this.token, acceptEula: true } as Partial<User>;
     this.spinnerService.show();
     // clear User and UserAuthorization
     this.authorizationService.cleanUserAndUserAuthorization();
     // Login
-    this.centralServerService.login(user).subscribe({
+    this.centralServerService.login(this.user).subscribe({
       next: (result) => {
         this.spinnerService.hide();
         this.centralServerService.loginSucceeded(result.token);

@@ -30,7 +30,8 @@ export class ReleaseNotesComponent {
           {
             name: 'Dashboard',
             changes: [
-              'OCPI - Roaming - Push CDRs only when the extra inactivity is known'
+              'OCPI - Roaming - Push CDRs only when the extra inactivity is known',
+              'Transactions - fix - Avoid closing transactions too early'
             ],
           },
         ],

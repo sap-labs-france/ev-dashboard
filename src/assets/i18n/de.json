@@ -1831,6 +1831,7 @@
       "verify_email_token_not_valid_title": "Invalid link",
       "unexpected_error_title": "An error occurred",
       "unexpected_error_payment_intend": "An unexpected error occurred, please contact the support",
+      "load_transaction_error_message": "An unexpected error occurred while retreiving the session, please contact the support",
       "payment_intent": {
         "create_title": "Enter your card details",
         "create_success_title": "Prepayment succeeded",

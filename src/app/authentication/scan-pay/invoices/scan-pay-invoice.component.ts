@@ -34,9 +34,9 @@ export class ScanPayInvoiceComponent implements OnInit {
     public windowService: WindowService,
     private authorizationService: AuthorizationService) {
     this.isBillingComponentActive = this.componentService.isActive(TenantComponents.BILLING);
-    this.invoiceID = this.activatedRoute?.snapshot?.params['invoiceID'];
-    this.email = this.activatedRoute?.snapshot?.queryParams['email'];
-    this.token = this.activatedRoute?.snapshot?.queryParams['VerificationToken'];
+    this.invoiceID = this.activatedRoute?.snapshot?.params?.['invoiceID'];
+    this.email = this.activatedRoute?.snapshot?.queryParams?.['email'];
+    this.token = this.activatedRoute?.snapshot?.queryParams?.['VerificationToken'];
     this.user = { email: this.email, verificationToken: this.token, password: this.token, acceptEula: true } as Partial<User>;
   }
 

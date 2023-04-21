@@ -1831,6 +1831,7 @@
       "verify_email_token_not_valid": "Le lien d'activation de votre compte n'est plus valide, veuillez scanner le QR code à nouveau pour recevoir un nouveau lien par email.",
       "unexpected_error_title": "Une erreur est survenue",
       "unexpected_error_payment_intend": "Une erreur inattendue s'est produite, veuillez contacter le support.",
+      "load_transaction_error_message": "Une erreur inattendue s'est produite lors de la récupération de votre session, veuillez contacter le support.",
       "payment_intent": {
         "create_title": "Entrez vos détails de paiement",
         "create_success_title": "Prépaiement effectué avec succès",

@@ -137,9 +137,8 @@ export class ScanPayEmailComponent implements OnInit, OnDestroy {
     this.reCaptchaV3Service.execute(this.siteKey, 'VerifScanPay', (token) => {
       if (token) {
         data['captcha'] = token;
-        data['siteAreaID'] = this.params['siteAreaID'];
-        data['chargingStationID'] = this.params['chargingStationID'];
-        data['connectorID'] = this.params['connectorID'];
+        data['chargingStationID'] = this.params?.chargingStationID;
+        data['connectorID'] = this.params?.connectorID;
         data['locale'] = this.locale;
       } else {
         this.headerClass = 'card-header-danger';

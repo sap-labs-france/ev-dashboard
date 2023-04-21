@@ -59,7 +59,7 @@ export const AuthenticationRoutes: Routes = [
   },
   // Step #4 - download invoice from email once transaction is billed
   {
-    path: 'scan-pay/:invoiceID/download',
+    path: 'scan-pay/invoice/:invoiceID/download',
     component: ScanPayInvoiceComponent
   },
   {

@@ -22,7 +22,6 @@ export class ScanPayShowTransactionComponent implements OnInit, OnDestroy {
   public isSendClicked: boolean;
   public token: string;
   public user: Partial<User>;
-  public email: string;
   public headerClass = 'card-header-primary';
   public title = 'settings.scan_pay.stop_title';
   public message: string;
@@ -35,6 +34,9 @@ export class ScanPayShowTransactionComponent implements OnInit, OnDestroy {
     private authorizationService: AuthorizationService,
     private activatedRoute: ActivatedRoute) {
     this.params = this.activatedRoute?.snapshot?.params;
+    this.currentTransactionID = this.params?.transactionID;
+    this.token = this.params?.token;
+    this.user = { email: this.params?.email, verificationToken: this.token, password: this.token, acceptEula: true } as Partial<User>;
   }
 
   public ngOnInit(): void {
@@ -50,7 +52,6 @@ export class ScanPayShowTransactionComponent implements OnInit, OnDestroy {
   }
 
   public loadData() {
-    this.currentTransactionID = this.params['transactionID'];
     this.spinnerService.show();
     // clear User and UserAuthorization
     this.authorizationService.cleanUserAndUserAuthorization();
@@ -67,13 +68,16 @@ export class ScanPayShowTransactionComponent implements OnInit, OnDestroy {
             }
           },
           error: (error) => {
+            this.isSendClicked = true;
             this.spinnerService.hide();
             this.headerClass = 'card-header-danger';
-            this.title = 'transactions.load_transaction_error';
+            this.title = 'settings.scan_pay.unexpected_error_title';
+            this.message = 'settings.scan_pay.load_transaction_error_message';
           }
         });
       },
       error: (error) => {
+        this.isSendClicked = true;
         this.spinnerService.hide();
         this.headerClass = 'card-header-danger';
         this.title = 'settings.scan_pay.unexpected_error_title';
@@ -106,9 +110,6 @@ export class ScanPayShowTransactionComponent implements OnInit, OnDestroy {
   }
 
   private login(): void {
-    this.email = this.params['email'];
-    this.token = this.params['token'];
-    this.user = { email: this.email, verificationToken: this.token, password: this.token, acceptEula: true } as Partial<User>;
     this.spinnerService.show();
     // clear User and UserAuthorization
     this.authorizationService.cleanUserAndUserAuthorization();

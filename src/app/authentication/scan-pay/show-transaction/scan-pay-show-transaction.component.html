@@ -12,10 +12,12 @@
             </div>
             <div class="card-body" >
               <div class="tab-content">
-                <!-- header -->
-                <app-transaction-header [transaction]="transaction" [scanPay]="true"></app-transaction-header>
+                <!-- Displaying error message -->
+                <h4 *ngIf="!isSendClicked || !transaction" class="mb2 card-title text-center" style="padding: 10px;">{{message | translate}}</h4>
+                <!-- Transaction information -->
+                <app-transaction-header *ngIf="transaction" [transaction]="transaction" [scanPay]="true"></app-transaction-header>
               </div>
-            <div class="card-footer justify-content-center mb-4">
+            <div *ngIf="transaction" class="card-footer justify-content-center mb-4">
               <button mat-raised-button color="primary" (click)="scanPayStopTransaction()" [disabled]="isSendClicked || transaction?.stop">{{"settings.scan_pay.stop_button" | translate}}</button>
             </div>
           </div>

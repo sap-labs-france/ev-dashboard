@@ -192,7 +192,6 @@ export class StripePaymentMethodComponent implements OnInit {
     try {
       this.spinnerService.show();
       const response: BillingOperationResult = await this.centralServerService.setupPaymentMethod({
-        setupIntentId: operationResult.setupIntent?.id,
         paymentMethodId: operationResult.setupIntent?.payment_method,
         userID: this.userID
       }).toPromise();

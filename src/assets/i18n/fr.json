@@ -1843,7 +1843,8 @@
         "create_account_success_title": "Email envoyé",
         "create_account_success": "Vérifiez vos emails pour procéder au chargement !",
         "create_account_error": "Une erreur est survenue lors du traitement de vos informations personnelles, veuillez rafraîchir la page ou scanner de nouveau le QR code pour réessayer.",
-        "save_start": "Enregistrer et démarrer la charge"
+        "save_start": "Enregistrer et démarrer la charge",
+        "prepayment": "{{amount}} vont être retenus sur votre compte bancaire à titre de prépaiement pour autoriser le processus de chargement."
       }
     },
     "analytics": {

@@ -1843,7 +1843,8 @@
         "create_account_success_title": "Email sent",
         "create_account_success": "Check your email to proceed to charging !",
         "create_account_error": "Error occurred while handling your informations, please refresh the page or scan again the QR code to try again.",
-        "save_start": "Save and start charging"
+        "save_start": "Save and start charging",
+        "prepayment": "{{amount}} will be holded on from your bank account as a prepayment to authorize charging process"
       }
     },
     "analytics": {

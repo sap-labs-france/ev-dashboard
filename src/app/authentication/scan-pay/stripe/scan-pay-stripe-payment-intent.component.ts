@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { PaymentIntent, PaymentIntentResult, StripeElementLocale, StripeElements, StripeElementsOptions, StripePaymentElement } from '@stripe/stripe-js';
+import { AppCurrencyPipe } from 'shared/formatters/app-currency.pipe';
 
 import { AuthorizationService } from '../../../services/authorization.service';
 import { CentralServerService } from '../../../services/central-server.service';
@@ -24,7 +25,6 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
   public isBillingComponentActive: boolean;
   public locale: Locale;
   public email: string;
-  public siteAreaID: string;
   public name: string;
   public firstName: string;
   public chargingStationID: string;
@@ -40,6 +40,7 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
   public elements: StripeElements;
   public paymentElement: StripePaymentElement;
   public paymentIntent: PaymentIntent;
+  public prepaymentMessage: string;
 
   public constructor(
     private centralServerService: CentralServerService,
@@ -49,7 +50,8 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
     private localeService: LocaleService,
     public translateService: TranslateService,
     public windowService: WindowService,
-    public authorizationService: AuthorizationService) {
+    public authorizationService: AuthorizationService,
+    private appCurrencyPipe: AppCurrencyPipe) {
     this.isBillingComponentActive = this.componentService.isActive(TenantComponents.BILLING);
   }
 
@@ -57,7 +59,6 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
     this.token = this.windowService.getUrlParameterValue('VerificationToken');
     this.email = this.windowService.getUrlParameterValue('email');
     this.name = this.windowService.getUrlParameterValue('name');
-    this.siteAreaID = this.windowService.getUrlParameterValue('siteAreaID');
     this.firstName = this.windowService.getUrlParameterValue('firstName');
     this.chargingStationID = this.windowService.getUrlParameterValue('chargingStationID');
     this.connectorID = +this.windowService.getUrlParameterValue('connectorID');
@@ -97,6 +98,9 @@ export class ScanPayStripePaymentIntentComponent implements OnInit {
             this.message = 'settings.scan_pay.billing_not_properly_set';
           } else {
             this.initializeElements(this.paymentIntent.client_secret);
+            const amountWithCurrency = this.appCurrencyPipe.transform(this.paymentIntent.amount / 100, this.paymentIntent.currency) + '';
+            this.prepaymentMessage = this.translateService.instant('settings.scan_pay.payment_intent.prepayment', {amount: amountWithCurrency});
+
           }
         },
         error: (error) => {

@@ -9,6 +9,5 @@ import { TransactionsRefundTableDataSource } from './transactions-refund-table-d
 })
 export class TransactionsRefundComponent {
   // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    public transactionsRefundTableDataSource: TransactionsRefundTableDataSource) {}
+  public constructor(public transactionsRefundTableDataSource: TransactionsRefundTableDataSource) {}
 }

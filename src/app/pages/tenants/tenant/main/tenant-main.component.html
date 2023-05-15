@@ -3,17 +3,37 @@
     <div class="col-md-3 my-auto">
       <div class="rotating-card-container img-fluid" [ngStyle]="{ 'pointer-events': 'all' }">
         <div class="card card-rotate card-background app-small-image m-0">
-          <div class="front front-background" [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
-            <div class="card-body">
-            </div>
+          <div
+            class="front front-background"
+            [ngStyle]="{
+              'background-image': 'url(' + logo + ')',
+              'background-size': 'contain',
+              'background-repeat': 'no-repeat'
+            }"
+          >
+            <div class="card-body"></div>
           </div>
-          <div class="back back-background" [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+          <div
+            class="back back-background"
+            [ngStyle]="{
+              'background-image': 'url(' + logo + ')',
+              'background-size': 'contain',
+              'background-repeat': 'no-repeat'
+            }"
+          >
             <div class="card-body">
               <div class="text-center">
                 <button mat-flat-button color="primary" class="me-2">
                   <mat-icon (click)="file.click()">mode_edit</mat-icon>
                   <div class="d-none">
-                    <input #file type="file" name="..." (change)="onLogoChanged($event)" accept="image/jpg,image/jpeg,image/png,image/gif" [maxLength]="logoMaxSize">
+                    <input
+                      #file
+                      type="file"
+                      name="..."
+                      (change)="onLogoChanged($event)"
+                      accept="image/jpg,image/jpeg,image/png,image/gif"
+                      [maxLength]="logoMaxSize"
+                    />
                   </div>
                 </button>
                 <button mat-flat-button color="warn">
@@ -29,37 +49,73 @@
       <div class="col-md-12">
         <div class="form-group">
           <mat-form-field>
-            <input [formControl]="name" appAutofocus matInput
-            placeholder="{{'tenants.name' | translate}}" required type="text">
-            <mat-error *ngIf="name.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+            <input
+              [formControl]="name"
+              appAutofocus
+              matInput
+              placeholder="{{ 'tenants.name' | translate }}"
+              required
+              type="text"
+            />
+            <mat-error *ngIf="name.errors?.required">{{
+              'general.mandatory_field' | translate
+            }}</mat-error>
             <mat-error *ngIf="name.errors?.maxlength">
-              <div [translateParams]="{length: 100}" [translate]="'general.error_max_length'"></div>
+              <div
+                [translateParams]="{ length: 100 }"
+                [translate]="'general.error_max_length'"
+              ></div>
             </mat-error>
           </mat-form-field>
         </div>
       </div>
       <div class="form-group col-md-12">
         <mat-form-field>
-          <input [formControl]="subdomain" matInput placeholder="{{'tenants.subdomain' | translate}}" required type="text">
-          <mat-error *ngIf="subdomain.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+          <input
+            [formControl]="subdomain"
+            matInput
+            placeholder="{{ 'tenants.subdomain' | translate }}"
+            required
+            type="text"
+          />
+          <mat-error *ngIf="subdomain.errors?.required">{{
+            'general.mandatory_field' | translate
+          }}</mat-error>
           <mat-error *ngIf="subdomain.errors?.maxlength">
-            <div [translateParams]="{length: 20}" [translate]="'general.error_max_length'"></div>
+            <div [translateParams]="{ length: 20 }" [translate]="'general.error_max_length'"></div>
           </mat-error>
-          <mat-error *ngIf="subdomain.errors?.pattern">{{"tenants.error_subdomain" | translate}}</mat-error>
+          <mat-error *ngIf="subdomain.errors?.pattern">{{
+            'tenants.error_subdomain' | translate
+          }}</mat-error>
         </mat-form-field>
       </div>
       <div class="form-group col-md-12">
         <mat-form-field>
-          <input [formControl]="email" matInput placeholder="{{'tenants.email' | translate}}" required type="text">
-          <mat-error *ngIf="email.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
-          <mat-error *ngIf="email.errors?.email">{{"authentication.invalid_email" | translate}}</mat-error>
+          <input
+            [formControl]="email"
+            matInput
+            placeholder="{{ 'tenants.email' | translate }}"
+            required
+            type="text"
+          />
+          <mat-error *ngIf="email.errors?.required">{{
+            'general.mandatory_field' | translate
+          }}</mat-error>
+          <mat-error *ngIf="email.errors?.email">{{
+            'authentication.invalid_email' | translate
+          }}</mat-error>
         </mat-form-field>
       </div>
     </div>
   </div>
   <div class="row">
     <div class="col-md-12">
-      <app-address [address]="address" [formGroup]="formGroup" componentName="{{'tenants.title' | translate}}" [itemComponentName]="name.value"></app-address>
+      <app-address
+        [address]="address"
+        [formGroup]="formGroup"
+        componentName="{{ 'tenants.title' | translate }}"
+        [itemComponentName]="name.value"
+      ></app-address>
     </div>
   </div>
 </form>

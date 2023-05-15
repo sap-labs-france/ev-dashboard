@@ -6,52 +6,74 @@
           <mat-icon class="card-connector-icon" [svgIcon]="type?.value"></mat-icon>
         </div>
         <h4 class="card-title text-left">
-          {{'chargers.connector' | translate}} {{connector.connectorId | appConnectorId}}
+          {{ 'chargers.connector' | translate }} {{ connector.connectorId | appConnectorId }}
         </h4>
       </div>
       <div class="card-body">
         <div class="row">
           <div class="col-md-6">
             <mat-form-field class="connector-type-select">
-              <mat-select placeholder="{{'chargers.connector_type' | translate}}" [formControl]="type" required>
+              <mat-select
+                placeholder="{{ 'chargers.connector_type' | translate }}"
+                [formControl]="type"
+                required
+              >
                 <mat-select-trigger>
                   <div class="d-flex align-items-center">
                     <mat-icon class="d-flex me-2 mat-select-icon" [svgIcon]="type?.value">
                     </mat-icon>
                     <div class="d-flex">
-                      {{type?.value | appConnectorType:'text' | translate}}
+                      {{ type?.value | appConnectorType : 'text' | translate }}
                     </div>
                   </div>
                 </mat-select-trigger>
-                <mat-option *ngFor="let connectorType of connectorTypeMap" [value]="connectorType.key"
-                  class="connector-type-select-option">
+                <mat-option
+                  *ngFor="let connectorType of connectorTypeMap"
+                  [value]="connectorType.key"
+                  class="connector-type-select-option"
+                >
                   <mat-icon [svgIcon]="connectorType.key" class="mat-select-icon"></mat-icon>
-                  <span>{{connectorType.description | translate}}</span>
+                  <span>{{ connectorType.description | translate }}</span>
                 </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
           <div class="col-md-6">
             <mat-form-field>
-              <input matInput placeholder="{{'chargers.connector_max_power' | translate}}" [formControl]="power">
+              <input
+                matInput
+                placeholder="{{ 'chargers.connector_max_power' | translate }}"
+                [formControl]="power"
+              />
             </mat-form-field>
           </div>
           <div class="col-md-6">
             <mat-form-field>
-              <mat-select placeholder="{{'chargers.current_type' | translate}}" (selectionChange)="currentTypeChanged()"
-                [formControl]="currentType" required>
+              <mat-select
+                placeholder="{{ 'chargers.current_type' | translate }}"
+                (selectionChange)="currentTypeChanged()"
+                [formControl]="currentType"
+                required
+              >
                 <mat-option *ngFor="let currentType of currentTypeMap" [value]="currentType.key">
-                  {{currentType.description | translate}}
+                  {{ currentType.description | translate }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
           <div class="col-md-6">
             <mat-form-field>
-              <mat-select placeholder="{{'chargers.nb_connected_phase' | translate}}"
-                (selectionChange)="numberOfConnectedPhaseChanged()" [formControl]="numberOfConnectedPhase" required>
-                <mat-option *ngFor="let connectedPhase of connectedPhaseMap" [value]="connectedPhase.key">
-                  {{connectedPhase.description | translate}}
+              <mat-select
+                placeholder="{{ 'chargers.nb_connected_phase' | translate }}"
+                (selectionChange)="numberOfConnectedPhaseChanged()"
+                [formControl]="numberOfConnectedPhase"
+                required
+              >
+                <mat-option
+                  *ngFor="let connectedPhase of connectedPhaseMap"
+                  [value]="connectedPhase.key"
+                >
+                  {{ connectedPhase.description | translate }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -60,25 +82,43 @@
         <div class="row">
           <div class="col-md-6">
             <mat-form-field>
-              <input matInput placeholder="{{'chargers.amperagePerPhase' | translate}}" (input)="amperageChanged()"
-                type="number" required [formControl]="amperagePerPhase" [readOnly]="readOnly">
-              <mat-error *ngIf="amperagePerPhase?.errors?.required">{{'general.mandatory_field' | translate}}
+              <input
+                matInput
+                placeholder="{{ 'chargers.amperagePerPhase' | translate }}"
+                (input)="amperageChanged()"
+                type="number"
+                required
+                [formControl]="amperagePerPhase"
+                [readOnly]="readOnly"
+              />
+              <mat-error *ngIf="amperagePerPhase?.errors?.required"
+                >{{ 'general.mandatory_field' | translate }}
               </mat-error>
               <mat-error *ngIf="amperagePerPhase?.errors?.min || amperagePerPhase?.errors?.pattern">
-                {{'chargers.invalid_amperage' | translate}}</mat-error>
+                {{ 'chargers.invalid_amperage' | translate }}</mat-error
+              >
             </mat-form-field>
           </div>
           <div class="col-md-6">
             <mat-form-field>
-              <input matInput placeholder="{{'chargers.amperage' | translate}}" [formControl]="amperage">
-              <mat-error *ngIf="amperage?.errors?.amperagePhases">{{'chargers.invalid_amperage_phases' | translate}}
+              <input
+                matInput
+                placeholder="{{ 'chargers.amperage' | translate }}"
+                [formControl]="amperage"
+              />
+              <mat-error *ngIf="amperage?.errors?.amperagePhases"
+                >{{ 'chargers.invalid_amperage_phases' | translate }}
               </mat-error>
             </mat-form-field>
           </div>
           <div class="col-md-6">
             <mat-form-field>
-              <mat-select placeholder="{{'chargers.voltage' | translate}}" [formControl]="voltage"
-                (selectionChange)="voltageChanged()" required>
+              <mat-select
+                placeholder="{{ 'chargers.voltage' | translate }}"
+                [formControl]="voltage"
+                (selectionChange)="voltageChanged()"
+                required
+              >
                 <mat-option [value]="230">230</mat-option>
                 <mat-option [value]="110">110</mat-option>
               </mat-select>
@@ -86,31 +126,47 @@
           </div>
           <div class="col-md-6" *ngIf="chargingStation?.issuer">
             <mat-form-field>
-              <mat-select placeholder="{{'chargers.phase_assignment' | translate}}"
-                [formControl]="phaseAssignmentToGrid" required>
-                <mat-option *ngFor="let phaseAssignmentToGrid of phaseAssignmentToGridMap"
-                  [value]="phaseAssignmentToGrid.phaseAssignmentToGrid">
-                  {{phaseAssignmentToGrid.description | translate}}
+              <mat-select
+                placeholder="{{ 'chargers.phase_assignment' | translate }}"
+                [formControl]="phaseAssignmentToGrid"
+                required
+              >
+                <mat-option
+                  *ngFor="let phaseAssignmentToGrid of phaseAssignmentToGridMap"
+                  [value]="phaseAssignmentToGrid.phaseAssignmentToGrid"
+                >
+                  {{ phaseAssignmentToGrid.description | translate }}
                 </mat-option>
               </mat-select>
-              <mat-error *ngIf="phaseAssignmentToGrid?.errors?.required">{{'general.mandatory_field' | translate}}
+              <mat-error *ngIf="phaseAssignmentToGrid?.errors?.required"
+                >{{ 'general.mandatory_field' | translate }}
               </mat-error>
             </mat-form-field>
           </div>
           <div class="col-md-6 text-right" *ngIf="ocpiActive && isPublic">
             <mat-form-field>
-              <input matInput type="text" placeholder="{{'ocpi.tariff_id' | translate}}" (input)="emptyStringToNull(tariffID)"
-                [formControl]="tariffID" />
-              <mat-error *ngIf="tariffID?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+              <input
+                matInput
+                type="text"
+                placeholder="{{ 'ocpi.tariff_id' | translate }}"
+                (input)="emptyStringToNull(tariffID)"
+                [formControl]="tariffID"
+              />
+              <mat-error *ngIf="tariffID?.errors?.required">{{
+                'general.mandatory_field' | translate
+              }}</mat-error>
               <mat-error *ngIf="tariffID?.errors?.maxlength">
-                <div [translate]="'general.error_max_length'" [translateParams]="{length: 36}"></div>
+                <div
+                  [translate]="'general.error_max_length'"
+                  [translateParams]="{ length: 36 }"
+                ></div>
               </mat-error>
             </mat-form-field>
           </div>
           <div class="col-md-12 text-right" *ngIf="chargingStation?.canGetConnectorQRCode">
             <button type="button" mat-raised-button color="primary" (click)="generateQRCode()">
               <mat-icon>qr_code</mat-icon>
-              <span>{{'general.display_qr' | translate}}</span>
+              <span>{{ 'general.display_qr' | translate }}</span>
             </button>
           </div>
         </div>

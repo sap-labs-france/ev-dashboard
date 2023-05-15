@@ -3,16 +3,21 @@
     <div class="col-md-6">
       <div class="form-group">
         <mat-form-field>
-          <input [formControl]="password" [type]="hidePassword ? 'password' : 'text'"
-            matInput placeholder="{{'authentication.password' | translate}}" type="password">
-          <mat-icon (click)="hidePassword = !hidePassword" class="icon-clickable"
-            matSuffix>{{hidePassword ? 'visibility' : 'visibility_off'}}
+          <input
+            [formControl]="password"
+            [type]="hidePassword ? 'password' : 'text'"
+            matInput
+            placeholder="{{ 'authentication.password' | translate }}"
+            type="password"
+          />
+          <mat-icon (click)="hidePassword = !hidePassword" class="icon-clickable" matSuffix
+            >{{ hidePassword ? 'visibility' : 'visibility_off' }}
           </mat-icon>
           <mat-error *ngIf="password.errors?.noSpace">
-            {{"authentication.no_space_in_password" | translate}}
+            {{ 'authentication.no_space_in_password' | translate }}
           </mat-error>
           <mat-error *ngIf="password.errors?.invalidPassword">
-            {{"authentication.password_rule" | translate}}
+            {{ 'authentication.password_rule' | translate }}
           </mat-error>
         </mat-form-field>
       </div>
@@ -20,16 +25,23 @@
     <div class="col-md-6">
       <div class="form-group">
         <mat-form-field>
-          <input [errorStateMatcher]="parentErrorStateMatcher"
-            [formControl]="repeatPassword" [type]="hideRepeatPassword ? 'password' : 'text'" matInput
-            placeholder="{{'authentication.repeat_password' | translate}}"
-            type="password">
-          <mat-icon (click)="hideRepeatPassword = !hideRepeatPassword"
-            class="icon-clickable" matSuffix>
-            {{hideRepeatPassword ? 'visibility' : 'visibility_off'}}
+          <input
+            [errorStateMatcher]="parentErrorStateMatcher"
+            [formControl]="repeatPassword"
+            [type]="hideRepeatPassword ? 'password' : 'text'"
+            matInput
+            placeholder="{{ 'authentication.repeat_password' | translate }}"
+            type="password"
+          />
+          <mat-icon
+            (click)="hideRepeatPassword = !hideRepeatPassword"
+            class="icon-clickable"
+            matSuffix
+          >
+            {{ hideRepeatPassword ? 'visibility' : 'visibility_off' }}
           </mat-icon>
           <mat-error *ngIf="passwords.errors?.notEqual">
-            {{"authentication.password_not_equal" | translate}}
+            {{ 'authentication.password_not_equal' | translate }}
           </mat-error>
         </mat-form-field>
       </div>

@@ -1,19 +1,22 @@
 <div class="main-content">
   <div class="form-group h-100 d-flex flex-column">
     <mat-form-field appearance="fill">
-      <textarea matInput 
-      placeholder="JSON Template" 
-      [formControl]="template" 
-      (change)="onTemplateChange()"
-      style="resize: none;"
-      rows="42"
-      cols="150">
-    </textarea>
-    <mat-error *ngIf="template.errors?.required">
-      {{'general.mandatory_field' | translate}}
-    </mat-error>
-    <mat-error *ngIf="template.errors?.invalidJSON">
-      {{'templates.invalid_json' | translate}}
-    </mat-error>   
-  </mat-form-field> 
+      <textarea
+        matInput
+        placeholder="JSON Template"
+        [formControl]="template"
+        (change)="onTemplateChange()"
+        style="resize: none"
+        rows="42"
+        cols="150"
+      >
+      </textarea>
+      <mat-error *ngIf="template.errors?.required">
+        {{ 'general.mandatory_field' | translate }}
+      </mat-error>
+      <mat-error *ngIf="template.errors?.invalidJSON">
+        {{ 'templates.invalid_json' | translate }}
+      </mat-error>
+    </mat-form-field>
+  </div>
 </div>

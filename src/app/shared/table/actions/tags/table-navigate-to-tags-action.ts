@@ -8,7 +8,7 @@ export class TableNavigateToTagsAction extends TableOpenURLAction {
       ...super.getActionDef(),
       id: TagButtonAction.NAVIGATE_TO_TAGS,
       name: 'tags.redirect',
-      tooltip: 'tags.redirect'
+      tooltip: 'tags.redirect',
     };
   }
 }

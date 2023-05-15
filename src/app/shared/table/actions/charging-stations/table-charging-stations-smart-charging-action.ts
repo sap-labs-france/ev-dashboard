@@ -14,9 +14,14 @@ export interface SmartChargingDialogData extends TableData {
 }
 
 export interface TableChargingStationsSmartChargingActionDef extends TableActionDef {
-  action: (chargingStationDialogComponent: ComponentType<unknown>, dialogService: DialogService,
-    translateService: TranslateService, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<SmartChargingDialogData, ChargingStationsAuthorizations>, refresh?: () => Observable<void>) => void;
+  action: (
+    chargingStationDialogComponent: ComponentType<unknown>,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<SmartChargingDialogData, ChargingStationsAuthorizations>,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableChargingStationsSmartChargingAction extends TableViewAction {
@@ -31,13 +36,19 @@ export class TableChargingStationsSmartChargingAction extends TableViewAction {
     };
   }
 
-  private viewSmartCharging(chargingStationDialogComponent: ComponentType<unknown>, dialogService: DialogService,
-    translateService: TranslateService, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<SmartChargingDialogData, ChargingStationsAuthorizations>, refresh?: () => Observable<void>) {
+  private viewSmartCharging(
+    chargingStationDialogComponent: ComponentType<unknown>,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<SmartChargingDialogData, ChargingStationsAuthorizations>,
+    refresh?: () => Observable<void>
+  ) {
     if (parseFloat(dialogParams.dialogData.ocppVersion) < 1.6) {
       dialogService.createAndShowOkDialog(
         translateService.instant('chargers.action_error.smart_charging_title'),
-        translateService.instant('chargers.action_error.smart_charging_charger_version'));
+        translateService.instant('chargers.action_error.smart_charging_charger_version')
+      );
     } else {
       super.view(chargingStationDialogComponent, dialog, dialogParams, refresh);
     }

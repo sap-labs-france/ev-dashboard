@@ -5,7 +5,6 @@ import { Utils } from '../../utils/Utils';
 
 @Pipe({ name: 'appFormatRowCell' })
 export class AppFormatRowCellPipe implements PipeTransform {
-
   public transform(value: string, tableColumnDef: TableColumnDef, row: any): string | null {
     let formattedValue: any = value;
     // Convert to primitive/object first

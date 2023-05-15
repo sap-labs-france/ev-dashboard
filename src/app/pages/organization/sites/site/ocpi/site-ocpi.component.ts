@@ -20,14 +20,14 @@ export class SiteOcpiComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     // Init the form
-    this.formGroup.addControl('tariffID', new FormControl('',
-      Validators.compose([
-        Validators.maxLength(36),
-      ])));
-    this.formGroup.addControl('ownerName', new FormControl('',
-      Validators.compose([
-        Validators.maxLength(100),
-      ])));
+    this.formGroup.addControl(
+      'tariffID',
+      new FormControl('', Validators.compose([Validators.maxLength(36)]))
+    );
+    this.formGroup.addControl(
+      'ownerName',
+      new FormControl('', Validators.compose([Validators.maxLength(100)]))
+    );
     // Form
     this.tariffID = this.formGroup.controls['tariffID'];
     this.ownerName = this.formGroup.controls['ownerName'];

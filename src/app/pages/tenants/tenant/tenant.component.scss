@@ -1,4 +1,4 @@
-@import "../../../../assets/scss/core/variables";
+@import '../../../../assets/scss/core/variables';
 
 .tenant-dialog-size {
   max-height: 600px;
@@ -8,8 +8,7 @@
 .component-item {
   min-height: 70px;
 
-  &:nth-child(2n+1) {
+  &:nth-child(2n + 1) {
     background-color: darken($brand-background, 1%);
   }
 }
-

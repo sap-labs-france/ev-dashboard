@@ -16,7 +16,6 @@ export interface OicpEndpoint extends TableData {
   lastPatchJobResult?: any;
 }
 
-
 export interface OicpEndpointDetail extends TableData {
   id: string;
   oicpendpoint: OicpEndpoint;

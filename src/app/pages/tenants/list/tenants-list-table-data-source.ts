@@ -12,11 +12,23 @@ import { SpinnerService } from '../../../services/spinner.service';
 import { WindowService } from '../../../services/window.service';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
-import { TableOpenURLAction, TableOpenURLActionDef } from '../../../shared/table/actions/table-open-url-action';
+import {
+  TableOpenURLAction,
+  TableOpenURLActionDef,
+} from '../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableCreateTenantAction, TableCreateTenantActionDef } from '../../../shared/table/actions/tenants/table-create-tenant-action';
-import { TableDeleteTenantAction, TableDeleteTenantActionDef } from '../../../shared/table/actions/tenants/table-delete-tenant-action';
-import { TableEditTenantAction, TableEditTenantActionDef } from '../../../shared/table/actions/tenants/table-edit-tenant-action';
+import {
+  TableCreateTenantAction,
+  TableCreateTenantActionDef,
+} from '../../../shared/table/actions/tenants/table-create-tenant-action';
+import {
+  TableDeleteTenantAction,
+  TableDeleteTenantActionDef,
+} from '../../../shared/table/actions/tenants/table-delete-tenant-action';
+import {
+  TableEditTenantAction,
+  TableEditTenantActionDef,
+} from '../../../shared/table/actions/tenants/table-edit-tenant-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
@@ -42,7 +54,8 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
     private router: Router,
     private dialog: MatDialog,
     private centralServerService: CentralServerService,
-    private datePipe: AppDatePipe) {
+    private datePipe: AppDatePipe
+  ) {
     super(spinnerService, translateService);
     // Init
     this.setStaticFilters([{ WithLogo: true }]);
@@ -52,17 +65,25 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
   public loadDataImpl(): Observable<DataResult<Tenant>> {
     return new Observable((observer) => {
       // Get the Tenants
-      this.centralServerService.getTenants(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
-        next: (tenants) => {
-          this.createAction.visible = true;
-          observer.next(tenants);
-          observer.complete();
-        },
-        error: (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          observer.error(error);
-        }
-      });
+      this.centralServerService
+        .getTenants(this.buildFilterValues(), this.getPaging(), this.getSorting())
+        .subscribe({
+          next: (tenants) => {
+            this.createAction.visible = true;
+            observer.next(tenants);
+            observer.complete();
+          },
+          error: (error) => {
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.error_backend'
+            );
+            observer.error(error);
+          },
+        });
     });
   }
 
@@ -149,18 +170,11 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    return [
-      this.createAction,
-      ...tableActionsDef,
-    ];
+    return [this.createAction, ...tableActionsDef];
   }
 
   public buildTableRowActions(): TableActionDef[] {
-    return [
-      this.editAction,
-      this.openUrlAction,
-      this.deleteAction,
-    ];
+    return [this.editAction, this.openUrlAction, this.deleteAction];
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -169,8 +183,11 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
       // Add
       case TenantButtonAction.CREATE_TENANT:
         if (actionDef.action) {
-          (actionDef as TableCreateTenantActionDef).action(TenantDialogComponent, this.dialog,
-            this.refreshData.bind(this));
+          (actionDef as TableCreateTenantActionDef).action(
+            TenantDialogComponent,
+            this.dialog,
+            this.refreshData.bind(this)
+          );
         }
         break;
     }
@@ -180,31 +197,43 @@ export class TenantsListTableDataSource extends TableDataSource<Tenant> {
     switch (actionDef.id) {
       case TenantButtonAction.EDIT_TENANT:
         if (actionDef.action) {
-          (actionDef as TableEditTenantActionDef).action(TenantDialogComponent, this.dialog,
-            { dialogData: tenant }, this.refreshData.bind(this));
+          (actionDef as TableEditTenantActionDef).action(
+            TenantDialogComponent,
+            this.dialog,
+            { dialogData: tenant },
+            this.refreshData.bind(this)
+          );
         }
         break;
       case TenantButtonAction.DELETE_TENANT:
         if (actionDef.action) {
           (actionDef as TableDeleteTenantActionDef).action(
-            tenant, this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
+            tenant,
+            this.dialogService,
+            this.translateService,
+            this.messageService,
+            this.centralServerService,
+            this.spinnerService,
+            this.router,
+            this.refreshData.bind(this)
+          );
         }
         break;
       case ButtonAction.OPEN_URL:
         if (actionDef.action) {
           (actionDef as TableOpenURLActionDef).action(
-            `${this.windowService.getProtocol()}//${tenant.subdomain}.${this.windowService.getHost()}`, this.windowService);
+            `${this.windowService.getProtocol()}//${
+              tenant.subdomain
+            }.${this.windowService.getHost()}`,
+            this.windowService
+          );
         }
         break;
     }
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {
-    return [
-      new TableAutoRefreshAction().getActionDef(),
-      new TableRefreshAction().getActionDef(),
-    ];
+    return [new TableAutoRefreshAction().getActionDef(), new TableRefreshAction().getActionDef()];
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {

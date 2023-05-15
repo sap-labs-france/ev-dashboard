@@ -1,9 +1,8 @@
-
 export enum ServerAction {
   UNKNOWN_ACTION = 'Unknown',
 
   RATE_LIMITER = 'RateLimiter',
-  SHIELD ='Shield',
+  SHIELD = 'Shield',
 
   SAP_CONCUR_REQUEST = 'SapConcurRequest',
   RECAPTCHA_REQUEST = 'RecaptchaRequest',
@@ -425,7 +424,7 @@ export enum ServerAction {
   USER_IMAGE = 'UserImage',
   TAGS = 'Tags',
   TAG = 'Tag',
-  TAG_BY_VISUAL_ID= 'TagByVisualID',
+  TAG_BY_VISUAL_ID = 'TagByVisualID',
   USER_DEFAULT_TAG_CAR = 'UserDefaultTagCar',
   TAG_CREATE = 'TagCreate',
   TAG_UPDATE = 'TagUpdate',
@@ -493,7 +492,7 @@ export enum ServerAction {
   HTTP_RESPONSE = 'HttpResponse',
   HTTP_ERROR = 'HttpError',
 
-  EXPORT_TO_CSV = 'ExportToCSV'
+  EXPORT_TO_CSV = 'ExportToCSV',
 }
 
 // RESTful API
@@ -524,6 +523,7 @@ export enum RESTServerRoute {
   REST_CHARGING_STATIONS_CHANGE_AVAILABILITY = 'charging-stations/:id/availability/change',
   REST_CHARGING_STATIONS_RESERVE_NOW = 'charging-stations/:id/reserve/now',
   REST_CHARGING_STATIONS_CANCEL_RESERVATION = 'charging-stations/:id/reservation/cancel',
+  REST_CHARGING_STATIONS_RESERVATION_AVAILABILITY = 'charging-stations/reservation/availability',
 
   REST_CHARGING_STATIONS_DOWNLOAD_FIRMWARE = 'charging-stations/firmware/download',
   REST_CHARGING_STATIONS_QRCODE_GENERATE = 'charging-stations/:id/connectors/:connectorId/qrcode/generate',
@@ -570,7 +570,7 @@ export enum RESTServerRoute {
 
   REST_USERS = 'users',
   REST_USER = 'users/:id',
-  REST_USER_SESSION_CONTEXT= 'users/:id/session-context',
+  REST_USER_SESSION_CONTEXT = 'users/:id/session-context',
   REST_USER_SITES = 'users/:id/sites',
   REST_USER_UPDATE_MOBILE_TOKEN = 'users/:id/mobile-token',
   REST_USER_UPDATE_MOBILE_DATA = 'users/:id/mobile-data',
@@ -729,6 +729,12 @@ export enum RESTServerRoute {
 
   // PRICING URLs for Non-CRUD operations
   REST_PRICING_MODEL_RESOLVE = 'pricing-model/resolve',
+
+  // RESERVATION URLs for CRUD operations
+  REST_RESERVATIONS = 'reservations',
+  REST_RESERVATION = 'reservations/:id',
+  REST_RESERVATIONS_EXPORT = 'reservations/action/export',
+  REST_RESERVATION_CANCEL = 'reservations/:id/cancel',
 }
 
 export enum OCPIServerRoute {
@@ -743,14 +749,14 @@ export enum OCPIServerRoute {
 }
 
 export enum OCPIServerRouteVersions {
-  VERSION_211 = '2.1.1'
+  VERSION_211 = '2.1.1',
 }
 
 export enum ServerProtocol {
   HTTP = 'http',
   HTTPS = 'https',
   WS = 'ws',
-  WSS = 'wss'
+  WSS = 'wss',
 }
 
 export enum ServerType {
@@ -767,5 +773,5 @@ export enum ServerType {
 
 export enum WSServerProtocol {
   OCPP16 = 'ocpp1.6',
-  REST = 'rest'
+  REST = 'rest',
 }

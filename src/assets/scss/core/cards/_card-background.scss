@@ -16,7 +16,7 @@
   .card-category,
   .card-description,
   small {
-    color: rgba($brand-background, .7) !important;
+    color: rgba($brand-background, 0.7) !important;
   }
 
   .card-title {
@@ -36,7 +36,7 @@
     display: block;
     left: 0;
     top: 0;
-    content: "";
+    content: '';
     border-radius: $border-radius-large;
   }
 }

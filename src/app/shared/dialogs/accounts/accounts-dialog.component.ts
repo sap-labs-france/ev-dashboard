@@ -9,13 +9,14 @@ import { AccountsDialogTableDataSource } from './accounts-dialog-table-data-sour
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
-  styleUrls: ['../dialog-table-data.component.scss']
+  styleUrls: ['../dialog-table-data.component.scss'],
 })
 export class AccountsDialogComponent extends DialogTableDataComponent<BillingAccount> {
   public constructor(
     protected dialogRef: MatDialogRef<AccountsDialogComponent>,
     private accountsListTableDataSource: AccountsDialogTableDataSource,
-    @Inject(MAT_DIALOG_DATA) data: any) {
+    @Inject(MAT_DIALOG_DATA) data: any
+  ) {
     super(data, dialogRef, accountsListTableDataSource);
     // Default title
     if (Utils.isEmptyString(this.title)) {
@@ -28,7 +29,11 @@ export class AccountsDialogComponent extends DialogTableDataComponent<BillingAcc
     const items: KeyValue[] = [];
     if (!Utils.isEmptyArray(selectedRows)) {
       selectedRows.forEach((row) => {
-        items.push({ key: row.id, value: Utils.buildUserFullName(row.businessOwner), objectRef: row });
+        items.push({
+          key: row.id,
+          value: Utils.buildUserFullName(row.businessOwner),
+          objectRef: row,
+        });
       });
     }
     return items;

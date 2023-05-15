@@ -3,10 +3,12 @@ import { KeyValue } from 'types/GlobalType';
 import { Constants } from '../../utils/Constants';
 import { Utils } from '../../utils/Utils';
 
-export const CONNECTORS: KeyValue[] = Array.from(Array(26).keys()).map((element: number) => ({ key: (element + 1).toString(), value: Utils.getConnectorLetterFromConnectorID(element + 1) }));
+export const CONNECTORS: KeyValue[] = Array.from(Array(26).keys()).map((element: number) => ({
+  key: (element + 1).toString(),
+  value: Utils.getConnectorLetterFromConnectorID(element + 1),
+}));
 
-export const CONNECTOR_ALL_TYPES_MAP =
-[
+export const CONNECTOR_ALL_TYPES_MAP = [
   {
     key: Constants.SELECT_ALL,
     description: 'chargers.connector_type_all',

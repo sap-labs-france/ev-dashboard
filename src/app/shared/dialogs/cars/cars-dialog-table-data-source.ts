@@ -20,7 +20,8 @@ export class CarsDialogTableDataSource extends DialogTableDataSource<Car> {
     public translateService: TranslateService,
     private messageService: MessageService,
     private router: Router,
-    private centralServerService: CentralServerService) {
+    private centralServerService: CentralServerService
+  ) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -28,16 +29,24 @@ export class CarsDialogTableDataSource extends DialogTableDataSource<Car> {
 
   public loadDataImpl(): Observable<DataResult<Car>> {
     return new Observable((observer) => {
-      this.centralServerService.getCars(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
-        next: (cars) => {
-          observer.next(cars);
-          observer.complete();
-        },
-        error: (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          observer.error(error);
-        }
-      });
+      this.centralServerService
+        .getCars(this.buildFilterValues(), this.getPaging(), this.getSorting())
+        .subscribe({
+          next: (cars) => {
+            observer.next(cars);
+            observer.complete();
+          },
+          error: (error) => {
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.error_backend'
+            );
+            observer.error(error);
+          },
+        });
     });
   }
 
@@ -64,7 +73,7 @@ export class CarsDialogTableDataSource extends DialogTableDataSource<Car> {
         headerClass: 'col-10p',
         class: 'text-left col-15p',
         sortable: true,
-        formatter: (modelVersion: string) => modelVersion ? modelVersion : '-',
+        formatter: (modelVersion: string) => (modelVersion ? modelVersion : '-'),
       },
       {
         id: 'carCatalog.vehicleModelVersion',
@@ -72,7 +81,8 @@ export class CarsDialogTableDataSource extends DialogTableDataSource<Car> {
         headerClass: 'col-10p',
         class: 'text-left col-15p',
         sortable: true,
-        formatter: (vehicleModelVersion: string) => vehicleModelVersion ? vehicleModelVersion : '-',
+        formatter: (vehicleModelVersion: string) =>
+          vehicleModelVersion ? vehicleModelVersion : '-',
       },
       {
         id: 'licensePlate',

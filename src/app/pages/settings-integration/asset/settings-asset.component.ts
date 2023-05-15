@@ -18,7 +18,7 @@ import { SettingsAssetConnectionEditableTableDataSource } from './settings-asset
   selector: 'app-settings-asset',
   templateUrl: 'settings-asset.component.html',
   styleUrls: ['settings-asset.component.scss'],
-  providers: [SettingsAssetConnectionEditableTableDataSource]
+  providers: [SettingsAssetConnectionEditableTableDataSource],
 })
 export class SettingsAssetComponent implements OnInit {
   public isActive = false;
@@ -33,7 +33,8 @@ export class SettingsAssetComponent implements OnInit {
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private router: Router,
-    public assetConnectionListTableDataSource: SettingsAssetConnectionEditableTableDataSource) {
+    public assetConnectionListTableDataSource: SettingsAssetConnectionEditableTableDataSource
+  ) {
     this.isActive = this.componentService.isActive(TenantComponents.ASSET);
   }
 
@@ -78,10 +79,15 @@ export class SettingsAssetComponent implements OnInit {
             this.messageService.showErrorMessage('settings.asset.setting_not_found');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.unexpected_error_backend'
+            );
         }
-      }
+      },
     });
   }
 
@@ -95,11 +101,17 @@ export class SettingsAssetComponent implements OnInit {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
           this.messageService.showSuccessMessage(
-            (!this.assetSettings.id ? 'settings.asset.create_success' : 'settings.asset.update_success'));
+            !this.assetSettings.id
+              ? 'settings.asset.create_success'
+              : 'settings.asset.update_success'
+          );
           this.refresh();
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, (!this.assetSettings.id ? 'settings.asset.create_error' : 'settings.asset.update_error'));
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            !this.assetSettings.id ? 'settings.asset.create_error' : 'settings.asset.update_error'
+          );
         }
       },
       error: (error) => {
@@ -109,10 +121,15 @@ export class SettingsAssetComponent implements OnInit {
             this.messageService.showErrorMessage('settings.asset.setting_do_not_exist');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              (!this.assetSettings.id ? 'settings.asset.create_error' : 'settings.asset.update_error'));
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              !this.assetSettings.id ? 'settings.asset.create_error' : 'settings.asset.update_error'
+            );
         }
-      }
+      },
     });
   }
 

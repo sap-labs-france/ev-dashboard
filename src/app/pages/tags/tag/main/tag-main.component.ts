@@ -10,7 +10,7 @@ import { Utils } from '../../../../utils/Utils';
 
 @Component({
   selector: 'app-tag-main',
-  templateUrl: 'tag-main.component.html'
+  templateUrl: 'tag-main.component.html',
 })
 export class TagMainComponent implements OnInit, OnChanges {
   @Input() public formGroup: UntypedFormGroup;
@@ -33,38 +33,40 @@ export class TagMainComponent implements OnInit, OnChanges {
   public readonly DialogMode = DialogMode;
 
   // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    public spinnerService: SpinnerService,
-    private dialog: MatDialog) {
-  }
+  public constructor(public spinnerService: SpinnerService, private dialog: MatDialog) {}
 
   public ngOnInit() {
     // Init the form
-    this.formGroup.addControl('id', new FormControl('',
-      Validators.compose([
-        Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(20),
-        Validators.pattern('^[a-zA-Z0-9]*$'),
-      ])));
+    this.formGroup.addControl(
+      'id',
+      new FormControl(
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(20),
+          Validators.pattern('^[a-zA-Z0-9]*$'),
+        ])
+      )
+    );
     this.formGroup.addControl('user', new FormControl(''));
-    this.formGroup.addControl('userID', new FormControl('', ));
-    this.formGroup.addControl('description', new FormControl('',
-      Validators.compose([
-        Validators.required,
-      ])));
-    this.formGroup.addControl('visualID', new FormControl('',
-      Validators.compose([
-        Validators.required,
-      ])));
-    this.formGroup.addControl('active', new FormControl(true,
-      Validators.compose([
-        Validators.required,
-      ])));
-    this.formGroup.addControl('default', new FormControl(false,
-      Validators.compose([
-        Validators.required,
-      ])));
+    this.formGroup.addControl('userID', new FormControl(''));
+    this.formGroup.addControl(
+      'description',
+      new FormControl('', Validators.compose([Validators.required]))
+    );
+    this.formGroup.addControl(
+      'visualID',
+      new FormControl('', Validators.compose([Validators.required]))
+    );
+    this.formGroup.addControl(
+      'active',
+      new FormControl(true, Validators.compose([Validators.required]))
+    );
+    this.formGroup.addControl(
+      'default',
+      new FormControl(false, Validators.compose([Validators.required]))
+    );
     // Form
     this.id = this.formGroup.controls['id'];
     this.description = this.formGroup.controls['description'];
@@ -115,16 +117,18 @@ export class TagMainComponent implements OnInit, OnChanges {
     // Set data
     dialogConfig.data = {
       rowMultipleSelection: false,
-      staticFilter: {
-      },
+      staticFilter: {},
     };
     // Open
-    this.dialog.open(UsersDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
-      this.user.setValue(Utils.buildUserFullName(result[0].objectRef));
-      this.userID.setValue(result[0].key);
-      this.default.enable();
-      this.formGroup.markAsDirty();
-    });
+    this.dialog
+      .open(UsersDialogComponent, dialogConfig)
+      .afterClosed()
+      .subscribe((result) => {
+        this.user.setValue(Utils.buildUserFullName(result[0].objectRef));
+        this.userID.setValue(result[0].key);
+        this.default.enable();
+        this.formGroup.markAsDirty();
+      });
   }
 
   public toUpperCase(control: AbstractControl) {

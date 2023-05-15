@@ -34,11 +34,8 @@ import { PricingDefinitionsDialogComponent } from './pricing-definitions.dialog.
     PricingDefinitionMainComponent,
     PricingDefinitionRestrictionsComponent,
     PricingDefinitionDimensionsComponent,
-    PricingDefinitionDetailCellComponent
+    PricingDefinitionDetailCellComponent,
   ],
-  exports: [
-    PricingDefinitionsComponent,
-  ],
+  exports: [PricingDefinitionsComponent],
 })
-export class PricingDefinitionsModule {
-}
+export class PricingDefinitionsModule {}

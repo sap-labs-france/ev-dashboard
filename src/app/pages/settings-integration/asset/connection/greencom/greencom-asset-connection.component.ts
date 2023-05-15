@@ -5,7 +5,7 @@ import { AssetGreencomConnectionType } from '../../../../../types/Setting';
 
 @Component({
   selector: 'app-settings-greencom-connection',
-  templateUrl: 'greencom-asset-connection.component.html'
+  templateUrl: 'greencom-asset-connection.component.html',
 })
 export class GreencomAssetConnectionComponent implements OnInit {
   @Input() public formGroup!: UntypedFormGroup;
@@ -18,14 +18,8 @@ export class GreencomAssetConnectionComponent implements OnInit {
   public ngOnInit(): void {
     // Set login credentials form
     this.greencomCredentials = new UntypedFormGroup({
-      clientId: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      clientSecret: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
+      clientId: new UntypedFormControl('', Validators.compose([Validators.required])),
+      clientSecret: new UntypedFormControl('', Validators.compose([Validators.required])),
     });
     if (!this.formGroup.disabled) {
       this.formGroup.addControl('greencomConnection', this.greencomCredentials);
@@ -44,7 +38,9 @@ export class GreencomAssetConnectionComponent implements OnInit {
         this.greencomCredentials.controls.clientId.setValue(this.greencomConnection.clientId);
       }
       if (this.greencomConnection.clientSecret) {
-        this.greencomCredentials.controls.clientSecret.setValue(this.greencomConnection.clientSecret);
+        this.greencomCredentials.controls.clientSecret.setValue(
+          this.greencomConnection.clientSecret
+        );
       }
     }
   }

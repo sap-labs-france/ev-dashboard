@@ -1,23 +1,40 @@
 <form class="form" [formGroup]="formGroup">
   <div class="row">
     <div class="col-md-3 my-auto mb-2">
-      <div class="rotating-card-container img-fluid"
-          [ngStyle]="{ 'pointer-events': 'all'}">
+      <div class="rotating-card-container img-fluid" [ngStyle]="{ 'pointer-events': 'all' }">
         <div class="card card-rotate card-background img-thumbnail app-small-image m-0">
-          <div class="front front-background bg-transparent"
-              [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
-            <div class="card-body">
-            </div>
+          <div
+            class="front front-background bg-transparent"
+            [ngStyle]="{
+              'background-image': 'url(' + image + ')',
+              'background-size': 'contain',
+              'background-repeat': 'no-repeat'
+            }"
+          >
+            <div class="card-body"></div>
           </div>
-          <div class="back back-background"
-              [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+          <div
+            class="back back-background"
+            [ngStyle]="{
+              'background-image': 'url(' + image + ')',
+              'background-size': 'contain',
+              'background-repeat': 'no-repeat'
+            }"
+          >
             <div class="card-body">
               <div class="text-center">
                 <button mat-flat-button color="primary" class="me-2">
                   <mat-icon (click)="file.click()">mode_edit</mat-icon>
                   <div class="d-none">
-                    <input #file type="file" accept=".jpg, .jpeg, .png, .gif"
-                      [maxLength]="imageMaxSize" name="..." (change)="onImageChanged($event)" accept="image/jpg,image/jpeg,image/png,image/gif">
+                    <input
+                      #file
+                      type="file"
+                      accept=".jpg, .jpeg, .png, .gif"
+                      [maxLength]="imageMaxSize"
+                      name="..."
+                      (change)="onImageChanged($event)"
+                      accept="image/jpg,image/jpeg,image/png,image/gif"
+                    />
                   </div>
                 </button>
                 <button mat-flat-button color="warn" *ngIf="userImageSet">
@@ -32,25 +49,42 @@
     <div class="col-md-9">
       <div class="form-group">
         <mat-form-field>
-          <input [formControl]="name" appAutofocus matInput
-            placeholder="{{'users.name' | translate}}" required type="text">
+          <input
+            [formControl]="name"
+            appAutofocus
+            matInput
+            placeholder="{{ 'users.name' | translate }}"
+            required
+            type="text"
+          />
           <mat-error *ngIf="name.errors?.required">
-            {{"general.mandatory_field" | translate}}
+            {{ 'general.mandatory_field' | translate }}
           </mat-error>
           <mat-error *ngIf="name.errors?.maxlength">
-            <div [translateParams]="{length: name.errors?.maxlength?.requiredLength}" [translate]="'general.error_max_length'"></div>
+            <div
+              [translateParams]="{ length: name.errors?.maxlength?.requiredLength }"
+              [translate]="'general.error_max_length'"
+            ></div>
           </mat-error>
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field>
-          <input [formControl]="firstName" matInput
-            placeholder="{{'users.first_name' | translate}}" required type="text">
+          <input
+            [formControl]="firstName"
+            matInput
+            placeholder="{{ 'users.first_name' | translate }}"
+            required
+            type="text"
+          />
           <mat-error *ngIf="firstName.errors?.required">
-            {{ "general.mandatory_field" | translate }}
+            {{ 'general.mandatory_field' | translate }}
           </mat-error>
           <mat-error *ngIf="name.errors?.maxlength">
-            <div [translateParams]="{length: name.errors?.maxlength?.requiredLength}" [translate]="'general.error_max_length'"></div>
+            <div
+              [translateParams]="{ length: name.errors?.maxlength?.requiredLength }"
+              [translate]="'general.error_max_length'"
+            ></div>
           </mat-error>
         </mat-form-field>
       </div>
@@ -58,14 +92,18 @@
     <div class="col-md-6">
       <div class="form-group">
         <mat-form-field>
-          <input [formControl]="email" matInput
-            placeholder="{{'users.email' | translate}}" required
-            type="text">
+          <input
+            [formControl]="email"
+            matInput
+            placeholder="{{ 'users.email' | translate }}"
+            required
+            type="text"
+          />
           <mat-error *ngIf="email.errors?.email">
-            {{"authentication.invalid_email" | translate}}
+            {{ 'authentication.invalid_email' | translate }}
           </mat-error>
           <mat-error *ngIf="email.errors?.required">
-            {{"general.mandatory_field" | translate}}
+            {{ 'general.mandatory_field' | translate }}
           </mat-error>
         </mat-form-field>
       </div>
@@ -73,9 +111,9 @@
     <div class="col-md-6">
       <div class="form-group">
         <mat-form-field>
-          <mat-select [formControl]="locale" placeholder="{{'users.locale' | translate}}">
+          <mat-select [formControl]="locale" placeholder="{{ 'users.locale' | translate }}">
             <mat-option *ngFor="let userLocale of userLocales" [value]="userLocale.key">
-              {{userLocale.value | translate}}
+              {{ userLocale.value | translate }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -84,9 +122,13 @@
     <div *ngIf="this.metadata?.status?.visible" class="col-md-6">
       <div class="form-group">
         <mat-form-field>
-          <mat-select [formControl]="status" placeholder="{{'users.status' | translate}}" [required]="metadata?.status?.mandatory">
+          <mat-select
+            [formControl]="status"
+            placeholder="{{ 'users.status' | translate }}"
+            [required]="metadata?.status?.mandatory"
+          >
             <mat-option *ngFor="let userStatus of userStatuses" [value]="userStatus.key">
-              {{userStatus.value | translate}}
+              {{ userStatus.value | translate }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -95,9 +137,13 @@
     <div *ngIf="isAdmin || isSuperAdmin" class="col-md-6">
       <div class="form-group">
         <mat-form-field>
-          <mat-select [formControl]="role" (ngModelChange)="onRoleChanged($event)" placeholder="{{'users.role' | translate}}">
+          <mat-select
+            [formControl]="role"
+            (ngModelChange)="onRoleChanged($event)"
+            placeholder="{{ 'users.role' | translate }}"
+          >
             <mat-option *ngFor="let userRole of userRoles" [value]="userRole.key">
-              {{userRole.value | translate}}
+              {{ userRole.value | translate }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -106,11 +152,15 @@
     <div class="col-md-6">
       <div class="form-group">
         <mat-form-field>
-          <input [formControl]="phone" matInput
-            placeholder="{{'users.phone' | translate}}" type="text">
+          <input
+            [formControl]="phone"
+            matInput
+            placeholder="{{ 'users.phone' | translate }}"
+            type="text"
+          />
           <mat-error *ngIf="phone.errors?.invalidPhone">
-            {{"users.invalid_phone_number" | translate}}
-            {{phone.errors?.pattern | json}}
+            {{ 'users.invalid_phone_number' | translate }}
+            {{ phone.errors?.pattern | json }}
           </mat-error>
         </mat-form-field>
       </div>
@@ -118,10 +168,14 @@
     <div class="col-md-6">
       <div class="form-group">
         <mat-form-field>
-          <input [formControl]="mobile" matInput
-            placeholder="{{'users.mobile' | translate}}" type="text">
+          <input
+            [formControl]="mobile"
+            matInput
+            placeholder="{{ 'users.mobile' | translate }}"
+            type="text"
+          />
           <mat-error *ngIf="mobile.errors?.invalidPhone">
-            {{"users.invalid_phone_number" | translate}}
+            {{ 'users.invalid_phone_number' | translate }}
           </mat-error>
         </mat-form-field>
       </div>
@@ -129,22 +183,30 @@
     <div *ngIf="isAdmin" class="col-md-6">
       <div class="form-group">
         <mat-form-field>
-          <input [formControl]="plateID" matInput
-            placeholder="{{'users.plate_id' | translate}}" type="text">
+          <input
+            [formControl]="plateID"
+            matInput
+            placeholder="{{ 'users.plate_id' | translate }}"
+            type="text"
+          />
           <mat-error *ngIf="plateID.errors?.pattern">
-            {{"users.invalid_plate_id" | translate}}
+            {{ 'users.invalid_plate_id' | translate }}
           </mat-error>
         </mat-form-field>
       </div>
     </div>
     <div *ngIf="isBillingComponentActive && freeAccess.enabled" class="col-md-12 text-left">
       <div class="form-group">
-        <mat-checkbox [formControl]="freeAccess" [checked]="freeAccess">{{"users.allow_free_access" | translate}}</mat-checkbox>
+        <mat-checkbox [formControl]="freeAccess" [checked]="freeAccess">{{
+          'users.allow_free_access' | translate
+        }}</mat-checkbox>
       </div>
     </div>
     <div *ngIf="technical.enabled" class="col-md-12 text-left">
       <div class="form-group">
-        <mat-checkbox [formControl]="technical" [checked]="technical">{{"users.technical" | translate}}</mat-checkbox>
+        <mat-checkbox [formControl]="technical" [checked]="technical">{{
+          'users.technical' | translate
+        }}</mat-checkbox>
       </div>
     </div>
   </div>

@@ -21,8 +21,7 @@ export class SettingsSacComponent implements OnInit, OnChanges {
   public timezone!: AbstractControl;
   public timezoneList: any = [];
 
-  public constructor(
-    public analyticsLinksTableDataSource: AnalyticsLinksTableDataSource) {
+  public constructor(public analyticsLinksTableDataSource: AnalyticsLinksTableDataSource) {
     // Initialize timezone list from moment-timezone
     this.timezoneList = (moment as any).tz.names();
   }
@@ -30,12 +29,8 @@ export class SettingsSacComponent implements OnInit, OnChanges {
   public ngOnInit(): void {
     // Add control
     this.sac = new FormGroup({
-      mainUrl: new FormControl('',
-        Validators.pattern(Constants.URL_PATTERN),
-      ),
-      timezone: new FormControl('',
-        Validators.required,
-      ),
+      mainUrl: new FormControl('', Validators.pattern(Constants.URL_PATTERN)),
+      timezone: new FormControl('', Validators.required),
     });
     this.formGroup.addControl('sac', this.sac);
     // Keep
@@ -56,14 +51,16 @@ export class SettingsSacComponent implements OnInit, OnChanges {
   public updateFormData() {
     if (this.mainUrl) {
       this.mainUrl.setValue(this.analyticsSettings.sac.mainUrl);
-      this.analyticsLinksTableDataSource.setLinks(this.analyticsSettings.links ? this.analyticsSettings.links : []);
+      this.analyticsLinksTableDataSource.setLinks(
+        this.analyticsSettings.links ? this.analyticsSettings.links : []
+      );
       this.analyticsLinksTableDataSource.loadData().subscribe();
       if (this.analyticsSettings.sac.timezone && this.analyticsSettings.sac.timezone.length > 0) {
         this.timezone.setValue(this.analyticsSettings.sac.timezone);
       }
       this.formGroup.markAsPristine();
       // Read only
-      if(!this.authorizations.canUpdate) {
+      if (!this.authorizations.canUpdate) {
         // Async call for letting the sub form groups to init
         setTimeout(() => this.formGroup.disable(), 0);
       }

@@ -10,6 +10,5 @@ import { CompaniesListTableDataSource } from './companies-list-table-data-source
 })
 export class CompaniesListComponent {
   // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    public companiesListTableDataSource: CompaniesListTableDataSource) {}
+  public constructor(public companiesListTableDataSource: CompaniesListTableDataSource) {}
 }

@@ -8,8 +8,12 @@ import { TableActionDef } from '../../../../types/Table';
 import { TableViewAction } from '../table-view-action';
 
 export interface TableViewAssetActionDef extends TableActionDef {
-  action: (assetDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<Asset, AssetsAuthorizations>, refresh?: () => Observable<void>) => void;
+  action: (
+    assetDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<Asset, AssetsAuthorizations>,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableViewAssetAction extends TableViewAction {
@@ -21,8 +25,12 @@ export class TableViewAssetAction extends TableViewAction {
     };
   }
 
-  private viewAsset(assetDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<Asset, AssetsAuthorizations>, refresh?: () => Observable<void>) {
+  private viewAsset(
+    assetDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<Asset, AssetsAuthorizations>,
+    refresh?: () => Observable<void>
+  ) {
     super.view(assetDialogComponent, dialog, dialogParams, refresh);
   }
 }

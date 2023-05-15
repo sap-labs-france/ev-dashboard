@@ -57,7 +57,8 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
     private dialogService: DialogService,
     private router: Router,
     private translateService: TranslateService,
-    private configService: ConfigService) {
+    private configService: ConfigService
+  ) {
     this.maxSize = this.configService.getSiteArea().maxPictureKb;
   }
 
@@ -65,22 +66,21 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
     // Init the form
     this.formGroup.addControl('issuer', new UntypedFormControl(true));
     this.formGroup.addControl('id', new UntypedFormControl(''));
-    this.formGroup.addControl('name', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-        Validators.maxLength(255),
-      ])
-    ));
-    this.formGroup.addControl('site', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-      ])
-    ));
-    this.formGroup.addControl('siteID', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-      ])
-    ));
+    this.formGroup.addControl(
+      'name',
+      new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(255)])
+      )
+    );
+    this.formGroup.addControl(
+      'site',
+      new UntypedFormControl('', Validators.compose([Validators.required]))
+    );
+    this.formGroup.addControl(
+      'siteID',
+      new UntypedFormControl('', Validators.compose([Validators.required]))
+    );
     this.formGroup.addControl('parentSiteArea', new UntypedFormControl(null));
     this.formGroup.addControl('parentSiteAreaID', new UntypedFormControl(null));
     this.formGroup.addControl('accessControl', new UntypedFormControl(true));
@@ -144,10 +144,15 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
                 this.image = Constants.NO_IMAGE;
                 break;
               default:
-                Utils.handleHttpError(error, this.router, this.messageService,
-                  this.centralServerService, 'general.unexpected_error_backend');
+                Utils.handleHttpError(
+                  error,
+                  this.router,
+                  this.messageService,
+                  this.centralServerService,
+                  'general.unexpected_error_backend'
+                );
             }
-          }
+          },
         });
       }
     }
@@ -164,22 +169,25 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
       staticFilter: {
         Issuer: true,
         SiteAdmin: true,
-      }
+      },
     };
     // Open
-    this.dialog.open(SitesDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
-      if (!Utils.isEmptyArray(result) && result[0].objectRef) {
-        const site: Site = (result[0].objectRef) as Site;
-        if (this.siteID.value !== site.id) {
-          this.site.setValue(site.name);
-          this.siteID.setValue(site.id);
-          this.siteChanged.emit(site);
-          this.parentSiteArea.setValue(null);
-          this.parentSiteAreaID.setValue(null);
-          this.formGroup.markAsDirty();
+    this.dialog
+      .open(SitesDialogComponent, dialogConfig)
+      .afterClosed()
+      .subscribe((result) => {
+        if (!Utils.isEmptyArray(result) && result[0].objectRef) {
+          const site: Site = result[0].objectRef as Site;
+          if (this.siteID.value !== site.id) {
+            this.site.setValue(site.name);
+            this.siteID.setValue(site.id);
+            this.siteChanged.emit(site);
+            this.parentSiteArea.setValue(null);
+            this.parentSiteAreaID.setValue(null);
+            this.formGroup.markAsDirty();
+          }
         }
-      }
-    });
+      });
   }
 
   public assignParentSiteArea() {
@@ -194,27 +202,33 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
       staticFilter: {
         Issuer: true,
         SiteID: this.siteID.value,
-        ExcludeSiteAreaID: this.id?.value
-      }
+        ExcludeSiteAreaID: this.id?.value,
+      },
     };
     // Open
-    this.dialog.open(SiteAreasDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
-      if (!Utils.isEmptyArray(result) && result[0].objectRef) {
-        const parentSiteArea: SiteArea = (result[0].objectRef) as SiteArea;
-        if (this.parentSiteAreaID.value !== parentSiteArea.id) {
-          this.parentSiteArea.setValue(parentSiteArea.name);
-          this.parentSiteAreaID.setValue(parentSiteArea.id);
-          this.site.setValue(parentSiteArea.site.name);
-          this.siteID.setValue(parentSiteArea.site.id);
-          this.formGroup.markAsDirty();
+    this.dialog
+      .open(SiteAreasDialogComponent, dialogConfig)
+      .afterClosed()
+      .subscribe((result) => {
+        if (!Utils.isEmptyArray(result) && result[0].objectRef) {
+          const parentSiteArea: SiteArea = result[0].objectRef as SiteArea;
+          if (this.parentSiteAreaID.value !== parentSiteArea.id) {
+            this.parentSiteArea.setValue(parentSiteArea.name);
+            this.parentSiteAreaID.setValue(parentSiteArea.id);
+            this.site.setValue(parentSiteArea.site.name);
+            this.siteID.setValue(parentSiteArea.site.id);
+            this.formGroup.markAsDirty();
+          }
         }
-      }
-    });
+      });
   }
 
   public updateSiteAreaCoordinates(siteArea: SiteArea) {
-    if (siteArea.address && siteArea.address.coordinates &&
-      !(siteArea.address.coordinates[0] || siteArea.address.coordinates[1])) {
+    if (
+      siteArea.address &&
+      siteArea.address.coordinates &&
+      !(siteArea.address.coordinates[0] || siteArea.address.coordinates[1])
+    ) {
       delete siteArea.address.coordinates;
     }
   }
@@ -236,8 +250,10 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
   public onImageChanged(event: any) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-      if (file.size > (this.maxSize * 1024)) {
-        this.messageService.showErrorMessage('site_areas.image_size_error', { maxPictureKb: this.maxSize });
+      if (file.size > this.maxSize * 1024) {
+        this.messageService.showErrorMessage('site_areas.image_size_error', {
+          maxPictureKb: this.maxSize,
+        });
       } else {
         const reader = new FileReader();
         reader.onload = () => {
@@ -262,35 +278,51 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
 
   public generateRegistrationToken() {
     if (this.siteArea) {
-      this.dialogService.createAndShowYesNoDialog(
-        this.translateService.instant('chargers.connections.registration_token_creation_title'),
-        this.translateService.instant('chargers.connections.registration_token_creation_confirm'),
-      ).subscribe((result) => {
-        if (result === ButtonAction.YES) {
-          this.spinnerService.show();
-          this.centralServerService.createRegistrationToken({
-            siteAreaID: this.siteArea.id,
-            description: this.translateService.instant(
-              'chargers.connections.registration_token_site_area_name', { siteAreaName: this.siteArea.name }),
-          }).subscribe({
-            next: (token) => {
-              this.spinnerService.hide();
-              if (token) {
-                this.loadRegistrationToken();
-                this.messageService.showSuccessMessage('chargers.connections.registration_token_creation_success');
-              } else {
-                Utils.handleError(null,
-                  this.messageService, 'chargers.connections.registration_token_creation_error');
-              }
-            },
-            error: (error) => {
-              this.spinnerService.hide();
-              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-                'chargers.connections.registration_token_creation_error');
-            }
-          });
-        }
-      });
+      this.dialogService
+        .createAndShowYesNoDialog(
+          this.translateService.instant('chargers.connections.registration_token_creation_title'),
+          this.translateService.instant('chargers.connections.registration_token_creation_confirm')
+        )
+        .subscribe((result) => {
+          if (result === ButtonAction.YES) {
+            this.spinnerService.show();
+            this.centralServerService
+              .createRegistrationToken({
+                siteAreaID: this.siteArea.id,
+                description: this.translateService.instant(
+                  'chargers.connections.registration_token_site_area_name',
+                  { siteAreaName: this.siteArea.name }
+                ),
+              })
+              .subscribe({
+                next: (token) => {
+                  this.spinnerService.hide();
+                  if (token) {
+                    this.loadRegistrationToken();
+                    this.messageService.showSuccessMessage(
+                      'chargers.connections.registration_token_creation_success'
+                    );
+                  } else {
+                    Utils.handleError(
+                      null,
+                      this.messageService,
+                      'chargers.connections.registration_token_creation_error'
+                    );
+                  }
+                },
+                error: (error) => {
+                  this.spinnerService.hide();
+                  Utils.handleHttpError(
+                    error,
+                    this.router,
+                    this.messageService,
+                    this.centralServerService,
+                    'chargers.connections.registration_token_creation_error'
+                  );
+                },
+              });
+          }
+        });
     }
   }
 
@@ -301,23 +333,27 @@ export class SiteAreaMainComponent implements OnInit, OnChanges {
 
   private loadRegistrationToken() {
     if (this.siteArea) {
-      this.centralServerService.getRegistrationTokens(
-        { SiteAreaID: this.siteArea.id }).subscribe(((dataResult) => {
-        if (dataResult && dataResult.result) {
-          for (const registrationToken of dataResult.result) {
-            if (this.isRegistrationTokenValid(registrationToken)) {
-              this.registrationToken = registrationToken;
-              break;
+      this.centralServerService
+        .getRegistrationTokens({ SiteAreaID: this.siteArea.id })
+        .subscribe((dataResult) => {
+          if (dataResult && dataResult.result) {
+            for (const registrationToken of dataResult.result) {
+              if (this.isRegistrationTokenValid(registrationToken)) {
+                this.registrationToken = registrationToken;
+                break;
+              }
             }
           }
-        }
-      }));
+        });
     }
   }
 
   private isRegistrationTokenValid(registrationToken: RegistrationToken): boolean {
     const now = moment();
-    return registrationToken.expirationDate && now.isBefore(registrationToken.expirationDate)
-      && (!registrationToken.revocationDate || now.isBefore(registrationToken.revocationDate));
+    return (
+      registrationToken.expirationDate &&
+      now.isBefore(registrationToken.expirationDate) &&
+      (!registrationToken.revocationDate || now.isBefore(registrationToken.revocationDate))
+    );
   }
 }

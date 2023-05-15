@@ -6,7 +6,10 @@ import { Site } from './Site';
 import { TableData } from './Table';
 import { SmartChargingSessionParameters } from './Transaction';
 
-export interface SiteArea extends TableData, SiteAreaAuthorizationActions, SmartChargingSessionParametersActive {
+export interface SiteArea
+  extends TableData,
+  SiteAreaAuthorizationActions,
+  SmartChargingSessionParametersActive {
   id: string;
   name: string;
   image: string;
@@ -28,7 +31,6 @@ export interface SiteArea extends TableData, SiteAreaAuthorizationActions, Smart
 export interface SmartChargingSessionParametersActive {
   smartChargingSessionParametersActive?: boolean;
 }
-
 
 export enum SiteAreaValueTypes {
   ASSET_CONSUMPTIONS = 'AssetConsumptions',

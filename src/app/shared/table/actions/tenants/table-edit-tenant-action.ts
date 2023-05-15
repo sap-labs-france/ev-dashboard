@@ -8,8 +8,12 @@ import { Tenant, TenantButtonAction } from '../../../../types/Tenant';
 import { TableEditAction } from '../table-edit-action';
 
 export interface TableEditTenantActionDef extends TableActionDef {
-  action: (tenantDialogComponent: ComponentType<unknown>, dialog: MatDialog, dialogParams: DialogParams<Tenant>,
-    refresh?: () => Observable<void>) => void;
+  action: (
+    tenantDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParams<Tenant>,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableEditTenantAction extends TableEditAction {
@@ -21,8 +25,12 @@ export class TableEditTenantAction extends TableEditAction {
     };
   }
 
-  private editTenant(tenantDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParams<Tenant>, refresh?: () => Observable<void>) {
+  private editTenant(
+    tenantDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParams<Tenant>,
+    refresh?: () => Observable<void>
+  ) {
     super.edit(tenantDialogComponent, dialog, dialogParams, refresh);
   }
 }

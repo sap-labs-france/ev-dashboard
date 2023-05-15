@@ -19,8 +19,18 @@ export class TableUploadAction implements TableAction {
     tooltip: 'general.tooltips.upload',
   };
 
-  public constructor(id?: ButtonAction | ChargingStationButtonAction | UserButtonAction | TransactionButtonAction | SiteButtonAction | OCPIButtonAction | OicpButtonAction,
-    name?: string, tooltip?: string) {
+  public constructor(
+    id?:
+    | ButtonAction
+    | ChargingStationButtonAction
+    | UserButtonAction
+    | TransactionButtonAction
+    | SiteButtonAction
+    | OCPIButtonAction
+    | OicpButtonAction,
+    name?: string,
+    tooltip?: string
+  ) {
     if (id) {
       this.action.id = id;
     }

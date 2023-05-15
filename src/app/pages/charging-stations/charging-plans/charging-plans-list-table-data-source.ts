@@ -13,7 +13,10 @@ import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { WindowService } from '../../../services/window.service';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
-import { TableChargingStationsSmartChargingAction, TableChargingStationsSmartChargingActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-smart-charging-action';
+import {
+  TableChargingStationsSmartChargingAction,
+  TableChargingStationsSmartChargingActionDef,
+} from '../../../shared/table/actions/charging-stations/table-charging-stations-smart-charging-action';
 import { TableNavigateToSiteAreaAction } from '../../../shared/table/actions/charging-stations/table-navigate-to-site-area-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
@@ -49,7 +52,9 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     private windowService: WindowService
   ) {
     super(spinnerService, translateService);
-    this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
+    this.isOrganizationComponentActive = this.componentService.isActive(
+      TenantComponents.ORGANIZATION
+    );
     if (this.isOrganizationComponentActive) {
       this.setStaticFilters([{ WithChargingStation: 'true' }, { WithSiteArea: 'true' }]);
     } else {
@@ -63,9 +68,13 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     // Charging Station
     const chargingStationID = this.windowService.getUrlParameterValue('ChargingStationID');
     if (chargingStationID) {
-      const chargingStationTableFilter = this.tableFiltersDef.find(filter => filter.id === 'charger');
+      const chargingStationTableFilter = this.tableFiltersDef.find(
+        (filter) => filter.id === 'charger'
+      );
       if (chargingStationTableFilter) {
-        chargingStationTableFilter.currentValue = [{ key: chargingStationID, value: chargingStationID }];
+        chargingStationTableFilter.currentValue = [
+          { key: chargingStationID, value: chargingStationID },
+        ];
         this.filterChanged(chargingStationTableFilter);
       }
     }
@@ -77,21 +86,34 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
 
   public loadDataImpl(): Observable<ChargingProfileDataResult> {
     return new Observable((observer) => {
-      this.centralServerService.getChargingProfiles(this.buildFilterValues(), this.getPaging(), this.getSorting())
-        .subscribe((chargingProfiles) => {
-          // Build auth object
-          this.chargingProfilesAuthorizations = {
-            canListChargingStations: Utils.convertToBoolean(chargingProfiles.canListChargingStations),
-            metadata: chargingProfiles.metadata
-          };
-          // Update filters visibility
-          this.chargingStationTableFilter.visible = this.chargingProfilesAuthorizations.canListChargingStations;
-          observer.next(chargingProfiles);
-          observer.complete();
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          observer.error(error);
-        });
+      this.centralServerService
+        .getChargingProfiles(this.buildFilterValues(), this.getPaging(), this.getSorting())
+        .subscribe(
+          (chargingProfiles) => {
+            // Build auth object
+            this.chargingProfilesAuthorizations = {
+              canListChargingStations: Utils.convertToBoolean(
+                chargingProfiles.canListChargingStations
+              ),
+              metadata: chargingProfiles.metadata,
+            };
+            // Update filters visibility
+            this.chargingStationTableFilter.visible =
+              this.chargingProfilesAuthorizations.canListChargingStations;
+            observer.next(chargingProfiles);
+            observer.complete();
+          },
+          (error) => {
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.error_backend'
+            );
+            observer.error(error);
+          }
+        );
     });
   }
 
@@ -135,14 +157,17 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
         id: 'chargingStation.siteArea.name',
         name: 'chargers.smart_charging.charging_plans.site_area',
         sortable: false,
-        visible: this.isOrganizationComponentActive
+        visible: this.isOrganizationComponentActive,
       },
       {
         id: 'chargingStation.siteArea.maximumPower',
         name: 'chargers.smart_charging.charging_plans.site_area_limit',
         sortable: false,
-        formatter: (maximumPower: number) => maximumPower > 0 ? this.appUnitPipe.transform(maximumPower, 'W', 'kW', true, 0, 0, 0) : '',
-        visible: this.isOrganizationComponentActive
+        formatter: (maximumPower: number) =>
+          maximumPower > 0
+            ? this.appUnitPipe.transform(maximumPower, 'W', 'kW', true, 0, 0, 0)
+            : '',
+        visible: this.isOrganizationComponentActive,
       },
     ];
   }
@@ -164,19 +189,27 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
       case ChargingStationButtonAction.SMART_CHARGING:
         if (actionDef.action) {
           (actionDef as TableChargingStationsSmartChargingActionDef).action(
-            ChargingStationLimitationDialogComponent, this.dialogService, this.translateService, this.dialog, {
+            ChargingStationLimitationDialogComponent,
+            this.dialogService,
+            this.translateService,
+            this.dialog,
+            {
               dialogData: {
                 id: chargingProfile.chargingStationID,
                 canUpdate: chargingProfile.canUpdate,
-                ocppVersion: chargingProfile.chargingStation.ocppVersion
-              }, authorizations: this.chargingProfilesAuthorizations
+                ocppVersion: chargingProfile.chargingStation.ocppVersion,
+              },
+              authorizations: this.chargingProfilesAuthorizations,
             },
             this.refreshData.bind(this)
           );
         }
         break;
       case ChargingStationButtonAction.NAVIGATE_TO_SITE_AREA:
-        this.navigateToSiteAreaAction.action('organization#site-areas?SiteAreaID=' + chargingProfile.chargingStation.siteArea.id, this.windowService);
+        this.navigateToSiteAreaAction.action(
+          'organization#site-areas?SiteAreaID=' + chargingProfile.chargingStation.siteArea.id,
+          this.windowService
+        );
         break;
     }
   }
@@ -185,9 +218,7 @@ export class ChargingPlansListTableDataSource extends TableDataSource<ChargingPr
     const issuerFilter = new IssuerFilter().getFilterDef();
     this.chargingStationTableFilter = new ChargingStationTableFilter([issuerFilter]).getFilterDef();
     this.chargingStationTableFilter.visible = false;
-    return [
-      this.chargingStationTableFilter
-    ];
+    return [this.chargingStationTableFilter];
   }
 
   public buildTableDynamicRowActions(chargingProfile: ChargingProfile): TableActionDef[] {

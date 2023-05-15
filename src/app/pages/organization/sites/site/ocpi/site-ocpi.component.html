@@ -2,18 +2,25 @@
   <div class="row">
     <div class="col-12">
       <mat-label *ngIf="!public" class="mat-subheading-2 text-danger">
-        {{"sites.private_limitation" | translate}}
+        {{ 'sites.private_limitation' | translate }}
       </mat-label>
     </div>
   </div>
   <div class="row">
     <div class="col-5">
       <mat-form-field>
-        <input matInput type="text" placeholder="{{'ocpi.tariff_id' | translate}}"
-          [formControl]="tariffID" (input)="tariffIDChanged(tariffID)"/>
-        <mat-error *ngIf="tariffID?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+        <input
+          matInput
+          type="text"
+          placeholder="{{ 'ocpi.tariff_id' | translate }}"
+          [formControl]="tariffID"
+          (input)="tariffIDChanged(tariffID)"
+        />
+        <mat-error *ngIf="tariffID?.errors?.required">{{
+          'general.mandatory_field' | translate
+        }}</mat-error>
         <mat-error *ngIf="tariffID?.errors?.maxlength">
-          <div [translate]="'general.error_max_length'" [translateParams]="{length: 36}"></div>
+          <div [translate]="'general.error_max_length'" [translateParams]="{ length: 36 }"></div>
         </mat-error>
       </mat-form-field>
     </div>
@@ -21,11 +28,18 @@
   <div class="row">
     <div class="col-5">
       <mat-form-field>
-        <input matInput type="text" placeholder="{{'ocpi.owner_name' | translate}}"
-          [formControl]="ownerName" (input)="tariffIDChanged(tariffID)"/>
-        <mat-error *ngIf="ownerName?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+        <input
+          matInput
+          type="text"
+          placeholder="{{ 'ocpi.owner_name' | translate }}"
+          [formControl]="ownerName"
+          (input)="tariffIDChanged(tariffID)"
+        />
+        <mat-error *ngIf="ownerName?.errors?.required">{{
+          'general.mandatory_field' | translate
+        }}</mat-error>
         <mat-error *ngIf="ownerName?.errors?.maxlength">
-          <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div>
+          <div [translate]="'general.error_max_length'" [translateParams]="{ length: 100 }"></div>
         </mat-error>
       </mat-form-field>
     </div>

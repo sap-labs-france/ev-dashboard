@@ -1,10 +1,15 @@
 <div class="main-content vw-90 vh-90 oicp-endpoint-settings-dialog-size">
   <div class="card card-profile card-testimonial">
-    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info" [class]="dialogRef ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
+    <mat-tab-group
+      animationDuration="0ms"
+      disableRipple="true"
+      class="mat-tab-info"
+      [class]="dialogRef ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'"
+    >
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>call_split</mat-icon>
-          <span>{{name.value}}</span>
+          <span>{{ name.value }}</span>
         </ng-template>
         <div class="card-body">
           <div class="tab-content">
@@ -14,11 +19,22 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <mat-form-field>
-                      <input matInput appAutofocus placeholder="{{'oicpendpoints.name' | translate}}" type="text"
-                        [formControl]="name" required>
-                      <mat-error *ngIf="name.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      <input
+                        matInput
+                        appAutofocus
+                        placeholder="{{ 'oicpendpoints.name' | translate }}"
+                        type="text"
+                        [formControl]="name"
+                        required
+                      />
+                      <mat-error *ngIf="name.errors?.required">{{
+                        'general.mandatory_field' | translate
+                      }}</mat-error>
                       <mat-error *ngIf="name.errors?.maxlength">
-                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div>
+                        <div
+                          [translate]="'general.error_max_length'"
+                          [translateParams]="{ length: 100 }"
+                        ></div>
                       </mat-error>
                     </mat-form-field>
                   </div>
@@ -26,11 +42,17 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <mat-form-field>
-                      <mat-select [formControl]="role" placeholder="{{'oicpendpoints.role' | translate}}" required>
+                      <mat-select
+                        [formControl]="role"
+                        placeholder="{{ 'oicpendpoints.role' | translate }}"
+                        required
+                      >
                         <mat-option value="CPO">CPO</mat-option>
                         <mat-option value="EMSP">eMSP</mat-option>
                       </mat-select>
-                      <mat-error *ngIf="role.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      <mat-error *ngIf="role.errors?.required">{{
+                        'general.mandatory_field' | translate
+                      }}</mat-error>
                     </mat-form-field>
                   </div>
                 </div>
@@ -38,12 +60,21 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <mat-form-field>
-                      <mat-select [formControl]="baseUrl" placeholder="{{'oicpendpoints.base_url' | translate}}" required>
-                        <mat-option *ngFor="let oicpBaseurl of oicpBaseurls" [value]="oicpBaseurl.key">
-                          {{oicpBaseurl.key}}
+                      <mat-select
+                        [formControl]="baseUrl"
+                        placeholder="{{ 'oicpendpoints.base_url' | translate }}"
+                        required
+                      >
+                        <mat-option
+                          *ngFor="let oicpBaseurl of oicpBaseurls"
+                          [value]="oicpBaseurl.key"
+                        >
+                          {{ oicpBaseurl.key }}
                         </mat-option>
                       </mat-select>
-                      <mat-error *ngIf="baseUrl.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      <mat-error *ngIf="baseUrl.errors?.required">{{
+                        'general.mandatory_field' | translate
+                      }}</mat-error>
                       <mat-error *ngIf="baseUrl.errors?.pattern">
                         <div [translate]="'general.error_url_pattern'"></div>
                       </mat-error>
@@ -54,15 +85,26 @@
                 <div class="col-md-6">
                   <div class="form-group" *ngIf="!currentEndpoint?.id">
                     <mat-form-field>
-                      <input matInput placeholder="{{'oicpendpoints.country_code' | translate}}" type="text"
-                        [formControl]="countryCode">
-                      <mat-error *ngIf="countryCode.errors?.required">{{"general.mandatory_field" | translate}}
+                      <input
+                        matInput
+                        placeholder="{{ 'oicpendpoints.country_code' | translate }}"
+                        type="text"
+                        [formControl]="countryCode"
+                      />
+                      <mat-error *ngIf="countryCode.errors?.required"
+                        >{{ 'general.mandatory_field' | translate }}
                       </mat-error>
                       <mat-error *ngIf="countryCode.errors?.maxlength">
-                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
+                        <div
+                          [translate]="'general.error_max_length'"
+                          [translateParams]="{ length: 2 }"
+                        ></div>
                       </mat-error>
                       <mat-error *ngIf="countryCode.errors?.minlength">
-                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 2}"></div>
+                        <div
+                          [translate]="'general.error_max_length'"
+                          [translateParams]="{ length: 2 }"
+                        ></div>
                       </mat-error>
                     </mat-form-field>
                   </div>
@@ -70,14 +112,26 @@
                 <div class="col-md-6">
                   <div class="form-group" *ngIf="!currentEndpoint?.id">
                     <mat-form-field>
-                      <input matInput placeholder="{{'oicpendpoints.party_id' | translate}}" type="text"
-                        [formControl]="partyId">
-                      <mat-error *ngIf="partyId.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      <input
+                        matInput
+                        placeholder="{{ 'oicpendpoints.party_id' | translate }}"
+                        type="text"
+                        [formControl]="partyId"
+                      />
+                      <mat-error *ngIf="partyId.errors?.required">{{
+                        'general.mandatory_field' | translate
+                      }}</mat-error>
                       <mat-error *ngIf="partyId.errors?.maxlength">
-                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
+                        <div
+                          [translate]="'general.error_max_length'"
+                          [translateParams]="{ length: 3 }"
+                        ></div>
                       </mat-error>
                       <mat-error *ngIf="partyId.errors?.minlength">
-                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
+                        <div
+                          [translate]="'general.error_max_length'"
+                          [translateParams]="{ length: 3 }"
+                        ></div>
                       </mat-error>
                     </mat-form-field>
                   </div>
@@ -90,11 +144,15 @@
       </mat-tab>
     </mat-tab-group>
     <div [class]="dialogRef ? 'tabs-actions' : 'tabs-actions-embedded'">
-      <button mat-icon-button (click)="save(formGroup.value)" title="{{'general.save' | translate}}"
-          [disabled]="!formGroup.valid || !formGroup.dirty">
+      <button
+        mat-icon-button
+        (click)="save(formGroup.value)"
+        title="{{ 'general.save' | translate }}"
+        [disabled]="!formGroup.valid || !formGroup.dirty"
+      >
         <mat-icon>save</mat-icon>
       </button>
-      <button mat-icon-button (click)="close()" title="{{'general.close' | translate}}">
+      <button mat-icon-button (click)="close()" title="{{ 'general.close' | translate }}">
         <mat-icon>close</mat-icon>
       </button>
     </div>

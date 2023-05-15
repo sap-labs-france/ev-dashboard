@@ -3,21 +3,34 @@
   <div class="col-md-6">
     <div class="form-group">
       <mat-form-field>
-        <input appAutofocus matInput
-          placeholder="{{'settings.asset.connection.user' | translate}}"
-          type="text" [formControl]="user" required>
-        <mat-error *ngIf="user.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+        <input
+          appAutofocus
+          matInput
+          placeholder="{{ 'settings.asset.connection.user' | translate }}"
+          type="text"
+          [formControl]="user"
+          required
+        />
+        <mat-error *ngIf="user.errors?.required">{{
+          'general.mandatory_field' | translate
+        }}</mat-error>
       </mat-form-field>
     </div>
   </div>
   <!-- Password -->
   <div class="col-md-6">
     <div class="form-group">
-    <mat-form-field>
-        <input matInput
-          placeholder="{{'settings.asset.connection.password' | translate}}"
-          type="password" [formControl]="password" required>
-        <mat-error *ngIf="password.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="{{ 'settings.asset.connection.password' | translate }}"
+          type="password"
+          [formControl]="password"
+          required
+        />
+        <mat-error *ngIf="password.errors?.required">{{
+          'general.mandatory_field' | translate
+        }}</mat-error>
       </mat-form-field>
     </div>
   </div>

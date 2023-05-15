@@ -8,8 +8,8 @@ import { ChipType } from 'types/GlobalType';
   selector: 'app-account-status-formatter',
   template: `
     <mat-chip-list [selectable]="false">
-      <mat-chip [ngClass]="row.status | appFormatAccountStatus:'class'" [disabled]="true">
-        {{row.status | appFormatAccountStatus:'text' | translate}}
+      <mat-chip [ngClass]="row.status | appFormatAccountStatus : 'class'" [disabled]="true">
+        {{ row.status | appFormatAccountStatus : 'text' | translate }}
       </mat-chip>
     </mat-chip-list>
   `,

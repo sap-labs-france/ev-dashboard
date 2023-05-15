@@ -3,38 +3,46 @@
     <div class="card-icon">
       <mat-icon>info</mat-icon>
     </div>
-    <h3 class="card-title">{{'settings.information' | translate}}</h3>
+    <h3 class="card-title">{{ 'settings.information' | translate }}</h3>
   </div>
   <div class="card-body">
     <span [innerHtml]="'settings.pricing.full_description' | translate"></span>
-    <br><br>
-    {{'settings.activation_contact_msg' | translate}}
+    <br /><br />
+    {{ 'settings.activation_contact_msg' | translate }}
   </div>
 </div>
 <div *ngIf="isActive" class="d-flex flex-column h-100">
   <div class="mat-toolbar-row mat-toolbar-settings">
-    <button mat-raised-button color="warn" (click)="save(formGroup.value)" 
+    <button
+      mat-raised-button
+      color="warn"
+      (click)="save(formGroup.value)"
       [hidden]="!authorizations || !authorizations.canUpdate"
-      [disabled]="!formGroup.valid || !formGroup.dirty">
+      [disabled]="!formGroup.valid || !formGroup.dirty"
+    >
       <mat-icon>save</mat-icon>
-      <span>{{'general.save' | translate}}</span>
+      <span>{{ 'general.save' | translate }}</span>
     </button>
   </div>
   <form class="form h-100" [formGroup]="formGroup">
     <!-- Pricing Settings -->
-    <app-settings-simple-pricing *ngIf="isActive && showSimplePricing"
+    <app-settings-simple-pricing
+      *ngIf="isActive && showSimplePricing"
       [isCurrencyCodeReadonly]="isCurrencyCodeReadonly"
       [pricingSettings]="pricingSettings"
       [formGroup]="formGroup"
-      [authorizations]="authorizations">
+      [authorizations]="authorizations"
+    >
     </app-settings-simple-pricing>
-    <app-pricing-definitions *ngIf="isActive && showPricingDefinitions"
+    <app-pricing-definitions
+      *ngIf="isActive && showPricingDefinitions"
       [inDialog]="false"
       [currentPricingDefinitionID]="currentPricingDefinitionID"
       [currentEntityID]="currentEntityID"
       [currentEntityType]="currentEntityType"
       [currentEntityName]="currentEntityName"
-      [authorizations]="authorizations">
+      [authorizations]="authorizations"
+    >
     </app-pricing-definitions>
   </form>
 </div>

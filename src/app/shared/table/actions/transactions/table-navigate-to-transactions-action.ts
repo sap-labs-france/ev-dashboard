@@ -7,7 +7,7 @@ export class TableNavigateToTransactionsAction extends TableOpenURLAction {
       ...super.getActionDef(),
       id: TransactionButtonAction.NAVIGATE_TO_TRANSACTIONS,
       name: 'transactions.redirect',
-      tooltip: 'transactions.redirect'
+      tooltip: 'transactions.redirect',
     };
   }
 }

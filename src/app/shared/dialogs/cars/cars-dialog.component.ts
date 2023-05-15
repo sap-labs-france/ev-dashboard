@@ -10,14 +10,15 @@ import { CarsDialogTableDataSource } from './cars-dialog-table-data-source';
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
-  styleUrls: ['../dialog-table-data.component.scss']
+  styleUrls: ['../dialog-table-data.component.scss'],
 })
 export class CarsDialogComponent extends DialogTableDataComponent<Car> {
   public constructor(
     protected dialogRef: MatDialogRef<CarsDialogComponent>,
     private carsDialogTableDataSource: CarsDialogTableDataSource,
     public translateService: TranslateService,
-    @Inject(MAT_DIALOG_DATA) data: any) {
+    @Inject(MAT_DIALOG_DATA) data: any
+  ) {
     super(data, dialogRef, carsDialogTableDataSource);
     // Default title
     if (Utils.isEmptyString(this.title)) {
@@ -30,7 +31,11 @@ export class CarsDialogComponent extends DialogTableDataComponent<Car> {
     const items: KeyValue[] = [];
     if (!Utils.isEmptyArray(selectedRows)) {
       selectedRows.forEach((row) => {
-        items.push({ key: row.id, value: Utils.buildCarName(row, this.translateService), objectRef: row });
+        items.push({
+          key: row.id,
+          value: Utils.buildCarName(row, this.translateService),
+          objectRef: row,
+        });
       });
     }
     return items;

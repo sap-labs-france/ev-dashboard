@@ -8,8 +8,12 @@ import { TableActionDef } from '../../../../types/Table';
 import { User, UserButtonAction } from '../../../../types/User';
 
 export interface TableEditUserActionDef extends TableActionDef {
-  action: (userDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<User, UsersAuthorizations>, refresh?: () => Observable<void>) => void;
+  action: (
+    userDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<User, UsersAuthorizations>,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableEditUserAction extends TableEditAction {
@@ -21,8 +25,12 @@ export class TableEditUserAction extends TableEditAction {
     };
   }
 
-  private editUser(userDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<User, UsersAuthorizations>, refresh?: () => Observable<void>) {
+  private editUser(
+    userDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<User, UsersAuthorizations>,
+    refresh?: () => Observable<void>
+  ) {
     super.edit(userDialogComponent, dialog, dialogParams, refresh);
   }
 }

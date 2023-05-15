@@ -36,7 +36,7 @@ import { AssetConsumptionChartComponent } from './list/consumption-chart/asset-c
     TableModule,
     DialogsModule,
     RouterModule.forChild(AssetsRoutes),
-    ComponentModule
+    ComponentModule,
   ],
   declarations: [
     AssetsComponent,
@@ -50,11 +50,6 @@ import { AssetConsumptionChartComponent } from './list/consumption-chart/asset-c
     AssetConsumptionChartComponent,
     AssetConsumptionCellComponent,
   ],
-  providers: [
-    AssetsListTableDataSource,
-    AssetsInErrorTableDataSource
-  ]
+  providers: [AssetsListTableDataSource, AssetsInErrorTableDataSource],
 })
-
-export class AssetsModule {
-}
+export class AssetsModule {}

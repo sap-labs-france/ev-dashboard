@@ -1,10 +1,15 @@
 <div class="main-content flex-grow-1">
-  <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex"
-                 animationDuration="0ms" disableRipple="true" class="h-100 mat-tab-info">
+  <mat-tab-group
+    (selectedIndexChange)="updateRoute($event)"
+    [selectedIndex]="activeTabIndex"
+    animationDuration="0ms"
+    disableRipple="true"
+    class="h-100 mat-tab-info"
+  >
     <mat-tab *ngIf="canListUsers">
       <ng-template mat-tab-label>
         <mat-icon>people</mat-icon>
-        <span>{{'users.tabs.list' | translate}}</span>
+        <span>{{ 'users.tabs.list' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-users-list></app-users-list>
@@ -13,7 +18,7 @@
     <mat-tab *ngIf="canListUsersInError">
       <ng-template mat-tab-label>
         <mat-icon>warning</mat-icon>
-        <span>{{'users.tabs.in_error' | translate}}</span>
+        <span>{{ 'users.tabs.in_error' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-users-in-error></app-users-in-error>

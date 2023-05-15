@@ -1,56 +1,99 @@
 <div class="d-flex justify-content-around mb-3">
   <div class="d-flex flex-column align-items-center">
     <img [src]="loggedUserImage" class="rounded-circle icon avatar session-image mb-3" />
-    <div class="text-nowrap first-text">{{transaction.user | appUserName}}</div>
-    <div *ngIf="transaction.tag?.visualID" class="text-nowrap second-text">({{transaction.tag.visualID}})</div>
-    <div *ngIf="isStoppedByAnotherUser" class="text-nowrap third-text">{{"transactions.stopped_by" | translate}} {{transaction.stop.user | appUserName}}</div>
+    <div class="text-nowrap first-text">{{ transaction.user | appUserName }}</div>
+    <div *ngIf="transaction.tag?.visualID" class="text-nowrap second-text">
+      ({{ transaction.tag.visualID }})
+    </div>
+    <div *ngIf="isStoppedByAnotherUser" class="text-nowrap third-text">
+      {{ 'transactions.stopped_by' | translate }} {{ transaction.stop.user | appUserName }}
+    </div>
   </div>
   <div class="d-flex flex-column justify-content-around">
-    <div *ngIf="transaction.stop" class="d-flex flex-column mb-3 align-items-center " appTooltip
-      title="{{'transactions.dialog.session.tooltips.amount' | translate}}">
+    <div
+      *ngIf="transaction.stop"
+      class="d-flex flex-column mb-3 align-items-center"
+      appTooltip
+      title="{{ 'transactions.dialog.session.tooltips.amount' | translate }}"
+    >
       <mat-icon>money</mat-icon>
-      <div class="first-text">{{transaction.stop.priceUnit ? (transaction.stop.roundedPrice | appCurrency:transaction.stop.priceUnit) : '-'}}</div>
+      <div class="first-text">
+        {{
+          transaction.stop.priceUnit
+            ? (transaction.stop.roundedPrice | appCurrency : transaction.stop.priceUnit)
+            : '-'
+        }}
+      </div>
     </div>
-    <div *ngIf="!transaction.stop" class="d-flex flex-column mb-3 align-items-center" appTooltip
-      title="{{'transactions.dialog.session.tooltips.current_consumption' | translate}}">
+    <div
+      *ngIf="!transaction.stop"
+      class="d-flex flex-column mb-3 align-items-center"
+      appTooltip
+      title="{{ 'transactions.dialog.session.tooltips.current_consumption' | translate }}"
+    >
       <mat-icon>flash_on</mat-icon>
-      <div class="first-text">{{transaction.currentInstantWatts | appUnit:'W':'kW'}}</div>
+      <div class="first-text">{{ transaction.currentInstantWatts | appUnit : 'W' : 'kW' }}</div>
     </div>
-    <div class="d-flex flex-column align-items-center" appTooltip
-      title="{{'transactions.dialog.session.tooltips.start_date' | translate}}">
+    <div
+      class="d-flex flex-column align-items-center"
+      appTooltip
+      title="{{ 'transactions.dialog.session.tooltips.start_date' | translate }}"
+    >
       <mat-icon>timelapse</mat-icon>
-      <div class="first-text">{{transaction.timestamp | appDate}}</div>
-      <div *ngIf="transaction.stop" class="first-text"><small>({{transaction.stop.timestamp | appDate}})</small></div>
+      <div class="first-text">{{ transaction.timestamp | appDate }}</div>
+      <div *ngIf="transaction.stop" class="first-text">
+        <small>({{ transaction.stop.timestamp | appDate }})</small>
+      </div>
     </div>
   </div>
   <div class="d-flex flex-column justify-content-around">
-    <div class="d-flex flex-column mb-3 align-items-center" appTooltip
-      title="{{'transactions.dialog.session.tooltips.total_consumption' | translate}}">
+    <div
+      class="d-flex flex-column mb-3 align-items-center"
+      appTooltip
+      title="{{ 'transactions.dialog.session.tooltips.total_consumption' | translate }}"
+    >
       <mat-icon>ev_station</mat-icon>
-      <div class="first-text">{{totalConsumptionWh | appUnit:'Wh':'kWh'}}</div>
+      <div class="first-text">{{ totalConsumptionWh | appUnit : 'Wh' : 'kWh' }}</div>
     </div>
-    <div class="d-flex flex-column align-items-center" appTooltip
-      title="{{'transactions.dialog.session.tooltips.total_duration' | translate}}">
+    <div
+      class="d-flex flex-column align-items-center"
+      appTooltip
+      title="{{ 'transactions.dialog.session.tooltips.total_duration' | translate }}"
+    >
       <mat-icon>timer</mat-icon>
-      <div class="first-text">{{totalDurationSecs | appDuration}}</div>
+      <div class="first-text">{{ totalDurationSecs | appDuration }}</div>
     </div>
   </div>
   <div class="d-flex flex-column justify-content-around">
-    <div *ngIf="stateOfChargeIcon" class="d-flex flex-column mb-3 align-items-center" appTooltip
-      title="{{'transactions.dialog.session.tooltips.state_of_charge' | translate}}">
+    <div
+      *ngIf="stateOfChargeIcon"
+      class="d-flex flex-column mb-3 align-items-center"
+      appTooltip
+      title="{{ 'transactions.dialog.session.tooltips.state_of_charge' | translate }}"
+    >
       <mat-icon>battery_charging_full</mat-icon>
-      <div class="first-text">{{stateOfCharge | appBatteryPercentage: endStateOfCharge }}</div>
+      <div class="first-text">{{ stateOfCharge | appBatteryPercentage : endStateOfCharge }}</div>
     </div>
-    <div class="d-flex flex-column align-items-center" appTooltip
-      [ngClass]="transaction && (transaction.stop ? transaction.stop.inactivityStatus : transaction.currentInactivityStatus) | appColorByStatus"
-      title="{{'transactions.dialog.session.tooltips.inactivity' | translate}}">
-      <mat-icon >timer_off</mat-icon>
-      <div class="first-text">{{transaction | appInactivity}}</div>
+    <div
+      class="d-flex flex-column align-items-center"
+      appTooltip
+      [ngClass]="
+        transaction &&
+          (transaction.stop
+            ? transaction.stop.inactivityStatus
+            : transaction.currentInactivityStatus) | appColorByStatus
+      "
+      title="{{ 'transactions.dialog.session.tooltips.inactivity' | translate }}"
+    >
+      <mat-icon>timer_off</mat-icon>
+      <div class="first-text">{{ transaction | appInactivity }}</div>
     </div>
   </div>
   <div *ngIf="isCarComponentActive && canDisplayCar" class="d-flex flex-column align-items-center">
-    <img [src]="carImage" class="icon avatar session-image-car mb-3"/>
-    <div class="text-nowrap first-text">{{transaction?.carCatalog | appCarCatalogName}}</div>
-    <div *ngIf="transaction?.car?.licensePlate && canUpdateCar" class="text-nowrap second-text">({{transaction?.car?.licensePlate}})</div>
+    <img [src]="carImage" class="icon avatar session-image-car mb-3" />
+    <div class="text-nowrap first-text">{{ transaction?.carCatalog | appCarCatalogName }}</div>
+    <div *ngIf="transaction?.car?.licensePlate && canUpdateCar" class="text-nowrap second-text">
+      ({{ transaction?.car?.licensePlate }})
+    </div>
   </div>
 </div>

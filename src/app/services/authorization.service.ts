@@ -13,8 +13,8 @@ export class AuthorizationService {
 
   public constructor(
     private centralServerService: CentralServerService,
-    private componentService: ComponentService) {
-
+    private componentService: ComponentService
+  ) {
     this.centralServerService.getCurrentUserSubject().subscribe((user) => {
       this.loggedUser = user;
     });
@@ -234,12 +234,20 @@ export class AuthorizationService {
   }
 
   public canAccess(resource: string, action: string): boolean {
-    return !!this.loggedUser && !!this.loggedUser.scopes && this.loggedUser.scopes.includes(`${resource}:${action}`);
+    return (
+      !!this.loggedUser &&
+      !!this.loggedUser.scopes &&
+      this.loggedUser.scopes.includes(`${resource}:${action}`)
+    );
   }
 
   public canStopTransaction(siteArea: SiteArea, badgeID: string) {
     if (this.canAccess(Entity.CHARGING_STATION, Action.REMOTE_STOP_TRANSACTION)) {
-      if (!!this.loggedUser && !!this.loggedUser.tagIDs && this.loggedUser.tagIDs.includes(badgeID)) {
+      if (
+        !!this.loggedUser &&
+        !!this.loggedUser.tagIDs &&
+        this.loggedUser.tagIDs.includes(badgeID)
+      ) {
         return true;
       }
       if (this.componentService.isActive(TenantComponents.ORGANIZATION)) {
@@ -256,8 +264,14 @@ export class AuthorizationService {
         if (!siteArea) {
           return false;
         }
-        return !siteArea.accessControl || this.isSiteAdmin(siteArea.siteID) || this.isAdmin() ||
-          (!!this.loggedUser && !!this.loggedUser.sites && this.loggedUser.sites.includes(siteArea.siteID));
+        return (
+          !siteArea.accessControl ||
+          this.isSiteAdmin(siteArea.siteID) ||
+          this.isAdmin() ||
+          (!!this.loggedUser &&
+            !!this.loggedUser.sites &&
+            this.loggedUser.sites.includes(siteArea.siteID))
+        );
       }
       return true;
     }
@@ -270,8 +284,14 @@ export class AuthorizationService {
         if (!siteArea) {
           return false;
         }
-        return !siteArea.accessControl || this.isSiteAdmin(siteArea.siteID) || this.isAdmin() ||
-          (!!this.loggedUser && !!this.loggedUser.sites && this.loggedUser.sites.includes(siteArea.siteID));
+        return (
+          !siteArea.accessControl ||
+          this.isSiteAdmin(siteArea.siteID) ||
+          this.isAdmin() ||
+          (!!this.loggedUser &&
+            !!this.loggedUser.sites &&
+            this.loggedUser.sites.includes(siteArea.siteID))
+        );
       }
       return true;
     }
@@ -280,11 +300,19 @@ export class AuthorizationService {
 
   public canReadTransaction(siteArea: SiteArea, badgeID: string) {
     if (this.canAccess(Entity.TRANSACTION, Action.READ)) {
-      if (!!this.loggedUser && !!this.loggedUser.tagIDs && this.loggedUser.tagIDs.includes(badgeID)) {
+      if (
+        !!this.loggedUser &&
+        !!this.loggedUser.tagIDs &&
+        this.loggedUser.tagIDs.includes(badgeID)
+      ) {
         return true;
       }
       if (this.componentService.isActive(TenantComponents.ORGANIZATION) && siteArea) {
-        return this.isAdmin() || this.isSiteAdmin(siteArea.siteID) || (this.isDemo() && this.isSiteUser(siteArea.siteID));
+        return (
+          this.isAdmin() ||
+          this.isSiteAdmin(siteArea.siteID) ||
+          (this.isDemo() && this.isSiteUser(siteArea.siteID))
+        );
       }
       return this.isAdmin() || this.isDemo();
     }
@@ -326,23 +354,32 @@ export class AuthorizationService {
 
   // TODO: Use canRead when we have the list of payment method
   public canReadPaymentMethod() {
-    return (this.canAccess(Entity.PAYMENT_METHOD, Action.READ));
+    return this.canAccess(Entity.PAYMENT_METHOD, Action.READ);
   }
 
   public canCreatePricingDefinition() {
-    return (this.canAccess(Entity.PRICING_DEFINITION, Action.CREATE));
+    return this.canAccess(Entity.PRICING_DEFINITION, Action.CREATE);
   }
 
   public canDeletePricingDefinition() {
-    return (this.canAccess(Entity.PRICING_DEFINITION, Action.DELETE));
+    return this.canAccess(Entity.PRICING_DEFINITION, Action.DELETE);
   }
 
   public isSiteAdmin(siteID: string): boolean {
-    return this.isAdmin() || (!!this.loggedUser && !!this.loggedUser.sitesAdmin && this.loggedUser.sitesAdmin.includes(siteID));
+    return (
+      this.isAdmin() ||
+      (!!this.loggedUser &&
+        !!this.loggedUser.sitesAdmin &&
+        this.loggedUser.sitesAdmin.includes(siteID))
+    );
   }
 
   public isSiteOwner(siteID: string): boolean {
-    return !!this.loggedUser && !!this.loggedUser.sitesOwner && this.loggedUser.sitesOwner.includes(siteID);
+    return (
+      !!this.loggedUser &&
+      !!this.loggedUser.sitesOwner &&
+      this.loggedUser.sitesOwner.includes(siteID)
+    );
   }
 
   public isSiteUser(siteID: string): boolean {
@@ -364,7 +401,9 @@ export class AuthorizationService {
 
   public hasSitesAdminRights(): boolean {
     if (this.canAccess(Entity.SITE, Action.UPDATE)) {
-      return !!this.loggedUser && !!this.loggedUser.sitesAdmin && this.loggedUser.sitesAdmin.length > 0;
+      return (
+        !!this.loggedUser && !!this.loggedUser.sitesAdmin && this.loggedUser.sitesAdmin.length > 0
+      );
     }
     return false;
   }
@@ -392,5 +431,9 @@ export class AuthorizationService {
       return this.loggedUser.role === UserRole.DEMO;
     }
     return false;
+  }
+
+  public canListReservations(): boolean {
+    return this.canAccess(Entity.RESERVATION, Action.LIST);
   }
 }

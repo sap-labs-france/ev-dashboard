@@ -8,8 +8,12 @@ import { TableActionDef } from '../../../../types/Table';
 import { TableEditAction } from '../table-edit-action';
 
 export interface TableEditSiteAreaActionDef extends TableActionDef {
-  action: (siteAreaDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<SiteArea, SiteAreasAuthorizations>, refresh?: () => Observable<void>) => void;
+  action: (
+    siteAreaDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<SiteArea, SiteAreasAuthorizations>,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableEditSiteAreaAction extends TableEditAction {
@@ -21,8 +25,12 @@ export class TableEditSiteAreaAction extends TableEditAction {
     };
   }
 
-  private editSiteArea(siteAreaDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<SiteArea, SiteAreasAuthorizations>, refresh?: () => Observable<void>) {
+  private editSiteArea(
+    siteAreaDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<SiteArea, SiteAreasAuthorizations>,
+    refresh?: () => Observable<void>
+  ) {
     super.edit(siteAreaDialogComponent, dialog, dialogParams, refresh);
   }
 }

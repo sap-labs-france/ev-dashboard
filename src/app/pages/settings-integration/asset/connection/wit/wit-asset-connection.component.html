@@ -3,11 +3,19 @@
   <div class="col-md-6">
     <div class="form-group">
       <mat-form-field>
-        <input matInput
-          placeholder="{{'settings.asset.connection.authentication_url' | translate}}"
-          type="url" [formControl]="authenticationUrl" required>
-        <mat-error *ngIf="authenticationUrl.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
-        <mat-error *ngIf="authenticationUrl.errors?.pattern">{{"general.error_url_pattern" | translate}}</mat-error>
+        <input
+          matInput
+          placeholder="{{ 'settings.asset.connection.authentication_url' | translate }}"
+          type="url"
+          [formControl]="authenticationUrl"
+          required
+        />
+        <mat-error *ngIf="authenticationUrl.errors?.required">{{
+          'general.mandatory_field' | translate
+        }}</mat-error>
+        <mat-error *ngIf="authenticationUrl.errors?.pattern">{{
+          'general.error_url_pattern' | translate
+        }}</mat-error>
       </mat-form-field>
     </div>
   </div>
@@ -17,9 +25,16 @@
   <div class="col-md-6">
     <div class="form-group">
       <mat-form-field>
-        <input matInput placeholder="{{'settings.asset.connection.client_id' | translate}}" type="text"
-          [formControl]="clientId" required>
-        <mat-error *ngIf="clientId.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+        <input
+          matInput
+          placeholder="{{ 'settings.asset.connection.client_id' | translate }}"
+          type="text"
+          [formControl]="clientId"
+          required
+        />
+        <mat-error *ngIf="clientId.errors?.required">{{
+          'general.mandatory_field' | translate
+        }}</mat-error>
       </mat-form-field>
     </div>
   </div>
@@ -27,9 +42,16 @@
   <div class="col-md-6">
     <div class="form-group">
       <mat-form-field>
-        <input matInput placeholder="{{'settings.asset.connection.client_secret' | translate}}"
-          type="password" [formControl]="clientSecret" required>
-        <mat-error *ngIf="clientSecret.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+        <input
+          matInput
+          placeholder="{{ 'settings.asset.connection.client_secret' | translate }}"
+          type="password"
+          [formControl]="clientSecret"
+          required
+        />
+        <mat-error *ngIf="clientSecret.errors?.required">{{
+          'general.mandatory_field' | translate
+        }}</mat-error>
       </mat-form-field>
     </div>
   </div>
@@ -39,9 +61,16 @@
   <div class="col-md-6">
     <div class="form-group">
       <mat-form-field>
-        <input matInput placeholder="{{'settings.asset.connection.user' | translate}}" type="text" [formControl]="user"
-          required>
-        <mat-error *ngIf="user?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+        <input
+          matInput
+          placeholder="{{ 'settings.asset.connection.user' | translate }}"
+          type="text"
+          [formControl]="user"
+          required
+        />
+        <mat-error *ngIf="user?.errors?.required">{{
+          'general.mandatory_field' | translate
+        }}</mat-error>
       </mat-form-field>
     </div>
   </div>
@@ -49,9 +78,16 @@
   <div class="col-md-6">
     <div class="form-group">
       <mat-form-field>
-        <input matInput placeholder="{{'settings.asset.connection.password' | translate}}" type="password"
-          [formControl]="password" required>
-        <mat-error *ngIf="password?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+        <input
+          matInput
+          placeholder="{{ 'settings.asset.connection.password' | translate }}"
+          type="password"
+          [formControl]="password"
+          required
+        />
+        <mat-error *ngIf="password?.errors?.required">{{
+          'general.mandatory_field' | translate
+        }}</mat-error>
       </mat-form-field>
     </div>
   </div>

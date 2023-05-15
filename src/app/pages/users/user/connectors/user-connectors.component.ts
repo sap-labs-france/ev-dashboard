@@ -14,9 +14,7 @@ export class UserConnectorsComponent implements OnChanges {
   public integrationConnections!: IntegrationConnection[];
 
   // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    private centralServerService: CentralServerService) {
-  }
+  public constructor(private centralServerService: CentralServerService) {}
 
   public ngOnChanges(): void {
     this.loadConnections();

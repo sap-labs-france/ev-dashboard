@@ -8,7 +8,7 @@ import { Utils } from '../../../utils/Utils';
 
 @Component({
   templateUrl: 'geomap-dialog.component.html',
-  styleUrls: ['./geomap-dialog.scss']
+  styleUrls: ['./geomap-dialog.scss'],
 })
 export class GeoMapDialogComponent {
   @ViewChild(GoogleMap, { static: false }) public map!: GoogleMap;
@@ -19,7 +19,7 @@ export class GeoMapDialogComponent {
   public zoom = 4;
   public icon: google.maps.Icon = {
     url: '../../../../assets/img/map-pin-18x30.svg',
-    labelOrigin: { x: 11, y: -10 } as google.maps.Point
+    labelOrigin: { x: 11, y: -10 } as google.maps.Point,
   };
   public displayOnly = false;
   public dialogTitle = '';
@@ -37,14 +37,14 @@ export class GeoMapDialogComponent {
       }
       this.center = {
         lat: data.latitude ? +data.latitude : 51.476852,
-        lng: data.longitude ? +data.longitude : -0.000500
+        lng: data.longitude ? +data.longitude : -0.0005,
       };
       this.mapOptions = {
-        zoomControl: true
+        zoomControl: true,
       };
       this.marker = {
         lat: data.latitude ? +data.latitude : 51.476852,
-        lng: data.longitude ? +data.longitude : -0.000500
+        lng: data.longitude ? +data.longitude : -0.0005,
       };
       this.displayOnly = data.displayOnly ?? false;
       this.dialogTitle = data.dialogTitle ?? '';
@@ -61,15 +61,15 @@ export class GeoMapDialogComponent {
   }
 
   public mapTypeIdChange(mapTypeId: google.maps.MapTypeId) {
-    mapTypeId = mapTypeId ?? this.map.getMapTypeId() as google.maps.MapTypeId;
+    mapTypeId = mapTypeId ?? (this.map.getMapTypeId() as google.maps.MapTypeId);
     // Change the color of the label
     switch (mapTypeId) {
       case google.maps.MapTypeId.HYBRID:
       case google.maps.MapTypeId.SATELLITE:
-        this.labelFormatted = { ...this.labelFormatted , color: 'white' };
+        this.labelFormatted = { ...this.labelFormatted, color: 'white' };
         break;
       default:
-        this.labelFormatted = { ...this.labelFormatted , color: 'black' };
+        this.labelFormatted = { ...this.labelFormatted, color: 'black' };
     }
   }
 
@@ -95,7 +95,7 @@ export class GeoMapDialogComponent {
     if (this.map) {
       this.center = {
         lat: this.marker.lat,
-        lng: this.marker.lng
+        lng: this.marker.lng,
       };
       this.zoom = 20;
     }

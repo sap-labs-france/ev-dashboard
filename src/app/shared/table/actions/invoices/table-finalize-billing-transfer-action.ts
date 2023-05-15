@@ -12,8 +12,15 @@ import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
 export interface TableFinalizeBillingTransferDef extends TableActionDef {
-  action: (ID: string, translateService: TranslateService, spinnerService: SpinnerService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router, refresh?: () => Observable<void>)  => void;
+  action: (
+    ID: string,
+    translateService: TranslateService,
+    spinnerService: SpinnerService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableFinalizeBillingTransferAction implements TableAction {
@@ -31,8 +38,15 @@ export class TableFinalizeBillingTransferAction implements TableAction {
     return this.action;
   }
 
-  private finalizeTransfer(ID: string, translateService: TranslateService, spinnerService: SpinnerService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router, refresh?: () => Observable<void>) {
+  private finalizeTransfer(
+    ID: string,
+    translateService: TranslateService,
+    spinnerService: SpinnerService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) {
     spinnerService.show();
     centralServerService.finalizeTransfer(ID).subscribe({
       next: (response) => {
@@ -48,9 +62,14 @@ export class TableFinalizeBillingTransferAction implements TableAction {
       },
       error: (error) => {
         spinnerService.hide();
-        Utils.handleHttpError(error, router, messageService,
-          centralServerService, translateService.instant('transfers.cannot_finalize_transfer'));
-      }
+        Utils.handleHttpError(
+          error,
+          router,
+          messageService,
+          centralServerService,
+          translateService.instant('transfers.cannot_finalize_transfer')
+        );
+      },
     });
   }
 }

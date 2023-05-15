@@ -19,7 +19,7 @@ export class TableRevokeAction implements TableAction {
     color: ButtonActionColor.WARN,
     name: 'general.revoke',
     tooltip: 'general.tooltips.revoke',
-    action: this.revoke
+    action: this.revoke,
   };
 
   // Return an action
@@ -27,14 +27,21 @@ export class TableRevokeAction implements TableAction {
     return this.action;
   }
 
-  protected revoke(data: TableData, messageTitle: string, messageConfirm: string,
-    messageSuccess: string, messageError: string, revokeData: (id: string | number) => Observable<ActionResponse>,
-    dialogService: DialogService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
-    dialogService.createAndShowYesNoDialog(
-      messageTitle,
-      messageConfirm,
-    ).subscribe((result) => {
+  protected revoke(
+    data: TableData,
+    messageTitle: string,
+    messageConfirm: string,
+    messageSuccess: string,
+    messageError: string,
+    revokeData: (id: string | number) => Observable<ActionResponse>,
+    dialogService: DialogService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) {
+    dialogService.createAndShowYesNoDialog(messageTitle, messageConfirm).subscribe((result) => {
       if (result === ButtonAction.YES) {
         spinnerService.show();
         revokeData(data.id).subscribe({
@@ -46,14 +53,19 @@ export class TableRevokeAction implements TableAction {
                 refresh().subscribe();
               }
             } else {
-              Utils.handleError(JSON.stringify(response),
-                messageService, messageError);
+              Utils.handleError(JSON.stringify(response), messageService, messageError);
             }
           },
           error: (error) => {
             spinnerService.hide();
-            Utils.handleHttpError(error, router, messageService, centralServerService, messageError);
-          }
+            Utils.handleHttpError(
+              error,
+              router,
+              messageService,
+              centralServerService,
+              messageError
+            );
+          },
         });
       }
     });

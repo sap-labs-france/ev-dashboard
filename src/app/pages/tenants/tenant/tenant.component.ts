@@ -21,7 +21,7 @@ import { TenantMainComponent } from './main/tenant-main.component';
 @Component({
   selector: 'app-tenant',
   templateUrl: 'tenant.component.html',
-  styleUrls: ['tenant.component.scss']
+  styleUrls: ['tenant.component.scss'],
 })
 export class TenantComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentTenantID!: string;
@@ -29,7 +29,8 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
   @Input() public dialogRef!: MatDialogRef<any>;
 
   @ViewChild('tenantMainComponent') public tenantMainComponent!: TenantMainComponent;
-  @ViewChild('tenantComponentsComponent') public tenantComponentsComponent!: TenantComponentsComponent;
+  @ViewChild('tenantComponentsComponent')
+  public tenantComponentsComponent!: TenantComponentsComponent;
 
   public formGroup!: UntypedFormGroup;
   public tenant!: Tenant;
@@ -42,7 +43,8 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
     private translateService: TranslateService,
     private router: Router,
     protected activatedRoute: ActivatedRoute,
-    protected windowService: WindowService) {
+    protected windowService: WindowService
+  ) {
     super(activatedRoute, windowService, ['main', 'components'], false);
   }
 
@@ -80,11 +82,16 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
               this.messageService.showErrorMessage('tenants.tenant_not_found');
               break;
             default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'general.unexpected_error_backend');
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'general.unexpected_error_backend'
+              );
           }
           this.dialogRef.close();
-        }
+        },
       });
     }
   }
@@ -96,8 +103,13 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
   }
 
   public close() {
-    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
-      this.translateService, this.saveTenant.bind(this), this.closeDialog.bind(this));
+    Utils.checkAndSaveAndCloseDialog(
+      this.formGroup,
+      this.dialogService,
+      this.translateService,
+      this.saveTenant.bind(this),
+      this.closeDialog.bind(this)
+    );
   }
 
   // eslint-disable-next-line complexity
@@ -114,6 +126,7 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
     let carConnectorActive = false;
     let ocpiActive = false;
     let oicpActive = false;
+    let reservationActive = false;
     for (const component in tenant.components) {
       if (Utils.objectHasProperty(tenant.components, component)) {
         if (!tenant.components[component].active) {
@@ -152,6 +165,9 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
         if (component === TenantComponents.OICP) {
           oicpActive = tenant.components[component].active;
         }
+        if (component === TenantComponents.RESERVATION) {
+          reservationActive = tenant.components[component].active;
+        }
       }
     }
     if (oicpActive && ocpiActive) {
@@ -182,6 +198,10 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
       this.messageService.showErrorMessage('tenants.save_error_car_connector');
       return;
     }
+    if (reservationActive && !organizationActive) {
+      this.messageService.showErrorMessage('tenants.save_error_reservation');
+      return;
+    }
     if (this.tenant) {
       this.updateTenant(tenant);
     } else {
@@ -206,13 +226,26 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
         this.spinnerService.hide();
         switch (error.status) {
           case HTTPError.TENANT_ALREADY_EXIST:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.subdomain_already_used', { subdomain: tenant.subdomain });
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'tenants.subdomain_already_used',
+              { subdomain: tenant.subdomain }
+            );
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.create_error');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'tenants.create_error'
+            );
             break;
         }
-      }
+      },
     });
   }
 
@@ -233,16 +266,35 @@ export class TenantComponent extends AbstractTabComponent implements OnInit {
         this.spinnerService.hide();
         switch (error.status) {
           case HTTPError.TENANT_ALREADY_EXIST:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.subdomain_already_used', { subdomain: tenant.subdomain });
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'tenants.subdomain_already_used',
+              { subdomain: tenant.subdomain }
+            );
             break;
           case HTTPError.SMART_CHARGING_STILL_ACTIVE_FOR_SITE_AREA:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.smart_charging_still_active_for_site_area');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'tenants.smart_charging_still_active_for_site_area'
+            );
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.update_error');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'tenants.update_error'
+            );
             break;
         }
-      }
+      },
     });
   }
 }

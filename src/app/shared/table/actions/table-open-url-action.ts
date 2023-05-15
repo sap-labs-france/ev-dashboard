@@ -1,4 +1,3 @@
-
 import { WindowService } from 'services/window.service';
 import { ButtonActionColor, ButtonAction } from '../../../types/GlobalType';
 import { TableActionDef } from '../../../types/Table';
@@ -16,7 +15,7 @@ export class TableOpenURLAction implements TableAction {
     color: ButtonActionColor.PRIMARY,
     name: 'general.open',
     tooltip: 'general.tooltips.open',
-    action: this.openURL
+    action: this.openURL,
   };
 
   // Return an action

@@ -65,7 +65,8 @@ export class SettingsOicpComponent implements OnInit {
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private spinnerService: SpinnerService,
-    private router: Router) {
+    private router: Router
+  ) {
     this.isActive = this.componentService.isActive(TenantComponents.OICP);
   }
 
@@ -75,78 +76,86 @@ export class SettingsOicpComponent implements OnInit {
       this.formGroup = new UntypedFormGroup({
         businessDetails: new UntypedFormGroup({
           name: new UntypedFormControl(''),
-          website: new UntypedFormControl('',
-            Validators.pattern(Constants.URL_PATTERN)),
+          website: new UntypedFormControl('', Validators.pattern(Constants.URL_PATTERN)),
           logo: new UntypedFormGroup({
-            url: new UntypedFormControl('',
-              Validators.pattern(Constants.URL_PATTERN)),
+            url: new UntypedFormControl('', Validators.pattern(Constants.URL_PATTERN)),
             thumbnail: new UntypedFormControl(''),
             category: new UntypedFormControl(''),
             type: new UntypedFormControl(''),
-            width: new UntypedFormControl(undefined,
-              Validators.pattern(/^[0-9]*$/)),
-            height: new UntypedFormControl(undefined,
-              Validators.pattern(/^[0-9]*$/)),
+            width: new UntypedFormControl(undefined, Validators.pattern(/^[0-9]*$/)),
+            height: new UntypedFormControl(undefined, Validators.pattern(/^[0-9]*$/)),
           }),
         }),
         cpo: new UntypedFormGroup({
-          countryCode: new UntypedFormControl('',
+          countryCode: new UntypedFormControl(
+            '',
             Validators.compose([
               Validators.required,
               Validators.maxLength(2),
               Validators.minLength(2),
-            ])),
-          partyID: new UntypedFormControl('',
+            ])
+          ),
+          partyID: new UntypedFormControl(
+            '',
             Validators.compose([
               Validators.required,
               Validators.maxLength(3),
               Validators.minLength(3),
-            ])),
-          key: new UntypedFormControl('',
-            Validators.compose([
-              Validators.required,
-              Validators.minLength(2),
-            ])),
-          cert: new UntypedFormControl('',
-            Validators.compose([
-              Validators.required,
-              Validators.minLength(3),
-            ])),
+            ])
+          ),
+          key: new UntypedFormControl(
+            '',
+            Validators.compose([Validators.required, Validators.minLength(2)])
+          ),
+          cert: new UntypedFormControl(
+            '',
+            Validators.compose([Validators.required, Validators.minLength(3)])
+          ),
         }),
         emsp: new UntypedFormGroup({
-          countryCode: new UntypedFormControl('',
+          countryCode: new UntypedFormControl(
+            '',
             Validators.compose([
               Validators.required,
               Validators.maxLength(2),
               Validators.minLength(2),
-            ])),
-          partyID: new UntypedFormControl('',
+            ])
+          ),
+          partyID: new UntypedFormControl(
+            '',
             Validators.compose([
               Validators.required,
               Validators.maxLength(3),
               Validators.minLength(3),
-            ])),
+            ])
+          ),
         }),
-        currency: new UntypedFormControl('',
-          Validators.compose([
-            Validators.required,
-            Validators.maxLength(3),
-          ]),
+        currency: new UntypedFormControl(
+          '',
+          Validators.compose([Validators.required, Validators.maxLength(3)])
         ),
       });
       // CPO identifier
-      this.cpoCountryCode = (this.formGroup.controls['cpo'] as UntypedFormGroup).controls['countryCode'];
+      this.cpoCountryCode = (this.formGroup.controls['cpo'] as UntypedFormGroup).controls[
+        'countryCode'
+      ];
       this.cpoPartyID = (this.formGroup.controls['cpo'] as UntypedFormGroup).controls['partyID'];
       // CPO Certificates
       this.cpoKey = (this.formGroup.controls['cpo'] as UntypedFormGroup).controls['key'];
       this.cpoCert = (this.formGroup.controls['cpo'] as UntypedFormGroup).controls['cert'];
       // EMSP identifier
-      this.emspCountryCode = (this.formGroup.controls['emsp'] as UntypedFormGroup).controls['countryCode'];
+      this.emspCountryCode = (this.formGroup.controls['emsp'] as UntypedFormGroup).controls[
+        'countryCode'
+      ];
       this.emspPartyID = (this.formGroup.controls['emsp'] as UntypedFormGroup).controls['partyID'];
       // business details - image
       this.name = (this.formGroup.controls['businessDetails'] as UntypedFormGroup).controls['name'];
-      this.website = (this.formGroup.controls['businessDetails'] as UntypedFormGroup).controls['website'];
-      this.logoGroup = ((this.formGroup.controls['businessDetails'] as UntypedFormGroup).controls['logo'] as UntypedFormGroup);
+      this.website = (this.formGroup.controls['businessDetails'] as UntypedFormGroup).controls[
+        'website'
+      ];
+      this.logoGroup = (this.formGroup.controls['businessDetails'] as UntypedFormGroup).controls[
+        'logo'
+      ] as UntypedFormGroup;
       this.logoURL = this.logoGroup.controls['url'];
       this.logoThumbnail = this.logoGroup.controls['thumbnail'];
       this.logoCategory = this.logoGroup.controls['category'];
@@ -204,10 +213,15 @@ export class SettingsOicpComponent implements OnInit {
             this.messageService.showErrorMessage('settings.oicp.setting_not_found');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              'general.unexpected_error_backend');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.unexpected_error_backend'
+            );
         }
-      }
+      },
     });
   }
 
@@ -220,11 +234,15 @@ export class SettingsOicpComponent implements OnInit {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
           this.messageService.showSuccessMessage(
-            (!this.oicpSettings.id ? 'settings.oicp.create_success' : 'settings.oicp.update_success'));
+            !this.oicpSettings.id ? 'settings.oicp.create_success' : 'settings.oicp.update_success'
+          );
           this.refresh();
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, (!this.oicpSettings.id ? 'settings.oicp.create_error' : 'settings.oicp.update_error'));
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            !this.oicpSettings.id ? 'settings.oicp.create_error' : 'settings.oicp.update_error'
+          );
         }
       },
       error: (error) => {
@@ -234,10 +252,15 @@ export class SettingsOicpComponent implements OnInit {
             this.messageService.showErrorMessage('settings.oicp.setting_do_not_exist');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              (!this.oicpSettings.id ? 'settings.oicp.create_error' : 'settings.oicp.update_error'));
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              !this.oicpSettings.id ? 'settings.oicp.create_error' : 'settings.oicp.update_error'
+            );
         }
-      }
+      },
     });
   }
 

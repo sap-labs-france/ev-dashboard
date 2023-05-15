@@ -1,29 +1,50 @@
 <!-- Toolbar -->
 <div class="mat-toolbar">
   <!-- Actions  -->
-  <div class="left-actions d-flex flex-row mat-toolbar-row ">
+  <div class="left-actions d-flex flex-row mat-toolbar-row">
     <!-- Create Left Actions -->
     <!-- Export data -->
-    <button *ngIf="authorizations?.canExport" mat-raised-button (click)="exportData()" [color]="'primary'" appTooltip
-      [title]="'general.export' | translate">
-      <mat-icon>cloud_download</mat-icon><span>{{'general.export' | translate}}</span>
+    <button
+      *ngIf="authorizations?.canExport"
+      mat-raised-button
+      (click)="exportData()"
+      [color]="'primary'"
+      appTooltip
+      [title]="'general.export' | translate"
+    >
+      <mat-icon>cloud_download</mat-icon><span>{{ 'general.export' | translate }}</span>
     </button>
 
     <!-- Reset Filters -->
-    <button mat-raised-button (click)="resetFilters()" [color]="'primary'" appTooltip
-      [title]="'general.reset_filters' | translate">
-      <mat-icon>cancel</mat-icon><span>{{'general.reset_filters' | translate}}</span>
+    <button
+      mat-raised-button
+      (click)="resetFilters()"
+      [color]="'primary'"
+      appTooltip
+      [title]="'general.reset_filters' | translate"
+    >
+      <mat-icon>cancel</mat-icon><span>{{ 'general.reset_filters' | translate }}</span>
     </button>
 
     <!-- SAC links -->
     <div *ngIf="sacLinksActive">
-      <button mat-raised-button [matMenuTriggerFor]="sacLinksButton" [color]="'primary'" appTooltip
-        [title]="'analytics.links' | translate">
-        <mat-icon>visibility</mat-icon><span>{{'settings.tabs.analytics' | translate}}</span>
+      <button
+        mat-raised-button
+        [matMenuTriggerFor]="sacLinksButton"
+        [color]="'primary'"
+        appTooltip
+        [title]="'analytics.links' | translate"
+      >
+        <mat-icon>visibility</mat-icon><span>{{ 'settings.tabs.analytics' | translate }}</span>
       </button>
-      <mat-menu #sacLinksButton="matMenu" yPosition="below" [overlapTrigger]="false" class="dropdown-button">
+      <mat-menu
+        #sacLinksButton="matMenu"
+        yPosition="below"
+        [overlapTrigger]="false"
+        class="dropdown-button"
+      >
         <ng-template ngFor let-sacLink [ngForOf]="sacLinks">
-          <a mat-menu-item href="{{sacLink.url}}" target="_blank">{{sacLink.description}}</a>
+          <a mat-menu-item href="{{ sacLink.url }}" target="_blank">{{ sacLink.description }}</a>
         </ng-template>
       </mat-menu>
     </div>
@@ -33,20 +54,33 @@
 
     <!-- Create Right Actions -->
     <div class="right-actions d-flex align-items-center justify-content-md-end align-self-md-start">
-
       <!-- Button group for scope (months, etc.) -->
       <div class="btn-group mat-button-group me-2">
-        <button mat-raised-button *ngFor="let button of buttonsOfScopeGroup"
-          (click)="buttonOfScopeGroupChanged(button.name)" [color]="'primary'" appTooltip
-          [class.selected-button]="activeButtonOfScopeGroup && (activeButtonOfScopeGroup.name === button.name)"
-          [class.inactive-button]="button.inactive" [title]="button.title | translate">
-          <span>{{button.title | translate}}</span>
+        <button
+          mat-raised-button
+          *ngFor="let button of buttonsOfScopeGroup"
+          (click)="buttonOfScopeGroupChanged(button.name)"
+          [color]="'primary'"
+          appTooltip
+          [class.selected-button]="
+            activeButtonOfScopeGroup && activeButtonOfScopeGroup.name === button.name
+          "
+          [class.inactive-button]="button.inactive"
+          [title]="button.title | translate"
+        >
+          <span>{{ button.title | translate }}</span>
         </button>
       </div>
 
       <!-- Refresh -->
-      <button mat-raised-button class="button-refresh" (click)="refresh()" [color]="'primary'" appTooltip
-        [title]="'general.refresh' | translate">
+      <button
+        mat-raised-button
+        class="button-refresh"
+        (click)="refresh()"
+        [color]="'primary'"
+        appTooltip
+        [title]="'general.refresh' | translate"
+      >
         <div *ngIf="ongoingRefresh" class="spinner-autorefresh2">
           <div class="loader"></div>
         </div>
@@ -57,16 +91,21 @@
     </div>
   </div>
 
-
   <!-- filters -->
   <div class="d-flex flex-row me-auto flex-wrap mat-toolbar-row filter-row">
     <!-- Category of statistics -->
-    <div *ngIf="authorizations?.canListUsers && authorizations?.canListChargingStations" class="col-sm-4 col-md-3 col-lg-2 col-xl-2">
+    <div
+      *ngIf="authorizations?.canListUsers && authorizations?.canListChargingStations"
+      class="col-sm-4 col-md-3 col-lg-2 col-xl-2"
+    >
       <mat-form-field>
-        <mat-select (selectionChange)="categoryChanged()" [(value)]="selectedCategory"
-          [placeholder]="'statistics.category_label' | translate">
-          <mat-option [value]="'C'">{{'transactions.charging_station' | translate}}</mat-option>
-          <mat-option [value]="'U'">{{'transactions.user' | translate}}</mat-option>
+        <mat-select
+          (selectionChange)="categoryChanged()"
+          [(value)]="selectedCategory"
+          [placeholder]="'statistics.category_label' | translate"
+        >
+          <mat-option [value]="'C'">{{ 'transactions.charging_station' | translate }}</mat-option>
+          <mat-option [value]="'U'">{{ 'transactions.user' | translate }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -74,12 +113,15 @@
     <!-- transaction year -->
     <div class="col-sm-4 col-md-3 col-lg-2 col-xl-1">
       <mat-form-field>
-        <mat-select (selectionChange)="yearChanged()" [(value)]="selectedYear"
-          [placeholder]="'statistics.transactions_years' | translate">
+        <mat-select
+          (selectionChange)="yearChanged()"
+          [(value)]="selectedYear"
+          [placeholder]="'statistics.transactions_years' | translate"
+        >
           <ng-template ngFor let-year [ngForOf]="transactionYears">
-            <mat-option *ngIf="(year > 0); else allYears" [value]="year">{{year}}</mat-option>
+            <mat-option *ngIf="year > 0; else allYears" [value]="year">{{ year }}</mat-option>
             <ng-template #allYears>
-              <mat-option [value]=0>{{'general.all' | translate}}</mat-option>
+              <mat-option [value]="0">{{ 'general.all' | translate }}</mat-option>
             </ng-template>
           </ng-template>
         </mat-select>
@@ -88,55 +130,121 @@
 
     <!-- dynamically defined filters, like for Site ID -->
     <ng-template ngFor let-filterDef [ngForOf]="tableFiltersDef">
-      <div *ngIf="filterDef.visible !== false" [class]="(filterDef.class ? filterDef.class : '')">
+      <div *ngIf="filterDef.visible !== false" [class]="filterDef.class ? filterDef.class : ''">
         <!-- Dropdown Filter -->
         <mat-form-field *ngIf="filterDef.type === 'dropdown' && !filterDef.multiple">
-          <mat-select (selectionChange)="filterChanged(filterDef)" [(value)]="filterDef.currentValue"
-            [placeholder]="filterDef.name | translate">
-            <mat-option *ngFor="let item of filterDef.items" [value]="item.key">{{item.value | translate}}
+          <mat-select
+            (selectionChange)="filterChanged(filterDef)"
+            [(value)]="filterDef.currentValue"
+            [placeholder]="filterDef.name | translate"
+          >
+            <mat-option *ngFor="let item of filterDef.items" [value]="item.key"
+              >{{ item.value | translate }}
             </mat-option>
           </mat-select>
         </mat-form-field>
         <!-- Dropdown Filter with multiple selections-->
         <mat-form-field *ngIf="filterDef.type === 'dropdown' && filterDef.multiple">
-          <mat-select (selectionChange)="filterChanged(filterDef)" [(value)]="filterDef.currentValue"
-            [placeholder]="filterDef.name | translate" multiple disableRipple>
-            <mat-select-trigger>{{filterDef.label}}</mat-select-trigger>
-            <mat-option *ngFor="let item of filterDef.items" [value]="item">{{item.value | translate}}</mat-option>
+          <mat-select
+            (selectionChange)="filterChanged(filterDef)"
+            [(value)]="filterDef.currentValue"
+            [placeholder]="filterDef.name | translate"
+            multiple
+            disableRipple
+          >
+            <mat-select-trigger>{{ filterDef.label }}</mat-select-trigger>
+            <mat-option *ngFor="let item of filterDef.items" [value]="item">{{
+              item.value | translate
+            }}</mat-option>
           </mat-select>
         </mat-form-field>
         <!-- Dialog Table Filter -->
-        <mat-form-field *ngIf="filterDef.type === 'dialog-table' && !filterDef.multiple" [hidden]="tableColumnDef?.visible === false">
-          <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
-            [value]="(filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue) | translate"
-            class="form-field-popup" matInput readonly=true type="text" />
-          <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Clear">
+        <mat-form-field
+          *ngIf="filterDef.type === 'dialog-table' && !filterDef.multiple"
+          [hidden]="tableColumnDef?.visible === false"
+        >
+          <input
+            (click)="showDialogTableFilter(filterDef)"
+            [placeholder]="filterDef.name | translate"
+            [value]="
+              (filterDef.currentValue ? filterDef.currentValue[0].value : filterDef.defaultValue)
+                | translate
+            "
+            class="form-field-popup"
+            matInput
+            readonly="true"
+            type="text"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="resetDialogTableFilter(filterDef)"
+            aria-label="Clear"
+          >
             <mat-icon>clear</mat-icon>
           </button>
         </mat-form-field>
         <!-- Dialog Table Filter with multiple selections -->
-        <mat-form-field *ngIf="filterDef.type === 'dialog-table' && filterDef.multiple" [hidden]="tableColumnDef?.visible === false">
-          <input (click)="showDialogTableFilter(filterDef)" [placeholder]="filterDef.name | translate"
-            [value]="filterDef.label" class="form-field-popup" matInput readonly=true type="text" />
-          <button mat-icon-button matSuffix (click)="resetDialogTableFilter(filterDef)" aria-label="Clear">
+        <mat-form-field
+          *ngIf="filterDef.type === 'dialog-table' && filterDef.multiple"
+          [hidden]="tableColumnDef?.visible === false"
+        >
+          <input
+            (click)="showDialogTableFilter(filterDef)"
+            [placeholder]="filterDef.name | translate"
+            [value]="filterDef.label"
+            class="form-field-popup"
+            matInput
+            readonly="true"
+            type="text"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="resetDialogTableFilter(filterDef)"
+            aria-label="Clear"
+          >
             <mat-icon>clear</mat-icon>
           </button>
         </mat-form-field>
         <!-- Date Filter -->
         <mat-form-field *ngIf="filterDef.type === 'date'">
-          <mat-datetimepicker #picker type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
+          <mat-datetimepicker
+            #picker
+            type="datetime"
+            openOnFocus="false"
+            mode="portrait"
+            timeInterval="1"
+          >
           </mat-datetimepicker>
           <mat-datetimepicker-toggle [for]="picker" matSuffix></mat-datetimepicker-toggle>
-          <input matInput [placeholder]="filterDef.name | translate" (dateChange)="dateFilterChanged(filterDef, $event)"
-            [matDatetimepicker]="picker" [value]="filterDef.currentValue" autocomplete="false">
+          <input
+            matInput
+            [placeholder]="filterDef.name | translate"
+            (dateChange)="dateFilterChanged(filterDef, $event)"
+            [matDatetimepicker]="picker"
+            [value]="filterDef.currentValue"
+            autocomplete="false"
+          />
         </mat-form-field>
         <mat-form-field *ngIf="filterDef.type === 'date-range'">
-          <input matInput ngxDaterangepickerMd [timePicker]="filterDef.dateRangeTableFilterDef.timePicker"
+          <input
+            matInput
+            ngxDaterangepickerMd
+            [timePicker]="filterDef.dateRangeTableFilterDef.timePicker"
             [timePickerSeconds]="filterDef.dateRangeTableFilterDef.timePickerSeconds"
-            [timePicker24Hour]="filterDef.dateRangeTableFilterDef.timePicker24Hour" [(ngModel)]="filterDef.currentValue"
-            [locale]="filterDef.dateRangeTableFilterDef.locale" (change)="dateRangeChange(filterDef,$event)" />
-          <mat-icon matSuffix class="ngx-daterangepicker-action date-range-picker-icon mt-1" (click)="openDateRange()">
-            date_range</mat-icon>
+            [timePicker24Hour]="filterDef.dateRangeTableFilterDef.timePicker24Hour"
+            [(ngModel)]="filterDef.currentValue"
+            [locale]="filterDef.dateRangeTableFilterDef.locale"
+            (change)="dateRangeChange(filterDef, $event)"
+          />
+          <mat-icon
+            matSuffix
+            class="ngx-daterangepicker-action date-range-picker-icon mt-1"
+            (click)="openDateRange()"
+          >
+            date_range</mat-icon
+          >
         </mat-form-field>
       </div>
     </ng-template>

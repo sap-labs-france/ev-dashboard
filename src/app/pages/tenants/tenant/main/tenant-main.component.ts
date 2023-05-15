@@ -35,31 +35,35 @@ export class TenantMainComponent implements OnInit, OnChanges {
     private centralServerService: CentralServerService,
     private router: Router,
     private messageService: MessageService,
-    private configService: ConfigService) {
+    private configService: ConfigService
+  ) {
     this.logoMaxSize = this.configService.getTenant().maxLogoKb;
   }
 
   public ngOnInit() {
     // Init main part
     this.formGroup.addControl('id', new UntypedFormControl(''));
-    this.formGroup.addControl('name', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-        Validators.maxLength(100),
-      ]))
+    this.formGroup.addControl(
+      'name',
+      new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(100)])
+      )
     );
-    this.formGroup.addControl('email', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-        Validators.email,
-      ]))
+    this.formGroup.addControl(
+      'email',
+      new UntypedFormControl('', Validators.compose([Validators.required, Validators.email]))
     );
-    this.formGroup.addControl('subdomain', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-        Validators.maxLength(20),
-        Validators.pattern('^[a-z0-9]+$'),
-      ]))
+    this.formGroup.addControl(
+      'subdomain',
+      new UntypedFormControl(
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.maxLength(20),
+          Validators.pattern('^[a-z0-9]+$'),
+        ])
+      )
     );
     // Assign
     this.id = this.formGroup.controls['id'];
@@ -96,10 +100,15 @@ export class TenantMainComponent implements OnInit, OnChanges {
               this.logo = Constants.NO_IMAGE;
               break;
             default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'general.unexpected_error_backend');
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'general.unexpected_error_backend'
+              );
           }
-        }
+        },
       });
     }
   }
@@ -108,8 +117,10 @@ export class TenantMainComponent implements OnInit, OnChanges {
     // Load picture
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-      if (file.size > (this.logoMaxSize * 1024)) {
-        this.messageService.showErrorMessage('tenants.logo_size_error', { maxPictureKb: this.logoMaxSize });
+      if (file.size > this.logoMaxSize * 1024) {
+        this.messageService.showErrorMessage('tenants.logo_size_error', {
+          maxPictureKb: this.logoMaxSize,
+        });
       } else {
         const reader = new FileReader();
         reader.onload = () => {

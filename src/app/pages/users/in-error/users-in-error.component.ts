@@ -18,7 +18,8 @@ export class UsersInErrorComponent implements OnInit {
   public constructor(
     public usersInErrorDataSource: UsersInErrorTableDataSource,
     private dialog: MatDialog,
-    private windowService: WindowService) {}
+    private windowService: WindowService
+  ) {}
 
   public ngOnInit(): void {
     // Check if User ID id provided
@@ -27,7 +28,7 @@ export class UsersInErrorComponent implements OnInit {
       const editAction = new TableEditUserAction().getActionDef();
       editAction.action(UserDialogComponent, this.dialog, {
         dialogData: { id: userID } as User,
-        dialogMode: DialogMode.EDIT
+        dialogMode: DialogMode.EDIT,
       });
       // Clear Search
       this.windowService.deleteUrlParameter('UserID');

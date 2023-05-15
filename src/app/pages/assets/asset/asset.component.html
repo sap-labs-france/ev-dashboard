@@ -1,31 +1,57 @@
 <div class="main-content vw-90 vh-90 asset-dialog-size">
   <div class="card card-profile card-testimonial">
-    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info" [class]="dialogRef && !readOnly ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
+    <mat-tab-group
+      animationDuration="0ms"
+      disableRipple="true"
+      class="mat-tab-info"
+      [class]="dialogRef && !readOnly ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'"
+    >
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>portrait</mat-icon>
-          <span>{{'asset.title' | translate}} - {{formGroup.controls['name'].value}}</span>
+          <span>{{ 'asset.title' | translate }} - {{ formGroup.controls['name'].value }}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content align-items-end">
-          <app-asset-main #assetMainComponent [formGroup]="formGroup" [asset]="asset" [assetsAuthorizations]="assetsAuthorizations" [readOnly]="readOnly"></app-asset-main>
+          <app-asset-main
+            #assetMainComponent
+            [formGroup]="formGroup"
+            [asset]="asset"
+            [assetsAuthorizations]="assetsAuthorizations"
+            [readOnly]="readOnly"
+          ></app-asset-main>
         </div>
       </mat-tab>
       <mat-tab *ngIf="!readOnly">
         <ng-template mat-tab-label>
           <mat-icon>link</mat-icon>
-          <span>{{'assets.dialog_tabs.connection' | translate}}</span>
+          <span>{{ 'assets.dialog_tabs.connection' | translate }}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content align-items-end">
-          <app-asset-connection [formGroup]="formGroup" [asset]="asset" [assetsAuthorizations]="assetsAuthorizations" [readOnly]="readOnly"></app-asset-connection>
+          <app-asset-connection
+            [formGroup]="formGroup"
+            [asset]="asset"
+            [assetsAuthorizations]="assetsAuthorizations"
+            [readOnly]="readOnly"
+          ></app-asset-connection>
         </div>
       </mat-tab>
     </mat-tab-group>
     <div [class]="dialogRef ? 'tabs-actions' : 'tabs-actions-embedded'">
-      <button mat-icon-button *ngIf="!readOnly" (click)="saveAsset(formGroup.value)" title="{{'general.save' | translate}}"
-          [disabled]="!formGroup.valid || !formGroup.dirty">
+      <button
+        mat-icon-button
+        *ngIf="!readOnly"
+        (click)="saveAsset(formGroup.value)"
+        title="{{ 'general.save' | translate }}"
+        [disabled]="!formGroup.valid || !formGroup.dirty"
+      >
         <mat-icon>save</mat-icon>
       </button>
-      <button mat-icon-button *ngIf="dialogRef" (click)="close()" title="{{'general.close' | translate}}">
+      <button
+        mat-icon-button
+        *ngIf="dialogRef"
+        (click)="close()"
+        title="{{ 'general.close' | translate }}"
+      >
         <mat-icon>close</mat-icon>
       </button>
     </div>

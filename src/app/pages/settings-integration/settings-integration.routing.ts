@@ -6,7 +6,10 @@ import { SettingsIntegrationComponent } from './settings-integration.component';
 
 export const SettingsRoutes: Routes = [
   {
-    path: '', component: SettingsIntegrationComponent, canActivate: [RouteGuardService], data: {
+    path: '',
+    component: SettingsIntegrationComponent,
+    canActivate: [RouteGuardService],
+    data: {
       auth: {
         entity: Entity.SETTING,
         action: Action.LIST,

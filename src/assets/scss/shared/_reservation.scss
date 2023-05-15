@@ -1,0 +1,28 @@
+@use '@angular/material' as mat;
+@import '../dashboard/chip';
+
+.reservation-done {
+  @include chip(mat.get-color-from-palette(mat.$green-palette, 800));
+}
+
+.reservation-scheduled,
+.reservation-in-progress {
+  @include chip($brand-indigo);
+}
+
+.reservation-unmet {
+  @include chip($brand-disabled);
+}
+
+.reservation-cancelled,
+.reservation-expired {
+  @include chip($brand-danger);
+}
+
+.planned-reservation {
+  @include chip(mat.get-color-from-palette(mat.$purple-palette, 700));
+}
+
+.reserve-now {
+  @include chip(mat.get-color-from-palette(mat.$amber-palette, 600));
+}

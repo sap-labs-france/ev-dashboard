@@ -11,13 +11,22 @@ import { AppUserMultipleRolesPipe } from '../../../../shared/formatters/app-user
 import { TableCreateAction } from '../../../../shared/table/actions/table-create-action';
 import { TableDeleteAction } from '../../../../shared/table/actions/table-delete-action';
 import { TableEditAction } from '../../../../shared/table/actions/table-edit-action';
-import { TableOpenURLAction, TableOpenURLActionDef } from '../../../../shared/table/actions/table-open-url-action';
+import {
+  TableOpenURLAction,
+  TableOpenURLActionDef,
+} from '../../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
 import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction } from '../../../../types/GlobalType';
 import { SettingLink } from '../../../../types/Setting';
-import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../types/Table';
+import {
+  DropdownItem,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableFilterDef,
+} from '../../../../types/Table';
 import { AnalyticsLinkDialogComponent } from './analytics-link-dialog.component';
 
 @Injectable()
@@ -36,7 +45,8 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
     private windowService: WindowService,
     private appUserMultipleRolesPipe: AppUserMultipleRolesPipe,
     private dialogService: DialogService,
-    private dialog: MatDialog) {
+    private dialog: MatDialog
+  ) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -58,7 +68,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
     return new Observable((observer) => {
       this.createAction.visible = this.authorizations.canUpdate;
       if (this.analyticsLinks) {
-        this.analyticsLinks.sort((a, b) => (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0);
+        this.analyticsLinks.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0));
         const links = [];
         for (let index = 0; index < this.analyticsLinks.length; index++) {
           const link = this.analyticsLinks[index];
@@ -91,7 +101,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
         enabled: false,
       },
       rowFieldNameIdentifier: 'url',
-      hasDynamicRowAction: true
+      hasDynamicRowAction: true,
     };
   }
 
@@ -116,7 +126,8 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
       {
         id: 'role',
         name: 'analytics.link.role',
-        formatter: (role: string) => this.translateService.instant(this.appUserMultipleRolesPipe.transform(role)),
+        formatter: (role: string) =>
+          this.translateService.instant(this.appUserMultipleRolesPipe.transform(role)),
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: false,
@@ -132,20 +143,18 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
   }
 
   public buildTableActionsDef(): TableActionDef[] {
-    return [
-      this.createAction,
-    ];
+    return [this.createAction];
   }
 
   public buildTableDynamicRowActions(row: SettingLink): TableActionDef[] {
     // We are using global settings authorizations
     const tableActionDef: TableActionDef[] = [];
-    if(this.authorizations.canUpdate) {
+    if (this.authorizations.canUpdate) {
       tableActionDef.push(this.editAction);
     }
     tableActionDef.push(this.openURLAction);
     // We are using the UPDATE for the delete setting link action
-    if(this.authorizations.canUpdate) {
+    if (this.authorizations.canUpdate) {
       tableActionDef.push(this.deleteAction);
     }
     return tableActionDef;
@@ -161,7 +170,11 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, link: SettingLink, dropdownItem?: DropdownItem) {
+  public rowActionTriggered(
+    actionDef: TableActionDef,
+    link: SettingLink,
+    dropdownItem?: DropdownItem
+  ) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
         this.showLinksDialog(link);
@@ -178,9 +191,7 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {
-    return [
-      new TableRefreshAction().getActionDef(),
-    ];
+    return [new TableRefreshAction().getActionDef()];
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
@@ -215,18 +226,20 @@ export class AnalyticsLinksTableDataSource extends TableDataSource<SettingLink> 
   }
 
   private deleteLink(analyticsLink: SettingLink) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('analytics.delete_title'),
-      this.translateService.instant('analytics.delete_confirm', { linkName: analyticsLink.name }),
-    ).subscribe((result) => {
-      if (result === ButtonAction.YES) {
-        const index = this.analyticsLinks.findIndex((link) => link.id === analyticsLink.id);
-        if (index > -1) {
-          this.analyticsLinks.splice(index, 1);
+    this.dialogService
+      .createAndShowYesNoDialog(
+        this.translateService.instant('analytics.delete_title'),
+        this.translateService.instant('analytics.delete_confirm', { linkName: analyticsLink.name })
+      )
+      .subscribe((result) => {
+        if (result === ButtonAction.YES) {
+          const index = this.analyticsLinks.findIndex((link) => link.id === analyticsLink.id);
+          if (index > -1) {
+            this.analyticsLinks.splice(index, 1);
+          }
+          this.refreshData().subscribe();
+          this.changed.emit(true);
         }
-        this.refreshData().subscribe();
-        this.changed.emit(true);
-      }
-    });
+      });
   }
 }

@@ -11,9 +11,11 @@ export abstract class DialogTableDataComponent<T extends TableData> {
   public title: string;
   public buttonTitle: string;
 
-  public constructor( @Inject(MAT_DIALOG_DATA) data: any,
+  public constructor(
+  @Inject(MAT_DIALOG_DATA) data: any,
     protected dialogRef: MatDialogRef<DialogTableDataComponent<T>>,
-    public dialogTableDataSource: DialogTableDataSource<T>) {
+    public dialogTableDataSource: DialogTableDataSource<T>
+  ) {
     // Assign dialog table data source if provided
     this.dialogDataSource = dialogTableDataSource;
     // Reset the provider if the filter has been reset
@@ -22,8 +24,9 @@ export abstract class DialogTableDataComponent<T extends TableData> {
       this.dialogDataSource.destroyDataSource();
     }
     // assign parameters
-    this.title = (data && data.title ? data.title : '');
-    this.buttonTitle = (data && data.validateButtonTitle ? data.validateButtonTitle : 'general.select');
+    this.title = data && data.title ? data.title : '';
+    this.buttonTitle =
+      data && data.validateButtonTitle ? data.validateButtonTitle : 'general.select';
     // Set table definition if provided
     if (data && data.tableDef) {
       this.dialogDataSource.setTableDef(data.tableDef);
@@ -39,8 +42,11 @@ export abstract class DialogTableDataComponent<T extends TableData> {
     if (Utils.objectHasProperty(data, 'rowMultipleSelection')) {
       this.dialogDataSource.setMultipleRowSelection(data.rowMultipleSelection);
     }
-    Utils.registerValidateCloseKeyEvents(this.dialogRef,
-      this.validate.bind(this), this.cancel.bind(this));
+    Utils.registerValidateCloseKeyEvents(
+      this.dialogRef,
+      this.validate.bind(this),
+      this.cancel.bind(this)
+    );
   }
 
   public validate() {

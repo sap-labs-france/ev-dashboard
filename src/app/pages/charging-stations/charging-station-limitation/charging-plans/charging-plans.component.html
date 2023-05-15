@@ -2,35 +2,73 @@
   <form class="form" [formGroup]="formGroup">
     <div class="row" *ngIf="chargingStation.inactive">
       <div class="col-md-12 text-left mat-subheading-2 text-danger mb-3">
-        {{"chargers.smart_charging.charging_station_inactive" | translate }}
+        {{ 'chargers.smart_charging.charging_station_inactive' | translate }}
       </div>
     </div>
-    <div class="row"
-      *ngIf="!chargingStation.inactive && isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && !chargingStation.excludeFromSmartCharging">
+    <div
+      class="row"
+      *ngIf="
+        !chargingStation.inactive &&
+        isSmartChargingComponentActive &&
+        chargingStation.siteArea?.smartCharging &&
+        !chargingStation.excludeFromSmartCharging
+      "
+    >
       <div class="col-md-12 text-left mat-subheading-2 text-danger mb-3">
-        {{"chargers.smart_charging.smart_charging_enabled_charging_profiles" | translate }}
+        {{ 'chargers.smart_charging.smart_charging_enabled_charging_profiles' | translate }}
       </div>
     </div>
     <div class="right-actions d-flex flex-row mat-toolbar-row mb-2">
-      <button mat-raised-button color="primary" (click)="saveAndApplyChargingProfile()"
-        [disabled]="chargingStation.inactive || (isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && !chargingStation.excludeFromSmartCharging) || !scheduleEditableTableDataSource || scheduleEditableTableDataSource.getContent().length === 0 || !formGroup.dirty || !formGroup.valid">
-        <mat-icon>save</mat-icon><span>{{'general.apply' | translate}}</span>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="saveAndApplyChargingProfile()"
+        [disabled]="
+          chargingStation.inactive ||
+          (isSmartChargingComponentActive &&
+            chargingStation.siteArea?.smartCharging &&
+            !chargingStation.excludeFromSmartCharging) ||
+          !scheduleEditableTableDataSource ||
+          scheduleEditableTableDataSource.getContent().length === 0 ||
+          !formGroup.dirty ||
+          !formGroup.valid
+        "
+      >
+        <mat-icon>save</mat-icon><span>{{ 'general.apply' | translate }}</span>
       </button>
-      <button mat-raised-button color="primary" (click)="deleteChargingProfile()"
-        [disabled]="chargingStation.inactive || !chargingStation.canDeleteChargingProfile || (isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && !chargingStation.excludeFromSmartCharging) || chargingProfiles.length === 0">
-        <mat-icon>delete</mat-icon><span>{{'general.delete' | translate}}</span>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="deleteChargingProfile()"
+        [disabled]="
+          chargingStation.inactive ||
+          !chargingStation.canDeleteChargingProfile ||
+          (isSmartChargingComponentActive &&
+            chargingStation.siteArea?.smartCharging &&
+            !chargingStation.excludeFromSmartCharging) ||
+          chargingProfiles.length === 0
+        "
+      >
+        <mat-icon>delete</mat-icon><span>{{ 'general.delete' | translate }}</span>
       </button>
       <button mat-raised-button color="primary" (click)="refresh()">
-        <mat-icon>refresh</mat-icon><span>{{'general.refresh' | translate}}</span>
+        <mat-icon>refresh</mat-icon><span>{{ 'general.refresh' | translate }}</span>
       </button>
-      <button mat-raised-button
-        *ngIf="(isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && !chargingStation.excludeFromSmartCharging)"
-        color="primary" (click)="triggerSmartCharging()">
+      <button
+        mat-raised-button
+        *ngIf="
+          isSmartChargingComponentActive &&
+          chargingStation.siteArea?.smartCharging &&
+          !chargingStation.excludeFromSmartCharging
+        "
+        color="primary"
+        (click)="triggerSmartCharging()"
+      >
         <mat-icon>signal_cellular_alt</mat-icon>
-        <span>{{'chargers.smart_charging.trigger_smart_charging' | translate}}</span>
+        <span>{{ 'chargers.smart_charging.trigger_smart_charging' | translate }}</span>
       </button>
       <button mat-raised-button color="primary" (click)="navigateToLog()">
-        <mat-icon>open_in_new</mat-icon><span>{{'logs.redirect' | translate}}</span>
+        <mat-icon>open_in_new</mat-icon><span>{{ 'logs.redirect' | translate }}</span>
       </button>
       <span class="toolbar-spacer"></span>
     </div>
@@ -38,59 +76,108 @@
       <div class="form-group col-md-4">
         <div class="row">
           <div
-            *ngIf="(isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && !chargingStation.excludeFromSmartCharging)"
-            class="form-group col-md-12 mb-1 m-1">
+            *ngIf="
+              isSmartChargingComponentActive &&
+              chargingStation.siteArea?.smartCharging &&
+              !chargingStation.excludeFromSmartCharging
+            "
+            class="form-group col-md-12 mb-1 m-1"
+          >
             <mat-form-field>
-              <mat-select [formControl]="chargingProfilesControl"
-                placeholder="{{'chargers.smart_charging.charging_profile_limit' | translate}}">
-                <mat-option *ngFor="let chargingProfile of chargingProfiles" [value]="chargingProfile">
-                  {{chargingProfile.chargingStationID}},
-                  {{'chargers.connector' | translate}}: {{chargingProfile.connectorID}},
-                  {{'chargers.smart_charging.profile_type' | translate}}:
-                  {{chargingProfile.profile.chargingProfilePurpose}}
+              <mat-select
+                [formControl]="chargingProfilesControl"
+                placeholder="{{ 'chargers.smart_charging.charging_profile_limit' | translate }}"
+              >
+                <mat-option
+                  *ngFor="let chargingProfile of chargingProfiles"
+                  [value]="chargingProfile"
+                >
+                  {{ chargingProfile.chargingStationID }}, {{ 'chargers.connector' | translate }}:
+                  {{ chargingProfile.connectorID }},
+                  {{ 'chargers.smart_charging.profile_type' | translate }}:
+                  {{ chargingProfile.profile.chargingProfilePurpose }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
           <div class="form-group col-md-12 mb-1">
             <mat-form-field>
-              <mat-select [formControl]="profileTypeControl"
-                [disabled]="chargingStation.inactive || (isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && !chargingStation.excludeFromSmartCharging) || chargingProfiles.length > 1"
-                placeholder="{{'chargers.smart_charging.profile_type' | translate}}" required>
+              <mat-select
+                [formControl]="profileTypeControl"
+                [disabled]="
+                  chargingStation.inactive ||
+                  (isSmartChargingComponentActive &&
+                    chargingStation.siteArea?.smartCharging &&
+                    !chargingStation.excludeFromSmartCharging) ||
+                  chargingProfiles.length > 1
+                "
+                placeholder="{{ 'chargers.smart_charging.profile_type' | translate }}"
+                required
+              >
                 <mat-option *ngFor="let profileType of profileTypeMap" [value]="profileType">
-                  {{profileType.description | translate}}
+                  {{ profileType.description | translate }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
           <div class="form-group col-md-12 mb-1">
             <mat-form-field>
-              <mat-datetimepicker #pickerDateStart type="datetime" openOnFocus="false" mode="portrait" timeInterval="1">
+              <mat-datetimepicker
+                #pickerDateStart
+                type="datetime"
+                openOnFocus="false"
+                mode="portrait"
+                timeInterval="1"
+              >
               </mat-datetimepicker>
-              <mat-datetimepicker-toggle matSuffix [for]="pickerDateStart" matSuffix></mat-datetimepicker-toggle>
-              <input matInput placeholder="{{'chargers.smart_charging.start_date' | translate}}" required
+              <mat-datetimepicker-toggle
+                matSuffix
+                [for]="pickerDateStart"
+                matSuffix
+              ></mat-datetimepicker-toggle>
+              <input
+                matInput
+                placeholder="{{ 'chargers.smart_charging.start_date' | translate }}"
+                required
                 (dateChange)="startDateFilterChanged($event.value ? $event.value.toDate() : null)"
-                [matDatetimepicker]="pickerDateStart" [formControl]="startDateControl" autocomplete="false">
-              <mat-error *ngIf="startDateControl.errors?.matDatepickerParse">{{"general.invalid_date" | translate}}
+                [matDatetimepicker]="pickerDateStart"
+                [formControl]="startDateControl"
+                autocomplete="false"
+              />
+              <mat-error *ngIf="startDateControl.errors?.matDatepickerParse"
+                >{{ 'general.invalid_date' | translate }}
               </mat-error>
               <mat-error *ngIf="startDateControl.errors?.dateNotInFuture">
-                {{"chargers.smart_charging.date_not_in_past" | translate}}</mat-error>
+                {{ 'chargers.smart_charging.date_not_in_past' | translate }}</mat-error
+              >
             </mat-form-field>
           </div>
           <div class="form-group col-md-12 mb-1 text-left">
             <mat-error *ngIf="endDateControl.errors?.endDateOutOfRecurringLimit">
-              {{"chargers.smart_charging.date_out_of_limit" | translate}}</mat-error>
+              {{ 'chargers.smart_charging.date_out_of_limit' | translate }}</mat-error
+            >
           </div>
         </div>
       </div>
       <div class="text-right col-md-8">
-        <app-charging-station-smart-charging-limit-planner-chart [chargingStation]="chargingStation"
+        <app-charging-station-smart-charging-limit-planner-chart
+          [chargingStation]="chargingStation"
           [connectorId]="currentChargingProfile ? currentChargingProfile.connectorID : 0"
-          [chargingSchedules]="currentChargingSchedules">
+          [chargingSchedules]="currentChargingSchedules"
+        >
         </app-charging-station-smart-charging-limit-planner-chart>
       </div>
     </div>
-    <div *ngIf="chargingStation.inactive || chargingProfiles.length > 1 || (isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && !chargingStation.excludeFromSmartCharging); else smartChargingDisabled">
+    <div
+      *ngIf="
+        chargingStation.inactive ||
+          chargingProfiles.length > 1 ||
+          (isSmartChargingComponentActive &&
+            chargingStation.siteArea?.smartCharging &&
+            !chargingStation.excludeFromSmartCharging);
+        else smartChargingDisabled
+      "
+    >
       <app-table [dataSource]="scheduleTableDataSource"></app-table>
     </div>
     <ng-template #smartChargingDisabled>

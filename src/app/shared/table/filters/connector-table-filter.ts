@@ -16,11 +16,9 @@ export class ConnectorTableFilter extends TableFilter {
       label: '',
       items: Object.assign([], CONNECTORS),
       multiple: true,
-      exhaustive: true
+      exhaustive: true,
     };
     // Set
     this.setFilterDef(filterDef);
   }
 }
-
-

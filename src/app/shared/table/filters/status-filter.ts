@@ -15,7 +15,7 @@ export class StatusFilter extends TableFilter {
       label: '',
       items: Object.assign([], status),
       multiple: true,
-      exhaustive: true
+      exhaustive: true,
     };
     // Set
     this.setFilterDef(filterDef);

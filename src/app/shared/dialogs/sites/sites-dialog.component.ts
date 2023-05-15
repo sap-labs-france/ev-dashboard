@@ -10,13 +10,14 @@ import { SitesDialogTableDataSource } from './sites-dialog-table-data-source';
 @Component({
   templateUrl: '../dialog-table-data.component.html',
   providers: [SitesDialogTableDataSource],
-  styleUrls: ['../dialog-table-data.component.scss']
+  styleUrls: ['../dialog-table-data.component.scss'],
 })
 export class SitesDialogComponent extends DialogTableDataComponent<Site> {
   public constructor(
     public sitesDataSource: SitesDialogTableDataSource,
     protected dialogRef: MatDialogRef<SitesDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: any) {
+    @Inject(MAT_DIALOG_DATA) data: any
+  ) {
     // Super class
     super(data, dialogRef, sitesDataSource);
     // Default title
@@ -30,7 +31,7 @@ export class SitesDialogComponent extends DialogTableDataComponent<Site> {
     const items: KeyValue[] = [];
     if (!Utils.isEmptyArray(selectedRows)) {
       selectedRows.forEach((row) => {
-        items.push({key: row.id, value: row.name, objectRef: row});
+        items.push({ key: row.id, value: row.name, objectRef: row });
       });
     }
     return items;

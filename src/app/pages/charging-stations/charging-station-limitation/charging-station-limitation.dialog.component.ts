@@ -7,7 +7,8 @@ import { Utils } from '../../../utils/Utils';
 import { ChargingStationLimitationComponent } from './charging-station-limitation.component';
 
 @Component({
-  template: '<app-charging-station-limitation #appRef [chargingStationID]="chargingStationID" [chargingStationsAuthorizations]="chargingStationsAuthorizations" [inDialog]="true" [dialogRef]="dialogRef"></app-charging-station-limitation>',
+  template:
+    '<app-charging-station-limitation #appRef [chargingStationID]="chargingStationID" [chargingStationsAuthorizations]="chargingStationsAuthorizations" [inDialog]="true" [dialogRef]="dialogRef"></app-charging-station-limitation>',
 })
 export class ChargingStationLimitationDialogComponent {
   @ViewChild('appRef') public appRef!: ChargingStationLimitationComponent;
@@ -16,7 +17,9 @@ export class ChargingStationLimitationDialogComponent {
 
   public constructor(
     public dialogRef: MatDialogRef<ChargingStationLimitationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<SmartChargingDialogData, ChargingStationsAuthorizations>) {
+    @Inject(MAT_DIALOG_DATA)
+    dialogParams: DialogParamsWithAuth<SmartChargingDialogData, ChargingStationsAuthorizations>
+  ) {
     this.chargingStationID = dialogParams.dialogData?.id as string;
     this.chargingStationsAuthorizations = dialogParams.authorizations;
     Utils.registerCloseKeyEvents(this.dialogRef);

@@ -23,7 +23,8 @@ export class StatisticsBuildService {
 
   public constructor(
     private translateService: TranslateService,
-    private localeService: LocaleService) {
+    private localeService: LocaleService
+  ) {
     this.totalLabel = this.translateService.instant('statistics.total');
     if (Utils.isEmptyString(this.totalLabel)) {
       this.totalLabel = 'Total'; // should never happen
@@ -35,7 +36,13 @@ export class StatisticsBuildService {
     });
   }
 
-  public buildStackedChartDataForMonths(statisticsData: StatisticData[], roundingDecimals: number = 0, addUnitToLabel = false, sortedBy: 'label-asc' | 'label-desc' | 'size-asc' | 'size-desc' = 'size-desc', maxNumberOfItems = 20): ChartData {
+  public buildStackedChartDataForMonths(
+    statisticsData: StatisticData[],
+    roundingDecimals: number = 0,
+    addUnitToLabel = false,
+    sortedBy: 'label-asc' | 'label-desc' | 'size-asc' | 'size-desc' = 'size-desc',
+    maxNumberOfItems = 20
+  ): ChartData {
     const stackedChartData: ChartData = { labels: [], datasets: [] };
     let roundingFactor = 1;
     let monthString = '';
@@ -76,14 +83,13 @@ export class StatisticsBuildService {
         }
         // now for all items:
         for (const key in transactionValue) {
-          if ((key !== this.monthLabel) &&
-              (key !== this.unitLabel)) {
+          if (key !== this.monthLabel && key !== this.unitLabel) {
             // Round
             transactionValue[key] *= roundingFactor;
             transactionValue[key] = Math.round(transactionValue[key]);
             transactionValue[key] /= roundingFactor;
             if (transactionValue[key] && transactionValue[key] !== 0) {
-              if (addUnitToLabel && (this.unitLabel in transactionValue)) {
+              if (addUnitToLabel && this.unitLabel in transactionValue) {
                 newKey = key + ` [${transactionValue[this.unitLabel]}]`;
               } else {
                 newKey = key;
@@ -96,14 +102,18 @@ export class StatisticsBuildService {
                   numberArray.push(0);
                 }
                 numberArray.push(transactionValue[key]);
-                datasets.push({ label: newKey, data: numberArray, stack: ChartConstants.STACKED_ITEM });
+                datasets.push({
+                  label: newKey,
+                  data: numberArray,
+                  stack: ChartConstants.STACKED_ITEM,
+                });
               } else {
                 numberArray = datasets[dataSetIndex].data;
                 if (newMonth) {
                   numberArray.push(transactionValue[key]);
                 } else {
                   let monthlyNumber = numberArray[countMonths - 1];
-                  if (typeof (monthlyNumber) === 'number') {
+                  if (typeof monthlyNumber === 'number') {
                     monthlyNumber += transactionValue[key];
                     numberArray[countMonths - 1] = monthlyNumber;
                   }
@@ -131,7 +141,7 @@ export class StatisticsBuildService {
           totalDataArray.push(totalValuePerMonth);
         } else {
           let totalNumber = totalDataArray[currentIndex];
-          if (typeof (totalNumber) === 'number') {
+          if (typeof totalNumber === 'number') {
             totalNumber += totalValuePerMonth;
             totalDataArray[currentIndex] = totalNumber;
           }
@@ -145,7 +155,7 @@ export class StatisticsBuildService {
           numberArray = dataset.data;
           sum = 0;
           numberArray.forEach((numberItem) => {
-            if (typeof (numberItem) === 'number') {
+            if (typeof numberItem === 'number') {
               sum += numberItem;
             }
           });
@@ -212,7 +222,7 @@ export class StatisticsBuildService {
           numberArray = datasets[i].data;
           numberArray.forEach((numberItem, index) => {
             dataItem = datasets[lastValidIndex].data[index];
-            if (typeof (dataItem) === 'number' && typeof (numberItem) === 'number') {
+            if (typeof dataItem === 'number' && typeof numberItem === 'number') {
               dataItem += numberItem;
               datasets[lastValidIndex].data[index] = dataItem;
             }
@@ -221,7 +231,11 @@ export class StatisticsBuildService {
         }
       }
       // Last chart dataset for totals:
-      datasets.push({ label: this.totalLabel, data: totalDataArray, stack: ChartConstants.STACKED_TOTAL });
+      datasets.push({
+        label: this.totalLabel,
+        data: totalDataArray,
+        stack: ChartConstants.STACKED_TOTAL,
+      });
     }
     stackedChartData.datasets = datasets;
     return stackedChartData;
@@ -233,14 +247,16 @@ export class StatisticsBuildService {
     let numberArray = [];
     if (chartData.datasets) {
       // is the chart a stacked chart (with totals)?
-      dataSetIndex = chartData.datasets.findIndex((dataset) => dataset.stack === ChartConstants.STACKED_TOTAL);
+      dataSetIndex = chartData.datasets.findIndex(
+        (dataset) => dataset.stack === ChartConstants.STACKED_TOTAL
+      );
       if (dataSetIndex < 0) {
         // no, it is a simple chart
         if (!Utils.isEmptyArray(chartData.datasets)) {
           numberArray = chartData.datasets[0].data;
           if (Array.isArray(numberArray)) {
             numberArray.forEach((numberValue) => {
-              if (typeof (numberValue) === 'number') {
+              if (typeof numberValue === 'number') {
                 totalValue += numberValue;
               }
             });
@@ -251,7 +267,7 @@ export class StatisticsBuildService {
         numberArray = chartData.datasets[dataSetIndex].data;
         if (Array.isArray(numberArray)) {
           numberArray.forEach((numberValue) => {
-            if (typeof (numberValue) === 'number') {
+            if (typeof numberValue === 'number') {
               totalValue += numberValue;
             }
           });
@@ -265,7 +281,7 @@ export class StatisticsBuildService {
     const totalChartData: ChartData = { labels: [], datasets: [] };
     let totalValue = 0;
     let numberArray = [];
-    if (stackedChartData.datasets &&  totalChartData.labels) {
+    if (stackedChartData.datasets && totalChartData.labels) {
       stackedChartData.datasets.forEach((dataset) => {
         if (dataset.stack !== ChartConstants.STACKED_TOTAL) {
           const labels: string[] = totalChartData.labels as string[];
@@ -275,7 +291,7 @@ export class StatisticsBuildService {
           numberArray = dataset.data;
           if (Array.isArray(numberArray)) {
             numberArray.forEach((numberValue) => {
-              if (typeof (numberValue) === 'number') {
+              if (typeof numberValue === 'number') {
                 totalValue += numberValue;
               }
             });
@@ -313,7 +329,11 @@ export class StatisticsBuildService {
     return count;
   }
 
-  public calculateTotalsWithUnits(statisticsData: StatisticDataResult, roundingDecimals: number = 0, ignoreEmptyUnit = true): StatisticsBuildValueWithUnit[] {
+  public calculateTotalsWithUnits(
+    statisticsData: StatisticDataResult,
+    roundingDecimals: number = 0,
+    ignoreEmptyUnit = true
+  ): StatisticsBuildValueWithUnit[] {
     let roundingFactor = 1;
     let index = 0;
     let localString: any;
@@ -337,13 +357,12 @@ export class StatisticsBuildService {
     }
     if (!Utils.isEmptyArray(transactionValues)) {
       transactionValues.forEach((transactionValue: { [x: string]: number | string }) => {
-
         totalWithUnit = { value: 0, unit: '' };
         unitFound = false;
         for (const key in transactionValue) {
           if (key === this.unitLabel) {
             localString = transactionValue[key];
-            if (typeof (localString) === 'string') {
+            if (typeof localString === 'string') {
               unitFound = true;
               totalWithUnit.unit = localString;
               if (totalWithUnit.unit === lastUnit) {
@@ -360,7 +379,7 @@ export class StatisticsBuildService {
             }
           } else if (key !== this.monthLabel) {
             localNumber = transactionValue[key];
-            if (typeof (localNumber) === 'number') {
+            if (typeof localNumber === 'number') {
               // Round
               localNumber *= roundingFactor;
               localNumber = Math.round(localNumber);
@@ -393,7 +412,7 @@ export class StatisticsBuildService {
         totalsWithUnit[index].value += totalOfLastUnit;
       }
     } else {
-      totalsWithUnit.push({ value:0, unit: '' });
+      totalsWithUnit.push({ value: 0, unit: '' });
     }
     if (ignoreEmptyUnit && totalsWithUnit.length === 2) {
       index = totalsWithUnit.findIndex((record) => Utils.isEmptyString(record.unit));

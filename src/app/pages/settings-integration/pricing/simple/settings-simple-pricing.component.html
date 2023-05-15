@@ -3,16 +3,15 @@
     <div class="card-icon">
       <mat-icon>business</mat-icon>
     </div>
-    <h3 class="card-title">{{'settings.pricing.settings.title' | translate}}</h3>
+    <h3 class="card-title">{{ 'settings.pricing.settings.title' | translate }}</h3>
   </div>
 
   <div class="card-body">
     <div class="row mt-1">
       <div class="col-md-3">
         <mat-form-field>
-          <mat-label for="inputPriceUnit">{{'pricing.price_unit_label' | translate}} *</mat-label>
-          <mat-select id="inputPriceUnit"
-            [formControl]="currency">
+          <mat-label for="inputPriceUnit">{{ 'pricing.price_unit_label' | translate }} *</mat-label>
+          <mat-select id="inputPriceUnit" [formControl]="currency">
             <mat-option value="AUD">Australian Dollar</mat-option>
             <mat-option value="BRL">Brazilian Real </mat-option>
             <mat-option value="CAD">Canadian Dollar</mat-option>
@@ -39,9 +38,11 @@
             <mat-option value="TRY">Turkish Lira</mat-option>
             <mat-option value="USD">U.S. Dollar</mat-option>
           </mat-select>
-          <mat-error *ngIf="currency.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+          <mat-error *ngIf="currency.errors?.required">{{
+            'general.mandatory_field' | translate
+          }}</mat-error>
           <mat-error *ngIf="currency.errors?.maxlength">
-            <div [translate]="'general.error_max_length'" [translateParams]="{length: 3}"></div>
+            <div [translate]="'general.error_max_length'" [translateParams]="{ length: 3 }"></div>
           </mat-error>
         </mat-form-field>
       </div>

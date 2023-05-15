@@ -6,8 +6,7 @@ import { WINDOW } from '../providers/window.provider';
 @Injectable()
 export class WindowService {
   // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    @Inject(WINDOW) private window: Window) {}
+  public constructor(@Inject(WINDOW) private window: Window) {}
 
   public getHostname(): string {
     return this.window.location.hostname;
@@ -30,13 +29,16 @@ export class WindowService {
   }
 
   public getHash(): string {
-    return this.window.location.hash.includes('?') ? this.window.location.hash.substring(1, this.window.location.hash.indexOf('?')) :
-      this.window.location.hash.substring(1);
+    return this.window.location.hash.includes('?')
+      ? this.window.location.hash.substring(1, this.window.location.hash.indexOf('?'))
+      : this.window.location.hash.substring(1);
   }
 
   public getSubdomain(): string {
     const urlParsed = parse(this.window.location.host);
-    return urlParsed.publicSuffix === 'localhost' ? urlParsed.domainWithoutSuffix ?? '' : urlParsed.subdomain;
+    return urlParsed.publicSuffix === 'localhost'
+      ? urlParsed.domainWithoutSuffix ?? ''
+      : urlParsed.subdomain;
   }
 
   public getLocalStorage(): Storage {
@@ -67,7 +69,9 @@ export class WindowService {
     if (window.location.search) {
       value = new URLSearchParams(window.location.search).get(name);
     } else if (window.location.hash) {
-      value = new URLSearchParams(window.location.hash.slice(this.window.location.hash.indexOf('?'))).get(name);
+      value = new URLSearchParams(
+        window.location.hash.slice(this.window.location.hash.indexOf('?'))
+      ).get(name);
     }
     return value;
   }
@@ -115,7 +119,9 @@ export class WindowService {
     // Set the Query params
     if (history.pushState) {
       // Without page reload
-      const newURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}${queryParams ? '?' + queryParams : ''}${window.location.hash}`;
+      const newURL = `${window.location.protocol}//${window.location.host}${
+        window.location.pathname
+      }${queryParams ? '?' + queryParams : ''}${window.location.hash}`;
       window.history.pushState({ path: newURL }, '', newURL);
     } else {
       // With page reload

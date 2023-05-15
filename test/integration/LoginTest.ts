@@ -26,7 +26,6 @@ beforeEach(async () => {
 });
 
 describe('Login successfull', () => {
-
   afterEach(async () => {
     // Logout
     await LoginHelper.logout(activePage);
@@ -34,7 +33,7 @@ describe('Login successfull', () => {
 
   it('Form is filled step by step in order', async () => {
     // Go to login URL
-    await activePage.goto(LoginHelper.DASHBOARD_BASE_URL,{ waitUntil: 'networkidle0' });
+    await activePage.goto(LoginHelper.DASHBOARD_BASE_URL, { waitUntil: 'networkidle0' });
     // Perform step by step login actions
     await LoginHelper.inputLogin(activePage, 'test@sap.com');
     await LoginHelper.inputPassword(activePage, 'password');
@@ -44,7 +43,7 @@ describe('Login successfull', () => {
 
   it('Form is filled step by step in inverse order', async () => {
     // Go to login URL
-    await activePage.goto(LoginHelper.DASHBOARD_BASE_URL,{ waitUntil: 'networkidle0' });
+    await activePage.goto(LoginHelper.DASHBOARD_BASE_URL, { waitUntil: 'networkidle0' });
     // Perform step by step login actions
     await LoginHelper.inputLogin(activePage, 'test@sap.com');
     await LoginHelper.selectTermsCheckBox(activePage);
@@ -58,10 +57,9 @@ describe('Login successfull', () => {
 });
 
 describe('Login not possible due to incomplete form', () => {
-
   beforeEach(async () => {
     // Go to login URL
-    await activePage.goto(LoginHelper.DASHBOARD_BASE_URL,{ waitUntil: 'networkidle0' });
+    await activePage.goto(LoginHelper.DASHBOARD_BASE_URL, { waitUntil: 'networkidle0' });
   });
 
   it('Empty login form', async () => {
@@ -76,10 +74,9 @@ describe('Login not possible due to incomplete form', () => {
 });
 
 describe('Login not possible due to invalid form', () => {
-
   beforeEach(async () => {
     // Go to login URL
-    await activePage.goto(LoginHelper.DASHBOARD_BASE_URL,{ waitUntil: 'networkidle0' });
+    await activePage.goto(LoginHelper.DASHBOARD_BASE_URL, { waitUntil: 'networkidle0' });
   });
 
   it('invalid email', async () => {

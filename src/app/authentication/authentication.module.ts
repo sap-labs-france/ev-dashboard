@@ -36,9 +36,7 @@ import { AuthenticationVerifyEmailComponent } from './verify-email/authenticatio
     AuthenticationResetPasswordComponent,
     AuthenticationDefinePasswordComponent,
     AuthenticationVerifyEmailComponent,
-    AccountOnboardingComponent
+    AccountOnboardingComponent,
   ],
 })
-
-export class AuthenticationModule {
-}
+export class AuthenticationModule {}

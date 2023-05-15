@@ -1,6 +1,6 @@
-@use "sass:map";
+@use 'sass:map';
 
-$width-height-levels: 20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95;
+$width-height-levels: 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95;
 
 .mat-dialog-content {
   padding: 4px 24px;
@@ -37,7 +37,7 @@ $width-height-levels: 20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95;
     .card {
       .mat-tab-group {
         height: 100%;
-        .card-body{
+        .card-body {
           height: 100%;
         }
       }
@@ -45,12 +45,17 @@ $width-height-levels: 20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95;
   }
 }
 
-@each $prop, $unit in (width: vw, height: vh) { // for each width and height
-  @each $breakpoint in map-keys($grid-breakpoints) { // Loop over breakpoints xs, sm, md, lg, xl, xxl, 3xl
+@each $prop, $unit in (width: vw, height: vh) {
+  // for each width and height
+  @each $breakpoint in map-keys($grid-breakpoints) {
+    // Loop over breakpoints xs, sm, md, lg, xl, xxl, 3xl
     @media (min-#{$prop}: map.get($grid-breakpoints, $breakpoint)) {
       $infix: breakpoint-infix($breakpoint, $grid-breakpoints); // Create -lg
-      @each $size in $width-height-levels { // for each 20 -> 95 will short the list once every dialog is done so I know which one i really need
-        .#{$unit}#{$infix}-#{$size} { #{$prop}: #{$size}#{$unit} !important; } // -> .vh-lg-50 { height: 50 !important}
+      @each $size in $width-height-levels {
+        // for each 20 -> 95 will short the list once every dialog is done so I know which one i really need
+        .#{$unit}#{$infix}-#{$size} {
+          #{$prop}: #{$size}#{$unit} !important;
+        } // -> .vh-lg-50 { height: 50 !important}
       }
     }
   }

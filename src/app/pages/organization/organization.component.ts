@@ -17,7 +17,7 @@ export class OrganizationComponent extends AbstractTabComponent {
   public constructor(
     activatedRoute: ActivatedRoute,
     windowService: WindowService,
-    authorizationService: AuthorizationService,
+    authorizationService: AuthorizationService
   ) {
     super(activatedRoute, windowService, ['companies', 'sites', 'site-areas']);
     this.canListCompanies = authorizationService.canListCompanies();

@@ -5,7 +5,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { WindowService } from 'services/window.service';
 import { TransactionDialogComponent } from 'shared/dialogs/transaction/transaction-dialog.component';
-import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from 'shared/table/actions/transactions/table-view-transaction-action';
+import {
+  TableViewTransactionAction,
+  TableViewTransactionActionDef,
+  TransactionDialogData,
+} from 'shared/table/actions/transactions/table-view-transaction-action';
 import { ConnectorTableFilter } from 'shared/table/filters/connector-table-filter';
 import { DateRangeTableFilter } from 'shared/table/filters/date-range-table-filter';
 import { SiteTableFilter } from 'shared/table/filters/site-table-filter';
@@ -28,10 +32,19 @@ import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableOpenURLActionDef } from '../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableExportTransactionsAction, TableExportTransactionsActionDef } from '../../../shared/table/actions/transactions/table-export-transactions-action';
+import {
+  TableExportTransactionsAction,
+  TableExportTransactionsActionDef,
+} from '../../../shared/table/actions/transactions/table-export-transactions-action';
 import { TableOpenURLRefundAction } from '../../../shared/table/actions/transactions/table-open-url-concur-action';
-import { TableRefundTransactionsAction, TableRefundTransactionsActionDef } from '../../../shared/table/actions/transactions/table-refund-transactions-action';
-import { TableSyncRefundTransactionsAction, TableSyncRefundTransactionsActionDef } from '../../../shared/table/actions/transactions/table-sync-refund-transactions-action';
+import {
+  TableRefundTransactionsAction,
+  TableRefundTransactionsActionDef,
+} from '../../../shared/table/actions/transactions/table-refund-transactions-action';
+import {
+  TableSyncRefundTransactionsAction,
+  TableSyncRefundTransactionsActionDef,
+} from '../../../shared/table/actions/transactions/table-sync-refund-transactions-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
 import { ReportTableFilter } from '../../../shared/table/filters/report-table-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
@@ -83,14 +96,17 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     private appUserNamePipe: AppUserNamePipe,
     private appDurationPipe: AppDurationPipe,
     private appCurrencyPipe: AppCurrencyPipe,
-    private windowService: WindowService) {
+    private windowService: WindowService
+  ) {
     super(spinnerService, translateService);
     // Init
-    this.setStaticFilters([{
-      WithUser: true,
-      WithCar: true,
-      Statistics: 'refund',
-    }]);
+    this.setStaticFilters([
+      {
+        WithUser: true,
+        WithCar: true,
+        Statistics: 'refund',
+      },
+    ]);
     this.initDataSource();
   }
 
@@ -98,7 +114,8 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
     return new Observable((observer) => {
       const filters = this.buildFilterValues();
       filters['MinimalPrice'] = '0';
-      this.centralServerService.getTransactionsToRefund(filters, this.getPaging(), this.getSorting())
+      this.centralServerService
+        .getTransactionsToRefund(filters, this.getPaging(), this.getSorting())
         .subscribe({
           next: (transactions) => {
             // Initialize transactions authorization
@@ -115,12 +132,13 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
               canSyncRefund: Utils.convertToBoolean(transactions.canSyncRefund),
               canReadSetting: Utils.convertToBoolean(transactions.canReadSetting),
               // metadata
-              metadata: transactions.metadata
+              metadata: transactions.metadata,
             };
             // Update filters visibility
             this.siteFilter.visible = this.transactionsAuthorizations.canListSites;
             this.siteAreaFilter.visible = this.transactionsAuthorizations.canListSiteAreas;
-            this.chargingStationFilter.visible = this.transactionsAuthorizations.canListChargingStations;
+            this.chargingStationFilter.visible =
+              this.transactionsAuthorizations.canListChargingStations;
             this.connectorFilter.visible = this.transactionsAuthorizations.canListChargingStations;
             this.userFilter.visible = this.transactionsAuthorizations.canListUsers;
             this.tagsFilter.visible = this.transactionsAuthorizations.canListTags;
@@ -137,9 +155,15 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
             observer.complete();
           },
           error: (error) => {
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.error_backend'
+            );
             observer.error(error);
-          }
+          },
         });
     });
   }
@@ -167,16 +191,32 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
       if (data.stats) {
         // Total Consumption
         // eslint-disable-next-line max-len
-        let stats = `| ${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.stats.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0, 0)}`;
+        let stats = `| ${this.translateService.instant(
+          'transactions.consumption'
+        )}: ${this.appUnitPipe.transform(
+          data.stats.totalConsumptionWattHours,
+          'Wh',
+          'kWh',
+          true,
+          1,
+          0,
+          0
+        )}`;
         // Refund transactions
         // eslint-disable-next-line max-len
-        stats += ` | ${this.translateService.instant('transactions.refund_transactions')}: ${data.stats.countRefundTransactions} (${this.appCurrencyPipe.transform(data.stats.totalPriceRefund, data.stats.currency)})`;
+        stats += ` | ${this.translateService.instant('transactions.refund_transactions')}: ${
+          data.stats.countRefundTransactions
+        } (${this.appCurrencyPipe.transform(data.stats.totalPriceRefund, data.stats.currency)})`;
         // Pending transactions
         // eslint-disable-next-line max-len
-        stats += ` | ${this.translateService.instant('transactions.pending_transactions')}: ${data.stats.countPendingTransactions} (${this.appCurrencyPipe.transform(data.stats.totalPricePending, data.stats.currency)})`;
+        stats += ` | ${this.translateService.instant('transactions.pending_transactions')}: ${
+          data.stats.countPendingTransactions
+        } (${this.appCurrencyPipe.transform(data.stats.totalPricePending, data.stats.currency)})`;
         // Number of reimbursed reports submitted
         // eslint-disable-next-line max-len
-        stats += ` | ${this.translateService.instant('transactions.count_refunded_reports')}: ${data.stats.countRefundedReports}`;
+        stats += ` | ${this.translateService.instant('transactions.count_refunded_reports')}: ${
+          data.stats.countRefundedReports
+        }`;
         return stats;
       }
     }
@@ -245,7 +285,8 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
       {
         id: 'stop.totalConsumptionWh',
         name: 'transactions.total_consumption',
-        formatter: (totalConsumptionWh) => this.appUnitPipe.transform(totalConsumptionWh, 'Wh', 'kWh'),
+        formatter: (totalConsumptionWh) =>
+          this.appUnitPipe.transform(totalConsumptionWh, 'Wh', 'kWh'),
       },
       {
         id: 'stop.price',
@@ -258,8 +299,9 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         headerClass: 'text-center col-15p',
         class: 'text-center col-15p',
         sortable: true,
-        formatter: (value: string, row: Transaction) => row.carCatalog ? Utils.buildCarCatalogName(row.carCatalog) : '-',
-        visible: this.componentService.isActive(TenantComponents.CAR)
+        formatter: (value: string, row: Transaction) =>
+          row.carCatalog ? Utils.buildCarCatalogName(row.carCatalog) : '-',
+        visible: this.componentService.isActive(TenantComponents.CAR),
       },
       {
         id: 'car.licensePlate',
@@ -267,19 +309,22 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
         headerClass: 'text-center col-15p',
         class: 'text-center col-15p',
         sortable: true,
-        formatter: (licensePlate: string) => licensePlate ? licensePlate : '-',
-        visible: this.componentService.isActive(TenantComponents.CAR)
-      }
+        formatter: (licensePlate: string) => (licensePlate ? licensePlate : '-'),
+        visible: this.componentService.isActive(TenantComponents.CAR),
+      },
     ];
   }
 
   public formatInactivity(totalInactivitySecs: number, row: Transaction) {
-    const percentage = row.stop.totalDurationSecs > 0 ? (totalInactivitySecs / row.stop.totalDurationSecs) : 0;
+    const percentage =
+      row.stop.totalDurationSecs > 0 ? totalInactivitySecs / row.stop.totalDurationSecs : 0;
     if (percentage === 0) {
       return '';
     }
-    return this.appDurationPipe.transform(totalInactivitySecs) +
-      ` (${this.appPercentPipe.transform(percentage, '2.0-0')})`;
+    return (
+      this.appDurationPipe.transform(totalInactivitySecs) +
+      ` (${this.appPercentPipe.transform(percentage, '2.0-0')})`
+    );
   }
 
   public formatChargingStation(chargingStationID: string, row: Transaction) {
@@ -287,11 +332,16 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    this.dateRangeFilter = new DateRangeTableFilter({ translateService: this.translateService }).getFilterDef();
+    this.dateRangeFilter = new DateRangeTableFilter({
+      translateService: this.translateService,
+    }).getFilterDef();
     this.statusFilter = new TransactionsRefundStatusFilter().getFilterDef();
     this.siteFilter = new SiteTableFilter().getFilterDef();
     this.siteAreaFilter = new SiteAreaTableFilter([this.siteFilter]).getFilterDef();
-    this.chargingStationFilter = new ChargingStationTableFilter([this.siteFilter, this.siteAreaFilter]).getFilterDef();
+    this.chargingStationFilter = new ChargingStationTableFilter([
+      this.siteFilter,
+      this.siteAreaFilter,
+    ]).getFilterDef();
     this.connectorFilter = new ConnectorTableFilter().getFilterDef();
     this.userFilter = new UserTableFilter([this.siteFilter]).getFilterDef();
     this.tagsFilter = new TagTableFilter([this.userFilter]).getFilterDef();
@@ -306,7 +356,7 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
       this.connectorFilter,
       this.userFilter,
       this.tagsFilter,
-      this.reportFilter
+      this.reportFilter,
     ];
     return filters;
   }
@@ -327,35 +377,59 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
       case TransactionButtonAction.REFUND_SYNCHRONIZE:
         if (actionDef.action) {
           (actionDef as TableSyncRefundTransactionsActionDef).action(
-            this.dialogService, this.translateService, this.messageService, this.centralServerService,
-            this.spinnerService, this.router, this.refreshData.bind(this)
+            this.dialogService,
+            this.translateService,
+            this.messageService,
+            this.centralServerService,
+            this.spinnerService,
+            this.router,
+            this.refreshData.bind(this)
           );
         }
         break;
       case TransactionButtonAction.REFUND_TRANSACTIONS:
         if (actionDef.action) {
           (actionDef as TableRefundTransactionsActionDef).action(
-            this.refundSetting, this.getSelectedRows(),
-            this.dialogService, this.translateService, this.messageService, this.centralServerService,
-            this.spinnerService, this.router, this.clearSelectedRows.bind(this), this.refreshData.bind(this)
+            this.refundSetting,
+            this.getSelectedRows(),
+            this.dialogService,
+            this.translateService,
+            this.messageService,
+            this.centralServerService,
+            this.spinnerService,
+            this.router,
+            this.clearSelectedRows.bind(this),
+            this.refreshData.bind(this)
           );
         }
         break;
       case TransactionButtonAction.OPEN_REFUND_URL:
         if (!this.refundSetting) {
           this.messageService.showErrorMessage(
-            this.translateService.instant('transactions.notification.refund.concur_connection_invalid'));
+            this.translateService.instant(
+              'transactions.notification.refund.concur_connection_invalid'
+            )
+          );
         } else if (this.refundSetting && this.refundSetting.concur && actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action(this.refundSetting.concur.appUrl ?
-            this.refundSetting.concur.appUrl :
-            this.refundSetting.concur.apiUrl, this.windowService);
+          (actionDef as TableOpenURLActionDef).action(
+            this.refundSetting.concur.appUrl
+              ? this.refundSetting.concur.appUrl
+              : this.refundSetting.concur.apiUrl,
+            this.windowService
+          );
         }
         break;
       case TransactionButtonAction.EXPORT_TRANSACTIONS:
         if (actionDef.action) {
-          (actionDef as TableExportTransactionsActionDef).action(this.buildFilterValues(), this.dialogService,
-            this.translateService, this.messageService, this.centralServerService, this.router,
-            this.spinnerService);
+          (actionDef as TableExportTransactionsActionDef).action(
+            this.buildFilterValues(),
+            this.dialogService,
+            this.translateService,
+            this.messageService,
+            this.centralServerService,
+            this.router,
+            this.spinnerService
+          );
         }
         break;
     }
@@ -369,18 +443,19 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
   }
 
   public buildTableRowActions(): TableActionDef[] {
-    return [
-      this.viewAction
-    ];
+    return [this.viewAction];
   }
 
   public rowActionTriggered(actionDef: TableActionDef, transaction: Transaction) {
     switch (actionDef.id) {
       case TransactionButtonAction.VIEW_TRANSACTION:
         if (actionDef.action) {
-          (actionDef as TableViewTransactionActionDef).action(TransactionDialogComponent, this.dialog,
+          (actionDef as TableViewTransactionActionDef).action(
+            TransactionDialogComponent,
+            this.dialog,
             { dialogData: { transactionID: transaction.id } as TransactionDialogData },
-            this.refreshData.bind(this));
+            this.refreshData.bind(this)
+          );
         }
         break;
     }
@@ -399,8 +474,14 @@ export class TransactionsRefundTableDataSource extends TableDataSource<Transacti
           }
         },
         error: (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-        }
+          Utils.handleHttpError(
+            error,
+            this.router,
+            this.messageService,
+            this.centralServerService,
+            'general.error_backend'
+          );
+        },
       });
     }
   }

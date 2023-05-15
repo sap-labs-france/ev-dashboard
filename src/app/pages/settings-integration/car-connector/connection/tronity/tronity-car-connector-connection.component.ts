@@ -6,7 +6,7 @@ import { CarConnectorTronityConnectionType } from '../../../../../types/Setting'
 
 @Component({
   selector: 'app-settings-tronity-connection',
-  templateUrl: 'tronity-car-connector-connection.component.html'
+  templateUrl: 'tronity-car-connector-connection.component.html',
 })
 export class TronityCarConnectorConnectionComponent implements OnInit {
   @Input() public formGroup!: UntypedFormGroup;
@@ -20,19 +20,12 @@ export class TronityCarConnectorConnectionComponent implements OnInit {
   public ngOnInit(): void {
     // Set login credentials form
     this.tronityCredentials = new UntypedFormGroup({
-      apiUrl: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(Constants.URL_PATTERN),
-        ])),
-      clientId: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      clientSecret: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
+      apiUrl: new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, Validators.pattern(Constants.URL_PATTERN)])
+      ),
+      clientId: new UntypedFormControl('', Validators.compose([Validators.required])),
+      clientSecret: new UntypedFormControl('', Validators.compose([Validators.required])),
     });
     if (!this.formGroup.disabled) {
       this.formGroup.addControl('tronityConnection', this.tronityCredentials);

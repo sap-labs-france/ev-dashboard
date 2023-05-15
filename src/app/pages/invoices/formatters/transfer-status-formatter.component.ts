@@ -9,8 +9,8 @@ import { ChipType } from '../../../types/GlobalType';
   selector: 'app-transfer-status-formatter',
   template: `
     <mat-chip-list [selectable]="false">
-      <mat-chip [ngClass]="row.status | appFormatTransferStatus:'class'" [disabled]="true">
-        {{row.status | appFormatTransferStatus:'text' | translate}}
+      <mat-chip [ngClass]="row.status | appFormatTransferStatus : 'class'" [disabled]="true">
+        {{ row.status | appFormatTransferStatus : 'text' | translate }}
       </mat-chip>
     </mat-chip-list>
   `,

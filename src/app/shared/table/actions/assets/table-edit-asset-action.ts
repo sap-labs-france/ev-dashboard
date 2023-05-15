@@ -8,8 +8,12 @@ import { TableActionDef } from '../../../../types/Table';
 import { TableEditAction } from '../table-edit-action';
 
 export interface TableEditAssetActionDef extends TableActionDef {
-  action: (assetDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<Asset, AssetsAuthorizations>, refresh?: () => Observable<void>) => void;
+  action: (
+    assetDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<Asset, AssetsAuthorizations>,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableEditAssetAction extends TableEditAction {
@@ -21,8 +25,12 @@ export class TableEditAssetAction extends TableEditAction {
     };
   }
 
-  private editAsset(assetDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<Asset, AssetsAuthorizations>, refresh?: () => Observable<void>) {
+  private editAsset(
+    assetDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<Asset, AssetsAuthorizations>,
+    refresh?: () => Observable<void>
+  ) {
     super.edit(assetDialogComponent, dialog, dialogParams, refresh);
   }
 }

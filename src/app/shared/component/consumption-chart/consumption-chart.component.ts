@@ -68,7 +68,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
   private visibleDatasets = [
     ConsumptionChartDatasetOrder.INSTANT_WATTS,
     ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_WH,
-    ConsumptionChartDatasetOrder.STATE_OF_CHARGE
+    ConsumptionChartDatasetOrder.STATE_OF_CHARGE,
   ];
   private gridDisplay = {
     [ConsumptionChartAxis.POWER]: true,
@@ -85,8 +85,9 @@ export class ConsumptionChartComponent implements AfterViewInit {
     private durationPipe: AppDurationPipe,
     private decimalPipe: AppDecimalPipe,
     private appCurrencyPipe: AppCurrencyPipe,
-    private authorizationService: AuthorizationService) {
-    if (this.authorizationService.isAdmin()){
+    private authorizationService: AuthorizationService
+  ) {
+    if (this.authorizationService.isAdmin()) {
       this.visibleDatasets.push(ConsumptionChartDatasetOrder.LIMIT_WATTS);
     }
   }
@@ -114,15 +115,17 @@ export class ConsumptionChartComponent implements AfterViewInit {
   }
 
   public refresh() {
-    this.centralServerService.getTransactionConsumption(this.transactionId, this.loadAllConsumptions).subscribe({
-      next: (transaction) => {
-        this.transaction = transaction;
-        this.prepareOrUpdateGraph();
-      },
-      error: (error) => {
-        delete this.transaction;
-      }
-    });
+    this.centralServerService
+      .getTransactionConsumption(this.transactionId, this.loadAllConsumptions)
+      .subscribe({
+        next: (transaction) => {
+          this.transaction = transaction;
+          this.prepareOrUpdateGraph();
+        },
+        error: (error) => {
+          delete this.transaction;
+        },
+      });
   }
 
   public loadAllConsumptionsChanged(matCheckboxChange: MatCheckboxChange) {
@@ -138,23 +141,22 @@ export class ConsumptionChartComponent implements AfterViewInit {
     this.prepareOrUpdateGraph();
   }
 
-  private updateVisibleDatasets(){
-    if(this.data.datasets.length > 0) {
+  private updateVisibleDatasets() {
+    if (this.data.datasets.length > 0) {
       this.visibleDatasets = [];
-      this.data.datasets.forEach(dataset => {
-        if(!dataset.hidden){
+      this.data.datasets.forEach((dataset) => {
+        if (!dataset.hidden) {
           this.visibleDatasets.push(dataset.order);
         }
       });
     }
   }
 
-
   // eslint-disable-next-line complexity
-  private updateVisibleGridLines(){
-    const visibleDatasets = this.data.datasets.filter(ds => !ds.hidden).map(ds => ds.order);
+  private updateVisibleGridLines() {
+    const visibleDatasets = this.data.datasets.filter((ds) => !ds.hidden).map((ds) => ds.order);
     for (const key in this.gridDisplay) {
-      if(Object.prototype.hasOwnProperty.call(this.gridDisplay, key)){
+      if (Object.prototype.hasOwnProperty.call(this.gridDisplay, key)) {
         this.gridDisplay[key] = false;
       }
     }
@@ -185,9 +187,9 @@ export class ConsumptionChartComponent implements AfterViewInit {
       visibleDatasets.includes(ConsumptionChartDatasetOrder.INSTANT_VOLTS_DC)
     ) {
       this.gridDisplay[ConsumptionChartAxis.VOLTAGE] = true;
-    } else if( visibleDatasets.includes(ConsumptionChartDatasetOrder.STATE_OF_CHARGE) ) {
+    } else if (visibleDatasets.includes(ConsumptionChartDatasetOrder.STATE_OF_CHARGE)) {
       this.gridDisplay[ConsumptionChartAxis.PERCENTAGE] = true;
-    } else if( visibleDatasets.includes(ConsumptionChartDatasetOrder.CUMULATED_AMOUNT) ) {
+    } else if (visibleDatasets.includes(ConsumptionChartDatasetOrder.CUMULATED_AMOUNT)) {
       this.gridDisplay[ConsumptionChartAxis.AMOUNT] = true;
     }
   }
@@ -224,91 +226,154 @@ export class ConsumptionChartComponent implements AfterViewInit {
     datasets.push({
       type: 'line',
       // hidden: this.activeLegend[this.activeLegend.findIndex((x => x.key.includes(this.translateService.instant('transactions.graph.amps'))))].hidden,
-      hidden: this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.INSTANT_AMPS) === -1
-       && this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.INSTANT_WATTS) === -1,
+      hidden:
+        this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.INSTANT_AMPS) === -1 &&
+        this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.INSTANT_WATTS) === -1,
       data: [],
-      yAxisID: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartAxis.AMPERAGE : ConsumptionChartAxis.POWER,
+      yAxisID:
+        this.selectedUnit === ConsumptionUnit.AMPERE
+          ? ConsumptionChartAxis.AMPERAGE
+          : ConsumptionChartAxis.POWER,
       lineTension: this.lineTension,
       ...Utils.formatLineColor(this.instantPowerAmpsColor),
-      label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
-        'transactions.graph.amps' : 'transactions.graph.power'),
+      label: this.translateService.instant(
+        this.selectedUnit === ConsumptionUnit.AMPERE
+          ? 'transactions.graph.amps'
+          : 'transactions.graph.power'
+      ),
       fill: 'origin',
-      order: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartDatasetOrder.INSTANT_AMPS : ConsumptionChartDatasetOrder.INSTANT_WATTS,
+      order:
+        this.selectedUnit === ConsumptionUnit.AMPERE
+          ? ConsumptionChartDatasetOrder.INSTANT_AMPS
+          : ConsumptionChartDatasetOrder.INSTANT_WATTS,
     });
     // Power/Amps L1/L2/L3
-    if (this.transaction.values.find((consumption) => consumption.instantWattsL1 > 0) ||
+    if (
+      this.transaction.values.find((consumption) => consumption.instantWattsL1 > 0) ||
       this.transaction.values.find((consumption) => consumption.instantWattsL2 > 0) ||
-      this.transaction.values.find((consumption) => consumption.instantWattsL3 > 0)) {
+      this.transaction.values.find((consumption) => consumption.instantWattsL3 > 0)
+    ) {
       datasets.push({
         type: 'line',
         data: [],
-        hidden: this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.INSTANT_AMPS_L1) === -1
-         && this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.INSTANT_WATTS_L1) === -1,
-        yAxisID: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartAxis.AMPERAGE : ConsumptionChartAxis.POWER,
+        hidden:
+          this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.INSTANT_AMPS_L1) === -1 &&
+          this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.INSTANT_WATTS_L1) === -1,
+        yAxisID:
+          this.selectedUnit === ConsumptionUnit.AMPERE
+            ? ConsumptionChartAxis.AMPERAGE
+            : ConsumptionChartAxis.POWER,
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.instantPowerAmpsL1Color),
-        label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
-          'transactions.graph.amps_l1' : 'transactions.graph.power_l1'),
+        label: this.translateService.instant(
+          this.selectedUnit === ConsumptionUnit.AMPERE
+            ? 'transactions.graph.amps_l1'
+            : 'transactions.graph.power_l1'
+        ),
         borderDash: [1, 1],
         fill: 'origin',
-        order: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartDatasetOrder.INSTANT_AMPS_L1 : ConsumptionChartDatasetOrder.INSTANT_WATTS_L1,
+        order:
+          this.selectedUnit === ConsumptionUnit.AMPERE
+            ? ConsumptionChartDatasetOrder.INSTANT_AMPS_L1
+            : ConsumptionChartDatasetOrder.INSTANT_WATTS_L1,
       });
       datasets.push({
         type: 'line',
         data: [],
-        hidden: this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.INSTANT_AMPS_L2) === -1
-         && this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.INSTANT_WATTS_L2) === -1,
-        yAxisID: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartAxis.AMPERAGE : ConsumptionChartAxis.POWER,
+        hidden:
+          this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.INSTANT_AMPS_L2) === -1 &&
+          this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.INSTANT_WATTS_L2) === -1,
+        yAxisID:
+          this.selectedUnit === ConsumptionUnit.AMPERE
+            ? ConsumptionChartAxis.AMPERAGE
+            : ConsumptionChartAxis.POWER,
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.instantPowerAmpsL2Color),
-        label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
-          'transactions.graph.amps_l2' : 'transactions.graph.power_l2'),
+        label: this.translateService.instant(
+          this.selectedUnit === ConsumptionUnit.AMPERE
+            ? 'transactions.graph.amps_l2'
+            : 'transactions.graph.power_l2'
+        ),
         borderDash: [3, 3],
         fill: 'origin',
-        order: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartDatasetOrder.INSTANT_AMPS_L2 : ConsumptionChartDatasetOrder.INSTANT_WATTS_L2,
+        order:
+          this.selectedUnit === ConsumptionUnit.AMPERE
+            ? ConsumptionChartDatasetOrder.INSTANT_AMPS_L2
+            : ConsumptionChartDatasetOrder.INSTANT_WATTS_L2,
       });
       datasets.push({
         type: 'line',
         data: [],
-        hidden: this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.INSTANT_AMPS_L3) === -1
-          && this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.INSTANT_WATTS_L3) === -1,
-        yAxisID: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartAxis.AMPERAGE : ConsumptionChartAxis.POWER,
+        hidden:
+          this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.INSTANT_AMPS_L3) === -1 &&
+          this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.INSTANT_WATTS_L3) === -1,
+        yAxisID:
+          this.selectedUnit === ConsumptionUnit.AMPERE
+            ? ConsumptionChartAxis.AMPERAGE
+            : ConsumptionChartAxis.POWER,
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.instantPowerAmpsL3Color),
-        label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
-          'transactions.graph.amps_l3' : 'transactions.graph.power_l3'),
+        label: this.translateService.instant(
+          this.selectedUnit === ConsumptionUnit.AMPERE
+            ? 'transactions.graph.amps_l3'
+            : 'transactions.graph.power_l3'
+        ),
         borderDash: [5, 5],
         fill: 'origin',
-        order: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartDatasetOrder.INSTANT_AMPS_L3 : ConsumptionChartDatasetOrder.INSTANT_WATTS_L3,
+        order:
+          this.selectedUnit === ConsumptionUnit.AMPERE
+            ? ConsumptionChartDatasetOrder.INSTANT_AMPS_L3
+            : ConsumptionChartDatasetOrder.INSTANT_WATTS_L3,
       });
     }
     // Limit Amps/Power
     datasets.push({
       type: 'line',
-      hidden: this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.LIMIT_AMPS) === -1
-        && this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.LIMIT_WATTS) === -1,
+      hidden:
+        this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.LIMIT_AMPS) === -1 &&
+        this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.LIMIT_WATTS) === -1,
       data: [],
-      yAxisID: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartAxis.AMPERAGE : ConsumptionChartAxis.POWER,
+      yAxisID:
+        this.selectedUnit === ConsumptionUnit.AMPERE
+          ? ConsumptionChartAxis.AMPERAGE
+          : ConsumptionChartAxis.POWER,
       lineTension: this.lineTension,
       ...Utils.formatLineColor(this.limitColor),
-      label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
-        'transactions.graph.limit_amps' : 'transactions.graph.limit_watts'),
+      label: this.translateService.instant(
+        this.selectedUnit === ConsumptionUnit.AMPERE
+          ? 'transactions.graph.limit_amps'
+          : 'transactions.graph.limit_watts'
+      ),
       fill: 'origin',
-      order: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartDatasetOrder.LIMIT_AMPS : ConsumptionChartDatasetOrder.LIMIT_WATTS,
+      order:
+        this.selectedUnit === ConsumptionUnit.AMPERE
+          ? ConsumptionChartDatasetOrder.LIMIT_AMPS
+          : ConsumptionChartDatasetOrder.LIMIT_WATTS,
     });
     // Cumulated Amps/Power
     datasets.push({
       type: 'line',
-      hidden: this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_AMPS) === -1
-        && this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_WH) === -1,
+      hidden:
+        this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_AMPS) ===
+          -1 &&
+        this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_WH) === -1,
       data: [],
-      yAxisID: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartAxis.AMPERAGE : ConsumptionChartAxis.POWER,
+      yAxisID:
+        this.selectedUnit === ConsumptionUnit.AMPERE
+          ? ConsumptionChartAxis.AMPERAGE
+          : ConsumptionChartAxis.POWER,
       lineTension: this.lineTension,
       ...Utils.formatLineColor(this.consumptionColor),
-      label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
-        'transactions.graph.energy_amps' : 'transactions.graph.energy'),
+      label: this.translateService.instant(
+        this.selectedUnit === ConsumptionUnit.AMPERE
+          ? 'transactions.graph.energy_amps'
+          : 'transactions.graph.energy'
+      ),
       fill: 'origin',
-      order: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_AMPS : ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_WH,
+      order:
+        this.selectedUnit === ConsumptionUnit.AMPERE
+          ? ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_AMPS
+          : ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_WH,
     });
     // Amount
     if (this.transaction.values.find((consumption) => consumption.cumulatedAmount > 0)) {
@@ -367,9 +432,11 @@ export class ConsumptionChartComponent implements AfterViewInit {
       });
     }
     // Voltage L1/L2/L3
-    if (this.transaction.values.find((consumption) => consumption.instantVoltsL1 > 0) ||
+    if (
+      this.transaction.values.find((consumption) => consumption.instantVoltsL1 > 0) ||
       this.transaction.values.find((consumption) => consumption.instantVoltsL2 > 0) ||
-      this.transaction.values.find((consumption) => consumption.instantVoltsL3 > 0)) {
+      this.transaction.values.find((consumption) => consumption.instantVoltsL3 > 0)
+    ) {
       datasets.push({
         type: 'line',
         data: [],
@@ -408,7 +475,10 @@ export class ConsumptionChartComponent implements AfterViewInit {
       });
     }
     // SoC
-    if (this.transaction.stateOfCharge > 0 || (this.transaction.stop && this.transaction.stop.stateOfCharge > 0)) {
+    if (
+      this.transaction.stateOfCharge > 0 ||
+      (this.transaction.stop && this.transaction.stop.stateOfCharge > 0)
+    ) {
       datasets.push({
         type: 'line',
         hidden: this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.STATE_OF_CHARGE) === -1,
@@ -428,7 +498,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
 
   private getDataSetByOrder(order: number): number[] | null {
     const dataSet = this.data.datasets.find((d) => d.order === order);
-    return dataSet ? dataSet.data as number[] : null;
+    return dataSet ? (dataSet.data as number[]) : null;
   }
 
   private canDisplayGraph() {
@@ -442,23 +512,53 @@ export class ConsumptionChartComponent implements AfterViewInit {
       this.data.datasets[key].data = [];
     }
     const instantPowerDataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.INSTANT_WATTS);
-    const instantPowerL1DataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.INSTANT_WATTS_L1);
-    const instantPowerL2DataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.INSTANT_WATTS_L2);
-    const instantPowerL3DataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.INSTANT_WATTS_L3);
+    const instantPowerL1DataSet = this.getDataSetByOrder(
+      ConsumptionChartDatasetOrder.INSTANT_WATTS_L1
+    );
+    const instantPowerL2DataSet = this.getDataSetByOrder(
+      ConsumptionChartDatasetOrder.INSTANT_WATTS_L2
+    );
+    const instantPowerL3DataSet = this.getDataSetByOrder(
+      ConsumptionChartDatasetOrder.INSTANT_WATTS_L3
+    );
     const instantAmpsDataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.INSTANT_AMPS);
-    const instantAmpsL1DataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.INSTANT_AMPS_L1);
-    const instantAmpsL2DataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.INSTANT_AMPS_L2);
-    const instantAmpsL3DataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.INSTANT_AMPS_L3);
-    const instantAmpsDCDataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.INSTANT_AMPS_DC);
-    const cumulatedConsumptionDataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_WH);
-    const cumulatedConsumptionAmpsDataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_AMPS);
-    const cumulatedAmountDataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.CUMULATED_AMOUNT);
-    const stateOfChargeDataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.STATE_OF_CHARGE);
+    const instantAmpsL1DataSet = this.getDataSetByOrder(
+      ConsumptionChartDatasetOrder.INSTANT_AMPS_L1
+    );
+    const instantAmpsL2DataSet = this.getDataSetByOrder(
+      ConsumptionChartDatasetOrder.INSTANT_AMPS_L2
+    );
+    const instantAmpsL3DataSet = this.getDataSetByOrder(
+      ConsumptionChartDatasetOrder.INSTANT_AMPS_L3
+    );
+    const instantAmpsDCDataSet = this.getDataSetByOrder(
+      ConsumptionChartDatasetOrder.INSTANT_AMPS_DC
+    );
+    const cumulatedConsumptionDataSet = this.getDataSetByOrder(
+      ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_WH
+    );
+    const cumulatedConsumptionAmpsDataSet = this.getDataSetByOrder(
+      ConsumptionChartDatasetOrder.CUMULATED_CONSUMPTION_AMPS
+    );
+    const cumulatedAmountDataSet = this.getDataSetByOrder(
+      ConsumptionChartDatasetOrder.CUMULATED_AMOUNT
+    );
+    const stateOfChargeDataSet = this.getDataSetByOrder(
+      ConsumptionChartDatasetOrder.STATE_OF_CHARGE
+    );
     const instantVoltsDataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.INSTANT_VOLTS);
-    const instantVoltsDCDataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.INSTANT_VOLTS_DC);
-    const instantVoltsL1DataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.INSTANT_VOLTS_L1);
-    const instantVoltsL2DataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.INSTANT_VOLTS_L2);
-    const instantVoltsL3DataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.INSTANT_VOLTS_L3);
+    const instantVoltsDCDataSet = this.getDataSetByOrder(
+      ConsumptionChartDatasetOrder.INSTANT_VOLTS_DC
+    );
+    const instantVoltsL1DataSet = this.getDataSetByOrder(
+      ConsumptionChartDatasetOrder.INSTANT_VOLTS_L1
+    );
+    const instantVoltsL2DataSet = this.getDataSetByOrder(
+      ConsumptionChartDatasetOrder.INSTANT_VOLTS_L2
+    );
+    const instantVoltsL3DataSet = this.getDataSetByOrder(
+      ConsumptionChartDatasetOrder.INSTANT_VOLTS_L3
+    );
     const limitWattsDataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.LIMIT_WATTS);
     const limitAmpsDataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.LIMIT_AMPS);
     const labels: number[] = [];
@@ -534,7 +634,6 @@ export class ConsumptionChartComponent implements AfterViewInit {
     this.firstLabel = labels[0];
   }
 
-
   private createOptions(): ChartOptions {
     const options: ChartOptions | any = {
       animation: {
@@ -552,14 +651,14 @@ export class ConsumptionChartComponent implements AfterViewInit {
           },
           onHover: (e, legendItem, legend) => {
             const status = legend.chart.data.datasets[legendItem.datasetIndex].hidden;
-            if(!status){
-              legend.chart.data.datasets.forEach((dataset) => dataset.borderWidth = 1);
+            if (!status) {
+              legend.chart.data.datasets.forEach((dataset) => (dataset.borderWidth = 1));
               legend.chart.data.datasets[legendItem.datasetIndex].borderWidth = 5;
               legend.chart.update();
             }
           },
           onLeave: (e, legendItem, legend) => {
-            legend.chart.data.datasets.forEach((dataset) => dataset.borderWidth = 3);
+            legend.chart.data.datasets.forEach((dataset) => (dataset.borderWidth = 3));
             legend.chart.update();
           },
           onClick: (e, legendItem, legend) => {
@@ -570,7 +669,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
             this.updateVisibleGridLines();
             legend.chart.options.scales = this.buildScales();
             legend.chart.update();
-          }
+          },
         },
         tooltip: {
           bodySpacing: 5,
@@ -649,10 +748,12 @@ export class ConsumptionChartComponent implements AfterViewInit {
                   tooltipLabel = ' ' + this.decimalPipe.transform(value, '1.0-2') + ' V L3';
                   break;
                 case ConsumptionChartDatasetOrder.AMOUNT:
-                  tooltipLabel = this.appCurrencyPipe.transform(value, this.transaction.priceUnit) + '';
+                  tooltipLabel =
+                    this.appCurrencyPipe.transform(value, this.transaction.priceUnit) + '';
                   break;
                 case ConsumptionChartDatasetOrder.CUMULATED_AMOUNT:
-                  tooltipLabel = this.appCurrencyPipe.transform(value, this.transaction.priceUnit) + '';
+                  tooltipLabel =
+                    this.appCurrencyPipe.transform(value, this.transaction.priceUnit) + '';
                   break;
                 default:
                   tooltipLabel = value + '';
@@ -662,7 +763,11 @@ export class ConsumptionChartComponent implements AfterViewInit {
             title: (tooltipItems) => {
               const firstDate = new Date(this.firstLabel);
               const currentDate = new Date(tooltipItems[0].parsed.x);
-              return this.datePipe.transform(currentDate) + ' - ' + this.durationPipe.transform((currentDate.getTime() - firstDate.getTime()) / 1000);
+              return (
+                this.datePipe.transform(currentDate) +
+                ' - ' +
+                this.durationPipe.transform((currentDate.getTime() - firstDate.getTime()) / 1000)
+              );
             },
           },
         },
@@ -697,12 +802,13 @@ export class ConsumptionChartComponent implements AfterViewInit {
           color: this.defaultColor,
         },
       },
-      [ConsumptionChartAxis.POWER]:{
+      [ConsumptionChartAxis.POWER]: {
         type: 'linear',
         position: 'left',
         display: 'auto',
         ticks: {
-          callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + ((value < 1000) ? 'W' : 'kW'),
+          callback: (value: number) =>
+            parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + (value < 1000 ? 'W' : 'kW'),
           color: this.defaultColor,
         },
         grid: {
@@ -721,7 +827,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
           color: 'rgba(0,0,0,0.2)',
         },
         ticks: {
-          callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + 'A',
+          callback: (value: number) =>
+            parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + 'A',
           color: this.defaultColor,
         },
       },
@@ -735,7 +842,8 @@ export class ConsumptionChartComponent implements AfterViewInit {
           color: 'rgba(0,0,0,0.2)',
         },
         ticks: {
-          callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + 'V',
+          callback: (value: number) =>
+            parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + 'V',
           color: this.defaultColor,
         },
       },
@@ -770,7 +878,7 @@ export class ConsumptionChartComponent implements AfterViewInit {
           },
           color: this.defaultColor,
         },
-      }
+      },
     };
   }
 }

@@ -8,8 +8,12 @@ import { TableActionDef } from '../../../../types/Table';
 import { TableCreateAction } from '../table-create-action';
 
 export interface TableCreateAssetActionDef extends TableActionDef {
-  action: (assetDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<Asset, AssetsAuthorizations>, refresh?: () => Observable<void>) => void;
+  action: (
+    assetDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<Asset, AssetsAuthorizations>,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableCreateAssetAction extends TableCreateAction {
@@ -21,8 +25,12 @@ export class TableCreateAssetAction extends TableCreateAction {
     };
   }
 
-  private createAsset(assetDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<Asset, AssetsAuthorizations>, refresh?: () => Observable<void>) {
+  private createAsset(
+    assetDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<Asset, AssetsAuthorizations>,
+    refresh?: () => Observable<void>
+  ) {
     super.create(assetDialogComponent, dialog, dialogParams, refresh);
   }
 }

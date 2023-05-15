@@ -7,7 +7,10 @@ import { StatisticsComponent } from './statistics.component';
 
 export const StatisticsRoutes: Routes = [
   {
-    path: '', component: StatisticsComponent, canActivate: [RouteGuardService], data: {
+    path: '',
+    component: StatisticsComponent,
+    canActivate: [RouteGuardService],
+    data: {
       component: TenantComponents.STATISTICS,
       auth: {
         entity: Entity.TRANSACTION,

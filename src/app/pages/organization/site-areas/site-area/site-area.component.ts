@@ -26,7 +26,7 @@ import { SiteAreaOcpiComponent } from './ocpi/site-area-ocpi.component';
 @Component({
   selector: 'app-site-area',
   templateUrl: 'site-area.component.html',
-  styleUrls: ['site-area.component.scss']
+  styleUrls: ['site-area.component.scss'],
 })
 export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentSiteAreaID!: string;
@@ -57,7 +57,8 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
     private dialogService: DialogService,
     private router: Router,
     protected windowService: WindowService,
-    protected activatedRoute: ActivatedRoute) {
+    protected activatedRoute: ActivatedRoute
+  ) {
     super(activatedRoute, windowService, ['main', 'limits', 'ocpi'], false);
     this.ocpiActive = this.componentService.isActive(TenantComponents.OCPI);
   }
@@ -99,10 +100,15 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
               this.messageService.showErrorMessage('site_areas.site_invalid');
               break;
             default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'general.unexpected_error_backend');
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'general.unexpected_error_backend'
+              );
           }
-        }
+        },
       });
     }
   }
@@ -114,8 +120,13 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
   }
 
   public close() {
-    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
-      this.translateService, this.saveSiteArea.bind(this), this.closeDialog.bind(this));
+    Utils.checkAndSaveAndCloseDialog(
+      this.formGroup,
+      this.dialogService,
+      this.translateService,
+      this.saveSiteArea.bind(this),
+      this.closeDialog.bind(this)
+    );
   }
 
   public siteChanged(site: Site) {
@@ -141,13 +152,17 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
       next: (response) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage('site_areas.create_success',
-            { siteAreaName: siteArea.name });
+          this.messageService.showSuccessMessage('site_areas.create_success', {
+            siteAreaName: siteArea.name,
+          });
           this.currentSiteAreaID = siteArea.id;
           this.closeDialog(true);
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, 'site_areas.create_error');
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            'site_areas.create_error'
+          );
         }
       },
       error: (error) => {
@@ -159,7 +174,7 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
           default:
             this.handleHttpTreeError(siteArea, error, 'site_areas.create_error');
         }
-      }
+      },
     });
   }
 
@@ -174,11 +189,16 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
       next: (response) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage('site_areas.update_success', { siteAreaName: siteArea.name });
+          this.messageService.showSuccessMessage('site_areas.update_success', {
+            siteAreaName: siteArea.name,
+          });
           this.closeDialog(true);
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, 'site_areas.update_error');
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            'site_areas.update_error'
+          );
         }
       },
       error: (error) => {
@@ -192,15 +212,20 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
             break;
           case HTTPError.CLEAR_CHARGING_PROFILE_NOT_SUCCESSFUL:
             this.dialogService.createAndShowOkDialog(
-              this.translateService.instant('chargers.smart_charging.clearing_charging_profiles_not_successful_title'),
-              this.translateService.instant('chargers.smart_charging.clearing_charging_profiles_not_successful_body',
-                { siteAreaName: siteArea.name }));
+              this.translateService.instant(
+                'chargers.smart_charging.clearing_charging_profiles_not_successful_title'
+              ),
+              this.translateService.instant(
+                'chargers.smart_charging.clearing_charging_profiles_not_successful_body',
+                { siteAreaName: siteArea.name }
+              )
+            );
             this.closeDialog(true);
             break;
           default:
             this.handleHttpTreeError(siteArea, error, 'site_areas.update_error');
         }
-      }
+      },
     });
   }
 
@@ -209,65 +234,93 @@ export class SiteAreaComponent extends AbstractTabComponent implements OnInit {
       case HTTPError.SITE_AREA_TREE_ERROR:
         this.dialogService.createAndShowOkDialog(
           this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
-          this.translateService.instant('site_areas.site_area_tree_error'));
+          this.translateService.instant('site_areas.site_area_tree_error')
+        );
         break;
       case HTTPError.SITE_AREA_TREE_ERROR_SITE:
-        this.dialogService.createAndShowDialog(
-          this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
-          this.translateService.instant('site_areas.site_area_tree_error_site'), [
-            { id: SiteAreaButtonAction.SUB_SITE_AREA_UPDATE, name: 'site_areas.site_area_tree_error_site_update', color: 'primary' },
-            { id: SiteAreaButtonAction.SUB_SITE_AREA_ATTACH, name: 'site_areas.site_area_tree_error_site_attach', color: 'primary' },
-            { id: SiteAreaButtonAction.SUB_SITE_AREA_CLEAR, name: 'site_areas.site_area_tree_error_site_clear', color: 'warn' },
-          ]
-        ).subscribe((result: SiteAreaButtonAction) => {
-          let subSiteAreaAction: SubSiteAreaAction;
-          switch (result) {
-            case SiteAreaButtonAction.SUB_SITE_AREA_ATTACH:
-              subSiteAreaAction = SubSiteAreaAction.ATTACH;
-              break;
-            case SiteAreaButtonAction.SUB_SITE_AREA_UPDATE:
-              subSiteAreaAction = SubSiteAreaAction.UPDATE;
-              break;
-            case SiteAreaButtonAction.SUB_SITE_AREA_CLEAR:
-              subSiteAreaAction = SubSiteAreaAction.CLEAR;
-              break;
-          }
-          if (subSiteAreaAction) {
-            this.subSiteAreaActions.push(subSiteAreaAction);
-            this.saveSiteArea(siteArea, this.subSiteAreaActions);
-          }
-        });
+        this.dialogService
+          .createAndShowDialog(
+            this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
+            this.translateService.instant('site_areas.site_area_tree_error_site'),
+            [
+              {
+                id: SiteAreaButtonAction.SUB_SITE_AREA_UPDATE,
+                name: 'site_areas.site_area_tree_error_site_update',
+                color: 'primary',
+              },
+              {
+                id: SiteAreaButtonAction.SUB_SITE_AREA_ATTACH,
+                name: 'site_areas.site_area_tree_error_site_attach',
+                color: 'primary',
+              },
+              {
+                id: SiteAreaButtonAction.SUB_SITE_AREA_CLEAR,
+                name: 'site_areas.site_area_tree_error_site_clear',
+                color: 'warn',
+              },
+            ]
+          )
+          .subscribe((result: SiteAreaButtonAction) => {
+            let subSiteAreaAction: SubSiteAreaAction;
+            switch (result) {
+              case SiteAreaButtonAction.SUB_SITE_AREA_ATTACH:
+                subSiteAreaAction = SubSiteAreaAction.ATTACH;
+                break;
+              case SiteAreaButtonAction.SUB_SITE_AREA_UPDATE:
+                subSiteAreaAction = SubSiteAreaAction.UPDATE;
+                break;
+              case SiteAreaButtonAction.SUB_SITE_AREA_CLEAR:
+                subSiteAreaAction = SubSiteAreaAction.CLEAR;
+                break;
+            }
+            if (subSiteAreaAction) {
+              this.subSiteAreaActions.push(subSiteAreaAction);
+              this.saveSiteArea(siteArea, this.subSiteAreaActions);
+            }
+          });
         break;
       case HTTPError.SITE_AREA_TREE_ERROR_SMART_CHARGING:
-        this.dialogService.createAndShowYesNoDialog(
-          this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
-          this.translateService.instant('site_areas.site_area_tree_error_smart_charging')
-        ).subscribe((result: ButtonAction) => {
-          if (result === ButtonAction.YES) {
-            this.subSiteAreaActions.push(SubSiteAreaAction.FORCE_SMART_CHARGING);
-            this.saveSiteArea(siteArea, this.subSiteAreaActions);
-          }
-        });
+        this.dialogService
+          .createAndShowYesNoDialog(
+            this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
+            this.translateService.instant('site_areas.site_area_tree_error_smart_charging')
+          )
+          .subscribe((result: ButtonAction) => {
+            if (result === ButtonAction.YES) {
+              this.subSiteAreaActions.push(SubSiteAreaAction.FORCE_SMART_CHARGING);
+              this.saveSiteArea(siteArea, this.subSiteAreaActions);
+            }
+          });
         break;
       case HTTPError.SITE_AREA_TREE_ERROR_SMART_NBR_PHASES:
         this.dialogService.createAndShowOkDialog(
           this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
-          this.translateService.instant('site_areas.site_area_tree_error_number_of_phases'));
+          this.translateService.instant('site_areas.site_area_tree_error_number_of_phases')
+        );
         break;
       case HTTPError.SITE_AREA_TREE_ERROR_MULTIPLE_ACTIONS_NOT_SUPPORTED:
         this.dialogService.createAndShowOkDialog(
           this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
-          this.translateService.instant('site_areas.site_area_tree_error_multiple_actions_not_supported'));
+          this.translateService.instant(
+            'site_areas.site_area_tree_error_multiple_actions_not_supported'
+          )
+        );
         this.subSiteAreaActions.length = 0;
         break;
       case HTTPError.SITE_AREA_TREE_ERROR_VOLTAGE:
         this.dialogService.createAndShowOkDialog(
           this.translateService.instant('site_areas.site_area_hierarchy_error_title'),
-          this.translateService.instant('site_areas.site_area_tree_error_voltage'));
+          this.translateService.instant('site_areas.site_area_tree_error_voltage')
+        );
         break;
       default:
-        Utils.handleHttpError(error, this.router, this.messageService,
-          this.centralServerService, defaultMessage);
+        Utils.handleHttpError(
+          error,
+          this.router,
+          this.messageService,
+          this.centralServerService,
+          defaultMessage
+        );
     }
   }
 }

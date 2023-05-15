@@ -8,17 +8,18 @@ import { ChipType } from '../../../../../types/GlobalType';
 @Component({
   template: `
     <mat-chip-list [selectable]="false">
-      <mat-chip [ngClass]="row | appPaymentMethodStatus:'class'" [disabled]="true">
-          {{row | appPaymentMethodStatus:'text' | translate}}
+      <mat-chip [ngClass]="row | appPaymentMethodStatus : 'class'" [disabled]="true">
+        {{ row | appPaymentMethodStatus : 'text' | translate }}
       </mat-chip>
-    <mat-chip-list>
+      <mat-chip-list> </mat-chip-list
+    ></mat-chip-list>
   `,
 })
 export class PaymentMethodStatusComponent extends CellContentTemplateDirective {
   @Input() public row!: BillingPaymentMethod;
 }
 
-@Pipe({name: 'appPaymentMethodStatus'})
+@Pipe({ name: 'appPaymentMethodStatus' })
 export class AppPaymentMethodStatusPipe implements PipeTransform {
   public transform(paymentMethod: BillingPaymentMethod, type: string): string {
     if (type === 'class') {
@@ -57,6 +58,9 @@ export class AppPaymentMethodStatusPipe implements PipeTransform {
   }
 
   private expireSoon(paymentMethod: BillingPaymentMethod): boolean {
-    return paymentMethod.expiringOn && (moment(paymentMethod.expiringOn).isBefore(moment().add(2, 'months')));
+    return (
+      paymentMethod.expiringOn &&
+      moment(paymentMethod.expiringOn).isBefore(moment().add(2, 'months'))
+    );
   }
 }

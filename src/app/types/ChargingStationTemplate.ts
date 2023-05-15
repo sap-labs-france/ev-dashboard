@@ -1,4 +1,11 @@
-import { ChargePoint, ChargingRateUnitType, ChargingStationCapabilities, ConnectorType, CurrentType, Voltage } from './ChargingStation';
+import {
+  ChargePoint,
+  ChargingRateUnitType,
+  ChargingStationCapabilities,
+  ConnectorType,
+  CurrentType,
+  Voltage,
+} from './ChargingStation';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { TableData } from './Table';
 

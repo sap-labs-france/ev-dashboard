@@ -14,14 +14,29 @@ import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
-import { AppChargingStationsFormatConnectorPipe, ChargingStationsConnectorCellComponent } from './cell-components/charging-stations-connector-cell.component';
+import {
+  AppChargingStationsFormatConnectorPipe,
+  ChargingStationsConnectorCellComponent,
+} from './cell-components/charging-stations-connector-cell.component';
 import { ChargingStationsConnectorInactivityCellComponent } from './cell-components/charging-stations-connector-inactivity-cell.component';
-import { AppChargingStationsFormatConnectorStatusPipe, ChargingStationsConnectorStatusCellComponent } from './cell-components/charging-stations-connector-status-cell.component';
+import {
+  AppChargingStationsFormatConnectorStatusPipe,
+  ChargingStationsConnectorStatusCellComponent,
+} from './cell-components/charging-stations-connector-status-cell.component';
 import { ChargingStationsConnectorsCellComponent } from './cell-components/charging-stations-connectors-cell.component';
-import { AppChargingStationsFormatFirmwareStatusPipe, ChargingStationsFirmwareStatusCellComponent } from './cell-components/charging-stations-firmware-status-cell.component';
+import {
+  AppChargingStationsFormatFirmwareStatusPipe,
+  ChargingStationsFirmwareStatusCellComponent,
+} from './cell-components/charging-stations-firmware-status-cell.component';
 import { ChargingStationsHeartbeatCellComponent } from './cell-components/charging-stations-heartbeat-cell.component';
-import { AppChargingStationsFormatPowerChargerPipe, ChargingStationsInstantPowerChargerProgressBarCellComponent } from './cell-components/charging-stations-instant-power-charger-progress-bar-cell.component';
-import { AppChargingStationsFormatPowerConnectorPipe, ChargingStationsInstantPowerConnectorProgressBarCellComponent } from './cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
+import {
+  AppChargingStationsFormatPowerChargerPipe,
+  ChargingStationsInstantPowerChargerProgressBarCellComponent,
+} from './cell-components/charging-stations-instant-power-charger-progress-bar-cell.component';
+import {
+  AppChargingStationsFormatPowerConnectorPipe,
+  ChargingStationsInstantPowerConnectorProgressBarCellComponent,
+} from './cell-components/charging-stations-instant-power-connector-progress-bar-cell.component';
 import { ChargingPlansListTableDataSource } from './charging-plans/charging-plans-list-table-data-source';
 import { ChargingPlansListComponent } from './charging-plans/charging-plans-list.component';
 import { ChargingStationConnectorsComponent } from './charging-station-connectors/charging-station-connectors-component.component';
@@ -52,9 +67,14 @@ import { ChargingStationsInErrorComponent } from './in-error/charging-stations-i
 import { ChargingStationsListTableDataSource } from './list/charging-stations-list-table-data-source';
 import { ChargingStationsListComponent } from './list/charging-stations-list.component';
 import { ChargingStationsRegistrationTokensComponent } from './registration-tokens/charging-stations-registration-tokens.component';
-import { AppRegistrationTokenStatusPipe, ChargingStationsRegistrationTokenStatusComponent } from './registration-tokens/registration-token/charging-stations-registration-token-status.component';
+import {
+  AppRegistrationTokenStatusPipe,
+  ChargingStationsRegistrationTokenStatusComponent,
+} from './registration-tokens/registration-token/charging-stations-registration-token-status.component';
 import { ChargingStationsRegistrationTokenComponent } from './registration-tokens/registration-token/charging-stations-registration-token.component';
 import { ChargingStationsRegistrationTokenDialogComponent } from './registration-tokens/registration-token/charging-stations-registration-token.dialog.component';
+import { ChargingStationsReserveNowDialogComponent } from './charging-station-reserve-now/charging-stations-reserve-now-dialog-component';
+import { ChargingStationCreateReservationDialogComponent } from './charging-station-create-reservation/charging-station-create-reservation-dialog-component';
 
 @NgModule({
   imports: [
@@ -105,6 +125,7 @@ import { ChargingStationsRegistrationTokenDialogComponent } from './registration
     ChargingStationsComponent,
     ChargingStationConnectorsComponent,
     ChargingStationsStartTransactionDialogComponent,
+    ChargingStationsReserveNowDialogComponent,
     ChargingStationsListComponent,
     ChargingStationsInErrorComponent,
     ChargingStationsConnectorInactivityCellComponent,
@@ -116,6 +137,7 @@ import { ChargingStationsRegistrationTokenDialogComponent } from './registration
     ChargingStationsRegistrationTokenComponent,
     ChargingStationsRegistrationTokenDialogComponent,
     ChargingStationsRegistrationTokensComponent,
+    ChargingStationCreateReservationDialogComponent,
   ],
   providers: [
     ChargingStationsInErrorTableDataSource,
@@ -123,7 +145,6 @@ import { ChargingStationsRegistrationTokenDialogComponent } from './registration
     ChargingStationConnectorsTableDataSource,
     ChargingStationOcppParametersEditableTableDataSource,
     ChargingPlansListTableDataSource,
-  ]
+  ],
 })
-export class ChargingStationsModule {
-}
+export class ChargingStationsModule {}

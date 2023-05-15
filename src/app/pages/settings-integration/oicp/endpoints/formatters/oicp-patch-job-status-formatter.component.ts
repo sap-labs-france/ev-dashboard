@@ -7,8 +7,11 @@ import { OicpEndpoint } from '../../../../../types/oicp/OICPEndpoint';
 @Component({
   template: `
     <mat-chip-list [selectable]="false">
-      <mat-chip [ngClass]="row.backgroundPatchJob | appFormatOicpPatchJobStatus:'class'" [disabled]="true">
-        {{row.backgroundPatchJob | appFormatOicpPatchJobStatus:'text' | translate}}
+      <mat-chip
+        [ngClass]="row.backgroundPatchJob | appFormatOicpPatchJobStatus : 'class'"
+        [disabled]="true"
+      >
+        {{ row.backgroundPatchJob | appFormatOicpPatchJobStatus : 'text' | translate }}
       </mat-chip>
     </mat-chip-list>
   `,

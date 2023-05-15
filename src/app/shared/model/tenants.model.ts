@@ -1,10 +1,17 @@
 import { KeyValue } from '../../types/GlobalType';
-import { AnalyticsSettingsType, BillingSettingsType, PricingSettingsType, RefundSettingsType, SmartChargingSettingsType } from '../../types/Setting';
+import {
+  AnalyticsSettingsType,
+  BillingSettingsType,
+  PricingSettingsType,
+  RefundSettingsType,
+  ReservationSettingsType,
+  SmartChargingSettingsType,
+} from '../../types/Setting';
 
 export const PRICING_TYPES: KeyValue[] = [
   {
     key: PricingSettingsType.SIMPLE,
-    value: 'settings.pricing.simple_pricing_title'
+    value: 'settings.pricing.simple_pricing_title',
   },
 ];
 
@@ -35,5 +42,3 @@ export const SMART_CHARGING_TYPES: KeyValue[] = [
     value: 'settings.smart_charging.sap_smart_charging.title',
   },
 ];
-
-

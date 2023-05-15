@@ -3,17 +3,38 @@ import { Observable } from 'rxjs';
 import { Constants } from 'utils/Constants';
 
 import { ActionResponse, BillingAccountDataResult, Ordering, Paging } from '../types/DataResult';
-import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, CarConnectorConnectionType, CarConnectorSettings, CarConnectorSettingsType, CryptoSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SettingDB, SmartChargingSettings, SmartChargingSettingsType, TechnicalSettings, UserSettings, UserSettingsType } from '../types/Setting';
+import {
+  AnalyticsSettings,
+  AssetConnectionType,
+  AssetSettings,
+  AssetSettingsType,
+  BillingSettings,
+  BillingSettingsType,
+  CarConnectorConnectionType,
+  CarConnectorSettings,
+  CarConnectorSettingsType,
+  CryptoSettings,
+  PricingSettings,
+  PricingSettingsType,
+  RefundSettings,
+  RefundSettingsType,
+  RoamingSettings,
+  SettingDB,
+  SmartChargingSettings,
+  SmartChargingSettingsType,
+  TechnicalSettings,
+  UserSettings,
+  UserSettingsType,
+} from '../types/Setting';
 import { TenantComponents } from '../types/Tenant';
 import { Utils } from '../utils/Utils';
 import { CentralServerService } from './central-server.service';
 
 @Injectable()
 export class ComponentService {
-  private activeComponents!: string[]|null;
+  private activeComponents!: string[] | null;
 
-  public constructor(
-    private centralServerService: CentralServerService) {
+  public constructor(private centralServerService: CentralServerService) {
     this.centralServerService.getCurrentUserSubject().subscribe((user) => {
       if (user && user.activeComponents) {
         this.activeComponents = user.activeComponents;
@@ -30,7 +51,7 @@ export class ComponentService {
     return false;
   }
 
-  public getActiveComponents(): string[]|null {
+  public getActiveComponents(): string[] | null {
     return this.activeComponents;
   }
 
@@ -62,7 +83,7 @@ export class ComponentService {
         },
         error: (error) => {
           observer.error(error);
-        }
+        },
       });
     });
   }
@@ -137,7 +158,12 @@ export class ComponentService {
       id: settings.id,
       identifier: TenantComponents.OICP,
       content: Utils.cloneObject(settings),
-      sensitiveData: ['content.oicp.cpo.key', 'content.oicp.cpo.cert', 'content.oicp.emsp.key', 'content.oicp.emsp.cert']
+      sensitiveData: [
+        'content.oicp.cpo.key',
+        'content.oicp.cpo.cert',
+        'content.oicp.emsp.key',
+        'content.oicp.emsp.cert',
+      ],
     };
     // Delete IDS
     delete settingsToSave.content.id;
@@ -162,23 +188,34 @@ export class ComponentService {
     settingsToSave.content.asset.connections.forEach((settingConnection, index) => {
       switch (settingConnection.type) {
         case AssetConnectionType.SCHNEIDER:
-          settingsToSave.sensitiveData.push(`content.asset.connections[${index}].schneiderConnection.password`);
+          settingsToSave.sensitiveData.push(
+            `content.asset.connections[${index}].schneiderConnection.password`
+          );
           break;
         case AssetConnectionType.GREENCOM:
-          settingsToSave.sensitiveData.push(`content.asset.connections[${index}].greencomConnection.clientSecret`);
+          settingsToSave.sensitiveData.push(
+            `content.asset.connections[${index}].greencomConnection.clientSecret`
+          );
           break;
         case AssetConnectionType.IOTHINK:
-          settingsToSave.sensitiveData.push(`content.asset.connections[${index}].iothinkConnection.password`);
+          settingsToSave.sensitiveData.push(
+            `content.asset.connections[${index}].iothinkConnection.password`
+          );
           break;
         case AssetConnectionType.WIT:
-          settingsToSave.sensitiveData.push(`content.asset.connections[${index}].witConnection.password`);
-          settingsToSave.sensitiveData.push(`content.asset.connections[${index}].witConnection.clientSecret`);
+          settingsToSave.sensitiveData.push(
+            `content.asset.connections[${index}].witConnection.password`
+          );
+          settingsToSave.sensitiveData.push(
+            `content.asset.connections[${index}].witConnection.clientSecret`
+          );
           break;
         case AssetConnectionType.LACROIX:
-          settingsToSave.sensitiveData.push(`content.asset.connections[${index}].lacroixConnection.password`);
+          settingsToSave.sensitiveData.push(
+            `content.asset.connections[${index}].lacroixConnection.password`
+          );
           break;
       }
-
     });
     // Delete IDS
     delete settingsToSave.content.id;
@@ -188,7 +225,9 @@ export class ComponentService {
     return this.centralServerService.updateSetting(settingsToSave);
   }
 
-  public saveCarConnectorConnectionSettings(settings: CarConnectorSettings): Observable<ActionResponse> {
+  public saveCarConnectorConnectionSettings(
+    settings: CarConnectorSettings
+  ): Observable<ActionResponse> {
     // Check the type
     if (!settings.type) {
       settings.type = CarConnectorSettingsType.CAR_CONNECTOR;
@@ -203,13 +242,19 @@ export class ComponentService {
     settingsToSave.content.carConnector.connections.forEach((settingConnection, index) => {
       switch (settingConnection.type) {
         case CarConnectorConnectionType.MERCEDES:
-          settingsToSave.sensitiveData.push(`content.carConnector.connections[${index}].mercedesConnection.clientSecret`);
+          settingsToSave.sensitiveData.push(
+            `content.carConnector.connections[${index}].mercedesConnection.clientSecret`
+          );
           break;
         case CarConnectorConnectionType.TRONITY:
-          settingsToSave.sensitiveData.push(`content.carConnector.connections[${index}].tronityConnection.clientSecret`);
+          settingsToSave.sensitiveData.push(
+            `content.carConnector.connections[${index}].tronityConnection.clientSecret`
+          );
           break;
         case CarConnectorConnectionType.TARGA_TELEMATICS:
-          settingsToSave.sensitiveData.push(`content.carConnector.connections[${index}].targaTelematicsConnection.clientSecret`);
+          settingsToSave.sensitiveData.push(
+            `content.carConnector.connections[${index}].targaTelematicsConnection.clientSecret`
+          );
           break;
       }
     });
@@ -266,13 +311,15 @@ export class ComponentService {
         },
         error: (error) => {
           observer.error(error);
-        }
+        },
       });
     });
   }
 
-  public getBillingAccounts(paging: Paging = Constants.DEFAULT_PAGING,
-    ordering: Ordering[] = []): Observable<BillingAccountDataResult> {
+  public getBillingAccounts(
+    paging: Paging = Constants.DEFAULT_PAGING,
+    ordering: Ordering[] = []
+  ): Observable<BillingAccountDataResult> {
     return new Observable((observer) => {
       this.centralServerService.getBillingAccounts(paging, ordering).subscribe({
         next: (accounts) => {
@@ -281,7 +328,7 @@ export class ComponentService {
         },
         error: (error) => {
           observer.error(error);
-        }
+        },
       });
     });
   }
@@ -307,7 +354,7 @@ export class ComponentService {
         },
         error: (error) => {
           observer.error(error);
-        }
+        },
       });
     });
   }
@@ -333,7 +380,7 @@ export class ComponentService {
         },
         error: (error) => {
           observer.error(error);
-        }
+        },
       });
     });
   }
@@ -360,7 +407,7 @@ export class ComponentService {
         },
         error: (error) => {
           observer.error(error);
-        }
+        },
       });
     });
   }
@@ -386,7 +433,7 @@ export class ComponentService {
         },
         error: (error) => {
           observer.error(error);
-        }
+        },
       });
     });
   }
@@ -411,7 +458,7 @@ export class ComponentService {
         },
         error: (error) => {
           observer.error(error);
-        }
+        },
       });
     });
   }
@@ -437,7 +484,7 @@ export class ComponentService {
         },
         error: (error) => {
           observer.error(error);
-        }
+        },
       });
     });
   }
@@ -463,7 +510,7 @@ export class ComponentService {
         },
         error: (error) => {
           observer.error(error);
-        }
+        },
       });
     });
   }
@@ -493,7 +540,7 @@ export class ComponentService {
         },
         error: (error) => {
           observer.error(error);
-        }
+        },
       });
     });
   }
@@ -535,7 +582,7 @@ export class ComponentService {
         },
         error: (error) => {
           observer.error(error);
-        }
+        },
       });
     });
   }
@@ -545,7 +592,7 @@ export class ComponentService {
     const settingsToSave = {
       id: settings.id,
       identifier: settings.identifier,
-      content: Utils.cloneObject(settings)
+      content: Utils.cloneObject(settings),
     };
     // Delete IDS
     delete settingsToSave.content.id;

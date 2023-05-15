@@ -14,8 +14,17 @@ import { Utils } from '../../../../utils/Utils';
 import { TableDeleteAction } from '../table-delete-action';
 
 export interface TableDeletePaymentMethodActionDef extends TableActionDef {
-  action: (paymentMethod: BillingPaymentMethod, userID: string, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) => void;
+  action: (
+    paymentMethod: BillingPaymentMethod,
+    userID: string,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableDeletePaymentMethodAction extends TableDeleteAction {
@@ -27,35 +36,59 @@ export class TableDeletePaymentMethodAction extends TableDeleteAction {
     };
   }
 
-  private deletePaymentMethod(paymentMethod: BillingPaymentMethod, userID: string, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
-    dialogService.createAndShowYesNoDialog(
-      translateService.instant('settings.billing.payment_methods_delete_title'),
-      translateService.instant('settings.billing.payment_methods_delete_confirm', { last4: paymentMethod.last4 }),
-    ).subscribe((result) => {
-      if (result === ButtonAction.YES) {
-        spinnerService.show();
-        centralServerService.deletePaymentMethod(paymentMethod.id, userID).subscribe({
-          next: (response) => {
-            spinnerService.hide();
-            if (response.succeeded) {
-              messageService.showSuccessMessage(
-                translateService.instant('settings.billing.payment_methods_delete_success', { last4: paymentMethod.last4 }));
-              if (refresh) {
-                refresh().subscribe();
+  private deletePaymentMethod(
+    paymentMethod: BillingPaymentMethod,
+    userID: string,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) {
+    dialogService
+      .createAndShowYesNoDialog(
+        translateService.instant('settings.billing.payment_methods_delete_title'),
+        translateService.instant('settings.billing.payment_methods_delete_confirm', {
+          last4: paymentMethod.last4,
+        })
+      )
+      .subscribe((result) => {
+        if (result === ButtonAction.YES) {
+          spinnerService.show();
+          centralServerService.deletePaymentMethod(paymentMethod.id, userID).subscribe({
+            next: (response) => {
+              spinnerService.hide();
+              if (response.succeeded) {
+                messageService.showSuccessMessage(
+                  translateService.instant('settings.billing.payment_methods_delete_success', {
+                    last4: paymentMethod.last4,
+                  })
+                );
+                if (refresh) {
+                  refresh().subscribe();
+                }
+              } else {
+                Utils.handleError(
+                  JSON.stringify(response),
+                  messageService,
+                  translateService.instant('settings.billing.payment_methods_delete_error')
+                );
               }
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                messageService, translateService.instant('settings.billing.payment_methods_delete_error'));
-            }
-          },
-          error: (error) => {
-            spinnerService.hide();
-            Utils.handleHttpError(error, router, messageService, centralServerService,
-              translateService.instant('settings.billing.payment_methods_delete_error'));
-          }
-        });
-      }
-    });
+            },
+            error: (error) => {
+              spinnerService.hide();
+              Utils.handleHttpError(
+                error,
+                router,
+                messageService,
+                centralServerService,
+                translateService.instant('settings.billing.payment_methods_delete_error')
+              );
+            },
+          });
+        }
+      });
   }
 }

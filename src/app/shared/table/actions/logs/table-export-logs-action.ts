@@ -11,9 +11,15 @@ import { TableActionDef } from '../../../../types/Table';
 import { TableExportAction } from '../table-export-action';
 
 export interface TableExportLogsActionDef extends TableActionDef {
-  action: (filters: FilterParams, dialogService: DialogService, translateService: TranslateService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router,
-    spinnerService: SpinnerService) => void;
+  action: (
+    filters: FilterParams,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    router: Router,
+    spinnerService: SpinnerService
+  ) => void;
 }
 
 export class TableExportLogsAction extends TableExportAction {
@@ -25,14 +31,28 @@ export class TableExportLogsAction extends TableExportAction {
     };
   }
 
-  private exportLogs(filters: FilterParams, dialogService: DialogService, translateService: TranslateService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router,
-    spinnerService: SpinnerService) {
-    super.export(filters, 'exported-logs.csv',
-      'logs.dialog.export.title', 'logs.dialog.export.confirm',
+  private exportLogs(
+    filters: FilterParams,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    router: Router,
+    spinnerService: SpinnerService
+  ) {
+    super.export(
+      filters,
+      'exported-logs.csv',
+      'logs.dialog.export.title',
+      'logs.dialog.export.confirm',
       'logs.dialog.export.error',
       centralServerService.exportLogs.bind(centralServerService),
-      dialogService, translateService, messageService,
-      centralServerService, spinnerService, router);
+      dialogService,
+      translateService,
+      messageService,
+      centralServerService,
+      spinnerService,
+      router
+    );
   }
 }

@@ -8,8 +8,8 @@ import { Log } from '../../../types/Log';
 @Component({
   template: `
     <mat-chip-list [selectable]="false">
-      <mat-chip [ngClass]="row.level | appFormatLogLevel:'class'" [disabled]="true">
-        {{row.level | appFormatLogLevel:'text' | translate}}
+      <mat-chip [ngClass]="row.level | appFormatLogLevel : 'class'" [disabled]="true">
+        {{ row.level | appFormatLogLevel : 'text' | translate }}
       </mat-chip>
     </mat-chip-list>
   `,

@@ -9,13 +9,14 @@ import { TagsDialogTableDataSource } from './tags-dialog-table-data-source';
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
-  styleUrls: ['../dialog-table-data-xxl.component.scss']
+  styleUrls: ['../dialog-table-data-xxl.component.scss'],
 })
 export class TagsDialogComponent extends DialogTableDataComponent<Tag> {
   public constructor(
     protected dialogRef: MatDialogRef<TagsDialogComponent>,
     private tagsDialogTableDataSource: TagsDialogTableDataSource,
-    @Inject(MAT_DIALOG_DATA) data: any) {
+    @Inject(MAT_DIALOG_DATA) data: any
+  ) {
     super(data, dialogRef, tagsDialogTableDataSource);
     // Default title
     if (Utils.isEmptyString(this.title)) {

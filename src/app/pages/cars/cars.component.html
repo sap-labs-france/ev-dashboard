@@ -1,8 +1,14 @@
 <div class="main-content">
-  <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex" animationDuration="0ms" disableRipple="true" class="h-100 mat-tab-info">
+  <mat-tab-group
+    (selectedIndexChange)="updateRoute($event)"
+    [selectedIndex]="activeTabIndex"
+    animationDuration="0ms"
+    disableRipple="true"
+    class="h-100 mat-tab-info"
+  >
     <mat-tab *ngIf="isBasic || isAdmin">
       <ng-template mat-tab-label>
-        <mat-icon>people</mat-icon><span>{{'car.tabs.cars' | translate}}</span>
+        <mat-icon>people</mat-icon><span>{{ 'car.tabs.cars' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-cars-list></app-cars-list>
@@ -10,7 +16,7 @@
     </mat-tab>
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon>people</mat-icon><span>{{'car.tabs.car_catalogs' | translate}}</span>
+        <mat-icon>people</mat-icon><span>{{ 'car.tabs.car_catalogs' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-car-catalogs-list></app-car-catalogs-list>

@@ -43,7 +43,7 @@ export enum OCPILocationType {
   UNDERGROUND_GARAGE = 'UNDERGROUND_GARAGE',
   PARKING_LOT = 'PARKING_LOT',
   OTHER = 'OTHER',
-  UNKNOWN = 'UNKNOWN'
+  UNKNOWN = 'UNKNOWN',
 }
 
 export interface OCPILocationReference {
@@ -51,4 +51,3 @@ export interface OCPILocationReference {
   evse_uids: string[];
   connector_ids?: string[];
 }
-

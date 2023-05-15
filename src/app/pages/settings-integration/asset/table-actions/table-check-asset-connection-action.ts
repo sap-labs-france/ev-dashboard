@@ -22,14 +22,23 @@ export class TableCheckAssetConnectionAction extends TableCheckConnectionAction 
     };
   }
 
-  private checkConnectionConfirm(assetConnection: AssetConnectionSetting, formArray: UntypedFormArray, dialogService: DialogService,
-    spinnerService: SpinnerService, translateService: TranslateService, centralServerService: CentralServerService,
-    messageService: MessageService, router: Router) {
+  private checkConnectionConfirm(
+    assetConnection: AssetConnectionSetting,
+    formArray: UntypedFormArray,
+    dialogService: DialogService,
+    spinnerService: SpinnerService,
+    translateService: TranslateService,
+    centralServerService: CentralServerService,
+    messageService: MessageService,
+    router: Router
+  ) {
     if (formArray.dirty) {
-      dialogService.createAndShowOkDialog(
-        translateService.instant('settings.settings_not_saved_title'),
-        translateService.instant('settings.settings_not_saved'),
-      ).subscribe();
+      dialogService
+        .createAndShowOkDialog(
+          translateService.instant('settings.settings_not_saved_title'),
+          translateService.instant('settings.settings_not_saved')
+        )
+        .subscribe();
     } else {
       // Check connection
       spinnerService.show();
@@ -48,9 +57,14 @@ export class TableCheckAssetConnectionAction extends TableCheckConnectionAction 
         },
         error: (error) => {
           spinnerService.hide();
-          Utils.handleHttpError(error, router, messageService, centralServerService,
-            'settings.asset.unknown_connection_error');
-        }
+          Utils.handleHttpError(
+            error,
+            router,
+            messageService,
+            centralServerService,
+            'settings.asset.unknown_connection_error'
+          );
+        },
       });
     }
   }

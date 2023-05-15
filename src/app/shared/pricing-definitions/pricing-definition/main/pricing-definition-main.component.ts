@@ -13,7 +13,6 @@ import { Constants } from '../../../../utils/Constants';
   selector: 'app-pricing-definition-main',
   templateUrl: 'pricing-definition-main.component.html',
 })
-
 export class PricingDefinitionMainComponent implements OnInit, OnChanges {
   @Input() public formGroup!: UntypedFormGroup;
   @Input() public pricingDefinition: PricingDefinition;
@@ -40,10 +39,7 @@ export class PricingDefinitionMainComponent implements OnInit, OnChanges {
   public minDate: Date;
 
   // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    public translateService: TranslateService,
-    public dayPipe: AppDayPipe) {
-  }
+  public constructor(public translateService: TranslateService, public dayPipe: AppDayPipe) {}
 
   public ngOnInit() {
     this.formGroup.addControl('id', new UntypedFormControl());
@@ -51,16 +47,22 @@ export class PricingDefinitionMainComponent implements OnInit, OnChanges {
     this.formGroup.addControl('entityType', new UntypedFormControl(''));
     this.formGroup.addControl('name', new UntypedFormControl('', Validators.required));
     this.formGroup.addControl('description', new UntypedFormControl('', Validators.required));
-    this.formGroup.addControl('staticRestrictions', new UntypedFormGroup({
-      validFrom: new UntypedFormControl(null),
-      validTo: new UntypedFormControl(null),
-      connectorPowerEnabled: new UntypedFormControl(false),
-      connectorPowerkW: new UntypedFormControl({value: null, disabled: true}, Validators.compose([
-        Validators.required,
-        Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
-      ])),
-      connectorType: new UntypedFormControl('A', Validators.required),
-    }));
+    this.formGroup.addControl(
+      'staticRestrictions',
+      new UntypedFormGroup({
+        validFrom: new UntypedFormControl(null),
+        validTo: new UntypedFormControl(null),
+        connectorPowerEnabled: new UntypedFormControl(false),
+        connectorPowerkW: new UntypedFormControl(
+          { value: null, disabled: true },
+          Validators.compose([
+            Validators.required,
+            Validators.pattern(Constants.REGEX_VALIDATION_FLOAT),
+          ])
+        ),
+        connectorType: new UntypedFormControl('A', Validators.required),
+      })
+    );
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
     this.description = this.formGroup.controls['description'];
@@ -95,10 +97,12 @@ export class PricingDefinitionMainComponent implements OnInit, OnChanges {
       this.validFrom.setValue(this.pricingDefinition.staticRestrictions?.validFrom);
       this.validTo.setValue(this.pricingDefinition.staticRestrictions?.validTo);
       this.minDate = this.pricingDefinition.staticRestrictions?.validFrom;
-      this.connectorType.setValue((this.pricingDefinition.staticRestrictions?.connectorType) || 'A');
+      this.connectorType.setValue(this.pricingDefinition.staticRestrictions?.connectorType || 'A');
       if (!!this.pricingDefinition.staticRestrictions?.connectorPowerkW) {
         this.connectorPowerEnabled.setValue(true);
-        this.connectorPowerValue.setValue(this.pricingDefinition.staticRestrictions?.connectorPowerkW);
+        this.connectorPowerValue.setValue(
+          this.pricingDefinition.staticRestrictions?.connectorPowerkW
+        );
         this.connectorPowerValue.enable();
       }
     }
@@ -118,8 +122,9 @@ export class PricingDefinitionMainComponent implements OnInit, OnChanges {
     const staticRestrictions: PricingStaticRestriction = {
       validFrom: this.validFrom.value || null,
       validTo: this.validTo.value || null,
-      connectorType: (this.connectorType.value !== Constants.SELECT_ALL) ? this.connectorType.value: null,
-      connectorPowerkW: (this.connectorPowerEnabled.value) ? this.connectorPowerValue.value : null
+      connectorType:
+        this.connectorType.value !== Constants.SELECT_ALL ? this.connectorType.value : null,
+      connectorPowerkW: this.connectorPowerEnabled.value ? this.connectorPowerValue.value : null,
     };
     return Utils.shrinkObjectProperties(staticRestrictions);
   }

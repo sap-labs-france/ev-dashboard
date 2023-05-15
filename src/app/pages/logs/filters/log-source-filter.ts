@@ -16,7 +16,7 @@ export class LogSourceTableFilter extends TableFilter {
       currentValue: [],
       items: Object.assign([], sources),
       multiple: true,
-      exhaustive: true
+      exhaustive: true,
     };
     // Set
     this.setFilterDef(filterDef);

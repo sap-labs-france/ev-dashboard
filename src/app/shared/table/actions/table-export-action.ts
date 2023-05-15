@@ -20,7 +20,7 @@ export class TableExportAction implements TableAction {
     name: 'general.export',
     color: ButtonActionColor.PRIMARY,
     tooltip: 'general.tooltips.export',
-    action: this.export
+    action: this.export,
   };
 
   // Return an action
@@ -28,28 +28,45 @@ export class TableExportAction implements TableAction {
     return this.action;
   }
 
-  protected export(filters: FilterParams, exportedFilename: string, messageTitle: string, messageConfirm: string,
-    messageError: string, exportData: (filters: FilterParams) => Observable<Blob>,
-    dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router) {
-    dialogService.createAndShowYesNoDialog(
-      translateService.instant(messageTitle),
-      translateService.instant(messageConfirm),
-    ).subscribe((response) => {
-      if (response === ButtonAction.YES) {
-        spinnerService.show();
-        exportData(filters).subscribe({
-          next: (result) => {
-            spinnerService.hide();
-            FileSaver.saveAs(result, exportedFilename);
-          },
-          error: (error) => {
-            spinnerService.hide();
-            Utils.handleHttpError(error, router, messageService,
-              centralServerService, translateService.instant(messageError));
-          }
-        });
-      }
-    });
+  protected export(
+    filters: FilterParams,
+    exportedFilename: string,
+    messageTitle: string,
+    messageConfirm: string,
+    messageError: string,
+    exportData: (filters: FilterParams) => Observable<Blob>,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router
+  ) {
+    dialogService
+      .createAndShowYesNoDialog(
+        translateService.instant(messageTitle),
+        translateService.instant(messageConfirm)
+      )
+      .subscribe((response) => {
+        if (response === ButtonAction.YES) {
+          spinnerService.show();
+          exportData(filters).subscribe({
+            next: (result) => {
+              spinnerService.hide();
+              FileSaver.saveAs(result, exportedFilename);
+            },
+            error: (error) => {
+              spinnerService.hide();
+              Utils.handleHttpError(
+                error,
+                router,
+                messageService,
+                centralServerService,
+                translateService.instant(messageError)
+              );
+            },
+          });
+        }
+      });
   }
 }

@@ -5,7 +5,7 @@ import { AssetLacroixConnectionType } from '../../../../../types/Setting';
 
 @Component({
   selector: 'app-settings-lacroix-connection',
-  templateUrl: 'lacroix-asset-connection.component.html'
+  templateUrl: 'lacroix-asset-connection.component.html',
 })
 export class LacroixAssetConnectionComponent implements OnInit {
   @Input() public formGroup!: UntypedFormGroup;
@@ -18,14 +18,8 @@ export class LacroixAssetConnectionComponent implements OnInit {
   public ngOnInit(): void {
     // Set login credentials form
     this.lacroixLoginForm = new UntypedFormGroup({
-      user: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      password: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
+      user: new UntypedFormControl('', Validators.compose([Validators.required])),
+      password: new UntypedFormControl('', Validators.compose([Validators.required])),
     });
     if (!this.formGroup.disabled) {
       this.formGroup.addControl('lacroixConnection', this.lacroixLoginForm);

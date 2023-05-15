@@ -1,5 +1,6 @@
 import { ChargingStationAuthorizationActions } from './Authorization';
 import { KeyValue } from './GlobalType';
+import { Reservation } from './Reservation';
 import { Site } from './Site';
 import { SiteArea } from './SiteArea';
 import { TableData } from './Table';
@@ -153,13 +154,15 @@ export interface Connector extends TableData {
   canRemoteStartTransaction: boolean;
   canUnlockConnector: boolean;
   canReadTransaction: boolean;
+  reservationID?: number;
+  canReserveNow?: boolean;
+  canCancelReservation?: boolean;
 }
 
 export interface PhaseAssignmentToGrid {
   csPhaseL1: OCPPPhase.L1 | OCPPPhase.L2 | OCPPPhase.L3;
   csPhaseL2: OCPPPhase.L1 | OCPPPhase.L2 | OCPPPhase.L3;
   csPhaseL3: OCPPPhase.L1 | OCPPPhase.L2 | OCPPPhase.L3;
-
 }
 
 export enum OCPPPhase {
@@ -172,7 +175,7 @@ export enum OCPPPhase {
   L3_N = 'L3-N',
   L1_L2 = 'L1-L2',
   L2_L3 = 'L2-L3',
-  L3_L1 = 'L3-L1'
+  L3_L1 = 'L3-L1',
 }
 
 export enum Voltage {
@@ -188,6 +191,7 @@ export enum ConnectorType {
   TYPE_1_CCS = 'T1CCS',
   DOMESTIC = 'D',
   UNKNOWN = 'U',
+  TYPE_3_C = 'T3C',
 }
 
 export enum SiteAreaLimitSource {
@@ -198,7 +202,7 @@ export enum SiteAreaLimitSource {
 export enum ConnectorCurrentLimitSource {
   CHARGING_PROFILE = 'CP',
   STATIC_LIMITATION = 'SL',
-  CONNECTOR = 'CO'
+  CONNECTOR = 'CO',
 }
 
 export enum CurrentType {
@@ -233,7 +237,9 @@ export enum ChargingStationButtonAction {
   SAVE_OCPP_PARAMETER = 'save_ocpp_parameter',
   NAVIGATE_TO_CHARGING_PLANS = 'navigate_to_charging_plans',
   GENERATE_QR_CODE = 'generate_qr_code',
-  NAVIGATE_TO_SITE_AREA = 'navigate_to_site_area'
+  NAVIGATE_TO_SITE_AREA = 'navigate_to_site_area',
+  RESERVE_NOW = 'reserve_now',
+  CANCEL_RESERVATION = 'cancel_reservation',
 }
 
 export enum ChargePointStatus {

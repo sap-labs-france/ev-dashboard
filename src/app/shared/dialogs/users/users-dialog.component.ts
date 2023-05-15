@@ -9,13 +9,14 @@ import { UsersDialogTableDataSource } from './users-dialog-table-data-source';
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
-  styleUrls: ['../dialog-table-data.component.scss']
+  styleUrls: ['../dialog-table-data.component.scss'],
 })
 export class UsersDialogComponent extends DialogTableDataComponent<User> {
   public constructor(
     protected dialogRef: MatDialogRef<UsersDialogComponent>,
     private usersListTableDataSource: UsersDialogTableDataSource,
-    @Inject(MAT_DIALOG_DATA) data: any) {
+    @Inject(MAT_DIALOG_DATA) data: any
+  ) {
     super(data, dialogRef, usersListTableDataSource);
     // Default title
     if (Utils.isEmptyString(this.title)) {

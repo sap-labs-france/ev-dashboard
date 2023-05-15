@@ -7,7 +7,8 @@ import { TableActionDef } from 'types/Table';
 import { TableAction } from '../../table-action';
 
 export interface TableOnboardAccountActionDef extends TableActionDef {
-  action: (account: BillingAccount,
+  action: (
+    account: BillingAccount,
     centralServerService: CentralServerService
   ) => Observable<BillingAccount>;
 }
@@ -29,8 +30,10 @@ export class TableOnboardAccountAction implements TableAction {
   }
 
   //Onboard the connected account
-  private onboardAccount(account: BillingAccount,
-    centralServerService: CentralServerService): Observable<BillingAccount> {
+  private onboardAccount(
+    account: BillingAccount,
+    centralServerService: CentralServerService
+  ): Observable<BillingAccount> {
     return centralServerService.onboardAccount(account.id);
   }
 }

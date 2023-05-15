@@ -21,7 +21,8 @@ export class ReportsDialogTableDataSource extends DialogTableDataSource<RefundRe
     private messageService: MessageService,
     private router: Router,
     private centralServerService: CentralServerService,
-    private appUserNamePipe: AppUserNamePipe) {
+    private appUserNamePipe: AppUserNamePipe
+  ) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -31,16 +32,24 @@ export class ReportsDialogTableDataSource extends DialogTableDataSource<RefundRe
     return new Observable((observer) => {
       const filters = this.buildFilterValues();
       filters['MinimalPrice'] = '0';
-      this.centralServerService.getRefundReports(filters, this.getPaging(), this.getSorting()).subscribe({
-        next: (report) => {
-          observer.next(report);
-          observer.complete();
-        },
-        error: (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          observer.error(error);
-        }
-      });
+      this.centralServerService
+        .getRefundReports(filters, this.getPaging(), this.getSorting())
+        .subscribe({
+          next: (report) => {
+            observer.next(report);
+            observer.complete();
+          },
+          error: (error) => {
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.error_backend'
+            );
+            observer.error(error);
+          },
+        });
     });
   }
 

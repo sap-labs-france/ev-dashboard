@@ -7,8 +7,11 @@ import { TenantButtonAction } from '../../../../types/Tenant';
 import { TableCreateAction } from '../table-create-action';
 
 export interface TableCreateTenantActionDef extends TableActionDef {
-  action: (tenantDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    refresh?: () => Observable<void>) => void;
+  action: (
+    tenantDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableCreateTenantAction extends TableCreateAction {
@@ -20,8 +23,11 @@ export class TableCreateTenantAction extends TableCreateAction {
     };
   }
 
-  private createTenant(tenantDialogComponent: ComponentType<unknown>,
-    dialog: MatDialog, refresh?: () => Observable<void>) {
+  private createTenant(
+    tenantDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    refresh?: () => Observable<void>
+  ) {
     super.create(tenantDialogComponent, dialog, null, refresh);
   }
 }

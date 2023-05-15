@@ -12,10 +12,7 @@ export class PaymentMethodsComponent implements OnChanges {
   @Input() public currentUserID!: string;
 
   // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    public paymentMethodsTableDataSource: PaymentMethodsTableDataSource,
-  ) {
-  }
+  public constructor(public paymentMethodsTableDataSource: PaymentMethodsTableDataSource) {}
 
   public ngOnChanges(): void {
     this.paymentMethodsTableDataSource.setCurrentUserID(this.currentUserID);

@@ -8,8 +8,12 @@ import { TableActionDef } from '../../../../types/Table';
 import { TableCreateAction } from '../table-create-action';
 
 export interface TableCreateSiteAreaActionDef extends TableActionDef {
-  action: (siteAreaDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<SiteArea, SiteAreasAuthorizations>, refresh?: () => Observable<void>) => void;
+  action: (
+    siteAreaDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<SiteArea, SiteAreasAuthorizations>,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableCreateSiteAreaAction extends TableCreateAction {
@@ -21,8 +25,12 @@ export class TableCreateSiteAreaAction extends TableCreateAction {
     };
   }
 
-  private createSiteArea(siteAreaDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<SiteArea, SiteAreasAuthorizations>, refresh?: () => Observable<void>) {
+  private createSiteArea(
+    siteAreaDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<SiteArea, SiteAreasAuthorizations>,
+    refresh?: () => Observable<void>
+  ) {
     super.create(siteAreaDialogComponent, dialog, dialogParams, refresh);
   }
 }

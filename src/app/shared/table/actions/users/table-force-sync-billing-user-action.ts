@@ -13,8 +13,16 @@ import { User, UserButtonAction } from '../../../../types/User';
 import { Utils } from '../../../../utils/Utils';
 
 export interface TableForceSyncBillingUserActionDef extends TableActionDef {
-  action: (user: User, dialogService: DialogService, translateService: TranslateService, spinnerService: SpinnerService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router, refresh?: () => Observable<void>) => void;
+  action: (
+    user: User,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    spinnerService: SpinnerService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableForceSyncBillingUserAction extends TableSynchronizeAction {
@@ -27,36 +35,58 @@ export class TableForceSyncBillingUserAction extends TableSynchronizeAction {
     };
   }
 
-  private forceSynchronizeUser(user: User, dialogService: DialogService, translateService: TranslateService, spinnerService: SpinnerService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router, refresh?: () => Observable<void>) {
-    dialogService.createAndShowYesNoDialog(
-      translateService.instant('settings.billing.user.force_synchronize_user_dialog_title'),
-      translateService.instant('settings.billing.user.force_synchronize_user_dialog_confirm', { userFullName: Utils.buildUserFullName(user) }),
-    ).subscribe((response) => {
-      if (response === ButtonAction.YES) {
-        spinnerService.show();
-        centralServerService.forceSynchronizeUserForBilling(user.id).subscribe({
-          next: (synchronizeResponse) => {
-            spinnerService.hide();
-            if (synchronizeResponse.status === RestResponse.SUCCESS) {
-              if (refresh) {
-                refresh().subscribe();
+  private forceSynchronizeUser(
+    user: User,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    spinnerService: SpinnerService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) {
+    dialogService
+      .createAndShowYesNoDialog(
+        translateService.instant('settings.billing.user.force_synchronize_user_dialog_title'),
+        translateService.instant('settings.billing.user.force_synchronize_user_dialog_confirm', {
+          userFullName: Utils.buildUserFullName(user),
+        })
+      )
+      .subscribe((response) => {
+        if (response === ButtonAction.YES) {
+          spinnerService.show();
+          centralServerService.forceSynchronizeUserForBilling(user.id).subscribe({
+            next: (synchronizeResponse) => {
+              spinnerService.hide();
+              if (synchronizeResponse.status === RestResponse.SUCCESS) {
+                if (refresh) {
+                  refresh().subscribe();
+                }
+                messageService.showSuccessMessage(
+                  translateService.instant('settings.billing.user.force_synchronize_user_success', {
+                    userFullName: Utils.buildUserFullName(user),
+                  })
+                );
+              } else {
+                Utils.handleError(
+                  JSON.stringify(synchronizeResponse),
+                  messageService,
+                  'settings.billing.user.force_synchronize_user_failure'
+                );
               }
-              messageService.showSuccessMessage(
-                translateService.instant('settings.billing.user.force_synchronize_user_success',
-                  { userFullName: Utils.buildUserFullName(user) }));
-            } else {
-              Utils.handleError(JSON.stringify(synchronizeResponse), messageService,
-                'settings.billing.user.force_synchronize_user_failure');
-            }
-          },
-          error: (error) => {
-            spinnerService.hide();
-            Utils.handleHttpError(error, router, messageService, centralServerService,
-              'settings.billing.user.force_synchronize_user_failure');
-          }
-        });
-      }
-    });
+            },
+            error: (error) => {
+              spinnerService.hide();
+              Utils.handleHttpError(
+                error,
+                router,
+                messageService,
+                centralServerService,
+                'settings.billing.user.force_synchronize_user_failure'
+              );
+            },
+          });
+        }
+      });
   }
 }

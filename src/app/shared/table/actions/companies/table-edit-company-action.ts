@@ -8,8 +8,12 @@ import { Company, CompanyButtonAction } from '../../../../types/Company';
 import { TableActionDef } from '../../../../types/Table';
 
 export interface TableEditCompanyActionDef extends TableActionDef {
-  action: (companyDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<Company, CompaniesAuthorizations>, refresh?: () => Observable<void>) => void;
+  action: (
+    companyDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<Company, CompaniesAuthorizations>,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableEditCompanyAction extends TableEditAction {
@@ -21,8 +25,12 @@ export class TableEditCompanyAction extends TableEditAction {
     };
   }
 
-  private editCompany(companyDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<Company, CompaniesAuthorizations>, refresh?: () => Observable<void>) {
+  private editCompany(
+    companyDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<Company, CompaniesAuthorizations>,
+    refresh?: () => Observable<void>
+  ) {
     super.edit(companyDialogComponent, dialog, dialogParams, refresh);
   }
 }

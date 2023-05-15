@@ -10,13 +10,20 @@ export class DateRangeTableFilter extends TableFilter {
   private translateService: TranslateService;
 
   public constructor(options: {
-    translateService: TranslateService; showSeconds?: boolean; start?: moment.Moment; end?: moment.Moment;
-    id?: string; startDateTimeHttpId?: string; endDateTimeHttpId?: string;
+    translateService: TranslateService;
+    showSeconds?: boolean;
+    start?: moment.Moment;
+    end?: moment.Moment;
+    id?: string;
+    startDateTimeHttpId?: string;
+    endDateTimeHttpId?: string;
   }) {
     super();
     // Define filter
     this.translateService = options.translateService;
-    const startDate = Utils.isNullOrUndefined(options.start) ? moment().startOf('y') : options.start;
+    const startDate = Utils.isNullOrUndefined(options.start)
+      ? moment().startOf('y')
+      : options.start;
     const endDate = Utils.isNullOrUndefined(options.end) ? moment().endOf('d') : options.end;
     const filterDef: TableFilterDef = {
       id: options.id ? options.id : 'dateRange',
@@ -27,25 +34,29 @@ export class DateRangeTableFilter extends TableFilter {
       dateRangeTableFilterDef: {
         timePicker: true,
         timePicker24Hour: true,
-        timePickerSeconds: Utils.isNullOrUndefined(options.showSeconds) ? false : options.showSeconds,
-        startDateTimeHttpId: options.startDateTimeHttpId ? options.startDateTimeHttpId : 'StartDateTime',
+        timePickerSeconds: Utils.isNullOrUndefined(options.showSeconds)
+          ? false
+          : options.showSeconds,
+        startDateTimeHttpId: options.startDateTimeHttpId
+          ? options.startDateTimeHttpId
+          : 'StartDateTime',
         endDateTimeHttpId: options.endDateTimeHttpId ? options.endDateTimeHttpId : 'EndDateTime',
         locale: {
           displayFormat: moment.localeData().longDateFormat('lll'),
           applyLabel: options.translateService.instant('general.apply'),
           daysOfWeek: moment.weekdaysMin(),
           monthNames: moment.monthsShort(),
-          firstDay: moment.localeData().firstDayOfWeek()
+          firstDay: moment.localeData().firstDayOfWeek(),
         },
         ranges: this.allRanges,
         updateRanges: this.createQuickAccessDateRanges.bind(this),
       },
       currentValue: {
         startDate,
-        endDate
+        endDate,
       },
       items: [],
-      reset: () => filterDef.currentValue = { startDate, endDate }
+      reset: () => (filterDef.currentValue = { startDate, endDate }),
     };
     // Set
     this.setFilterDef(filterDef);
@@ -55,22 +66,85 @@ export class DateRangeTableFilter extends TableFilter {
     this.createQuickAccessDateRanges();
   }
 
-  private createQuickAccessDateRanges(){
-    const rangeObjects: {key: string; label: string; startValue: moment.Moment; endValue: moment.Moment}[] = [
-      { key: 'search_one_minute', label: 'logs.search_one_minute', startValue: moment().subtract(1, 'minute'), endValue: moment() },
-      { key: 'search_10_minutes', label: 'logs.search_10_minutes', startValue: moment().subtract(10, 'minutes'), endValue: moment() },
-      { key: 'search_30_minutes', label: 'logs.search_30_minutes', startValue: moment().subtract(30, 'minutes'), endValue: moment() },
-      { key: 'search_one_hour', label: 'logs.search_one_hour', startValue: moment().subtract(1, 'hour'), endValue: moment()  },
-      { key: 'search_24_hours', label: 'logs.search_24_hours', startValue: moment().subtract(24, 'hour'), endValue: moment() },
-      { key: 'search_today', label: 'logs.search_today', startValue: moment().startOf('day'), endValue: moment().endOf('day')  },
-      { key: 'search_yesterday', label: 'logs.search_yesterday', startValue: moment().subtract(1, 'day').startOf('day'), endValue: moment().subtract(1, 'day').endOf('day') },
-      { key: 'search_this_week', label: 'logs.search_this_week', startValue: moment().startOf('week'), endValue: moment().endOf('week')  },
-      { key: 'search_last_week', label: 'logs.search_last_week', startValue: moment().subtract(1, 'week').startOf('week'), endValue: moment().subtract(1, 'week').endOf('week')  },
-      { key: 'search_this_month', label: 'logs.search_this_month', startValue: moment().startOf('month'), endValue: moment().endOf('month')  },
-      { key: 'search_last_month', label: 'logs.search_last_month', startValue: moment().subtract(1, 'month').startOf('month'), endValue: moment().subtract(1, 'month').endOf('month') },
+  private createQuickAccessDateRanges() {
+    const rangeObjects: {
+      key: string;
+      label: string;
+      startValue: moment.Moment;
+      endValue: moment.Moment;
+    }[] = [
+      {
+        key: 'search_one_minute',
+        label: 'logs.search_one_minute',
+        startValue: moment().subtract(1, 'minute'),
+        endValue: moment(),
+      },
+      {
+        key: 'search_10_minutes',
+        label: 'logs.search_10_minutes',
+        startValue: moment().subtract(10, 'minutes'),
+        endValue: moment(),
+      },
+      {
+        key: 'search_30_minutes',
+        label: 'logs.search_30_minutes',
+        startValue: moment().subtract(30, 'minutes'),
+        endValue: moment(),
+      },
+      {
+        key: 'search_one_hour',
+        label: 'logs.search_one_hour',
+        startValue: moment().subtract(1, 'hour'),
+        endValue: moment(),
+      },
+      {
+        key: 'search_24_hours',
+        label: 'logs.search_24_hours',
+        startValue: moment().subtract(24, 'hour'),
+        endValue: moment(),
+      },
+      {
+        key: 'search_today',
+        label: 'logs.search_today',
+        startValue: moment().startOf('day'),
+        endValue: moment().endOf('day'),
+      },
+      {
+        key: 'search_yesterday',
+        label: 'logs.search_yesterday',
+        startValue: moment().subtract(1, 'day').startOf('day'),
+        endValue: moment().subtract(1, 'day').endOf('day'),
+      },
+      {
+        key: 'search_this_week',
+        label: 'logs.search_this_week',
+        startValue: moment().startOf('week'),
+        endValue: moment().endOf('week'),
+      },
+      {
+        key: 'search_last_week',
+        label: 'logs.search_last_week',
+        startValue: moment().subtract(1, 'week').startOf('week'),
+        endValue: moment().subtract(1, 'week').endOf('week'),
+      },
+      {
+        key: 'search_this_month',
+        label: 'logs.search_this_month',
+        startValue: moment().startOf('month'),
+        endValue: moment().endOf('month'),
+      },
+      {
+        key: 'search_last_month',
+        label: 'logs.search_last_month',
+        startValue: moment().subtract(1, 'month').startOf('month'),
+        endValue: moment().subtract(1, 'month').endOf('month'),
+      },
     ];
     for (const range of rangeObjects) {
-      this.allRanges[this.translateService.instant(range.label)] = [range.startValue, range.endValue];
+      this.allRanges[this.translateService.instant(range.label)] = [
+        range.startValue,
+        range.endValue,
+      ];
     }
   }
 }

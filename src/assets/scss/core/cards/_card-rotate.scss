@@ -11,11 +11,12 @@
   }
 
   .card {
-    @include transitions(.8s, $transition-bezier-rotating-card);
+    @include transitions(0.8s, $transition-bezier-rotating-card);
     @include transform-style(preserve-3d);
     position: relative;
 
-    .back, .front {
+    .back,
+    .front {
       @include backface-visibility(hidden);
       // @include shadow-2dp();
       position: absolute;
@@ -74,8 +75,8 @@
           display: block;
           left: 0;
           top: 0;
-          content: "";
-          background-color: rgba(0, 0, 0, .56);
+          content: '';
+          background-color: rgba(0, 0, 0, 0.56);
           border-radius: $border-radius-large;
         }
         .card-body {
@@ -100,7 +101,6 @@
     .card {
       @include rotateY-180();
     }
-
   }
 
   &.hover.manual-flip {
@@ -140,7 +140,7 @@
 
   .rotating-card-container .card .back {
     visibility: hidden;
-    transition: visibility .3s cubic-bezier(0.34, 1.45, 0.7, 1);
+    transition: visibility 0.3s cubic-bezier(0.34, 1.45, 0.7, 1);
   }
   .rotating-card-container .card .front {
     z-index: 4;

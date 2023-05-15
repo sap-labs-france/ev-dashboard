@@ -1,4 +1,3 @@
-
 export class Formatters {
   public static formatTextToHTML(value: any): string {
     if (Array.isArray(value)) {
@@ -19,7 +18,7 @@ export class Formatters {
     if (typeof value === 'object') {
       // Check that every values is parsed
       return Formatters.internalFormatTextToHTML(JSON.stringify(value));
-    // String?
+      // String?
     } else if (typeof value === 'string') {
       let parsedValue: string;
       try {

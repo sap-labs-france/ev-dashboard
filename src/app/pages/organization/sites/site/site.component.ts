@@ -25,7 +25,7 @@ import { SiteOcpiComponent } from './ocpi/site-ocpi.component';
 @Component({
   selector: 'app-site',
   templateUrl: 'site.component.html',
-  styleUrls: ['site.component.scss']
+  styleUrls: ['site.component.scss'],
 })
 export class SiteComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentSiteID!: string;
@@ -56,11 +56,14 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
     private translateService: TranslateService,
     private router: Router,
     protected activatedRoute: ActivatedRoute,
-    protected windowService: WindowService) {
+    protected windowService: WindowService
+  ) {
     super(activatedRoute, windowService, ['main', 'ocpi'], false);
     this.ocpiActive = this.componentService.isActive(TenantComponents.OCPI);
     this.isBillingActive = this.componentService.isActive(TenantComponents.BILLING);
-    this.isBillingPlatformActive = this.componentService.isActive(TenantComponents.BILLING_PLATFORM);
+    this.isBillingPlatformActive = this.componentService.isActive(
+      TenantComponents.BILLING_PLATFORM
+    );
   }
 
   public ngOnInit() {
@@ -102,10 +105,15 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
               this.messageService.showErrorMessage('sites.site_not_found');
               break;
             default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'general.unexpected_error_backend');
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'general.unexpected_error_backend'
+              );
           }
-        }
+        },
       });
     }
   }
@@ -121,8 +129,13 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
   }
 
   public close() {
-    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
-      this.translateService, this.saveSite.bind(this), this.closeDialog.bind(this));
+    Utils.checkAndSaveAndCloseDialog(
+      this.formGroup,
+      this.dialogService,
+      this.translateService,
+      this.saveSite.bind(this),
+      this.closeDialog.bind(this)
+    );
   }
 
   public saveSite(site: Site) {
@@ -144,12 +157,10 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
       next: (response) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage('sites.create_success',
-            { siteName: site.name });
+          this.messageService.showSuccessMessage('sites.create_success', { siteName: site.name });
           this.closeDialog(true);
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, 'sites.create_error');
+          Utils.handleError(JSON.stringify(response), this.messageService, 'sites.create_error');
         }
       },
       error: (error) => {
@@ -159,9 +170,15 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
             this.messageService.showErrorMessage('sites.site_not_found');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'sites.create_error');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'sites.create_error'
+            );
         }
-      }
+      },
     });
   }
 
@@ -179,8 +196,7 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
           this.messageService.showSuccessMessage('sites.update_success', { siteName: site.name });
           this.closeDialog(true);
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, 'sites.update_error');
+          Utils.handleError(JSON.stringify(response), this.messageService, 'sites.update_error');
         }
       },
       error: (error) => {
@@ -190,13 +206,20 @@ export class SiteComponent extends AbstractTabComponent implements OnInit {
             this.messageService.showErrorMessage('sites.site_not_found');
             break;
           case HTTPError.FEATURE_NOT_SUPPORTED_ERROR:
-            this.messageService.showErrorMessage('sites.update_public_site_error', { siteName: site.name });
+            this.messageService.showErrorMessage('sites.update_public_site_error', {
+              siteName: site.name,
+            });
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'sites.update_error');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'sites.update_error'
+            );
         }
-      }
+      },
     });
   }
 }

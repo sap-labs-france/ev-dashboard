@@ -34,12 +34,23 @@ export class SidebarComponent {
     private authorizationService: AuthorizationService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
-    @Inject(DOCUMENT) private document: Document) {
+    @Inject(DOCUMENT) private document: Document
+  ) {
     // Get the routes
-    if (this.activatedRoute && this.activatedRoute.routeConfig && this.activatedRoute.routeConfig.children) {
-      this.menuItems = this.activatedRoute.routeConfig.children.filter((route) =>
-        route.data && route.data.menu && this.guard.isRouteAllowed(route) &&
-        this.guard.canLoad(route, [])).map((route) => route && route.data ? route.data.menu : null);
+    if (
+      this.activatedRoute &&
+      this.activatedRoute.routeConfig &&
+      this.activatedRoute.routeConfig.children
+    ) {
+      this.menuItems = this.activatedRoute.routeConfig.children
+        .filter(
+          (route) =>
+            route.data &&
+            route.data.menu &&
+            this.guard.isRouteAllowed(route) &&
+            this.guard.canLoad(route, [])
+        )
+        .map((route) => (route && route.data ? route.data.menu : null));
     }
     // Set admin
     this.isAdmin = this.authorizationService.isAdmin() || this.authorizationService.isSuperAdmin();
@@ -81,7 +92,7 @@ export class SidebarComponent {
         this.centralServerService.clearLoginInformation();
         // Redirect to login page with the return url
         void this.router.navigate(['/auth/login']);
-      }
+      },
     });
   }
 
@@ -98,10 +109,15 @@ export class SidebarComponent {
               this.loggedUserImage = Constants.USER_NO_PICTURE;
               break;
             default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'general.unexpected_error_backend');
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'general.unexpected_error_backend'
+              );
           }
-        }
+        },
       });
       this.centralServerService.getUser(this.loggedUser.id).subscribe((user) => {
         if (user) {
@@ -126,10 +142,15 @@ export class SidebarComponent {
               this.logo = Constants.NO_IMAGE;
               break;
             default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'general.unexpected_error_backend');
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'general.unexpected_error_backend'
+              );
           }
-        }
+        },
       });
     } else {
       this.logo = Constants.MASTER_TENANT_LOGO;

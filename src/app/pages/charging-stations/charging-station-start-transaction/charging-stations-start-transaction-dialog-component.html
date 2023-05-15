@@ -2,17 +2,22 @@
 <mat-dialog-content>
   <div class="row" *ngIf="formGroup.errors">
     <div class="col-md-12">
-      <mat-error class="mat-subheading-2 text-danger text-left">
-        {{errorMessage}}
-      </mat-error>
+      <mat-error class="mat-subheading-2 text-danger text-left"> {{errorMessage}} </mat-error>
     </div>
   </div>
   <div class="row" *ngIf="canListUsers">
     <div class="col-md-12">
       <div class="form-group">
         <mat-form-field>
-          <input matInput type="text" readonly=true placeholder="{{'users.title' | translate}}" class="form-field-popup"
-            (click)="assignUser()" [formControl]="user" />
+          <input
+            matInput
+            type="text"
+            readonly="true"
+            placeholder="{{'users.title' | translate}}"
+            class="form-field-popup"
+            (click)="assignUser()"
+            [formControl]="user"
+          />
           <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignUser()">
             <mat-icon>create</mat-icon>
           </button>
@@ -27,17 +32,29 @@
     <div class="col-md-12">
       <div class="form-group">
         <mat-form-field>
-          <input matInput type="text" readonly=true placeholder="{{'tags.title' | translate}}" class="form-field-popup"
-            (click)="assignTag()" [formControl]="tag" />
-          <button *ngIf="tag.enabled" mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignTag()">
+          <input
+            matInput
+            type="text"
+            readonly="true"
+            placeholder="{{'tags.title' | translate}}"
+            class="form-field-popup"
+            (click)="assignTag()"
+            [formControl]="tag"
+          />
+          <button
+            *ngIf="tag.enabled"
+            mat-button
+            matSuffix
+            mat-icon-button
+            aria-label="Add"
+            (click)="assignTag()"
+          >
             <mat-icon>create</mat-icon>
           </button>
           <mat-error *ngIf="tag.errors?.required">
             {{"general.mandatory_field" | translate}}
           </mat-error>
-          <mat-error *ngIf="tag.errors?.inactive">
-            {{"tags.not_active" | translate}}
-          </mat-error>
+          <mat-error *ngIf="tag.errors?.inactive"> {{"tags.not_active" | translate}} </mat-error>
         </mat-form-field>
       </div>
     </div>
@@ -46,9 +63,22 @@
     <div class="col-md-12">
       <div class="form-group">
         <mat-form-field>
-          <input matInput type="text" readonly=true placeholder="{{'car.title' | translate}}" class="form-field-popup"
-            (click)="assignCar()" [formControl]="car" />
-          <button *ngIf="car.enabled && car.value" mat-icon-button matSuffix (click)="resetCar()" aria-label="Add">
+          <input
+            matInput
+            type="text"
+            readonly="true"
+            placeholder="{{'car.title' | translate}}"
+            class="form-field-popup"
+            (click)="assignCar()"
+            [formControl]="car"
+          />
+          <button
+            *ngIf="car.enabled && car.value"
+            mat-icon-button
+            matSuffix
+            (click)="resetCar()"
+            aria-label="Add"
+          >
             <mat-icon>clear</mat-icon>
           </button>
         </mat-form-field>
@@ -58,6 +88,14 @@
   <div class="clearfix"></div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-raised-button [disabled]="!formGroup.valid" (click)="startTransaction()" color="primary" disabled="false">{{"chargers.start_transaction" | translate}}</button>
+  <button
+    mat-raised-button
+    [disabled]="!formGroup.valid"
+    (click)="startTransaction()"
+    color="primary"
+    disabled="false"
+  >
+    {{"chargers.start_transaction" | translate}}
+  </button>
   <button mat-raised-button (click)="cancel()">{{'general.cancel' | translate}}</button>
 </mat-dialog-actions>

@@ -8,8 +8,12 @@ import { Company, CompanyButtonAction } from '../../../../types/Company';
 import { TableActionDef } from '../../../../types/Table';
 
 export interface TableCreateCompanyActionDef extends TableActionDef {
-  action: (companyDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<Company, CompaniesAuthorizations>, refresh?: () => Observable<void>) => void;
+  action: (
+    companyDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<Company, CompaniesAuthorizations>,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableCreateCompanyAction extends TableCreateAction {
@@ -18,12 +22,16 @@ export class TableCreateCompanyAction extends TableCreateAction {
       ...super.getActionDef(),
       id: CompanyButtonAction.CREATE_COMPANY,
       action: this.createCompany,
-      visible: false
+      visible: false,
     };
   }
 
-  private createCompany(companyDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<Company, CompaniesAuthorizations>, refresh?: () => Observable<void>) {
+  private createCompany(
+    companyDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<Company, CompaniesAuthorizations>,
+    refresh?: () => Observable<void>
+  ) {
     super.create(companyDialogComponent, dialog, dialogParams, refresh);
   }
 }

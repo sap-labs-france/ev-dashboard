@@ -11,9 +11,17 @@ import { TableActionDef } from '../../../../types/Table';
 import { TableDeleteManyAction } from '../table-delete-many-action';
 
 export interface TableDeleteTagsActionDef extends TableActionDef {
-  action: (tags: Tag[], dialogService: DialogService, translateService: TranslateService,
-    messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService,
-    router: Router, clearSelectedRows: () => void, refresh?: () => Observable<void>) => void;
+  action: (
+    tags: Tag[],
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    clearSelectedRows: () => void,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableDeleteTagsAction extends TableDeleteManyAction {
@@ -22,23 +30,47 @@ export class TableDeleteTagsAction extends TableDeleteManyAction {
       ...super.getActionDef(),
       id: TagButtonAction.DELETE_TAGS,
       action: this.deleteTags,
-      visible: false
+      visible: false,
     };
   }
 
-  private deleteTags(tags: Tag[], dialogService: DialogService, translateService: TranslateService,
-    messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService,
-    router: Router, clearSelectedRows: () => void, refresh?: () => Observable<void>) {
+  private deleteTags(
+    tags: Tag[],
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    clearSelectedRows: () => void,
+    refresh?: () => Observable<void>
+  ) {
     // Empty?
     if (tags.length === 0) {
-      messageService.showErrorMessage(translateService.instant('general.select_at_least_one_record'));
+      messageService.showErrorMessage(
+        translateService.instant('general.select_at_least_one_record')
+      );
       return;
     }
     // Delete them
-    super.deleteMany(tags, 'tags.delete_tags_title', 'tags.delete_tags_confirm', 'tags.delete_tags_success',
-      'tags.delete_tags_partial', 'tags.delete_tags_error', 'tags.delete_no_tag', 'tags.delete_tags_unexpected_error',
+    super.deleteMany(
+      tags,
+      'tags.delete_tags_title',
+      'tags.delete_tags_confirm',
+      'tags.delete_tags_success',
+      'tags.delete_tags_partial',
+      'tags.delete_tags_error',
+      'tags.delete_no_tag',
+      'tags.delete_tags_unexpected_error',
       centralServerService.deleteTags.bind(centralServerService),
-      dialogService, translateService, messageService, centralServerService, spinnerService, router,
-      clearSelectedRows, refresh);
+      dialogService,
+      translateService,
+      messageService,
+      centralServerService,
+      spinnerService,
+      router,
+      clearSelectedRows,
+      refresh
+    );
   }
 }

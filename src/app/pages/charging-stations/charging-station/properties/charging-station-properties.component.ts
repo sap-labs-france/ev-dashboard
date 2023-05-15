@@ -22,7 +22,6 @@ export class ChargingStationPropertiesComponent implements OnInit {
   @Input() public chargingStation!: ChargingStation;
   @Input() public chargingStationsAuthorizations: ChargingStationsAuthorizations;
 
-
   public chargerFormatted: any = {};
   public displayedProperties: PropertyDisplay[] = [
     { key: 'chargePointVendor', title: 'chargers.vendor' },
@@ -35,13 +34,19 @@ export class ChargingStationPropertiesComponent implements OnInit {
     { key: 'ocppVersion', title: 'chargers.ocpp_version' },
     { key: 'ocppProtocol', title: 'chargers.ocpp_protocol' },
     {
-      key: 'lastReboot', title: 'chargers.last_reboot', formatter: (lastReboot: Date) => this.datePipe.transform(lastReboot),
+      key: 'lastReboot',
+      title: 'chargers.last_reboot',
+      formatter: (lastReboot: Date) => this.datePipe.transform(lastReboot),
     },
     {
-      key: 'createdOn', title: 'chargers.created_on', formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
+      key: 'createdOn',
+      title: 'chargers.created_on',
+      formatter: (createdOn: Date) => this.datePipe.transform(createdOn),
     },
     {
-      key: 'capabilities', title: 'chargers.capabilities', formatter: (capabilities: ChargingStationCapabilities) => {
+      key: 'capabilities',
+      title: 'chargers.capabilities',
+      formatter: (capabilities: ChargingStationCapabilities) => {
         if (capabilities) {
           const formatterValues: string[] = [];
           for (const key in capabilities) {
@@ -55,7 +60,9 @@ export class ChargingStationPropertiesComponent implements OnInit {
       },
     },
     {
-      key: 'ocppStandardParameters', title: 'chargers.ocpp_standard_params', formatter: (ocppStandardParameters: KeyValue[]) => {
+      key: 'ocppStandardParameters',
+      title: 'chargers.ocpp_standard_params',
+      formatter: (ocppStandardParameters: KeyValue[]) => {
         if (ocppStandardParameters) {
           const formatterValues: string[] = [];
           for (const ocppStandardParameter of ocppStandardParameters) {
@@ -67,7 +74,9 @@ export class ChargingStationPropertiesComponent implements OnInit {
       },
     },
     {
-      key: 'ocppVendorParameters', title: 'chargers.ocpp_vendor_params', formatter: (ocppVendorParameters: KeyValue[]) => {
+      key: 'ocppVendorParameters',
+      title: 'chargers.ocpp_vendor_params',
+      formatter: (ocppVendorParameters: KeyValue[]) => {
         if (ocppVendorParameters) {
           const formatterValues: string[] = [];
           for (const ocppVendorParameter of ocppVendorParameters) {

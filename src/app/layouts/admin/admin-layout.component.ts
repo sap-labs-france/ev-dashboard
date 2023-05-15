@@ -12,7 +12,6 @@ declare const $: any;
   selector: 'app-layout',
   templateUrl: 'admin-layout.component.html',
 })
-
 export class AdminLayoutComponent implements OnInit, AfterViewInit {
   @ViewChild('sidebar') public sidebar: any;
   @ViewChild(NavbarComponent, { static: true }) public navbar!: NavbarComponent;
@@ -87,7 +86,10 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
 
   public isMac(): boolean {
     let bool = false;
-    if (navigator.platform.toUpperCase().indexOf('MAC') >= 0 || navigator.platform.toUpperCase().indexOf('IPAD') >= 0) {
+    if (
+      navigator.platform.toUpperCase().indexOf('MAC') >= 0 ||
+      navigator.platform.toUpperCase().indexOf('IPAD') >= 0
+    ) {
       bool = true;
     }
     return bool;

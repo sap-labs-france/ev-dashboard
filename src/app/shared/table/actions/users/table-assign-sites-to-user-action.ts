@@ -3,13 +3,21 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { TableAssignAction } from '../../../../shared/table/actions/table-assign-action';
-import { DialogMode, DialogParamsWithAuth, UsersAuthorizations } from '../../../../types/Authorization';
+import {
+  DialogMode,
+  DialogParamsWithAuth,
+  UsersAuthorizations,
+} from '../../../../types/Authorization';
 import { TableActionDef } from '../../../../types/Table';
 import { User, UserButtonAction } from '../../../../types/User';
 
 export interface TableAssignSitesToUserActionDef extends TableActionDef {
-  action: (userSitesDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<User, UsersAuthorizations>, refresh?: () => Observable<void>) => void;
+  action: (
+    userSitesDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<User, UsersAuthorizations>,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableAssignSitesToUserAction extends TableAssignAction {
@@ -24,8 +32,12 @@ export class TableAssignSitesToUserAction extends TableAssignAction {
     };
   }
 
-  private assignSitesToUser(userSitesDialogComponent: ComponentType<unknown>, dialog: MatDialog, dialogParams: DialogParamsWithAuth<User, UsersAuthorizations>,
-    refresh?: () => Observable<void>) {
+  private assignSitesToUser(
+    userSitesDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<User, UsersAuthorizations>,
+    refresh?: () => Observable<void>
+  ) {
     super.assign(userSitesDialogComponent, dialog, dialogParams, DialogMode.EDIT, refresh);
   }
 }

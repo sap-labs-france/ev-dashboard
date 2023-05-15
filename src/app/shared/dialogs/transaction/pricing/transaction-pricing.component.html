@@ -5,9 +5,21 @@
         <mat-icon>payments</mat-icon>
       </div>
       <h4 class="card-title">
-        {{pricingDefinition.name}}
-        <span *ngIf="transaction.stop">({{transaction.stop.priceUnit ? (transaction.stop.roundedPrice | appCurrency:transaction.stop.priceUnit) : '-'}})</span>
-        <span *ngIf="!transaction.stop">({{transaction.priceUnit ? (transaction.currentCumulatedPrice | appCurrency:transaction.priceUnit) : '-'}})</span>
+        {{ pricingDefinition.name }}
+        <span *ngIf="transaction.stop"
+          >({{
+            transaction.stop.priceUnit
+              ? (transaction.stop.roundedPrice | appCurrency : transaction.stop.priceUnit)
+              : '-'
+          }})</span
+        >
+        <span *ngIf="!transaction.stop"
+          >({{
+            transaction.priceUnit
+              ? (transaction.currentCumulatedPrice | appCurrency : transaction.priceUnit)
+              : '-'
+          }})</span
+        >
       </h4>
     </div>
     <div class="card-body mat-tab-dialog-body-content">
@@ -15,22 +27,46 @@
         <div class="row">
           <div class="col-md-12">
             <mat-form-field>
-              <mat-label>{{'transactions.dialog.session.pricing_detail_description' | translate}}</mat-label>
-              <input matInput type="text" readonly=true value="{{pricingDefinition.description}}" class="form-field-popup"/>
+              <mat-label>{{
+                'transactions.dialog.session.pricing_detail_description' | translate
+              }}</mat-label>
+              <input
+                matInput
+                type="text"
+                readonly="true"
+                value="{{ pricingDefinition.description }}"
+                class="form-field-popup"
+              />
             </mat-form-field>
           </div>
         </div>
         <div class="row">
           <div class="col-md-4">
             <mat-form-field>
-              <mat-label>{{'transactions.dialog.session.pricing_detail_entity_type' | translate}}</mat-label>
-              <input matInput type="text" readonly=true value="{{pricingDefinition.entityType}}" class="form-field-popup"/>
+              <mat-label>{{
+                'transactions.dialog.session.pricing_detail_entity_type' | translate
+              }}</mat-label>
+              <input
+                matInput
+                type="text"
+                readonly="true"
+                value="{{ pricingDefinition.entityType }}"
+                class="form-field-popup"
+              />
             </mat-form-field>
           </div>
           <div class="col-md-4">
             <mat-form-field>
-              <mat-label>{{'transactions.dialog.session.pricing_detail_entity_id' | translate}}</mat-label>
-              <input matInput type="text" readonly=true value="{{pricingDefinition.entityID}}" class="form-field-popup"/>
+              <mat-label>{{
+                'transactions.dialog.session.pricing_detail_entity_id' | translate
+              }}</mat-label>
+              <input
+                matInput
+                type="text"
+                readonly="true"
+                value="{{ pricingDefinition.entityID }}"
+                class="form-field-popup"
+              />
             </mat-form-field>
           </div>
         </div>
@@ -39,22 +75,37 @@
         <div class="h-100">
           <div class="row w-100">
             <!-- FLAT FEE Dimension -->
-            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" *ngIf="pricingDefinition.dimensions?.flatFee?.pricedData">
+            <div
+              class="col-sm-12 col-md-6 col-lg-4 col-xl-3"
+              *ngIf="pricingDefinition.dimensions?.flatFee?.pricedData"
+            >
               <div class="card session-pricing-detail-card">
                 <div class="card-header card-header-primary card-header-icon">
                   <div class="card-icon">
                     <mat-icon>price_change</mat-icon>
                   </div>
                   <h4 class="card-title">
-                    <mat-label>{{'settings.pricing.flat_fee' | translate}}</mat-label>
+                    <mat-label>{{ 'settings.pricing.flat_fee' | translate }}</mat-label>
                   </h4>
                 </div>
                 <div class="card-body">
                   <div class="row">
                     <div class="col-12">
                       <mat-form-field>
-                        <mat-label> {{'transactions.dialog.session.pricing_detail_amount' | translate}}</mat-label>
-                        <input matInput type="text" readonly=true value="{{pricingDefinition.dimensions.flatFee.pricedData.roundedAmount | appCurrency}}"/>
+                        <mat-label>
+                          {{
+                            'transactions.dialog.session.pricing_detail_amount' | translate
+                          }}</mat-label
+                        >
+                        <input
+                          matInput
+                          type="text"
+                          readonly="true"
+                          value="{{
+                            pricingDefinition.dimensions.flatFee.pricedData.roundedAmount
+                              | appCurrency
+                          }}"
+                        />
                       </mat-form-field>
                     </div>
                   </div>
@@ -62,30 +113,64 @@
               </div>
             </div>
             <!-- ENERGY Dimension -->
-            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" *ngIf="pricingDefinition.dimensions?.energy?.pricedData">
+            <div
+              class="col-sm-12 col-md-6 col-lg-4 col-xl-3"
+              *ngIf="pricingDefinition.dimensions?.energy?.pricedData"
+            >
               <div class="card session-pricing-detail-card">
                 <div class="card-header card-header-primary card-header-icon">
                   <div class="card-icon">
                     <mat-icon>flash_on</mat-icon>
                   </div>
                   <h4 class="card-title">
-                    <mat-label>{{'settings.pricing.energy' | translate}}</mat-label>
+                    <mat-label>{{ 'settings.pricing.energy' | translate }}</mat-label>
                   </h4>
                 </div>
                 <div class="card-body">
                   <div class="row">
                     <div class="col-12">
                       <mat-form-field>
-                        <mat-label>{{'transactions.dialog.session.pricing_detail_unit_price' | translate}}</mat-label>
-                        <input matInput type="text" readonly=true value="{{'energy_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.energy.pricedData.unitPrice}}"/>
+                        <mat-label>{{
+                          'transactions.dialog.session.pricing_detail_unit_price' | translate
+                        }}</mat-label>
+                        <input
+                          matInput
+                          type="text"
+                          readonly="true"
+                          value="{{
+                            'energy_formatted_price'
+                              | appPricingDimensionsPrice
+                                : pricingDefinition.dimensions.energy.pricedData.unitPrice
+                          }}"
+                        />
                       </mat-form-field>
                       <mat-form-field>
-                        <mat-label>{{'transactions.dialog.session.pricing_detail_consumption' | translate}}</mat-label>
-                        <input matInput type="text" readonly=true value="{{pricingDefinition.dimensions.energy.pricedData.quantity | appUnit:'Wh':'kWh':true:1:2:3}}"/>
+                        <mat-label>{{
+                          'transactions.dialog.session.pricing_detail_consumption' | translate
+                        }}</mat-label>
+                        <input
+                          matInput
+                          type="text"
+                          readonly="true"
+                          value="{{
+                            pricingDefinition.dimensions.energy.pricedData.quantity
+                              | appUnit : 'Wh' : 'kWh' : true : 1 : 2 : 3
+                          }}"
+                        />
                       </mat-form-field>
                       <mat-form-field>
-                        <mat-label>{{'transactions.dialog.session.pricing_detail_amount' | translate}}</mat-label>
-                        <input matInput type="text" readonly=true value="{{pricingDefinition.dimensions.energy.pricedData.roundedAmount | appCurrency}}"/>
+                        <mat-label>{{
+                          'transactions.dialog.session.pricing_detail_amount' | translate
+                        }}</mat-label>
+                        <input
+                          matInput
+                          type="text"
+                          readonly="true"
+                          value="{{
+                            pricingDefinition.dimensions.energy.pricedData.roundedAmount
+                              | appCurrency
+                          }}"
+                        />
                       </mat-form-field>
                     </div>
                   </div>
@@ -93,30 +178,64 @@
               </div>
             </div>
             <!-- CHARGING TIME Dimension -->
-            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" *ngIf="pricingDefinition.dimensions?.chargingTime?.pricedData">
+            <div
+              class="col-sm-12 col-md-6 col-lg-4 col-xl-3"
+              *ngIf="pricingDefinition.dimensions?.chargingTime?.pricedData"
+            >
               <div class="card session-pricing-detail-card">
                 <div class="card-header card-header-primary card-header-icon">
                   <div class="card-icon">
                     <mat-icon>timer</mat-icon>
                   </div>
                   <h4 class="card-title">
-                    <mat-label>{{'settings.pricing.charging_time' | translate}}</mat-label>
+                    <mat-label>{{ 'settings.pricing.charging_time' | translate }}</mat-label>
                   </h4>
                 </div>
                 <div class="card-body">
                   <div class="row">
                     <div class="col-12">
                       <mat-form-field>
-                        <mat-label>{{'transactions.dialog.session.pricing_detail_unit_price' | translate}}</mat-label>
-                        <input matInput type="text" readonly=true value="{{'charging_time_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.chargingTime.pricedData.unitPrice}}"/>
+                        <mat-label>{{
+                          'transactions.dialog.session.pricing_detail_unit_price' | translate
+                        }}</mat-label>
+                        <input
+                          matInput
+                          type="text"
+                          readonly="true"
+                          value="{{
+                            'charging_time_formatted_price'
+                              | appPricingDimensionsPrice
+                                : pricingDefinition.dimensions.chargingTime.pricedData.unitPrice
+                          }}"
+                        />
                       </mat-form-field>
                       <mat-form-field>
-                        <mat-label>{{'transactions.dialog.session.pricing_detail_duration' | translate}}</mat-label>
-                        <input matInput type="text" readonly=true value="{{pricingDefinition.dimensions.chargingTime.pricedData.quantity | appDuration}}"/>
+                        <mat-label>{{
+                          'transactions.dialog.session.pricing_detail_duration' | translate
+                        }}</mat-label>
+                        <input
+                          matInput
+                          type="text"
+                          readonly="true"
+                          value="{{
+                            pricingDefinition.dimensions.chargingTime.pricedData.quantity
+                              | appDuration
+                          }}"
+                        />
                       </mat-form-field>
                       <mat-form-field>
-                        <mat-label>{{'transactions.dialog.session.pricing_detail_amount' | translate}}</mat-label>
-                        <input matInput type="text" readonly=true value="{{pricingDefinition.dimensions.chargingTime.pricedData.roundedAmount | appCurrency}}"/>
+                        <mat-label>{{
+                          'transactions.dialog.session.pricing_detail_amount' | translate
+                        }}</mat-label>
+                        <input
+                          matInput
+                          type="text"
+                          readonly="true"
+                          value="{{
+                            pricingDefinition.dimensions.chargingTime.pricedData.roundedAmount
+                              | appCurrency
+                          }}"
+                        />
                       </mat-form-field>
                     </div>
                   </div>
@@ -124,30 +243,64 @@
               </div>
             </div>
             <!-- PARKING TIME Dimension -->
-            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" *ngIf="pricingDefinition.dimensions?.parkingTime?.pricedData">
+            <div
+              class="col-sm-12 col-md-6 col-lg-4 col-xl-3"
+              *ngIf="pricingDefinition.dimensions?.parkingTime?.pricedData"
+            >
               <div class="card session-pricing-detail-card">
                 <div class="card-header card-header-primary card-header-icon">
                   <div class="card-icon">
                     <mat-icon>timer_off</mat-icon>
                   </div>
                   <h4 class="card-title">
-                    <mat-label>{{'settings.pricing.parking_time' | translate}}</mat-label>
+                    <mat-label>{{ 'settings.pricing.parking_time' | translate }}</mat-label>
                   </h4>
                 </div>
                 <div class="card-body">
                   <div class="row">
                     <div class="col-12">
                       <mat-form-field>
-                        <mat-label>{{'transactions.dialog.session.pricing_detail_unit_price' | translate}}</mat-label>
-                        <input matInput type="text" readonly=true value="{{'parking_time_formatted_price' | appPricingDimensionsPrice:pricingDefinition.dimensions.parkingTime.pricedData.unitPrice}}"/>
+                        <mat-label>{{
+                          'transactions.dialog.session.pricing_detail_unit_price' | translate
+                        }}</mat-label>
+                        <input
+                          matInput
+                          type="text"
+                          readonly="true"
+                          value="{{
+                            'parking_time_formatted_price'
+                              | appPricingDimensionsPrice
+                                : pricingDefinition.dimensions.parkingTime.pricedData.unitPrice
+                          }}"
+                        />
                       </mat-form-field>
                       <mat-form-field>
-                        <mat-label>{{'transactions.dialog.session.pricing_detail_duration' | translate}}</mat-label>
-                        <input matInput type="text" readonly=true value="{{pricingDefinition.dimensions.parkingTime.pricedData.quantity | appDuration}}"/>
+                        <mat-label>{{
+                          'transactions.dialog.session.pricing_detail_duration' | translate
+                        }}</mat-label>
+                        <input
+                          matInput
+                          type="text"
+                          readonly="true"
+                          value="{{
+                            pricingDefinition.dimensions.parkingTime.pricedData.quantity
+                              | appDuration
+                          }}"
+                        />
                       </mat-form-field>
                       <mat-form-field>
-                        <mat-label>{{'transactions.dialog.session.pricing_detail_amount' | translate}}</mat-label>
-                        <input matInput type="text" readonly=true value="{{pricingDefinition.dimensions.parkingTime.pricedData.roundedAmount | appCurrency}}"/>
+                        <mat-label>{{
+                          'transactions.dialog.session.pricing_detail_amount' | translate
+                        }}</mat-label>
+                        <input
+                          matInput
+                          type="text"
+                          readonly="true"
+                          value="{{
+                            pricingDefinition.dimensions.parkingTime.pricedData.roundedAmount
+                              | appCurrency
+                          }}"
+                        />
                       </mat-form-field>
                     </div>
                   </div>

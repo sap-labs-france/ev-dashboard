@@ -64,7 +64,8 @@ export class UserMainComponent implements OnInit, OnChanges {
     private componentService: ComponentService,
     private configService: ConfigService,
     private localeService: LocaleService,
-    private router: Router) {
+    private router: Router
+  ) {
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
@@ -86,56 +87,50 @@ export class UserMainComponent implements OnInit, OnChanges {
     // Init the form
     this.formGroup.addControl('id', new UntypedFormControl(''));
     this.formGroup.addControl('issuer', new UntypedFormControl(true));
-    this.formGroup.addControl('name', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-        Validators.maxLength(255)
-      ]))
+    this.formGroup.addControl(
+      'name',
+      new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(255)])
+      )
     );
-    this.formGroup.addControl('firstName', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-        Validators.maxLength(255)
-      ]))
+    this.formGroup.addControl(
+      'firstName',
+      new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(255)])
+      )
     );
-    this.formGroup.addControl('email', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-        Validators.email,
-      ]))
+    this.formGroup.addControl(
+      'email',
+      new UntypedFormControl('', Validators.compose([Validators.required, Validators.email]))
     );
-    this.formGroup.addControl('phone', new UntypedFormControl('',
-      Validators.compose([
-        Users.validatePhone,
-      ]))
+    this.formGroup.addControl(
+      'phone',
+      new UntypedFormControl('', Validators.compose([Users.validatePhone]))
     );
-    this.formGroup.addControl('mobile', new UntypedFormControl('',
-      Validators.compose([
-        Users.validatePhone,
-      ]))
+    this.formGroup.addControl(
+      'mobile',
+      new UntypedFormControl('', Validators.compose([Users.validatePhone]))
     );
-    this.formGroup.addControl('plateID', new UntypedFormControl('',
-      Validators.compose([
-        Validators.pattern('^[A-Z0-9- ]*$'),
-      ]))
+    this.formGroup.addControl(
+      'plateID',
+      new UntypedFormControl('', Validators.compose([Validators.pattern('^[A-Z0-9- ]*$')]))
     );
-    this.formGroup.addControl('status', new UntypedFormControl(
-      UserStatus.ACTIVE,
-      Validators.compose([
-        Validators.required,
-      ]))
+    this.formGroup.addControl(
+      'status',
+      new UntypedFormControl(UserStatus.ACTIVE, Validators.compose([Validators.required]))
     );
-    this.formGroup.addControl('role', new UntypedFormControl(
-      this.isSuperAdmin ? UserRole.SUPER_ADMIN : UserRole.BASIC,
-      Validators.compose([
-        Validators.pattern('^[A-Z0-9- ]*$'),
-      ]))
+    this.formGroup.addControl(
+      'role',
+      new UntypedFormControl(
+        this.isSuperAdmin ? UserRole.SUPER_ADMIN : UserRole.BASIC,
+        Validators.compose([Validators.pattern('^[A-Z0-9- ]*$')])
+      )
     );
-    this.formGroup.addControl('locale', new UntypedFormControl(
-      this.currentLocale,
-      Validators.compose([
-        Validators.required,
-      ]))
+    this.formGroup.addControl(
+      'locale',
+      new UntypedFormControl(this.currentLocale, Validators.compose([Validators.required]))
     );
     this.formGroup.addControl('technical', new UntypedFormControl(false));
     this.formGroup.addControl('freeAccess', new UntypedFormControl(false));
@@ -225,10 +220,15 @@ export class UserMainComponent implements OnInit, OnChanges {
                 this.image = Constants.USER_NO_PICTURE;
                 break;
               default:
-                Utils.handleHttpError(error, this.router, this.messageService,
-                  this.centralServerService, 'general.unexpected_error_backend');
+                Utils.handleHttpError(
+                  error,
+                  this.router,
+                  this.messageService,
+                  this.centralServerService,
+                  'general.unexpected_error_backend'
+                );
             }
-          }
+          },
         });
       }
     }
@@ -255,8 +255,10 @@ export class UserMainComponent implements OnInit, OnChanges {
   public onImageChanged(event: any) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-      if (file.size > (this.imageMaxSize * 1024)) {
-        this.messageService.showErrorMessage('users.picture_size_error', { maxPictureKb: this.imageMaxSize });
+      if (file.size > this.imageMaxSize * 1024) {
+        this.messageService.showErrorMessage('users.picture_size_error', {
+          maxPictureKb: this.imageMaxSize,
+        });
       } else {
         const reader = new FileReader();
         reader.onload = () => {

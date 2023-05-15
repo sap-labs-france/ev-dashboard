@@ -1,10 +1,16 @@
-<h2 class="dialog-title" mat-dialog-title>{{title | translate}}</h2>
+<h2 class="dialog-title" mat-dialog-title>{{ title | translate }}</h2>
 <mat-dialog-content>
   <div class="row">
-    <div class="col-md-12" [innerHTML]="message | translate">
-    </div>
+    <div class="col-md-12" [innerHTML]="message | translate"></div>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions class="justify-content-end">
-  <button *ngFor="let button of buttons" mat-raised-button (click)="close(button.id)" [color]="button.color">{{button.name | translate}}</button>
+  <button
+    *ngFor="let button of buttons"
+    mat-raised-button
+    (click)="close(button.id)"
+    [color]="button.color"
+  >
+    {{ button.name | translate }}
+  </button>
 </mat-dialog-actions>

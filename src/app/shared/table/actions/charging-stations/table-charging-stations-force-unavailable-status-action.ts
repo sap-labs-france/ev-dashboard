@@ -15,9 +15,16 @@ import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
 export interface TableChargingStationsForceUnavailableStatusActionDef extends TableActionDef {
-  action: (chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService,
-    messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
-    refresh?: () => Observable<void>) => void;
+  action: (
+    chargingStation: ChargingStation,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableChargingStationsForceUnavailableStatusAction implements TableAction {
@@ -35,38 +42,65 @@ export class TableChargingStationsForceUnavailableStatusAction implements TableA
     return this.action;
   }
 
-  private forceUnavailable(chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService,
-    messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
-    refresh?: () => Observable<void>) {
+  private forceUnavailable(
+    chargingStation: ChargingStation,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) {
     // Show yes/no dialog
-    dialogService.createAndShowYesNoDialog(
-      translateService.instant('chargers.force_unavailable_status_title'),
-      translateService.instant('chargers.force_unavailable_status_confirm', { chargeBoxID: chargingStation.id }),
-    ).subscribe((result) => {
-      if (result === ButtonAction.YES) {
-        spinnerService.show();
-        // Change Availability
-        centralServerService.chargingStationChangeAvailability(chargingStation.id, false).subscribe({
-          next: (response: ActionResponse) => {
-            spinnerService.hide();
-            if (response.status === OCPPAvailabilityStatus.ACCEPTED || response.status === OCPPAvailabilityStatus.SCHEDULED) {
-              messageService.showSuccessMessage(
-                translateService.instant('chargers.force_unavailable_status_success', { chargeBoxID: chargingStation.id }));
-              if (refresh) {
-                refresh().subscribe();
-              }
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                messageService, 'chargers.force_unavailable_status_error');
-            }
-          },
-          error: (error: any) => {
-            spinnerService.hide();
-            Utils.handleHttpError(error, router, messageService,
-              centralServerService, 'chargers.force_unavailable_status_error');
-          }
-        });
-      }
-    });
+    dialogService
+      .createAndShowYesNoDialog(
+        translateService.instant('chargers.force_unavailable_status_title'),
+        translateService.instant('chargers.force_unavailable_status_confirm', {
+          chargeBoxID: chargingStation.id,
+        })
+      )
+      .subscribe((result) => {
+        if (result === ButtonAction.YES) {
+          spinnerService.show();
+          // Change Availability
+          centralServerService
+            .chargingStationChangeAvailability(chargingStation.id, false)
+            .subscribe({
+              next: (response: ActionResponse) => {
+                spinnerService.hide();
+                if (
+                  response.status === OCPPAvailabilityStatus.ACCEPTED ||
+                  response.status === OCPPAvailabilityStatus.SCHEDULED
+                ) {
+                  messageService.showSuccessMessage(
+                    translateService.instant('chargers.force_unavailable_status_success', {
+                      chargeBoxID: chargingStation.id,
+                    })
+                  );
+                  if (refresh) {
+                    refresh().subscribe();
+                  }
+                } else {
+                  Utils.handleError(
+                    JSON.stringify(response),
+                    messageService,
+                    'chargers.force_unavailable_status_error'
+                  );
+                }
+              },
+              error: (error: any) => {
+                spinnerService.hide();
+                Utils.handleHttpError(
+                  error,
+                  router,
+                  messageService,
+                  centralServerService,
+                  'chargers.force_unavailable_status_error'
+                );
+              },
+            });
+        }
+      });
   }
 }

@@ -9,8 +9,8 @@ import { ChipType } from '../../../types/GlobalType';
   selector: 'app-invoice-status-formatter',
   template: `
     <mat-chip-list [selectable]="false">
-      <mat-chip [ngClass]="row.status | appFormatInvoiceStatus:'class'" [disabled]="true">
-        {{row.status | appFormatInvoiceStatus:'text' | translate}}
+      <mat-chip [ngClass]="row.status | appFormatInvoiceStatus : 'class'" [disabled]="true">
+        {{ row.status | appFormatInvoiceStatus : 'text' | translate }}
       </mat-chip>
     </mat-chip-list>
   `,

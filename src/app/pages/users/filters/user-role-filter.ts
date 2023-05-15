@@ -4,8 +4,7 @@ import { TableFilter } from '../../../shared/table/filters/table-filter';
 import { FilterType, TableFilterDef } from '../../../types/Table';
 
 export class UserRoleFilter extends TableFilter {
-  public constructor(
-    private centralServerService: CentralServerService) {
+  public constructor(private centralServerService: CentralServerService) {
     super();
     const items = UserRoles.getAvailableRoles(this.centralServerService.getLoggedUser().role);
     // Define filter

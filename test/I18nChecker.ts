@@ -5,11 +5,12 @@ import { addedDiff, deletedDiff } from 'deep-object-diff';
 import { Constants } from '../src/app/utils/Constants';
 
 class I18nChecker {
-
   public static async compare(): Promise<void> {
     try {
       const contentEN = await fs.readFile('./src/assets/i18n/en.json', 'utf8');
-      const otherLanguages = Constants.SUPPORTED_LANGUAGES.filter((lang) => (lang !== 'en') ? lang : null);
+      const otherLanguages = Constants.SUPPORTED_LANGUAGES.filter((lang) =>
+        lang !== 'en' ? lang : null
+      );
       const otherFiles = otherLanguages.map((language) => language + '.json');
       const parsedContentEN = JSON.parse(contentEN);
       for (const file of otherFiles) {
@@ -43,23 +44,50 @@ class I18nChecker {
     }
   }
 
-  private static compareValueContent(keyName: string, originalValue: string, comparedValue: string, file: string): boolean {
+  private static compareValueContent(
+    keyName: string,
+    originalValue: string,
+    comparedValue: string,
+    file: string
+  ): boolean {
     if (originalValue.trim() === comparedValue.trim()) {
-      console.log(file + ': Content `' + keyName + '` probably not yet translated (current value is: `' + originalValue + '`)');
+      console.log(
+        file +
+          ': Content `' +
+          keyName +
+          '` probably not yet translated (current value is: `' +
+          originalValue +
+          '`)'
+      );
       return false; // Value is same!
     }
     return true; // Value is translated.
   }
 
-  private static compareContent(originalLanguage: JSON, comparedLanguage: JSON, file: string): boolean {
+  private static compareContent(
+    originalLanguage: JSON,
+    comparedLanguage: JSON,
+    file: string
+  ): boolean {
     let noIssue = true;
     for (const keyName of Object.keys(originalLanguage)) {
       switch (typeof originalLanguage[keyName]) {
         case 'string':
-          noIssue = I18nChecker.compareValueContent(keyName, originalLanguage[keyName], comparedLanguage[keyName], file) && noIssue;
+          noIssue =
+            I18nChecker.compareValueContent(
+              keyName,
+              originalLanguage[keyName],
+              comparedLanguage[keyName],
+              file
+            ) && noIssue;
           break;
         case 'object':
-          noIssue = I18nChecker.compareContent(Object.assign({}, originalLanguage[keyName]), Object.assign({}, comparedLanguage[keyName]), file) && noIssue;
+          noIssue =
+            I18nChecker.compareContent(
+              Object.assign({}, originalLanguage[keyName]),
+              Object.assign({}, comparedLanguage[keyName]),
+              file
+            ) && noIssue;
           break;
         default:
           console.error(keyName + ' is not a supported type!');

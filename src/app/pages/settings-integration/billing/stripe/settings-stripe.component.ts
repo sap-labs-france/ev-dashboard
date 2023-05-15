@@ -40,42 +40,29 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
       this.taxes = taxes.result;
     });
     this.transactionBillingActivated = false;
-    this.isBillingPlatformActive = this.componentService.isActive(TenantComponents.BILLING_PLATFORM);
+    this.isBillingPlatformActive = this.componentService.isActive(
+      TenantComponents.BILLING_PLATFORM
+    );
   }
 
   public ngOnInit() {
     this.stripe = new UntypedFormGroup({
-      url: new UntypedFormControl('',
-        Validators.compose([
-          Validators.maxLength(200),
-          Validators.pattern(Constants.URL_PATTERN),
-        ]),
+      url: new UntypedFormControl(
+        '',
+        Validators.compose([Validators.maxLength(200), Validators.pattern(Constants.URL_PATTERN)])
       ),
-      secretKey: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ]),
-      ),
-      publicKey: new UntypedFormControl('',
-        Validators.compose([
-          this.validatePublicKey,
-        ]),
-      ),
+      secretKey: new UntypedFormControl('', Validators.compose([Validators.required])),
+      publicKey: new UntypedFormControl('', Validators.compose([this.validatePublicKey])),
     });
-    this.billing = new UntypedFormGroup({
-      immediateBillingAllowed: new UntypedFormControl(false),
-      periodicBillingAllowed: new UntypedFormControl(false),
-      taxID: new UntypedFormControl('',
-        Validators.compose([
-        ]),
-      ),
-      platformFeeTaxID: new UntypedFormControl('',
-        Validators.compose([
-        ]),
-      )
-    }, Validators.compose([
-      this.validateBillingMethod
-    ]));
+    this.billing = new UntypedFormGroup(
+      {
+        immediateBillingAllowed: new UntypedFormControl(false),
+        periodicBillingAllowed: new UntypedFormControl(false),
+        taxID: new UntypedFormControl('', Validators.compose([])),
+        platformFeeTaxID: new UntypedFormControl('', Validators.compose([])),
+      },
+      Validators.compose([this.validateBillingMethod])
+    );
     this.formGroup.addControl('stripe', this.stripe);
     this.formGroup.addControl('billing', this.billing);
     // Keep
@@ -128,13 +115,19 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
     } else {
       this.formGroup.get('stripe')?.enable();
     }
-    if (!Utils.isEmptyObject(this.billingSettings?.stripe) && !Utils.isEmptyObject(this.formGroup.value)) {
+    if (
+      !Utils.isEmptyObject(this.billingSettings?.stripe) &&
+      !Utils.isEmptyObject(this.formGroup.value)
+    ) {
       const stripeSetting = this.billingSettings.stripe;
       this.url.setValue(stripeSetting.url);
       this.secretKey.setValue(stripeSetting.secretKey);
       this.publicKey.setValue(stripeSetting.publicKey);
     }
-    if (!Utils.isEmptyObject(this.billingSettings?.billing) && !Utils.isEmptyObject(this.formGroup.value)) {
+    if (
+      !Utils.isEmptyObject(this.billingSettings?.billing) &&
+      !Utils.isEmptyObject(this.formGroup.value)
+    ) {
       const billingSetting = this.billingSettings.billing;
       this.immediateBillingAllowed.setValue(!!billingSetting.immediateBillingAllowed);
       this.periodicBillingAllowed.setValue(!!billingSetting.periodicBillingAllowed);
@@ -142,7 +135,7 @@ export class SettingsStripeComponent implements OnInit, OnChanges {
       this.platformFeeTaxID.setValue(billingSetting.platformFeeTaxID || '');
     }
     // Read only
-    if(!this.authorizations.canUpdate) {
+    if (!this.authorizations.canUpdate) {
       // Async call for letting the sub form groups to init
       setTimeout(() => this.formGroup.disable(), 0);
     }

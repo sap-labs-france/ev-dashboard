@@ -58,7 +58,7 @@ export class SettingsCryptoKeyComponent implements OnInit, OnChanges {
       this.formGroup.markAsPristine();
     }
     // Read only
-    if(!this.authorizations.canUpdate) {
+    if (!this.authorizations.canUpdate) {
       // Async call for letting the sub form groups to init
       setTimeout(() => this.formGroup.disable(), 0);
     }

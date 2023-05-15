@@ -11,7 +11,10 @@ import { TableData } from './Table';
 import { Tag } from './Tag';
 import { User } from './User';
 
-export interface Transaction extends TableData, AbstractCurrentConsumption, TransactionAuthorizationActions {
+export interface Transaction
+  extends TableData,
+  AbstractCurrentConsumption,
+  TransactionAuthorizationActions {
   id: number;
   timestamp: Date;
   chargeBox: ChargingStation;
@@ -105,7 +108,7 @@ export enum TransactionButtonAction {
   REFUND_SYNCHRONIZE = 'refund_synchronize',
   PUSH_TRANSACTION_CDR = 'push_transaction_cdr',
   CREATE_TRANSACTION_INVOICE = 'create_transaction_invoice',
-  NAVIGATE_TO_TRANSACTIONS = 'navigate_to_transactions'
+  NAVIGATE_TO_TRANSACTIONS = 'navigate_to_transactions',
 }
 
 export enum ConsumptionUnit {

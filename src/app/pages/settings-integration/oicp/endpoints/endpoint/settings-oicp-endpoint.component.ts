@@ -18,7 +18,7 @@ import { Utils } from '../../../../../utils/Utils';
 @Component({
   selector: 'app-oicp-endpoint',
   templateUrl: 'settings-oicp-endpoint.component.html',
-  styleUrls: ['settings-oicp-endpoint.component.scss']
+  styleUrls: ['settings-oicp-endpoint.component.scss'],
 })
 export class SettingsOicpEndpointComponent implements OnInit {
   @Input() public currentEndpoint!: OicpEndpoint;
@@ -43,7 +43,7 @@ export class SettingsOicpEndpointComponent implements OnInit {
     {
       key: HubjectBaseurls.QA,
       description: 'QA',
-    }
+    },
   ];
 
   // eslint-disable-next-line no-useless-constructor
@@ -54,46 +54,31 @@ export class SettingsOicpEndpointComponent implements OnInit {
     private dialog: MatDialog,
     private dialogService: DialogService,
     private translateService: TranslateService,
-    private router: Router) {
-  }
+    private router: Router
+  ) {}
 
   public ngOnInit(): void {
     this.formGroup = new UntypedFormGroup({
       id: new UntypedFormControl(''),
-      name: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(100),
-        ])),
-      role: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      baseUrl: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(Constants.URL_PATTERN),
-        ])),
-      countryCode: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(2),
-          Validators.minLength(2),
-        ])),
-      partyId: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(3),
-          Validators.minLength(3),
-        ])),
-      localToken: new UntypedFormControl('',
-        Validators.compose([
-          Validators.maxLength(64),
-        ])),
-      token: new UntypedFormControl('',
-        Validators.compose([
-          Validators.maxLength(64),
-        ])),
+      name: new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(100)])
+      ),
+      role: new UntypedFormControl('', Validators.compose([Validators.required])),
+      baseUrl: new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, Validators.pattern(Constants.URL_PATTERN)])
+      ),
+      countryCode: new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(2), Validators.minLength(2)])
+      ),
+      partyId: new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(3), Validators.minLength(3)])
+      ),
+      localToken: new UntypedFormControl('', Validators.compose([Validators.maxLength(64)])),
+      token: new UntypedFormControl('', Validators.compose([Validators.maxLength(64)])),
       backgroundPatchJob: new UntypedFormControl(false),
     });
     this.id = this.formGroup.controls['id'];
@@ -151,8 +136,13 @@ export class SettingsOicpEndpointComponent implements OnInit {
   }
 
   public close() {
-    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
-      this.translateService, this.save.bind(this), this.closeDialog.bind(this));
+    Utils.checkAndSaveAndCloseDialog(
+      this.formGroup,
+      this.dialogService,
+      this.translateService,
+      this.save.bind(this),
+      this.closeDialog.bind(this)
+    );
   }
 
   public save(endpoint: OicpEndpoint) {
@@ -171,7 +161,9 @@ export class SettingsOicpEndpointComponent implements OnInit {
       next: (response) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage('oicpendpoints.success_ping', { name: oicpendpoint.name });
+          this.messageService.showSuccessMessage('oicpendpoints.success_ping', {
+            name: oicpendpoint.name,
+          });
         } else {
           // switch message according status code recieved
           let messageId = 'oicpendpoints.error_ping';
@@ -188,14 +180,18 @@ export class SettingsOicpEndpointComponent implements OnInit {
             default:
               messageId = 'oicpendpoints.error_ping';
           }
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, messageId);
+          Utils.handleError(JSON.stringify(response), this.messageService, messageId);
         }
       },
       error: (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          'oicpendpoints.error_ping');
-      }
+        Utils.handleHttpError(
+          error,
+          this.router,
+          this.messageService,
+          this.centralServerService,
+          'oicpendpoints.error_ping'
+        );
+      },
     });
   }
 
@@ -205,18 +201,28 @@ export class SettingsOicpEndpointComponent implements OnInit {
       next: (response) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage('oicpendpoints.create_success', { name: oicpEndpoint.name });
+          this.messageService.showSuccessMessage('oicpendpoints.create_success', {
+            name: oicpEndpoint.name,
+          });
           this.closeDialog(true);
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, 'oicpendpoints.create_error');
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            'oicpendpoints.create_error'
+          );
         }
       },
       error: (error) => {
         this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          'oicpendpoints.create_error');
-      }
+        Utils.handleHttpError(
+          error,
+          this.router,
+          this.messageService,
+          this.centralServerService,
+          'oicpendpoints.create_error'
+        );
+      },
     });
   }
 
@@ -226,18 +232,28 @@ export class SettingsOicpEndpointComponent implements OnInit {
       next: (response) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage('oicpendpoints.update_success', { name: oicpEndpoint.name });
+          this.messageService.showSuccessMessage('oicpendpoints.update_success', {
+            name: oicpEndpoint.name,
+          });
           this.closeDialog(true);
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, 'oicpendpoints.update_error');
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            'oicpendpoints.update_error'
+          );
         }
       },
       error: (error) => {
         this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          'oicpendpoints.update_error');
-      }
+        Utils.handleHttpError(
+          error,
+          this.router,
+          this.messageService,
+          this.centralServerService,
+          'oicpendpoints.update_error'
+        );
+      },
     });
   }
 }

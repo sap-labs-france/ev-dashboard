@@ -10,13 +10,14 @@ import { AssetsDialogTableDataSource } from './assets-dialog-table-data-source';
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
-  styleUrls: ['../dialog-table-data.component.scss']
+  styleUrls: ['../dialog-table-data.component.scss'],
 })
 export class AssetsDialogComponent extends DialogTableDataComponent<Asset> {
   public constructor(
     private assetsDataSource: AssetsDialogTableDataSource,
     dialogRef: MatDialogRef<AssetsDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: DialogData) {
+    @Inject(MAT_DIALOG_DATA) data: DialogData
+  ) {
     // Super class
     super(data, dialogRef, assetsDataSource);
     // Default title

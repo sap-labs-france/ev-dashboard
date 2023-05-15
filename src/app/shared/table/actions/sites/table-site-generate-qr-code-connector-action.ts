@@ -13,8 +13,14 @@ import { Utils } from 'utils/Utils';
 import { Site } from '../../../../types/Site';
 
 export interface TableSiteGenerateQrCodeConnectorsActionDef extends TableActionDef {
-  action: (site: Site, translateService: TranslateService, spinnerService: SpinnerService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router) => void;
+  action: (
+    site: Site,
+    translateService: TranslateService,
+    spinnerService: SpinnerService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    router: Router
+  ) => void;
 }
 
 export class TableSiteGenerateQrCodeConnectorAction implements TableAction {
@@ -32,19 +38,30 @@ export class TableSiteGenerateQrCodeConnectorAction implements TableAction {
     return this.action;
   }
 
-  private downloadQrCodePDF(site: Site, translateService: TranslateService, spinnerService: SpinnerService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router) {
+  private downloadQrCodePDF(
+    site: Site,
+    translateService: TranslateService,
+    spinnerService: SpinnerService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    router: Router
+  ) {
     spinnerService.show();
     centralServerService.downloadSiteQrCodes(site.id).subscribe({
       next: (result) => {
         spinnerService.hide();
         FileSaver.saveAs(result, `site-${site.name.toLowerCase()}-qr-codes.pdf`);
       },
-      error:(error) => {
+      error: (error) => {
         spinnerService.hide();
-        Utils.handleHttpError(error, router, messageService,
-          centralServerService, translateService.instant('chargers.qr_code_generation_error'));
-      }
+        Utils.handleHttpError(
+          error,
+          router,
+          messageService,
+          centralServerService,
+          translateService.instant('chargers.qr_code_generation_error')
+        );
+      },
     });
   }
 }

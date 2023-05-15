@@ -39,7 +39,7 @@ export class InvoicesListComponent implements OnInit {
         error: () => {
           this.spinnerService.hide();
           this.messageService.showErrorMessage('invoices.failed_download');
-        }
+        },
       });
     }
   }

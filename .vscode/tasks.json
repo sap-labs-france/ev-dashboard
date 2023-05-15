@@ -4,13 +4,22 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "type": "npm",
-      "script": "angular-update",
-      "problemMatcher": []
+      "label": "Build & Serve",
+      "type": "shell",
+      "command": "npm",
+      "args": ["start"],
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
     },
     {
-      "type": "npm",
-      "script": "material-update",
+      "label": "Material Version Update",
+      "command": "npm",
+      "args": ["material-update"],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
       "problemMatcher": []
     }
   ]

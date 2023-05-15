@@ -6,7 +6,10 @@ import { TagsComponent } from './tags.component';
 
 export const TagRoutes: Routes = [
   {
-    path: ':id', component: TagsComponent, canActivate: [RouteGuardService], data: {
+    path: ':id',
+    component: TagsComponent,
+    canActivate: [RouteGuardService],
+    data: {
       auth: {
         entity: Entity.TAG,
         action: Action.UPDATE,
@@ -14,7 +17,10 @@ export const TagRoutes: Routes = [
     },
   },
   {
-    path: '', component: TagsComponent, canActivate: [RouteGuardService], data: {
+    path: '',
+    component: TagsComponent,
+    canActivate: [RouteGuardService],
+    data: {
       auth: {
         entity: Entity.TAG,
         action: Action.LIST,

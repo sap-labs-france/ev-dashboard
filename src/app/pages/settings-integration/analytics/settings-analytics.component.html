@@ -3,33 +3,43 @@
     <div class="card-icon">
       <mat-icon>info</mat-icon>
     </div>
-    <h3 class="card-title">{{'settings.information' | translate}}</h3>
+    <h3 class="card-title">{{ 'settings.information' | translate }}</h3>
   </div>
   <div class="card-body">
     <span [innerHtml]="'settings.analytics.description' | translate"></span>
-    <a href="https://www.sapanalytics.cloud/solutions/" target="new"><u>SAP Analytics Cloud</u></a><br><br>
-    {{'settings.activation_contact_msg' | translate}}
+    <a href="https://www.sapanalytics.cloud/solutions/" target="new"><u>SAP Analytics Cloud</u></a
+    ><br /><br />
+    {{ 'settings.activation_contact_msg' | translate }}
   </div>
 </div>
 <div *ngIf="isActive" class="h-100">
   <form class="form h-100" [formGroup]="formGroup">
     <div class="mat-toolbar-row mat-toolbar-settings">
-      <button mat-raised-button color="warn" (click)="save(formGroup.value)"
-          [disabled]="!formGroup.valid || !formGroup.dirty"
-          [hidden]="!authorizations || !authorizations.canUpdate">
+      <button
+        mat-raised-button
+        color="warn"
+        (click)="save(formGroup.value)"
+        [disabled]="!formGroup.valid || !formGroup.dirty"
+        [hidden]="!authorizations || !authorizations.canUpdate"
+      >
         <mat-icon>save</mat-icon>
-        <span>{{'general.save' | translate}}</span>
+        <span>{{ 'general.save' | translate }}</span>
       </button>
     </div>
     <!-- Settings -->
-    <app-settings-sac *ngIf="analyticsSettings?.sac" [analyticsSettings]="analyticsSettings" [formGroup]="formGroup" [authorizations]="authorizations"></app-settings-sac>
+    <app-settings-sac
+      *ngIf="analyticsSettings?.sac"
+      [analyticsSettings]="analyticsSettings"
+      [formGroup]="formGroup"
+      [authorizations]="authorizations"
+    ></app-settings-sac>
     <!-- Links -->
     <div class="card analytics-settings-links">
       <div class="card-header card-header-icon card-header-primary">
         <div class="card-icon">
           <mat-icon>open_in_new</mat-icon>
         </div>
-        <h3 class="card-title">{{'analytics.links' | translate}}</h3>
+        <h3 class="card-title">{{ 'analytics.links' | translate }}</h3>
       </div>
       <div class="card-body">
         <app-table [dataSource]="analyticsLinksTableDataSource"></app-table>

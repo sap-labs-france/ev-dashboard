@@ -2,31 +2,61 @@
 <div class="row mb-1">
   <!-- Toggle Min Furation -->
   <div class="col-md-3 align-self-center">
-    <mat-slide-toggle (change)="toggleDuration($event)" id="minDuration" [formControl]="minDurationEnabled">
-      {{'settings.pricing.restriction_min_duration' | translate}}
+    <mat-slide-toggle
+      (change)="toggleDuration($event)"
+      id="minDuration"
+      [formControl]="minDurationEnabled"
+    >
+      {{ 'settings.pricing.restriction_min_duration' | translate }}
     </mat-slide-toggle>
   </div>
   <!-- Value -->
   <div class="col-md-2">
     <mat-form-field>
-      <input matInput type="text" placeholder="{{'settings.pricing.restriction_min_duration_unit' | translate}}" [formControl]="minDuration" required/>
-      <mat-error *ngIf="minDuration?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-      <mat-error *ngIf="minDuration?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
+      <input
+        matInput
+        type="text"
+        placeholder="{{ 'settings.pricing.restriction_min_duration_unit' | translate }}"
+        [formControl]="minDuration"
+        required
+      />
+      <mat-error *ngIf="minDuration?.errors?.required">{{
+        'general.mandatory_field' | translate
+      }}</mat-error>
+      <mat-error *ngIf="minDuration?.errors?.pattern">{{
+        'general.error_number_pattern' | translate
+      }}</mat-error>
     </mat-form-field>
   </div>
   <!-- Toggle Max Duration -->
   <div class="col-md-3 align-self-center">
-    <mat-slide-toggle (change)="toggleDuration($event)" id="maxDuration" [formControl]="maxDurationEnabled">
-      {{'settings.pricing.restriction_max_duration' | translate}}
+    <mat-slide-toggle
+      (change)="toggleDuration($event)"
+      id="maxDuration"
+      [formControl]="maxDurationEnabled"
+    >
+      {{ 'settings.pricing.restriction_max_duration' | translate }}
     </mat-slide-toggle>
   </div>
   <!-- Value -->
   <div class="col-md-2">
     <mat-form-field>
-      <input matInput type="text" placeholder="{{'settings.pricing.restriction_max_duration_unit' | translate}}" [formControl]="maxDuration" required/>
-      <mat-error *ngIf="maxDuration?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-      <mat-error *ngIf="maxDuration?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
-      <mat-error *ngIf="maxDuration?.errors?.minMaxError">{{'settings.pricing.pricing_max_duration_error' | translate}}</mat-error>
+      <input
+        matInput
+        type="text"
+        placeholder="{{ 'settings.pricing.restriction_max_duration_unit' | translate }}"
+        [formControl]="maxDuration"
+        required
+      />
+      <mat-error *ngIf="maxDuration?.errors?.required">{{
+        'general.mandatory_field' | translate
+      }}</mat-error>
+      <mat-error *ngIf="maxDuration?.errors?.pattern">{{
+        'general.error_number_pattern' | translate
+      }}</mat-error>
+      <mat-error *ngIf="maxDuration?.errors?.minMaxError">{{
+        'settings.pricing.pricing_max_duration_error' | translate
+      }}</mat-error>
     </mat-form-field>
   </div>
 </div>
@@ -34,56 +64,104 @@
 <div class="row mb-1">
   <!-- Toggle Min Energy -->
   <div class="col-md-3 align-self-center">
-    <mat-slide-toggle (change)="toggleEnergy($event)" id="minEnergyKWh" [formControl]="minEnergyKWhEnabled">
-      {{'settings.pricing.restriction_min_energy' | translate}}
+    <mat-slide-toggle
+      (change)="toggleEnergy($event)"
+      id="minEnergyKWh"
+      [formControl]="minEnergyKWhEnabled"
+    >
+      {{ 'settings.pricing.restriction_min_energy' | translate }}
     </mat-slide-toggle>
   </div>
   <!-- Value -->
   <div class="col-md-2">
     <mat-form-field>
-      <input matInput type="text" placeholder="{{'settings.pricing.restriction_min_energy_unit' | translate}}" [formControl]="minEnergyKWh" required/>
-      <mat-error *ngIf="minEnergyKWh?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-      <mat-error *ngIf="minEnergyKWh?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
+      <input
+        matInput
+        type="text"
+        placeholder="{{ 'settings.pricing.restriction_min_energy_unit' | translate }}"
+        [formControl]="minEnergyKWh"
+        required
+      />
+      <mat-error *ngIf="minEnergyKWh?.errors?.required">{{
+        'general.mandatory_field' | translate
+      }}</mat-error>
+      <mat-error *ngIf="minEnergyKWh?.errors?.pattern">{{
+        'general.error_number_pattern' | translate
+      }}</mat-error>
     </mat-form-field>
   </div>
   <!-- Toggle Max Energy -->
   <div class="col-md-3 align-self-center">
-    <mat-slide-toggle (change)="toggleEnergy($event)" id="maxEnergyKWh" [formControl]="maxEnergyKWhEnabled">
-      {{'settings.pricing.restriction_max_energy' | translate}}
+    <mat-slide-toggle
+      (change)="toggleEnergy($event)"
+      id="maxEnergyKWh"
+      [formControl]="maxEnergyKWhEnabled"
+    >
+      {{ 'settings.pricing.restriction_max_energy' | translate }}
     </mat-slide-toggle>
   </div>
   <!-- Value -->
   <div class="col-md-2">
     <mat-form-field>
-      <input matInput type="text" placeholder="{{'settings.pricing.restriction_max_energy_unit' | translate}}" [formControl]="maxEnergyKWh" required/>
-      <mat-error *ngIf="maxEnergyKWh?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-      <mat-error *ngIf="maxEnergyKWh?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
-      <mat-error *ngIf="maxEnergyKWh?.errors?.minMaxError">{{'settings.pricing.pricing_max_energy_error' | translate}}</mat-error>
+      <input
+        matInput
+        type="text"
+        placeholder="{{ 'settings.pricing.restriction_max_energy_unit' | translate }}"
+        [formControl]="maxEnergyKWh"
+        required
+      />
+      <mat-error *ngIf="maxEnergyKWh?.errors?.required">{{
+        'general.mandatory_field' | translate
+      }}</mat-error>
+      <mat-error *ngIf="maxEnergyKWh?.errors?.pattern">{{
+        'general.error_number_pattern' | translate
+      }}</mat-error>
+      <mat-error *ngIf="maxEnergyKWh?.errors?.minMaxError">{{
+        'settings.pricing.pricing_max_energy_error' | translate
+      }}</mat-error>
     </mat-form-field>
   </div>
 </div>
 <!-- Time range -->
 <div class="row mb-1">
   <div class="col-md-3 align-self-center">
-    <mat-slide-toggle (change)="toggleTimeRange($event)" id="timeFrom" [formControl]="timeRangeEnabled">
-      {{'settings.pricing.restriction_time_range' | translate}}
+    <mat-slide-toggle
+      (change)="toggleTimeRange($event)"
+      id="timeFrom"
+      [formControl]="timeRangeEnabled"
+    >
+      {{ 'settings.pricing.restriction_time_range' | translate }}
     </mat-slide-toggle>
   </div>
   <!-- Start Time -->
   <div class="col-md-2">
     <mat-form-field>
-      <mat-label>{{'settings.pricing.restriction_start_time' | translate}}</mat-label>
-      <input matInput type="time" id="timeFrom" name="timeFrom" [formControl]="timeFrom" required/>
-      <mat-error *ngIf="timeFrom?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+      <mat-label>{{ 'settings.pricing.restriction_start_time' | translate }}</mat-label>
+      <input matInput type="time" id="timeFrom" name="timeFrom" [formControl]="timeFrom" required />
+      <mat-error *ngIf="timeFrom?.errors?.required">{{
+        'general.mandatory_field' | translate
+      }}</mat-error>
     </mat-form-field>
   </div>
   <!-- End Time -->
   <div class="col-md-2">
     <mat-form-field>
-      <mat-label>{{'settings.pricing.restriction_end_time' | translate}}</mat-label>
-      <input matInput type="time" id="timeTo" name="timeTo" [formControl]="timeTo" [min]="timeFrom" required/>
-      <mat-error *ngIf="timeTo?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-      <mat-error *ngIf='timeTo?.errors?.timeRangeError'>{{'settings.pricing.pricing_definition_time_range_error' | translate}}</mat-error>
+      <mat-label>{{ 'settings.pricing.restriction_end_time' | translate }}</mat-label>
+      <input
+        matInput
+        type="time"
+        id="timeTo"
+        name="timeTo"
+        [formControl]="timeTo"
+        [min]="timeFrom"
+        required
+      />
+      <mat-error *ngIf="timeTo?.errors?.required">{{
+        'general.mandatory_field' | translate
+      }}</mat-error>
+      <mat-error *ngIf="timeTo?.errors?.timeRangeError">{{
+        'settings.pricing.pricing_definition_time_range_error' | translate
+      }}</mat-error>
     </mat-form-field>
   </div>
 </div>
@@ -91,15 +169,29 @@
 <div class="row mb-1">
   <!-- Toggle Days -->
   <div class="col-md-3 align-self-center">
-    <mat-slide-toggle (change)="toggleDaysOfWeek($event)" id="daysOfWeek" [formControl]="daysOfWeekEnabled">
-      {{'settings.pricing.restriction_days_of_week' | translate}}
+    <mat-slide-toggle
+      (change)="toggleDaysOfWeek($event)"
+      id="daysOfWeek"
+      [formControl]="daysOfWeekEnabled"
+    >
+      {{ 'settings.pricing.restriction_days_of_week' | translate }}
     </mat-slide-toggle>
   </div>
   <!-- Value -->
   <div class="col-md-8">
-    <mat-button-toggle-group [value]="selectedDays" [formControl]="selectedDays" name="daysOfWeekToggle" aria-label="Days of week" multiple>
-      <mat-button-toggle *ngFor="let dayNumber of daysOfTheWeek" value={{dayNumber}} class="mat-raised-button days-of-week-button">
-        <span>{{dayNumber | appDay}}</span>
+    <mat-button-toggle-group
+      [value]="selectedDays"
+      [formControl]="selectedDays"
+      name="daysOfWeekToggle"
+      aria-label="Days of week"
+      multiple
+    >
+      <mat-button-toggle
+        *ngFor="let dayNumber of daysOfTheWeek"
+        value="{{ dayNumber }}"
+        class="mat-raised-button days-of-week-button"
+      >
+        <span>{{ dayNumber | appDay }}</span>
       </mat-button-toggle>
     </mat-button-toggle-group>
   </div>

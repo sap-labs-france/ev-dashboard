@@ -4,10 +4,17 @@
       <mat-datetimepicker #picker type="date" openOnFocus="false" mode="portrait" timeInterval="1">
       </mat-datetimepicker>
       <mat-datetimepicker-toggle matSuffix [for]="picker"></mat-datetimepicker-toggle>
-      <input matInput placeholder="{{'site_areas.consumption_date' | translate}}" required
-        (dateChange)="dateFilterChanged($event.value ? $event.value.toDate() : null)" [matDatetimepicker]="picker"
-        [formControl]="dateControl" autocomplete="false">
-      <mat-error *ngIf="dateControl.errors?.matDatepickerParse">{{"general.invalid_date" | translate}}
+      <input
+        matInput
+        placeholder="{{ 'site_areas.consumption_date' | translate }}"
+        required
+        (dateChange)="dateFilterChanged($event.value ? $event.value.toDate() : null)"
+        [matDatetimepicker]="picker"
+        [formControl]="dateControl"
+        autocomplete="false"
+      />
+      <mat-error *ngIf="dateControl.errors?.matDatepickerParse"
+        >{{ 'general.invalid_date' | translate }}
       </mat-error>
     </mat-form-field>
   </div>
@@ -16,15 +23,15 @@
   </div>
 </div>
 <div *ngIf="siteAreaConsumption?.values?.length === 0" class="graph-no-consumption">
-  {{'organization.graph.no_consumption' | translate}}
+  {{ 'organization.graph.no_consumption' | translate }}
 </div>
 <div [hidden]="siteAreaConsumption?.values?.length === 0">
   <div class="chart-container mt-2">
-    <div #primary class='chart-primary'></div>
-    <div #secondary class='chart-secondary'></div>
-    <div #danger class='chart-danger'></div>
-    <div #success class='chart-success'></div>
-    <div #warning class='chart-warning'></div>
+    <div #primary class="chart-primary"></div>
+    <div #secondary class="chart-secondary"></div>
+    <div #danger class="chart-danger"></div>
+    <div #success class="chart-success"></div>
+    <div #warning class="chart-warning"></div>
     <canvas #chart></canvas>
   </div>
 </div>

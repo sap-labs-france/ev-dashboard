@@ -12,8 +12,7 @@ export class TablePricingViewAllAction implements TableAction {
     tooltip: 'transactions.dialog.session.pricing_detail_view_all',
   };
 
-  public constructor(
-    private defaultValue: boolean = false) {
+  public constructor(private defaultValue: boolean = false) {
     // Set
     this.action.currentValue = defaultValue;
   }
@@ -22,5 +21,4 @@ export class TablePricingViewAllAction implements TableAction {
   public getActionDef(): TableActionDef {
     return this.action;
   }
-
 }

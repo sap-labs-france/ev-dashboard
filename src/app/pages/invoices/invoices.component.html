@@ -1,9 +1,14 @@
 <div class="main-content">
-  <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex" animationDuration="0ms"
-    disableRipple="true" class="h-100 mat-tab-info">
+  <mat-tab-group
+    (selectedIndexChange)="updateRoute($event)"
+    [selectedIndex]="activeTabIndex"
+    animationDuration="0ms"
+    disableRipple="true"
+    class="h-100 mat-tab-info"
+  >
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon>receipt</mat-icon><span>{{'billing.tabs.invoices' | translate}}</span>
+        <mat-icon>receipt</mat-icon><span>{{ 'billing.tabs.invoices' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-invoices-list></app-invoices-list>
@@ -12,7 +17,7 @@
     <ng-container *ngIf="canListTransfers">
       <mat-tab>
         <ng-template mat-tab-label>
-          <mat-icon>money</mat-icon><span>{{'transfers.tabs.list' | translate}}</span>
+          <mat-icon>money</mat-icon><span>{{ 'transfers.tabs.list' | translate }}</span>
         </ng-template>
         <ng-template matTabContent>
           <app-transfers-list></app-transfers-list>

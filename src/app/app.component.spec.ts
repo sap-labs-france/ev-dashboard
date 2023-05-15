@@ -6,12 +6,8 @@ import { AppComponent } from './app.component';
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
-      declarations: [
-        AppComponent
-      ],
+      imports: [RouterTestingModule],
+      declarations: [AppComponent],
     }).compileComponents();
   });
 
@@ -31,6 +27,8 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('ev-dashboard app is running!');
+    expect(compiled.querySelector('.content span').textContent).toContain(
+      'ev-dashboard app is running!'
+    );
   });
 });

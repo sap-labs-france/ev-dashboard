@@ -12,13 +12,16 @@ export class AppPricingDimensionsUnit implements PipeTransform {
   public constructor(
     private centralServerService: CentralServerService,
     private translateService: TranslateService,
-    private localeService: LocaleService) {
-  }
+    private localeService: LocaleService
+  ) {}
 
   public transform(i18nKey: string): any {
-    const currencyCode = this.centralServerService.getCurrencyCode() || Constants.DEFAULT_CURRENCY_CODE;
+    const currencyCode =
+      this.centralServerService.getCurrencyCode() || Constants.DEFAULT_CURRENCY_CODE;
     const currentLocaleJS = this.localeService.getLocaleInformation()?.currentLocaleJS;
     const currencySymbol = getCurrencySymbol(currencyCode, 'wide', currentLocaleJS);
-    return this.translateService.instant(`settings.pricing.${i18nKey}`, { currency: currencySymbol });
+    return this.translateService.instant(`settings.pricing.${i18nKey}`, {
+      currency: currencySymbol,
+    });
   }
 }

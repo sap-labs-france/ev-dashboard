@@ -20,7 +20,7 @@ import { ChargingStationTemplateMainComponent } from './main/charging-station-te
 @Component({
   selector: 'app-charging-station-template',
   templateUrl: 'charging-station-template.component.html',
-  styleUrls: ['charging-station-template.component.scss']
+  styleUrls: ['charging-station-template.component.scss'],
 })
 export class ChargingStationTemplateComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentTemplateID!: string;
@@ -28,7 +28,8 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
   @Input() public dialogRef!: MatDialogRef<any>;
   @Input() public dialogTitle!: string;
 
-  @ViewChild('chargingStationTemplateMainComponent') public chargingStationTemplateMainComponent!: ChargingStationTemplateMainComponent;
+  @ViewChild('chargingStationTemplateMainComponent')
+  public chargingStationTemplateMainComponent!: ChargingStationTemplateMainComponent;
 
   public formGroup!: FormGroup;
   public readOnly = true;
@@ -42,7 +43,8 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
     private translateService: TranslateService,
     private router: Router,
     protected activatedRoute: ActivatedRoute,
-    protected windowService: WindowService) {
+    protected windowService: WindowService
+  ) {
     super(activatedRoute, windowService, ['main'], false);
   }
 
@@ -79,10 +81,15 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
               this.messageService.showErrorMessage('templates.template_not_found');
               break;
             default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'general.unexpected_error_backend');
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'general.unexpected_error_backend'
+              );
           }
-        }
+        },
       });
     }
   }
@@ -94,14 +101,19 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
   }
 
   public close() {
-    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
-      this.translateService, this.saveTemplate.bind(this), this.closeDialog.bind(this));
+    Utils.checkAndSaveAndCloseDialog(
+      this.formGroup,
+      this.dialogService,
+      this.translateService,
+      this.saveTemplate.bind(this),
+      this.closeDialog.bind(this)
+    );
   }
 
   public saveTemplate() {
     const chargingStationTemplate: ChargingStationTemplate = {
       id: this.currentTemplateID || '',
-      template: JSON.parse(this.formGroup.controls.template.value)
+      template: JSON.parse(this.formGroup.controls.template.value),
     };
     if (this.currentTemplateID) {
       this.updateChargingStationTemplate(chargingStationTemplate);
@@ -117,12 +129,19 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
       next: (response) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage('templates.create_success',
-            { template: template.template.chargePointVendor + ' - ' + template.template.extraFilters.chargePointModel });
+          this.messageService.showSuccessMessage('templates.create_success', {
+            template:
+              template.template.chargePointVendor +
+              ' - ' +
+              template.template.extraFilters.chargePointModel,
+          });
           this.closeDialog(true);
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, 'templates.create_error');
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            'templates.create_error'
+          );
         }
       },
       error: (error) => {
@@ -132,9 +151,15 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
             this.messageService.showErrorMessage('templates.template_not_found');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'templates.create_error');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'templates.create_error'
+            );
         }
-      }
+      },
     });
   }
 
@@ -145,11 +170,19 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
       next: (response) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage('templates.update_success', { template: chargingStationTemplate.template.chargePointVendor + ' - ' + chargingStationTemplate.template.extraFilters.chargePointModel });
+          this.messageService.showSuccessMessage('templates.update_success', {
+            template:
+              chargingStationTemplate.template.chargePointVendor +
+              ' - ' +
+              chargingStationTemplate.template.extraFilters.chargePointModel,
+          });
           this.closeDialog(true);
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, 'templates.update_error');
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            'templates.update_error'
+          );
         }
       },
       error: (error) => {
@@ -159,10 +192,15 @@ export class ChargingStationTemplateComponent extends AbstractTabComponent imple
             this.messageService.showErrorMessage('templates.template_not_found');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'templates.update_error');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'templates.update_error'
+            );
         }
-      }
+      },
     });
   }
 }

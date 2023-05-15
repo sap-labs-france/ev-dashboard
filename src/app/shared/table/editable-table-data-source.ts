@@ -1,12 +1,25 @@
 import { EventEmitter } from '@angular/core';
-import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, ValidatorFn } from '@angular/forms';
+import {
+  AbstractControl,
+  UntypedFormArray,
+  UntypedFormControl,
+  UntypedFormGroup,
+  ValidatorFn,
+} from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subject, from, of } from 'rxjs';
 
 import { SpinnerService } from '../../services/spinner.service';
 import { DataResult } from '../../types/DataResult';
 import { ButtonAction } from '../../types/GlobalType';
-import { DropdownItem, TableActionDef, TableColumnDef, TableData, TableDef, TableEditType } from '../../types/Table';
+import {
+  DropdownItem,
+  TableActionDef,
+  TableColumnDef,
+  TableData,
+  TableDef,
+  TableEditType,
+} from '../../types/Table';
 import { Utils } from '../../utils/Utils';
 import { TableAddAction } from './actions/table-add-action';
 import { TableDeleteAction } from './actions/table-delete-action';
@@ -22,7 +35,8 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
-    public additionalParameters?: any) {
+    public additionalParameters?: any
+  ) {
     super(spinnerService, translateService, additionalParameters);
     this.initDataSource();
   }
@@ -37,9 +51,7 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
   public buildTableActionsDef(): TableActionDef[] {
     // Always enable by default
     this.addAction.visible = true;
-    return [
-      this.addAction
-    ];
+    return [this.addAction];
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -58,8 +70,11 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
   public getContent(): T[] {
     // Filter?
     if (this.editableRows && this.getSearchValue() && this.tableDef.rowFieldNameIdentifier) {
-      return this.editableRows.filter((editableRow) => editableRow[this.tableDef.rowFieldNameIdentifier].toLowerCase().includes(
-        this.getSearchValue().toLowerCase()));
+      return this.editableRows.filter((editableRow) =>
+        editableRow[this.tableDef.rowFieldNameIdentifier]
+          .toLowerCase()
+          .includes(this.getSearchValue().toLowerCase())
+      );
     }
     return this.editableRows;
   }
@@ -73,14 +88,21 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
   }
 
   public refreshEditableData(): Observable<unknown> {
-    return from(new Promise((resolve: (value?: unknown) => void) => {
-      this.refreshEvent.emit();
-      resolve();
-    }));
+    return from(
+      new Promise((resolve: (value?: unknown) => void) => {
+        this.refreshEvent.emit();
+        resolve();
+      })
+    );
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, editableRow: T, dropdownItem?: DropdownItem,
-    postDataProcessing?: () => void, actionAlreadyProcessed: boolean = false) {
+  public rowActionTriggered(
+    actionDef: TableActionDef,
+    editableRow: T,
+    dropdownItem?: DropdownItem,
+    postDataProcessing?: () => void,
+    actionAlreadyProcessed: boolean = false
+  ) {
     const index = this.editableRows.indexOf(editableRow);
     if (!actionAlreadyProcessed) {
       switch (actionDef.id) {
@@ -113,7 +135,12 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
     (row[`${propertyName}FormControl`] as UntypedFormControl).setValue(propertyValue);
   }
 
-  public rowCellUpdated(cellValue: any, rowIndex: number, columnDef: TableColumnDef, postDataProcessing?: () => void) {
+  public rowCellUpdated(
+    cellValue: any,
+    rowIndex: number,
+    columnDef: TableColumnDef,
+    postDataProcessing?: () => void
+  ) {
     // Use get content to get the filtered fields
     const contentRows = this.getContent();
     if (this.formArray) {
@@ -271,15 +298,23 @@ export abstract class EditableTableDataSource<T extends TableData> extends Table
         const table = $(`#${this.tableDef.id}`);
         if (table) {
           // Get the first element
-          const firstRowID = this.tableDef && this.tableDef.rowFieldNameIdentifier ?
-            this.editableRows[0][this.tableDef.rowFieldNameIdentifier] : 0;
+          const firstRowID =
+            this.tableDef && this.tableDef.rowFieldNameIdentifier
+              ? this.editableRows[0][this.tableDef.rowFieldNameIdentifier]
+              : 0;
           const firstElement = $(`#${this.tableDef.id} #${firstRowID}`);
-          const firstElementTop: number = firstElement && firstElement.offset() ? Utils.convertToInteger(firstElement.offset().top) : 0;
+          const firstElementTop: number =
+            firstElement && firstElement.offset()
+              ? Utils.convertToInteger(firstElement.offset().top)
+              : 0;
           // Get the current element
-          const rowID = this.tableDef && this.tableDef.rowFieldNameIdentifier ?
-            data[this.tableDef.rowFieldNameIdentifier] : this.editableRows.length - 1;
+          const rowID =
+            this.tableDef && this.tableDef.rowFieldNameIdentifier
+              ? data[this.tableDef.rowFieldNameIdentifier]
+              : this.editableRows.length - 1;
           const element = $(`#${this.tableDef.id} #${rowID}`);
-          const elementTop: number = element && element.offset() ? Utils.convertToInteger(element.offset().top) : 0;
+          const elementTop: number =
+            element && element.offset() ? Utils.convertToInteger(element.offset().top) : 0;
           if (element) {
             table.scrollTop(elementTop - firstElementTop);
           }

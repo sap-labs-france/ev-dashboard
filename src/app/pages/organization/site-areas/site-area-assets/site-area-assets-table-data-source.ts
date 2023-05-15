@@ -16,7 +16,12 @@ import { Asset, AssetType } from '../../../../types/Asset';
 import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
 import { SiteArea } from '../../../../types/SiteArea';
-import { TableActionDef, TableColumnDef, TableDataSourceMode, TableDef } from '../../../../types/Table';
+import {
+  TableActionDef,
+  TableColumnDef,
+  TableDataSourceMode,
+  TableDef,
+} from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 
 @Injectable()
@@ -32,7 +37,8 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
     private router: Router,
     private dialog: MatDialog,
     private dialogService: DialogService,
-    private centralServerService: CentralServerService) {
+    private centralServerService: CentralServerService
+  ) {
     super(spinnerService, translateService);
   }
 
@@ -43,17 +49,24 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
       // Site Area provided?
       if (this.siteArea) {
         // Yes: Get data
-        this.centralServerService.getAssets(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
-          next: (assets) => {
-            observer.next(assets);
-            observer.complete();
-          },
-          error: (error) => {
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.error_backend');
-            observer.error(error);
-          }
-        });
+        this.centralServerService
+          .getAssets(this.buildFilterValues(), this.getPaging(), this.getSorting())
+          .subscribe({
+            next: (assets) => {
+              observer.next(assets);
+              observer.complete();
+            },
+            error: (error) => {
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'general.error_backend'
+              );
+              observer.error(error);
+            },
+          });
       } else {
         observer.next({
           count: 0,
@@ -106,7 +119,8 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
         headerClass: 'col-20p text-center',
         class: 'col-20p text-center',
         sortable: true,
-        formatter: (dynamicAsset: boolean) => Utils.displayYesNo(this.translateService, dynamicAsset),
+        formatter: (dynamicAsset: boolean) =>
+          Utils.displayYesNo(this.translateService, dynamicAsset),
       },
       {
         id: 'assetType',
@@ -123,16 +137,14 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
             case AssetType.CONSUMPTION_AND_PRODUCTION:
               return this.translateService.instant('assets.consume_and_produce');
           }
-        }
-      }
+        },
+      },
     ];
   }
 
   public setSiteArea(siteArea: SiteArea) {
     // Set static filter
-    this.setStaticFilters([
-      { SiteAreaID: siteArea.id },
-    ]);
+    this.setStaticFilters([{ SiteAreaID: siteArea.id }]);
     // Set user
     this.siteArea = siteArea;
   }
@@ -162,17 +174,21 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
       case ButtonAction.REMOVE:
         // Empty?
         if (Utils.isEmptyArray(this.getSelectedRows())) {
-          this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
+          this.messageService.showErrorMessage(
+            this.translateService.instant('general.select_at_least_one_record')
+          );
         } else {
           // Confirm
-          this.dialogService.createAndShowYesNoDialog(
-            this.translateService.instant('site_areas.remove_assets_title'),
-            this.translateService.instant('site_areas.remove_assets_confirm'),
-          ).subscribe((response) => {
-            if (response === ButtonAction.YES) {
-              this.removeAssets(this.getSelectedRows().map((row) => row.id));
-            }
-          });
+          this.dialogService
+            .createAndShowYesNoDialog(
+              this.translateService.instant('site_areas.remove_assets_title'),
+              this.translateService.instant('site_areas.remove_assets_confirm')
+            )
+            .subscribe((response) => {
+              if (response === ButtonAction.YES) {
+                this.removeAssets(this.getSelectedRows().map((row) => row.id));
+              }
+            });
         }
         break;
     }
@@ -198,18 +214,28 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
     this.centralServerService.removeAssetsFromSiteArea(this.siteArea.id, assetIDs).subscribe({
       next: (response) => {
         if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage(this.translateService.instant('site_areas.remove_assets_success'));
+          this.messageService.showSuccessMessage(
+            this.translateService.instant('site_areas.remove_assets_success')
+          );
           this.refreshData().subscribe();
           this.clearSelectedRows();
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, this.translateService.instant('site_areas.remove_assets_error'));
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            this.translateService.instant('site_areas.remove_assets_error')
+          );
         }
       },
       error: (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService,
-          this.centralServerService, 'site_areas.remove_assets_error');
-      }
+        Utils.handleHttpError(
+          error,
+          this.router,
+          this.messageService,
+          this.centralServerService,
+          'site_areas.remove_assets_error'
+        );
+      },
     });
   }
 
@@ -221,18 +247,28 @@ export class SiteAreaAssetsDataSource extends TableDataSource<Asset> {
       this.centralServerService.addAssetsToSiteArea(this.siteArea.id, assetIDs).subscribe({
         next: (response) => {
           if (response.status === RestResponse.SUCCESS) {
-            this.messageService.showSuccessMessage(this.translateService.instant('site_areas.update_assets_success'));
+            this.messageService.showSuccessMessage(
+              this.translateService.instant('site_areas.update_assets_success')
+            );
             this.refreshData().subscribe();
             this.clearSelectedRows();
           } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, this.translateService.instant('site_areas.update_error'));
+            Utils.handleError(
+              JSON.stringify(response),
+              this.messageService,
+              this.translateService.instant('site_areas.update_error')
+            );
           }
         },
         error: (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'site_areas.update_error');
-        }
+          Utils.handleHttpError(
+            error,
+            this.router,
+            this.messageService,
+            this.centralServerService,
+            'site_areas.update_error'
+          );
+        },
       });
     }
   }

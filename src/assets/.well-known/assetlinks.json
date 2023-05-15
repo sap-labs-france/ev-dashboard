@@ -4,8 +4,9 @@
     "target": {
       "namespace": "android_app",
       "package_name": "com.emobility",
-      "sha256_cert_fingerprints":
-      ["FD:2C:A5:F5:7B:D6:23:CC:AC:54:05:48:32:0C:E1:23:CB:B5:C4:43:2D:6D:69:70:ED:73:A8:71:E0:66:F5:47"]
+      "sha256_cert_fingerprints": [
+        "FD:2C:A5:F5:7B:D6:23:CC:AC:54:05:48:32:0C:E1:23:CB:B5:C4:43:2D:6D:69:70:ED:73:A8:71:E0:66:F5:47"
+      ]
     }
   }
 ]

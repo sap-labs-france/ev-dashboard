@@ -8,10 +8,14 @@ import { Transaction } from '../../../types/Transaction';
   template: `
     <!-- Connector ID -->
     <div class="d-flex justify-content-center">
-      <div appTooltip data-offset="0px, 8px"
-          [title]="row | appTransactionsFormatConnector:'text' | translate" class="charger-connector-container">
-        <div [class]="row | appTransactionsFormatConnector:'class'">
-          {{row.connectorId | appConnectorId}}
+      <div
+        appTooltip
+        data-offset="0px, 8px"
+        [title]="row | appTransactionsFormatConnector : 'text' | translate"
+        class="charger-connector-container"
+      >
+        <div [class]="row | appTransactionsFormatConnector : 'class'">
+          {{ row.connectorId | appConnectorId }}
         </div>
       </div>
     </div>
@@ -22,7 +26,7 @@ export class TransactionsConnectorCellComponent extends CellContentTemplateDirec
   @Input() public row!: Transaction;
 }
 
-@Pipe({name: 'appTransactionsFormatConnector'})
+@Pipe({ name: 'appTransactionsFormatConnector' })
 export class AppTransactionsFormatConnector implements PipeTransform {
   public transform(transaction: Transaction, type: string): string {
     if (type === 'class') {
@@ -65,7 +69,8 @@ export class AppTransactionsFormatConnector implements PipeTransform {
       case ChargePointStatus.OCCUPIED: {
         // Check if charging
         if (transaction.currentInstantWatts > 0) {
-          classNames += 'charger-connector-charging-active charger-connector-background-spinner charger-connector-charging-active-text';
+          classNames +=
+            'charger-connector-charging-active charger-connector-background-spinner charger-connector-charging-active-text';
         } else {
           classNames += 'charger-connector-charging';
         }

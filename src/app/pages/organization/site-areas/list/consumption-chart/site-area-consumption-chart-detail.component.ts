@@ -7,12 +7,18 @@ import { SiteArea } from '../../../../../types/SiteArea';
 import { SiteAreaConsumptionChartComponent } from './site-area-consumption-chart.component';
 
 @Component({
-  template:
-    `<app-site-area-chart #siteAreaConsumptionChart *ngIf="siteArea.id" [siteArea]="siteArea" ratio="3" [siteAreasAuthorizations]="siteAreasAuthorizations">
-    </app-site-area-chart>`,
+  template: `<app-site-area-chart
+    #siteAreaConsumptionChart
+    *ngIf="siteArea.id"
+    [siteArea]="siteArea"
+    ratio="3"
+    [siteAreasAuthorizations]="siteAreasAuthorizations"
+  >
+  </app-site-area-chart>`,
 })
-
-export class SiteAreaConsumptionChartDetailComponent extends CellContentTemplateDirective implements OnChanges, OnInit {
+export class SiteAreaConsumptionChartDetailComponent
+  extends CellContentTemplateDirective
+  implements OnChanges, OnInit {
   @Input() public row!: SiteArea;
   @Input() public tableDef!: TableDef;
   @ViewChild('siteAreaConsumptionChart') public chartComponent!: SiteAreaConsumptionChartComponent;

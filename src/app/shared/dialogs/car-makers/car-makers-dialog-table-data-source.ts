@@ -19,7 +19,8 @@ export class CarMakersTableDataSource extends DialogTableDataSource<CarMaker> {
     public translateService: TranslateService,
     private messageService: MessageService,
     private router: Router,
-    private centralServerService: CentralServerService) {
+    private centralServerService: CentralServerService
+  ) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -33,9 +34,15 @@ export class CarMakersTableDataSource extends DialogTableDataSource<CarMaker> {
           observer.complete();
         },
         error: (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          Utils.handleHttpError(
+            error,
+            this.router,
+            this.messageService,
+            this.centralServerService,
+            'general.error_backend'
+          );
           observer.error(error);
-        }
+        },
       });
     });
   }
@@ -62,7 +69,7 @@ export class CarMakersTableDataSource extends DialogTableDataSource<CarMaker> {
         sorted: true,
         direction: 'asc',
         sortable: false,
-      }
+      },
     ];
   }
 }

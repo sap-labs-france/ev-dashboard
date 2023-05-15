@@ -10,9 +10,8 @@ import { SiteUsersTableDataSource } from './site-users-table-data-source';
 @Component({
   templateUrl: 'site-users-dialog.component.html',
   providers: [SiteUsersTableDataSource],
-  styleUrls: ['site-users-dialog.component.scss']
+  styleUrls: ['site-users-dialog.component.scss'],
 })
-
 export class SiteUsersDialogComponent {
   public dialogTitle: string;
 
@@ -20,16 +19,20 @@ export class SiteUsersDialogComponent {
     public siteUsersTableDataSource: SiteUsersTableDataSource,
     private dialogRef: MatDialogRef<SiteUsersDialogComponent>,
     private translateService: TranslateService,
-    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<Site, SitesAuthorizations>) {
+    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<Site, SitesAuthorizations>
+  ) {
     if (dialogParams) {
       if (dialogParams.dialogData) {
         this.siteUsersTableDataSource.setSite(dialogParams.dialogData);
-        this.dialogTitle = this.translateService.instant('sites.assigned_users_to_site', { siteName: dialogParams.dialogData.name });
+        this.dialogTitle = this.translateService.instant('sites.assigned_users_to_site', {
+          siteName: dialogParams.dialogData.name,
+        });
       } else {
         this.dialogTitle = this.translateService.instant('sites.users');
       }
       this.siteUsersTableDataSource.setMode(
-        Utils.getTableDataSourceModeFromDialogMode(dialogParams.dialogMode));
+        Utils.getTableDataSourceModeFromDialogMode(dialogParams.dialogMode)
+      );
     }
     Utils.registerCloseKeyEvents(this.dialogRef);
   }

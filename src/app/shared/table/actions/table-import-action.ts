@@ -14,7 +14,7 @@ export class TableImportAction implements TableAction {
     name: 'general.import',
     color: ButtonActionColor.PRIMARY,
     tooltip: 'general.import',
-    action: this.import
+    action: this.import,
   };
 
   // Return an action
@@ -22,8 +22,14 @@ export class TableImportAction implements TableAction {
     return this.action;
   }
 
-  protected import(component: ComponentType<unknown>, dialog: MatDialog, endpoint: RESTServerRoute,
-    entity: string,requiredProperties: string[], optionalProperties?: string[]) {
+  protected import(
+    component: ComponentType<unknown>,
+    dialog: MatDialog,
+    endpoint: RESTServerRoute,
+    entity: string,
+    requiredProperties: string[],
+    optionalProperties?: string[]
+  ) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.maxWidth = '85vw';

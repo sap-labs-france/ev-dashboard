@@ -8,7 +8,7 @@ import { CellContentTemplateDirective } from '../../../../../shared/table/cell-c
   template: `
     <mat-chip-list [selectable]="false">
       <mat-chip ngClass="chip-width-5em chip-success" [disabled]="true">
-        {{row[columnDef.id]?.successNbr || '0'}}
+        {{ row[columnDef.id]?.successNbr || '0' }}
       </mat-chip>
     </mat-chip-list>
   `,

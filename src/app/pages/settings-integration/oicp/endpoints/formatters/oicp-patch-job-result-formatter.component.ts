@@ -8,8 +8,11 @@ import { Constants } from '../../../../../utils/Constants';
 @Component({
   template: `
     <mat-chip-list [selectable]="false">
-      <mat-chip [ngClass]="row.lastPatchJobResult | appFormatOicpPatchJobResult:'class'" [disabled]="true">
-        {{row.lastPatchJobResult | appFormatOicpPatchJobResult:'text' | translate}}
+      <mat-chip
+        [ngClass]="row.lastPatchJobResult | appFormatOicpPatchJobResult : 'class'"
+        [disabled]="true"
+      >
+        {{ row.lastPatchJobResult | appFormatOicpPatchJobResult : 'text' | translate }}
       </mat-chip>
     </mat-chip-list>
   `,

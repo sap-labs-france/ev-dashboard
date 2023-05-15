@@ -2,10 +2,10 @@
   <ng-template *ngFor="let image of images; let i = index" ngbSlide [id]="'slideId_' + i">
     <div class="picsum-img-wrapper">
       <div class="carousel-component"></div>
-      <img [src]="image" alt="Random first slide" class="carousel-component">
+      <img [src]="image" alt="Random first slide" class="carousel-component" />
     </div>
   </ng-template>
 </ngb-carousel>
 <div *ngIf="noImages">
-  {{'general.no_image_found' | translate}}
+  {{ 'general.no_image_found' | translate }}
 </div>

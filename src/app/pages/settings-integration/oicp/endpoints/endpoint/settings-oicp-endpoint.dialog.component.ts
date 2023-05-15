@@ -6,7 +6,8 @@ import { Utils } from '../../../../../utils/Utils';
 import { SettingsOicpEndpointComponent } from './settings-oicp-endpoint.component';
 
 @Component({
-  template: '<app-oicp-endpoint #appRef [currentEndpoint]="currentEndpoint" [inDialog]="true" [dialogRef]="dialogRef"></app-oicp-endpoint>',
+  template:
+    '<app-oicp-endpoint #appRef [currentEndpoint]="currentEndpoint" [inDialog]="true" [dialogRef]="dialogRef"></app-oicp-endpoint>',
 })
 export class SettingsOicpEndpointDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: SettingsOicpEndpointComponent;
@@ -14,14 +15,19 @@ export class SettingsOicpEndpointDialogComponent implements AfterViewInit {
 
   public constructor(
     public dialogRef: MatDialogRef<SettingsOicpEndpointDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: OicpEndpoint) {
+    @Inject(MAT_DIALOG_DATA) data: OicpEndpoint
+  ) {
     // Check if data is passed to the dialog
     this.currentEndpoint = data;
   }
 
   public ngAfterViewInit() {
     // Register key event
-    Utils.registerSaveCloseKeyEvents(this.dialogRef, this.appRef.formGroup,
-      this.appRef.save.bind(this.appRef), this.appRef.close.bind(this.appRef));
+    Utils.registerSaveCloseKeyEvents(
+      this.dialogRef,
+      this.appRef.formGroup,
+      this.appRef.save.bind(this.appRef),
+      this.appRef.close.bind(this.appRef)
+    );
   }
 }

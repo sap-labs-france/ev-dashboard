@@ -9,9 +9,12 @@ import { TableActionDef } from '../../../../types/Table';
 import { Tag, TagButtonAction } from '../../../../types/Tag';
 
 export interface TableAssignTagActionDef extends TableActionDef {
-  action: (tagAssignDialogComponent: ComponentType<unknown>, dialog: MatDialog,
+  action: (
+    tagAssignDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
     dialogParams?: DialogParamsWithAuth<Tag, TagsAuthorizations>,
-    refresh?: () => Observable<void>) => void;
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableAssignTagAction extends TableCreateAction {
@@ -25,12 +28,16 @@ export class TableAssignTagAction extends TableCreateAction {
       name: 'general.register',
       tooltip: 'general.tooltips.register',
       action: this.assign,
-      visible: false
+      visible: false,
     };
   }
 
-  private assign(tagAssignDialogComponent: ComponentType<unknown>,
-    dialog: MatDialog, dialogParams?: DialogParamsWithAuth<Tag, TagsAuthorizations>, refresh?: () => Observable<void>) {
+  private assign(
+    tagAssignDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams?: DialogParamsWithAuth<Tag, TagsAuthorizations>,
+    refresh?: () => Observable<void>
+  ) {
     super.create(tagAssignDialogComponent, dialog, dialogParams, refresh);
   }
 }

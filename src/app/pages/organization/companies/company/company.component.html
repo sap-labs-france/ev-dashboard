@@ -1,30 +1,55 @@
 <div class="main-content vw-90 vh-90 company-dialog-size">
   <div class="card card-profile card-testimonial">
-    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info" [class]="dialogRef && !readOnly ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
+    <mat-tab-group
+      animationDuration="0ms"
+      disableRipple="true"
+      class="mat-tab-info"
+      [class]="dialogRef && !readOnly ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'"
+    >
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>portrait</mat-icon>
-          <span>{{'companies.title' | translate}} - {{formGroup.controls['name'].value}}</span>
+          <span>{{ 'companies.title' | translate }} - {{ formGroup.controls['name'].value }}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content pt-0">
-          <app-company-main #companyMainComponent [formGroup]="formGroup" [company]="company" [readOnly]="readOnly"></app-company-main>
+          <app-company-main
+            #companyMainComponent
+            [formGroup]="formGroup"
+            [company]="company"
+            [readOnly]="readOnly"
+          ></app-company-main>
         </div>
       </mat-tab>
-      <mat-tab *ngIf="isBillingActive && isBillingPlatformActive && accountHasVisibleFields ">
+      <mat-tab *ngIf="isBillingActive && isBillingPlatformActive && accountHasVisibleFields">
         <ng-template mat-tab-label>
-          <mat-icon>payment</mat-icon><span>{{'settings.tabs.billing' | translate}}</span>
+          <mat-icon>payment</mat-icon><span>{{ 'settings.tabs.billing' | translate }}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content pt-0">
-          <app-account-billing #accountBillingComponent [formGroup]="formGroup" [entity]="company" [readOnly]="readOnly"></app-account-billing>
+          <app-account-billing
+            #accountBillingComponent
+            [formGroup]="formGroup"
+            [entity]="company"
+            [readOnly]="readOnly"
+          ></app-account-billing>
         </div>
       </mat-tab>
     </mat-tab-group>
     <div [class]="dialogRef ? 'tabs-actions' : 'tabs-actions-embedded'">
-      <button mat-icon-button *ngIf="!readOnly" (click)="saveCompany(formGroup.value)" title="{{'general.save' | translate}}"
-          [disabled]="!formGroup.valid || !formGroup.dirty">
+      <button
+        mat-icon-button
+        *ngIf="!readOnly"
+        (click)="saveCompany(formGroup.value)"
+        title="{{ 'general.save' | translate }}"
+        [disabled]="!formGroup.valid || !formGroup.dirty"
+      >
         <mat-icon>save</mat-icon>
       </button>
-      <button mat-icon-button *ngIf="dialogRef" (click)="close()" title="{{'general.close' | translate}}">
+      <button
+        mat-icon-button
+        *ngIf="dialogRef"
+        (click)="close()"
+        title="{{ 'general.close' | translate }}"
+      >
         <mat-icon>close</mat-icon>
       </button>
     </div>

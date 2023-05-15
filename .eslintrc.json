@@ -1,17 +1,11 @@
 {
   "root": true,
-  "ignorePatterns": [
-    "projects/**/*"
-  ],
+  "ignorePatterns": ["projects/**/*"],
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "parserOptions": {
-        "project": [
-          "tsconfig.json"
-        ],
+        "project": ["tsconfig.json"],
         "createDefaultProgram": true
       },
       "extends": [
@@ -42,9 +36,7 @@
           "error",
           {
             "selector": "enumMember",
-            "format": [
-              "UPPER_CASE"
-            ]
+            "format": ["UPPER_CASE"]
           }
         ],
         "@typescript-eslint/indent": [
@@ -73,18 +65,12 @@
         "@typescript-eslint/no-var-requires": "error",
         "@typescript-eslint/promise-function-async": "error",
         "@typescript-eslint/require-await": "error",
-        "brace-style": [
-          "error",
-          "1tbs"
-        ],
+        "brace-style": ["error", "1tbs"],
         "complexity": "error",
         "import/order": "error",
-        "linebreak-style": [
-          "error",
-          "unix"
-        ],
+        "linebreak-style": ["error", "unix"],
         "max-len": [
-          "error",
+          "warn",
           {
             "ignoreRegExpLiterals": true,
             "ignoreStrings": true,
@@ -102,12 +88,8 @@
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended"
-      ],
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {}
     }
   ]

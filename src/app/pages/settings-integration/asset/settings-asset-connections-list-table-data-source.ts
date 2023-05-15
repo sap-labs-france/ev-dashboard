@@ -17,7 +17,13 @@ import { AssetButtonAction } from '../../../types/Asset';
 import { DataResult } from '../../../types/DataResult';
 import { ButtonAction } from '../../../types/GlobalType';
 import { AssetConnectionSetting, AssetConnectionType } from '../../../types/Setting';
-import { TableActionDef, TableColumnDef, TableDef, TableEditType, TableFilterDef } from '../../../types/Table';
+import {
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableEditType,
+  TableFilterDef,
+} from '../../../types/Table';
 import { AssetConnectionDialogComponent } from './connection/asset-connection.dialog.component';
 import { TableCheckAssetConnectionAction } from './table-actions/table-check-asset-connection-action';
 
@@ -25,7 +31,7 @@ import { TableCheckAssetConnectionAction } from './table-actions/table-check-ass
 export class SettingsAssetConnectionEditableTableDataSource extends EditableTableDataSource<AssetConnectionSetting> {
   public authorizations: SettingAuthorizationActions;
   private editAction = new TableEditAction().getActionDef();
-  private checkConnectionAction =  new TableCheckAssetConnectionAction().getActionDef();
+  private checkConnectionAction = new TableCheckAssetConnectionAction().getActionDef();
   private viewAction = new TableViewAssetAction().getActionDef();
 
   public constructor(
@@ -35,7 +41,8 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
     private dialogService: DialogService,
     private centralServerService: CentralServerService,
     private router: Router,
-    private messageService: MessageService) {
+    private messageService: MessageService
+  ) {
     super(spinnerService, translateService);
   }
 
@@ -45,7 +52,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
       if (this.editableRows) {
         this.addAction.visible = this.authorizations?.canUpdate;
         // Asset sort by name
-        this.editableRows.sort((a, b) => (a.name > b.name) ? 1 : (b.name > a.name) ? -1 : 0);
+        this.editableRows.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0));
         observer.next({
           count: this.editableRows.length,
           result: this.editableRows,
@@ -97,7 +104,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
         class: 'col-30p',
         editType: TableEditType.DISPLAY_ONLY,
         sortable: false,
-      }
+      },
     ];
   }
 
@@ -105,18 +112,18 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
     // Using global setting authorizations
     const rowActions: TableActionDef[] = [];
     // Update or View
-    if(this.authorizations.canUpdate) {
+    if (this.authorizations.canUpdate) {
       rowActions.push(this.editAction);
     } else {
       rowActions.push(this.viewAction);
     }
     // Check connection
-    if(this.authorizations.canCheckAssetConnection) {
+    if (this.authorizations.canCheckAssetConnection) {
       rowActions.push(this.checkConnectionAction);
     }
     // Delete action
-    if(this.authorizations.canUpdate) {
-      rowActions.push( ...super.buildTableRowActions());
+    if (this.authorizations.canUpdate) {
+      rowActions.push(...super.buildTableRowActions());
     }
     return rowActions;
   }
@@ -137,22 +144,34 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
         break;
       case AssetButtonAction.CHECK_ASSET_CONNECTION:
         if (actionDef.action) {
-          actionDef.action(assetConnection, this.formArray, this.dialogService, this.spinnerService, this.translateService,
-            this.centralServerService, this.messageService, this.router);
+          actionDef.action(
+            assetConnection,
+            this.formArray,
+            this.dialogService,
+            this.spinnerService,
+            this.translateService,
+            this.centralServerService,
+            this.messageService,
+            this.router
+          );
         }
         break;
       case AssetButtonAction.VIEW_ASSET:
         this.showAssetConnectionDialog(DialogMode.VIEW, assetConnection);
         break;
       case ButtonAction.DELETE:
-        this.dialogService.createAndShowYesNoDialog(
-          this.translateService.instant('settings.asset.connection.delete_title'),
-          this.translateService.instant('settings.asset.connection.delete_confirm', { assetConnectionName: assetConnection.name }),
-        ).subscribe((result) => {
-          if (result === ButtonAction.YES) {
-            super.rowActionTriggered(actionDef, assetConnection);
-          }
-        });
+        this.dialogService
+          .createAndShowYesNoDialog(
+            this.translateService.instant('settings.asset.connection.delete_title'),
+            this.translateService.instant('settings.asset.connection.delete_confirm', {
+              assetConnectionName: assetConnection.name,
+            })
+          )
+          .subscribe((result) => {
+            if (result === ButtonAction.YES) {
+              super.rowActionTriggered(actionDef, assetConnection);
+            }
+          });
         break;
       default:
         super.rowActionTriggered(actionDef, assetConnection);
@@ -161,9 +180,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {
-    return [
-      new TableRefreshAction().getActionDef(),
-    ];
+    return [new TableRefreshAction().getActionDef()];
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
@@ -178,7 +195,7 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
       description: '',
       type: AssetConnectionType.NONE,
       refreshIntervalMins: 1,
-      url: ''
+      url: '',
     };
   }
 
@@ -186,7 +203,10 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
     this.authorizations = authorizations;
   }
 
-  private showAssetConnectionDialog(dialogMode: DialogMode, assetConnection?: AssetConnectionSetting) {
+  private showAssetConnectionDialog(
+    dialogMode: DialogMode,
+    assetConnection?: AssetConnectionSetting
+  ) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';
@@ -200,7 +220,8 @@ export class SettingsAssetConnectionEditableTableDataSource extends EditableTabl
       if (assetConnectionSetting) {
         // Find object
         const index = this.editableRows.findIndex(
-          (editableRow) => editableRow.id === assetConnectionSetting.id);
+          (editableRow) => editableRow.id === assetConnectionSetting.id
+        );
         if (index >= 0) {
           // Update
           this.editableRows.splice(index, 1, assetConnectionSetting);

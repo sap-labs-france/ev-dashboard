@@ -1,4 +1,7 @@
-import { TableOpenURLAction, TableOpenURLActionDef } from '../../../../shared/table/actions/table-open-url-action';
+import {
+  TableOpenURLAction,
+  TableOpenURLActionDef,
+} from '../../../../shared/table/actions/table-open-url-action';
 import { UserButtonAction } from '../../../../types/User';
 
 export class TableNavigateToUserAction extends TableOpenURLAction {
@@ -7,7 +10,7 @@ export class TableNavigateToUserAction extends TableOpenURLAction {
       ...super.getActionDef(),
       id: UserButtonAction.NAVIGATE_TO_USER,
       name: 'users.redirect',
-      tooltip: 'users.redirect'
+      tooltip: 'users.redirect',
     };
   }
 }

@@ -3,7 +3,7 @@
     <div class="card-icon">
       <mat-icon>credit_card</mat-icon>
     </div>
-    <h3 class="card-title">{{'settings.billing.payment_methods' | translate}}</h3>
+    <h3 class="card-title">{{ 'settings.billing.payment_methods' | translate }}</h3>
   </div>
   <div class="card-body">
     <app-table [dataSource]="paymentMethodsTableDataSource"></app-table>

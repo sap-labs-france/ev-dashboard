@@ -1,4 +1,4 @@
-@use "sass:math";
+@use 'sass:math';
 $bmd-label-color-focus: $brand-primary !default;
 $bmd-invalid-underline: $brand-danger !default;
 $bmd-readonly-underline: $input-border-color !default;
@@ -14,7 +14,7 @@ $icon-color: rgba($brand-text, 0.5) !default;
 // --------------------
 // inputs
 $mdb-input-placeholder-color: $brand-text !default;
-$mdb-input-underline-color: #D2D2D2 !default;
+$mdb-input-underline-color: #d2d2d2 !default;
 
 $mdb-input-font-size-base: 14px !default;
 $mdb-input-font-size-large: ceil(($font-size-base * 1.25)) !default; // ~20px
@@ -39,7 +39,7 @@ $bmd-form-line-height-lg: 1 !default; // set as 1x font-size so that padding is 
 $bmd-label-top-margin-lg: 1rem !default; // 16px
 
 $bmd-form-line-height-sm: 1 !default; // set as 1x font-size so that padding is easier calculated to match the spec.
-$bmd-label-top-margin-sm: .75rem !default; // 12px
+$bmd-label-top-margin-sm: 0.75rem !default; // 12px
 
 $text-disabled: #a8a8a8 !default;
 $background-disabled: #eaeaea !default;
@@ -51,10 +51,10 @@ $bmd-checkbox-size: 1.25rem !default;
 $bmd-checkbox-animation-ripple: 500ms !default;
 $bmd-checkbox-animation-check: 0.3s !default;
 $bmd-checkbox-checked-color: $brand-text !default;
-$bmd-checkbox-label-padding: .3125rem !default; // 5px
+$bmd-checkbox-label-padding: 0.3125rem !default; // 5px
 $checkboxes-text-color: $brand-text !default;
 
-$bmd-checkbox-border-size: .0625rem !default;
+$bmd-checkbox-border-size: 0.0625rem !default;
 $bmd-checkbox-border-color: $bmd-label-color-inner-focus !default;
 $bmd-checkbox-border-color-disabled: $brand-disabled !default; //#bdbdbd !default;
 
@@ -63,26 +63,26 @@ $mdb-toggle-label-color: $mdb-label-color !default;
 
 // Variables for datetimepicker //
 $padding-default-vertical: 10px !default;
-$medium-pale-bg: #F1EAE0 !default;
-$pale-bg: #F9F7F3 !default;
+$medium-pale-bg: #f1eae0 !default;
+$pale-bg: #f9f7f3 !default;
 
 $font-color: #66615b !default;
 
-$black: #3C4858 !default;
+$black: #3c4858 !default;
 
 // Dropdowns
 
-$dropdown-item-padding-y: .625rem;
+$dropdown-item-padding-y: 0.625rem;
 $dropdown-item-padding-x: 1.25rem;
 $dropdown-header-padding-y: 0.1875rem;
-$bmd-dropdown-margin-y: .3125rem !default;
+$bmd-dropdown-margin-y: 0.3125rem !default;
 $bmd-dropdown-header-color: #777 !default;
 $bmd-dropdown-link-color: #333 !default;
 
 // Switches
-$bmd-switch-label-padding: .3125rem !default; // 5px
+$bmd-switch-label-padding: 0.3125rem !default; // 5px
 $bmd-switch-width: 2.125rem !default; // 34px
-$bmd-switch-height: .875rem !default; // 14px
+$bmd-switch-height: 0.875rem !default; // 14px
 $bmd-switch-handle-size: 1.25rem !default; // 20px (was 18px)
 
 $bmd-switch-handle-checked-bg: $brand-primary !default;
@@ -90,8 +90,8 @@ $bmd-switch-handle-unchecked-bg: #f1f1f1 !default;
 $bmd-switch-handle-disabled-bg: #bdbdbd !default;
 $bmd-switch-unchecked-bg: $brand-disabled !default;
 $bmd-switch-checked-bg: desaturate(
-    lighten($bmd-switch-handle-checked-bg, 28%),
-    32%
+  lighten($bmd-switch-handle-checked-bg, 28%),
+  32%
 ); // kind of magic recipe
 $bmd-switch-disabled-bg: $brand-disabled !default;
 
@@ -100,25 +100,25 @@ $bmd-popover-background: rgba(101, 101, 101, 0.9) !default;
 $bmd-popover-color: #ececec !default;
 
 // Radio:
-$bmd-radio-border: .0625rem !default; // 1px
+$bmd-radio-border: 0.0625rem !default; // 1px
 $bmd-radio-size: 1rem !default;
 $bmd-radio-ripple-offset: 1em !default;
-$bmd-radio-label-padding: .3125rem !default; // 5px
+$bmd-radio-label-padding: 0.3125rem !default; // 5px
 
 $bmd-radio-color-off: $bmd-label-color-inner-focus !default;
 $bmd-radio-color-on: $brand-primary !default;
 $bmd-radio-color-disabled: $brand-disabled; //
 $bmd-radio-color-disabled-inverse: rgba(
-    $brand-background,
-    0.30
+  $brand-background,
+  0.3
 ); // dark theme spec: Disabled: $brand-background, Opacity  30%
 
 $white: $brand-background !default;
 $navbar-color: #555 !default;
 $pills-color: $navbar-color !default;
-$black: #3C4858 !default;
+$black: #3c4858 !default;
 $link-color: $brand-text;
-$white-transparent: rgba($brand-background, .8);
+$white-transparent: rgba($brand-background, 0.8);
 $transparent: transparent;
 
 //Popovers
@@ -207,8 +207,8 @@ $social-behance: #1769ff;
 
 // Variables for checkboxes
 
-$mdb-label-color: unquote("rgba($brand-text, 0.26)") !default;
-$mdb-label-color-toggle-focus: unquote("rgba($brand-text, .54)") !default;
+$mdb-label-color: unquote('rgba($brand-text, 0.26)') !default;
+$mdb-label-color-toggle-focus: unquote('rgba($brand-text, .54)') !default;
 
 $mdb-checkbox-size: 20px !default;
 $mdb-checkbox-animation-ripple: 500ms !default;

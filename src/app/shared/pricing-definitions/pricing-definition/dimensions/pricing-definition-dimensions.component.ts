@@ -2,7 +2,11 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
-import PricingDefinition, { DimensionType, PricingDimension, PricingDimensions } from '../../../../types/Pricing';
+import PricingDefinition, {
+  DimensionType,
+  PricingDimension,
+  PricingDimensions,
+} from '../../../../types/Pricing';
 import { Constants } from '../../../../utils/Constants';
 import { PricingHelpers } from '../../../../utils/PricingHelpers';
 
@@ -10,7 +14,6 @@ import { PricingHelpers } from '../../../../utils/PricingHelpers';
   selector: 'app-pricing-definition-dimensions',
   templateUrl: 'pricing-definition-dimensions.component.html',
 })
-
 export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
   @Input() public formGroup!: UntypedFormGroup;
   @Input() public pricingDefinition: PricingDefinition;
@@ -45,48 +48,72 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
   public parkingTimeStep: AbstractControl;
 
   public ngOnInit(): void {
-    this.formGroup.addControl('dimensions', new UntypedFormGroup({
-      flatFee: new UntypedFormGroup({
-        flatFeeEnabled: new UntypedFormControl(false),
-        price: new UntypedFormControl({value: null, disabled: true}, Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)),
-      }),
-      energy: new UntypedFormGroup({
-        energyEnabled: new UntypedFormControl(false),
-        price: new UntypedFormControl({value: null, disabled: true}, Validators.compose([
-          Validators.required,
-          Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
-        ])),
-        stepSize: new UntypedFormControl({value: null, disabled: true}, Validators.compose([
-          Validators.required,
-          Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
-        ])),
-        stepSizeEnabled: new UntypedFormControl({value: false, disabled: true})
-      }),
-      chargingTime: new UntypedFormGroup({
-        chargingTimeEnabled: new UntypedFormControl(false),
-        price: new UntypedFormControl({value: null, disabled: true}, Validators.compose([
-          Validators.required,
-          Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
-        ])),
-        stepSize: new UntypedFormControl({value: null, disabled: true}, Validators.compose([
-          Validators.required,
-          Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
-        ])),
-        stepSizeEnabled: new UntypedFormControl({value: false, disabled: true})
-      }),
-      parkingTime: new UntypedFormGroup({
-        parkingTimeEnabled: new UntypedFormControl(false),
-        price: new UntypedFormControl({value: null, disabled: true}, Validators.compose([
-          Validators.required,
-          Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
-        ])),
-        stepSize: new UntypedFormControl({value: null, disabled: true}, Validators.compose([
-          Validators.required,
-          Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)
-        ])),
-        stepSizeEnabled: new UntypedFormControl({value: false, disabled: true})
-      }),
-    }));
+    this.formGroup.addControl(
+      'dimensions',
+      new UntypedFormGroup({
+        flatFee: new UntypedFormGroup({
+          flatFeeEnabled: new UntypedFormControl(false),
+          price: new UntypedFormControl(
+            { value: null, disabled: true },
+            Validators.pattern(Constants.REGEX_VALIDATION_FLOAT)
+          ),
+        }),
+        energy: new UntypedFormGroup({
+          energyEnabled: new UntypedFormControl(false),
+          price: new UntypedFormControl(
+            { value: null, disabled: true },
+            Validators.compose([
+              Validators.required,
+              Validators.pattern(Constants.REGEX_VALIDATION_FLOAT),
+            ])
+          ),
+          stepSize: new UntypedFormControl(
+            { value: null, disabled: true },
+            Validators.compose([
+              Validators.required,
+              Validators.pattern(Constants.REGEX_VALIDATION_NUMBER),
+            ])
+          ),
+          stepSizeEnabled: new UntypedFormControl({ value: false, disabled: true }),
+        }),
+        chargingTime: new UntypedFormGroup({
+          chargingTimeEnabled: new UntypedFormControl(false),
+          price: new UntypedFormControl(
+            { value: null, disabled: true },
+            Validators.compose([
+              Validators.required,
+              Validators.pattern(Constants.REGEX_VALIDATION_FLOAT),
+            ])
+          ),
+          stepSize: new UntypedFormControl(
+            { value: null, disabled: true },
+            Validators.compose([
+              Validators.required,
+              Validators.pattern(Constants.REGEX_VALIDATION_NUMBER),
+            ])
+          ),
+          stepSizeEnabled: new UntypedFormControl({ value: false, disabled: true }),
+        }),
+        parkingTime: new UntypedFormGroup({
+          parkingTimeEnabled: new UntypedFormControl(false),
+          price: new UntypedFormControl(
+            { value: null, disabled: true },
+            Validators.compose([
+              Validators.required,
+              Validators.pattern(Constants.REGEX_VALIDATION_FLOAT),
+            ])
+          ),
+          stepSize: new UntypedFormControl(
+            { value: null, disabled: true },
+            Validators.compose([
+              Validators.required,
+              Validators.pattern(Constants.REGEX_VALIDATION_NUMBER),
+            ])
+          ),
+          stepSizeEnabled: new UntypedFormControl({ value: false, disabled: true }),
+        }),
+      })
+    );
     // Dimensions
     this.dimensions = this.formGroup.controls['dimensions'] as UntypedFormGroup;
     this.flatFeeDimension = this.dimensions.controls['flatFee'] as UntypedFormGroup;
@@ -142,14 +169,24 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
 
   public buildPricingDimensions(): PricingDimensions {
     return {
-      flatFee: this.flatFeeEnabled.value ? this.buildPricingDimension(DimensionType.FLAT_FEE) : null,
+      flatFee: this.flatFeeEnabled.value
+        ? this.buildPricingDimension(DimensionType.FLAT_FEE)
+        : null,
       energy: this.energyEnabled.value ? this.buildPricingDimension(DimensionType.ENERGY) : null,
-      chargingTime: this.chargingTimeEnabled.value ? this.buildPricingDimension(DimensionType.CHARGING_TIME, true) : null,
-      parkingTime: this.parkingTimeEnabled.value ? this.buildPricingDimension(DimensionType.PARKING_TIME, true) : null,
+      chargingTime: this.chargingTimeEnabled.value
+        ? this.buildPricingDimension(DimensionType.CHARGING_TIME, true)
+        : null,
+      parkingTime: this.parkingTimeEnabled.value
+        ? this.buildPricingDimension(DimensionType.PARKING_TIME, true)
+        : null,
     };
   }
 
-  private initializeDimension(pricingDefinition: PricingDefinition, dimensionType: DimensionType, isTimeDimension = false): void {
+  private initializeDimension(
+    pricingDefinition: PricingDefinition,
+    dimensionType: DimensionType,
+    isTimeDimension = false
+  ): void {
     const dimension: PricingDimension = pricingDefinition.dimensions?.[dimensionType];
     if (!!dimension?.active) {
       this[`${dimensionType}Enabled`].setValue(true);
@@ -160,13 +197,18 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
     if (!!dimension?.stepSize) {
       this[`${dimensionType}StepEnabled`].enable();
       this[`${dimensionType}StepEnabled`].setValue(true);
-      const stepSize = (isTimeDimension) ? PricingHelpers.toMinutes(dimension?.stepSize) : dimension?.stepSize;
+      const stepSize = isTimeDimension
+        ? PricingHelpers.toMinutes(dimension?.stepSize)
+        : dimension?.stepSize;
       this[`${dimensionType}Step`].enable();
       this[`${dimensionType}Step`].setValue(stepSize);
     }
   }
 
-  private buildPricingDimension(dimensionType: DimensionType, isTimeDimension = false): PricingDimension {
+  private buildPricingDimension(
+    dimensionType: DimensionType,
+    isTimeDimension = false
+  ): PricingDimension {
     const price: number = this[dimensionType].value;
     let dimension: PricingDimension;
     if (price) {
@@ -176,7 +218,8 @@ export class PricingDefinitionDimensionsComponent implements OnInit, OnChanges {
         price,
       };
     }
-    const withStep: boolean = this[`${dimensionType}StepEnabled`]?.value && this[`${dimensionType}Enabled`].value;
+    const withStep: boolean =
+      this[`${dimensionType}StepEnabled`]?.value && this[`${dimensionType}Enabled`].value;
     if (withStep) {
       let stepSize = this[`${dimensionType}Step`]?.value;
       if (isTimeDimension) {

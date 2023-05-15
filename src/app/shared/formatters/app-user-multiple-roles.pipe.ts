@@ -17,7 +17,8 @@ export class AppUserMultipleRolesPipe implements PipeTransform {
       case 'AD':
       case 'DA':
         return 'users.role_mult_admin_demo';
-      default: return role;
+      default:
+        return role;
     }
   }
 }

@@ -12,9 +12,17 @@ import { Transaction, TransactionButtonAction } from '../../../../types/Transact
 import { TableDeleteManyAction } from '../table-delete-many-action';
 
 export interface TableDeleteTransactionsActionDef extends TableActionDef {
-  action: (transactions: Transaction[], dialogService: DialogService, translateService: TranslateService,
-    messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService,
-    router: Router, clearSelectedRows: () => void, refresh?: () => Observable<void>) => void;
+  action: (
+    transactions: Transaction[],
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    clearSelectedRows: () => void,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableDeleteTransactionsAction extends TableDeleteManyAction {
@@ -26,30 +34,56 @@ export class TableDeleteTransactionsAction extends TableDeleteManyAction {
     };
   }
 
-  private deleteTransactions(transactions: Transaction[], dialogService: DialogService, translateService: TranslateService,
-    messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService,
-    router: Router, clearSelectedRows: () => void, refresh?: () => Observable<void>) {
+  private deleteTransactions(
+    transactions: Transaction[],
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    clearSelectedRows: () => void,
+    refresh?: () => Observable<void>
+  ) {
     // Empty?
     if (transactions.length === 0) {
-      messageService.showErrorMessage(translateService.instant('general.select_at_least_one_record'));
+      messageService.showErrorMessage(
+        translateService.instant('general.select_at_least_one_record')
+      );
       return;
     }
     for (const transaction of transactions) {
-      if (transaction.refundData &&
-         (transaction.refundData.status === RefundStatus.SUBMITTED ||
-          transaction.refundData.status === RefundStatus.APPROVED)) {
+      if (
+        transaction.refundData &&
+        (transaction.refundData.status === RefundStatus.SUBMITTED ||
+          transaction.refundData.status === RefundStatus.APPROVED)
+      ) {
         dialogService.createAndShowOkDialog(
           translateService.instant('transactions.dialog.delete.title'),
-          translateService.instant('transactions.dialog.delete.rejected_refunded_msg'));
+          translateService.instant('transactions.dialog.delete.rejected_refunded_msg')
+        );
         return;
       }
     }
     // Delete them
-    super.deleteMany(transactions, 'transactions.delete_transactions_title', 'transactions.delete_transactions_confirm',
-      'transactions.delete_transactions_success', 'transactions.delete_transactions_partial',
-      'transactions.delete_transactions_error', 'transactions.delete_no_transaction', 'transactions.delete_transactions_unexpected_error',
+    super.deleteMany(
+      transactions,
+      'transactions.delete_transactions_title',
+      'transactions.delete_transactions_confirm',
+      'transactions.delete_transactions_success',
+      'transactions.delete_transactions_partial',
+      'transactions.delete_transactions_error',
+      'transactions.delete_no_transaction',
+      'transactions.delete_transactions_unexpected_error',
       centralServerService.deleteTransactions.bind(centralServerService),
-      dialogService, translateService, messageService, centralServerService, spinnerService, router,
-      clearSelectedRows, refresh);
+      dialogService,
+      translateService,
+      messageService,
+      centralServerService,
+      spinnerService,
+      router,
+      clearSelectedRows,
+      refresh
+    );
   }
 }

@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatDatetimepickerInputEvent } from '@mat-datetimepicker/core';
 import { TranslateService } from '@ngx-translate/core';
@@ -34,7 +42,7 @@ export class StatisticsFiltersComponent implements OnInit, OnChanges {
   @ViewChild(DaterangepickerComponent) public dateRangePickerComponent: DaterangepickerComponent;
   @ViewChild(DaterangepickerDirective) public picker: DaterangepickerDirective;
 
-  @Input() public allYears ?= false;
+  @Input() public allYears? = false;
   @Input() public authorizations: StatisticsAuthorizations;
 
   @Output() public category = new EventEmitter();
@@ -75,21 +83,29 @@ export class StatisticsFiltersComponent implements OnInit, OnChanges {
     private translateService: TranslateService,
     private componentService: ComponentService,
     private centralServerService: CentralServerService,
-    private dialog: MatDialog) {
+    private dialog: MatDialog
+  ) {
     this.initFilters();
   }
 
   public initFilters() {
     this.issuerFilter = new IssuerFilter().getFilterDef();
     this.dateRangeFilter = new DateRangeTableFilter({
-      translateService: this.translateService
+      translateService: this.translateService,
     }).getFilterDef();
     this.tableFiltersDef.push(this.dateRangeFilter);
     this.siteFilter = new SiteTableFilter([this.issuerFilter]).getFilterDef();
     this.tableFiltersDef.push(this.siteFilter);
-    this.siteAreaFilter = new SiteAreaTableFilter([this.issuerFilter, this.siteFilter]).getFilterDef();
+    this.siteAreaFilter = new SiteAreaTableFilter([
+      this.issuerFilter,
+      this.siteFilter,
+    ]).getFilterDef();
     this.tableFiltersDef.push(this.siteAreaFilter);
-    this.chargingStationFilter = new ChargingStationTableFilter([this.issuerFilter, this.siteFilter, this.siteAreaFilter]).getFilterDef();
+    this.chargingStationFilter = new ChargingStationTableFilter([
+      this.issuerFilter,
+      this.siteFilter,
+      this.siteAreaFilter,
+    ]).getFilterDef();
     this.tableFiltersDef.push(this.chargingStationFilter);
     this.userFilter = new UserTableFilter([this.issuerFilter, this.siteFilter]).getFilterDef();
     this.tableFiltersDef.push(this.userFilter);
@@ -103,8 +119,10 @@ export class StatisticsFiltersComponent implements OnInit, OnChanges {
   public updateFilterVisibilityWithAuth() {
     this.siteFilter.visible = Utils.convertToBoolean(this.authorizations?.canListSites);
     this.siteAreaFilter.visible = Utils.convertToBoolean(this.authorizations?.canListSiteAreas);
-    this.userFilter.visible =  Utils.convertToBoolean(this.authorizations?.canListUsers);
-    this.chargingStationFilter.visible = Utils.convertToBoolean(this.authorizations?.canListChargingStations);
+    this.userFilter.visible = Utils.convertToBoolean(this.authorizations?.canListUsers);
+    this.chargingStationFilter.visible = Utils.convertToBoolean(
+      this.authorizations?.canListChargingStations
+    );
   }
 
   public ngOnInit(): void {
@@ -149,7 +167,11 @@ export class StatisticsFiltersComponent implements OnInit, OnChanges {
   }
 
   public dateRangeChange(filterDef: TableFilterDef, event): void {
-    if (filterDef.type === 'date-range' && event.hasOwnProperty('startDate') && event.hasOwnProperty('endDate')) {
+    if (
+      filterDef.type === 'date-range' &&
+      event.hasOwnProperty('startDate') &&
+      event.hasOwnProperty('endDate')
+    ) {
       filterDef.currentValue = event ? event : null;
     } else {
       const dateRange = event.currentTarget.value;
@@ -166,7 +188,7 @@ export class StatisticsFiltersComponent implements OnInit, OnChanges {
           } else {
             filterDef.currentValue = {
               startDate,
-              endDate
+              endDate,
             };
           }
         }
@@ -184,8 +206,6 @@ export class StatisticsFiltersComponent implements OnInit, OnChanges {
     this.yearChanged(true, false);
   }
 
-
-
   public filterChanged(filter: TableFilterDef): void {
     // Update Filter
     const foundFilter = this.tableFiltersDef.find((filterDef) => filterDef.id === filter.id);
@@ -201,7 +221,8 @@ export class StatisticsFiltersComponent implements OnInit, OnChanges {
   public updateFilterLabel(filter: TableFilterDef) {
     if (Array.isArray(filter.currentValue)) {
       if (filter.currentValue.length > 0) {
-        filter.label = this.translateService.instant(filter.currentValue[0].value) +
+        filter.label =
+          this.translateService.instant(filter.currentValue[0].value) +
           (filter.currentValue.length > 1 ? ` (+${filter.currentValue.length - 1})` : '');
       } else {
         filter.label = '';
@@ -255,8 +276,10 @@ export class StatisticsFiltersComponent implements OnInit, OnChanges {
       if (filterDef.reset) {
         filterDef.reset();
       }
-    } else if ((filterDef.type === FilterType.DROPDOWN)
-      || (filterDef.type === FilterType.DIALOG_TABLE)) {
+    } else if (
+      filterDef.type === FilterType.DROPDOWN ||
+      filterDef.type === FilterType.DIALOG_TABLE
+    ) {
       filterIsChanged = !this.testIfFilterIsInitial(filterDef);
       if (filterDef.multiple) {
         filterDef.currentValue = [];
@@ -296,8 +319,7 @@ export class StatisticsFiltersComponent implements OnInit, OnChanges {
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
         let dataIsChanged = false;
-        if (this.testIfFilterIsInitial(filterDef)
-          || filterDef.currentValue !== data) {
+        if (this.testIfFilterIsInitial(filterDef) || filterDef.currentValue !== data) {
           dataIsChanged = true;
         }
         filterDef.currentValue = data;
@@ -321,7 +343,7 @@ export class StatisticsFiltersComponent implements OnInit, OnChanges {
           // Date
           if (filterDef.type === FilterType.DATE) {
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
-          // Dialog without multiple selections
+            // Dialog without multiple selections
           } else if (filterDef.type === FilterType.DIALOG_TABLE && !filterDef.multiple) {
             if (filterDef.currentValue.length > 0) {
               if (filterDef.currentValue[0].key !== FilterType.ALL_KEY) {
@@ -350,15 +372,21 @@ export class StatisticsFiltersComponent implements OnInit, OnChanges {
             // Others
           } else if (filterDef.type === FilterType.DATE_RANGE) {
             if (!filterDef.currentValue.startDate) {
-              filterJson[filterDef.dateRangeTableFilterDef?.startDateTimeHttpId] = moment().startOf('y').toISOString();
+              filterJson[filterDef.dateRangeTableFilterDef?.startDateTimeHttpId] = moment()
+                .startOf('y')
+                .toISOString();
             } else {
-              filterJson[filterDef.dateRangeTableFilterDef?.startDateTimeHttpId] = filterDef.currentValue.startDate.toISOString();
+              filterJson[filterDef.dateRangeTableFilterDef?.startDateTimeHttpId] =
+                filterDef.currentValue.startDate.toISOString();
             }
             if (!filterDef.currentValue.endDate) {
-              filterJson[filterDef.dateRangeTableFilterDef?.endDateTimeHttpId] = moment().endOf('d').toISOString();
+              filterJson[filterDef.dateRangeTableFilterDef?.endDateTimeHttpId] = moment()
+                .endOf('d')
+                .toISOString();
             } else {
-              filterJson[filterDef.dateRangeTableFilterDef?.endDateTimeHttpId] = filterDef.currentValue.endDate.toISOString();
-            }          // Others
+              filterJson[filterDef.dateRangeTableFilterDef?.endDateTimeHttpId] =
+                filterDef.currentValue.endDate.toISOString();
+            } // Others
           } else {
             // Set it
             filterJson[filterDef.httpId] = filterDef.currentValue;
@@ -381,7 +409,9 @@ export class StatisticsFiltersComponent implements OnInit, OnChanges {
       } else {
         this.buttonsOfScopeGroup[1].inactive = true;
       }
-      const index = this.buttonsOfScopeGroup.findIndex((button) => button.name === this.activeButtonOfScopeGroup.name);
+      const index = this.buttonsOfScopeGroup.findIndex(
+        (button) => button.name === this.activeButtonOfScopeGroup.name
+      );
       if (index >= 0 && this.buttonsOfScopeGroup[index].inactive) {
         this.setActiveButtonOfScopeGroup();
       }
@@ -422,7 +452,7 @@ export class StatisticsFiltersComponent implements OnInit, OnChanges {
     // Button group for Scope: always active
     // Set first active button
     const firstActiveButton = this.buttonsOfScopeGroup.find((button) => button.inactive === false);
-    if (firstActiveButton && (firstActiveButton !== this.activeButtonOfScopeGroup)) {
+    if (firstActiveButton && firstActiveButton !== this.activeButtonOfScopeGroup) {
       this.activeButtonOfScopeGroup = firstActiveButton;
       this.buttonOfScopeGroup.emit(this.activeButtonOfScopeGroup.name);
     }
@@ -430,9 +460,11 @@ export class StatisticsFiltersComponent implements OnInit, OnChanges {
 
   public buttonOfScopeGroupChanged(buttonName: string): void {
     const index = this.buttonsOfScopeGroup.findIndex((element) => element.name === buttonName);
-    if (index >= 0 &&
+    if (
+      index >= 0 &&
       this.activeButtonOfScopeGroup.name !== buttonName &&
-      this.buttonsOfScopeGroup[index].inactive === false) {
+      this.buttonsOfScopeGroup[index].inactive === false
+    ) {
       this.activeButtonOfScopeGroup = this.buttonsOfScopeGroup[index];
       this.buttonOfScopeGroup.emit(this.activeButtonOfScopeGroup.name);
       this.update.emit(false);
@@ -458,7 +490,7 @@ export class StatisticsFiltersComponent implements OnInit, OnChanges {
         } else {
           filterDef.currentValue = {
             startDate: moment(new Date(this.selectedYear, 0, 1)),
-            endDate: moment(new Date(this.selectedYear + 1, 0, 1))
+            endDate: moment(new Date(this.selectedYear + 1, 0, 1)),
           };
         }
       }
@@ -489,7 +521,10 @@ export class StatisticsFiltersComponent implements OnInit, OnChanges {
   private testIfFilterIsInitial(filterDef: TableFilterDef): boolean {
     let filterIsInitial = true;
     if (filterDef.multiple) {
-      if (!Utils.isEmptyArray(filterDef.currentValue) || (filterDef.label && !Utils.isEmptyString(filterDef.label))) {
+      if (
+        !Utils.isEmptyArray(filterDef.currentValue) ||
+        (filterDef.label && !Utils.isEmptyString(filterDef.label))
+      ) {
         filterIsInitial = false;
       }
     } else {
@@ -499,5 +534,4 @@ export class StatisticsFiltersComponent implements OnInit, OnChanges {
     }
     return filterIsInitial;
   }
-
 }

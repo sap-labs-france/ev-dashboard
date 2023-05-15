@@ -13,8 +13,12 @@ export interface TransactionDialogData extends DialogData {
   connectorID?: number;
 }
 export interface TableViewTransactionActionDef extends TableActionDef {
-  action: (transactionDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParams<TransactionDialogData>, refresh?: () => Observable<void>) => void;
+  action: (
+    transactionDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParams<TransactionDialogData>,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableViewTransactionAction extends TableViewAction {
@@ -26,8 +30,12 @@ export class TableViewTransactionAction extends TableViewAction {
     };
   }
 
-  private viewTransaction(transactionDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParams<TransactionDialogData>, refresh?: () => Observable<void>) {
+  private viewTransaction(
+    transactionDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParams<TransactionDialogData>,
+    refresh?: () => Observable<void>
+  ) {
     super.view(transactionDialogComponent, dialog, dialogParams, refresh);
   }
 }

@@ -43,7 +43,8 @@ export class SimpleChart {
     labelYAxis?: string,
     toolTipUnit?: string,
     withLegend = false,
-    roundedChartLabels = true) {
+    roundedChartLabels = true
+  ) {
     Chart.register(ChartDataLabels);
     // Unregister global activation of Chart labels
     // Chart.plugins.unregister(ChartDataLabels);
@@ -87,10 +88,26 @@ export class SimpleChart {
         this.createPieChartOptions(mainLabel, toolTipUnit, withLegend, roundedChartLabels);
         break;
       case ChartTypeValues.BAR:
-        this.createBarChartOptions(false, mainLabel, labelXAxis, labelYAxis, toolTipUnit, withLegend, roundedChartLabels);
+        this.createBarChartOptions(
+          false,
+          mainLabel,
+          labelXAxis,
+          labelYAxis,
+          toolTipUnit,
+          withLegend,
+          roundedChartLabels
+        );
         break;
       case ChartTypeValues.STACKED_BAR:
-        this.createBarChartOptions(true, mainLabel, labelXAxis, labelYAxis, toolTipUnit, withLegend, roundedChartLabels);
+        this.createBarChartOptions(
+          true,
+          mainLabel,
+          labelXAxis,
+          labelYAxis,
+          toolTipUnit,
+          withLegend,
+          roundedChartLabels
+        );
     }
   }
 
@@ -104,18 +121,35 @@ export class SimpleChart {
     });
   }
 
-  public updateChart(chartData: ChartData, mainLabel?: string, toolTipUnit?: string, labelYAxis?: string): void {
+  public updateChart(
+    chartData: ChartData,
+    mainLabel?: string,
+    toolTipUnit?: string,
+    labelYAxis?: string
+  ): void {
     let anyChart: any;
     if (this.chartType === ChartTypeValues.PIE) {
       if (toolTipUnit) {
-        this.createPieChartOptions(mainLabel, toolTipUnit, this.withLegend, this.roundedChartLabels);
+        this.createPieChartOptions(
+          mainLabel,
+          toolTipUnit,
+          this.withLegend,
+          this.roundedChartLabels
+        );
       }
     } else {
       if (labelYAxis || toolTipUnit) {
         this.labelYAxis = labelYAxis;
         this.toolTipUnit = toolTipUnit;
-        this.createBarChartOptions(this.stackedChart, mainLabel, this.labelXAxis, this.labelYAxis,
-          this.toolTipUnit, this.withLegend, this.roundedChartLabels);
+        this.createBarChartOptions(
+          this.stackedChart,
+          mainLabel,
+          this.labelXAxis,
+          this.labelYAxis,
+          this.toolTipUnit,
+          this.withLegend,
+          this.roundedChartLabels
+        );
       }
     }
     this.fontColor = getComputedStyle(this.contextElement.nativeElement).color;
@@ -129,8 +163,7 @@ export class SimpleChart {
     }
     this.font = { family: this.fontFamily };
     this.fontSize = getComputedStyle(this.contextElement.nativeElement).fontSize;
-    if (!this.fontSize || Utils.isEmptyString(this.fontSize)
-      || !this.fontSize.endsWith('px')) {
+    if (!this.fontSize || Utils.isEmptyString(this.fontSize) || !this.fontSize.endsWith('px')) {
       this.fontSize = '20px';
       this.fontSizeNumber = 20;
     } else {
@@ -217,8 +250,15 @@ export class SimpleChart {
     return newChartData;
   }
 
-  private createBarChartOptions(stacked: boolean, mainLabel: string, labelXAxis: string, labelYAxis: string,
-    toolTipUnit: string, withLegend: boolean, roundedChartLabels: boolean): void {
+  private createBarChartOptions(
+    stacked: boolean,
+    mainLabel: string,
+    labelXAxis: string,
+    labelYAxis: string,
+    toolTipUnit: string,
+    withLegend: boolean,
+    roundedChartLabels: boolean
+  ): void {
     this.chartType = 'bar';
     this.stackedChart = stacked;
     this.labelXAxis = labelXAxis;
@@ -227,7 +267,7 @@ export class SimpleChart {
     this.withLegend = withLegend;
     this.roundedChartLabels = roundedChartLabels;
     this.chartOptions = {
-      plugins: {}
+      plugins: {},
     };
     this.chartOptions.plugins.title = {
       display: true,
@@ -257,8 +297,7 @@ export class SimpleChart {
           let value = context.dataset.data[context.dataIndex];
           let toolTip: string;
 
-          if (this.roundedChartLabels &&
-            typeof (value) === 'number') {
+          if (this.roundedChartLabels && typeof value === 'number') {
             value = Math.round(value);
           }
           if (this.stackedChart) {
@@ -274,7 +313,7 @@ export class SimpleChart {
       },
     };
     this.chartOptions.scales = {
-      x:{
+      x: {
         stacked,
         title: {
           display: true,
@@ -298,17 +337,22 @@ export class SimpleChart {
         ticks: {
           callback: (value, index, values) => value.toLocaleString(this.language),
         },
-      }
+      },
     };
   }
 
-  private createPieChartOptions(mainLabel: string, toolTipUnit: string, withLegend: boolean, roundedChartLabels: boolean): void {
+  private createPieChartOptions(
+    mainLabel: string,
+    toolTipUnit: string,
+    withLegend: boolean,
+    roundedChartLabels: boolean
+  ): void {
     this.chartType = ChartTypeValues.PIE;
     this.toolTipUnit = toolTipUnit;
     this.withLegend = withLegend;
     this.roundedChartLabels = roundedChartLabels;
     this.chartOptions = {
-      plugins: {}
+      plugins: {},
     };
     this.chartOptions.plugins.title = {
       display: true,
@@ -337,8 +381,7 @@ export class SimpleChart {
           let value = context.dataset.data[context.dataIndex];
           let toolTip: string;
 
-          if (this.roundedChartLabels &&
-            typeof (value) === 'number') {
+          if (this.roundedChartLabels && typeof value === 'number') {
             value = Math.round(value);
           }
 
@@ -353,30 +396,35 @@ export class SimpleChart {
     };
   }
 
-  private updateChartOptions(chartData: ChartData, mainLabel: string, labelYAxis?: string, toolTipUnit?: string): void {
+  private updateChartOptions(
+    chartData: ChartData,
+    mainLabel: string,
+    labelYAxis?: string,
+    toolTipUnit?: string
+  ): void {
     let minValue = 0;
     let minDivisor: any;
-    if(!this.chartOptions.plugins.title){
+    if (!this.chartOptions.plugins.title) {
       this.chartOptions.plugins.title = {};
     }
     if (mainLabel) {
       this.chartOptions.plugins.title.text = mainLabel;
     }
     this.chartOptions.plugins.title.color = this.fontColor;
-    if(!this.chartOptions.plugins.title.font){
+    if (!this.chartOptions.plugins.title.font) {
       this.chartOptions.plugins.title.font = {};
     }
     this.chartOptions.plugins.title.font['family'] = this.fontFamily;
     this.chartOptions.plugins.title.font['size'] = this.fontSizeNumber;
     if (this.withLegend) {
-      if(!this.chartOptions.plugins.legend){
+      if (!this.chartOptions.plugins.legend) {
         this.chartOptions.plugins.legend = {
           labels: {
             color: '',
             font: {
               family: '',
-            }
-          }
+            },
+          },
         };
       }
       this.chartOptions.plugins.legend.labels.color = this.fontColor;
@@ -406,10 +454,12 @@ export class SimpleChart {
     this.chartOptions.plugins.tooltip.titleColor = this.inversedFontColor;
     if (this.stackedChart) {
       chartData.datasets.forEach((dataset) => {
-        if (Array.isArray(dataset.data) === true &&
-          dataset.stack === ChartConstants.STACKED_TOTAL) {
+        if (
+          Array.isArray(dataset.data) === true &&
+          dataset.stack === ChartConstants.STACKED_TOTAL
+        ) {
           for (const data of dataset.data) {
-            if (typeof (data) === 'number' && data > minValue) {
+            if (typeof data === 'number' && data > minValue) {
               minValue = data;
             }
           }
@@ -420,7 +470,7 @@ export class SimpleChart {
       chartData.datasets.forEach((dataset) => {
         if (Array.isArray(dataset.data) === true) {
           for (const data of dataset.data) {
-            if (typeof (data) === 'number') {
+            if (typeof data === 'number') {
               minValue = minValue + data;
             }
           }
@@ -560,7 +610,9 @@ export class SimpleChart {
           for (let i = 0; i < rgb.length; i++) {
             stringValue = rgb[i];
             if (stringValue.indexOf('%') > -1) {
-              rgb[i] = Math.round(parseInt(stringValue.substr(0, stringValue.length - 1), 10) / 100 * 255).toString(10);
+              rgb[i] = Math.round(
+                (parseInt(stringValue.substr(0, stringValue.length - 1), 10) / 100) * 255
+              ).toString(10);
             }
           }
           r = parseInt(rgb[0], 10);
@@ -572,9 +624,7 @@ export class SimpleChart {
       }
     }
     if (blackWhite) {
-      return (r * 0.299 + g * 0.587 + b * 0.114) > 186
-        ? '#000'
-        : '#fff';
+      return r * 0.299 + g * 0.587 + b * 0.114 > 186 ? '#000' : '#fff';
     }
     // Invert color components
     stringValue = '#';

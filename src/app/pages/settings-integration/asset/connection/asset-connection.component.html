@@ -1,10 +1,15 @@
 <div class="main-content vw-90 vh-90 asset-connection-settings-dialog-size">
   <div class="card card-profile card-testimonial">
-    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info" [class]="dialogRef ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
+    <mat-tab-group
+      animationDuration="0ms"
+      disableRipple="true"
+      class="mat-tab-info"
+      [class]="dialogRef ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'"
+    >
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>account_balance</mat-icon>
-          <span>{{name.value}}</span>
+          <span>{{ name.value }}</span>
         </ng-template>
         <div class="card-body">
           <div class="tab-content">
@@ -14,15 +19,22 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <mat-form-field>
-                      <input appAutofocus matInput
-                        placeholder="{{'settings.asset.connection.name' | translate}}" type="text"
-                        [formControl]="name" required>
+                      <input
+                        appAutofocus
+                        matInput
+                        placeholder="{{ 'settings.asset.connection.name' | translate }}"
+                        type="text"
+                        [formControl]="name"
+                        required
+                      />
                       <mat-error *ngIf="name.errors?.required">
-                        {{"general.mandatory_field" | translate}}
+                        {{ 'general.mandatory_field' | translate }}
                       </mat-error>
                       <mat-error *ngIf="name.errors?.maxlength">
-                        <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}">
-                        </div>
+                        <div
+                          [translate]="'general.error_max_length'"
+                          [translateParams]="{ length: 100 }"
+                        ></div>
                       </mat-error>
                     </mat-form-field>
                   </div>
@@ -31,11 +43,15 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <mat-form-field>
-                      <input matInput
-                        placeholder="{{'settings.asset.connection.description' | translate}}"
-                        type="text" [formControl]="description" required>
+                      <input
+                        matInput
+                        placeholder="{{ 'settings.asset.connection.description' | translate }}"
+                        type="text"
+                        [formControl]="description"
+                        required
+                      />
                       <mat-error *ngIf="description.errors?.required">
-                        {{"general.mandatory_field" | translate}}
+                        {{ 'general.mandatory_field' | translate }}
                       </mat-error>
                     </mat-form-field>
                   </div>
@@ -44,10 +60,16 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <mat-form-field>
-                      <input matInput
-                        placeholder="{{'settings.asset.connection.base_url' | translate}}"
-                        type="text" [formControl]="url" required>
-                      <mat-error *ngIf="url.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      <input
+                        matInput
+                        placeholder="{{ 'settings.asset.connection.base_url' | translate }}"
+                        type="text"
+                        [formControl]="url"
+                        required
+                      />
+                      <mat-error *ngIf="url.errors?.required">{{
+                        'general.mandatory_field' | translate
+                      }}</mat-error>
                       <mat-error *ngIf="url.errors?.pattern">
                         <div [translate]="'general.error_url_pattern'"></div>
                       </mat-error>
@@ -58,13 +80,21 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <mat-form-field>
-                      <mat-select [formControl]="type" placeholder="{{'settings.asset.connection.type' | translate}}" (selectionChange)="typeChanged($event.value)" required>
-                        <mat-option *ngFor="let assetConnectionType of assetConnectionTypes" value="{{assetConnectionType.key}}">
+                      <mat-select
+                        [formControl]="type"
+                        placeholder="{{ 'settings.asset.connection.type' | translate }}"
+                        (selectionChange)="typeChanged($event.value)"
+                        required
+                      >
+                        <mat-option
+                          *ngFor="let assetConnectionType of assetConnectionTypes"
+                          value="{{ assetConnectionType.key }}"
+                        >
                           {{ assetConnectionType.value | translate }}
                         </mat-option>
                       </mat-select>
                       <mat-error *ngIf="type.errors?.required">
-                        {{"general.mandatory_field" | translate}}
+                        {{ 'general.mandatory_field' | translate }}
                       </mat-error>
                     </mat-form-field>
                   </div>
@@ -73,11 +103,16 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <mat-form-field>
-                      <input matInput
-                        placeholder="{{'settings.asset.connection.refreshIntervalMins' | translate}}"
-                        type="number" [formControl]="refreshIntervalMins" >
+                      <input
+                        matInput
+                        placeholder="{{
+                          'settings.asset.connection.refreshIntervalMins' | translate
+                        }}"
+                        type="number"
+                        [formControl]="refreshIntervalMins"
+                      />
                       <mat-error *ngIf="refreshIntervalMins.errors?.min">
-                        {{"general.error_min_value" | translate:{value: 1} }}
+                        {{ 'general.error_min_value' | translate : { value: 1 } }}
                       </mat-error>
                     </mat-form-field>
                   </div>
@@ -86,35 +121,45 @@
               <div class="row" *ngIf="type.value === 'schneider'">
                 <div class="col-md-12">
                   <app-settings-schneider-connection
-                    [formGroup]="formGroup" [schneiderConnection]="schneiderConnection">
+                    [formGroup]="formGroup"
+                    [schneiderConnection]="schneiderConnection"
+                  >
                   </app-settings-schneider-connection>
                 </div>
               </div>
               <div class="row" *ngIf="type.value === 'greencom'">
                 <div class="col-md-12">
                   <app-settings-greencom-connection
-                    [formGroup]="formGroup" [greencomConnection]="greencomConnection">
+                    [formGroup]="formGroup"
+                    [greencomConnection]="greencomConnection"
+                  >
                   </app-settings-greencom-connection>
                 </div>
               </div>
               <div class="row" *ngIf="type.value === 'iothink'">
                 <div class="col-md-12">
                   <app-settings-iothink-connection
-                    [formGroup]="formGroup" [iothinkConnection]="iothinkConnection">
+                    [formGroup]="formGroup"
+                    [iothinkConnection]="iothinkConnection"
+                  >
                   </app-settings-iothink-connection>
                 </div>
               </div>
               <div class="row" *ngIf="type.value === 'wit'">
                 <div class="col-md-12">
                   <app-settings-wit-connection
-                    [formGroup]="formGroup" [witConnection]="witConnection">
+                    [formGroup]="formGroup"
+                    [witConnection]="witConnection"
+                  >
                   </app-settings-wit-connection>
                 </div>
               </div>
               <div class="row" *ngIf="type.value === 'lacroix'">
                 <div class="col-md-12">
                   <app-settings-lacroix-connection
-                    [formGroup]="formGroup" [lacroixConnection]="lacroixConnection">
+                    [formGroup]="formGroup"
+                    [lacroixConnection]="lacroixConnection"
+                  >
                   </app-settings-lacroix-connection>
                 </div>
               </div>
@@ -124,11 +169,15 @@
       </mat-tab>
     </mat-tab-group>
     <div [class]="dialogRef ? 'tabs-actions' : 'tabs-actions-embedded'">
-      <button mat-icon-button (click)="save(formGroup.value)" title="{{'general.save' | translate}}"
-          [disabled]="!formGroup.valid || !formGroup.dirty">
+      <button
+        mat-icon-button
+        (click)="save(formGroup.value)"
+        title="{{ 'general.save' | translate }}"
+        [disabled]="!formGroup.valid || !formGroup.dirty"
+      >
         <mat-icon>save</mat-icon>
       </button>
-      <button mat-icon-button (click)="close()" title="{{'general.close' | translate}}">
+      <button mat-icon-button (click)="close()" title="{{ 'general.close' | translate }}">
         <mat-icon>close</mat-icon>
       </button>
     </div>

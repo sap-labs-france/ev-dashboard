@@ -26,4 +26,3 @@ export enum LogButtonAction {
   EXPORT_LOGS = 'export_logs',
   NAVIGATE_TO_LOGS = 'navigate_to_logs',
 }
-

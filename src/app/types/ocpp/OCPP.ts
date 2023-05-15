@@ -2,8 +2,7 @@ import { ChargingProfile, ChargingSchedule, Profile } from '../../types/Charging
 import { ChargingRateUnitType, OcppParameter } from '../../types/ChargingStation';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface OCPPCommandParam {
-}
+export interface OCPPCommandParam {}
 
 export interface OCPPResetCommandParam extends OCPPCommandParam {
   type: OCPPResetType;
@@ -15,17 +14,17 @@ export interface OCPPResetCommandResult {
 
 export enum OCPPStatus {
   ACCEPTED = 'Accepted',
-  REJECTED = 'Rejected'
+  REJECTED = 'Rejected',
 }
 
 export enum OCPPResetStatus {
   ACCEPTED = 'Accepted',
-  REJECTED = 'Rejected'
+  REJECTED = 'Rejected',
 }
 
 export enum OCPPResetType {
   HARD = 'Hard',
-  SOFT = 'Soft'
+  SOFT = 'Soft',
 }
 
 export interface OCPPClearCacheCommandResult {
@@ -34,7 +33,7 @@ export interface OCPPClearCacheCommandResult {
 
 export enum OCPPClearCacheStatus {
   ACCEPTED = 'Accepted',
-  REJECTED = 'Rejected'
+  REJECTED = 'Rejected',
 }
 
 export interface OCPPGetConfigurationCommandParam extends OCPPCommandParam {
@@ -59,7 +58,7 @@ export enum OCPPConfigurationStatus {
   ACCEPTED = 'Accepted',
   REJECTED = 'Rejected',
   REBOOT_REQUIRED = 'RebootRequired',
-  NOT_SUPPORTED = 'NotSupported'
+  NOT_SUPPORTED = 'NotSupported',
 }
 
 export interface OCPPRemoteStartTransactionCommandParam extends OCPPCommandParam {
@@ -82,7 +81,7 @@ export interface OCPPRemoteStopTransactionCommandResult {
 
 export enum OCPPRemoteStartStopStatus {
   ACCEPTED = 'Accepted',
-  REJECTED = 'Rejected'
+  REJECTED = 'Rejected',
 }
 
 export interface OCPPUnlockConnectorCommandParam extends OCPPCommandParam {
@@ -96,7 +95,7 @@ export interface OCPPUnlockConnectorCommandResult {
 export enum OCPPUnlockStatus {
   UNLOCKED = 'Unlocked',
   UNLOCK_FAILED = 'UnlockFailed',
-  NOT_SUPPORTED = 'NotSupported'
+  NOT_SUPPORTED = 'NotSupported',
 }
 
 export interface OCPPSetChargingProfileCommandParam extends OCPPCommandParam {
@@ -111,7 +110,7 @@ export interface OCPPSetChargingProfileCommandResult {
 export enum OCPPChargingProfileStatus {
   ACCEPTED = 'Accepted',
   REJECTED = 'Rejected',
-  NOT_SUPPORTED = 'NotSupported'
+  NOT_SUPPORTED = 'NotSupported',
 }
 
 export interface OCPPGetCompositeScheduleCommandParam extends OCPPCommandParam {
@@ -129,7 +128,7 @@ export interface OCPPGetCompositeScheduleCommandResult {
 
 export enum OCPPGetCompositeScheduleStatus {
   ACCEPTED = 'Accepted',
-  REJECTED = 'Rejected'
+  REJECTED = 'Rejected',
 }
 
 export interface OCPPClearChargingProfileCommandParam extends OCPPCommandParam {
@@ -145,13 +144,13 @@ export interface OCPPClearChargingProfileCommandResult {
 
 export enum OCPPClearChargingProfileStatus {
   ACCEPTED = 'Accepted',
-  UNKNOWN = 'Unknown'
+  UNKNOWN = 'Unknown',
 }
 
 export enum OCPPChargingProfilePurposeType {
   CHARGE_POINT_MAX_PROFILE = 'ChargePointMaxProfile',
   TX_DEFAULT_PROFILE = 'TxDefaultProfile',
-  TX_PROFILE = 'TxProfile'
+  TX_PROFILE = 'TxProfile',
 }
 
 export interface OCPPChangeAvailabilityCommandParam extends OCPPCommandParam {
@@ -165,13 +164,13 @@ export interface OCPPChangeAvailabilityCommandResult {
 
 export enum OCPPAvailabilityType {
   INOPERATIVE = 'Inoperative',
-  OPERATIVE = 'Operative'
+  OPERATIVE = 'Operative',
 }
 
 export enum OCPPAvailabilityStatus {
   ACCEPTED = 'Accepted',
   REJECTED = 'Rejected',
-  SCHEDULED = 'Scheduled'
+  SCHEDULED = 'Scheduled',
 }
 
 export interface OCPPGetDiagnosticsCommandParam extends OCPPCommandParam {
@@ -191,4 +190,37 @@ export interface OCPPUpdateFirmwareCommandParam extends OCPPCommandParam {
   retries?: number;
   retrieveDate: Date;
   retryInterval?: number;
+}
+
+export interface OCPPReserveNowCommandParam extends OCPPCommandParam {
+  connectorId: number;
+  expiryDate: Date;
+  idTag: string;
+  parentIdTag?: string;
+  reservationId: number;
+}
+
+export interface OCPPReserveNowCommandResult {
+  status: OCPPReservationStatus;
+}
+
+export interface OCPPCancelReservationCommandParam extends OCPPCommandParam {
+  reservationId: number;
+}
+
+export interface OCPPCancelReservationCommandResult {
+  status: OCPPCancelReservationStatus;
+}
+
+export enum OCPPReservationStatus {
+  ACCEPTED = 'Accepted',
+  FAULTED = 'Faulted',
+  OCCUPIED = 'Occupied',
+  REJECTED = 'Rejected',
+  UNAVAILABLE = 'Unavailable',
+}
+
+export enum OCPPCancelReservationStatus {
+  ACCEPTED = 'Accepted',
+  REJECTED = 'Rejected',
 }

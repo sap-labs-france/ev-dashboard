@@ -18,7 +18,7 @@ import { SettingsCarConnectorConnectionEditableTableDataSource } from './setting
   selector: 'app-settings-car-connector',
   templateUrl: 'settings-car-connector.component.html',
   styleUrls: ['settings-car-connector.component.scss'],
-  providers: [SettingsCarConnectorConnectionEditableTableDataSource]
+  providers: [SettingsCarConnectorConnectionEditableTableDataSource],
 })
 export class SettingsCarConnectorComponent implements OnInit {
   public isActive = false;
@@ -34,7 +34,8 @@ export class SettingsCarConnectorComponent implements OnInit {
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private router: Router,
-    public settingsCarConnectorConnectionTableDataSource: SettingsCarConnectorConnectionEditableTableDataSource) {
+    public settingsCarConnectorConnectionTableDataSource: SettingsCarConnectorConnectionEditableTableDataSource
+  ) {
     this.isActive = this.componentService.isActive(TenantComponents.CAR_CONNECTOR);
   }
 
@@ -67,7 +68,9 @@ export class SettingsCarConnectorComponent implements OnInit {
         // Set Auth
         this.settingsCarConnectorConnectionTableDataSource.setAuthorizations(this.authorizations);
         // Set
-        this.settingsCarConnectorConnectionTableDataSource.setContent(this.carConnectorSettings.carConnector.connections);
+        this.settingsCarConnectorConnectionTableDataSource.setContent(
+          this.carConnectorSettings.carConnector.connections
+        );
         // Init form
         this.formGroup.markAsPristine();
       },
@@ -78,16 +81,22 @@ export class SettingsCarConnectorComponent implements OnInit {
             this.messageService.showErrorMessage('settings.car_connector.setting_not_found');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.unexpected_error_backend'
+            );
         }
-      }
+      },
     });
   }
 
   public save() {
     // Assign connections
-    this.carConnectorSettings.carConnector.connections = this.settingsCarConnectorConnectionTableDataSource.getContent();
+    this.carConnectorSettings.carConnector.connections =
+      this.settingsCarConnectorConnectionTableDataSource.getContent();
     // Save
     this.spinnerService.show();
     this.componentService.saveCarConnectorConnectionSettings(this.carConnectorSettings).subscribe({
@@ -95,11 +104,19 @@ export class SettingsCarConnectorComponent implements OnInit {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
           this.messageService.showSuccessMessage(
-            (!this.carConnectorSettings.id ? 'settings.car_connector.create_success' : 'settings.car_connector.update_success'));
+            !this.carConnectorSettings.id
+              ? 'settings.car_connector.create_success'
+              : 'settings.car_connector.update_success'
+          );
           this.refresh();
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, (!this.carConnectorSettings.id ? 'settings.car_connector.create_error' : 'settings.car_connector.update_error'));
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            !this.carConnectorSettings.id
+              ? 'settings.car_connector.create_error'
+              : 'settings.car_connector.update_error'
+          );
         }
       },
       error: (error) => {
@@ -109,10 +126,17 @@ export class SettingsCarConnectorComponent implements OnInit {
             this.messageService.showErrorMessage('settings.car_connector.setting_do_not_exist');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              (!this.carConnectorSettings.id ? 'settings.car_connector.create_error' : 'settings.car_connector.update_error'));
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              !this.carConnectorSettings.id
+                ? 'settings.car_connector.create_error'
+                : 'settings.car_connector.update_error'
+            );
         }
-      }
+      },
     });
   }
 

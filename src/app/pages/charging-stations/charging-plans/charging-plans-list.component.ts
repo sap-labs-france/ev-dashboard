@@ -9,9 +9,7 @@ import { ChargingPlansListTableDataSource } from './charging-plans-list-table-da
 })
 export class ChargingPlansListComponent implements OnInit {
   // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    public chargingPlansListTableDataSource: ChargingPlansListTableDataSource,
-  ) {}
+  public constructor(public chargingPlansListTableDataSource: ChargingPlansListTableDataSource) {}
 
   public ngOnInit(): void {}
 }

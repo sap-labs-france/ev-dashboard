@@ -27,7 +27,6 @@ export class SettingsOcpiComponent implements OnInit {
   public cpoGroup!: FormGroup;
   public emspGroup!: FormGroup;
 
-
   public cpoCountryCode!: AbstractControl;
   public cpoPartyID!: AbstractControl;
   public cpoActive: AbstractControl;
@@ -72,7 +71,8 @@ export class SettingsOcpiComponent implements OnInit {
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private spinnerService: SpinnerService,
-    private router: Router) {
+    private router: Router
+  ) {
     this.isActive = this.componentService.isActive(TenantComponents.OCPI);
   }
 
@@ -82,63 +82,61 @@ export class SettingsOcpiComponent implements OnInit {
       this.formGroup = new FormGroup({
         businessDetails: new FormGroup({
           name: new FormControl(''),
-          website: new FormControl('',
-            Validators.pattern(Constants.URL_PATTERN)),
+          website: new FormControl('', Validators.pattern(Constants.URL_PATTERN)),
           logo: new FormGroup({
-            url: new FormControl('',
-              Validators.pattern(Constants.URL_PATTERN)),
+            url: new FormControl('', Validators.pattern(Constants.URL_PATTERN)),
             thumbnail: new FormControl(''),
             category: new FormControl(''),
             type: new FormControl(''),
-            width: new FormControl(undefined,
-              Validators.pattern(/^[0-9]*$/)),
-            height: new FormControl(undefined,
-              Validators.pattern(/^[0-9]*$/)),
+            width: new FormControl(undefined, Validators.pattern(/^[0-9]*$/)),
+            height: new FormControl(undefined, Validators.pattern(/^[0-9]*$/)),
           }),
         }),
-        currency: new FormControl('',
-          Validators.compose([
-            Validators.required,
-            Validators.maxLength(3),
-          ]),
+        currency: new FormControl(
+          '',
+          Validators.compose([Validators.required, Validators.maxLength(3)])
         ),
-        tariffID: new FormControl('',
-          Validators.compose([
-            Validators.maxLength(36),
-          ]),
-        ),
+        tariffID: new FormControl('', Validators.compose([Validators.maxLength(36)])),
         cpoActive: new FormControl(false),
         emspActive: new FormControl(false),
       });
 
       this.cpoGroup = new FormGroup({
-        countryCode: new FormControl('',
+        countryCode: new FormControl(
+          '',
           Validators.compose([
             Validators.required,
             Validators.maxLength(2),
             Validators.minLength(2),
-          ])),
-        partyID: new FormControl('',
+          ])
+        ),
+        partyID: new FormControl(
+          '',
           Validators.compose([
             Validators.required,
             Validators.maxLength(3),
             Validators.minLength(3),
-          ])),
+          ])
+        ),
       });
 
       this.emspGroup = new FormGroup({
-        countryCode: new FormControl('',
+        countryCode: new FormControl(
+          '',
           Validators.compose([
             Validators.required,
             Validators.maxLength(2),
             Validators.minLength(2),
-          ])),
-        partyID: new FormControl('',
+          ])
+        ),
+        partyID: new FormControl(
+          '',
           Validators.compose([
             Validators.required,
             Validators.maxLength(3),
             Validators.minLength(3),
-          ])),
+          ])
+        ),
       });
 
       this.formGroup.addControl('cpo', this.cpoGroup);
@@ -151,11 +149,13 @@ export class SettingsOcpiComponent implements OnInit {
       // EMSP identifier
       this.emspCountryCode = this.emspGroup.controls['countryCode'];
       this.emspPartyID = this.emspGroup.controls['partyID'];
-      this.emspActive =  this.formGroup.controls['emspActive'];
+      this.emspActive = this.formGroup.controls['emspActive'];
       // business details - image
       this.name = (this.formGroup.controls['businessDetails'] as FormGroup).controls['name'];
       this.website = (this.formGroup.controls['businessDetails'] as FormGroup).controls['website'];
-      this.logoGroup = ((this.formGroup.controls['businessDetails'] as FormGroup).controls['logo'] as FormGroup);
+      this.logoGroup = (this.formGroup.controls['businessDetails'] as FormGroup).controls[
+        'logo'
+      ] as FormGroup;
       this.logoURL = this.logoGroup.controls['url'];
       this.logoThumbnail = this.logoGroup.controls['thumbnail'];
       this.logoCategory = this.logoGroup.controls['category'];
@@ -211,7 +211,7 @@ export class SettingsOcpiComponent implements OnInit {
         if (settings.ocpi.emsp) {
           this.emspCountryCode.setValue(settings.ocpi.emsp.countryCode);
           this.emspPartyID.setValue(settings.ocpi.emsp.partyID);
-          this.emspActive.setValue(this.emspCountryCode.value &&this.emspPartyID.value);
+          this.emspActive.setValue(this.emspCountryCode.value && this.emspPartyID.value);
         }
         this.enableDisableEMSP(this.emspActive.value);
         // Currency
@@ -235,7 +235,7 @@ export class SettingsOcpiComponent implements OnInit {
         // Init form
         this.formGroup.markAsPristine();
         // Read only
-        if(!this.authorizations.canUpdate) {
+        if (!this.authorizations.canUpdate) {
           // Async call for letting the sub form groups to init
           setTimeout(() => this.formGroup.disable(), 0);
         }
@@ -247,10 +247,15 @@ export class SettingsOcpiComponent implements OnInit {
             this.messageService.showErrorMessage('settings.ocpi.setting_not_found');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              'general.unexpected_error_backend');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.unexpected_error_backend'
+            );
         }
-      }
+      },
     });
   }
 
@@ -263,11 +268,15 @@ export class SettingsOcpiComponent implements OnInit {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
           this.messageService.showSuccessMessage(
-            (!this.ocpiSettings.id ? 'settings.ocpi.create_success' : 'settings.ocpi.update_success'));
+            !this.ocpiSettings.id ? 'settings.ocpi.create_success' : 'settings.ocpi.update_success'
+          );
           this.refresh();
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, (!this.ocpiSettings.id ? 'settings.ocpi.create_error' : 'settings.ocpi.update_error'));
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            !this.ocpiSettings.id ? 'settings.ocpi.create_error' : 'settings.ocpi.update_error'
+          );
         }
       },
       error: (error) => {
@@ -277,10 +286,15 @@ export class SettingsOcpiComponent implements OnInit {
             this.messageService.showErrorMessage('settings.ocpi.setting_do_not_exist');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              (!this.ocpiSettings.id ? 'settings.ocpi.create_error' : 'settings.ocpi.update_error'));
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              !this.ocpiSettings.id ? 'settings.ocpi.create_error' : 'settings.ocpi.update_error'
+            );
         }
-      }
+      },
     });
   }
 

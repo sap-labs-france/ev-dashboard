@@ -2,10 +2,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "eslint.validate": [
-    "javascript",
-    "typescript"
-  ],
-  "jest.jestCommandLine": "npm run test -- ",
+  "eslint.validate": ["javascript", "typescript"],
+  "jest.jestCommandLine": "npm test -- ",
   "jest.autoRun": { "watch": "false" }
 }

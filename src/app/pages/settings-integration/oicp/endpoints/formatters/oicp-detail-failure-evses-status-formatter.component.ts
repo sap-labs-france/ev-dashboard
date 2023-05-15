@@ -7,8 +7,8 @@ import { OicpEndpointDetail } from '../../../../../types/oicp/OICPEndpoint';
 @Component({
   template: `
     <mat-chip-list [selectable]="false">
-      <mat-chip [ngClass]="row.failureNbr | appFormatOicpEvsesFailure:'class'" [disabled]="true">
-        {{row.failureNbr}}
+      <mat-chip [ngClass]="row.failureNbr | appFormatOicpEvsesFailure : 'class'" [disabled]="true">
+        {{ row.failureNbr }}
       </mat-chip>
     </mat-chip-list>
   `,

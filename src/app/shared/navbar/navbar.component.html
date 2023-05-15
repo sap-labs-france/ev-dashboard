@@ -1,13 +1,18 @@
 <nav #navbar class="navbar navbar-expand-lg navbar-transparent navbar-absolute mt-2">
   <div class="container-fluid">
-    <button mat-icon-button class="navbar-toggler btn-no-ripple" type="button" (click)="sidebarToggle()">
+    <button
+      mat-icon-button
+      class="navbar-toggler btn-no-ripple"
+      type="button"
+      (click)="sidebarToggle()"
+    >
       <span class="sr-only">Toggle navigation</span>
       <span class="navbar-toggler-icon icon-bar"></span>
       <span class="navbar-toggler-icon icon-bar"></span>
       <span class="navbar-toggler-icon icon-bar"></span>
     </button>
     <div class="navbar-wrapper">
-      <a class="navbar-brand text-center" routerLink="/"> {{'general.app_name' | translate}}</a>
+      <a class="navbar-brand text-center" routerLink="/"> {{ 'general.app_name' | translate }}</a>
     </div>
   </div>
 </nav>

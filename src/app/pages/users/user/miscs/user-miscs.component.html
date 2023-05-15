@@ -2,18 +2,26 @@
   <div class="col-md-6">
     <div class="form-group">
       <mat-form-field>
-        <input [formControl]="iNumber" matInput
-          placeholder="{{'users.inumber' | translate}}" type="text">
+        <input
+          [formControl]="iNumber"
+          matInput
+          placeholder="{{ 'users.inumber' | translate }}"
+          type="text"
+        />
       </mat-form-field>
     </div>
   </div>
   <div class="col-md-6">
     <div class="form-group">
       <mat-form-field>
-        <input [formControl]="costCenter" matInput
-          placeholder="{{'users.cost_center' | translate}}" type="text">
+        <input
+          [formControl]="costCenter"
+          matInput
+          placeholder="{{ 'users.cost_center' | translate }}"
+          type="text"
+        />
         <mat-error *ngIf="costCenter.errors?.pattern">
-          {{"general.invalid_value" | translate}}
+          {{ 'general.invalid_value' | translate }}
         </mat-error>
       </mat-form-field>
     </div>

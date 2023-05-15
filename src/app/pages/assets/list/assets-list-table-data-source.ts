@@ -11,11 +11,26 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { TableCreateAssetAction, TableCreateAssetActionDef } from '../../../shared/table/actions/assets/table-create-asset-action';
-import { TableDeleteAssetAction, TableDeleteAssetActionDef } from '../../../shared/table/actions/assets/table-delete-asset-action';
-import { TableEditAssetAction, TableEditAssetActionDef } from '../../../shared/table/actions/assets/table-edit-asset-action';
-import { TableRetrieveAssetConsumptionAction, TableRetrieveAssetConsumptionActionDef } from '../../../shared/table/actions/assets/table-retrieve-asset-consumption-action';
-import { TableViewAssetAction, TableViewAssetActionDef } from '../../../shared/table/actions/assets/table-view-asset-action';
+import {
+  TableCreateAssetAction,
+  TableCreateAssetActionDef,
+} from '../../../shared/table/actions/assets/table-create-asset-action';
+import {
+  TableDeleteAssetAction,
+  TableDeleteAssetActionDef,
+} from '../../../shared/table/actions/assets/table-delete-asset-action';
+import {
+  TableEditAssetAction,
+  TableEditAssetActionDef,
+} from '../../../shared/table/actions/assets/table-edit-asset-action';
+import {
+  TableRetrieveAssetConsumptionAction,
+  TableRetrieveAssetConsumptionActionDef,
+} from '../../../shared/table/actions/assets/table-retrieve-asset-consumption-action';
+import {
+  TableViewAssetAction,
+  TableViewAssetActionDef,
+} from '../../../shared/table/actions/assets/table-view-asset-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from '../../../shared/table/actions/table-open-in-maps-action';
@@ -51,44 +66,54 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
-    private centralServerService: CentralServerService,
+    private centralServerService: CentralServerService
   ) {
     super(spinnerService, translateService);
     // Init
-    this.setStaticFilters([{
-      WithSite: true,
-      WithSiteArea: true
-    }]);
+    this.setStaticFilters([
+      {
+        WithSite: true,
+        WithSiteArea: true,
+      },
+    ]);
     this.initDataSource();
   }
 
   public loadDataImpl(): Observable<AssetDataResult> {
     return new Observable((observer) => {
       // get assets
-      this.centralServerService.getAssets(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
-        next: (assets) => {
-          // Initialize cars authorization
-          this.assetsAuthorizations = {
-            // Authorization actions
-            canCreate: Utils.convertToBoolean(assets.canCreate),
-            canListSites: Utils.convertToBoolean(assets.canListSites),
-            canListSiteAreas: Utils.convertToBoolean(assets.canListSiteAreas),
-            // metadata
-            metadata: assets.metadata
-          };
-          // Asset auth
-          this.canCreate.visible = Utils.convertToBoolean(assets.canCreate);
-          // Specific filter authorizations not part of Asset
-          this.siteFilter.visible = Utils.convertToBoolean(assets.canListSites);
-          this.siteAreaFilter.visible = Utils.convertToBoolean(assets.canListSiteAreas);
-          observer.next(assets);
-          observer.complete();
-        },
-        error: (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          observer.error(error);
-        }
-      });
+      this.centralServerService
+        .getAssets(this.buildFilterValues(), this.getPaging(), this.getSorting())
+        .subscribe({
+          next: (assets) => {
+            // Initialize cars authorization
+            this.assetsAuthorizations = {
+              // Authorization actions
+              canCreate: Utils.convertToBoolean(assets.canCreate),
+              canListSites: Utils.convertToBoolean(assets.canListSites),
+              canListSiteAreas: Utils.convertToBoolean(assets.canListSiteAreas),
+              // metadata
+              metadata: assets.metadata,
+            };
+            // Asset auth
+            this.canCreate.visible = Utils.convertToBoolean(assets.canCreate);
+            // Specific filter authorizations not part of Asset
+            this.siteFilter.visible = Utils.convertToBoolean(assets.canListSites);
+            this.siteAreaFilter.visible = Utils.convertToBoolean(assets.canListSiteAreas);
+            observer.next(assets);
+            observer.complete();
+          },
+          error: (error) => {
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.error_backend'
+            );
+            observer.error(error);
+          },
+        });
     });
   }
 
@@ -145,7 +170,8 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
         headerClass: 'col-20p text-center',
         class: 'col-20p text-center',
         sortable: true,
-        formatter: (dynamicAsset: boolean) => Utils.displayYesNo(this.translateService, dynamicAsset),
+        formatter: (dynamicAsset: boolean) =>
+          Utils.displayYesNo(this.translateService, dynamicAsset),
       },
       {
         id: 'assetType',
@@ -162,7 +188,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
             case AssetType.CONSUMPTION_AND_PRODUCTION:
               return this.translateService.instant('assets.consume_and_produce');
           }
-        }
+        },
       },
       {
         id: 'currentInstantWatts',
@@ -190,10 +216,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    return [
-      this.canCreate,
-      ...tableActionsDef,
-    ];
+    return [this.canCreate, ...tableActionsDef];
   }
 
   public buildTableDynamicRowActions(asset: Asset): TableActionDef[] {
@@ -203,9 +226,9 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     // Check if GPS is available
     openInMaps.disabled = !Utils.containsGPSCoordinates(asset.coordinates);
     // Edit button
-    if(asset.canUpdate) {
+    if (asset.canUpdate) {
       rowActions.push(this.editAction);
-    // Show button
+      // Show button
     } else {
       rowActions.push(this.displayAction);
     }
@@ -215,7 +238,7 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     }
     // More action
     moreActions.addActionInMoreActions(openInMaps);
-    if(asset.canDelete) {
+    if (asset.canDelete) {
       moreActions.addActionInMoreActions(this.deleteAction);
     }
     rowActions.push(moreActions.getActionDef());
@@ -228,8 +251,12 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
       // Add
       case AssetButtonAction.CREATE_ASSET:
         if (actionDef.action) {
-          (actionDef as TableCreateAssetActionDef).action(AssetDialogComponent,
-            this.dialog, { authorizations: this.assetsAuthorizations }, this.refreshData.bind(this));
+          (actionDef as TableCreateAssetActionDef).action(
+            AssetDialogComponent,
+            this.dialog,
+            { authorizations: this.assetsAuthorizations },
+            this.refreshData.bind(this)
+          );
         }
         break;
     }
@@ -239,26 +266,48 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
     switch (actionDef.id) {
       case AssetButtonAction.VIEW_ASSET:
         if (actionDef.action) {
-          (actionDef as TableViewAssetActionDef).action(AssetDialogComponent, this.dialog,
-            { dialogData: asset, authorizations: this.assetsAuthorizations }, this.refreshData.bind(this));
+          (actionDef as TableViewAssetActionDef).action(
+            AssetDialogComponent,
+            this.dialog,
+            { dialogData: asset, authorizations: this.assetsAuthorizations },
+            this.refreshData.bind(this)
+          );
         }
         break;
       case AssetButtonAction.EDIT_ASSET:
         if (actionDef.action) {
-          (actionDef as TableEditAssetActionDef).action(AssetDialogComponent, this.dialog,
-            { dialogData: asset, authorizations: this.assetsAuthorizations }, this.refreshData.bind(this));
+          (actionDef as TableEditAssetActionDef).action(
+            AssetDialogComponent,
+            this.dialog,
+            { dialogData: asset, authorizations: this.assetsAuthorizations },
+            this.refreshData.bind(this)
+          );
         }
         break;
       case AssetButtonAction.DELETE_ASSET:
         if (actionDef.action) {
-          (actionDef as TableDeleteAssetActionDef).action(asset, this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
+          (actionDef as TableDeleteAssetActionDef).action(
+            asset,
+            this.dialogService,
+            this.translateService,
+            this.messageService,
+            this.centralServerService,
+            this.spinnerService,
+            this.router,
+            this.refreshData.bind(this)
+          );
         }
         break;
       case AssetButtonAction.RETRIEVE_ASSET_CONSUMPTION:
         if (actionDef.action) {
-          (actionDef as TableRetrieveAssetConsumptionActionDef).action(asset, this.spinnerService, this.centralServerService,
-            this.messageService, this.router, this.refreshData.bind(this));
+          (actionDef as TableRetrieveAssetConsumptionActionDef).action(
+            asset,
+            this.spinnerService,
+            this.centralServerService,
+            this.messageService,
+            this.router,
+            this.refreshData.bind(this)
+          );
         }
         break;
       case ButtonAction.OPEN_IN_MAPS:
@@ -279,13 +328,12 @@ export class AssetsListTableDataSource extends TableDataSource<Asset> {
   public buildTableFiltersDef(): TableFilterDef[] {
     this.issuerFilter = new IssuerFilter().getFilterDef();
     this.siteFilter = new SiteTableFilter([this.issuerFilter]).getFilterDef();
-    this.siteAreaFilter = new SiteAreaTableFilter([this.issuerFilter, this.siteFilter]).getFilterDef();
-    // Create filters
-    const filters: TableFilterDef[] = [
+    this.siteAreaFilter = new SiteAreaTableFilter([
       this.issuerFilter,
       this.siteFilter,
-      this.siteAreaFilter
-    ];
+    ]).getFilterDef();
+    // Create filters
+    const filters: TableFilterDef[] = [this.issuerFilter, this.siteFilter, this.siteAreaFilter];
     return filters;
   }
 }

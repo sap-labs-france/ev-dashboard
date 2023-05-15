@@ -2,19 +2,36 @@
   <div class="col-md-12">
     <div class="form-group">
       <mat-form-field>
-        <input matInput appAutofocus type="text" placeholder="{{'settings.pricing.pricing_definition_name' | translate}}" [formControl]="name" required/>
-        <mat-error *ngIf="name?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+        <input
+          matInput
+          appAutofocus
+          type="text"
+          placeholder="{{ 'settings.pricing.pricing_definition_name' | translate }}"
+          [formControl]="name"
+          required
+        />
+        <mat-error *ngIf="name?.errors?.required">{{
+          'general.mandatory_field' | translate
+        }}</mat-error>
         <mat-error *ngIf="name?.errors?.maxlength">
-          <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div>
+          <div [translate]="'general.error_max_length'" [translateParams]="{ length: 100 }"></div>
         </mat-error>
       </mat-form-field>
     </div>
     <div class="form-group">
       <mat-form-field>
-        <input matInput type="text" placeholder="{{'settings.pricing.pricing_definition_description' | translate}}" [formControl]="description" required/>
-        <mat-error *ngIf="description?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+        <input
+          matInput
+          type="text"
+          placeholder="{{ 'settings.pricing.pricing_definition_description' | translate }}"
+          [formControl]="description"
+          required
+        />
+        <mat-error *ngIf="description?.errors?.required">{{
+          'general.mandatory_field' | translate
+        }}</mat-error>
         <mat-error *ngIf="description?.errors?.maxlength">
-          <div [translate]="'general.error_max_length'" [translateParams]="{length: 100}"></div>
+          <div [translate]="'general.error_max_length'" [translateParams]="{ length: 100 }"></div>
         </mat-error>
       </mat-form-field>
     </div>
@@ -25,11 +42,24 @@
   <div class="col-md-3">
     <div class="form-group">
       <mat-form-field>
-        <mat-datetimepicker #pickerDateStart type="date" openOnFocus="false" mode="portrait" timeInterval="1">
+        <mat-datetimepicker
+          #pickerDateStart
+          type="date"
+          openOnFocus="false"
+          mode="portrait"
+          timeInterval="1"
+        >
         </mat-datetimepicker>
         <mat-datetimepicker-toggle [for]="pickerDateStart" matSuffix></mat-datetimepicker-toggle>
-        <input matInput [formControl]="validFrom" placeholder="{{'settings.pricing.valid_from' | translate}}" [matDatetimepicker]="pickerDateStart">
-        <mat-error *ngIf="validFrom?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+        <input
+          matInput
+          [formControl]="validFrom"
+          placeholder="{{ 'settings.pricing.valid_from' | translate }}"
+          [matDatetimepicker]="pickerDateStart"
+        />
+        <mat-error *ngIf="validFrom?.errors?.required">{{
+          'general.mandatory_field' | translate
+        }}</mat-error>
       </mat-form-field>
     </div>
   </div>
@@ -37,11 +67,25 @@
   <div class="col-md-3">
     <div class="form-group">
       <mat-form-field>
-        <mat-datetimepicker #pickerDateEnd type="date" openOnFocus="false" mode="portrait" timeInterval="1">
+        <mat-datetimepicker
+          #pickerDateEnd
+          type="date"
+          openOnFocus="false"
+          mode="portrait"
+          timeInterval="1"
+        >
         </mat-datetimepicker>
         <mat-datetimepicker-toggle [for]="pickerDateEnd" matSuffix></mat-datetimepicker-toggle>
-        <input matInput [formControl]="validTo" [min]="minDate" placeholder="{{'settings.pricing.valid_to' | translate}}" [matDatetimepicker]="pickerDateEnd">
-        <mat-error *ngIf="validTo?.errors?.matDatepickerMin">{{'settings.pricing.end_date_error' | translate}}</mat-error>
+        <input
+          matInput
+          [formControl]="validTo"
+          [min]="minDate"
+          placeholder="{{ 'settings.pricing.valid_to' | translate }}"
+          [matDatetimepicker]="pickerDateEnd"
+        />
+        <mat-error *ngIf="validTo?.errors?.matDatepickerMin">{{
+          'settings.pricing.end_date_error' | translate
+        }}</mat-error>
       </mat-form-field>
     </div>
   </div>
@@ -49,22 +93,27 @@
   <div class="col-md-5 offset-1">
     <div class="form-group">
       <mat-form-field>
-        <mat-select placeholder="{{'settings.pricing.connector_type' | translate}}" [formControl]="connectorType">
+        <mat-select
+          placeholder="{{ 'settings.pricing.connector_type' | translate }}"
+          [formControl]="connectorType"
+        >
           <mat-select-trigger>
             <div class="d-flex align-items-center">
               <mat-icon class="d-flex me-2 mat-select-icon" [svgIcon]="connectorType?.value">
               </mat-icon>
               <div class="d-flex">
-                {{connectorType?.value | appConnectorTypeSelection:'text' | translate}}
+                {{ connectorType?.value | appConnectorTypeSelection : 'text' | translate }}
               </div>
             </div>
           </mat-select-trigger>
           <mat-option *ngFor="let connectorType of connectorTypeMap" [value]="connectorType.key">
             <mat-icon [svgIcon]="connectorType.key" class="mat-select-icon"></mat-icon>
-            <span>{{connectorType.description | translate}}</span>
+            <span>{{ connectorType.description | translate }}</span>
           </mat-option>
         </mat-select>
-        <mat-error *ngIf="connectorType?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
+        <mat-error *ngIf="connectorType?.errors?.required">{{
+          'general.mandatory_field' | translate
+        }}</mat-error>
       </mat-form-field>
     </div>
   </div>
@@ -72,17 +121,31 @@
 <div class="row">
   <!-- Connector -->
   <div class="col-md-3 offset-7 pricing-dimension align-self-center">
-    <mat-slide-toggle (change)="toggle($event)" id="connectorPower" [formControl]="connectorPowerEnabled">
-      {{'settings.pricing.connector_power' | translate}}
+    <mat-slide-toggle
+      (change)="toggle($event)"
+      id="connectorPower"
+      [formControl]="connectorPowerEnabled"
+    >
+      {{ 'settings.pricing.connector_power' | translate }}
     </mat-slide-toggle>
   </div>
   <!-- Value -->
   <div class="col-md-2">
     <mat-form-field>
-      <mat-label>{{'settings.pricing.connector_power_unit' | translate}}</mat-label>
-      <input matInput type="text" placeholder="{{'settings.pricing.value' | translate}}" [formControl]="connectorPowerValue" required/>
-      <mat-error *ngIf="connectorPowerValue?.errors?.required">{{'general.mandatory_field' | translate}}</mat-error>
-      <mat-error *ngIf="connectorPowerValue?.errors?.pattern">{{'general.error_number_pattern' | translate}}</mat-error>
+      <mat-label>{{ 'settings.pricing.connector_power_unit' | translate }}</mat-label>
+      <input
+        matInput
+        type="text"
+        placeholder="{{ 'settings.pricing.value' | translate }}"
+        [formControl]="connectorPowerValue"
+        required
+      />
+      <mat-error *ngIf="connectorPowerValue?.errors?.required">{{
+        'general.mandatory_field' | translate
+      }}</mat-error>
+      <mat-error *ngIf="connectorPowerValue?.errors?.pattern">{{
+        'general.error_number_pattern' | translate
+      }}</mat-error>
     </mat-form-field>
   </div>
 </div>

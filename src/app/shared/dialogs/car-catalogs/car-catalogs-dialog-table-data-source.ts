@@ -23,7 +23,8 @@ export class CarCatalogsDialogTableDataSource extends DialogTableDataSource<CarC
     private router: Router,
     private centralServerService: CentralServerService,
     private appUnitPipe: AppUnitPipe,
-    private decimalPipe: AppDecimalPipe) {
+    private decimalPipe: AppDecimalPipe
+  ) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -32,16 +33,24 @@ export class CarCatalogsDialogTableDataSource extends DialogTableDataSource<CarC
   public loadDataImpl(): Observable<DataResult<CarCatalog>> {
     return new Observable((observer) => {
       const params = this.buildFilterValues();
-      this.centralServerService.getCarCatalogs(params, this.getPaging(), this.getSorting()).subscribe({
-        next: (CarCatalogs) => {
-          observer.next(CarCatalogs);
-          observer.complete();
-        },
-        error: (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          observer.error(error);
-        }
-      });
+      this.centralServerService
+        .getCarCatalogs(params, this.getPaging(), this.getSorting())
+        .subscribe({
+          next: (CarCatalogs) => {
+            observer.next(CarCatalogs);
+            observer.complete();
+          },
+          error: (error) => {
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.error_backend'
+            );
+            observer.error(error);
+          },
+        });
     });
   }
 
@@ -64,15 +73,19 @@ export class CarCatalogsDialogTableDataSource extends DialogTableDataSource<CarC
         id: 'vehicleModelVersion',
         name: 'cars.vehicle_model_version',
         class: 'text-left col-40p',
-        formatter: (modelVersion: string) => modelVersion ? modelVersion : '-',
+        formatter: (modelVersion: string) => (modelVersion ? modelVersion : '-'),
       },
       {
         id: 'drivetrainPowerHP',
         name: 'cars.drivetrain_power_hp',
         class: 'text-left col-25p',
         sortable: true,
-        formatter: (drivetrainPowerHP: number) => drivetrainPowerHP ?
-          `${this.decimalPipe.transform(drivetrainPowerHP)} ${this.translateService.instant('cars.unit.drivetrain_power_hp_unit')}` : '-',
+        formatter: (drivetrainPowerHP: number) =>
+          drivetrainPowerHP
+            ? `${this.decimalPipe.transform(drivetrainPowerHP)} ${this.translateService.instant(
+              'cars.unit.drivetrain_power_hp_unit'
+            )}`
+            : '-',
       },
       {
         id: 'chargeStandardPower',
@@ -80,16 +93,22 @@ export class CarCatalogsDialogTableDataSource extends DialogTableDataSource<CarC
         class: 'text-left col-25p',
         sortable: true,
         formatter: (chargeStandardPower: number) =>
-          chargeStandardPower ? this.appUnitPipe.transform(chargeStandardPower, 'kW', 'kW', true, 1, 0, 0) : '-',
+          chargeStandardPower
+            ? this.appUnitPipe.transform(chargeStandardPower, 'kW', 'kW', true, 1, 0, 0)
+            : '-',
       },
       {
         id: 'rangeReal',
         name: 'cars.range_real',
         class: 'text-left col-25p',
         sortable: true,
-        formatter: (rangeReal: number) => rangeReal ? this.decimalPipe.transform(rangeReal) + ' ' +
-          this.translateService.instant('cars.unit.kilometer') : '-',
-      }
+        formatter: (rangeReal: number) =>
+          rangeReal
+            ? this.decimalPipe.transform(rangeReal) +
+              ' ' +
+              this.translateService.instant('cars.unit.kilometer')
+            : '-',
+      },
     ];
   }
 }

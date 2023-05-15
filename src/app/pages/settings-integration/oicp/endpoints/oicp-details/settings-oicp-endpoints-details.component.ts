@@ -8,11 +8,14 @@ import { SettingsOicpEndpointsDetailsTableDataSource } from './settings-oicp-end
   template: '<app-table [dataSource]="settingsOicpEndpointsDetaislTableDataSource"></app-table>',
   providers: [SettingsOicpEndpointsDetailsTableDataSource],
 })
-
-export class SettingsOicpEndpointsDetailsComponent extends CellContentTemplateDirective implements OnChanges, OnInit {
+export class SettingsOicpEndpointsDetailsComponent
+  extends CellContentTemplateDirective
+  implements OnChanges, OnInit {
   @Input() public row!: OicpEndpoint;
 
-  public constructor(public settingsOicpEndpointsDetaislTableDataSource: SettingsOicpEndpointsDetailsTableDataSource) {
+  public constructor(
+    public settingsOicpEndpointsDetaislTableDataSource: SettingsOicpEndpointsDetailsTableDataSource
+  ) {
     super();
   }
 

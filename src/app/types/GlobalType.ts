@@ -1,7 +1,7 @@
 import { Asset } from './Asset';
 import { BillingAccount } from './Billing';
 import { Car, CarCatalog, CarMaker } from './Car';
-import { ChargingStation } from './ChargingStation';
+import { ChargingStation, Connector } from './ChargingStation';
 import { Company } from './Company';
 import { LogAction } from './Log';
 import { RefundReport } from './Refund';
@@ -44,7 +44,21 @@ export enum DocumentEncoding {
 export interface KeyValue {
   key: string;
   value: string;
-  objectRef?: User|SiteArea|Site|Company|Car|CarCatalog|Asset|RefundReport|ChargingStation|CarMaker|LogAction|Tag|BillingAccount;
+  objectRef?:
+  | User
+  | SiteArea
+  | Site
+  | Company
+  | Car
+  | CarCatalog
+  | Asset
+  | RefundReport
+  | ChargingStation
+  | CarMaker
+  | LogAction
+  | Tag
+  | BillingAccount
+  | Connector;
   readonly?: boolean;
   custom?: boolean;
   icon?: string;
@@ -58,7 +72,7 @@ export interface FilterParams {
 export interface CustomButton {
   id: string;
   name: string;
-  color?: 'primary'|'warn';
+  color?: 'primary' | 'warn';
   cancelButton?: boolean;
   validateButton?: boolean;
 }

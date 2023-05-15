@@ -25,7 +25,7 @@ import { CarMainComponent } from './main/car-main.component';
 @Component({
   selector: 'app-car',
   templateUrl: 'car.component.html',
-  styleUrls: ['car.component.scss']
+  styleUrls: ['car.component.scss'],
 })
 export class CarComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentCarID!: string;
@@ -51,9 +51,12 @@ export class CarComponent extends AbstractTabComponent implements OnInit {
     private router: Router,
     private componentService: ComponentService,
     protected activatedRoute: ActivatedRoute,
-    protected windowService: WindowService) {
+    protected windowService: WindowService
+  ) {
     super(activatedRoute, windowService, ['main', 'connector'], false);
-    this.isCarConnectorComponentActive = this.componentService.isActive(TenantComponents.CAR_CONNECTOR);
+    this.isCarConnectorComponentActive = this.componentService.isActive(
+      TenantComponents.CAR_CONNECTOR
+    );
   }
 
   public ngOnInit() {
@@ -68,8 +71,13 @@ export class CarComponent extends AbstractTabComponent implements OnInit {
   }
 
   public onClose() {
-    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
-      this.translateService, this.saveCar.bind(this), this.closeDialog.bind(this));
+    Utils.checkAndSaveAndCloseDialog(
+      this.formGroup,
+      this.dialogService,
+      this.translateService,
+      this.saveCar.bind(this),
+      this.closeDialog.bind(this)
+    );
   }
 
   public loadCar() {
@@ -95,10 +103,15 @@ export class CarComponent extends AbstractTabComponent implements OnInit {
               this.messageService.showErrorMessage('cars.car_not_found');
               break;
             default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'cars.car_error');
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'cars.car_error'
+              );
           }
-        }
+        },
       });
     }
   }
@@ -110,8 +123,13 @@ export class CarComponent extends AbstractTabComponent implements OnInit {
   }
 
   public close() {
-    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
-      this.translateService, this.saveCar.bind(this), this.closeDialog.bind(this));
+    Utils.checkAndSaveAndCloseDialog(
+      this.formGroup,
+      this.dialogService,
+      this.translateService,
+      this.saveCar.bind(this),
+      this.closeDialog.bind(this)
+    );
   }
 
   public saveCar(car: Car) {
@@ -129,7 +147,8 @@ export class CarComponent extends AbstractTabComponent implements OnInit {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
           this.messageService.showSuccessMessage('cars.update_success', {
-            carName: this.formGroup.controls['carCatalog'].value });
+            carName: this.formGroup.controls['carCatalog'].value,
+          });
           this.closeDialog(true);
         } else {
           Utils.handleError(JSON.stringify(response), this.messageService, 'cars.update_error');
@@ -146,9 +165,15 @@ export class CarComponent extends AbstractTabComponent implements OnInit {
             this.messageService.showErrorMessage('cars.car_not_found');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'cars.update_error');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'cars.update_error'
+            );
         }
-      }
+      },
     });
   }
 
@@ -163,7 +188,8 @@ export class CarComponent extends AbstractTabComponent implements OnInit {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
           this.messageService.showSuccessMessage('cars.create_success', {
-            carName: this.formGroup.controls['carCatalog'].value });
+            carName: this.formGroup.controls['carCatalog'].value,
+          });
           this.closeDialog(true);
         } else {
           Utils.handleError(JSON.stringify(response), this.messageService, 'cars.create_error');
@@ -182,9 +208,15 @@ export class CarComponent extends AbstractTabComponent implements OnInit {
             this.messageService.showErrorMessage('cars.user_already_assigned');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'cars.create_error');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'cars.create_error'
+            );
         }
-      }
+      },
     });
   }
 }

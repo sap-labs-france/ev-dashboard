@@ -7,7 +7,10 @@ import { AssetsComponent } from './assets.component';
 
 export const AssetsRoutes: Routes = [
   {
-    path: '', component: AssetsComponent, canActivate: [RouteGuardService], data: {
+    path: '',
+    component: AssetsComponent,
+    canActivate: [RouteGuardService],
+    data: {
       component: TenantComponents.ASSET,
       auth: {
         entity: Entity.ASSET,

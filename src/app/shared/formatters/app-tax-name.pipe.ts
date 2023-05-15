@@ -4,7 +4,6 @@ import { BillingTax } from '../../types/Billing';
 
 @Pipe({ name: 'appTaxName' })
 export class AppTaxName implements PipeTransform {
-
   public transform(tax: BillingTax): string {
     if (!tax) {
       return '';

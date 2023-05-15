@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-header card-header-tabs card-header-primary">
     <div class="nav-tabs-navigation">
-      <h4 class="nav-tabs-title">{{dialogTitle | translate}}</h4>
+      <h4 class="nav-tabs-title">{{ dialogTitle | translate }}</h4>
       <ul class="nav nav-tabs" data-tabs="tabs">
         <span class="toolbar-spacer"></span>
         <button mat-icon-button mat-dialog-close>
@@ -14,8 +14,13 @@
     <div class="row">
       <div class="col-md-12">
         <mat-form-field *ngIf="!displayOnly">
-          <input ngx-google-places-autocomplete placesRef="ngx-places" placeholder="{{'geomap.search' | translate}}"
-            matInput (onAddressChange)="setAddress($event)">
+          <input
+            ngx-google-places-autocomplete
+            placesRef="ngx-places"
+            placeholder="{{ 'geomap.search' | translate }}"
+            matInput
+            (onAddressChange)="setAddress($event)"
+          />
           <button mat-button matSuffix mat-icon-button aria-label="Search">
             <mat-icon>search</mat-icon>
           </button>
@@ -23,28 +28,33 @@
       </div>
     </div>
     <div>
-      <google-map width="100%" [options]="mapOptions" [center]="center" [zoom]="zoom"
-          (maptypeidChanged)="mapTypeIdChange($event)" (mapClick)="mapClick($event)">
+      <google-map
+        width="100%"
+        [options]="mapOptions"
+        [center]="center"
+        [zoom]="zoom"
+        (maptypeidChanged)="mapTypeIdChange($event)"
+        (mapClick)="mapClick($event)"
+      >
         <ng-container>
-          <map-marker [position]="marker" [icon]="icon" [label]="labelFormatted">
-          </map-marker>
+          <map-marker [position]="marker" [icon]="icon" [label]="labelFormatted"> </map-marker>
         </ng-container>
       </google-map>
     </div>
   </div>
   <div class="card-footer mat-dialog-actions">
     <button mat-raised-button color="primary" class="app-btn-min-max-width" (click)="minZoom()">
-      <mat-icon>zoom_out</mat-icon><span>{{'geomap.min_zoom' | translate}}</span>
+      <mat-icon>zoom_out</mat-icon><span>{{ 'geomap.min_zoom' | translate }}</span>
     </button>
     <button mat-raised-button color="primary" class="app-btn-min-max-width" (click)="maxZoom()">
-      <mat-icon>zoom_in</mat-icon><span>{{'geomap.max_zoom' | translate}}</span>
+      <mat-icon>zoom_in</mat-icon><span>{{ 'geomap.max_zoom' | translate }}</span>
     </button>
     <span class="app-spacer"></span>
     <button mat-raised-button color="primary" (click)="validate()">
-      {{"general.set_coordinates" | translate}}
+      {{ 'general.set_coordinates' | translate }}
     </button>
     <button mat-raised-button *ngIf="!displayOnly" (click)="cancel()">
-      {{"general.cancel" | translate}}
+      {{ 'general.cancel' | translate }}
     </button>
   </div>
 </div>

@@ -23,7 +23,7 @@ import { SettingsUserComponent } from './users/settings-user.component';
     SettingsCryptoComponent,
     SettingsCryptoKeyComponent,
     SettingsUserComponent,
-    TenantDataComponent
+    TenantDataComponent,
   ],
   imports: [
     CommonModule,
@@ -36,7 +36,7 @@ import { SettingsUserComponent } from './users/settings-user.component';
     TableModule,
     FormsModule,
     ReactiveFormsModule,
-    AddressModule
-  ]
+    AddressModule,
+  ],
 })
-export class SettingsTechnicalModule { }
+export class SettingsTechnicalModule {}

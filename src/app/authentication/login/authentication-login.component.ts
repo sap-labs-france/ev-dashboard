@@ -51,7 +51,8 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private windowService: WindowService,
     private translateService: TranslateService,
-    private authorizationService: AuthorizationService) {
+    private authorizationService: AuthorizationService
+  ) {
     // Reset the spinner
     this.spinnerService.hide();
     // Set
@@ -65,20 +66,15 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
     this.subDomain = this.windowService.getSubdomain();
     // Init Form
     this.formGroup = new UntypedFormGroup({
-      email: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.email,
-        ])),
-      password: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-          Users.passwordWithNoSpace,
-        ])),
-      acceptEula: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
+      email: new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, Validators.email])
+      ),
+      password: new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, Users.passwordWithNoSpace])
+      ),
+      acceptEula: new UntypedFormControl('', Validators.compose([Validators.required])),
     });
     // Get controls
     this.email = this.formGroup.controls['email'];
@@ -132,10 +128,15 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
               this.tenantLogo = Constants.NO_IMAGE;
               break;
             default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'general.unexpected_error_backend');
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'general.unexpected_error_backend'
+              );
           }
-        }
+        },
       });
     } else {
       this.tenantLogo = Constants.MASTER_TENANT_LOGO;
@@ -197,7 +198,9 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
             break;
           // API User
           case HTTPError.TECHNICAL_USER_CANNOT_LOG_TO_UI_ERROR:
-            this.messageService.showErrorMessage(this.messages['technical_user_cannot_login_to_ui']);
+            this.messageService.showErrorMessage(
+              this.messages['technical_user_cannot_login_to_ui']
+            );
             break;
           // Account Pending
           case HTTPError.USER_ACCOUNT_PENDING_ERROR:
@@ -206,24 +209,33 @@ export class AuthenticationLoginComponent implements OnInit, OnDestroy {
               // Usual Users
               this.messageService.showWarningMessage(this.messages['account_pending']);
               // No Create and show dialog data
-              this.dialogService.createAndShowYesNoDialog(
-                this.translateService.instant('authentication.verify_email_title'),
-                this.translateService.instant('authentication.verify_email_resend_confirm'),
-              ).subscribe((response) => {
-                if (response === ButtonAction.YES) {
-                  void this.router.navigate(['/auth/verify-email'], { queryParams: { Email: user['email'] } });
-                }
-              });
+              this.dialogService
+                .createAndShowYesNoDialog(
+                  this.translateService.instant('authentication.verify_email_title'),
+                  this.translateService.instant('authentication.verify_email_resend_confirm')
+                )
+                .subscribe((response) => {
+                  if (response === ButtonAction.YES) {
+                    void this.router.navigate(['/auth/verify-email'], {
+                      queryParams: { Email: user['email'] },
+                    });
+                  }
+                });
             } else {
               // Super Admin Users
               this.messageService.showWarningMessage(this.messages['super_user_account_pending']);
             }
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.unexpected_error_backend'
+            );
         }
-      }
+      },
     });
   }
 }

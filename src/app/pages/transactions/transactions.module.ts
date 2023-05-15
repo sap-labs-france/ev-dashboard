@@ -10,7 +10,10 @@ import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
-import { AppTransactionsFormatConnector, TransactionsConnectorCellComponent } from './cell-components/transactions-connector-cell.component';
+import {
+  AppTransactionsFormatConnector,
+  TransactionsConnectorCellComponent,
+} from './cell-components/transactions-connector-cell.component';
 import { TransactionsInactivityCellComponent } from './cell-components/transactions-inactivity-cell.component';
 import { TransactionsHistoryTableDataSource } from './history/transactions-history-table-data-source';
 import { TransactionsHistoryComponent } from './history/transactions-history.component';
@@ -47,16 +50,12 @@ import { TransactionsRoutes } from './transactions.routing';
     TransactionsConnectorCellComponent,
     TransactionsInactivityCellComponent,
   ],
-  exports: [
-    TransactionsComponent,
-  ],
+  exports: [TransactionsComponent],
   providers: [
     TransactionsHistoryTableDataSource,
     TransactionsInErrorTableDataSource,
     TransactionsInProgressTableDataSource,
     TransactionsRefundTableDataSource,
-  ]
+  ],
 })
-
-export class TransactionsModule {
-}
+export class TransactionsModule {}

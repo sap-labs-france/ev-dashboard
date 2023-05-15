@@ -1,80 +1,76 @@
 @use '@angular/material' as mat;
 .mat-form-field-infix .md-drppicker.drops-down-auto.ltr.shown.double {
-    margin-top: 9px !important;
-    background-color: $brand-background;
-    width: 530px;
-    color:$brand-text;
+  margin-top: 9px !important;
+  background-color: $brand-background;
+  width: 530px;
+  color: $brand-text;
 
-    &.show-ranges {
-      width: 630px;
+  &.show-ranges {
+    width: 630px;
+  }
+
+  & div.buttons_input button.btn {
+    background-color: mat.get-color-from-palette($app-primary);
+    color: $brand-background;
+  }
+
+  th {
+    color: $brand-text;
+  }
+
+  td {
+    &.available:hover {
+      background-color: lighten(mat.get-color-from-palette(mat.$grey-palette, 600), 45%);
+      color: $brand-text;
     }
 
-    & div.buttons_input button.btn {
-      background-color: mat.get-color-from-palette($app-primary);
+    &.off {
+      &,
+      &.start-date,
+      &.end-date {
+        background-color: $brand-background;
+        border-color: $brand-background;
+        color: lighten(mat.get-color-from-palette(mat.$grey-palette, 600), 10%);
+      }
+
+      &.in-range {
+        background-color: lighten(mat.get-color-from-palette(mat.$grey-palette, 600), 40%);
+        border-color: mat.get-color-from-palette($app-grey, 600);
+        color: $brand-text;
+      }
+    }
+
+    &.active {
+      transition: background 300ms ease-out, border 300ms ease-out;
+
+      &,
+      &:hover {
+        background-color: mat.get-color-from-palette($app-primary);
+        color: $brand-background;
+      }
+    }
+  }
+
+  & div.ranges ul li {
+    &:hover {
+      border-radius: 4px;
+      background-color: lighten(mat.get-color-from-palette(mat.$grey-palette, 600), 45%);
       color: $brand-background;
     }
 
-    th {
-        color: $brand-text;
-    }
-
-    td {
-
-      &.available:hover {
-        background-color:lighten(mat.get-color-from-palette(mat.$grey-palette, 600), 45%);
-        color:$brand-text
-      }
-
-      &.off {
-
-        &, &.start-date, &.end-date {
-          background-color: $brand-background;
-          border-color: $brand-background;
-          color: lighten(mat.get-color-from-palette(mat.$grey-palette, 600), 10%);
-        }
-
-        &.in-range {
-          background-color: lighten(mat.get-color-from-palette(mat.$grey-palette, 600), 40%);
-          border-color: mat.get-color-from-palette($app-grey,600);
-          color: $brand-text;
-        }
-
-      }
+    & button {
+      border-radius: 4px;
+      color: $brand-text;
 
       &.active {
-        transition: background 300ms ease-out, border 300ms ease-out;
-
-        &, &:hover {
-          background-color: mat.get-color-from-palette($app-primary);
-          color: $brand-background;
-        }
-      }
-
-    }
-
-    & div.ranges ul li {
-
-      &:hover {
-        border-radius: 4px;
-        background-color:lighten(mat.get-color-from-palette(mat.$grey-palette, 600), 45%);
+        background-color: mat.get-color-from-palette($app-primary);
         color: $brand-background;
       }
-
-      & button {
-        border-radius: 4px;
-        color: $brand-text;
-
-        &.active {
-          background-color: mat.get-color-from-palette($app-primary);
-          color: $brand-background;
-        }
-      }
-
     }
-
+  }
 }
 
 .ngx-daterangepicker-action.date-range-picker-icon {
- font-size: 1.125em;
- margin-left: 1px;
+  font-size: 1.125em;
+  margin-left: 1px;
 }

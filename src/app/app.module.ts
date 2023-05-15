@@ -45,7 +45,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { DatetimeAdapter, MatDatetimepickerModule } from '@mat-datetimepicker/core';
 import { MatMomentDatetimeModule, MomentDatetimeAdapter } from '@mat-datetimepicker/moment';
-import { TranslateDefaultParser, TranslateLoader, TranslateModule, TranslateParser, TranslateService } from '@ngx-translate/core';
+import {
+  TranslateDefaultParser,
+  TranslateLoader,
+  TranslateModule,
+  TranslateParser,
+  TranslateService,
+} from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ChartModule } from 'angular2-chartjs';
 import { NgxCaptchaModule } from 'ngx-captcha';
@@ -120,65 +126,75 @@ registerLocaleData(localeEnAU);
     MatTabsModule,
     MatToolbarModule,
   ],
-  providers: [
-    { provide: DatetimeAdapter, useClass: MomentDatetimeAdapter },
-  ],
+  providers: [{ provide: DatetimeAdapter, useClass: MomentDatetimeAdapter }],
 })
-export class MaterialModule {
-}
+export class MaterialModule {}
 
 // Load translations from "/assets/i18n/[lang].json" ([lang] is the lang
-export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/', `.json?version=${pkg.version}`);
+export const httpLoaderFactory = (http: HttpClient) =>
+  new TranslateHttpLoader(http, './assets/i18n/', `.json?version=${pkg.version}`);
 
-const initAppFactory = (centralServerService: CentralServerService, configService: ConfigService,
-  messageService: MessageService, translateService: TranslateService): () => Observable<void> =>
-  () => (new Observable((observer: Observer<void>) => {
-    // Load Configuration
-    configService.initConfig().subscribe({
-      complete: () => {
-        // Load User Token
-        centralServerService.initUserToken().subscribe({
+const initAppFactory =
+  (
+    centralServerService: CentralServerService,
+    configService: ConfigService,
+    messageService: MessageService,
+    translateService: TranslateService
+  ): (() => Observable<void>) =>
+    () =>
+      new Observable((observer: Observer<void>) => {
+      // Load Configuration
+        configService.initConfig().subscribe({
           complete: () => {
-            // Default
-            let language = translateService.getBrowserLang();
-            // Get current user
-            const loggedUser = centralServerService.getLoggedUser();
-            if (loggedUser?.language) {
-              language = loggedUser.language;
-            }
-            // Init Translate service
-            translateService.addLangs(['en', 'fr', 'es', 'de', 'pt', 'it', 'cs']);
-            translateService.setDefaultLang('en');
-            translateService.use(language.match(/en|fr|es|de|pt|it|cs/) ? language : 'en');
-            // Init Done
-            observer.complete();
+          // Load User Token
+            centralServerService.initUserToken().subscribe({
+              complete: () => {
+              // Default
+                let language = translateService.getBrowserLang();
+                // Get current user
+                const loggedUser = centralServerService.getLoggedUser();
+                if (loggedUser?.language) {
+                  language = loggedUser.language;
+                }
+                // Init Translate service
+                translateService.addLangs(['en', 'fr', 'es', 'de', 'pt', 'it', 'cs']);
+                translateService.setDefaultLang('en');
+                translateService.use(language.match(/en|fr|es|de|pt|it|cs/) ? language : 'en');
+                // Init Done
+                observer.complete();
+              },
+              error: (error) => {
+                messageService.showErrorMessage(
+                  'Error while trying to read the current logged user!'
+                );
+                console.log(error);
+              },
+            });
           },
           error: (error) => {
-            messageService.showErrorMessage('Error while trying to read the current logged user!');
+            messageService.showErrorMessage('Error while loading the configuration file!');
             console.log(error);
-          }
+          },
         });
-      },
-      error: (error) => {
-        messageService.showErrorMessage('Error while loading the configuration file!');
-        console.log(error);
-      }
-    });
-  }));
+      });
 
 // To be used where the Material Date Time picker is imported (never called in this module)
-export const initMaterialLocaleFactory = (centralServerService: CentralServerService, translateService: TranslateService): () => string =>
-  () => {
+export const initMaterialLocaleFactory =
+  (
+    centralServerService: CentralServerService,
+    translateService: TranslateService
+  ): (() => string) =>
+    () => {
     // Init Material locale
-    const loggedUser = centralServerService.getLoggedUser();
-    if (loggedUser?.locale) {
+      const loggedUser = centralServerService.getLoggedUser();
+      if (loggedUser?.locale) {
       // Locale of the current user (if any)
-      return Utils.convertToMomentLocale(loggedUser.locale);
-    }
-    // Locale of the browser
-    const browserLocale = translateService.getBrowserCultureLang();
-    return Utils.convertToMomentLocale(browserLocale);
-  };
+        return Utils.convertToMomentLocale(loggedUser.locale);
+      }
+      // Locale of the browser
+      const browserLocale = translateService.getBrowserCultureLang();
+      return Utils.convertToMomentLocale(browserLocale);
+    };
 
 @Injectable()
 class CustomTranslateDefaultParser extends TranslateDefaultParser {
@@ -217,19 +233,12 @@ class CustomTranslateDefaultParser extends TranslateDefaultParser {
       },
       parser: {
         provide: TranslateParser,
-        useClass: CustomTranslateDefaultParser
+        useClass: CustomTranslateDefaultParser,
       },
     }),
   ],
-  declarations: [
-    AppComponent,
-    AdminLayoutComponent,
-    AuthLayoutComponent,
-    ReleaseNotesComponent,
-  ],
-  exports: [
-    TranslateModule,
-  ],
+  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent, ReleaseNotesComponent],
+  exports: [TranslateModule],
   providers: [
     WINDOW_PROVIDERS,
     CentralServerService,
@@ -246,16 +255,21 @@ class CustomTranslateDefaultParser extends TranslateDefaultParser {
     TranslateService,
     WindowService,
     StripeService,
-    { provide: APP_INITIALIZER, useFactory: initAppFactory, deps: [CentralServerService, ConfigService, MessageService, TranslateService], multi: true },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initAppFactory,
+      deps: [CentralServerService, ConfigService, MessageService, TranslateService],
+      multi: true,
+    },
     { provide: DatetimeAdapter, useClass: MomentDatetimeAdapter },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {
   public constructor(
     private centralServerService: CentralServerService,
-    private translateService: TranslateService) {
-
+    private translateService: TranslateService
+  ) {
     // Default
     let language = this.translateService.getBrowserLang();
     // Get current user

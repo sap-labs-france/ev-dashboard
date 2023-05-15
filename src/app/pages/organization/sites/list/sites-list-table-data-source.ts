@@ -5,8 +5,14 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { ComponentService } from 'services/component.service';
 import { PricingDefinitionsDialogComponent } from 'shared/pricing-definitions/pricing-definitions.dialog.component';
-import { TableSiteGenerateQrCodeConnectorAction, TableSiteGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/sites/table-site-generate-qr-code-connector-action';
-import { TableViewPricingDefinitionsAction, TableViewPricingDefinitionsActionDef } from 'shared/table/actions/table-view-pricing-definitions-action';
+import {
+  TableSiteGenerateQrCodeConnectorAction,
+  TableSiteGenerateQrCodeConnectorsActionDef,
+} from 'shared/table/actions/sites/table-site-generate-qr-code-connector-action';
+import {
+  TableViewPricingDefinitionsAction,
+  TableViewPricingDefinitionsActionDef,
+} from 'shared/table/actions/table-view-pricing-definitions-action';
 import { SitesAuthorizations } from 'types/Authorization';
 import { PricingButtonAction, PricingEntity } from 'types/Pricing';
 import { TenantComponents } from 'types/Tenant';
@@ -16,13 +22,34 @@ import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
-import { TableExportOCPPParamsAction, TableExportOCPPParamsActionDef } from '../../../../shared/table/actions/charging-stations/table-export-ocpp-params-action';
-import { TableAssignUsersToSiteAction, TableAssignUsersToSiteActionDef } from '../../../../shared/table/actions/sites/table-assign-users-to-site-action';
-import { TableViewAssignedUsersOfSiteAction, TableViewAssignedUsersOfSiteActionDef } from '../../../../shared/table/actions/sites/table-assign-view-users-of-site-action';
-import { TableCreateSiteAction, TableCreateSiteActionDef } from '../../../../shared/table/actions/sites/table-create-site-action';
-import { TableDeleteSiteAction, TableDeleteSiteActionDef } from '../../../../shared/table/actions/sites/table-delete-site-action';
-import { TableEditSiteAction, TableEditSiteActionDef } from '../../../../shared/table/actions/sites/table-edit-site-action';
-import { TableViewSiteAction, TableViewSiteActionDef } from '../../../../shared/table/actions/sites/table-view-site-action';
+import {
+  TableExportOCPPParamsAction,
+  TableExportOCPPParamsActionDef,
+} from '../../../../shared/table/actions/charging-stations/table-export-ocpp-params-action';
+import {
+  TableAssignUsersToSiteAction,
+  TableAssignUsersToSiteActionDef,
+} from '../../../../shared/table/actions/sites/table-assign-users-to-site-action';
+import {
+  TableViewAssignedUsersOfSiteAction,
+  TableViewAssignedUsersOfSiteActionDef,
+} from '../../../../shared/table/actions/sites/table-assign-view-users-of-site-action';
+import {
+  TableCreateSiteAction,
+  TableCreateSiteActionDef,
+} from '../../../../shared/table/actions/sites/table-create-site-action';
+import {
+  TableDeleteSiteAction,
+  TableDeleteSiteActionDef,
+} from '../../../../shared/table/actions/sites/table-delete-site-action';
+import {
+  TableEditSiteAction,
+  TableEditSiteActionDef,
+} from '../../../../shared/table/actions/sites/table-edit-site-action';
+import {
+  TableViewSiteAction,
+  TableViewSiteActionDef,
+} from '../../../../shared/table/actions/sites/table-view-site-action';
 import { TableAutoRefreshAction } from '../../../../shared/table/actions/table-auto-refresh-action';
 import { TableMoreAction } from '../../../../shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from '../../../../shared/table/actions/table-open-in-maps-action';
@@ -49,7 +76,8 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   private deleteAction = new TableDeleteSiteAction().getActionDef();
   private viewAction = new TableViewSiteAction().getActionDef();
   private exportOCPPParamsAction = new TableExportOCPPParamsAction().getActionDef();
-  private siteGenerateQrCodeConnectorAction = new TableSiteGenerateQrCodeConnectorAction().getActionDef();
+  private siteGenerateQrCodeConnectorAction =
+    new TableSiteGenerateQrCodeConnectorAction().getActionDef();
   private createAction = new TableCreateSiteAction().getActionDef();
   private maintainPricingDefinitionsAction = new TableViewPricingDefinitionsAction().getActionDef();
   private companyFilter: TableFilterDef;
@@ -65,7 +93,8 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     private dialog: MatDialog,
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe,
-    private componentService: ComponentService) {
+    private componentService: ComponentService
+  ) {
     super(spinnerService, translateService);
     this.isPricingComponentActive = this.componentService.isActive(TenantComponents.PRICING);
     this.setStaticFilters([{ WithCompany: true }]);
@@ -75,24 +104,32 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   public loadDataImpl(): Observable<DataResult<Site>> {
     return new Observable((observer) => {
       // Get Sites
-      this.centralServerService.getSites(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
-        next: (sites) => {
-          this.sitesAuthorizations = {
-            canListCompanies: sites.canListCompanies,
-            canCreate: sites.canCreate,
-            projectFields: sites.projectFields,
-            metadata: sites.metadata
-          };
-          this.createAction.visible = Utils.convertToBoolean(sites.canCreate);
-          this.companyFilter.visible = Utils.convertToBoolean(sites.canListCompanies);
-          observer.next(sites);
-          observer.complete();
-        },
-        error: (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          observer.error(error);
-        }
-      });
+      this.centralServerService
+        .getSites(this.buildFilterValues(), this.getPaging(), this.getSorting())
+        .subscribe({
+          next: (sites) => {
+            this.sitesAuthorizations = {
+              canListCompanies: sites.canListCompanies,
+              canCreate: sites.canCreate,
+              projectFields: sites.projectFields,
+              metadata: sites.metadata,
+            };
+            this.createAction.visible = Utils.convertToBoolean(sites.canCreate);
+            this.companyFilter.visible = Utils.convertToBoolean(sites.canListCompanies);
+            observer.next(sites);
+            observer.complete();
+          },
+          error: (error) => {
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.error_backend'
+            );
+            observer.error(error);
+          },
+        });
     });
   }
 
@@ -131,7 +168,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
         headerClass: 'text-center col-10em',
         class: 'text-center col-10em',
         formatter: (publicSite: boolean, site: Site) =>
-          site.issuer ? Utils.displayYesNo(this.translateService, publicSite) : '-'
+          site.issuer ? Utils.displayYesNo(this.translateService, publicSite) : '-',
       },
       {
         id: 'autoUserSiteAssignment',
@@ -197,10 +234,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    return [
-      this.createAction,
-      ...tableActionsDef,
-    ];
+    return [this.createAction, ...tableActionsDef];
   }
 
   public buildTableDynamicRowActions(site: Site): TableActionDef[] {
@@ -242,8 +276,12 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       // Add
       case SiteButtonAction.CREATE_SITE:
         if (actionDef.action) {
-          (actionDef as TableCreateSiteActionDef).action(SiteDialogComponent,
-            this.dialog, { authorizations: this.sitesAuthorizations }, this.refreshData.bind(this));
+          (actionDef as TableCreateSiteActionDef).action(
+            SiteDialogComponent,
+            this.dialog,
+            { authorizations: this.sitesAuthorizations },
+            this.refreshData.bind(this)
+          );
         }
     }
   }
@@ -252,33 +290,56 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     switch (actionDef.id) {
       case SiteButtonAction.EDIT_SITE:
         if (actionDef.action) {
-          (actionDef as TableEditSiteActionDef).action(SiteDialogComponent, this.dialog,
-            { dialogData: site, authorizations: this.sitesAuthorizations }, this.refreshData.bind(this));
+          (actionDef as TableEditSiteActionDef).action(
+            SiteDialogComponent,
+            this.dialog,
+            { dialogData: site, authorizations: this.sitesAuthorizations },
+            this.refreshData.bind(this)
+          );
         }
         break;
       case SiteButtonAction.VIEW_SITE:
         if (actionDef.action) {
-          (actionDef as TableViewSiteActionDef).action(SiteDialogComponent, this.dialog,
-            { dialogData: site, authorizations: this.sitesAuthorizations }, this.refreshData.bind(this));
+          (actionDef as TableViewSiteActionDef).action(
+            SiteDialogComponent,
+            this.dialog,
+            { dialogData: site, authorizations: this.sitesAuthorizations },
+            this.refreshData.bind(this)
+          );
         }
         break;
       case SiteButtonAction.ASSIGN_USERS_TO_SITE:
         if (actionDef.action) {
-          (actionDef as TableAssignUsersToSiteActionDef).action(SiteUsersDialogComponent, { dialogData: site, authorizations: this.sitesAuthorizations },
-            this.dialog, this.refreshData.bind(this));
+          (actionDef as TableAssignUsersToSiteActionDef).action(
+            SiteUsersDialogComponent,
+            { dialogData: site, authorizations: this.sitesAuthorizations },
+            this.dialog,
+            this.refreshData.bind(this)
+          );
         }
         break;
       case SiteButtonAction.VIEW_USERS_OF_SITE:
         if (actionDef.action) {
-          (actionDef as TableViewAssignedUsersOfSiteActionDef).action(SiteUsersDialogComponent, { dialogData: site, authorizations: this.sitesAuthorizations },
-            this.dialog, this.refreshData.bind(this));
+          (actionDef as TableViewAssignedUsersOfSiteActionDef).action(
+            SiteUsersDialogComponent,
+            { dialogData: site, authorizations: this.sitesAuthorizations },
+            this.dialog,
+            this.refreshData.bind(this)
+          );
         }
         break;
       case SiteButtonAction.DELETE_SITE:
         if (actionDef.action) {
           (actionDef as TableDeleteSiteActionDef).action(
-            site, this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
+            site,
+            this.dialogService,
+            this.translateService,
+            this.messageService,
+            this.centralServerService,
+            this.spinnerService,
+            this.router,
+            this.refreshData.bind(this)
+          );
         }
         break;
       case ButtonAction.OPEN_IN_MAPS:
@@ -289,30 +350,45 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       case ChargingStationButtonAction.EXPORT_OCPP_PARAMS:
         if (actionDef.action) {
           (actionDef as TableExportOCPPParamsActionDef).action(
-            { site }, this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.router, this.spinnerService);
+            { site },
+            this.dialogService,
+            this.translateService,
+            this.messageService,
+            this.centralServerService,
+            this.router,
+            this.spinnerService
+          );
         }
         break;
       case ChargingStationButtonAction.GENERATE_QR_CODE:
         if (actionDef.action) {
           (actionDef as TableSiteGenerateQrCodeConnectorsActionDef).action(
-            site, this.translateService, this.spinnerService,
-            this.messageService, this.centralServerService, this.router
+            site,
+            this.translateService,
+            this.spinnerService,
+            this.messageService,
+            this.centralServerService,
+            this.router
           );
         }
         break;
       case PricingButtonAction.VIEW_PRICING_DEFINITIONS:
         if (actionDef.action) {
-          (actionDef as TableViewPricingDefinitionsActionDef).action(PricingDefinitionsDialogComponent, this.dialog, {
-            dialogData: {
-              id: null,
-              context: {
-                entityID: site.id,
-                entityType: PricingEntity.SITE,
-                entityName: site.name
-              }
+          (actionDef as TableViewPricingDefinitionsActionDef).action(
+            PricingDefinitionsDialogComponent,
+            this.dialog,
+            {
+              dialogData: {
+                id: null,
+                context: {
+                  entityID: site.id,
+                  entityType: PricingEntity.SITE,
+                  entityName: site.name,
+                },
+              },
             },
-          }, this.refreshData.bind(this));
+            this.refreshData.bind(this)
+          );
         }
         break;
     }
@@ -330,10 +406,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     this.companyFilter = new CompanyTableFilter([this.issuerFilter]).getFilterDef();
     // Filter visibility will be defined by auth
     this.companyFilter.visible = false;
-    const filters = [
-      this.issuerFilter,
-      this.companyFilter
-    ];
+    const filters = [this.issuerFilter, this.companyFilter];
     return filters;
   }
 }

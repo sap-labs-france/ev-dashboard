@@ -8,8 +8,12 @@ import { TableActionDef } from '../../../../types/Table';
 import { TableEditAction } from '../table-edit-action';
 
 export interface TableEditPricingDefinitionActionDef extends TableActionDef {
-  action: (PricingDefinitionDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParams<PricingDefinitionDialogData>, refresh?: () => Observable<void>) => void;
+  action: (
+    PricingDefinitionDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParams<PricingDefinitionDialogData>,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableEditPricingDefinitionAction extends TableEditAction {
@@ -21,8 +25,12 @@ export class TableEditPricingDefinitionAction extends TableEditAction {
     };
   }
 
-  private editPricingDefinition(pricingDefinitionDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParams<PricingDefinitionDialogData>, refresh?: () => Observable<void>) {
+  private editPricingDefinition(
+    pricingDefinitionDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParams<PricingDefinitionDialogData>,
+    refresh?: () => Observable<void>
+  ) {
     super.edit(pricingDefinitionDialogComponent, dialog, dialogParams, refresh);
   }
 }

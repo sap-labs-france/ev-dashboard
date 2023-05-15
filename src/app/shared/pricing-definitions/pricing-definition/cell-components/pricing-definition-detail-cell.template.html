@@ -2,17 +2,24 @@
   <mat-icon
     *ngIf="row?.staticRestrictions?.connectorType"
     [svgIcon]="row?.staticRestrictions?.connectorType | appConnectorType:'icon'"
-    [title]="getConnectorText()"></mat-icon>
+    [title]="getConnectorText()"
+  ></mat-icon>
   <mat-icon
     *ngIf="this.row?.restrictions?.maxDurationSecs || this.row?.restrictions?.minDurationSecs"
-    [title]="getDurationRestrictions()">hourglass_bottom</mat-icon>
+    [title]="getDurationRestrictions()"
+    >hourglass_bottom</mat-icon
+  >
   <mat-icon
     *ngIf="this.row?.restrictions?.maxEnergyKWh || this.row?.restrictions?.minEnergyKWh"
-    [title]="getEnergyRestrictions()">offline_bolt_outlined</mat-icon>
+    [title]="getEnergyRestrictions()"
+    >offline_bolt_outlined</mat-icon
+  >
   <mat-icon
     *ngIf="this.row?.restrictions?.timeFrom || this.row?.restrictions?.timeTo"
-    [title]="getTimeRestrictions()">schedule</mat-icon>
-  <mat-icon
-    *ngIf="this.row?.restrictions?.daysOfWeek"
-    [title]="getDaysOfWeek()">calendar_view_week_icon</mat-icon>
+    [title]="getTimeRestrictions()"
+    >schedule</mat-icon
+  >
+  <mat-icon *ngIf="this.row?.restrictions?.daysOfWeek" [title]="getDaysOfWeek()"
+    >calendar_view_week_icon</mat-icon
+  >
 </div>

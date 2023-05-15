@@ -12,7 +12,6 @@ import { Utils } from '../../../../utils/Utils';
   selector: 'app-pricing-definition-restrictions',
   templateUrl: 'pricing-definition-restrictions.component.html',
 })
-
 export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges {
   @Input() public formGroup!: UntypedFormGroup;
   @Input() public pricingDefinition: PricingDefinition;
@@ -42,27 +41,45 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
   public timeTo: AbstractControl;
 
   // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    public translateService: TranslateService,
-    public dayPipe: AppDayPipe) {
-  }
+  public constructor(public translateService: TranslateService, public dayPipe: AppDayPipe) {}
 
   public ngOnInit(): void {
-    this.formGroup.addControl('restrictions', new UntypedFormGroup({
-      minDurationEnabled: new UntypedFormControl(false),
-      minDuration: new UntypedFormControl({value: null, disabled: true}, PricingHelpers.minValidator('maxDuration')),
-      maxDurationEnabled: new UntypedFormControl(false),
-      maxDuration: new UntypedFormControl({value: null, disabled: true}, PricingHelpers.maxValidator('minDuration', 'maxDuration')),
-      minEnergyKWhEnabled: new UntypedFormControl(false),
-      minEnergyKWh: new UntypedFormControl({value: null, disabled: true}, PricingHelpers.minValidator('maxEnergyKWh')),
-      maxEnergyKWhEnabled: new UntypedFormControl(false),
-      maxEnergyKWh: new UntypedFormControl({value: null, disabled: true}, PricingHelpers.maxValidator('minEnergyKWh', 'maxEnergyKWh')),
-      timeRangeEnabled: new UntypedFormControl(false),
-      timeFrom: new UntypedFormControl({value: null, disabled: true}, PricingHelpers.minTimeValidator('timeTo')),
-      timeTo: new UntypedFormControl({value: null, disabled: true}, PricingHelpers.maxTimeValidator('timeFrom', 'timeTo')),
-      daysOfWeekEnabled: new UntypedFormControl(false),
-      selectedDays: new UntypedFormControl({value: null, disabled: true}, Validators.required),
-    }));
+    this.formGroup.addControl(
+      'restrictions',
+      new UntypedFormGroup({
+        minDurationEnabled: new UntypedFormControl(false),
+        minDuration: new UntypedFormControl(
+          { value: null, disabled: true },
+          PricingHelpers.minValidator('maxDuration')
+        ),
+        maxDurationEnabled: new UntypedFormControl(false),
+        maxDuration: new UntypedFormControl(
+          { value: null, disabled: true },
+          PricingHelpers.maxValidator('minDuration', 'maxDuration')
+        ),
+        minEnergyKWhEnabled: new UntypedFormControl(false),
+        minEnergyKWh: new UntypedFormControl(
+          { value: null, disabled: true },
+          PricingHelpers.minValidator('maxEnergyKWh')
+        ),
+        maxEnergyKWhEnabled: new UntypedFormControl(false),
+        maxEnergyKWh: new UntypedFormControl(
+          { value: null, disabled: true },
+          PricingHelpers.maxValidator('minEnergyKWh', 'maxEnergyKWh')
+        ),
+        timeRangeEnabled: new UntypedFormControl(false),
+        timeFrom: new UntypedFormControl(
+          { value: null, disabled: true },
+          PricingHelpers.minTimeValidator('timeTo')
+        ),
+        timeTo: new UntypedFormControl(
+          { value: null, disabled: true },
+          PricingHelpers.maxTimeValidator('timeFrom', 'timeTo')
+        ),
+        daysOfWeekEnabled: new UntypedFormControl(false),
+        selectedDays: new UntypedFormControl({ value: null, disabled: true }, Validators.required),
+      })
+    );
     this.restrictions = this.formGroup.controls['restrictions'] as UntypedFormGroup;
     this.minDurationEnabled = this.restrictions.controls['minDurationEnabled'];
     this.minDuration = this.restrictions.controls['minDuration'];
@@ -78,14 +95,14 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
     this.timeFrom = this.restrictions.controls['timeFrom'];
     this.timeTo = this.restrictions.controls['timeTo'];
     this.timeFrom.valueChanges.subscribe(() => {
-      if(this.timeTo.value && this.timeFrom.value === this.timeTo.value){
-        this.timeFrom.setErrors({timeRangeError: true});
+      if (this.timeTo.value && this.timeFrom.value === this.timeTo.value) {
+        this.timeFrom.setErrors({ timeRangeError: true });
         this.formGroup.markAsPristine();
       }
     });
     this.timeTo.valueChanges.subscribe(() => {
-      if(this.timeFrom.value && this.timeFrom.value === this.timeTo.value){
-        this.timeTo.setErrors({timeRangeError: true});
+      if (this.timeFrom.value && this.timeFrom.value === this.timeTo.value) {
+        this.timeTo.setErrors({ timeRangeError: true });
         this.formGroup.markAsPristine();
       }
     });
@@ -102,7 +119,9 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
       // Restrictions
       if (!!this.pricingDefinition.restrictions?.daysOfWeek) {
         this.daysOfWeekEnabled.setValue(true);
-        this.selectedDays.setValue(this.pricingDefinition.restrictions?.daysOfWeek?.map((day) => day.toString()) || null);
+        this.selectedDays.setValue(
+          this.pricingDefinition.restrictions?.daysOfWeek?.map((day) => day.toString()) || null
+        );
         this.selectedDays.enable();
       }
       if (!!this.pricingDefinition.restrictions?.timeFrom) {
@@ -116,12 +135,16 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
       }
       if (!!this.pricingDefinition.restrictions?.minDurationSecs) {
         this.minDurationEnabled.setValue(true);
-        this.minDuration.setValue(PricingHelpers.toMinutes(this.pricingDefinition.restrictions?.minDurationSecs));
+        this.minDuration.setValue(
+          PricingHelpers.toMinutes(this.pricingDefinition.restrictions?.minDurationSecs)
+        );
         this.minDuration.enable();
       }
       if (!!this.pricingDefinition.restrictions?.maxDurationSecs) {
         this.maxDurationEnabled.setValue(true);
-        this.maxDuration.setValue(PricingHelpers.toMinutes(this.pricingDefinition.restrictions?.maxDurationSecs));
+        this.maxDuration.setValue(
+          PricingHelpers.toMinutes(this.pricingDefinition.restrictions?.maxDurationSecs)
+        );
         this.maxDuration.enable();
       }
       if (!!this.pricingDefinition.restrictions?.minEnergyKWh) {
@@ -184,13 +207,25 @@ export class PricingDefinitionRestrictionsComponent implements OnInit, OnChanges
 
   public buildPricingRestrictions(): PricingRestriction {
     const restrictions: PricingRestriction = {
-      daysOfWeek: this.daysOfWeekEnabled.value ? this.selectedDays.value.sort((day1: DayOfWeek, day2: DayOfWeek) => (day1-day2)) : null,
+      daysOfWeek: this.daysOfWeekEnabled.value
+        ? this.selectedDays.value.sort((day1: DayOfWeek, day2: DayOfWeek) => day1 - day2)
+        : null,
       timeFrom: this.timeRangeEnabled.value ? this.timeFrom.value : null,
       timeTo: this.timeRangeEnabled.value ? this.timeTo.value : null,
       minEnergyKWh: this.minEnergyKWhEnabled.value ? this.minEnergyKWh.value : null,
       maxEnergyKWh: this.maxEnergyKWhEnabled.value ? this.maxEnergyKWh.value : null,
-      minDurationSecs: this.minDurationEnabled.value ? PricingHelpers.convertDurationToSeconds(this.minDurationEnabled.value, this.minDuration.value) : null,
-      maxDurationSecs: this.maxDurationEnabled.value ? PricingHelpers.convertDurationToSeconds(this.maxDurationEnabled.value, this.maxDuration.value) : null,
+      minDurationSecs: this.minDurationEnabled.value
+        ? PricingHelpers.convertDurationToSeconds(
+          this.minDurationEnabled.value,
+          this.minDuration.value
+        )
+        : null,
+      maxDurationSecs: this.maxDurationEnabled.value
+        ? PricingHelpers.convertDurationToSeconds(
+          this.maxDurationEnabled.value,
+          this.maxDuration.value
+        )
+        : null,
     };
     return Utils.shrinkObjectProperties(restrictions);
   }

@@ -13,8 +13,16 @@ import { Utils } from '../../../../utils/Utils';
 import { TableDeleteAction } from '../table-delete-action';
 
 export interface TableDeleteTagActionDef extends TableActionDef {
-  action: (tag: Tag, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) => void;
+  action: (
+    tag: Tag,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableDeleteTagAction extends TableDeleteAction {
@@ -26,34 +34,50 @@ export class TableDeleteTagAction extends TableDeleteAction {
     };
   }
 
-  private deleteTag(tag: Tag, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
-    dialogService.createAndShowYesNoDialog(
-      translateService.instant('tags.delete_title'),
-      translateService.instant('tags.delete_confirm', { id: tag.id }),
-    ).subscribe((result) => {
-      if (result === ButtonAction.YES) {
-        spinnerService.show();
-        centralServerService.deleteTag(tag.id).subscribe({
-          next: (response) => {
-            spinnerService.hide();
-            if (response.status === RestResponse.SUCCESS) {
-              messageService.showSuccessMessage(
-                translateService.instant('tags.delete_success', { id: tag.id }));
-              if (refresh) {
-                refresh().subscribe();
+  private deleteTag(
+    tag: Tag,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) {
+    dialogService
+      .createAndShowYesNoDialog(
+        translateService.instant('tags.delete_title'),
+        translateService.instant('tags.delete_confirm', { id: tag.id })
+      )
+      .subscribe((result) => {
+        if (result === ButtonAction.YES) {
+          spinnerService.show();
+          centralServerService.deleteTag(tag.id).subscribe({
+            next: (response) => {
+              spinnerService.hide();
+              if (response.status === RestResponse.SUCCESS) {
+                messageService.showSuccessMessage(
+                  translateService.instant('tags.delete_success', { id: tag.id })
+                );
+                if (refresh) {
+                  refresh().subscribe();
+                }
+              } else {
+                Utils.handleError(JSON.stringify(response), messageService, 'tags.delete_error');
               }
-            } else {
-              Utils.handleError(JSON.stringify(response), messageService, 'tags.delete_error');
-            }
-          },
-          error: (error) => {
-            spinnerService.hide();
-            Utils.handleHttpError(error, router, messageService, centralServerService, 'tags.delete_error');
-          }
-        });
-      }
-    }
-    );
+            },
+            error: (error) => {
+              spinnerService.hide();
+              Utils.handleHttpError(
+                error,
+                router,
+                messageService,
+                centralServerService,
+                'tags.delete_error'
+              );
+            },
+          });
+        }
+      });
   }
 }

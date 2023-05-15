@@ -13,16 +13,20 @@ export const AuthenticationRoutes: Routes = [
   {
     path: 'login',
     component: AuthenticationLoginComponent,
-  }, {
+  },
+  {
     path: 'define-password',
     component: AuthenticationDefinePasswordComponent,
-  }, {
+  },
+  {
     path: 'reset-password',
     component: AuthenticationResetPasswordComponent,
-  }, {
+  },
+  {
     path: 'register',
     component: AuthenticationRegisterComponent,
-  }, {
+  },
+  {
     path: 'eula',
     component: AuthenticationEulaComponent,
   },
@@ -37,7 +41,8 @@ export const AuthenticationRoutes: Routes = [
   {
     path: 'account-onboarding',
     component: AccountOnboardingComponent,
-  }, {
+  },
+  {
     path: '**',
     redirectTo: 'login',
   },

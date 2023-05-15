@@ -8,8 +8,12 @@ import { TableActionDef } from '../../../../types/Table';
 import { TableViewAction } from '../table-view-action';
 
 export interface TableViewSiteAreaActionDef extends TableActionDef {
-  action: (siteAreaDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<SiteArea, SiteAreasAuthorizations>, refresh?: () => Observable<void>) => void;
+  action: (
+    siteAreaDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<SiteArea, SiteAreasAuthorizations>,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableViewSiteAreaAction extends TableViewAction {
@@ -21,8 +25,12 @@ export class TableViewSiteAreaAction extends TableViewAction {
     };
   }
 
-  private viewSiteArea(siteAreaDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<SiteArea, SiteAreasAuthorizations>, refresh?: () => Observable<void>) {
+  private viewSiteArea(
+    siteAreaDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<SiteArea, SiteAreasAuthorizations>,
+    refresh?: () => Observable<void>
+  ) {
     super.view(siteAreaDialogComponent, dialog, dialogParams, refresh);
   }
 }

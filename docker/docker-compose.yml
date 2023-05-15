@@ -1,16 +1,16 @@
 version: '3.7'
 networks:
-    ev_network:
-      driver: bridge
+  ev_network:
+    driver: bridge
 
 services:
-    dashboard:
-        build:
-            context: ..
-            dockerfile: docker/Dockerfile
-            args:
-                build: prod
-        ports:
-            - 3080:80
-        networks:
-            - ev_network
+  dashboard:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      args:
+        build: prod
+    ports:
+      - 3080:80
+    networks:
+      - ev_network

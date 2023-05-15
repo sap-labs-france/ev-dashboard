@@ -35,52 +35,62 @@ export class SiteAreaLimitsComponent implements OnInit, OnChanges {
     { key: 3, description: 'site_areas.three_phased' },
   ];
 
-  public constructor(
-    private componentService: ComponentService) {
-    this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
+  public constructor(private componentService: ComponentService) {
+    this.isSmartChargingComponentActive = this.componentService.isActive(
+      TenantComponents.SMART_CHARGING
+    );
   }
 
   public ngOnInit() {
     // Init the form
     this.formGroup.addControl('smartCharging', new UntypedFormControl(false));
-    this.formGroup.addControl('maximumPower', new UntypedFormControl(0,
-      Validators.compose([
-        Validators.pattern(/^[+-]?([0-9]*[.])?[0-9]+$/),
-        Validators.required,
-      ])
-    ));
+    this.formGroup.addControl(
+      'maximumPower',
+      new UntypedFormControl(
+        0,
+        Validators.compose([Validators.pattern(/^[+-]?([0-9]*[.])?[0-9]+$/), Validators.required])
+      )
+    );
     this.formGroup.addControl('maximumTotalPowerAmps', new UntypedFormControl(0));
     this.formGroup.addControl('maximumPowerAmpsPerPhase', new UntypedFormControl(0));
-    this.formGroup.addControl('voltage', new UntypedFormControl(230,
-      Validators.compose([
-        Validators.required,
-        Validators.min(1),
-        Validators.pattern('^[+]?[0-9]*$'),
-      ])
-    ));
-    this.formGroup.addControl('numberOfPhases', new UntypedFormControl(3,
-      Validators.compose([
-        Validators.required,
-      ])
-    ));
+    this.formGroup.addControl(
+      'voltage',
+      new UntypedFormControl(
+        230,
+        Validators.compose([
+          Validators.required,
+          Validators.min(1),
+          Validators.pattern('^[+]?[0-9]*$'),
+        ])
+      )
+    );
+    this.formGroup.addControl(
+      'numberOfPhases',
+      new UntypedFormControl(3, Validators.compose([Validators.required]))
+    );
     if (this.smartChargingSessionParametersActive) {
-      this.formGroup.addControl('smartChargingSessionParameters', new UntypedFormGroup({
-        departureTime: new UntypedFormControl(null),
-        carStateOfCharge: new UntypedFormControl(null,
-          Validators.compose([
-            Validators.min(1),
-            Validators.max(100),
-            Validators.pattern('^[+]?[0-9]*$'),
-          ])
-        ),
-        targetStateOfCharge: new UntypedFormControl(null,
-          Validators.compose([
-            Validators.min(1),
-            Validators.max(100),
-            Validators.pattern('^[+]?[0-9]*$'),
-          ])
-        ),
-      }));
+      this.formGroup.addControl(
+        'smartChargingSessionParameters',
+        new UntypedFormGroup({
+          departureTime: new UntypedFormControl(null),
+          carStateOfCharge: new UntypedFormControl(
+            null,
+            Validators.compose([
+              Validators.min(1),
+              Validators.max(100),
+              Validators.pattern('^[+]?[0-9]*$'),
+            ])
+          ),
+          targetStateOfCharge: new UntypedFormControl(
+            null,
+            Validators.compose([
+              Validators.min(1),
+              Validators.max(100),
+              Validators.pattern('^[+]?[0-9]*$'),
+            ])
+          ),
+        })
+      );
     }
     // Form
     this.smartCharging = this.formGroup.controls['smartCharging'];
@@ -92,10 +102,13 @@ export class SiteAreaLimitsComponent implements OnInit, OnChanges {
     this.maximumPowerAmpsPerPhase.disable();
     this.maximumTotalPowerAmps.disable();
     if (this.smartChargingSessionParametersActive) {
-      this.smartChargingSessionParameters = this.formGroup.controls['smartChargingSessionParameters'] as UntypedFormGroup;
+      this.smartChargingSessionParameters = this.formGroup.controls[
+        'smartChargingSessionParameters'
+      ] as UntypedFormGroup;
       this.departureTime = this.smartChargingSessionParameters.controls['departureTime'];
       this.carStateOfCharge = this.smartChargingSessionParameters.controls['carStateOfCharge'];
-      this.targetStateOfCharge = this.smartChargingSessionParameters.controls['targetStateOfCharge'];
+      this.targetStateOfCharge =
+        this.smartChargingSessionParameters.controls['targetStateOfCharge'];
     }
     this.initialized = true;
     this.loadSiteArea();
@@ -118,10 +131,17 @@ export class SiteAreaLimitsComponent implements OnInit, OnChanges {
       }
       if (this.siteArea.smartCharging) {
         this.smartCharging.setValue(this.siteArea.smartCharging);
-        if (this.smartChargingSessionParametersActive && this.siteArea.smartChargingSessionParameters) {
+        if (
+          this.smartChargingSessionParametersActive &&
+          this.siteArea.smartChargingSessionParameters
+        ) {
           this.departureTime.setValue(this.siteArea.smartChargingSessionParameters.departureTime);
-          this.carStateOfCharge.setValue(this.siteArea.smartChargingSessionParameters.carStateOfCharge);
-          this.targetStateOfCharge.setValue(this.siteArea.smartChargingSessionParameters.targetStateOfCharge);
+          this.carStateOfCharge.setValue(
+            this.siteArea.smartChargingSessionParameters.carStateOfCharge
+          );
+          this.targetStateOfCharge.setValue(
+            this.siteArea.smartChargingSessionParameters.targetStateOfCharge
+          );
         }
       } else {
         this.smartCharging.setValue(false);
@@ -132,7 +152,7 @@ export class SiteAreaLimitsComponent implements OnInit, OnChanges {
   }
 
   public smartChargingChanged() {
-    if(this.smartChargingSessionParametersActive && this.smartCharging) {
+    if (this.smartChargingSessionParametersActive && this.smartCharging) {
       if (this.smartCharging.value) {
         this.smartChargingSessionParameters.enable();
       } else {
@@ -153,11 +173,11 @@ export class SiteAreaLimitsComponent implements OnInit, OnChanges {
     this.maximumPowerChanged();
   }
 
-  public refreshSmartChargingSessionParameters(){
+  public refreshSmartChargingSessionParameters() {
     this.smartChargingChanged();
   }
 
-  public resetDepartureTime(){
+  public resetDepartureTime() {
     this.departureTime.setValue(null);
     this.departureTime.markAsDirty();
   }
@@ -166,12 +186,18 @@ export class SiteAreaLimitsComponent implements OnInit, OnChanges {
     if (!this.maximumPower.errors && this.voltage.value) {
       if (this.numberOfPhases.value) {
         this.maximumPowerAmpsPerPhase.setValue(
-          Math.floor((this.maximumPower.value as number) / (this.voltage.value as number) / (this.numberOfPhases.value)));
+          Math.floor(
+            (this.maximumPower.value as number) /
+              (this.voltage.value as number) /
+              this.numberOfPhases.value
+          )
+        );
       } else {
         this.maximumPowerAmpsPerPhase.setValue(0);
       }
       this.maximumTotalPowerAmps.setValue(
-        Math.floor((this.maximumPower.value as number) / (this.voltage.value as number)));
+        Math.floor((this.maximumPower.value as number) / (this.voltage.value as number))
+      );
     } else {
       this.maximumPowerAmpsPerPhase.setValue(0);
       this.maximumTotalPowerAmps.setValue(0);

@@ -1,12 +1,18 @@
 <div class="row">
   <div class="col-md-6 col-xl-4">
-    <app-user-mercedes-car-connector [user]='user' [integrationConnections]='integrationConnections'
-      (connectorChangedconnectorChanged)="onConnectorChanged()">
+    <app-user-mercedes-car-connector
+      [user]="user"
+      [integrationConnections]="integrationConnections"
+      (connectorChangedconnectorChanged)="onConnectorChanged()"
+    >
     </app-user-mercedes-car-connector>
   </div>
   <div class="col-md-6 col-xl-4">
-    <app-user-concur-refund-connector [user]='user' [integrationConnections]='integrationConnections'
-      (connectorChangedconnectorChanged)="onConnectorChanged()">
+    <app-user-concur-refund-connector
+      [user]="user"
+      [integrationConnections]="integrationConnections"
+      (connectorChangedconnectorChanged)="onConnectorChanged()"
+    >
     </app-user-concur-refund-connector>
   </div>
 </div>

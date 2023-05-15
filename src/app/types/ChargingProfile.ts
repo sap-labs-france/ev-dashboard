@@ -2,7 +2,10 @@ import { ChargingRateUnitType, ChargingStation } from '../types/ChargingStation'
 import { ChargingProfileAuthorizationActions, DialogData } from './Authorization';
 import { TableData } from './Table';
 
-export interface ChargingProfile extends ChargingProfileAuthorizationActions, TableData, DialogData {
+export interface ChargingProfile
+  extends ChargingProfileAuthorizationActions,
+  TableData,
+  DialogData {
   id: string;
   chargingStationID: string;
   chargingStation?: ChargingStation;
@@ -11,7 +14,7 @@ export interface ChargingProfile extends ChargingProfileAuthorizationActions, Ta
   profile: Profile;
 }
 
-export interface Profile extends TableData  {
+export interface Profile extends TableData {
   chargingProfileId: number;
   transactionId?: number;
   stackLevel: number;
@@ -60,7 +63,6 @@ export interface GetCompositeScheduleCommandResult {
   scheduleStart?: Date;
   chargingSchedule: ChargingSchedule;
 }
-
 
 export enum RecurrencyKindType {
   DAILY = 'Daily',

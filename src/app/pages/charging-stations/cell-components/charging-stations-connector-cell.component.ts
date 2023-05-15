@@ -9,21 +9,31 @@ import { ChargePointStatus, Connector } from '../../../types/ChargingStation';
     <!-- Connector ID -->
     <div class="d-flex justify-content-center">
       <div class="d-flex mx-0 px-0 align-items-center detail-connector">
-        <div appTooltip data-offset="0px, 8px"
-            [title]="row | appChargingStationsFormatConnector:'text' | translate"
-            class="charger-connector-container">
-          <div [class]="row | appChargingStationsFormatConnector:'class'">
-            {{row.connectorId | appConnectorId}}
+        <div
+          appTooltip
+          data-offset="0px, 8px"
+          [title]="row | appChargingStationsFormatConnector : 'text' | translate"
+          class="charger-connector-container"
+        >
+          <div [class]="row | appChargingStationsFormatConnector : 'class'">
+            {{ row.connectorId | appConnectorId }}
           </div>
         </div>
         <!-- Connector Type -->
-        <div class="d-inline-block" appTooltip data-offset="-15px, 8px" [title]="row.type | appConnectorType:'text' | translate">
-          <div *ngIf="row.type && row.type !== null"
+        <div
+          class="d-inline-block"
+          appTooltip
+          data-offset="-15px, 8px"
+          [title]="row.type | appConnectorType : 'text' | translate"
+        >
+          <div
+            *ngIf="row.type && row.type !== null"
             class="charger-connector-container
                   charger-connector-container-image
                   d-flex align-items-center justify-content-center
-                  charger-connector-container-image-small charger-connector-type-background">
-            <mat-icon [svgIcon]="row.type | appConnectorType:'icon'" class="d-flex"></mat-icon>
+                  charger-connector-container-image-small charger-connector-type-background"
+          >
+            <mat-icon [svgIcon]="row.type | appConnectorType : 'icon'" class="d-flex"></mat-icon>
           </div>
         </div>
       </div>
@@ -79,7 +89,8 @@ export class AppChargingStationsFormatConnectorPipe implements PipeTransform {
       case ChargePointStatus.OCCUPIED: {
         // Check if charging
         if (connector.currentInstantWatts > 0) {
-          classNames += 'charger-connector-charging-active charger-connector-background-spinner charger-connector-charging-active-text';
+          classNames +=
+            'charger-connector-charging-active charger-connector-background-spinner charger-connector-charging-active-text';
         } else {
           classNames += 'charger-connector-charging';
         }

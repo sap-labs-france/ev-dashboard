@@ -30,13 +30,13 @@ export enum ConsumptionChartDatasetOrder {
   NET_CONSUMPTION_AMPS = 28,
   PLAN_WATTS = 29,
   PLAN_AMPS = 30,
-};
+}
 
 export enum ChartTypeValues {
   PIE = 'pie',
   BAR = 'bar',
-  STACKED_BAR = 'stackedBar'
-};
+  STACKED_BAR = 'stackedBar',
+}
 
 export enum ConsumptionChartAxis {
   X = 'x',

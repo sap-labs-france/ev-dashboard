@@ -191,7 +191,8 @@
       "cars": "Cars",
       "invoices": "Invoices",
       "tags": "RFID Cards",
-      "charging_station_templates": "Charging Station Templates"
+      "charging_station_templates": "Charging Station Templates",
+      "reservations": "Reservations"
     },
     "tooltips": {
       "push_cdr": "Push CDR",
@@ -1520,6 +1521,7 @@
     "save_error_smart_charging": "Organization must be active to use Smart Charging",
     "save_error_asset": "Organization must be active to use Asset",
     "save_error_car_connector": "Car Management must be active to use Car Connector",
+    "save_error_reservation": "Organization must be active to use Reservation",
     "smart_charging_still_active_for_site_area": [
       "Smart Charging is still active for certain Site Areas.",
       "Please deactivate Smart Charging for every Site Area in the tenant."
@@ -2743,5 +2745,133 @@
     "end_user_error_notification": "Notify me when a user reports an error",
     "billing_new_invoice": "Notify me when a new invoice is available",
     "admin_account_verification": "Notify me when new account creation needs to be verified"
+  },
+  "reservations": {
+    "titles": "Reservations",
+    "description": "Manage reservations on charging stations and connectors",
+    "title": "Reservation",
+    "id": "ID",
+    "created_on": "Creation Date",
+    "chargingstation_id": "Charging Station",
+    "connector_id": "Connector",
+    "connector_status": "Connector Status",
+    "expiry_date": "Expiration Date",
+    "from_date": "Valid From",
+    "to_date": "Valid To",
+    "arrival_time": "Arrival Time",
+    "departure_time": "Departure Time",
+    "tag_id": "Tag",
+    "status": "Status",
+    "type": "Reservation Type",
+    "user": "User",
+    "car": "Car",
+    "tabs": {
+      "list": "Reservations"
+    },
+    "dialog": {
+      "general": {
+        "expiry_date": "Choose a expiry date"
+      },
+      "reserve_now": {
+        "title": "Complete Reserve Now",
+        "tooltips": "Reserve Now",
+        "confirm": "Do you really want to reserve the connector '{{connectorID}}' for user '{{userName}}' on the charging station '{{chargingStationID}}'?",
+        "details": "Reserve connector '{{connectorID}}' at chargepoint '{{chargingStationID}}'",
+        "success": "The reservation on the charging station '{{chargingStationID}}' at connector '{{connectorID}}' was successfully",
+        "error": "Error occurred while trying to create a reservation, check the logs"
+      },
+      "cancel_reservation": {
+        "title": "Cancel Reservation",
+        "tooltips": "Cancel Reservation",
+        "confirm": "Do you really want to cancel the reservation at charging station '{{chargingStationID}}'?",
+        "details": "",
+        "success": "The reservation at charging station '{{chargingStationID}}' is successfully cancelled",
+        "error": "Error occured while trying to cancel the reservation at charging station '{{chargingStationID}}'"
+      },
+      "create": {
+        "title": "Create Reservation",
+        "tooltips": "Create Reservation",
+        "confirm": "Do you really want to create a '{{reservationType}}' reservation at charging station '{{chargingStationID}}' on connector '{{connectorID}}'?",
+        "details": "",
+        "success": "The reservation at '{{chargingStationID}}' on connector '{{connectorID}}' has been created successfully",
+        "error": "Error occurred while adding the reservation, check the logs"
+      },
+      "update": {
+        "title": "Update Reservation",
+        "tooltips": "Update Reservation",
+        "confirm": "",
+        "details": "",
+        "success": "The reservation at '{{chargingStationID}}' on connector '{{connectorID}}' has been saved successfully",
+        "error": "Cannot change the reservation details, check the logs"
+      },
+      "delete": {
+        "title": "Delete Reservation",
+        "tooltips": "Delete Reservation",
+        "confirm": "Do you really want to delete the reservation?",
+        "details": "",
+        "success": "The reservation at '{{chargingStationID}}' on connector '{{connectorID}}' is successfully deleted",
+        "error": "An error occured during the deletion of the reservation, check the logs"
+      },
+      "export": {
+        "title": "Export reservations",
+        "confirm": "Do you really want to export all the reservations matching the filters?",
+        "error": "Error occurred while trying to export the reservations, check the logs"
+      },
+      "delete_reservations": {
+        "title": "Delete Reservation(s)",
+        "confirm": "Do you really want to delete '{{quantity}}' reservations?",
+        "success": "{{inSuccess}} reservations have been deleted successfully",
+        "partial": "{{inSuccess}} reservations have been deleted successfully and {{inError}} reservations have encountered an error, check the logs",
+        "error": "{{inError}} failed to be deleted, check the logs",
+        "unexpected_error": "Unexpected error occurred while deleting the reservations, check the logs",
+        "reject_deletion_ongoing_reservations": "You cannot delete a reservation, which is in progress"
+      }
+    },
+    "action_error": {
+      "general": {
+        "not_found": "The reservation has not been found",
+        "already_exists": "The reservation with the ID {{reservationID}} already exists for another user",
+        "not_supported": "The feature 'Reservations' is not enabled for this charging station",
+        "rejected": "The reservation was rejected",
+        "collision": "This reservation collides with another reservation for this timeslot. Choose another time",
+        "faulted": "The specified charging station or connector changed to 'FAULTED' state during reservation",
+        "occupied": "The specified charging station or connector changed to 'OCCUPIED' state during reservation",
+        "unavailable": "The specified charging station or connector changed to 'UNAVAILABLE' state during reservation",
+        "multiple_reserve_now": "Only one 'RESERVE NOW' reservation per user is possible"
+      },
+      "reserve_now": {
+        "title": "Reserve now error",
+        "not_available": "Connector is not available, unable to reserve it"
+      },
+      "cancel_reservation": {
+        "title": "Error during cancelation of reservation with ID '{{reservationId}}'",
+        "not_available": "Connector is not available, reservation could not be cancelled"
+      }
+    },
+    "error": {
+      "invalid_date": "The chosen date is invalid",
+      "invalid_date_range": "The chosen date range is invalid",
+      "invalid_expiry_date": "The expiry date must be in the future"
+    },
+    "state": {
+      "scheduled": "Scheduled",
+      "done": "Done",
+      "in_progress": "In Progress",
+      "inactive": "Inactive",
+      "cancelled": "Cancelled",
+      "expired": "Expired",
+      "unmet": "Unmet"
+    },
+    "types": {
+      "reserve_now": "Reserve Now",
+      "planned_reservation": "Planned",
+      "unknown": "Unknown Type"
+    },
+    "select_charger": "Select Charging Station",
+    "select_connector": "Select Connector",
+    "select_car": "Select Car",
+    "select_tag": "Select Tag",
+    "select_user": "Select User",
+    "select_date_range": "Select Date Range"
   }
 }

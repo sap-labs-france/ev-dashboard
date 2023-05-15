@@ -3,7 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { RESTServerRoute } from 'types/Server';
 
 import { TableActionDef } from '../../../../types/Table';
-import { UserButtonAction, UserOptionalImportProperties, UserRequiredImportProperties } from '../../../../types/User';
+import {
+  UserButtonAction,
+  UserOptionalImportProperties,
+  UserRequiredImportProperties,
+} from '../../../../types/User';
 import { TableImportAction } from '../table-import-action';
 
 export interface TableImportUsersActionDef extends TableActionDef {
@@ -20,6 +24,13 @@ export class TableImportUsersAction extends TableImportAction {
   }
 
   private importUsers(userDialogComponent: ComponentType<unknown>, dialog: MatDialog) {
-    super.import(userDialogComponent, dialog, RESTServerRoute.REST_USERS_IMPORT, 'users', UserRequiredImportProperties, UserOptionalImportProperties);
+    super.import(
+      userDialogComponent,
+      dialog,
+      RESTServerRoute.REST_USERS_IMPORT,
+      'users',
+      UserRequiredImportProperties,
+      UserOptionalImportProperties
+    );
   }
 }

@@ -11,17 +11,32 @@ import { CentralServerService } from '../../../../services/central-server.servic
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
-import { ChargePointStatus, ChargingStation, ChargingStationButtonAction, Connector, OCPPGeneralResponse } from '../../../../types/ChargingStation';
+import {
+  ChargePointStatus,
+  ChargingStation,
+  ChargingStationButtonAction,
+  Connector,
+  OCPPGeneralResponse,
+} from '../../../../types/ChargingStation';
 import { ActionResponse } from '../../../../types/DataResult';
 import { TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
 export interface TableChargingStationsStartTransactionActionDef extends TableActionDef {
-  action: (chargingStationsStartTransactionDialogComponent: ComponentType<unknown>, chargingStation: ChargingStation, connector: Connector,
-    dialogService: DialogService, dialog: MatDialog, translateService: TranslateService,
-    messageService: MessageService, centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
-    refresh?: () => Observable<void>) => void;
+  action: (
+    chargingStationsStartTransactionDialogComponent: ComponentType<unknown>,
+    chargingStation: ChargingStation,
+    connector: Connector,
+    dialogService: DialogService,
+    dialog: MatDialog,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableChargingStationsStartTransactionAction implements TableAction {
@@ -39,27 +54,38 @@ export class TableChargingStationsStartTransactionAction implements TableAction 
     return this.action;
   }
 
-  private startTransaction(chargingStationsStartTransactionDialogComponent: ComponentType<unknown>,
-    chargingStation: ChargingStation, connector: Connector, dialogService: DialogService, dialog: MatDialog,
-    translateService: TranslateService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
-    refresh?: () => Observable<void>) {
+  private startTransaction(
+    chargingStationsStartTransactionDialogComponent: ComponentType<unknown>,
+    chargingStation: ChargingStation,
+    connector: Connector,
+    dialogService: DialogService,
+    dialog: MatDialog,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) {
     if (chargingStation.inactive) {
       dialogService.createAndShowOkDialog(
         translateService.instant('chargers.action_error.transaction_start_title'),
-        translateService.instant('chargers.action_error.transaction_start_title'));
+        translateService.instant('chargers.action_error.transaction_start_title')
+      );
       return;
     }
     if (connector.status === ChargePointStatus.UNAVAILABLE) {
       dialogService.createAndShowOkDialog(
         translateService.instant('chargers.action_error.transaction_start_title'),
-        translateService.instant('chargers.action_error.transaction_start_not_available'));
+        translateService.instant('chargers.action_error.transaction_start_not_available')
+      );
       return;
     }
     if (connector.currentTransactionID) {
       dialogService.createAndShowOkDialog(
         translateService.instant('chargers.action_error.transaction_start_title'),
-        translateService.instant('chargers.action_error.transaction_in_progress'));
+        translateService.instant('chargers.action_error.transaction_in_progress')
+      );
       return;
     }
     // Create dialog config
@@ -67,7 +93,10 @@ export class TableChargingStationsStartTransactionAction implements TableAction 
     dialogConfig.minWidth = '40vw';
     dialogConfig.panelClass = '';
     // Build dialog data
-    const dialogData: DialogParamsWithAuth<StartTransactionDialogData, ChargingStationsAuthorizations> = {
+    const dialogData: DialogParamsWithAuth<
+    StartTransactionDialogData,
+    ChargingStationsAuthorizations
+    > = {
       dialogData: {
         id: chargingStation.id,
         chargingStation,
@@ -79,55 +108,95 @@ export class TableChargingStationsStartTransactionAction implements TableAction 
     const dialogRef = dialog.open(chargingStationsStartTransactionDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((startTransaction: StartTransaction) => {
       if (startTransaction) {
-        this.startTransactionForUser(chargingStation, connector, startTransaction.userFullName, startTransaction.userID,
-          startTransaction.visualTagID, startTransaction.carID, dialogService, translateService, messageService,
-          centralServerService, router, spinnerService, refresh);
+        this.startTransactionForUser(
+          chargingStation,
+          connector,
+          startTransaction.userFullName,
+          startTransaction.userID,
+          startTransaction.visualTagID,
+          startTransaction.carID,
+          dialogService,
+          translateService,
+          messageService,
+          centralServerService,
+          router,
+          spinnerService,
+          refresh
+        );
       }
     });
   }
 
-  private startTransactionForUser(chargingStation: ChargingStation, connector: Connector, userFullName: string, userID: string,
-    visualTagID: string, carID: string | null, dialogService: DialogService, translateService: TranslateService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router,
-    spinnerService: SpinnerService, refresh?: () => Observable<void>): void {
-    dialogService.createAndShowYesNoDialog(
-      translateService.instant('chargers.start_transaction_title'),
-      translateService.instant('chargers.start_transaction_confirm', {
-        chargeBoxID: chargingStation.id,
-        userName: userFullName,
-      }),
-    ).subscribe((response) => {
-      if (response === ButtonAction.YES) {
-        // Check badge
-        if (!visualTagID) {
-          messageService.showErrorMessage(
-            translateService.instant('chargers.start_transaction_missing_active_tag', {
-              chargeBoxID: chargingStation.id,
-              userName: userFullName,
-            }));
-          return;
-        }
-        spinnerService.show();
-        centralServerService.startTransaction(chargingStation.id, connector.connectorId, userID, visualTagID, carID).subscribe({
-          next: (startTransactionResponse: ActionResponse) => {
-            spinnerService.hide();
-            if (startTransactionResponse.status === OCPPGeneralResponse.ACCEPTED) {
-              messageService.showSuccessMessage(
-                translateService.instant('chargers.start_transaction_success', { chargeBoxID: chargingStation.id }));
-              if (refresh) {
-                refresh().subscribe();
-              }
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                messageService, translateService.instant('chargers.start_transaction_error'));
-            }
-          },
-          error: (error) => {
-            spinnerService.hide();
-            Utils.handleHttpError(error, router, messageService, centralServerService, 'chargers.start_transaction_error');
+  private startTransactionForUser(
+    chargingStation: ChargingStation,
+    connector: Connector,
+    userFullName: string,
+    userID: string,
+    visualTagID: string,
+    carID: string | null,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    router: Router,
+    spinnerService: SpinnerService,
+    refresh?: () => Observable<void>
+  ): void {
+    dialogService
+      .createAndShowYesNoDialog(
+        translateService.instant('chargers.start_transaction_title'),
+        translateService.instant('chargers.start_transaction_confirm', {
+          chargeBoxID: chargingStation.id,
+          userName: userFullName,
+        })
+      )
+      .subscribe((response) => {
+        if (response === ButtonAction.YES) {
+          // Check badge
+          if (!visualTagID) {
+            messageService.showErrorMessage(
+              translateService.instant('chargers.start_transaction_missing_active_tag', {
+                chargeBoxID: chargingStation.id,
+                userName: userFullName,
+              })
+            );
+            return;
           }
-        });
-      }
-    });
+          spinnerService.show();
+          centralServerService
+            .startTransaction(chargingStation.id, connector.connectorId, userID, visualTagID, carID)
+            .subscribe({
+              next: (startTransactionResponse: ActionResponse) => {
+                spinnerService.hide();
+                if (startTransactionResponse.status === OCPPGeneralResponse.ACCEPTED) {
+                  messageService.showSuccessMessage(
+                    translateService.instant('chargers.start_transaction_success', {
+                      chargeBoxID: chargingStation.id,
+                    })
+                  );
+                  if (refresh) {
+                    refresh().subscribe();
+                  }
+                } else {
+                  Utils.handleError(
+                    JSON.stringify(response),
+                    messageService,
+                    translateService.instant('chargers.start_transaction_error')
+                  );
+                }
+              },
+              error: (error) => {
+                spinnerService.hide();
+                Utils.handleHttpError(
+                  error,
+                  router,
+                  messageService,
+                  centralServerService,
+                  'chargers.start_transaction_error'
+                );
+              },
+            });
+        }
+      });
   }
 }

@@ -18,7 +18,7 @@ import { Utils } from '../../../../../utils/Utils';
 @Component({
   selector: 'app-ocpi-endpoint',
   templateUrl: 'settings-ocpi-endpoint.component.html',
-  styleUrls: ['settings-ocpi-endpoint.component.scss']
+  styleUrls: ['settings-ocpi-endpoint.component.scss'],
 })
 export class SettingsOcpiEndpointComponent implements OnInit {
   @Input() public currentEndpoint!: OCPIEndpoint;
@@ -48,46 +48,31 @@ export class SettingsOcpiEndpointComponent implements OnInit {
     private spinnerService: SpinnerService,
     private dialogService: DialogService,
     private translateService: TranslateService,
-    private router: Router) {
-  }
+    private router: Router
+  ) {}
 
   public ngOnInit(): void {
     this.formGroup = new FormGroup({
       id: new FormControl(''),
-      name: new FormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(100),
-        ])),
-      role: new FormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      baseUrl: new FormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(Constants.URL_PATTERN),
-        ])),
-      countryCode: new FormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(2),
-          Validators.minLength(2),
-        ])),
-      partyId: new FormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(3),
-          Validators.minLength(3),
-        ])),
-      localToken: new FormControl('',
-        Validators.compose([
-          Validators.maxLength(64),
-        ])),
-      token: new FormControl('',
-        Validators.compose([
-          Validators.maxLength(64),
-        ])),
+      name: new FormControl(
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(100)])
+      ),
+      role: new FormControl('', Validators.compose([Validators.required])),
+      baseUrl: new FormControl(
+        '',
+        Validators.compose([Validators.required, Validators.pattern(Constants.URL_PATTERN)])
+      ),
+      countryCode: new FormControl(
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(2), Validators.minLength(2)])
+      ),
+      partyId: new FormControl(
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(3), Validators.minLength(3)])
+      ),
+      localToken: new FormControl('', Validators.compose([Validators.maxLength(64)])),
+      token: new FormControl('', Validators.compose([Validators.maxLength(64)])),
       backgroundPatchJob: new FormControl(false),
     });
     this.id = this.formGroup.controls['id'];
@@ -150,8 +135,13 @@ export class SettingsOcpiEndpointComponent implements OnInit {
   }
 
   public close() {
-    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
-      this.translateService, this.save.bind(this), this.closeDialog.bind(this));
+    Utils.checkAndSaveAndCloseDialog(
+      this.formGroup,
+      this.dialogService,
+      this.translateService,
+      this.save.bind(this),
+      this.closeDialog.bind(this)
+    );
   }
 
   public save(endpoint: OCPIEndpoint) {
@@ -175,15 +165,23 @@ export class SettingsOcpiEndpointComponent implements OnInit {
           this.localToken.setValue(response.localToken);
           this.localToken.markAsDirty();
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, 'ocpiendpoints.error_generate_local_token');
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            'ocpiendpoints.error_generate_local_token'
+          );
         }
       },
       error: (error) => {
         this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          'ocpiendpoints.error_generate_local_token');
-      }
+        Utils.handleHttpError(
+          error,
+          this.router,
+          this.messageService,
+          this.centralServerService,
+          'ocpiendpoints.error_generate_local_token'
+        );
+      },
     });
   }
 
@@ -193,7 +191,9 @@ export class SettingsOcpiEndpointComponent implements OnInit {
       next: (response) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage('ocpiendpoints.success_ping', { name: ocpiEndpoint.name });
+          this.messageService.showSuccessMessage('ocpiendpoints.success_ping', {
+            name: ocpiEndpoint.name,
+          });
         } else {
           // switch message according status code recieved
           let messageID = 'ocpiendpoints.error_ping';
@@ -210,15 +210,19 @@ export class SettingsOcpiEndpointComponent implements OnInit {
             default:
               messageID = 'ocpiendpoints.error_ping';
           }
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, messageID);
+          Utils.handleError(JSON.stringify(response), this.messageService, messageID);
         }
       },
       error: (error) => {
         this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          'ocpiendpoints.error_ping');
-      }
+        Utils.handleHttpError(
+          error,
+          this.router,
+          this.messageService,
+          this.centralServerService,
+          'ocpiendpoints.error_ping'
+        );
+      },
     });
   }
 
@@ -228,18 +232,28 @@ export class SettingsOcpiEndpointComponent implements OnInit {
       next: (response) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage('ocpiendpoints.create_success', { name: ocpiEndpoint.name });
+          this.messageService.showSuccessMessage('ocpiendpoints.create_success', {
+            name: ocpiEndpoint.name,
+          });
           this.closeDialog(true);
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, 'ocpiendpoints.create_error');
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            'ocpiendpoints.create_error'
+          );
         }
       },
       error: (error) => {
         this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          'ocpiendpoints.create_error');
-      }
+        Utils.handleHttpError(
+          error,
+          this.router,
+          this.messageService,
+          this.centralServerService,
+          'ocpiendpoints.create_error'
+        );
+      },
     });
   }
 
@@ -249,18 +263,28 @@ export class SettingsOcpiEndpointComponent implements OnInit {
       next: (response) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage('ocpiendpoints.update_success', { name: ocpiEndpoint.name });
+          this.messageService.showSuccessMessage('ocpiendpoints.update_success', {
+            name: ocpiEndpoint.name,
+          });
           this.closeDialog(true);
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, 'ocpiendpoints.update_error');
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            'ocpiendpoints.update_error'
+          );
         }
       },
       error: (error) => {
         this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-          'ocpiendpoints.update_error');
-      }
+        Utils.handleHttpError(
+          error,
+          this.router,
+          this.messageService,
+          this.centralServerService,
+          'ocpiendpoints.update_error'
+        );
+      },
     });
   }
 }

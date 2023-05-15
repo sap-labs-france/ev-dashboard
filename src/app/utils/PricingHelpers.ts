@@ -4,29 +4,31 @@ import { Constants } from './Constants';
 import { Utils } from './Utils';
 
 export class PricingHelpers {
-  public static toMinutes( value: number ): number {
-    if ( Utils.isNullOrUndefined(value) ) {
+  public static toMinutes(value: number): number {
+    if (Utils.isNullOrUndefined(value)) {
       return value; // do not change the actual value
     }
     return value / 60;
   }
 
-  public static toSeconds( value: number ): number {
-    if ( Utils.isNullOrUndefined(value) ) {
+  public static toSeconds(value: number): number {
+    if (Utils.isNullOrUndefined(value)) {
       return value; // do not change the actual value
     }
     return value * 60;
   }
 
-  public static convertDurationToSeconds( enabled: boolean, value: number): number {
-    return (enabled)? PricingHelpers.toSeconds(value): null;
+  public static convertDurationToSeconds(enabled: boolean, value: number): number {
+    return enabled ? PricingHelpers.toSeconds(value) : null;
   }
 
   public static minValidator(maxControl: string): ValidatorFn {
     return (control: AbstractControl): ValidationErrors => {
       if (!Utils.isNullOrUndefined(Validators.required(control))) {
         return Validators.required(control);
-      } else if (!Utils.isNullOrUndefined(Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)(control))) {
+      } else if (
+        !Utils.isNullOrUndefined(Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)(control))
+      ) {
         return Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)(control);
       } else {
         // call the validation of the dependant control (maxValidator)
@@ -40,13 +42,18 @@ export class PricingHelpers {
     return (control: AbstractControl): ValidationErrors => {
       if (!Utils.isNullOrUndefined(Validators.required(control))) {
         return Validators.required(control);
-      } else if (!Utils.isNullOrUndefined(Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)(control))) {
+      } else if (
+        !Utils.isNullOrUndefined(Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)(control))
+      ) {
         return Validators.pattern(Constants.REGEX_VALIDATION_NUMBER)(control);
-      } else if (control.parent.controls[minControl]?.enabled && control.parent.controls[maxControl]?.enabled){
+      } else if (
+        control.parent.controls[minControl]?.enabled &&
+        control.parent.controls[maxControl]?.enabled
+      ) {
         const fieldMinValue = control.parent.controls[minControl]?.value;
         const fieldMaxValue = control.parent.controls[maxControl]?.value;
         if (Number(fieldMaxValue) <= Number(fieldMinValue)) {
-          return {minMaxError: true};
+          return { minMaxError: true };
         }
       }
       return null;
@@ -69,11 +76,14 @@ export class PricingHelpers {
     return (control: AbstractControl): ValidationErrors => {
       if (!Utils.isNullOrUndefined(Validators.required(control))) {
         return Validators.required(control);
-      } else if (control.parent.controls[minControl]?.enabled && control.parent.controls[maxControl]?.enabled){
+      } else if (
+        control.parent.controls[minControl]?.enabled &&
+        control.parent.controls[maxControl]?.enabled
+      ) {
         const fieldMinValue = control.parent.controls[minControl]?.value;
         const fieldMaxValue = control.parent.controls[maxControl]?.value;
         if (fieldMaxValue === fieldMinValue) {
-          return {timeRangeError: true};
+          return { timeRangeError: true };
         }
       }
       return null;

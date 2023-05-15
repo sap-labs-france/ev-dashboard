@@ -13,7 +13,10 @@ import { TableModule } from '../../shared/table/table.module';
 import { ConcurUserConnectionComponent } from './connections/concur/concur-user-connection.component';
 import { MercedesUserConnectionComponent } from './connections/mercedes/mercedes-user-connection.component';
 import { AppUserRolePipe } from './formatters/user-role.pipe';
-import { AppFormatUserStatusPipe, UserStatusFormatterComponent } from './formatters/user-status-formatter.component';
+import {
+  AppFormatUserStatusPipe,
+  UserStatusFormatterComponent,
+} from './formatters/user-status-formatter.component';
 import { AppUserStatusPipe } from './formatters/user-status.pipe';
 import { UsersInErrorTableDataSource } from './in-error/users-in-error-table-data-source';
 import { UsersInErrorComponent } from './in-error/users-in-error.component';
@@ -28,7 +31,10 @@ import { UserConnectorsComponent } from './user/connectors/user-connectors.compo
 import { UserMainComponent } from './user/main/user-main.component';
 import { UserMiscsComponent } from './user/miscs/user-miscs.component';
 import { UserNotificationsComponent } from './user/notifications/user-notifications.component';
-import { AppPaymentMethodStatusPipe, PaymentMethodStatusComponent } from './user/payment-methods/payment-method/payment-method-status.component';
+import {
+  AppPaymentMethodStatusPipe,
+  PaymentMethodStatusComponent,
+} from './user/payment-methods/payment-method/payment-method-status.component';
 import { PaymentMethodDialogComponent } from './user/payment-methods/payment-method/payment-method.dialog.component';
 import { StripePaymentMethodComponent } from './user/payment-methods/payment-method/stripe/stripe-payment-method.component';
 import { PaymentMethodsComponent } from './user/payment-methods/payment-methods.component';
@@ -77,20 +83,14 @@ import { UserRoutes } from './users.routing';
     PaymentMethodsComponent,
     PaymentMethodDialogComponent,
     AppPaymentMethodStatusPipe,
-    PaymentMethodStatusComponent
+    PaymentMethodStatusComponent,
   ],
-  exports: [
-    AppUserRolePipe,
-    AppUserStatusPipe,
-    UserDialogComponent,
-  ],
+  exports: [AppUserRolePipe, AppUserStatusPipe, UserDialogComponent],
   providers: [
     AppUserRolePipe,
     AppUserStatusPipe,
     UserSitesTableDataSource,
     UsersInErrorTableDataSource,
-  ]
+  ],
 })
-
-export class UsersModule {
-}
+export class UsersModule {}

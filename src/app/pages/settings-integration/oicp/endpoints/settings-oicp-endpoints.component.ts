@@ -15,5 +15,6 @@ export class SettingsOicpEndpointsComponent {
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
-    public settingsOicpEndpointsTableDataSource: SettingsOicpEndpointsTableDataSource) {}
+    public settingsOicpEndpointsTableDataSource: SettingsOicpEndpointsTableDataSource
+  ) {}
 }

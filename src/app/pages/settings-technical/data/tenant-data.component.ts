@@ -17,7 +17,6 @@ import { Utils } from 'utils/Utils';
   templateUrl: 'tenant-data.component.html',
 })
 export class TenantDataComponent implements OnInit, OnChanges {
-
   public isDisabled: boolean;
   public initialized = false;
   public formGroup!: UntypedFormGroup;
@@ -34,7 +33,8 @@ export class TenantDataComponent implements OnInit, OnChanges {
     private router: Router,
     private messageService: MessageService,
     private configService: ConfigService,
-    private spinnerService: SpinnerService) {
+    private spinnerService: SpinnerService
+  ) {
     this.logoMaxSize = this.configService.getTenant().maxLogoKb;
     this.isDisabled = false;
   }
@@ -42,17 +42,16 @@ export class TenantDataComponent implements OnInit, OnChanges {
   public ngOnInit() {
     // Init main part
     this.formGroup = new UntypedFormGroup({});
-    this.formGroup.addControl('name', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-        Validators.maxLength(100),
-      ]))
+    this.formGroup.addControl(
+      'name',
+      new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(100)])
+      )
     );
-    this.formGroup.addControl('email', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-        Validators.email,
-      ]))
+    this.formGroup.addControl(
+      'email',
+      new UntypedFormControl('', Validators.compose([Validators.required, Validators.email]))
     );
     // Assign
     this.name = this.formGroup.controls['name'];
@@ -67,34 +66,41 @@ export class TenantDataComponent implements OnInit, OnChanges {
 
   public loadTenant() {
     // Init main part
-    this.centralServerService.getTenant(this.centralServerService.getLoggedUser().tenantID).subscribe((tenant) => {
-      this.name.setValue(tenant.name);
-      this.email.setValue(tenant.email);
-      if (tenant.address) {
-        this.address = tenant.address;
-      }
-      this.tenant = tenant;
-      this.formGroup.markAsPristine();
-      // Get Tenant logo
-      this.centralServerService.getTenantLogo(this.tenant.id).subscribe({
-        next: (tenantLogo) => {
-          this.logo = tenantLogo ?? Constants.NO_IMAGE;
-        },
-        error: (error) => {
-          switch (error.status) {
-            case StatusCodes.NOT_FOUND:
-              this.logo = Constants.NO_IMAGE;
-              break;
-            default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'general.unexpected_error_backend');
-          }
+    this.centralServerService
+      .getTenant(this.centralServerService.getLoggedUser().tenantID)
+      .subscribe((tenant) => {
+        this.name.setValue(tenant.name);
+        this.email.setValue(tenant.email);
+        if (tenant.address) {
+          this.address = tenant.address;
         }
+        this.tenant = tenant;
+        this.formGroup.markAsPristine();
+        // Get Tenant logo
+        this.centralServerService.getTenantLogo(this.tenant.id).subscribe({
+          next: (tenantLogo) => {
+            this.logo = tenantLogo ?? Constants.NO_IMAGE;
+          },
+          error: (error) => {
+            switch (error.status) {
+              case StatusCodes.NOT_FOUND:
+                this.logo = Constants.NO_IMAGE;
+                break;
+              default:
+                Utils.handleHttpError(
+                  error,
+                  this.router,
+                  this.messageService,
+                  this.centralServerService,
+                  'general.unexpected_error_backend'
+                );
+            }
+          },
+        });
       });
-    });
   }
 
-  public refresh(){
+  public refresh() {
     this.loadTenant();
   }
 
@@ -102,8 +108,10 @@ export class TenantDataComponent implements OnInit, OnChanges {
     // Load picture
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-      if (file.size > (this.logoMaxSize * 1024)) {
-        this.messageService.showErrorMessage('tenants.logo_size_error', { maxPictureKb: this.logoMaxSize });
+      if (file.size > this.logoMaxSize * 1024) {
+        this.messageService.showErrorMessage('tenants.logo_size_error', {
+          maxPictureKb: this.logoMaxSize,
+        });
       } else {
         const reader = new FileReader();
         reader.onload = () => {
@@ -154,8 +162,14 @@ export class TenantDataComponent implements OnInit, OnChanges {
       },
       error: (error) => {
         this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tenants.update_error');
-      }
+        Utils.handleHttpError(
+          error,
+          this.router,
+          this.messageService,
+          this.centralServerService,
+          'tenants.update_error'
+        );
+      },
     });
   }
 }

@@ -1,10 +1,15 @@
 <div class="main-content flex-grow-1">
-  <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex"
-                 animationDuration="0ms" disableRipple="true" class="h-100 mat-tab-info">
+  <mat-tab-group
+    (selectedIndexChange)="updateRoute($event)"
+    [selectedIndex]="activeTabIndex"
+    animationDuration="0ms"
+    disableRipple="true"
+    class="h-100 mat-tab-info"
+  >
     <mat-tab *ngIf="canListTags">
       <ng-template mat-tab-label>
         <mat-icon>nfc</mat-icon>
-        <span>{{'users.tabs.tags' | translate}}</span>
+        <span>{{ 'users.tabs.tags' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-tags-list></app-tags-list>

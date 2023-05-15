@@ -1,11 +1,11 @@
 <div *ngIf="transaction?.values?.length === 0" class="graph-no-consumption">
-  {{'transactions.graph.no_consumption' | translate}}
+  {{ 'transactions.graph.no_consumption' | translate }}
 </div>
-<div [ngClass]="{'fit-screen': !inDialog}" [hidden]="transaction?.values?.length === 0">
+<div [ngClass]="{ 'fit-screen': !inDialog }" [hidden]="transaction?.values?.length === 0">
   <div class="row mt-2">
     <div class="col-auto mt-2 me-auto">
       <mat-checkbox class="mx-auto" (change)="loadAllConsumptionsChanged($event)">
-        {{'transactions.graph.load_all_consumptions' | translate}}
+        {{ 'transactions.graph.load_all_consumptions' | translate }}
       </mat-checkbox>
     </div>
     <div class="col-auto">
@@ -13,20 +13,20 @@
     </div>
   </div>
   <div class="chart-container mt-2">
-    <div #primary class='chart-primary'></div>
-    <div #primary1 class='chart-primary-1'></div>
-    <div #primary2 class='chart-primary-2'></div>
-    <div #primary3 class='chart-primary-3'></div>
-    <div #accent class='chart-accent'></div>
-    <div #danger class='chart-danger'></div>
-    <div #success class='chart-success'></div>
-    <div #warning class='chart-warning'></div>
-    <div #cyan class='chart-cyan'></div>
-    <div #purple class='chart-purple'></div>
-    <div #purple1 class='chart-purple-1'></div>
-    <div #purple2 class='chart-purple-2'></div>
-    <div #purple3 class='chart-purple-3'></div>
-    <div #yellow class='chart-yellow'></div>
+    <div #primary class="chart-primary"></div>
+    <div #primary1 class="chart-primary-1"></div>
+    <div #primary2 class="chart-primary-2"></div>
+    <div #primary3 class="chart-primary-3"></div>
+    <div #accent class="chart-accent"></div>
+    <div #danger class="chart-danger"></div>
+    <div #success class="chart-success"></div>
+    <div #warning class="chart-warning"></div>
+    <div #cyan class="chart-cyan"></div>
+    <div #purple class="chart-purple"></div>
+    <div #purple1 class="chart-purple-1"></div>
+    <div #purple2 class="chart-purple-2"></div>
+    <div #purple3 class="chart-purple-3"></div>
+    <div #yellow class="chart-yellow"></div>
     <canvas #chart></canvas>
   </div>
 </div>

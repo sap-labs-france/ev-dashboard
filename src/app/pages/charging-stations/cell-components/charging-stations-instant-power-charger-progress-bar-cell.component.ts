@@ -9,12 +9,19 @@ import { Utils } from '../../../utils/Utils';
   template: `
     <div class="d-flex flex-column align-items-center mx-2">
       <div class="d-flex power-bar-text" [class.power-bar-text-error]="row.maximumPower === 0">
-        {{row.connectors | appChargingStationsFormatPowerCharger:'instantPowerKW':row}}
+        {{ row.connectors | appChargingStationsFormatPowerCharger : 'instantPowerKW' : row }}
         &nbsp;/&nbsp;
-        {{row.connectors | appChargingStationsFormatPowerCharger:'maxPowerKW':row}} kW
+        {{ row.connectors | appChargingStationsFormatPowerCharger : 'maxPowerKW' : row }} kW
       </div>
-      <mat-progress-bar color="accent" class="d-flex" [hidden]="row.maximumPower === 0"
-        [value]="row.connectors | appChargingStationsFormatPowerCharger:'instantPowerKWPercent':row" mode="determinate">
+      <mat-progress-bar
+        color="accent"
+        class="d-flex"
+        [hidden]="row.maximumPower === 0"
+        [value]="
+          row.connectors | appChargingStationsFormatPowerCharger : 'instantPowerKWPercent' : row
+        "
+        mode="determinate"
+      >
       </mat-progress-bar>
     </div>
   `,
@@ -29,7 +36,11 @@ export class AppChargingStationsFormatPowerChargerPipe implements PipeTransform 
   // eslint-disable-next-line no-useless-constructor
   public constructor(private decimalPipe: AppDecimalPipe) {}
 
-  public transform(connectors: Connector[], type: string, chargingStation: ChargingStation): string {
+  public transform(
+    connectors: Connector[],
+    type: string,
+    chargingStation: ChargingStation
+  ): string {
     let value = 0;
     switch (type) {
       // Compute Instance Power
@@ -51,7 +62,7 @@ export class AppChargingStationsFormatPowerChargerPipe implements PipeTransform 
           if (instantPowerKW === 0) {
             value = 0;
           }
-          value = Math.round((instantPowerKW * 1000 / chargingStation.maximumPower) * 100);
+          value = Math.round(((instantPowerKW * 1000) / chargingStation.maximumPower) * 100);
         } else {
           value = instantPowerKW;
         }
@@ -64,7 +75,7 @@ export class AppChargingStationsFormatPowerChargerPipe implements PipeTransform 
         if (chargingStation.maximumPower > 0) {
           // Max power is already assigned on charging station level so take it
           maxPowerKW = chargingStation.maximumPower;
-        // Not set: calculate it from connectors
+          // Not set: calculate it from connectors
         } else {
           if (chargingStation.chargePoints) {
             // Add charge point power

@@ -5,28 +5,37 @@
         <form class="form" [formGroup]="formGroup" (ngSubmit)="navigate()">
           <div class="card card-login card-hidden">
             <div class="card-header card-header-primary text-center h-25">
-              <h4 class="card-title text-center">{{"accounts.onboarding.onboarding_title" | translate}}</h4>
+              <h4 class="card-title text-center">
+                {{ 'accounts.onboarding.onboarding_title' | translate }}
+              </h4>
             </div>
             <div class="card-body">
               <span *ngIf="!onboardingHasBeenDone" class="bmd-form-group">
-                {{"accounts.onboarding.onboarding_message" | translate}}<br/>
-                <br/>
-                {{"accounts.onboarding.onboarding_message_to_proceed" | translate}}
+                {{ 'accounts.onboarding.onboarding_message' | translate }}<br />
+                <br />
+                {{ 'accounts.onboarding.onboarding_message_to_proceed' | translate }}
               </span>
-              <span *ngIf="onboardingHasBeenDone && !accountActivationFailed" class="bmd-form-group">
-                {{"accounts.onboarding.onboarding_congratulations" | translate}}<br/>
-                <br/>
-                {{"accounts.onboarding.onboarding_process_completed" | translate}}
+              <span
+                *ngIf="onboardingHasBeenDone && !accountActivationFailed"
+                class="bmd-form-group"
+              >
+                {{ 'accounts.onboarding.onboarding_congratulations' | translate }}<br />
+                <br />
+                {{ 'accounts.onboarding.onboarding_process_completed' | translate }}
               </span>
               <span *ngIf="onboardingHasBeenDone && accountActivationFailed" class="bmd-form-group">
-                {{"accounts.onboarding.onboarding_process_failed" | translate}}
+                {{ 'accounts.onboarding.onboarding_process_failed' | translate }}
               </span>
             </div>
             <div *ngIf="!onboardingHasBeenDone" class="card-footer justify-content-center mb-4">
-              <button mat-button type="submit">{{"accounts.onboarding.onboarding_button_proceed" | translate}}</button>
+              <button mat-button type="submit">
+                {{ 'accounts.onboarding.onboarding_button_proceed' | translate }}
+              </button>
             </div>
             <div *ngIf="onboardingHasBeenDone" class="card-footer justify-content-center mb-4">
-              <button mat-button type="submit">{{"accounts.onboarding.onboarding_navigate_to_dashboard" | translate}}</button>
+              <button mat-button type="submit">
+                {{ 'accounts.onboarding.onboarding_navigate_to_dashboard' | translate }}
+              </button>
             </div>
           </div>
         </form>

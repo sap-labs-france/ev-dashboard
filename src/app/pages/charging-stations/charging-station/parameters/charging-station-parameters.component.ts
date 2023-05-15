@@ -1,5 +1,11 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  UntypedFormArray,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { ChargingStationsAuthorizations } from 'types/Authorization';
@@ -59,75 +65,92 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     private translateService: TranslateService,
     private localeService: LocaleService,
     private dialogService: DialogService,
-    private dialog: MatDialog) {
+    private dialog: MatDialog
+  ) {
     this.initialized = false;
     // Get Locales
     this.userLocales = this.localeService.getLocales();
-    this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
-    this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
+    this.isOrganizationComponentActive = this.componentService.isActive(
+      TenantComponents.ORGANIZATION
+    );
+    this.isSmartChargingComponentActive = this.componentService.isActive(
+      TenantComponents.SMART_CHARGING
+    );
     this.ocpiActive = this.componentService.isActive(TenantComponents.OCPI);
   }
 
   public ngOnInit(): void {
     // Init the form
     this.formGroup.addControl('id', new UntypedFormControl());
-    this.formGroup.addControl('chargingStationURL', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-        Validators.pattern(Constants.URL_PATTERN),
-      ]))
+    this.formGroup.addControl(
+      'chargingStationURL',
+      new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, Validators.pattern(Constants.URL_PATTERN)])
+      )
     );
     this.formGroup.addControl('public', new UntypedFormControl(false));
     this.formGroup.addControl('issuer', new UntypedFormControl(false));
     this.formGroup.addControl('forceInactive', new UntypedFormControl(false));
     this.formGroup.addControl('manualConfiguration', new UntypedFormControl(false));
     this.formGroup.addControl('masterSlave', new UntypedFormControl(false));
-    this.formGroup.addControl('maximumPower', new UntypedFormControl(0,
-      Validators.compose([
-        Validators.required,
-        Validators.min(1),
-        Validators.pattern('^[+]?[0-9]*$'),
-      ]))
+    this.formGroup.addControl(
+      'maximumPower',
+      new UntypedFormControl(
+        0,
+        Validators.compose([
+          Validators.required,
+          Validators.min(1),
+          Validators.pattern('^[+]?[0-9]*$'),
+        ])
+      )
     );
-    this.formGroup.addControl('maximumPowerAmps', new UntypedFormControl(0,
-      Validators.compose([
-        Validators.required,
-        Validators.min(1),
-        Validators.pattern('^[+]?[0-9]*$'),
-      ]))
+    this.formGroup.addControl(
+      'maximumPowerAmps',
+      new UntypedFormControl(
+        0,
+        Validators.compose([
+          Validators.required,
+          Validators.min(1),
+          Validators.pattern('^[+]?[0-9]*$'),
+        ])
+      )
     );
-    this.formGroup.addControl('siteArea', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-      ]))
+    this.formGroup.addControl(
+      'siteArea',
+      new UntypedFormControl('', Validators.compose([Validators.required]))
     );
-    this.formGroup.addControl('siteAreaID', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-      ]))
+    this.formGroup.addControl(
+      'siteAreaID',
+      new UntypedFormControl('', Validators.compose([Validators.required]))
     );
     this.formGroup.addControl('connectors', new UntypedFormArray([]));
     this.formGroup.addControl('chargePoints', new UntypedFormArray([]));
-    this.formGroup.addControl('coordinates', new UntypedFormArray([
-      new UntypedFormControl('',
-        Validators.compose([
-          Validators.max(180),
-          Validators.min(-180),
-          Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
-        ])),
-      new UntypedFormControl('',
-        Validators.compose([
-          Validators.max(90),
-          Validators.min(-90),
-          Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
-        ])),
-    ])
-    );
-    this.formGroup.addControl('tariffID', new UntypedFormControl(null,
-      Validators.compose([
-        Validators.maxLength(36)
+    this.formGroup.addControl(
+      'coordinates',
+      new UntypedFormArray([
+        new UntypedFormControl(
+          '',
+          Validators.compose([
+            Validators.max(180),
+            Validators.min(-180),
+            Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
+          ])
+        ),
+        new UntypedFormControl(
+          '',
+          Validators.compose([
+            Validators.max(90),
+            Validators.min(-90),
+            Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
+          ])
+        ),
       ])
-    ));
+    );
+    this.formGroup.addControl(
+      'tariffID',
+      new UntypedFormControl(null, Validators.compose([Validators.maxLength(36)]))
+    );
     this.formGroup.addControl('excludeFromSmartCharging', new UntypedFormControl(false));
     // Form
     this.id = this.formGroup.controls['id'];
@@ -204,33 +227,42 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     if (Utils.isEmptyArray(this.chargingStation.chargePoints)) {
       let totalPower = 0;
       for (const connectorControl of this.connectors.controls) {
-        if (connectorControl.get('power').value as number > 0) {
+        if ((connectorControl.get('power').value as number) > 0) {
           totalPower += connectorControl.get('power').value as number;
         }
       }
       this.maximumPower.setValue(totalPower);
       this.maximumPowerAmps.setValue(
-        Utils.convertWattToAmp(this.formGroup.getRawValue() as ChargingStation, null, 0, totalPower));
+        Utils.convertWattToAmp(this.formGroup.getRawValue() as ChargingStation, null, 0, totalPower)
+      );
     }
   }
 
   public chargePointChanged() {
     if (this.manualConfiguration.value && this.formGroup.dirty) {
-      const currentChargingStation = Utils.cloneObject(this.formGroup.getRawValue()) as ChargingStation;
+      const currentChargingStation = Utils.cloneObject(
+        this.formGroup.getRawValue()
+      ) as ChargingStation;
       delete currentChargingStation.maximumPower;
       Utils.adjustChargePoints(currentChargingStation);
       const totalPower = Utils.getChargingStationPower(currentChargingStation);
       this.maximumPower.setValue(totalPower);
       this.maximumPowerAmps.setValue(
-        Utils.convertWattToAmp(currentChargingStation, null, 0, totalPower));
+        Utils.convertWattToAmp(currentChargingStation, null, 0, totalPower)
+      );
     }
   }
 
   public maximumPowerChanged() {
     if (!this.maximumPower.errors) {
       this.maximumPowerAmps.setValue(
-        Utils.convertWattToAmp(this.formGroup.getRawValue() as ChargingStation,
-          null, 0, this.maximumPower.value as number));
+        Utils.convertWattToAmp(
+          this.formGroup.getRawValue() as ChargingStation,
+          null,
+          0,
+          this.maximumPower.value as number
+        )
+      );
     }
   }
 
@@ -246,20 +278,23 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
       sitesAdminOnly: true,
       rowMultipleSelection: false,
       staticFilter: {
-        Issuer: true
+        Issuer: true,
       },
     };
     // Open
-    this.dialog.open(SiteAreasDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
-      if (!Utils.isEmptyArray(result) && result[0].objectRef) {
-        const siteArea = result[0].objectRef as SiteArea;
-        this.chargingStation.siteArea = siteArea;
-        this.chargingStation.site = siteArea.site;
-        this.siteArea.setValue(siteArea.name);
-        this.siteAreaID.setValue(siteArea.id);
-        this.formGroup.markAsDirty();
-      }
-    });
+    this.dialog
+      .open(SiteAreasDialogComponent, dialogConfig)
+      .afterClosed()
+      .subscribe((result) => {
+        if (!Utils.isEmptyArray(result) && result[0].objectRef) {
+          const siteArea = result[0].objectRef as SiteArea;
+          this.chargingStation.siteArea = siteArea;
+          this.chargingStation.site = siteArea.site;
+          this.siteArea.setValue(siteArea.name);
+          this.siteAreaID.setValue(siteArea.id);
+          this.formGroup.markAsDirty();
+        }
+      });
   }
 
   public assignGeoMap() {
@@ -280,7 +315,12 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
           longitude = siteArea.address.coordinates[0];
         } else {
           const site = siteArea.site;
-          if (site && site.address && site.address.coordinates && site.address.coordinates.length === 2) {
+          if (
+            site &&
+            site.address &&
+            site.address.coordinates &&
+            site.address.coordinates.length === 2
+          ) {
             latitude = site.address.coordinates[1];
             longitude = site.address.coordinates[0];
           }
@@ -289,8 +329,10 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     }
     // Set data
     dialogConfig.data = {
-      dialogTitle: this.translateService.instant('geomap.dialog_geolocation_title',
-        { componentName: 'Charging Station', itemComponentName: this.chargingStation.id }),
+      dialogTitle: this.translateService.instant('geomap.dialog_geolocation_title', {
+        componentName: 'Charging Station',
+        itemComponentName: this.chargingStation.id,
+      }),
       latitude,
       longitude,
       label: this.chargingStation.id ? this.chargingStation.id : '',
@@ -298,8 +340,13 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    this.dialog.open<GeoMapDialogComponent, GeoMapDialogData, GeoMapDialogResult>(GeoMapDialogComponent, dialogConfig)
-      .afterClosed().subscribe((result) => {
+    this.dialog
+      .open<GeoMapDialogComponent, GeoMapDialogData, GeoMapDialogResult>(
+      GeoMapDialogComponent,
+      dialogConfig
+    )
+      .afterClosed()
+      .subscribe((result) => {
         if (result) {
           if (result.latitude) {
             this.latitude.setValue(result.latitude);
@@ -316,42 +363,48 @@ export class ChargingStationParametersComponent implements OnInit, OnChanges {
   public manualConfigurationChanged(checked: boolean) {
     if (!Utils.isEmptyArray(this.chargingStation.chargePoints) && checked) {
       // Show yes/no dialog
-      this.dialogService.createAndShowYesNoDialog(
-        this.translateService.instant('chargers.dialog.enable_manual_configuration.title'),
-        this.translateService.instant('chargers.dialog.enable_manual_configuration.confirm'),
-      ).subscribe((result) => {
-        if (result === ButtonAction.NO) {
-          this.manualConfiguration.setValue(false);
-          // Reload initial charging station to restore e.g. maximum power, when it was changed by the adjustment methods
-          this.loadChargingStation();
-        } else {
-          // Make maximum power of charging station configurable, when manual config is enabled (Rules can not really be applied here)
-          this.maximumPower.enable();
-        }
-      });
+      this.dialogService
+        .createAndShowYesNoDialog(
+          this.translateService.instant('chargers.dialog.enable_manual_configuration.title'),
+          this.translateService.instant('chargers.dialog.enable_manual_configuration.confirm')
+        )
+        .subscribe((result) => {
+          if (result === ButtonAction.NO) {
+            this.manualConfiguration.setValue(false);
+            // Reload initial charging station to restore e.g. maximum power, when it was changed by the adjustment methods
+            this.loadChargingStation();
+          } else {
+            // Make maximum power of charging station configurable, when manual config is enabled (Rules can not really be applied here)
+            this.maximumPower.enable();
+          }
+        });
     } else if (!checked) {
-      this.dialogService.createAndShowYesNoDialog(
-        this.translateService.instant('chargers.dialog.disable_manual_configuration.title'),
-        this.translateService.instant('chargers.dialog.disable_manual_configuration.confirm'),
-      ).subscribe((result) => {
-        if (result === ButtonAction.NO) {
-          this.manualConfiguration.setValue(true);
-        } else {
-          this.maximumPower.disable();
-          // Check initial charging station
-          if (!this.chargingStation.manualConfiguration) {
-            if (Utils.isEmptyArray(this.chargingStation.chargePoints)) {
-              this.dialogService.createAndShowOkDialog(
-                this.translateService.instant('chargers.dialog.manual_configuration_error.title'),
-                this.translateService.instant('chargers.dialog.manual_configuration_error.confirm'),
-              );
-            } else {
-              // Reload initial charging station to restore e.g. maximum power, when it was changed by the adjustment methods
-              this.loadChargingStation();
+      this.dialogService
+        .createAndShowYesNoDialog(
+          this.translateService.instant('chargers.dialog.disable_manual_configuration.title'),
+          this.translateService.instant('chargers.dialog.disable_manual_configuration.confirm')
+        )
+        .subscribe((result) => {
+          if (result === ButtonAction.NO) {
+            this.manualConfiguration.setValue(true);
+          } else {
+            this.maximumPower.disable();
+            // Check initial charging station
+            if (!this.chargingStation.manualConfiguration) {
+              if (Utils.isEmptyArray(this.chargingStation.chargePoints)) {
+                this.dialogService.createAndShowOkDialog(
+                  this.translateService.instant('chargers.dialog.manual_configuration_error.title'),
+                  this.translateService.instant(
+                    'chargers.dialog.manual_configuration_error.confirm'
+                  )
+                );
+              } else {
+                // Reload initial charging station to restore e.g. maximum power, when it was changed by the adjustment methods
+                this.loadChargingStation();
+              }
             }
           }
-        }
-      });
+        });
     }
   }
 

@@ -17,9 +17,15 @@ export class StatisticsComponent extends AbstractTabComponent {
   public constructor(
     private componentService: ComponentService,
     activatedRoute: ActivatedRoute,
-    windowService: WindowService,
+    windowService: WindowService
   ) {
-    super(activatedRoute, windowService, ['consumption', 'usage', 'inactivity', 'transactions', 'pricing']);
+    super(activatedRoute, windowService, [
+      'consumption',
+      'usage',
+      'inactivity',
+      'transactions',
+      'pricing',
+    ]);
     this.isPricingActive = this.componentService.isActive(TenantComponents.PRICING);
   }
 }

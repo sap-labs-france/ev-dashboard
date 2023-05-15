@@ -27,7 +27,11 @@ export class CarMainComponent implements OnInit, OnChanges {
 
   public carCatalogImage: string;
   public selectedCarCatalog: CarCatalog;
-  public carCatalogConverters: { type: CarConverterType; value: string; converter: CarConverter }[] = [];
+  public carCatalogConverters: {
+    type: CarConverterType;
+    value: string;
+    converter: CarConverter;
+  }[] = [];
   public canListUsers: boolean;
   public isCarConnectorComponentActive: boolean;
   public initialized = false;
@@ -47,50 +51,49 @@ export class CarMainComponent implements OnInit, OnChanges {
   public userID!: AbstractControl;
   public carTypes: KeyValue[] = [
     { key: CarType.COMPANY, value: 'cars.company_car' },
-    { key: CarType.PRIVATE, value: 'cars.private_car' }
+    { key: CarType.PRIVATE, value: 'cars.private_car' },
   ];
 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
     public spinnerService: SpinnerService,
     private translateService: TranslateService,
-    private dialog: MatDialog) {
-  }
+    private dialog: MatDialog
+  ) {}
 
   public ngOnInit() {
     this.formGroup.addControl('id', new FormControl(''));
-    this.formGroup.addControl('vin', new FormControl('',
-      Validators.compose([
-        Validators.required,
-        Cars.validateVIN
-      ])));
-    this.formGroup.addControl('licensePlate', new FormControl('',
-      Validators.compose([
-        Validators.pattern('^[A-Z0-9- ]*$'),
-      ])));
-    this.formGroup.addControl('carCatalog', new FormControl('',
-      Validators.compose([
-        Validators.required,
-      ])));
-    this.formGroup.addControl('carCatalogID', new FormControl('',
-      Validators.compose([
-        Validators.required,
-      ])));
-    this.formGroup.addControl('converterType', new FormControl('',
-      Validators.compose([
-        Validators.required,
-      ])));
-    this.formGroup.addControl('converter', new FormControl('',
-      Validators.compose([
-        Validators.required,
-      ])));
+    this.formGroup.addControl(
+      'vin',
+      new FormControl('', Validators.compose([Validators.required, Cars.validateVIN]))
+    );
+    this.formGroup.addControl(
+      'licensePlate',
+      new FormControl('', Validators.compose([Validators.pattern('^[A-Z0-9- ]*$')]))
+    );
+    this.formGroup.addControl(
+      'carCatalog',
+      new FormControl('', Validators.compose([Validators.required]))
+    );
+    this.formGroup.addControl(
+      'carCatalogID',
+      new FormControl('', Validators.compose([Validators.required]))
+    );
+    this.formGroup.addControl(
+      'converterType',
+      new FormControl('', Validators.compose([Validators.required]))
+    );
+    this.formGroup.addControl(
+      'converter',
+      new FormControl('', Validators.compose([Validators.required]))
+    );
     this.formGroup.addControl('user', new FormControl(''));
     this.formGroup.addControl('userID', new FormControl(''));
     this.formGroup.addControl('default', new FormControl<boolean>(false));
-    this.formGroup.addControl('type', new FormControl<CarType>(CarType.COMPANY,
-      Validators.compose([
-        Validators.required,
-      ])));
+    this.formGroup.addControl(
+      'type',
+      new FormControl<CarType>(CarType.COMPANY, Validators.compose([Validators.required]))
+    );
     // Form
     this.id = this.formGroup.controls['id'];
     this.vin = this.formGroup.controls['vin'];
@@ -106,11 +109,11 @@ export class CarMainComponent implements OnInit, OnChanges {
     // Default
     this.converterType.disable();
     // Pool Car
-    if(this.carsAuthorizations.metadata?.createPoolCar?.visible) {
+    if (this.carsAuthorizations.metadata?.createPoolCar?.visible) {
       this.carTypes.push({ key: CarType.POOL_CAR, value: 'cars.pool_car' });
     }
     // User ID
-    if(this.carsAuthorizations.metadata?.userID?.mandatory) {
+    if (this.carsAuthorizations.metadata?.userID?.mandatory) {
       this.user.setValidators(Validators.required);
       this.userID.setValidators(Validators.required);
     }
@@ -167,14 +170,17 @@ export class CarMainComponent implements OnInit, OnChanges {
       rowMultipleSelection: false,
     };
     // Open
-    this.dialog.open(UsersDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
-      if (!Utils.isEmptyArray(result) && result[0].objectRef) {
-        const user = ((result[0].objectRef) as User);
-        this.user.setValue(Utils.buildUserFullName(user));
-        this.userID.setValue(user.id);
-        this.formGroup.markAsDirty();
-      }
-    });
+    this.dialog
+      .open(UsersDialogComponent, dialogConfig)
+      .afterClosed()
+      .subscribe((result) => {
+        if (!Utils.isEmptyArray(result) && result[0].objectRef) {
+          const user = result[0].objectRef as User;
+          this.user.setValue(Utils.buildUserFullName(user));
+          this.userID.setValue(user.id);
+          this.formGroup.markAsDirty();
+        }
+      });
   }
 
   public changeCarCatalog() {
@@ -186,18 +192,21 @@ export class CarMainComponent implements OnInit, OnChanges {
       rowMultipleSelection: false,
     };
     // Open
-    this.dialog.open(CarCatalogsDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
-      if (!Utils.isEmptyArray(result) && result[0].objectRef) {
-        const carCatalog: CarCatalog = (result[0].objectRef) as CarCatalog;
-        this.carCatalogID.setValue(result[0].key);
-        this.carCatalog.setValue(Utils.buildCarCatalogName(carCatalog));
-        this.selectedCarCatalog = carCatalog;
-        this.carCatalogImage = carCatalog.image;
-        // Build drop down
-        this.buildCarCatalogConverter();
-        this.formGroup.markAsDirty();
-      }
-    });
+    this.dialog
+      .open(CarCatalogsDialogComponent, dialogConfig)
+      .afterClosed()
+      .subscribe((result) => {
+        if (!Utils.isEmptyArray(result) && result[0].objectRef) {
+          const carCatalog: CarCatalog = result[0].objectRef as CarCatalog;
+          this.carCatalogID.setValue(result[0].key);
+          this.carCatalog.setValue(Utils.buildCarCatalogName(carCatalog));
+          this.selectedCarCatalog = carCatalog;
+          this.carCatalogImage = carCatalog.image;
+          // Build drop down
+          this.buildCarCatalogConverter();
+          this.formGroup.markAsDirty();
+        }
+      });
   }
 
   private buildCarCatalogConverter() {
@@ -207,11 +216,13 @@ export class CarMainComponent implements OnInit, OnChanges {
       amperagePerPhase: this.selectedCarCatalog.chargeStandardPhaseAmp,
       numberOfPhases: this.selectedCarCatalog.chargeStandardPhase,
     };
-    this.carCatalogConverters = [{
-      type: CarConverterType.STANDARD,
-      value: Utils.buildCarCatalogConverterName(standardConverter, this.translateService),
-      converter: standardConverter,
-    }];
+    this.carCatalogConverters = [
+      {
+        type: CarConverterType.STANDARD,
+        value: Utils.buildCarCatalogConverterName(standardConverter, this.translateService),
+        converter: standardConverter,
+      },
+    ];
     // Set default
     if (this.carCatalogConverters.length === 1) {
       this.converterType.setValue(this.carCatalogConverters[0].type);

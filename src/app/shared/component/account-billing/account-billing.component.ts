@@ -8,7 +8,7 @@ import { Utils } from 'utils/Utils';
 @Component({
   selector: 'app-account-billing',
   templateUrl: 'account-billing.component.html',
-  styleUrls: ['./account-billing.component.scss']
+  styleUrls: ['./account-billing.component.scss'],
 })
 export class AccountBillingComponent implements OnInit, OnChanges {
   @Input() public formGroup: FormGroup;
@@ -23,24 +23,22 @@ export class AccountBillingComponent implements OnInit, OnChanges {
   public businessOwnerName!: string;
 
   // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    private dialog: MatDialog) {
-  }
+  public constructor(private dialog: MatDialog) {}
 
   public ngOnInit() {
     this.formGroup.addControl('accountID', new FormControl(''));
     this.formGroup.addControl('companyName', new FormControl(''));
-    this.formGroup.addControl('flatFee', new FormControl(0,
-      Validators.compose([
-        Validators.pattern(/^[+]?([0-9]*[.])?[0-9]+$/),
-      ])
-    ));
-    this.formGroup.addControl('percentage', new FormControl(0,
-      Validators.compose([
-        Validators.max(100),
-        Validators.pattern(/^[+]?([0-9]*[.])?[0-9]+$/),
-      ])
-    ));
+    this.formGroup.addControl(
+      'flatFee',
+      new FormControl(0, Validators.compose([Validators.pattern(/^[+]?([0-9]*[.])?[0-9]+$/)]))
+    );
+    this.formGroup.addControl(
+      'percentage',
+      new FormControl(
+        0,
+        Validators.compose([Validators.max(100), Validators.pattern(/^[+]?([0-9]*[.])?[0-9]+$/)])
+      )
+    );
     this.accountID = this.formGroup.controls['accountID'];
     this.companyName = this.formGroup.controls['companyName'];
     this.flatFee = this.formGroup.controls['flatFee'];
@@ -72,17 +70,19 @@ export class AccountBillingComponent implements OnInit, OnChanges {
     // Set data
     dialogConfig.data = {
       rowMultipleSelection: false,
-      staticFilter: {
-      },
+      staticFilter: {},
     };
     // Open
-    this.dialog.open(AccountsDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
-      const account = result[0].objectRef as BillingAccount;
-      this.accountID.setValue(account.id);
-      this.companyName.setValue(account.companyName);
-      this.businessOwnerName = Utils.buildUserFullName(account.businessOwner);
-      this.formGroup.markAsDirty();
-    });
+    this.dialog
+      .open(AccountsDialogComponent, dialogConfig)
+      .afterClosed()
+      .subscribe((result) => {
+        const account = result[0].objectRef as BillingAccount;
+        this.accountID.setValue(account.id);
+        this.companyName.setValue(account.companyName);
+        this.businessOwnerName = Utils.buildUserFullName(account.businessOwner);
+        this.formGroup.markAsDirty();
+      });
   }
 
   public resetAccount() {
@@ -92,14 +92,14 @@ export class AccountBillingComponent implements OnInit, OnChanges {
     this.formGroup.markAsDirty();
   }
 
-  public updateEntityConnectedAccount(entity: {accountData?: BillingAccountData }) {
+  public updateEntityConnectedAccount(entity: { accountData?: BillingAccountData }) {
     const accountID = this.accountID.value;
     entity.accountData = {
       accountID,
       platformFeeStrategy: {
-        flatFeePerSession: (accountID)? this.flatFee.value: 0,
-        percentage: (accountID)?  this.percentage.value: 0,
-      }
+        flatFeePerSession: accountID ? this.flatFee.value : 0,
+        percentage: accountID ? this.percentage.value : 0,
+      },
     };
   }
 }

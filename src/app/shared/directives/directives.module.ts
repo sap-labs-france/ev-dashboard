@@ -4,15 +4,8 @@ import { NgModule } from '@angular/core';
 import { AppAutofocusDirective } from './app-auto-focus.directive';
 
 @NgModule({
-  imports: [
-    CommonModule,
-  ],
-  declarations: [
-    AppAutofocusDirective,
-  ],
-  exports: [
-    AppAutofocusDirective,
-  ],
+  imports: [CommonModule],
+  declarations: [AppAutofocusDirective],
+  exports: [AppAutofocusDirective],
 })
-export class CommonDirectivesModule {
-}
+export class CommonDirectivesModule {}

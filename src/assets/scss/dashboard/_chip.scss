@@ -1,4 +1,3 @@
-
 @mixin chip($color) {
   color: $color !important;
   opacity: 1 !important;
@@ -10,7 +9,7 @@
   justify-content: center;
 }
 .mat-standard-chip {
-  min-width: 85px !important;;
+  min-width: 85px !important;
   margin: 0 !important;
 }
 

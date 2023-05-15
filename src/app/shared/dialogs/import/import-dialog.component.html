@@ -1,16 +1,26 @@
 <div class="main-content vw-90 vh-90 import-dialog-size">
   <div class="card card-profile card-testimonial">
-    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-actions">
+    <mat-tab-group
+      animationDuration="0ms"
+      disableRipple="true"
+      class="mat-tab-info mat-tabs-with-actions"
+    >
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>cloud_upload</mat-icon>
-          <span>{{title}}</span>
+          <span>{{ title }}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content">
           <div class="m-2">
             <div class="row">
-              <button mat-flat-button color="primary" (click)="file.click();" class="me-3 col-md-3" [disabled]="uploadInProgress">
-                {{"general.choose_file" | translate}}
+              <button
+                mat-flat-button
+                color="primary"
+                (click)="file.click()"
+                class="me-3 col-md-3"
+                [disabled]="uploadInProgress"
+              >
+                {{ 'general.choose_file' | translate }}
                 <div class="d-none">
                   <input #file type="file" ng2FileSelect [uploader]="uploader" accept=".csv" />
                 </div>
@@ -18,13 +28,19 @@
               <span class="pt-2 col-md-9">{{ fileName }}</span>
             </div>
             <div class="row pt-3">
-              <mat-checkbox (change)="handleAutoActivateUserAtImport($event.checked)" [checked]="autoActivateImportedUsers">
-                {{ "users.import_users_auto_activation" | translate }}
+              <mat-checkbox
+                (change)="handleAutoActivateUserAtImport($event.checked)"
+                [checked]="autoActivateImportedUsers"
+              >
+                {{ 'users.import_users_auto_activation' | translate }}
               </mat-checkbox>
             </div>
             <div *ngIf="entity === 'tags'" class="row pt-3">
-              <mat-checkbox (change)="handleAutoActivateTagAtImport($event.checked)" [checked]="autoActivateImportedTags">
-                {{ "tags.import_tags_auto_activation" | translate }}
+              <mat-checkbox
+                (change)="handleAutoActivateTagAtImport($event.checked)"
+                [checked]="autoActivateImportedTags"
+              >
+                {{ 'tags.import_tags_auto_activation' | translate }}
               </mat-checkbox>
             </div>
             <div class="row">
@@ -33,19 +49,23 @@
               </mat-error>
             </div>
             <div class="row pt-3" [hidden]="!uploadInProgress">
-              <div class="md-12 mb-1 text-center">{{'general.upload_in_progress' | translate}}</div>
+              <div class="md-12 mb-1 text-center">
+                {{ 'general.upload_in_progress' | translate }}
+              </div>
               <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
             </div>
             <div class="row pt-3" [hidden]="uploadInProgress">
-              {{'general.import_instructions' | translate}}
+              {{ 'general.import_instructions' | translate }}
             </div>
             <div class="row pt-1" [hidden]="uploadInProgress">
               <div class="pl-3">
-                <li>{{'general.import_instructions_file_type' | translate}}</li>
-                <li>{{'general.import_instructions_header_required' | translate}}</li>
-                <li>{{'general.import_instructions_coma_separator' | translate}}</li>
+                <li>{{ 'general.import_instructions_file_type' | translate }}</li>
+                <li>{{ 'general.import_instructions_header_required' | translate }}</li>
+                <li>{{ 'general.import_instructions_coma_separator' | translate }}</li>
                 <li>{{ importInstructionsRequiredFields }}</li>
-                <li *ngIf="importInstructionsOptionalFields">{{ importInstructionsOptionalFields }}</li>
+                <li *ngIf="importInstructionsOptionalFields">
+                  {{ importInstructionsOptionalFields }}
+                </li>
               </div>
             </div>
           </div>
@@ -53,9 +73,13 @@
       </mat-tab>
     </mat-tab-group>
     <div class="tabs-actions">
-      <button mat-button (click)="upload()" [disabled]="!file.value || !isFileValid || uploadInProgress">
+      <button
+        mat-button
+        (click)="upload()"
+        [disabled]="!file.value || !isFileValid || uploadInProgress"
+      >
         <mat-icon>file_upload</mat-icon>
-        <span>{{'general.import' | translate}}</span>
+        <span>{{ 'general.import' | translate }}</span>
       </button>
       <button mat-icon-button (click)="cancel()">
         <mat-icon>close</mat-icon>

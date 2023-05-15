@@ -16,7 +16,7 @@ export class IssuerFilter extends TableFilter {
       defaultValue: defaultValue ? organizations[0] : organizations[1],
       items: Object.assign([], organizations),
       multiple: true,
-      exhaustive: true
+      exhaustive: true,
     };
     if (!defaultValue) {
       filterDef.defaultValue = organizations[1];

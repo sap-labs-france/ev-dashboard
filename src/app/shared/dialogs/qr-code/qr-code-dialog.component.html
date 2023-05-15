@@ -1,33 +1,36 @@
 <div class="card">
-    <div class="card-header card-header-tabs card-header-primary">
-      <div class="nav-tabs-navigation">
-        <h4 class="nav-tabs-title">{{chargingStationID}} - {{'chargers.connector' | translate}} {{connectorID | appConnectorId}}</h4>
-        <ul class="nav nav-tabs" data-tabs="tabs">
-          <span class="toolbar-spacer"></span>
-          <button mat-icon-button mat-dialog-close>
-            <mat-icon>close</mat-icon>
-          </button>
-        </ul>
-      </div>
-    </div>
-
-    <div class="card-body" >
-      <div class="qrcode">
-        <img [src]="qrCode"/>
-      </div>
-      <div class="text-center">
-        {{chargingStationID}} / {{'chargers.connector' | translate}} {{connectorID | appConnectorId}}
-      </div>
-    </div>
-
-
-    <div class="card-footer mat-dialog-actions">
-      <span class="app-spacer"></span>
-      <button mat-raised-button color="primary" (click)="download()">
-        {{"general.download" | translate}}
-      </button>
-      <button mat-raised-button (click)="cancel()">
-        {{"general.cancel" | translate}}
-      </button>
+  <div class="card-header card-header-tabs card-header-primary">
+    <div class="nav-tabs-navigation">
+      <h4 class="nav-tabs-title">
+        {{ chargingStationID }} - {{ 'chargers.connector' | translate }}
+        {{ connectorID | appConnectorId }}
+      </h4>
+      <ul class="nav nav-tabs" data-tabs="tabs">
+        <span class="toolbar-spacer"></span>
+        <button mat-icon-button mat-dialog-close>
+          <mat-icon>close</mat-icon>
+        </button>
+      </ul>
     </div>
   </div>
+
+  <div class="card-body">
+    <div class="qrcode">
+      <img [src]="qrCode" />
+    </div>
+    <div class="text-center">
+      {{ chargingStationID }} / {{ 'chargers.connector' | translate }}
+      {{ connectorID | appConnectorId }}
+    </div>
+  </div>
+
+  <div class="card-footer mat-dialog-actions">
+    <span class="app-spacer"></span>
+    <button mat-raised-button color="primary" (click)="download()">
+      {{ 'general.download' | translate }}
+    </button>
+    <button mat-raised-button (click)="cancel()">
+      {{ 'general.cancel' | translate }}
+    </button>
+  </div>
+</div>

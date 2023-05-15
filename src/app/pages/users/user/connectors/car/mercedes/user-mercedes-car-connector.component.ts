@@ -34,8 +34,8 @@ export class UserMercedesCarConnectorComponent implements OnInit, OnChanges {
     private componentService: ComponentService,
     private centralServerService: CentralServerService,
     private windowService: WindowService,
-    @Inject(DOCUMENT) private document: any) {
-  }
+    @Inject(DOCUMENT) private document: any
+  ) {}
 
   public ngOnInit(): void {
     this.loadMercedesSettings();
@@ -67,23 +67,30 @@ export class UserMercedesCarConnectorComponent implements OnInit, OnChanges {
         if (response.status === RestResponse.SUCCESS) {
           this.messageService.showSuccessMessage('settings.car_connector.mercedes.revoke_success');
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, 'settings.car_connector.mercedes.revoke_error');
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            'settings.car_connector.mercedes.revoke_error'
+          );
         }
         this.connectorChanged.emit();
       },
       error: (error) => {
-        Utils.handleError(JSON.stringify(error),
-          this.messageService, 'settings.car_connector.mercedes.revoke_error');
+        Utils.handleError(
+          JSON.stringify(error),
+          this.messageService,
+          'settings.car_connector.mercedes.revoke_error'
+        );
         this.connectorChanged.emit();
-      }
+      },
     });
   }
 
   public linkMercedesAccount() {
     if (!this.mercedesConnectionSetting || !this.mercedesConnectionSetting.mercedesConnection) {
       this.messageService.showErrorMessage(
-        this.translateService.instant('settings.car_connector.mercedes.link_error'));
+        this.translateService.instant('settings.car_connector.mercedes.link_error')
+      );
     } else {
       // Mercedes
       const mercedesSetting = this.mercedesConnectionSetting.mercedesConnection;
@@ -95,15 +102,20 @@ export class UserMercedesCarConnectorComponent implements OnInit, OnChanges {
       };
       this.document.location.href =
         // eslint-disable-next-line max-len
-        `${mercedesSetting.authenticationUrl}/as/authorization.oauth2?client_id=${mercedesSetting.clientId}&response_type=code&scope=mb:vehicle:mbdata:evstatus offline_access&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
+        `${mercedesSetting.authenticationUrl}/as/authorization.oauth2?client_id=${
+          mercedesSetting.clientId
+        }&response_type=code&scope=mb:vehicle:mbdata:evstatus offline_access&redirect_uri=${returnedUrl}&state=${JSON.stringify(
+          state
+        )}`;
     }
   }
 
   private loadMercedesSettings() {
     if (this.componentService.isActive(TenantComponents.CAR_CONNECTOR)) {
       this.componentService.getCarConnectorSettings().subscribe((carConnectorSettings) => {
-        this.mercedesConnectionSetting = carConnectorSettings.carConnector.connections.find((connection) =>
-          connection.type === CarConnectorConnectionType.MERCEDES);
+        this.mercedesConnectionSetting = carConnectorSettings.carConnector.connections.find(
+          (connection) => connection.type === CarConnectorConnectionType.MERCEDES
+        );
       });
     }
   }

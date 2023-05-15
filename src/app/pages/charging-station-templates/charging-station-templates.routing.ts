@@ -6,7 +6,10 @@ import { ChargingStationTemplatesComponent } from './charging-station-templates.
 
 export const ChargingStationTemplatesRoutes: Routes = [
   {
-    path: '', component: ChargingStationTemplatesComponent, canActivate: [RouteGuardService], data: {
+    path: '',
+    component: ChargingStationTemplatesComponent,
+    canActivate: [RouteGuardService],
+    data: {
       auth: {
         entity: Entity.CHARGING_STATION_TEMPLATE,
         action: Action.LIST,

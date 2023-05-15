@@ -15,7 +15,7 @@ import { Utils } from 'utils/Utils';
 
 @Component({
   templateUrl: 'import-dialog.component.html',
-  styleUrls: ['import-dialog.component.scss']
+  styleUrls: ['import-dialog.component.scss'],
 })
 export class ImportDialogComponent implements OnInit {
   public uploader: FileUploader;
@@ -48,7 +48,8 @@ export class ImportDialogComponent implements OnInit {
     private dialogService: DialogService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
-    @Inject(MAT_DIALOG_DATA) data) {
+    @Inject(MAT_DIALOG_DATA) data
+  ) {
     if (data?.endpoint) {
       this.endpoint = data.endpoint;
       this.entity = data.entity;
@@ -65,16 +66,26 @@ export class ImportDialogComponent implements OnInit {
     }
     Utils.registerCloseKeyEvents(this.dialogRef);
     this.uploader = new FileUploader({
-      headers: this.centralServerService.buildImportTagsUsersHttpHeaders(this.autoActivateImportedUsers, this.autoActivateImportedTags),
-      url: `${this.centralServerService.buildRestEndpointUrl(this.endpoint)}`
+      headers: this.centralServerService.buildImportTagsUsersHttpHeaders(
+        this.autoActivateImportedUsers,
+        this.autoActivateImportedTags
+      ),
+      url: `${this.centralServerService.buildRestEndpointUrl(this.endpoint)}`,
     });
-    this.uploader.response.subscribe(res => this.response = res);
+    this.uploader.response.subscribe((res) => (this.response = res));
     this.ngxCsvParser = new NgxCsvParser();
   }
 
   public ngOnInit() {
-    this.importInstructionsRequiredFields = this.translateService.instant('general.import_instructions_required_fields', { properties: this.requiredProperties.join(', ') });
-    this.importInstructionsOptionalFields = !Utils.isEmptyArray(this.optionalProperties) ? this.translateService.instant('general.import_instructions_optional_fields', { properties: this.optionalProperties.join(', ') }) : '';
+    this.importInstructionsRequiredFields = this.translateService.instant(
+      'general.import_instructions_required_fields',
+      { properties: this.requiredProperties.join(', ') }
+    );
+    this.importInstructionsOptionalFields = !Utils.isEmptyArray(this.optionalProperties)
+      ? this.translateService.instant('general.import_instructions_optional_fields', {
+        properties: this.optionalProperties.join(', '),
+      })
+      : '';
     // File has been selected
     this.uploader.onAfterAddingFile = (fileItem: FileItem) => {
       if (this.uploader.queue.length > 1) {
@@ -91,13 +102,24 @@ export class ImportDialogComponent implements OnInit {
       this.uploadInProgress = true;
     };
     // File upload has finished
-    this.uploader.onCompleteItem = (fileItem: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
+    this.uploader.onCompleteItem = (
+      fileItem: FileItem,
+      response: string,
+      status: number,
+      headers: ParsedResponseHeaders
+    ) => {
       // Success
       if (status === StatusCodes.OK) {
         // Ok: Check result
         const actionsResponse = JSON.parse(response) as ActionsResponse;
-        this.messageService.showActionsMessage(actionsResponse, this.messageSuccess, this.messageError,
-          this.messageSuccessAndError, this.messageNoSuccessNoError, true);
+        this.messageService.showActionsMessage(
+          actionsResponse,
+          this.messageSuccess,
+          this.messageError,
+          this.messageSuccessAndError,
+          this.messageNoSuccessNoError,
+          true
+        );
       } else {
         switch (status) {
           case HTTPError.INVALID_FILE_FORMAT:
@@ -125,27 +147,33 @@ export class ImportDialogComponent implements OnInit {
   }
 
   public upload(): void {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant(this.confirmImportTitle),
-      this.autoActivateImportedUsers ? this.translateService.instant(this.confirmImportMessageAutoActivate) : this.translateService.instant(this.confirmImportMessage),
-    ).subscribe((result) => {
-      if (result === ButtonAction.YES) {
-        this.uploader.uploadAll();
-      }
-    });
+    this.dialogService
+      .createAndShowYesNoDialog(
+        this.translateService.instant(this.confirmImportTitle),
+        this.autoActivateImportedUsers
+          ? this.translateService.instant(this.confirmImportMessageAutoActivate)
+          : this.translateService.instant(this.confirmImportMessage)
+      )
+      .subscribe((result) => {
+        if (result === ButtonAction.YES) {
+          this.uploader.uploadAll();
+        }
+      });
   }
 
   public handleAutoActivateUserAtImport(checked) {
     this.autoActivateImportedUsers = checked;
-    this.uploader.options.headers[this.uploader.options.headers.findIndex(
-      option => option.name === 'autoActivateUserAtImport'
-    )].value = this.autoActivateImportedUsers.toString();
+    this.uploader.options.headers[
+      this.uploader.options.headers.findIndex(
+        (option) => option.name === 'autoActivateUserAtImport'
+      )
+    ].value = this.autoActivateImportedUsers.toString();
   }
 
   public handleAutoActivateTagAtImport(checked) {
     this.autoActivateImportedTags = checked;
-    this.uploader.options.headers[this.uploader.options.headers.findIndex(
-      option => option.name === 'autoActivateTagAtImport'
-    )].value = this.autoActivateImportedTags.toString();
+    this.uploader.options.headers[
+      this.uploader.options.headers.findIndex((option) => option.name === 'autoActivateTagAtImport')
+    ].value = this.autoActivateImportedTags.toString();
   }
 }

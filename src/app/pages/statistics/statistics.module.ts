@@ -45,11 +45,6 @@ import { StatisticsUsageComponent } from './usage/statistics-usage.component';
     StatisticsFiltersComponent,
   ],
   exports: [],
-  providers: [
-    StatisticsBuildService,
-    StatisticsExportService,
-  ]
+  providers: [StatisticsBuildService, StatisticsExportService],
 })
-
-export class StatisticsModule {
-}
+export class StatisticsModule {}

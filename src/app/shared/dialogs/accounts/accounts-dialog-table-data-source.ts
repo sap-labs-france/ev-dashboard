@@ -20,7 +20,8 @@ export class AccountsDialogTableDataSource extends DialogTableDataSource<Billing
     public translateService: TranslateService,
     private messageService: MessageService,
     private router: Router,
-    private centralServerService: CentralServerService) {
+    private centralServerService: CentralServerService
+  ) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -34,9 +35,15 @@ export class AccountsDialogTableDataSource extends DialogTableDataSource<Billing
           observer.complete();
         },
         error: (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+          Utils.handleHttpError(
+            error,
+            this.router,
+            this.messageService,
+            this.centralServerService,
+            'general.error_backend'
+          );
           observer.error(error);
-        }
+        },
       });
     });
   }
@@ -50,7 +57,8 @@ export class AccountsDialogTableDataSource extends DialogTableDataSource<Billing
       {
         id: 'businessOwner.name',
         name: 'accounts.list.business_owner',
-        formatter: (name: string, account: BillingAccount) => Utils.buildUserFullName(account.businessOwner),
+        formatter: (name: string, account: BillingAccount) =>
+          Utils.buildUserFullName(account.businessOwner),
       },
       {
         id: 'businessOwner.email',
@@ -62,7 +70,7 @@ export class AccountsDialogTableDataSource extends DialogTableDataSource<Billing
         headerClass: 'text-center',
         isAngularComponent: true,
         angularComponent: AccountStatusFormatterComponent,
-      }
+      },
     ];
   }
 }

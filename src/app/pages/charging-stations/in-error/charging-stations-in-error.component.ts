@@ -10,6 +10,6 @@ import { ChargingStationsInErrorTableDataSource } from './charging-stations-in-e
 export class ChargingStationsInErrorComponent {
   // eslint-disable-next-line no-useless-constructor
   public constructor(
-    public chargingStationsInErrorTableDataSource: ChargingStationsInErrorTableDataSource,
+    public chargingStationsInErrorTableDataSource: ChargingStationsInErrorTableDataSource
   ) {}
 }

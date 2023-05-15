@@ -10,6 +10,6 @@ import { ChargingStationsRegistrationTokensTableDataSource } from './charging-st
 export class ChargingStationsRegistrationTokensComponent {
   // eslint-disable-next-line no-useless-constructor
   public constructor(
-    public registrationTokenDataSource: ChargingStationsRegistrationTokensTableDataSource,
+    public registrationTokenDataSource: ChargingStationsRegistrationTokensTableDataSource
   ) {}
 }

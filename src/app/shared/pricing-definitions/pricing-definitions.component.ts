@@ -12,7 +12,7 @@ import { PricingDefinitionsDialogComponent } from './pricing-definitions.dialog.
   selector: 'app-pricing-definitions',
   templateUrl: 'pricing-definitions.component.html',
   providers: [PricingDefinitionsTableDataSource],
-  styleUrls: ['pricing-definitions.component.scss']
+  styleUrls: ['pricing-definitions.component.scss'],
 })
 export class PricingDefinitionsComponent implements OnInit {
   @Input() public inDialog!: boolean;
@@ -28,7 +28,8 @@ export class PricingDefinitionsComponent implements OnInit {
 
   public constructor(
     private componentService: ComponentService,
-    public pricingTableDataSource: PricingDefinitionsTableDataSource) {
+    public pricingTableDataSource: PricingDefinitionsTableDataSource
+  ) {
     this.isActive = this.componentService.isActive(TenantComponents.PRICING);
   }
 
@@ -36,7 +37,11 @@ export class PricingDefinitionsComponent implements OnInit {
     // Set auth
     this.pricingTableDataSource.setAuthorizations(this.authorizations);
     // Set context with provided entity, will set to tenant by default
-    this.pricingTableDataSource.setDefaultContext(this.currentEntityID, this.currentEntityType, this.currentEntityName);
+    this.pricingTableDataSource.setDefaultContext(
+      this.currentEntityID,
+      this.currentEntityType,
+      this.currentEntityName
+    );
   }
 
   public close() {

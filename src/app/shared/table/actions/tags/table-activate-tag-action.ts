@@ -13,8 +13,16 @@ import { Utils } from '../../../../utils/Utils';
 import { TableActivateAction } from '../table-activate-action';
 
 export interface TableActivateTagActionDef extends TableActionDef {
-  action: (tag: Tag, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) => void;
+  action: (
+    tag: Tag,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableActivateTagAction extends TableActivateAction {
@@ -26,40 +34,56 @@ export class TableActivateTagAction extends TableActivateAction {
     };
   }
 
-  private activateTag(tag: Tag, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
-    dialogService.createAndShowYesNoDialog(
-      translateService.instant('tags.activate_title'),
-      translateService.instant('tags.activate_confirm', { tagID: tag.id }),
-    ).subscribe((response) => {
-      if (response === ButtonAction.YES) {
-        spinnerService.show();
-        const tagUpdated: Tag = {
-          id: tag.id,
-          issuer: tag.issuer,
-          description: tag.description,
-          userID: tag.userID,
-          visualID: tag.visualID,
-          active: true,
-        } as Tag;
-        centralServerService.updateTag(tagUpdated).subscribe({
-          next: (actionResponse) => {
-            spinnerService.hide();
-            if (actionResponse.status === RestResponse.SUCCESS) {
-              messageService.showSuccessMessage('tags.activate_success', { tagID: tag.id });
-              if (refresh) {
-                refresh().subscribe();
+  private activateTag(
+    tag: Tag,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) {
+    dialogService
+      .createAndShowYesNoDialog(
+        translateService.instant('tags.activate_title'),
+        translateService.instant('tags.activate_confirm', { tagID: tag.id })
+      )
+      .subscribe((response) => {
+        if (response === ButtonAction.YES) {
+          spinnerService.show();
+          const tagUpdated: Tag = {
+            id: tag.id,
+            issuer: tag.issuer,
+            description: tag.description,
+            userID: tag.userID,
+            visualID: tag.visualID,
+            active: true,
+          } as Tag;
+          centralServerService.updateTag(tagUpdated).subscribe({
+            next: (actionResponse) => {
+              spinnerService.hide();
+              if (actionResponse.status === RestResponse.SUCCESS) {
+                messageService.showSuccessMessage('tags.activate_success', { tagID: tag.id });
+                if (refresh) {
+                  refresh().subscribe();
+                }
+              } else {
+                Utils.handleError(JSON.stringify(response), messageService, 'tags.activate_error');
               }
-            } else {
-              Utils.handleError(JSON.stringify(response), messageService, 'tags.activate_error');
-            }
-          },
-          error: (error) => {
-            spinnerService.hide();
-            Utils.handleHttpError(error, router, messageService, centralServerService, 'tags.activate_error');
-          }
-        });
-      }
-    });
+            },
+            error: (error) => {
+              spinnerService.hide();
+              Utils.handleHttpError(
+                error,
+                router,
+                messageService,
+                centralServerService,
+                'tags.activate_error'
+              );
+            },
+          });
+        }
+      });
   }
 }

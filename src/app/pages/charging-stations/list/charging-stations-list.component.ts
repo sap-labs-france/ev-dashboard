@@ -18,7 +18,7 @@ export class ChargingStationsListComponent implements OnInit {
   public constructor(
     public chargingStationsListTableDataSource: ChargingStationsListTableDataSource,
     private windowService: WindowService,
-    private dialog: MatDialog,
+    private dialog: MatDialog
   ) {}
 
   public ngOnInit(): void {
@@ -26,11 +26,10 @@ export class ChargingStationsListComponent implements OnInit {
     const chargingStationID = this.windowService.getUrlParameterValue('ChargingStationID');
     if (chargingStationID) {
       const editAction = new TableEditChargingStationAction().getActionDef();
-      editAction.action(ChargingStationDialogComponent, this.dialog,
-        {
-          dialogData: { id: chargingStationID } as ChargingStation,
-          dialogMode: DialogMode.VIEW
-        });
+      editAction.action(ChargingStationDialogComponent, this.dialog, {
+        dialogData: { id: chargingStationID } as ChargingStation,
+        dialogMode: DialogMode.VIEW,
+      });
       // Clear Search
       this.windowService.deleteUrlParameter('ChargingStationID');
     }

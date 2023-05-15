@@ -35,7 +35,7 @@ export class SettingsRefundComponent implements OnInit {
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private translateService: TranslateService,
-    private router: Router,
+    private router: Router
   ) {
     this.isActive = this.componentService.isActive(TenantComponents.REFUND);
   }
@@ -57,7 +57,7 @@ export class SettingsRefundComponent implements OnInit {
         // Init auth
         this.authorizations = {
           canUpdate: Utils.convertToBoolean(settings.canUpdate),
-          canSyncRefund: Utils.convertToBoolean(settings.canSyncRefund)
+          canSyncRefund: Utils.convertToBoolean(settings.canSyncRefund),
         };
         // Keep
         this.refundSettings = settings;
@@ -68,12 +68,24 @@ export class SettingsRefundComponent implements OnInit {
         this.spinnerService.hide();
         switch (error.status) {
           case StatusCodes.NOT_FOUND:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.refund.setting_not_found');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'settings.refund.setting_not_found'
+            );
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.unexpected_error_backend'
+            );
         }
-      }
+      },
     });
   }
 
@@ -92,11 +104,19 @@ export class SettingsRefundComponent implements OnInit {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
           this.messageService.showSuccessMessage(
-            (!this.refundSettings.id ? 'settings.refund.create_success' : 'settings.refund.update_success'));
+            !this.refundSettings.id
+              ? 'settings.refund.create_success'
+              : 'settings.refund.update_success'
+          );
           this.refresh();
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, (!this.refundSettings.id ? 'settings.refund.create_error' : 'settings.refund.update_error'));
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            !this.refundSettings.id
+              ? 'settings.refund.create_error'
+              : 'settings.refund.update_error'
+          );
         }
       },
       error: (error) => {
@@ -106,10 +126,17 @@ export class SettingsRefundComponent implements OnInit {
             this.messageService.showErrorMessage('settings.refund.setting_do_not_exist');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              (!this.refundSettings.id ? 'settings.refund.create_error' : 'settings.refund.update_error'));
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              !this.refundSettings.id
+                ? 'settings.refund.create_error'
+                : 'settings.refund.update_error'
+            );
         }
-      }
+      },
     });
   }
 

@@ -3,46 +3,78 @@
     <div class="card-icon">
       <mat-icon>info</mat-icon>
     </div>
-    <h3 class="card-title">{{'settings.information' | translate}}</h3>
+    <h3 class="card-title">{{ 'settings.information' | translate }}</h3>
   </div>
   <div class="card-body">
-    <div>{{'settings.billing.description' | translate}}</div><br>
-    {{'settings.activation_contact_msg' | translate}}
+    <div>{{ 'settings.billing.description' | translate }}</div>
+    <br />
+    {{ 'settings.activation_contact_msg' | translate }}
   </div>
 </div>
 <form *ngIf="isBillingActive" class="form" [formGroup]="formGroup">
   <div class="mat-toolbar-row left-actions">
-    <button mat-raised-button color="warn" (click)="save(formGroup.getRawValue())"
+    <button
+      mat-raised-button
+      color="warn"
+      (click)="save(formGroup.getRawValue())"
       [hidden]="!authorizations || !authorizations.canUpdate"
-      [disabled]="!formGroup.valid || !formGroup.dirty">
+      [disabled]="!formGroup.valid || !formGroup.dirty"
+    >
       <mat-icon>save</mat-icon>
-      <span>{{'general.save' | translate}}</span>
+      <span>{{ 'general.save' | translate }}</span>
     </button>
-    <button mat-raised-button color="primary" (click)="checkConnection()" 
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="checkConnection()"
       [hidden]="!authorizations || !authorizations.canCheckBillingConnection"
-      [disabled]="!formGroup.valid || formGroup.dirty">
+      [disabled]="!formGroup.valid || formGroup.dirty"
+    >
       <mat-icon>insert_link</mat-icon>
-      <span>{{'settings.billing.check_connection' | translate}}</span>
+      <span>{{ 'settings.billing.check_connection' | translate }}</span>
     </button>
-    <button mat-raised-button color="warn" (click)="checkConnection(true)" 
+    <button
+      mat-raised-button
+      color="warn"
+      (click)="checkConnection(true)"
       [hidden]="!authorizations || !authorizations.canActivateBilling"
-      [disabled]="!formGroup.valid || formGroup.dirty || !billingSettings?.billing?.taxID || billingSettings?.billing?.isTransactionBillingActivated">
+      [disabled]="
+        !formGroup.valid ||
+        formGroup.dirty ||
+        !billingSettings?.billing?.taxID ||
+        billingSettings?.billing?.isTransactionBillingActivated
+      "
+    >
       <mat-icon>toggle_off</mat-icon>
-      <span>{{'settings.billing.transaction_billing_activation' | translate}}</span>
+      <span>{{ 'settings.billing.transaction_billing_activation' | translate }}</span>
     </button>
-    <button *ngIf="isClearTestDataVisible" mat-raised-button color="warn" (click)="clearTestData()"
-      [disabled]="!formGroup.valid || formGroup.dirty">
+    <button
+      *ngIf="isClearTestDataVisible"
+      mat-raised-button
+      color="warn"
+      (click)="clearTestData()"
+      [disabled]="!formGroup.valid || formGroup.dirty"
+    >
       <mat-icon>clear</mat-icon>
-      <span>{{'settings.billing.billing_clear_test_data' | translate}}</span>
+      <span>{{ 'settings.billing.billing_clear_test_data' | translate }}</span>
     </button>
   </div>
   <!-- Stripe -->
-  <app-settings-stripe-billing *ngIf="isBillingActive && billingSettings?.type === 'stripe'" 
-    [billingSettings]="billingSettings" 
+  <app-settings-stripe-billing
+    *ngIf="isBillingActive && billingSettings?.type === 'stripe'"
+    [billingSettings]="billingSettings"
     [authorizations]="authorizations"
-    [formGroup]="formGroup">
+    [formGroup]="formGroup"
+  >
   </app-settings-stripe-billing>
-  <app-billing-accounts *ngIf="isBillingActive && isBillingPlatformActive && isBillingTransactionEnabled && isBillingAccountTaxSet"
-    [authorizations]="authorizations">
+  <app-billing-accounts
+    *ngIf="
+      isBillingActive &&
+      isBillingPlatformActive &&
+      isBillingTransactionEnabled &&
+      isBillingAccountTaxSet
+    "
+    [authorizations]="authorizations"
+  >
   </app-billing-accounts>
 </form>

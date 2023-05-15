@@ -33,15 +33,42 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
   private ocpiEndpoint!: OCPIEndpoint;
   private startAction = new TableStartAction().getActionDef();
   private stopAction = new TableStopAction().getActionDef();
-  private pushEVSEStatusesAction = new TableUploadAction(OCPIButtonAction.PUSH_EVSE_STATUSES, 'ocpi.push_evse_statuses').getActionDef();
-  private pushTokensAction = new TableUploadAction(OCPIButtonAction.PUSH_TOKENS, 'ocpi.push_tokens').getActionDef();
-  private getCdrsAction = new TableDownloadAction(OCPIButtonAction.PULL_CDRS, 'ocpi.pull_cdrs').getActionDef();
-  private getLocationsAction = new TableDownloadAction(OCPIButtonAction.PULL_LOCATIONS, 'ocpi.pull_locations').getActionDef();
-  private getSessionsAction = new TableDownloadAction(OCPIButtonAction.PULL_SESSIONS, 'ocpi.pull_sessions').getActionDef();
-  private checkCdrsAction = new TableDownloadAction(OCPIButtonAction.CHECK_CDRS, 'ocpi.check_cdrs').getActionDef();
-  private checkLocationsAction = new TableDownloadAction(OCPIButtonAction.CHECK_LOCATIONS, 'ocpi.check_locations').getActionDef();
-  private checkSessionsAction = new TableDownloadAction(OCPIButtonAction.CHECK_SESSIONS, 'ocpi.check_sessions').getActionDef();
-  private getTokensAction = new TableDownloadAction(OCPIButtonAction.PULL_TOKENS, 'ocpi.pull_tokens').getActionDef();
+  private pushEVSEStatusesAction = new TableUploadAction(
+    OCPIButtonAction.PUSH_EVSE_STATUSES,
+    'ocpi.push_evse_statuses'
+  ).getActionDef();
+  private pushTokensAction = new TableUploadAction(
+    OCPIButtonAction.PUSH_TOKENS,
+    'ocpi.push_tokens'
+  ).getActionDef();
+  private getCdrsAction = new TableDownloadAction(
+    OCPIButtonAction.PULL_CDRS,
+    'ocpi.pull_cdrs'
+  ).getActionDef();
+  private getLocationsAction = new TableDownloadAction(
+    OCPIButtonAction.PULL_LOCATIONS,
+    'ocpi.pull_locations'
+  ).getActionDef();
+  private getSessionsAction = new TableDownloadAction(
+    OCPIButtonAction.PULL_SESSIONS,
+    'ocpi.pull_sessions'
+  ).getActionDef();
+  private checkCdrsAction = new TableDownloadAction(
+    OCPIButtonAction.CHECK_CDRS,
+    'ocpi.check_cdrs'
+  ).getActionDef();
+  private checkLocationsAction = new TableDownloadAction(
+    OCPIButtonAction.CHECK_LOCATIONS,
+    'ocpi.check_locations'
+  ).getActionDef();
+  private checkSessionsAction = new TableDownloadAction(
+    OCPIButtonAction.CHECK_SESSIONS,
+    'ocpi.check_sessions'
+  ).getActionDef();
+  private getTokensAction = new TableDownloadAction(
+    OCPIButtonAction.PULL_TOKENS,
+    'ocpi.pull_tokens'
+  ).getActionDef();
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -50,7 +77,8 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
     private messageService: MessageService,
     private router: Router,
     private dialogService: DialogService,
-    private datePipe: AppDatePipe) {
+    private datePipe: AppDatePipe
+  ) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -129,7 +157,8 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       {
         id: 'lastCpoPushStatuses.lastUpdatedOn',
         type: 'date',
-        formatter: (lastCpoPushStatuses: Date) => lastCpoPushStatuses ? this.datePipe.transform(lastCpoPushStatuses) : '-',
+        formatter: (lastCpoPushStatuses: Date) =>
+          lastCpoPushStatuses ? this.datePipe.transform(lastCpoPushStatuses) : '-',
         name: 'ocpiendpoints.last_patch_job_on',
         visible: this.ocpiEndpoint?.role === OCPIRole.CPO,
       },
@@ -167,7 +196,8 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       {
         id: 'lastCpoPullTokens.lastUpdatedOn',
         type: 'date',
-        formatter: (lastCpoPushStatuses: Date) => lastCpoPushStatuses ? this.datePipe.transform(lastCpoPushStatuses) : '-',
+        formatter: (lastCpoPushStatuses: Date) =>
+          lastCpoPushStatuses ? this.datePipe.transform(lastCpoPushStatuses) : '-',
         name: 'ocpiendpoints.last_patch_job_on',
         visible: this.ocpiEndpoint?.role === OCPIRole.CPO,
       },
@@ -205,7 +235,8 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       {
         id: 'lastEmspPullLocations.lastUpdatedOn',
         type: 'date',
-        formatter: (lastCpoPushStatuses: Date) => lastCpoPushStatuses ? this.datePipe.transform(lastCpoPushStatuses) : '-',
+        formatter: (lastCpoPushStatuses: Date) =>
+          lastCpoPushStatuses ? this.datePipe.transform(lastCpoPushStatuses) : '-',
         name: 'ocpiendpoints.last_patch_job_on',
         visible: this.ocpiEndpoint?.role === OCPIRole.EMSP,
       },
@@ -243,7 +274,8 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
       {
         id: 'lastEmspPushTokens.lastUpdatedOn',
         type: 'date',
-        formatter: (lastCpoPushStatuses: Date) => lastCpoPushStatuses ? this.datePipe.transform(lastCpoPushStatuses) : '-',
+        formatter: (lastCpoPushStatuses: Date) =>
+          lastCpoPushStatuses ? this.datePipe.transform(lastCpoPushStatuses) : '-',
         name: 'ocpiendpoints.last_patch_job_on',
         visible: this.ocpiEndpoint?.role === OCPIRole.EMSP,
       },
@@ -327,351 +359,485 @@ export class SettingsOcpiEndpointsDetailsTableDataSource extends TableDataSource
   }
 
   private pushEVSEStatusesOcpiEndpoint(ocpiendpoint: OCPIEndpoint) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('ocpiendpoints.push_evse_statuses_title'),
-      this.translateService.instant('ocpiendpoints.push_evse_statuses_confirm', { name: ocpiendpoint.name }),
-    ).subscribe((result) => {
-      if (result === ButtonAction.YES) {
-        this.centralServerService.sendEVSEStatusesOcpiEndpoint(ocpiendpoint).subscribe({
-          next: (response) => {
-            if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-              this.messageService.showInfoMessage('ocpiendpoints.push_evse_statuses_success', { success: response.success });
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, 'ocpiendpoints.push_evse_statuses_error');
-            }
-            // Reload data
-            this.refreshData().subscribe();
-          },
-          error: (error) => {
-            switch (error.status) {
-              // Hash no longer valid
-              case HTTPError.CANNOT_ACQUIRE_LOCK:
-                this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
-                break;
-              default:
-                Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-                  'ocpiendpoints.push_evse_statuses_error');
-            }
-            // Reload data
-            this.refreshData().subscribe();
-          }
-        });
-      }
-    });
+    this.dialogService
+      .createAndShowYesNoDialog(
+        this.translateService.instant('ocpiendpoints.push_evse_statuses_title'),
+        this.translateService.instant('ocpiendpoints.push_evse_statuses_confirm', {
+          name: ocpiendpoint.name,
+        })
+      )
+      .subscribe((result) => {
+        if (result === ButtonAction.YES) {
+          this.centralServerService.sendEVSEStatusesOcpiEndpoint(ocpiendpoint).subscribe({
+            next: (response) => {
+              if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+                this.messageService.showInfoMessage('ocpiendpoints.push_evse_statuses_success', {
+                  success: response.success,
+                });
+              } else {
+                Utils.handleError(
+                  JSON.stringify(response),
+                  this.messageService,
+                  'ocpiendpoints.push_evse_statuses_error'
+                );
+              }
+              // Reload data
+              this.refreshData().subscribe();
+            },
+            error: (error) => {
+              switch (error.status) {
+                // Hash no longer valid
+                case HTTPError.CANNOT_ACQUIRE_LOCK:
+                  this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
+                  break;
+                default:
+                  Utils.handleHttpError(
+                    error,
+                    this.router,
+                    this.messageService,
+                    this.centralServerService,
+                    'ocpiendpoints.push_evse_statuses_error'
+                  );
+              }
+              // Reload data
+              this.refreshData().subscribe();
+            },
+          });
+        }
+      });
   }
 
   private pushTokensOcpiEndpoint(ocpiendpoint: OCPIEndpoint) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('ocpiendpoints.push_tokens_title'),
-      this.translateService.instant('ocpiendpoints.push_tokens_confirm', { name: ocpiendpoint.name }),
-    ).subscribe((result) => {
-      if (result === ButtonAction.YES) {
-        this.centralServerService.sendTokensOcpiEndpoint(ocpiendpoint).subscribe({
-          next: (response) => {
-            if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-              this.messageService.showInfoMessage('ocpiendpoints.push_tokens_success');
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, 'ocpiendpoints.push_tokens_error');
-            }
-            // Reload data
-            this.refreshData().subscribe();
-          },
-          error: (error) => {
-            switch (error.status) {
-              // Hash no longer valid
-              case HTTPError.CANNOT_ACQUIRE_LOCK:
-                this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
-                break;
-              default:
-                Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-                  'ocpiendpoints.push_tokens_error');
-            }
-            // Reload data
-            this.refreshData().subscribe();
-          }
-        });
-      }
-    });
+    this.dialogService
+      .createAndShowYesNoDialog(
+        this.translateService.instant('ocpiendpoints.push_tokens_title'),
+        this.translateService.instant('ocpiendpoints.push_tokens_confirm', {
+          name: ocpiendpoint.name,
+        })
+      )
+      .subscribe((result) => {
+        if (result === ButtonAction.YES) {
+          this.centralServerService.sendTokensOcpiEndpoint(ocpiendpoint).subscribe({
+            next: (response) => {
+              if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+                this.messageService.showInfoMessage('ocpiendpoints.push_tokens_success');
+              } else {
+                Utils.handleError(
+                  JSON.stringify(response),
+                  this.messageService,
+                  'ocpiendpoints.push_tokens_error'
+                );
+              }
+              // Reload data
+              this.refreshData().subscribe();
+            },
+            error: (error) => {
+              switch (error.status) {
+                // Hash no longer valid
+                case HTTPError.CANNOT_ACQUIRE_LOCK:
+                  this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
+                  break;
+                default:
+                  Utils.handleHttpError(
+                    error,
+                    this.router,
+                    this.messageService,
+                    this.centralServerService,
+                    'ocpiendpoints.push_tokens_error'
+                  );
+              }
+              // Reload data
+              this.refreshData().subscribe();
+            },
+          });
+        }
+      });
   }
 
   private pullLocationsOcpiEndpoint(ocpiendpoint: OCPIEndpoint) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('ocpiendpoints.pull_locations_title'),
-      this.translateService.instant('ocpiendpoints.pull_locations_confirm', { name: ocpiendpoint.name }),
-    ).subscribe((result) => {
-      if (result === ButtonAction.YES) {
-        this.centralServerService.pullLocationsOcpiEndpoint(ocpiendpoint).subscribe({
-          next: (response) => {
-            if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-              this.messageService.showInfoMessage('ocpiendpoints.pull_locations_success');
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, 'ocpiendpoints.pull_locations_error');
-            }
-            // Reload data
-            this.refreshData().subscribe();
-          },
-          error: (error) => {
-            switch (error.status) {
-              // Hash no longer valid
-              case HTTPError.CANNOT_ACQUIRE_LOCK:
-                this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
-                break;
-              default:
-                Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-                  'ocpiendpoints.pull_locations_error');
-            }
-            // Reload data
-            this.refreshData().subscribe();
-          }
-        });
-      }
-    });
+    this.dialogService
+      .createAndShowYesNoDialog(
+        this.translateService.instant('ocpiendpoints.pull_locations_title'),
+        this.translateService.instant('ocpiendpoints.pull_locations_confirm', {
+          name: ocpiendpoint.name,
+        })
+      )
+      .subscribe((result) => {
+        if (result === ButtonAction.YES) {
+          this.centralServerService.pullLocationsOcpiEndpoint(ocpiendpoint).subscribe({
+            next: (response) => {
+              if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+                this.messageService.showInfoMessage('ocpiendpoints.pull_locations_success');
+              } else {
+                Utils.handleError(
+                  JSON.stringify(response),
+                  this.messageService,
+                  'ocpiendpoints.pull_locations_error'
+                );
+              }
+              // Reload data
+              this.refreshData().subscribe();
+            },
+            error: (error) => {
+              switch (error.status) {
+                // Hash no longer valid
+                case HTTPError.CANNOT_ACQUIRE_LOCK:
+                  this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
+                  break;
+                default:
+                  Utils.handleHttpError(
+                    error,
+                    this.router,
+                    this.messageService,
+                    this.centralServerService,
+                    'ocpiendpoints.pull_locations_error'
+                  );
+              }
+              // Reload data
+              this.refreshData().subscribe();
+            },
+          });
+        }
+      });
   }
 
   private pullSessionsOcpiEndpoint(ocpiendpoint: OCPIEndpoint) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('ocpiendpoints.get_sessions_title'),
-      this.translateService.instant('ocpiendpoints.get_sessions_confirm', { name: ocpiendpoint.name }),
-    ).subscribe((result) => {
-      if (result === ButtonAction.YES) {
-        this.centralServerService.pullSessionsOcpiEndpoint(ocpiendpoint).subscribe({
-          next: (response) => {
-            if (response.status === Constants.REST_RESPONSE_SUCCESS) {
-              this.messageService.showInfoMessage('ocpiendpoints.get_sessions_success');
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, 'ocpiendpoints.get_sessions_error');
-            }
-            // Reload data
-            this.refreshData().subscribe();
-          },
-          error: (error) => {
-            switch (error.status) {
-              // Hash no longer valid
-              case HTTPError.CANNOT_ACQUIRE_LOCK:
-                this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
-                break;
-              default:
-                Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-                  'ocpiendpoints.get_sessions_error');
-            }
-            // Reload data
-            this.refreshData().subscribe();
-          }
-        });
-      }
-    });
+    this.dialogService
+      .createAndShowYesNoDialog(
+        this.translateService.instant('ocpiendpoints.get_sessions_title'),
+        this.translateService.instant('ocpiendpoints.get_sessions_confirm', {
+          name: ocpiendpoint.name,
+        })
+      )
+      .subscribe((result) => {
+        if (result === ButtonAction.YES) {
+          this.centralServerService.pullSessionsOcpiEndpoint(ocpiendpoint).subscribe({
+            next: (response) => {
+              if (response.status === Constants.REST_RESPONSE_SUCCESS) {
+                this.messageService.showInfoMessage('ocpiendpoints.get_sessions_success');
+              } else {
+                Utils.handleError(
+                  JSON.stringify(response),
+                  this.messageService,
+                  'ocpiendpoints.get_sessions_error'
+                );
+              }
+              // Reload data
+              this.refreshData().subscribe();
+            },
+            error: (error) => {
+              switch (error.status) {
+                // Hash no longer valid
+                case HTTPError.CANNOT_ACQUIRE_LOCK:
+                  this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
+                  break;
+                default:
+                  Utils.handleHttpError(
+                    error,
+                    this.router,
+                    this.messageService,
+                    this.centralServerService,
+                    'ocpiendpoints.get_sessions_error'
+                  );
+              }
+              // Reload data
+              this.refreshData().subscribe();
+            },
+          });
+        }
+      });
   }
 
   private pullTokensOcpiEndpoint(ocpiendpoint: OCPIEndpoint) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('ocpiendpoints.pull_tokens_title'),
-      this.translateService.instant('ocpiendpoints.pull_tokens_confirm', { name: ocpiendpoint.name }),
-    ).subscribe((result) => {
-      if (result === ButtonAction.YES) {
-        this.centralServerService.pullTokensOcpiEndpoint(ocpiendpoint).subscribe({
-          next: (response) => {
-            if (response.status === RestResponse.SUCCESS) {
-              this.messageService.showInfoMessage('ocpiendpoints.pull_tokens_success', { success: response.success });
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, 'ocpiendpoints.pull_tokens_error');
-            }
-            // Reload data
-            this.refreshData().subscribe();
-          },
-          error: (error) => {
-            switch (error.status) {
-              // Hash no longer valid
-              case HTTPError.CANNOT_ACQUIRE_LOCK:
-                this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
-                break;
-              default:
-                Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-                  'ocpiendpoints.pull_tokens_error');
-            }
-            // Reload data
-            this.refreshData().subscribe();
-          }
-        });
-      }
-    });
+    this.dialogService
+      .createAndShowYesNoDialog(
+        this.translateService.instant('ocpiendpoints.pull_tokens_title'),
+        this.translateService.instant('ocpiendpoints.pull_tokens_confirm', {
+          name: ocpiendpoint.name,
+        })
+      )
+      .subscribe((result) => {
+        if (result === ButtonAction.YES) {
+          this.centralServerService.pullTokensOcpiEndpoint(ocpiendpoint).subscribe({
+            next: (response) => {
+              if (response.status === RestResponse.SUCCESS) {
+                this.messageService.showInfoMessage('ocpiendpoints.pull_tokens_success', {
+                  success: response.success,
+                });
+              } else {
+                Utils.handleError(
+                  JSON.stringify(response),
+                  this.messageService,
+                  'ocpiendpoints.pull_tokens_error'
+                );
+              }
+              // Reload data
+              this.refreshData().subscribe();
+            },
+            error: (error) => {
+              switch (error.status) {
+                // Hash no longer valid
+                case HTTPError.CANNOT_ACQUIRE_LOCK:
+                  this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
+                  break;
+                default:
+                  Utils.handleHttpError(
+                    error,
+                    this.router,
+                    this.messageService,
+                    this.centralServerService,
+                    'ocpiendpoints.pull_tokens_error'
+                  );
+              }
+              // Reload data
+              this.refreshData().subscribe();
+            },
+          });
+        }
+      });
   }
 
   private checkLocationsOcpiEndpoint(ocpiendpoint: OCPIEndpoint) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('ocpiendpoints.check_locations_title'),
-      this.translateService.instant('ocpiendpoints.check_locations_confirm', { name: ocpiendpoint.name }),
-    ).subscribe((result) => {
-      if (result === ButtonAction.YES) {
-        this.centralServerService.checkLocationsOcpiEndpoint(ocpiendpoint).subscribe({
-          next: (response) => {
-            if (response.status === RestResponse.SUCCESS) {
-              this.messageService.showInfoMessage('ocpiendpoints.check_locations_success', { success: response.success });
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, 'ocpiendpoints.check_locations_error');
-            }
-            // Reload data
-            this.refreshData().subscribe();
-          },
-          error: (error) => {
-            switch (error.status) {
-              // Hash no longer valid
-              case HTTPError.CANNOT_ACQUIRE_LOCK:
-                this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
-                break;
-              default:
-                Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-                  'ocpiendpoints.check_locations_error');
-            }
-            // Reload data
-            this.refreshData().subscribe();
-          }
-        });
-      }
-    });
+    this.dialogService
+      .createAndShowYesNoDialog(
+        this.translateService.instant('ocpiendpoints.check_locations_title'),
+        this.translateService.instant('ocpiendpoints.check_locations_confirm', {
+          name: ocpiendpoint.name,
+        })
+      )
+      .subscribe((result) => {
+        if (result === ButtonAction.YES) {
+          this.centralServerService.checkLocationsOcpiEndpoint(ocpiendpoint).subscribe({
+            next: (response) => {
+              if (response.status === RestResponse.SUCCESS) {
+                this.messageService.showInfoMessage('ocpiendpoints.check_locations_success', {
+                  success: response.success,
+                });
+              } else {
+                Utils.handleError(
+                  JSON.stringify(response),
+                  this.messageService,
+                  'ocpiendpoints.check_locations_error'
+                );
+              }
+              // Reload data
+              this.refreshData().subscribe();
+            },
+            error: (error) => {
+              switch (error.status) {
+                // Hash no longer valid
+                case HTTPError.CANNOT_ACQUIRE_LOCK:
+                  this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
+                  break;
+                default:
+                  Utils.handleHttpError(
+                    error,
+                    this.router,
+                    this.messageService,
+                    this.centralServerService,
+                    'ocpiendpoints.check_locations_error'
+                  );
+              }
+              // Reload data
+              this.refreshData().subscribe();
+            },
+          });
+        }
+      });
   }
 
   private checkSessionsOcpiEndpoint(ocpiendpoint: OCPIEndpoint) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('ocpiendpoints.check_sessions_title'),
-      this.translateService.instant('ocpiendpoints.check_sessions_confirm', { name: ocpiendpoint.name }),
-    ).subscribe((result) => {
-      if (result === ButtonAction.YES) {
-        this.centralServerService.checkSessionsOcpiEndpoint(ocpiendpoint).subscribe({
-          next: (response) => {
-            if (response.status === RestResponse.SUCCESS) {
-              this.messageService.showInfoMessage('ocpiendpoints.check_sessions_success');
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, 'ocpiendpoints.check_sessions_error');
-            }
-            // Reload data
-            this.refreshData().subscribe();
-          },
-          error: (error) => {
-            switch (error.status) {
-              // Hash no longer valid
-              case HTTPError.CANNOT_ACQUIRE_LOCK:
-                this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
-                break;
-              default:
-                Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-                  'ocpiendpoints.check_sessions_error');
-            }
-            // Reload data
-            this.refreshData().subscribe();
-          }
-        });
-      }
-    });
+    this.dialogService
+      .createAndShowYesNoDialog(
+        this.translateService.instant('ocpiendpoints.check_sessions_title'),
+        this.translateService.instant('ocpiendpoints.check_sessions_confirm', {
+          name: ocpiendpoint.name,
+        })
+      )
+      .subscribe((result) => {
+        if (result === ButtonAction.YES) {
+          this.centralServerService.checkSessionsOcpiEndpoint(ocpiendpoint).subscribe({
+            next: (response) => {
+              if (response.status === RestResponse.SUCCESS) {
+                this.messageService.showInfoMessage('ocpiendpoints.check_sessions_success');
+              } else {
+                Utils.handleError(
+                  JSON.stringify(response),
+                  this.messageService,
+                  'ocpiendpoints.check_sessions_error'
+                );
+              }
+              // Reload data
+              this.refreshData().subscribe();
+            },
+            error: (error) => {
+              switch (error.status) {
+                // Hash no longer valid
+                case HTTPError.CANNOT_ACQUIRE_LOCK:
+                  this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
+                  break;
+                default:
+                  Utils.handleHttpError(
+                    error,
+                    this.router,
+                    this.messageService,
+                    this.centralServerService,
+                    'ocpiendpoints.check_sessions_error'
+                  );
+              }
+              // Reload data
+              this.refreshData().subscribe();
+            },
+          });
+        }
+      });
   }
 
   private checkCdrsOcpiEndpoint(ocpiendpoint: OCPIEndpoint) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('ocpiendpoints.check_cdrs_title'),
-      this.translateService.instant('ocpiendpoints.check_cdrs_confirm', { name: ocpiendpoint.name }),
-    ).subscribe((result) => {
-      if (result === ButtonAction.YES) {
-        this.centralServerService.checkCdrsOcpiEndpoint(ocpiendpoint).subscribe({
-          next: (response) => {
-            if (response.status === RestResponse.SUCCESS) {
-              this.messageService.showInfoMessage('ocpiendpoints.check_cdrs_success');
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, 'ocpiendpoints.check_cdrs_error');
-            }
-            // Reload data
-            this.refreshData().subscribe();
-          },
-          error: (error) => {
-            switch (error.status) {
-              // Hash no longer valid
-              case HTTPError.CANNOT_ACQUIRE_LOCK:
-                this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
-                break;
-              default:
-                Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-                  'ocpiendpoints.check_cdrs_error');
-            }
-            // Reload data
-            this.refreshData().subscribe();
-          }
-        });
-      }
-    });
+    this.dialogService
+      .createAndShowYesNoDialog(
+        this.translateService.instant('ocpiendpoints.check_cdrs_title'),
+        this.translateService.instant('ocpiendpoints.check_cdrs_confirm', {
+          name: ocpiendpoint.name,
+        })
+      )
+      .subscribe((result) => {
+        if (result === ButtonAction.YES) {
+          this.centralServerService.checkCdrsOcpiEndpoint(ocpiendpoint).subscribe({
+            next: (response) => {
+              if (response.status === RestResponse.SUCCESS) {
+                this.messageService.showInfoMessage('ocpiendpoints.check_cdrs_success');
+              } else {
+                Utils.handleError(
+                  JSON.stringify(response),
+                  this.messageService,
+                  'ocpiendpoints.check_cdrs_error'
+                );
+              }
+              // Reload data
+              this.refreshData().subscribe();
+            },
+            error: (error) => {
+              switch (error.status) {
+                // Hash no longer valid
+                case HTTPError.CANNOT_ACQUIRE_LOCK:
+                  this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
+                  break;
+                default:
+                  Utils.handleHttpError(
+                    error,
+                    this.router,
+                    this.messageService,
+                    this.centralServerService,
+                    'ocpiendpoints.check_cdrs_error'
+                  );
+              }
+              // Reload data
+              this.refreshData().subscribe();
+            },
+          });
+        }
+      });
   }
 
   private pullCdrsOcpiEndpoint(ocpiendpoint: OCPIEndpoint) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('ocpiendpoints.pull_cdrs_title'),
-      this.translateService.instant('ocpiendpoints.pull_cdrs_confirm', { name: ocpiendpoint.name }),
-    ).subscribe((result) => {
-      if (result === ButtonAction.YES) {
-        this.centralServerService.pullCdrsOcpiEndpoint(ocpiendpoint).subscribe({
-          next: (response) => {
-            if (response.status === RestResponse.SUCCESS) {
-              this.messageService.showInfoMessage('ocpiendpoints.pull_cdrs_success', { success: response.success });
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, 'ocpiendpoints.pull_cdrs_error');
-            }
-            // Reload data
-            this.refreshData().subscribe();
-          },
-          error: (error) => {
-            switch (error.status) {
-              // Hash no longer valid
-              case HTTPError.CANNOT_ACQUIRE_LOCK:
-                this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
-                break;
-              default:
-                Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-                  'ocpiendpoints.pull_cdrs_error');
-            }
-            // Reload data
-            this.refreshData().subscribe();
-          }
-        });
-      }
-    });
+    this.dialogService
+      .createAndShowYesNoDialog(
+        this.translateService.instant('ocpiendpoints.pull_cdrs_title'),
+        this.translateService.instant('ocpiendpoints.pull_cdrs_confirm', {
+          name: ocpiendpoint.name,
+        })
+      )
+      .subscribe((result) => {
+        if (result === ButtonAction.YES) {
+          this.centralServerService.pullCdrsOcpiEndpoint(ocpiendpoint).subscribe({
+            next: (response) => {
+              if (response.status === RestResponse.SUCCESS) {
+                this.messageService.showInfoMessage('ocpiendpoints.pull_cdrs_success', {
+                  success: response.success,
+                });
+              } else {
+                Utils.handleError(
+                  JSON.stringify(response),
+                  this.messageService,
+                  'ocpiendpoints.pull_cdrs_error'
+                );
+              }
+              // Reload data
+              this.refreshData().subscribe();
+            },
+            error: (error) => {
+              switch (error.status) {
+                // Hash no longer valid
+                case HTTPError.CANNOT_ACQUIRE_LOCK:
+                  this.messageService.showWarningMessage('ocpiendpoints.ocpi_action_in_progress');
+                  break;
+                default:
+                  Utils.handleHttpError(
+                    error,
+                    this.router,
+                    this.messageService,
+                    this.centralServerService,
+                    'ocpiendpoints.pull_cdrs_error'
+                  );
+              }
+              // Reload data
+              this.refreshData().subscribe();
+            },
+          });
+        }
+      });
   }
 
   private enableDisableBackgroundJob(ocpiendpoint: OCPIEndpoint, enable: boolean) {
     // update it with dialog
-    this.dialogService.createAndShowYesNoDialog(
-      (enable) ? this.translateService.instant('ocpiendpoints.start_background_job_title')
-        : this.translateService.instant('ocpiendpoints.stop_background_job_title'),
-      (enable) ? this.translateService.instant('ocpiendpoints.start_background_job_confirm', { name: ocpiendpoint.name })
-        : this.translateService.instant('ocpiendpoints.stop_background_job_confirm', { name: ocpiendpoint.name }),
-    ).subscribe((result) => {
-      if (result === ButtonAction.YES) {
-        // Switch background job state
-        ocpiendpoint.backgroundPatchJob = enable;
-        this.centralServerService.updateOcpiEndpoint(ocpiendpoint).subscribe({
-          next: (response) => {
-            if (response.status === RestResponse.SUCCESS) {
-              if (ocpiendpoint.backgroundPatchJob) {
-                this.messageService.showSuccessMessage('ocpiendpoints.background_job_activated');
+    this.dialogService
+      .createAndShowYesNoDialog(
+        enable
+          ? this.translateService.instant('ocpiendpoints.start_background_job_title')
+          : this.translateService.instant('ocpiendpoints.stop_background_job_title'),
+        enable
+          ? this.translateService.instant('ocpiendpoints.start_background_job_confirm', {
+            name: ocpiendpoint.name,
+          })
+          : this.translateService.instant('ocpiendpoints.stop_background_job_confirm', {
+            name: ocpiendpoint.name,
+          })
+      )
+      .subscribe((result) => {
+        if (result === ButtonAction.YES) {
+          // Switch background job state
+          ocpiendpoint.backgroundPatchJob = enable;
+          this.centralServerService.updateOcpiEndpoint(ocpiendpoint).subscribe({
+            next: (response) => {
+              if (response.status === RestResponse.SUCCESS) {
+                if (ocpiendpoint.backgroundPatchJob) {
+                  this.messageService.showSuccessMessage('ocpiendpoints.background_job_activated');
+                } else {
+                  this.messageService.showSuccessMessage(
+                    'ocpiendpoints.background_job_deactivated'
+                  );
+                }
               } else {
-                this.messageService.showSuccessMessage('ocpiendpoints.background_job_deactivated');
+                Utils.handleError(
+                  JSON.stringify(response),
+                  this.messageService,
+                  'ocpiendpoints.update_error'
+                );
               }
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, 'ocpiendpoints.update_error');
-            }
-            this.refreshData().subscribe();
-          },
-          error: (error) => {
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              'ocpiendpoints.update_error');
-          }
-        });
-      }
-    });
+              this.refreshData().subscribe();
+            },
+            error: (error) => {
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'ocpiendpoints.update_error'
+              );
+            },
+          });
+        }
+      });
   }
 }

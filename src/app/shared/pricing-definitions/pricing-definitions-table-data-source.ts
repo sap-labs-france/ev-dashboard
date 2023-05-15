@@ -20,11 +20,20 @@ import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../
 import { Utils } from '../../utils/Utils';
 import { AppDatePipe } from '../formatters/app-date.pipe';
 import { AppPricingDimensionsPrice } from '../formatters/app-pricing-dimensions.price.pipe';
-import { TableEditPricingDefinitionAction, TableEditPricingDefinitionActionDef } from '../table/actions/charging-stations/table-edit-pricing-definition-action';
+import {
+  TableEditPricingDefinitionAction,
+  TableEditPricingDefinitionActionDef,
+} from '../table/actions/charging-stations/table-edit-pricing-definition-action';
 import { TableAutoRefreshAction } from '../table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../table/actions/table-refresh-action';
-import { TableCreatePricingDefinitionAction, TableCreatePricingDefinitionActionDef } from '../table/actions/users/table-create-pricing-definition-action';
-import { TableDeletePricingDefinitionAction, TableDeletePricingDefinitionActionDef } from '../table/actions/users/table-delete-pricing-definition';
+import {
+  TableCreatePricingDefinitionAction,
+  TableCreatePricingDefinitionActionDef,
+} from '../table/actions/users/table-create-pricing-definition-action';
+import {
+  TableDeletePricingDefinitionAction,
+  TableDeletePricingDefinitionActionDef,
+} from '../table/actions/users/table-delete-pricing-definition';
 import { PricingDefinitionDetailCellComponent } from './pricing-definition/cell-components/pricing-defintion-detail-cell-component.component';
 import { PricingDefinitionDialogComponent } from './pricing-definition/pricing-definition.dialog.component';
 
@@ -41,12 +50,12 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
   private defaultContext = {
     entityID: null,
     entityType: null,
-    entityName: null
+    entityName: null,
   };
   private context = {
     entityID: null,
     entityType: null,
-    entityName: null
+    entityName: null,
   };
 
   public constructor(
@@ -58,7 +67,8 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
     private dialog: MatDialog,
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe,
-    private appPricingDimensionsPrice: AppPricingDimensionsPrice) {
+    private appPricingDimensionsPrice: AppPricingDimensionsPrice
+  ) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -68,9 +78,14 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
     this.authorizations = authorizations;
   }
 
-  public setDefaultContext(entityID: string = null, entityType: string = null, entityName: string = null) {
+  public setDefaultContext(
+    entityID: string = null,
+    entityType: string = null,
+    entityName: string = null
+  ) {
     if (!entityID) {
-      this.context.entityID = this.defaultContext.entityID = this.centralServerService.getLoggedUser().tenantID;
+      this.context.entityID = this.defaultContext.entityID =
+        this.centralServerService.getLoggedUser().tenantID;
       this.context.entityType = this.defaultContext.entityType = PricingEntity.TENANT;
     } else {
       this.context.entityID = this.defaultContext.entityID = entityID;
@@ -82,23 +97,36 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
   }
 
   public isContextSet() {
-    return !!(this.context.entityType);
+    return !!this.context.entityType;
   }
 
   public loadDataImpl(): Observable<DataResult<PricingDefinition>> {
     return new Observable((observer) => {
       // Get the PricingDefinitions
-      this.centralServerService.getPricingDefinitions(this.buildFilterValues(), this.getPaging(), this.getSorting(), this.context).subscribe({
-        next: (pricingDefinition) => {
-          this.createAction.visible = pricingDefinition.canCreate;
-          observer.next(pricingDefinition);
-          observer.complete();
-        },
-        error: (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          observer.error(error);
-        }
-      });
+      this.centralServerService
+        .getPricingDefinitions(
+          this.buildFilterValues(),
+          this.getPaging(),
+          this.getSorting(),
+          this.context
+        )
+        .subscribe({
+          next: (pricingDefinition) => {
+            this.createAction.visible = pricingDefinition.canCreate;
+            observer.next(pricingDefinition);
+            observer.complete();
+          },
+          error: (error) => {
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.error_backend'
+            );
+            observer.error(error);
+          },
+        });
     });
   }
 
@@ -125,14 +153,14 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
         name: 'transactions.dialog.session.pricing_detail_entity_type',
         headerClass: 'col-15p',
         class: 'col-15p',
-        visible: this.viewingAllComponents
+        visible: this.viewingAllComponents,
       },
       {
         id: 'entityName',
         name: 'transactions.dialog.session.pricing_detail_entity_name',
         headerClass: 'col-15p',
         class: 'col-15p',
-        visible: this.viewingAllComponents
+        visible: this.viewingAllComponents,
       },
       {
         id: 'id',
@@ -161,39 +189,41 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
       {
         id: 'dimensions.flatFee.price',
         name: 'settings.pricing.flat_fee',
-        formatter: (price: number) => this.appPricingDimensionsPrice.transform('flat_fee_formatted_price', price),
+        formatter: (price: number) =>
+          this.appPricingDimensionsPrice.transform('flat_fee_formatted_price', price),
         headerClass: 'col-15p',
         class: 'col-15p',
       },
       {
         id: 'dimensions.energy.price',
         name: 'settings.pricing.energy',
-        formatter: (price: number) => this.appPricingDimensionsPrice.transform('energy_formatted_price', price),
+        formatter: (price: number) =>
+          this.appPricingDimensionsPrice.transform('energy_formatted_price', price),
         headerClass: 'col-15p',
         class: 'col-15p',
       },
       {
         id: 'dimensions.chargingTime.price',
         name: 'settings.pricing.charging_time',
-        formatter: (price: number) => this.appPricingDimensionsPrice.transform('charging_time_formatted_price', price),
+        formatter: (price: number) =>
+          this.appPricingDimensionsPrice.transform('charging_time_formatted_price', price),
         headerClass: 'col-15p',
         class: 'col-15p',
       },
       {
         id: 'dimensions.parkingTime.price',
         name: 'settings.pricing.parking_time',
-        formatter: (price: number) => this.appPricingDimensionsPrice.transform('parking_time_formatted_price', price),
+        formatter: (price: number) =>
+          this.appPricingDimensionsPrice.transform('parking_time_formatted_price', price),
         headerClass: 'col-15p',
         class: 'col-15p',
-      }
+      },
     ];
   }
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    const actions: TableActionDef[] = [
-      this.createAction,
-    ];
+    const actions: TableActionDef[] = [this.createAction];
     if (this.defaultContext.entityType === PricingEntity.TENANT) {
       actions.push(this.viewAllAction);
     }
@@ -220,16 +250,18 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
     switch (actionDef.id) {
       case PricingButtonAction.CREATE_PRICING_DEFINITION:
         if (actionDef.id) {
-          (actionDef as TableCreatePricingDefinitionActionDef).action(PricingDefinitionDialogComponent, this.dialog,
+          (actionDef as TableCreatePricingDefinitionActionDef).action(
+            PricingDefinitionDialogComponent,
+            this.dialog,
             {
               dialogData: {
                 id: null,
                 context: {
                   entityID: this.defaultContext.entityID,
                   entityType: this.defaultContext.entityType,
-                  entityName: this.defaultContext.entityName
-                }
-              }
+                  entityName: this.defaultContext.entityName,
+                },
+              },
             },
             this.refreshData.bind(this)
           );
@@ -239,12 +271,16 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
         if (actionDef.id) {
           actionDef.currentValue = !actionDef.currentValue;
           this.viewingAllComponents = actionDef.currentValue;
-          if(this.viewingAllComponents) {
+          if (this.viewingAllComponents) {
             // Make network request call to fetch all items
             this.setContext(null, null, null);
           } else {
             // Make current default tenant based network request
-            this.setContext(this.defaultContext.entityID, this.defaultContext.entityType, this.defaultContext.entityName);
+            this.setContext(
+              this.defaultContext.entityID,
+              this.defaultContext.entityType,
+              this.defaultContext.entityName
+            );
           }
           this.refreshData().subscribe();
         }
@@ -256,43 +292,54 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
       case PricingButtonAction.EDIT_PRICING_DEFINITION:
         if (actionDef.action) {
           (actionDef as TableEditPricingDefinitionActionDef).action(
-            PricingDefinitionDialogComponent, this.dialog,
+            PricingDefinitionDialogComponent,
+            this.dialog,
             {
               dialogData: {
                 ...pricingDefinition,
                 context: {
                   entityID: pricingDefinition.entityID,
                   entityType: pricingDefinition.entityType,
-                  entityName: pricingDefinition.entityName
-                }
-              }
+                  entityName: pricingDefinition.entityName,
+                },
+              },
             },
-            this.refreshData.bind(this));
+            this.refreshData.bind(this)
+          );
         }
         break;
       case ButtonAction.VIEW:
         if (actionDef.action) {
           (actionDef as TableViewPricingDefinitionsActionDef).action(
-            PricingDefinitionDialogComponent, this.dialog,
+            PricingDefinitionDialogComponent,
+            this.dialog,
             {
               dialogData: {
                 ...pricingDefinition,
                 context: {
                   entityID: pricingDefinition.entityID,
                   entityType: pricingDefinition.entityType,
-                  entityName: pricingDefinition.entityName
-                }
+                  entityName: pricingDefinition.entityName,
+                },
               },
-              dialogMode: DialogMode.VIEW
+              dialogMode: DialogMode.VIEW,
             },
-            this.refreshData.bind(this));
+            this.refreshData.bind(this)
+          );
         }
         break;
       case PricingButtonAction.DELETE_PRICING_DEFINITION:
         if (actionDef.action) {
           (actionDef as TableDeletePricingDefinitionActionDef).action(
-            pricingDefinition, this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
+            pricingDefinition,
+            this.dialogService,
+            this.translateService,
+            this.messageService,
+            this.centralServerService,
+            this.spinnerService,
+            this.router,
+            this.refreshData.bind(this)
+          );
         }
         break;
     }
@@ -309,7 +356,11 @@ export class PricingDefinitionsTableDataSource extends DialogTableDataSource<Pri
     return [];
   }
 
-  private setContext(entityID: string = null, entityType: string = null, entityName: string = null) {
+  private setContext(
+    entityID: string = null,
+    entityType: string = null,
+    entityName: string = null
+  ) {
     this.context.entityID = entityID;
     this.context.entityType = entityType;
     this.context.entityName = entityName;

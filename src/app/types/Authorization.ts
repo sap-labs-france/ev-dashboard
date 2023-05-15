@@ -1,4 +1,3 @@
-
 export interface AuthorizationDefinition {
   superAdmin: AuthorizationDefinitionRole;
   admin: AuthorizationDefinitionRole;
@@ -22,7 +21,11 @@ export interface AuthorizationDefinitionGrant {
 
 export interface AuthorizationDefinitionCondition {
   Fn: string;
-  args: AuthorizationDefinitionConditionArgs|AuthorizationDefinitionConditionArgs[]|AuthorizationDefinitionCondition[]|Record<string, unknown>;
+  args:
+  | AuthorizationDefinitionConditionArgs
+  | AuthorizationDefinitionConditionArgs[]
+  | AuthorizationDefinitionCondition[]
+  | Record<string, unknown>;
 }
 
 export interface AuthorizationDefinitionConditionArgs {
@@ -35,15 +38,14 @@ export interface AuthorizationDefinitionFieldMetadata {
   visible: boolean;
   enabled: boolean;
   mandatory: boolean;
-  values: string[]|boolean[]|number[];
-  defaultValue: string|boolean|number;
+  values: string[] | boolean[] | number[];
+  defaultValue: string | boolean | number;
 }
 
 export interface AuthorizationFilter {
   filters: Record<string, unknown>;
   project: string[];
 }
-
 
 export enum Entity {
   SITE = 'Site',
@@ -81,6 +83,7 @@ export enum Entity {
   PAYMENT_METHOD = 'PaymentMethod',
   SOURCE = 'Source',
   CHARGING_STATION_TEMPLATE = 'ChargingStationTemplate',
+  RESERVATION = 'Reservation',
 }
 
 export enum Action {
@@ -182,13 +185,13 @@ export interface DataResultAuthorizationActions {
 }
 
 // Basic Data Result Authorizations
-export interface DataResultAuthorizations extends AuthorizationAttributes, DataResultAuthorizationActions {
-}
+export interface DataResultAuthorizations
+  extends AuthorizationAttributes,
+  DataResultAuthorizationActions {}
 
-export interface CarsAuthorizations extends AuthorizationAttributes, CarsAuthorizationActions {
-}
+export interface CarsAuthorizations extends AuthorizationAttributes, CarsAuthorizationActions {}
 
-export interface CarsAuthorizationActions extends DataResultAuthorizationActions{
+export interface CarsAuthorizationActions extends DataResultAuthorizationActions {
   canListUsers?: boolean;
   canListCarCatalog?: boolean;
 }
@@ -197,15 +200,15 @@ export interface CarAuthorizationActions extends AuthorizationActions {
   canListUsers?: boolean;
 }
 
-export interface CarCatalogsAuthorizations extends AuthorizationAttributes, CarCatalogsAuthorizationActions {
-}
+export interface CarCatalogsAuthorizations
+  extends AuthorizationAttributes,
+  CarCatalogsAuthorizationActions {}
 
 export interface CarCatalogsAuthorizationActions extends DataResultAuthorizationActions {
   canSync?: boolean;
 }
 
-export interface TagsAuthorizations extends AuthorizationAttributes, TagsAuthorizationActions {
-}
+export interface TagsAuthorizations extends AuthorizationAttributes, TagsAuthorizationActions {}
 
 export interface TagsAuthorizationActions extends DataResultAuthorizationActions {
   canAssign?: boolean;
@@ -224,8 +227,7 @@ export interface TagAuthorizationActions extends AuthorizationActions {
   canUpdateByVisualID?: boolean;
 }
 
-export interface UsersAuthorizations extends AuthorizationAttributes, UsersAuthorizationActions {
-}
+export interface UsersAuthorizations extends AuthorizationAttributes, UsersAuthorizationActions {}
 
 export interface UsersAuthorizationActions extends DataResultAuthorizationActions {
   canImport?: boolean;
@@ -242,29 +244,28 @@ export interface UserAuthorizationActions extends AuthorizationActions {
   canSynchronizeBillingUser?: boolean;
 }
 
-export interface UserSitesAuthorizations extends AuthorizationAttributes, UserSitesAuthorizationActions {
+export interface UserSitesAuthorizations
+  extends AuthorizationAttributes,
+  UserSitesAuthorizationActions {
   canUpdateUserSites?: boolean;
 }
 
-export interface UserSitesAuthorizationActions extends DataResultAuthorizationActions {
-}
+export interface UserSitesAuthorizationActions extends DataResultAuthorizationActions {}
 
-export interface UserSiteAuthorizationActions extends AuthorizationActions {
-}
+export interface UserSiteAuthorizationActions extends AuthorizationActions {}
 
-export interface SiteUsersAuthorizations extends AuthorizationAttributes, SiteUsersAuthorizationActions {
+export interface SiteUsersAuthorizations
+  extends AuthorizationAttributes,
+  SiteUsersAuthorizationActions {
   canUpdateSiteUsers?: boolean;
 }
 
-export interface SiteUsersAuthorizationActions extends DataResultAuthorizationActions {
-}
+export interface SiteUsersAuthorizationActions extends DataResultAuthorizationActions {}
 
-export interface SiteUserAuthorizationActions extends AuthorizationActions {
-}
+export interface SiteUserAuthorizationActions extends AuthorizationActions {}
 
 // ASSETS
-export interface AssetsAuthorizations extends AuthorizationAttributes, AssetsAuthorizationActions {
-}
+export interface AssetsAuthorizations extends AuthorizationAttributes, AssetsAuthorizationActions {}
 
 export interface AssetsAuthorizationActions extends DataResultAuthorizationActions {
   canListSites?: boolean;
@@ -277,11 +278,13 @@ export interface AssetAuthorizationActions extends AuthorizationActions {
   canCheckConnection?: boolean;
 }
 
-export interface SiteAreasAuthorizations extends AuthorizationAttributes, DataResultAuthorizationActions {
-}
+export interface SiteAreasAuthorizations
+  extends AuthorizationAttributes,
+  DataResultAuthorizationActions {}
 
-export interface CompaniesAuthorizations extends AuthorizationAttributes, DataResultAuthorizationActions {
-}
+export interface CompaniesAuthorizations
+  extends AuthorizationAttributes,
+  DataResultAuthorizationActions {}
 
 export interface SiteAreaAuthorizationActions extends AuthorizationActions {
   canAssignAssets?: boolean;
@@ -294,8 +297,7 @@ export interface SiteAreaAuthorizationActions extends AuthorizationActions {
   canGenerateQrCode?: boolean;
 }
 
-export interface SitesAuthorizations extends AuthorizationAttributes, SitesAuthorizationActions {
-}
+export interface SitesAuthorizations extends AuthorizationAttributes, SitesAuthorizationActions {}
 
 export interface SitesAuthorizationActions extends DataResultAuthorizationActions {
   canListCompanies: boolean;
@@ -320,21 +322,23 @@ export interface LogsAuthorizationActions extends AuthorizationActions {
 export interface BillingAccountsAuthorizations extends DataResultAuthorizationActions {
   canListUsers?: boolean;
 }
-export interface BillingInvoicesAuthorizations extends AuthorizationAttributes, BillingInvoicesAuthorizationActions {
-}
+export interface BillingInvoicesAuthorizations
+  extends AuthorizationAttributes,
+  BillingInvoicesAuthorizationActions {}
 
-export interface BillingTaxesAuthorizations extends AuthorizationAttributes, BillingTaxesAuthorizationActions {
-}
+export interface BillingTaxesAuthorizations
+  extends AuthorizationAttributes,
+  BillingTaxesAuthorizationActions {}
 
-export interface BillingTransfersAuthorizations extends AuthorizationAttributes, BillingTransfersAuthorizationActions {
-}
+export interface BillingTransfersAuthorizations
+  extends AuthorizationAttributes,
+  BillingTransfersAuthorizationActions {}
 
 export interface BillingInvoicesAuthorizationActions extends DataResultAuthorizationActions {
   canListUsers?: boolean;
 }
 
-export interface BillingTaxesAuthorizationActions extends DataResultAuthorizationActions {
-}
+export interface BillingTaxesAuthorizationActions extends DataResultAuthorizationActions {}
 
 export interface BillingTransfersAuthorizationActions extends DataResultAuthorizationActions {
   canListUsers?: boolean;
@@ -344,21 +348,23 @@ export interface BillingInvoiceAuthorizationActions extends AuthorizationActions
   canDownload?: boolean;
 }
 
-export interface BillingPaymentMethodsAuthorizationActions extends DataResultAuthorizationActions {
-}
+export interface BillingPaymentMethodsAuthorizationActions extends DataResultAuthorizationActions {}
 
-export interface BillingPaymentMethodAuthorizationActions extends AuthorizationActions {
-}
+export interface BillingPaymentMethodAuthorizationActions extends AuthorizationActions {}
 
-export interface ChargingStationTemplateAuthorizations extends AuthorizationAttributes, ChargingStationTemplateAuthorizationActions {
-}
+export interface ChargingStationTemplateAuthorizations
+  extends AuthorizationAttributes,
+  ChargingStationTemplateAuthorizationActions {}
 
-export interface ChargingStationTemplateAuthorizationActions extends DataResultAuthorizationActions {
-}
-export interface ChargingStationsAuthorizations extends AuthorizationAttributes, ChargingStationsAuthorizationActions {
-}
+export interface ChargingStationTemplateAuthorizationActions
+  extends DataResultAuthorizationActions {}
+export interface ChargingStationsAuthorizations
+  extends AuthorizationAttributes,
+  ChargingStationsAuthorizationActions {}
 
-export interface ChargingProfilesAuthorizations extends AuthorizationAttributes, DataResultAuthorizationActions {
+export interface ChargingProfilesAuthorizations
+  extends AuthorizationAttributes,
+  DataResultAuthorizationActions {
   canListChargingStations?: boolean;
 }
 
@@ -408,8 +414,9 @@ export interface ChargingProfileAuthorizationActions extends AuthorizationAction
   canReadSiteArea?: boolean;
 }
 
-export interface TransactionsAuthorizations extends AuthorizationAttributes, TransactionsAuthorizationActions {
-}
+export interface TransactionsAuthorizations
+  extends AuthorizationAttributes,
+  TransactionsAuthorizationActions {}
 
 export interface TransactionsAuthorizationActions extends DataResultAuthorizationActions {
   canListUsers?: boolean;
@@ -436,11 +443,11 @@ export interface TransactionAuthorizationActions extends AuthorizationActions {
   canReadChargingStation?: boolean;
 }
 
-export interface SettingsAuthorizations extends AuthorizationAttributes, SettingsAuthorizationActions {
-}
+export interface SettingsAuthorizations
+  extends AuthorizationAttributes,
+  SettingsAuthorizationActions {}
 
-export interface SettingsAuthorizationActions extends DataResultAuthorizationActions {
-}
+export interface SettingsAuthorizationActions extends DataResultAuthorizationActions {}
 
 export interface SettingAuthorizationActions extends AuthorizationActions {
   canSyncRefund?: boolean;
@@ -450,8 +457,9 @@ export interface SettingAuthorizationActions extends AuthorizationActions {
   canCheckAssetConnection?: boolean;
 }
 
-export interface OcpiEndpointsAuthorizations extends AuthorizationAttributes, OcpiEndpointsAuthorizationActions {
-}
+export interface OcpiEndpointsAuthorizations
+  extends AuthorizationAttributes,
+  OcpiEndpointsAuthorizationActions {}
 
 export interface OcpiEndpointsAuthorizationActions extends DataResultAuthorizationActions {
   canPing?: boolean;
@@ -465,7 +473,9 @@ export interface OcpiEndpointAuthorizationActions extends AuthorizationActions {
   canTriggerJob?: boolean;
 }
 
-export interface StatisticsAuthorizations extends AuthorizationAttributes, StatisticsAuthorizationActions {
+export interface StatisticsAuthorizations
+  extends AuthorizationAttributes,
+  StatisticsAuthorizationActions {
   canListUsers?: boolean;
   canListChargingStations?: boolean;
   canListSites?: boolean;
@@ -473,8 +483,7 @@ export interface StatisticsAuthorizations extends AuthorizationAttributes, Stati
   canExport?: boolean;
 }
 
-export interface StatisticsAuthorizationActions extends AuthorizationActions {
-}
+export interface StatisticsAuthorizationActions extends AuthorizationActions {}
 
 export enum DialogMode {
   EDIT = 'E',
@@ -508,3 +517,19 @@ export interface BillingTransferAuthorizationActions extends AuthorizationAction
   canDownload?: boolean;
 }
 
+export interface ReservationsAuthorizationActions
+  extends AuthorizationActions,
+  DataResultAuthorizationActions {
+  canCancel?: boolean;
+  canExport?: boolean;
+  canListUsers?: boolean;
+  canListSites?: boolean;
+  canListSiteAreas?: boolean;
+  canListTags?: boolean;
+  canListChargingStations?: boolean;
+  canListCompanies?: boolean;
+}
+
+export interface ReservationsAuthorizations
+  extends AuthorizationAttributes,
+  ReservationsAuthorizationActions {}

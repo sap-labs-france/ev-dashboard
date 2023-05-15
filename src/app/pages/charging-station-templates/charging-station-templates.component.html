@@ -1,9 +1,15 @@
 <div class="main-content">
-  <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex" animationDuration="0ms"
-      disableRipple="true" class="h-100 mat-tab-info">
+  <mat-tab-group
+    (selectedIndexChange)="updateRoute($event)"
+    [selectedIndex]="activeTabIndex"
+    animationDuration="0ms"
+    disableRipple="true"
+    class="h-100 mat-tab-info"
+  >
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon>assignment</mat-icon><span>{{'templates.tabs.charging_station_templates' | translate}}</span>
+        <mat-icon>assignment</mat-icon
+        ><span>{{ 'templates.tabs.charging_station_templates' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-charging-station-templates-list></app-charging-station-templates-list>

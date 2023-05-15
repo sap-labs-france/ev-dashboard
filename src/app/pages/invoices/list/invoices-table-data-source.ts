@@ -34,7 +34,6 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   private invoiceStatusFilter: TableFilterDef;
   private invoicesAuthorizations: BillingInvoicesAuthorizations;
 
-
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
@@ -43,7 +42,8 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
     private appUserNamePipe: AppUserNamePipe,
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe,
-    private appCurrencyPipe: AppCurrencyPipe) {
+    private appCurrencyPipe: AppCurrencyPipe
+  ) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -52,22 +52,30 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   public loadDataImpl(): Observable<BillingInvoiceDataResult> {
     return new Observable((observer) => {
       // Get the Invoices
-      this.centralServerService.getInvoices(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
-        next: (invoices) => {
-          // Initialise authorizations
-          this.invoicesAuthorizations = {
-            canListUsers:  Utils.convertToBoolean(invoices.canListUsers)
-          };
-          // Update filters visibility
-          this.usersFilter.visible = this.invoicesAuthorizations.canListUsers;
-          observer.next(invoices);
-          observer.complete();
-        },
-        error: (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'invoices.cannot_retrieve_invoices');
-          observer.error(error);
-        }
-      });
+      this.centralServerService
+        .getInvoices(this.buildFilterValues(), this.getPaging(), this.getSorting())
+        .subscribe({
+          next: (invoices) => {
+            // Initialise authorizations
+            this.invoicesAuthorizations = {
+              canListUsers: Utils.convertToBoolean(invoices.canListUsers),
+            };
+            // Update filters visibility
+            this.usersFilter.visible = this.invoicesAuthorizations.canListUsers;
+            observer.next(invoices);
+            observer.complete();
+          },
+          error: (error) => {
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'invoices.cannot_retrieve_invoices'
+            );
+            observer.error(error);
+          },
+        });
     });
   }
 
@@ -76,7 +84,7 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       search: {
         enabled: true,
       },
-      hasDynamicRowAction: true
+      hasDynamicRowAction: true,
     };
   }
 
@@ -121,7 +129,8 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
         name: 'invoices.user',
         headerClass: 'col-20p text-left',
         class: 'col-20p text-left',
-        formatter: (name: string, invoice: BillingInvoice) => this.appUserNamePipe.transform(invoice.user),
+        formatter: (name: string, invoice: BillingInvoice) =>
+          this.appUserNamePipe.transform(invoice.user),
       },
       {
         id: 'user.email',
@@ -132,7 +141,8 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       {
         id: 'sessions',
         name: 'invoices.number_of_items',
-        formatter: (sessions: BillingSessionData[], invoice: BillingInvoice) => sessions?.length?.toString(),
+        formatter: (sessions: BillingSessionData[], invoice: BillingInvoice) =>
+          sessions?.length?.toString(),
         headerClass: 'col-10p text-center',
         class: 'col-10p text-center',
         sortable: false,
@@ -140,19 +150,18 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       {
         id: 'amount',
         name: 'invoices.amount',
-        formatter: (amount: number, invoice: BillingInvoice) => this.appCurrencyPipe.transform(amount / 100, invoice.currency.toUpperCase()),
+        formatter: (amount: number, invoice: BillingInvoice) =>
+          this.appCurrencyPipe.transform(amount / 100, invoice.currency.toUpperCase()),
         headerClass: 'col-10p',
         class: 'col-10p',
         sortable: true,
-      }
+      },
     ];
   }
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    return [
-      ...tableActionsDef,
-    ];
+    return [...tableActionsDef];
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -164,8 +173,13 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
       case BillingButtonAction.DOWNLOAD_INVOICE:
         if (this.downloadBillingInvoiceAction.action) {
           this.downloadBillingInvoiceAction.action(
-            billingInvoice.id, 'invoice_' + billingInvoice.number, this.translateService, this.spinnerService,
-            this.messageService, this.centralServerService, this.router
+            billingInvoice.id,
+            'invoice_' + billingInvoice.number,
+            this.translateService,
+            this.spinnerService,
+            this.messageService,
+            this.centralServerService,
+            this.router
           );
         }
         break;
@@ -182,12 +196,10 @@ export class InvoicesTableDataSource extends TableDataSource<BillingInvoice> {
   public buildTableFiltersDef(): TableFilterDef[] {
     this.issuerFilter = new IssuerFilter().getFilterDef();
     this.usersFilter = new UserTableFilter([this.issuerFilter]).getFilterDef();
-    this.dateRangeFilter = new DateRangeTableFilter({ translateService: this.translateService }).getFilterDef();
+    this.dateRangeFilter = new DateRangeTableFilter({
+      translateService: this.translateService,
+    }).getFilterDef();
     this.invoiceStatusFilter = new InvoiceStatusFilter().getFilterDef();
-    return [
-      this.dateRangeFilter,
-      this.invoiceStatusFilter,
-      this.usersFilter
-    ];
+    return [this.dateRangeFilter, this.invoiceStatusFilter, this.usersFilter];
   }
 }

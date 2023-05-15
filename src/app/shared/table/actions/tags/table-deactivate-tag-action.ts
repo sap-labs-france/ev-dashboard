@@ -13,8 +13,16 @@ import { Utils } from '../../../../utils/Utils';
 import { TableDeactivateAction } from '../table-deactivate-action';
 
 export interface TableDeactivateTagActionDef extends TableActionDef {
-  action: (tag: Tag, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) => void;
+  action: (
+    tag: Tag,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableDeactivateTagAction extends TableDeactivateAction {
@@ -26,40 +34,60 @@ export class TableDeactivateTagAction extends TableDeactivateAction {
     };
   }
 
-  private deactivateTag(tag: Tag, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
-    dialogService.createAndShowYesNoDialog(
-      translateService.instant('tags.deactivate_title'),
-      translateService.instant('tags.deactivate_confirm', { tagID: tag.id }),
-    ).subscribe((response) => {
-      if (response === ButtonAction.YES) {
-        spinnerService.show();
-        const tagUpdated: Tag = {
-          id: tag.id,
-          issuer: tag.issuer,
-          description: tag.description,
-          userID: tag.userID,
-          visualID: tag.visualID,
-          active: false,
-        } as Tag;
-        centralServerService.updateTag(tagUpdated).subscribe({
-          next: (actionResponse) => {
-            spinnerService.hide();
-            if (actionResponse.status === RestResponse.SUCCESS) {
-              messageService.showSuccessMessage('tags.deactivate_success', { tagID: tag.id });
-              if (refresh) {
-                refresh().subscribe();
+  private deactivateTag(
+    tag: Tag,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) {
+    dialogService
+      .createAndShowYesNoDialog(
+        translateService.instant('tags.deactivate_title'),
+        translateService.instant('tags.deactivate_confirm', { tagID: tag.id })
+      )
+      .subscribe((response) => {
+        if (response === ButtonAction.YES) {
+          spinnerService.show();
+          const tagUpdated: Tag = {
+            id: tag.id,
+            issuer: tag.issuer,
+            description: tag.description,
+            userID: tag.userID,
+            visualID: tag.visualID,
+            active: false,
+          } as Tag;
+          centralServerService.updateTag(tagUpdated).subscribe({
+            next: (actionResponse) => {
+              spinnerService.hide();
+              if (actionResponse.status === RestResponse.SUCCESS) {
+                messageService.showSuccessMessage('tags.deactivate_success', { tagID: tag.id });
+                if (refresh) {
+                  refresh().subscribe();
+                }
+              } else {
+                Utils.handleError(
+                  JSON.stringify(response),
+                  messageService,
+                  'tags.deactivate_error'
+                );
               }
-            } else {
-              Utils.handleError(JSON.stringify(response), messageService, 'tags.deactivate_error');
-            }
-          },
-          error: (error) => {
-            spinnerService.hide();
-            Utils.handleHttpError(error, router, messageService, centralServerService, 'tags.deactivate_error');
-          }
-        });
-      }
-    });
+            },
+            error: (error) => {
+              spinnerService.hide();
+              Utils.handleHttpError(
+                error,
+                router,
+                messageService,
+                centralServerService,
+                'tags.deactivate_error'
+              );
+            },
+          });
+        }
+      });
   }
 }

@@ -8,8 +8,12 @@ import { TableActionDef } from '../../../types/Table';
 import { TableViewPricingListAction } from './table-pricing-action';
 
 export interface TableViewPricingDefinitionsActionDef extends TableActionDef {
-  action: (pricingDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParams<PricingDefinitionDialogData>, refresh?: () => Observable<void>) => void;
+  action: (
+    pricingDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParams<PricingDefinitionDialogData>,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 export class TableViewPricingDefinitionsAction extends TableViewPricingListAction {
   public getActionDef(): TableViewPricingDefinitionsActionDef {
@@ -20,8 +24,12 @@ export class TableViewPricingDefinitionsAction extends TableViewPricingListActio
     };
   }
 
-  private viewPricingDefinitions(pricingDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParams<PricingDefinitionDialogData>, refresh?: () => Observable<void>) {
+  private viewPricingDefinitions(
+    pricingDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParams<PricingDefinitionDialogData>,
+    refresh?: () => Observable<void>
+  ) {
     super.view(pricingDialogComponent, dialog, dialogParams, refresh);
   }
 }

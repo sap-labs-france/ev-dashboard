@@ -12,9 +12,14 @@ import { Utils } from '../../../../utils/Utils';
 import { TableSynchronizeAction } from '../table-synchronize-action';
 
 export interface TableRetrieveAssetConsumptionActionDef extends TableActionDef {
-  action: (asset: Asset, spinnerService: SpinnerService,
-    centralServerService: CentralServerService, messageService: MessageService,
-    router: Router, refresh?: () => Observable<void>) => void;
+  action: (
+    asset: Asset,
+    spinnerService: SpinnerService,
+    centralServerService: CentralServerService,
+    messageService: MessageService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableRetrieveAssetConsumptionAction extends TableSynchronizeAction {
@@ -26,9 +31,14 @@ export class TableRetrieveAssetConsumptionAction extends TableSynchronizeAction 
     };
   }
 
-  private tableRetrieveAssetConsumptionAction(asset: Asset, spinnerService: SpinnerService,
-    centralServerService: CentralServerService, messageService: MessageService,
-    router: Router, refresh?: () => Observable<void>) {
+  private tableRetrieveAssetConsumptionAction(
+    asset: Asset,
+    spinnerService: SpinnerService,
+    centralServerService: CentralServerService,
+    messageService: MessageService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) {
     spinnerService.show();
     centralServerService.tableRetrieveAssetConsumptionAction(asset.id).subscribe({
       next: (response) => {
@@ -42,15 +52,25 @@ export class TableRetrieveAssetConsumptionAction extends TableSynchronizeAction 
         spinnerService.hide();
         switch (error.status) {
           case HTTPError.CANNOT_RETRIEVE_CONSUMPTION:
-            Utils.handleHttpError(error, router, messageService,
-              centralServerService, 'assets.consumption_error');
+            Utils.handleHttpError(
+              error,
+              router,
+              messageService,
+              centralServerService,
+              'assets.consumption_error'
+            );
             break;
           default:
-            Utils.handleHttpError(error, router, messageService, centralServerService,
-              'assets.refresh_error');
+            Utils.handleHttpError(
+              error,
+              router,
+              messageService,
+              centralServerService,
+              'assets.refresh_error'
+            );
             break;
         }
-      }
+      },
     });
   }
 }

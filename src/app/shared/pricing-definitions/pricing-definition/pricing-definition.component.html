@@ -1,41 +1,73 @@
 <div class="main-content vw-90 vh-90 pricing-dialog-size">
   <div class="card card-profile card-testimonial">
     <form [formGroup]="formGroup" class="form" autocomplete="off">
-      <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info" [class]="dialogRef && !readOnly ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
+      <mat-tab-group
+        animationDuration="0ms"
+        disableRipple="true"
+        class="mat-tab-info"
+        [class]="dialogRef && !readOnly ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'"
+      >
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>money</mat-icon>
-            <span>{{'settings.pricing.title' | translate}} - {{context}}</span>
+            <span>{{ 'settings.pricing.title' | translate }} - {{ context }}</span>
           </ng-template>
           <div class="card-body mat-tab-dialog-body-content">
-            <app-pricing-definition-main #pricingDefinitionMainComponent [formGroup]="formGroup" [pricingDefinition]="pricingDefinition" [readOnly]="readOnly"></app-pricing-definition-main>
+            <app-pricing-definition-main
+              #pricingDefinitionMainComponent
+              [formGroup]="formGroup"
+              [pricingDefinition]="pricingDefinition"
+              [readOnly]="readOnly"
+            ></app-pricing-definition-main>
           </div>
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>format_list_numbered_rtl</mat-icon>
-            <span>{{'settings.pricing.pricing_dimensions_title' | translate}}</span>
+            <span>{{ 'settings.pricing.pricing_dimensions_title' | translate }}</span>
           </ng-template>
           <div class="card-body mat-tab-dialog-body-content">
-            <app-pricing-definition-dimensions #pricingDefinitionDimensionsComponent [formGroup]="formGroup" [pricingDefinition]="pricingDefinition" [readOnly]="readOnly"></app-pricing-definition-dimensions>
+            <app-pricing-definition-dimensions
+              #pricingDefinitionDimensionsComponent
+              [formGroup]="formGroup"
+              [pricingDefinition]="pricingDefinition"
+              [readOnly]="readOnly"
+            ></app-pricing-definition-dimensions>
           </div>
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>rule</mat-icon>
-            <span>{{'settings.pricing.restrictions_title' | translate}}</span>
+            <span>{{ 'settings.pricing.restrictions_title' | translate }}</span>
           </ng-template>
           <div class="card-body mat-tab-dialog-body-content">
-            <app-pricing-definition-restrictions #pricingDefinitionRestrictionsComponent [formGroup]="formGroup" [pricingDefinition]="pricingDefinition" [readOnly]="readOnly"></app-pricing-definition-restrictions>
+            <app-pricing-definition-restrictions
+              #pricingDefinitionRestrictionsComponent
+              [formGroup]="formGroup"
+              [pricingDefinition]="pricingDefinition"
+              [readOnly]="readOnly"
+            ></app-pricing-definition-restrictions>
           </div>
         </mat-tab>
       </mat-tab-group>
       <div [class]="dialogRef ? 'tabs-actions' : 'tabs-actions-embedded'">
-        <button mat-icon-button *ngIf="!readOnly" type="button" (click)="savePricingDefinition()" title="{{'general.save' | translate}}"
-            [disabled]="!formGroup.valid || !formGroup.dirty">
+        <button
+          mat-icon-button
+          *ngIf="!readOnly"
+          type="button"
+          (click)="savePricingDefinition()"
+          title="{{ 'general.save' | translate }}"
+          [disabled]="!formGroup.valid || !formGroup.dirty"
+        >
           <mat-icon>save</mat-icon>
         </button>
-        <button mat-icon-button type="button" *ngIf="dialogRef" (click)="close()" title="{{'general.close' | translate}}">
+        <button
+          mat-icon-button
+          type="button"
+          *ngIf="dialogRef"
+          (click)="close()"
+          title="{{ 'general.close' | translate }}"
+        >
           <mat-icon>close</mat-icon>
         </button>
       </div>

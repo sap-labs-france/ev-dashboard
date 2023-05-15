@@ -9,7 +9,10 @@ import { UsersComponent } from './users.component';
 
 export const UserRoutes: Routes = [
   {
-    path: 'connections', component: ConcurUserConnectionComponent, canActivate: [RouteGuardService], data: {
+    path: 'connections',
+    component: ConcurUserConnectionComponent,
+    canActivate: [RouteGuardService],
+    data: {
       auth: {
         entity: Entity.USER,
         action: Action.UPDATE,
@@ -17,7 +20,10 @@ export const UserRoutes: Routes = [
     },
   },
   {
-    path: 'mercedes-connections', component: MercedesUserConnectionComponent, canActivate: [RouteGuardService], data: {
+    path: 'mercedes-connections',
+    component: MercedesUserConnectionComponent,
+    canActivate: [RouteGuardService],
+    data: {
       auth: {
         entity: Entity.USER,
         action: Action.UPDATE,
@@ -25,7 +31,10 @@ export const UserRoutes: Routes = [
     },
   },
   {
-    path: 'profile', component: UserComponent, canActivate: [RouteGuardService], data: {
+    path: 'profile',
+    component: UserComponent,
+    canActivate: [RouteGuardService],
+    data: {
       auth: {
         entity: Entity.USER,
         action: Action.UPDATE,
@@ -33,7 +42,10 @@ export const UserRoutes: Routes = [
     },
   },
   {
-    path: ':id', component: UsersComponent, canActivate: [RouteGuardService], data: {
+    path: ':id',
+    component: UsersComponent,
+    canActivate: [RouteGuardService],
+    data: {
       auth: {
         entity: Entity.USER,
         action: Action.UPDATE,
@@ -41,7 +53,10 @@ export const UserRoutes: Routes = [
     },
   },
   {
-    path: '', component: UsersComponent, canActivate: [RouteGuardService], data: {
+    path: '',
+    component: UsersComponent,
+    canActivate: [RouteGuardService],
+    data: {
       auth: {
         entity: Entity.USER,
         action: Action.LIST,

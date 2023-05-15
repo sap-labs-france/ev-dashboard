@@ -16,7 +16,7 @@ export class AssetsComponent extends AbstractTabComponent {
   public constructor(
     private authorizationService: AuthorizationService,
     activatedRoute: ActivatedRoute,
-    windowService: WindowService,
+    windowService: WindowService
   ) {
     super(activatedRoute, windowService, ['assets', 'inerror']);
     this.canListAssets = this.authorizationService.canListAssets();

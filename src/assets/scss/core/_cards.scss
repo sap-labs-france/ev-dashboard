@@ -17,7 +17,7 @@
     margin-bottom: 15px;
   }
 
-  .card-category:not([class*="text-"]) {
+  .card-category:not([class*='text-']) {
     color: $brand-text;
   }
   .card-category {
@@ -141,7 +141,7 @@
         height: 100%;
         background-size: cover;
         z-index: -1;
-        transition: opacity .45s;
+        transition: opacity 0.45s;
         opacity: 0;
       }
 
@@ -209,8 +209,8 @@
     background: $brand-info;
   }
 
-  [class*="card-header-"],
-  &[class*="bg-"] {
+  [class*='card-header-'],
+  &[class*='bg-'] {
     color: $brand-text;
 
     .card-title a,
@@ -249,7 +249,7 @@
     }
 
     a {
-      color:$brand-text;
+      color: $brand-text;
       text-decoration: none;
 
       .ripple-container {
@@ -273,8 +273,8 @@
     }
   }
 
-  &[class*="bg-"],
-  &[class*="bg-"] .card-body {
+  &[class*='bg-'],
+  &[class*='bg-'] .card-body {
     border-radius: $border-radius-large;
 
     h1,

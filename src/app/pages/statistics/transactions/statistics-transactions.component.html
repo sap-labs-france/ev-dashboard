@@ -1,14 +1,28 @@
 <div class="h-100 d-flex flex-column">
-  <app-statistics-filters (buttonOfScopeGroup)="scopeChanged($event)" (category)="categoryChanged($event)"
-    (dateRange)="dateRangeChange($event)" (year)="yearChanged($event)" [allYears]="allYears" [authorizations]="authorizations"
-    (filters)="filtersChanged($event)" (update)="updateCharts($event)" (export)="exportData()"></app-statistics-filters>
+  <app-statistics-filters
+    (buttonOfScopeGroup)="scopeChanged($event)"
+    (category)="categoryChanged($event)"
+    (dateRange)="dateRangeChange($event)"
+    (year)="yearChanged($event)"
+    [allYears]="allYears"
+    [authorizations]="authorizations"
+    (filters)="filtersChanged($event)"
+    (update)="updateCharts($event)"
+    (export)="exportData()"
+  ></app-statistics-filters>
   <h3>
     <div class="chart">
-      <div [hidden]="(selectedChart === 'month') && chartsInitialized" class="chart-container-statistics">
+      <div
+        [hidden]="selectedChart === 'month' && chartsInitialized"
+        class="chart-container-statistics"
+      >
         <canvas #transactionsPieChart></canvas>
       </div>
 
-      <div [hidden]="(selectedChart !== 'month') && chartsInitialized" class="chart-container-statistics">
+      <div
+        [hidden]="selectedChart !== 'month' && chartsInitialized"
+        class="chart-container-statistics"
+      >
         <canvas #transactionsBarChart></canvas>
       </div>
     </div>

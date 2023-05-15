@@ -1,0 +1,256 @@
+<h2 class="dialog-title" mat-dialog-title>{{title | translate}}</h2>
+<mat-dialog-content style="overflow-y: hidden">
+  <div class="row" *ngIf="formGroup.errors">
+    <div class="col-md-12">
+      <mat-error class="mat-subheading-2 text-danger text-left"> {{errorMessage}} </mat-error>
+    </div>
+  </div>
+  <div class="row" *ngIf="canListUsers">
+    <div class="col-md-12">
+      <div class="form-group">
+        <mat-form-field>
+          <input
+            matInput
+            type="text"
+            readonly="true"
+            placeholder="{{'users.title' | translate}}"
+            class="form-field-popup"
+            (click)="assignUser()"
+            [formControl]="user"
+          />
+          <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignUser()">
+            <mat-icon>create</mat-icon>
+          </button>
+          <mat-error *ngIf="user.errors?.required">
+            {{"general.mandatory_field" | translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <mat-form-field>
+          <input
+            matInput
+            type="text"
+            readonly="true"
+            placeholder="{{'tags.title' | translate}}"
+            class="form-field-popup"
+            (click)="assignTag()"
+            [formControl]="tag"
+          />
+          <button
+            *ngIf="tag.enabled"
+            mat-button
+            matSuffix
+            mat-icon-button
+            aria-label="Add"
+            (click)="assignTag()"
+          >
+            <mat-icon>create</mat-icon>
+          </button>
+          <mat-error *ngIf="tag.errors?.required">
+            {{"general.mandatory_field" | translate}}
+          </mat-error>
+          <mat-error *ngIf="tag.errors?.inactive"> {{"tags.not_active" | translate}} </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group" *ngIf="isCarComponentActive">
+        <mat-form-field>
+          <input
+            matInput
+            type="text"
+            [readonly]="true"
+            placeholder="{{ 'reservations.car' | translate }}"
+            class="form-field-popup"
+            (click)="assignCar()"
+            [formControl]="car"
+          />
+          <button
+            mat-button
+            matSuffix
+            mat-icon-button
+            aria-label="Add"
+            [hidden]="readOnly"
+            (click)="assignCar()"
+          >
+            <mat-icon>directions_car</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="type.value === 'reserve_now'">
+    <div class="col-md-12">
+      <div class="form-group">
+        <mat-form-field>
+          <mat-hint>MM/DD/YYYY --:--</mat-hint>
+          <mat-datetimepicker-toggle matSuffix [for]="expiryDatePicker" [disabled]="false">
+          </mat-datetimepicker-toggle>
+          <mat-datetimepicker
+            #expiryDatePicker
+            type="datetime"
+            openOnFocus="true"
+            timeInterval="5"
+            mode="portrait"
+          >
+          </mat-datetimepicker>
+          <input
+            matInput
+            [readonly]="true"
+            [formControl]="expiryDate"
+            placeholder="{{'reservations.dialog.general.expiry_date' | translate}}"
+            [matDatetimepicker]="expiryDatePicker"
+            [min]="determineMinDate('expiryDate')"
+            autocomplete="false"
+            (dateChange)="onDateChanged($event, 'expiryDate')"
+            (dateInput)="onDateChanged($event, 'expiryDate')"
+            (click)="expiryDatePicker.open()"
+            [required]="type.value === 'reserve_now'"
+          />
+          <mat-error *ngIf="expiryDate.value">
+            {{"general.mandatory_field" | translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="form-group" *ngIf="type.value === 'planned_reservation'">
+    <div>
+      <mat-form-field>
+        <mat-label>{{ 'reservations.select_date_range' | translate }}</mat-label>
+        <mat-date-range-input
+          [rangePicker]="fromDateToDatePicker"
+          (click)="fromDateToDatePicker.open()"
+          [min]="determineMinDate('fromDate')"
+          [required]="type.value === 'planned_reservation'"
+        >
+          <input
+            matStartDate
+            [formControl]="fromDate"
+            placeholder="{{ 'reservations.from_date' | translate }}"
+            readonly
+          />
+          <input
+            matEndDate
+            [formControl]="toDate"
+            placeholder="{{ 'reservations.to_date' | translate }}"
+            readonly
+          />
+        </mat-date-range-input>
+        <mat-hint *ngIf="!fromDate.value || !toDate.value">MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="fromDateToDatePicker" [disabled]="readOnly">
+        </mat-datepicker-toggle>
+        <mat-date-range-picker
+          #fromDateToDatePicker
+          [disabled]="readOnly"
+          openOnFocus="true"
+        ></mat-date-range-picker>
+        <mat-error *ngIf="fromDate.error?.invalidDate || fromDate.error?.invalidDate">
+          {{ 'reservations.error.invalid_date' | translate }}</mat-error
+        >
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row" *ngIf="type.value === 'planned_reservation'">
+    <div class="col-md-6">
+      <div>
+        <mat-form-field>
+          <mat-hint *ngIf="!arrivalTime.value">--:--</mat-hint>
+          <mat-datetimepicker-toggle matSuffix [for]="arrivalTimePicker" [disabled]="readOnly">
+          </mat-datetimepicker-toggle>
+          <mat-datetimepicker
+            #arrivalTimePicker
+            type="time"
+            [disabled]="readonly"
+            openOnFocus="true"
+            timeInterval="5"
+            mode="portrait"
+          >
+          </mat-datetimepicker>
+          <input
+            matInput
+            readonly="true"
+            [formControl]="arrivalTime"
+            placeholder="{{ 'reservations.arrival_time' | translate }}"
+            [matDatetimepicker]="arrivalTimePicker"
+            [min]="determineMinDate('arrivalTime')"
+            autocomplete="false"
+            (click)="arrivalTimePicker.open()"
+            (dateChange)="onDateChanged($event, 'arrivalTime')"
+            (dateInput)="onDateChanged($event, 'arrivalTime')"
+            [disabled]="readonly"
+          />
+          <mat-error *ngIf="expiryDate.errors?.invalidDate">
+            {{ 'reservations.error.invalid_date' | translate }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div>
+        <mat-form-field>
+          <mat-hint *ngIf="!departureTime.value">--:--</mat-hint>
+          <mat-datetimepicker-toggle matSuffix [for]="departureTimePicker" [disabled]="readOnly">
+          </mat-datetimepicker-toggle>
+          <mat-datetimepicker
+            #departureTimePicker
+            type="time"
+            [disabled]="readonly"
+            openOnFocus="true"
+            timeInterval="5"
+            mode="portrait"
+          >
+          </mat-datetimepicker>
+          <input
+            matInput
+            readonly="true"
+            [formControl]="departureTime"
+            placeholder="{{ 'reservations.departure_time' | translate }}"
+            [matDatetimepicker]="departureTimePicker"
+            [min]="arrivalTime.value ?? determineMinDate('departureTime')"
+            autocomplete="false"
+            (click)="departureTimePicker.open()"
+            (dateChange)="onDateChanged($event, 'departureTime')"
+            (dateInput)="onDateChanged($event, 'departureTime')"
+            [disabled]="readonly"
+          />
+          <mat-error *ngIf="expiryDate.errors?.invalidDate">
+            {{ 'reservations.error.invalid_date' | translate }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="form-group mt-4">
+    <mat-radio-group [formControl]="type">
+      <div *ngFor="let type of reservationTypes" class="mt-2">
+        <mat-radio-button value="{{ type.key }}" (change)="onReservationTypeChanged($event)"
+          >{{ type.value | translate }}</mat-radio-button
+        >
+      </div>
+      <mat-error *ngIf="type?.errors?.required"
+        >{{ 'general.mandatory_field' | translate }}</mat-error
+      >
+    </mat-radio-group>
+  </div>
+  <div class="clearfix"></div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button
+    mat-raised-button
+    [disabled]="!formGroup.valid"
+    (click)="createReservation()"
+    color="primary"
+    disabled="false"
+  >
+    {{"reservations.dialog.create.title" | translate}}
+  </button>
+  <button mat-raised-button (click)="cancel()">{{'general.cancel' | translate}}</button>
+</mat-dialog-actions>

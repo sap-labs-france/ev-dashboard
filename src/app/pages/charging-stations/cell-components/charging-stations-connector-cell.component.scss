@@ -1,4 +1,4 @@
-@import "../../../../assets/scss/core/variables";
+@import '../../../../assets/scss/core/variables';
 
 .charger-connector-type {
   text-align: center;
@@ -8,7 +8,7 @@
   font-weight: bold;
   margin-right: 3px;
   justify-content: center;
-  padding-top: .13rem;
+  padding-top: 0.13rem;
   .charger-connector-type-active-text {
     color: $brand-text;
   }

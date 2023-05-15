@@ -3,7 +3,7 @@
 }
 
 .card-profile {
-  .card-header:not([class*="card-header-"]) {
+  .card-header:not([class*='card-header-']) {
     background: transparent;
     box-shadow: none;
   }

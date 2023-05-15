@@ -7,7 +7,7 @@ import { OicpEndpointDetail } from '../../../../../types/oicp/OICPEndpoint';
   template: `
     <mat-chip-list [selectable]="false">
       <mat-chip ngClass="chip-width-5em chip-success" [disabled]="true">
-        {{row.successNbr}}
+        {{ row.successNbr }}
       </mat-chip>
     </mat-chip-list>
   `,

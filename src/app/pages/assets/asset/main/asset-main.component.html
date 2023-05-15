@@ -1,22 +1,41 @@
 <form class="form" [formGroup]="formGroup">
   <div class="row h-xl-100">
     <div class="col-md-12 col-xl-5 h-xl-100">
-      <div class="rotating-card-container h-100" [ngStyle]="{ 'pointer-events': !readOnly ? 'all' : 'none'}">
+      <div
+        class="rotating-card-container h-100"
+        [ngStyle]="{ 'pointer-events': !readOnly ? 'all' : 'none' }"
+      >
         <div class="card card-rotate card-background mt-0">
-          <div class="front front-background"
-            [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
-            <div class="card-body mat-tab-dialog-body-content">
-            </div>
+          <div
+            class="front front-background"
+            [ngStyle]="{
+              'background-image': 'url(' + image + ')',
+              'background-size': 'contain',
+              'background-repeat': 'no-repeat'
+            }"
+          >
+            <div class="card-body mat-tab-dialog-body-content"></div>
           </div>
-          <div class="back back-background"
-            [ngStyle]="{'background-image': 'url(' + image + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+          <div
+            class="back back-background"
+            [ngStyle]="{
+              'background-image': 'url(' + image + ')',
+              'background-size': 'contain',
+              'background-repeat': 'no-repeat'
+            }"
+          >
             <div *ngIf="!readOnly" class="card-body">
               <div class="footer text-center">
                 <button mat-flat-button color="primary" class="me-2">
                   <mat-icon (click)="file.click()">mode_edit</mat-icon>
                   <div class="d-none">
-                    <input #file type="file" name="..." (change)="onImageChanged($event)"
-                      accept="image/jpg,image/jpeg,image/png,image/gif">
+                    <input
+                      #file
+                      type="file"
+                      name="..."
+                      (change)="onImageChanged($event)"
+                      accept="image/jpg,image/jpeg,image/png,image/gif"
+                    />
                   </div>
                 </button>
                 <button mat-flat-button color="warn">
@@ -31,42 +50,72 @@
     <div class="col-md-12 col-xl-7">
       <div class="form-group">
         <mat-form-field>
-          <input appAutofocus matInput placeholder="{{'assets.name' | translate}}" type="text" [formControl]="name" required>
+          <input
+            appAutofocus
+            matInput
+            placeholder="{{ 'assets.name' | translate }}"
+            type="text"
+            [formControl]="name"
+            required
+          />
           <mat-error *ngIf="name.errors?.required">
-            {{"general.mandatory_field" | translate}}
+            {{ 'general.mandatory_field' | translate }}
           </mat-error>
           <mat-error *ngIf="name.errors?.maxlength">
-            <div [translateParams]="{length: name.errors?.maxlength?.requiredLength}" [translate]="'general.error_max_length'"></div>
+            <div
+              [translateParams]="{ length: name.errors?.maxlength?.requiredLength }"
+              [translate]="'general.error_max_length'"
+            ></div>
           </mat-error>
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field>
-          <input matInput type="text" readonly=true placeholder="{{'site_areas.titles' | translate}}"
-            class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteArea" required />
-          <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignSiteArea()" [hidden]="readOnly">
+          <input
+            matInput
+            type="text"
+            readonly="true"
+            placeholder="{{ 'site_areas.titles' | translate }}"
+            class="form-field-popup"
+            (click)="assignSiteArea()"
+            [formControl]="siteArea"
+            required
+          />
+          <button
+            mat-button
+            matSuffix
+            mat-icon-button
+            aria-label="Add"
+            (click)="assignSiteArea()"
+            [hidden]="readOnly"
+          >
             <mat-icon>create</mat-icon>
           </button>
           <mat-error *ngIf="siteArea.errors?.required">
-            {{"general.mandatory_field" | translate}}
+            {{ 'general.mandatory_field' | translate }}
           </mat-error>
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field>
-          <mat-select [formControl]="assetType" placeholder="{{'assets.asset_type' | translate}}" required>
-            <mat-option *ngFor="let assetType of assetTypes" value="{{assetType.key}}">
-              {{assetType.value | translate}}
+          <mat-select
+            [formControl]="assetType"
+            placeholder="{{ 'assets.asset_type' | translate }}"
+            required
+          >
+            <mat-option *ngFor="let assetType of assetTypes" value="{{ assetType.key }}">
+              {{ assetType.value | translate }}
             </mat-option>
           </mat-select>
-          <mat-error *ngIf="assetType.errors?.required">{{"general.mandatory_field" | translate}}
+          <mat-error *ngIf="assetType.errors?.required"
+            >{{ 'general.mandatory_field' | translate }}
           </mat-error>
         </mat-form-field>
       </div>
       <div *ngIf="isSmartChargingComponentActive">
         <div class="text-left form-group">
           <mat-checkbox [formControl]="excludeFromSmartCharging">
-            {{'chargers.exclude_smart_charging' | translate}}
+            {{ 'chargers.exclude_smart_charging' | translate }}
           </mat-checkbox>
         </div>
       </div>
@@ -74,9 +123,15 @@
         <div class="col-md-4">
           <div class="form-group">
             <mat-form-field>
-              <input matInput [formControl]="staticValueWatt"
-                placeholder="{{'assets.static_value_watt' | translate}}" required type='number'>
-              <mat-error *ngIf="assetType.errors?.required">{{"general.mandatory_field" | translate}}
+              <input
+                matInput
+                [formControl]="staticValueWatt"
+                placeholder="{{ 'assets.static_value_watt' | translate }}"
+                required
+                type="number"
+              />
+              <mat-error *ngIf="assetType.errors?.required"
+                >{{ 'general.mandatory_field' | translate }}
               </mat-error>
             </mat-form-field>
           </div>
@@ -84,22 +139,35 @@
         <div class="col-md-4">
           <div class="form-group">
             <mat-form-field>
-              <input matInput [formControl]="fluctuationPercent"
-                placeholder="{{'assets.fluctuation_percent' | translate}}" type='number'>
-              <mat-error *ngIf="fluctuationPercent.errors?.pattern || fluctuationPercent.errors?.max">
-                {{"chargers.invalid_efficiency" | translate}}
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="form-group">
-            <mat-form-field>
-              <input matInput [formControl]="variationThresholdPercent"
-                placeholder="{{'assets.variation_percent' | translate}}" type='number'>
+              <input
+                matInput
+                [formControl]="fluctuationPercent"
+                placeholder="{{ 'assets.fluctuation_percent' | translate }}"
+                type="number"
+              />
               <mat-error
-                *ngIf="variationThresholdPercent.errors?.pattern || variationThresholdPercent.errors?.max">
-                {{"chargers.invalid_efficiency" | translate}}
+                *ngIf="fluctuationPercent.errors?.pattern || fluctuationPercent.errors?.max"
+              >
+                {{ 'chargers.invalid_efficiency' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <mat-form-field>
+              <input
+                matInput
+                [formControl]="variationThresholdPercent"
+                placeholder="{{ 'assets.variation_percent' | translate }}"
+                type="number"
+              />
+              <mat-error
+                *ngIf="
+                  variationThresholdPercent.errors?.pattern || variationThresholdPercent.errors?.max
+                "
+              >
+                {{ 'chargers.invalid_efficiency' | translate }}
               </mat-error>
             </mat-form-field>
           </div>
@@ -109,11 +177,24 @@
         <div class="col-md-6">
           <div class="form-group">
             <mat-form-field>
-              <input matInput placeholder="{{'general.latitude' | translate}}" type="text"
-                [formControl]="latitude" [readOnly]="readOnly">
-              <mat-error *ngIf="latitude.errors?.pattern">{{"general.invalid_value" | translate}}</mat-error>
-              <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()"
-                [hidden]="readOnly">
+              <input
+                matInput
+                placeholder="{{ 'general.latitude' | translate }}"
+                type="text"
+                [formControl]="latitude"
+                [readOnly]="readOnly"
+              />
+              <mat-error *ngIf="latitude.errors?.pattern">{{
+                'general.invalid_value' | translate
+              }}</mat-error>
+              <button
+                mat-button
+                matSuffix
+                mat-icon-button
+                aria-label="Add"
+                (click)="assignGeoMap()"
+                [hidden]="readOnly"
+              >
                 <mat-icon>pin_drop</mat-icon>
               </button>
             </mat-form-field>
@@ -122,11 +203,24 @@
         <div class="col-md-6">
           <div class="form-group">
             <mat-form-field>
-              <input matInput placeholder="{{'general.longitude' | translate}}" type="text"
-                [formControl]="longitude" [readOnly]="readOnly">
-              <mat-error *ngIf="longitude.errors?.pattern">{{"general.invalid_value" | translate}}</mat-error>
-              <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()"
-                [hidden]="readOnly">
+              <input
+                matInput
+                placeholder="{{ 'general.longitude' | translate }}"
+                type="text"
+                [formControl]="longitude"
+                [readOnly]="readOnly"
+              />
+              <mat-error *ngIf="longitude.errors?.pattern">{{
+                'general.invalid_value' | translate
+              }}</mat-error>
+              <button
+                mat-button
+                matSuffix
+                mat-icon-button
+                aria-label="Add"
+                (click)="assignGeoMap()"
+                [hidden]="readOnly"
+              >
                 <mat-icon>pin_drop</mat-icon>
               </button>
             </mat-form-field>

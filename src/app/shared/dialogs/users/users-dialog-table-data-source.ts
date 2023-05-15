@@ -19,7 +19,8 @@ export class UsersDialogTableDataSource extends DialogTableDataSource<User> {
     public translateService: TranslateService,
     private messageService: MessageService,
     private router: Router,
-    private centralServerService: CentralServerService) {
+    private centralServerService: CentralServerService
+  ) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -27,16 +28,24 @@ export class UsersDialogTableDataSource extends DialogTableDataSource<User> {
 
   public loadDataImpl(): Observable<DataResult<User>> {
     return new Observable((observer) => {
-      this.centralServerService.getUsers(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
-        next: (users) => {
-          observer.next(users);
-          observer.complete();
-        },
-        error: (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          observer.error(error);
-        }
-      });
+      this.centralServerService
+        .getUsers(this.buildFilterValues(), this.getPaging(), this.getSorting())
+        .subscribe({
+          next: (users) => {
+            observer.next(users);
+            observer.complete();
+          },
+          error: (error) => {
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.error_backend'
+            );
+            observer.error(error);
+          },
+        });
     });
   }
 

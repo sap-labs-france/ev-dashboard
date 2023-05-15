@@ -21,14 +21,21 @@ import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { AppDurationPipe } from '../../../shared/formatters/app-duration.pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
 import { AppUserNamePipe } from '../../../shared/formatters/app-user-name.pipe';
-import { TableChargingStationsStopTransactionAction, TableChargingStationsStopTransactionActionDef } from '../../../shared/table/actions/charging-stations/table-charging-stations-stop-transaction-action';
+import {
+  TableChargingStationsStopTransactionAction,
+  TableChargingStationsStopTransactionActionDef,
+} from '../../../shared/table/actions/charging-stations/table-charging-stations-stop-transaction-action';
 import { TableNavigateToChargingPlansAction } from '../../../shared/table/actions/charging-stations/table-navigate-to-charging-plans-action';
 import { TableNavigateToLogsAction } from '../../../shared/table/actions/logs/table-navigate-to-logs-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableOpenURLActionDef } from '../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from '../../../shared/table/actions/transactions/table-view-transaction-action';
+import {
+  TableViewTransactionAction,
+  TableViewTransactionActionDef,
+  TransactionDialogData,
+} from '../../../shared/table/actions/transactions/table-view-transaction-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
 import { IssuerFilter } from '../../../shared/table/filters/issuer-filter';
 import { SiteAreaTableFilter } from '../../../shared/table/filters/site-area-table-filter';
@@ -41,7 +48,11 @@ import { DataResult, TransactionDataResult } from '../../../types/DataResult';
 import { LogButtonAction } from '../../../types/Log';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
 import { TenantComponents } from '../../../types/Tenant';
-import { Transaction, TransactionButtonAction, TransactionStatisticsType } from '../../../types/Transaction';
+import {
+  Transaction,
+  TransactionButtonAction,
+  TransactionStatisticsType,
+} from '../../../types/Transaction';
 import { Utils } from '../../../utils/Utils';
 import { TransactionsConnectorCellComponent } from '../cell-components/transactions-connector-cell.component';
 import { TransactionsInactivityCellComponent } from '../cell-components/transactions-inactivity-cell.component';
@@ -76,45 +87,52 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     private appBatteryPercentagePipe: AppBatteryPercentagePipe,
     private appUserNamePipe: AppUserNamePipe,
     private appDurationPipe: AppDurationPipe,
-    private windowService: WindowService) {
+    private windowService: WindowService
+  ) {
     super(spinnerService, translateService);
-    this.isOrganizationComponentActive = this.componentService.isActive(TenantComponents.ORGANIZATION);
+    this.isOrganizationComponentActive = this.componentService.isActive(
+      TenantComponents.ORGANIZATION
+    );
     // Init
     if (this.isOrganizationComponentActive) {
-      this.setStaticFilters([{
-        WithCompany: true,
-        WithSite: true,
-        WithSiteArea: true,
-        WithTag: true,
-        WithUser: true,
-        WithCar: true,
-        WithChargingStation: true,
-        Statistics: TransactionStatisticsType.ONGOING,
-      }]);
+      this.setStaticFilters([
+        {
+          WithCompany: true,
+          WithSite: true,
+          WithSiteArea: true,
+          WithTag: true,
+          WithUser: true,
+          WithCar: true,
+          WithChargingStation: true,
+          Statistics: TransactionStatisticsType.ONGOING,
+        },
+      ]);
     }
     this.initDataSource();
   }
 
   public loadDataImpl(): Observable<DataResult<Transaction>> {
     return new Observable((observer) => {
-      this.centralServerService.getActiveTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
+      this.centralServerService
+        .getActiveTransactions(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe({
           next: (transactions) => {
-          // Initialize transactions authorization
+            // Initialize transactions authorization
             this.transactionsAuthorizations = {
-            // Authorization actions
+              // Authorization actions
               canListChargingStations: Utils.convertToBoolean(transactions.canListChargingStations),
               canListSiteAreas: Utils.convertToBoolean(transactions.canListSiteAreas),
               canListSites: Utils.convertToBoolean(transactions.canListSites),
               canListTags: Utils.convertToBoolean(transactions.canListTags),
               canListUsers: Utils.convertToBoolean(transactions.canListUsers),
               // metadata
-              metadata: transactions.metadata
+              metadata: transactions.metadata,
             };
             // Update filters visibility
             this.siteFilter.visible = this.transactionsAuthorizations.canListSites;
             this.siteAreaFilter.visible = this.transactionsAuthorizations.canListSiteAreas;
-            this.chargingStationFilter.visible = this.transactionsAuthorizations.canListChargingStations;
+            this.chargingStationFilter.visible =
+              this.transactionsAuthorizations.canListChargingStations;
             this.connectorFilter.visible = this.transactionsAuthorizations.canListChargingStations;
             this.userFilter.visible = this.transactionsAuthorizations.canListUsers;
             this.tagsFilter.visible = this.transactionsAuthorizations.canListTags;
@@ -122,9 +140,15 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
             observer.complete();
           },
           error: (error) => {
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.error_backend'
+            );
             observer.error(error);
-          }
+          },
         });
     });
   }
@@ -189,7 +213,9 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         headerClass: 'col-10p',
         class: 'text-left col-10p',
         formatter: (currentTotalDurationSecs: number, row: Transaction) =>
-          this.appDurationPipe.transform((new Date().getTime() - new Date(row.timestamp).getTime()) / 1000),
+          this.appDurationPipe.transform(
+            (new Date().getTime() - new Date(row.timestamp).getTime()) / 1000
+          ),
       },
       {
         id: 'currentTotalInactivitySecs',
@@ -205,12 +231,14 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         name: 'transactions.current_consumption',
         headerClass: 'col-10p',
         class: 'col-10p',
-        formatter: (currentInstantWatts: number) => this.appUnitPipe.transform(currentInstantWatts, 'W', 'kW'),
+        formatter: (currentInstantWatts: number) =>
+          this.appUnitPipe.transform(currentInstantWatts, 'W', 'kW'),
       },
       {
         id: 'currentTotalConsumptionWh',
         name: 'transactions.total_consumption',
-        formatter: (currentTotalConsumptionWh: number) => this.appUnitPipe.transform(currentTotalConsumptionWh, 'Wh', 'kWh'),
+        formatter: (currentTotalConsumptionWh: number) =>
+          this.appUnitPipe.transform(currentTotalConsumptionWh, 'Wh', 'kWh'),
       },
       {
         id: 'currentStateOfCharge',
@@ -229,29 +257,30 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         name: 'transactions.price',
         headerClass: 'col-10p',
         class: 'col-10p',
-        formatter: (price: number, transaction: Transaction) => this.appCurrencyPipe.transform(price, transaction.priceUnit),
-        visible: this.componentService.isActive(TenantComponents.PRICING)
+        formatter: (price: number, transaction: Transaction) =>
+          this.appCurrencyPipe.transform(price, transaction.priceUnit),
+        visible: this.componentService.isActive(TenantComponents.PRICING),
       },
       {
         id: 'company.name',
         name: 'companies.title',
         class: 'col-20p',
         headerClass: 'col-20p',
-        visible: this.isOrganizationComponentActive
+        visible: this.isOrganizationComponentActive,
       },
       {
         id: 'site.name',
         name: 'sites.title',
         class: 'col-20p',
         headerClass: 'col-20p',
-        visible: this.isOrganizationComponentActive
+        visible: this.isOrganizationComponentActive,
       },
       {
         id: 'siteArea.name',
         name: 'site_areas.title',
         class: 'col-20p',
         headerClass: 'col-20p',
-        visible: this.isOrganizationComponentActive
+        visible: this.isOrganizationComponentActive,
       },
       {
         id: 'user.name',
@@ -265,14 +294,14 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         name: 'tags.id',
         headerClass: 'col-10p',
         class: 'text-left col-10p',
-        formatter: (tagID: string) => tagID ? tagID : '-',
+        formatter: (tagID: string) => (tagID ? tagID : '-'),
       },
       {
         id: 'tag.visualID',
         name: 'tags.visual_id',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
-        formatter: (visualID: string) => visualID ? visualID : '-',
+        formatter: (visualID: string) => (visualID ? visualID : '-'),
       },
       {
         id: 'tag.description',
@@ -286,7 +315,8 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         headerClass: 'text-center col-15p',
         class: 'text-center col-15p',
         sortable: true,
-        formatter: (value: string, row: Transaction) => row.carCatalog ? Utils.buildCarCatalogName(row.carCatalog) : '-',
+        formatter: (value: string, row: Transaction) =>
+          row.carCatalog ? Utils.buildCarCatalogName(row.carCatalog) : '-',
       },
       {
         id: 'car.licensePlate',
@@ -294,8 +324,8 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
         headerClass: 'text-center col-15p',
         class: 'text-center col-15p',
         sortable: true,
-        formatter: (licensePlate: string) => licensePlate ? licensePlate : '-',
-      }
+        formatter: (licensePlate: string) => (licensePlate ? licensePlate : '-'),
+      },
     ];
   }
 
@@ -303,27 +333,49 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     switch (actionDef.id) {
       case ChargingStationButtonAction.STOP_TRANSACTION:
         if (actionDef.action) {
-          (actionDef as TableChargingStationsStopTransactionActionDef).action(transaction,
-            this.dialogService, this.translateService, this.messageService, this.centralServerService, this.spinnerService,
-            this.router, this.refreshData.bind(this));
+          (actionDef as TableChargingStationsStopTransactionActionDef).action(
+            transaction,
+            this.dialogService,
+            this.translateService,
+            this.messageService,
+            this.centralServerService,
+            this.spinnerService,
+            this.router,
+            this.refreshData.bind(this)
+          );
         }
         break;
       case TransactionButtonAction.VIEW_TRANSACTION:
         if (actionDef.action) {
-          (actionDef as TableViewTransactionActionDef).action(TransactionDialogComponent, this.dialog,
-            { dialogData: { transactionID: transaction.id } as TransactionDialogData }, this.refreshData.bind(this));
+          (actionDef as TableViewTransactionActionDef).action(
+            TransactionDialogComponent,
+            this.dialog,
+            { dialogData: { transactionID: transaction.id } as TransactionDialogData },
+            this.refreshData.bind(this)
+          );
         }
         break;
       case LogButtonAction.NAVIGATE_TO_LOGS:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('logs?ChargingStationID=' + transaction.chargeBoxID +
-            '&StartDateTime=' + transaction.timestamp + '&LogLevel=I', this.windowService);
+          (actionDef as TableOpenURLActionDef).action(
+            'logs?ChargingStationID=' +
+              transaction.chargeBoxID +
+              '&StartDateTime=' +
+              transaction.timestamp +
+              '&LogLevel=I',
+            this.windowService
+          );
         }
         break;
       case ChargingStationButtonAction.NAVIGATE_TO_CHARGING_PLANS:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('charging-stations#chargingplans?ChargingStationID=' + transaction.chargeBoxID
-            + '&TransactionID=' + transaction.id, this.windowService);
+          (actionDef as TableOpenURLActionDef).action(
+            'charging-stations#chargingplans?ChargingStationID=' +
+              transaction.chargeBoxID +
+              '&TransactionID=' +
+              transaction.id,
+            this.windowService
+          );
         }
         break;
     }
@@ -334,20 +386,40 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
     if (data.count !== Constants.INFINITE_RECORDS) {
       // Stats?
       if (data.stats) {
-        const percentInactivity = (data.stats.totalDurationSecs > 0 ?
-          (Math.floor(data.stats.totalInactivitySecs / data.stats.totalDurationSecs * 100)) : 0);
+        const percentInactivity =
+          data.stats.totalDurationSecs > 0
+            ? Math.floor((data.stats.totalInactivitySecs / data.stats.totalDurationSecs) * 100)
+            : 0;
         // Total Duration
         // eslint-disable-next-line max-len
-        let stats = `${this.translateService.instant('transactions.duration')}: ${this.appDurationPipe.transform(data.stats.totalDurationSecs)} | `;
+        let stats = `${this.translateService.instant(
+          'transactions.duration'
+        )}: ${this.appDurationPipe.transform(data.stats.totalDurationSecs)} | `;
         // Inactivity
         // eslint-disable-next-line max-len
-        stats += `${this.translateService.instant('transactions.inactivity')}: ${this.appDurationPipe.transform(data.stats.totalInactivitySecs)} (${percentInactivity}%) | `;
+        stats += `${this.translateService.instant(
+          'transactions.inactivity'
+        )}: ${this.appDurationPipe.transform(
+          data.stats.totalInactivitySecs
+        )} (${percentInactivity}%) | `;
         // Total Consumption
         // eslint-disable-next-line max-len
-        stats += `${this.translateService.instant('transactions.consumption')}: ${this.appUnitPipe.transform(data.stats.totalConsumptionWattHours, 'Wh', 'kWh', true, 1, 0, 0)}`;
+        stats += `${this.translateService.instant(
+          'transactions.consumption'
+        )}: ${this.appUnitPipe.transform(
+          data.stats.totalConsumptionWattHours,
+          'Wh',
+          'kWh',
+          true,
+          1,
+          0,
+          0
+        )}`;
         // Total Price
         // eslint-disable-next-line max-len
-        stats += ` | ${this.translateService.instant('transactions.price')}: ${this.appCurrencyPipe.transform(data.stats.totalPrice, data.stats.currency)}`;
+        stats += ` | ${this.translateService.instant(
+          'transactions.price'
+        )}: ${this.appCurrencyPipe.transform(data.stats.totalPrice, data.stats.currency)}`;
         return stats;
       }
     }
@@ -357,8 +429,15 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
   public buildTableFiltersDef(): TableFilterDef[] {
     this.issuerFilter = new IssuerFilter().getFilterDef();
     this.siteFilter = new SiteTableFilter([this.issuerFilter]).getFilterDef();
-    this.siteAreaFilter = new SiteAreaTableFilter([this.issuerFilter, this.siteFilter]).getFilterDef();
-    this.chargingStationFilter = new ChargingStationTableFilter([this.issuerFilter, this.siteFilter, this.siteAreaFilter]).getFilterDef();
+    this.siteAreaFilter = new SiteAreaTableFilter([
+      this.issuerFilter,
+      this.siteFilter,
+    ]).getFilterDef();
+    this.chargingStationFilter = new ChargingStationTableFilter([
+      this.issuerFilter,
+      this.siteFilter,
+      this.siteAreaFilter,
+    ]).getFilterDef();
     this.connectorFilter = new ConnectorTableFilter().getFilterDef();
     this.userFilter = new UserTableFilter([this.siteFilter]).getFilterDef();
     this.tagsFilter = new TagTableFilter([this.userFilter]).getFilterDef();
@@ -370,15 +449,13 @@ export class TransactionsInProgressTableDataSource extends TableDataSource<Trans
       this.chargingStationFilter,
       this.connectorFilter,
       this.userFilter,
-      this.tagsFilter
+      this.tagsFilter,
     ];
     return filters;
   }
 
   public buildTableDynamicRowActions(transaction: Transaction): TableActionDef[] {
-    const rowActions: TableActionDef[] = [
-      this.viewAction,
-    ];
+    const rowActions: TableActionDef[] = [this.viewAction];
     // Remote stop
     if (transaction.canRemoteStopTransaction) {
       rowActions.push(this.stopAction);

@@ -26,7 +26,7 @@ import { PricingDefinitionRestrictionsComponent } from './restrictions/pricing-d
 @Component({
   selector: 'app-pricing-definition',
   templateUrl: 'pricing-definition.component.html',
-  styleUrls: ['pricing-definition.component.scss']
+  styleUrls: ['pricing-definition.component.scss'],
 })
 export class PricingDefinitionComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentPricingDefinitionID!: string;
@@ -36,9 +36,12 @@ export class PricingDefinitionComponent extends AbstractTabComponent implements 
   @Input() public dialogMode!: DialogMode;
   @Input() public dialogRef!: MatDialogRef<PricingDefinitionDialogComponent>;
 
-  @ViewChild('pricingDefinitionMainComponent') public pricingDefinitionMain!: PricingDefinitionMainComponent;
-  @ViewChild('pricingDefinitionRestrictionsComponent') public pricingDefinitionRestrictions!: PricingDefinitionRestrictionsComponent;
-  @ViewChild('pricingDefinitionDimensionsComponent') public pricingDefinitionDimensions!: PricingDefinitionDimensionsComponent;
+  @ViewChild('pricingDefinitionMainComponent')
+  public pricingDefinitionMain!: PricingDefinitionMainComponent;
+  @ViewChild('pricingDefinitionRestrictionsComponent')
+  public pricingDefinitionRestrictions!: PricingDefinitionRestrictionsComponent;
+  @ViewChild('pricingDefinitionDimensionsComponent')
+  public pricingDefinitionDimensions!: PricingDefinitionDimensionsComponent;
 
   public formGroup!: UntypedFormGroup;
   public readOnly = true;
@@ -53,12 +56,16 @@ export class PricingDefinitionComponent extends AbstractTabComponent implements 
     private router: Router,
     public translateService: TranslateService,
     protected activatedRoute: ActivatedRoute,
-    protected windowService: WindowService) {
+    protected windowService: WindowService
+  ) {
     super(activatedRoute, windowService, ['main', 'dimensions', 'restrictions'], false);
   }
 
   public ngOnInit(): void {
-    this.context = this.currentEntityType === PricingEntity.TENANT ? this.centralServerService.getLoggedUser().tenantName : this.currentEntityName;
+    this.context =
+      this.currentEntityType === PricingEntity.TENANT
+        ? this.centralServerService.getLoggedUser().tenantName
+        : this.currentEntityName;
     this.formGroup = new UntypedFormGroup({});
     // Handle Dialog mode
     this.readOnly = this.dialogMode === DialogMode.VIEW;
@@ -90,10 +97,15 @@ export class PricingDefinitionComponent extends AbstractTabComponent implements 
               this.messageService.showErrorMessage('sites.pricing_definition_not_found');
               break;
             default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'general.unexpected_error_backend');
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'general.unexpected_error_backend'
+              );
           }
-        }
+        },
       });
     }
   }
@@ -105,8 +117,13 @@ export class PricingDefinitionComponent extends AbstractTabComponent implements 
   }
 
   public close() {
-    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
-      this.translateService, this.savePricingDefinition.bind(this), this.closeDialog.bind(this));
+    Utils.checkAndSaveAndCloseDialog(
+      this.formGroup,
+      this.dialogService,
+      this.translateService,
+      this.savePricingDefinition.bind(this),
+      this.closeDialog.bind(this)
+    );
   }
 
   public savePricingDefinition() {
@@ -124,17 +141,28 @@ export class PricingDefinitionComponent extends AbstractTabComponent implements 
       next: (response: ActionResponse) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage('settings.pricing.pricing_definition_creation_success');
+          this.messageService.showSuccessMessage(
+            'settings.pricing.pricing_definition_creation_success'
+          );
           this.closeDialog(true);
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, 'settings.pricing.pricing_definition_creation_error');
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            'settings.pricing.pricing_definition_creation_error'
+          );
         }
       },
       error: (error) => {
         this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'settings.pricing.pricing_definition_creation_error');
-      }
+        Utils.handleHttpError(
+          error,
+          this.router,
+          this.messageService,
+          this.centralServerService,
+          'settings.pricing.pricing_definition_creation_error'
+        );
+      },
     });
   }
 
@@ -144,11 +172,16 @@ export class PricingDefinitionComponent extends AbstractTabComponent implements 
       next: (response: ActionResponse) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage('settings.pricing.pricing_definition_update_success');
+          this.messageService.showSuccessMessage(
+            'settings.pricing.pricing_definition_update_success'
+          );
           this.closeDialog(true);
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, 'settings.pricing.pricing_definition_update_error');
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            'settings.pricing.pricing_definition_update_error'
+          );
         }
       },
       error: (error) => {
@@ -158,10 +191,15 @@ export class PricingDefinitionComponent extends AbstractTabComponent implements 
             this.messageService.showErrorMessage('settings.pricing.pricing_definition_not_found');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'settings.pricing.pricing_definition_update_error');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'settings.pricing.pricing_definition_update_error'
+            );
         }
-      }
+      },
     });
   }
 
@@ -187,7 +225,7 @@ export class PricingDefinitionComponent extends AbstractTabComponent implements 
       description,
       dimensions,
       staticRestrictions,
-      restrictions
+      restrictions,
     };
     return pricingDefinition;
   }

@@ -2,7 +2,12 @@
 
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogConfig,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { CentralServerService } from 'services/central-server.service';
 import { DialogService } from 'services/dialog.service';
@@ -16,9 +21,9 @@ import { Utils } from 'utils/Utils';
 
 @Component({
   templateUrl: './account-dialog.component.html',
-  styleUrls: ['./account-dialog.component.scss']
+  styleUrls: ['./account-dialog.component.scss'],
 })
-export class AccountDialogComponent implements OnInit{
+export class AccountDialogComponent implements OnInit {
   public currentAccount: BillingAccount;
   public formGroup!: UntypedFormGroup;
 
@@ -36,7 +41,7 @@ export class AccountDialogComponent implements OnInit{
     private dialogService: DialogService,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) data: BillingAccount
-  ){
+  ) {
     this.currentAccount = data;
   }
 
@@ -52,8 +57,12 @@ export class AccountDialogComponent implements OnInit{
     this.userID = this.formGroup.controls['userID'];
     this.companyName = this.formGroup.controls['companyName'];
     // Register key event
-    Utils.registerSaveCloseKeyEvents(this.dialogRef, this.formGroup,
-      this.save.bind(this), this.close.bind(this));
+    Utils.registerSaveCloseKeyEvents(
+      this.dialogRef,
+      this.formGroup,
+      this.save.bind(this),
+      this.close.bind(this)
+    );
   }
 
   public closeDialog(saved: boolean = false) {
@@ -61,35 +70,50 @@ export class AccountDialogComponent implements OnInit{
   }
 
   public close() {
-    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
-      this.translateService, this.save.bind(this), this.closeDialog.bind(this));
+    Utils.checkAndSaveAndCloseDialog(
+      this.formGroup,
+      this.dialogService,
+      this.translateService,
+      this.save.bind(this),
+      this.closeDialog.bind(this)
+    );
   }
 
-  public save(currentAccount: {id: string; userID: string; user: string; companyName: string}) {
+  public save(currentAccount: { id: string; userID: string; user: string; companyName: string }) {
     this.spinnerService.show();
-    this.centralServerService.createBillingAccount({
-      id: currentAccount.id,
-      companyName: currentAccount.companyName,
-      businessOwnerID: currentAccount.userID
-    }).subscribe({
-      next: (response) => {
-        this.spinnerService.hide();
-        if(response) {
-          // handle success message
-          this.messageService.showSuccessMessage('accounts.message.create_success');
-          this.dialogRef.close(true);
-        } else {
-          Utils.handleError(JSON.stringify(response), this.messageService, 'accounts.message.create_error');
+    this.centralServerService
+      .createBillingAccount({
+        id: currentAccount.id,
+        companyName: currentAccount.companyName,
+        businessOwnerID: currentAccount.userID,
+      })
+      .subscribe({
+        next: (response) => {
+          this.spinnerService.hide();
+          if (response) {
+            // handle success message
+            this.messageService.showSuccessMessage('accounts.message.create_success');
+            this.dialogRef.close(true);
+          } else {
+            Utils.handleError(
+              JSON.stringify(response),
+              this.messageService,
+              'accounts.message.create_error'
+            );
+            this.dialogRef.close(false);
+          }
+        },
+        error: (error) => {
+          //handle error here
+          this.spinnerService.hide();
           this.dialogRef.close(false);
-        }
-      },
-      error: (error) => {
-        //handle error here
-        this.spinnerService.hide();
-        this.dialogRef.close(false);
-        Utils.handleError(JSON.stringify(error), this.messageService, 'accounts.message.create_error');
-      }
-    });
+          Utils.handleError(
+            JSON.stringify(error),
+            this.messageService,
+            'accounts.message.create_error'
+          );
+        },
+      });
   }
 
   public assignUser() {
@@ -98,15 +122,17 @@ export class AccountDialogComponent implements OnInit{
     // Set data
     dialogConfig.data = {
       rowMultipleSelection: false,
-      staticFilter: {
-      },
+      staticFilter: {},
     };
     // Open
-    this.dialog.open(UsersDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
-      this.user.setValue(Utils.buildUserFullName(result[0].objectRef));
-      this.userID.setValue(result[0].key);
-      this.formGroup.markAsDirty();
-    });
+    this.dialog
+      .open(UsersDialogComponent, dialogConfig)
+      .afterClosed()
+      .subscribe((result) => {
+        this.user.setValue(Utils.buildUserFullName(result[0].objectRef));
+        this.userID.setValue(result[0].key);
+        this.formGroup.markAsDirty();
+      });
   }
 
   public resetUser() {

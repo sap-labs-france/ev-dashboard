@@ -15,8 +15,15 @@ import { Utils } from '../../../../utils/Utils';
 import { TableSynchronizeAction } from '../table-synchronize-action';
 
 export interface TableSyncCarCatalogsActionDef extends TableActionDef {
-  action: (dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) => void;
+  action: (
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableSyncCarCatalogsAction extends TableSynchronizeAction {
@@ -29,42 +36,60 @@ export class TableSyncCarCatalogsAction extends TableSynchronizeAction {
     };
   }
 
-  private synchronizeCarCatalogs(dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
-    dialogService.createAndShowYesNoDialog(
-      translateService.instant('settings.car.synchronize_car_catalogs_dialog_title'),
-      translateService.instant('settings.car.synchronize_car_catalogs_dialog_confirm'),
-    ).subscribe((response) => {
-      if (response === ButtonAction.YES) {
-        spinnerService.show();
-        centralServerService.synchronizeCarsCatalog().subscribe({
-          next: (synchronizeResponse) => {
-            spinnerService.hide();
-            if (synchronizeResponse.status === Constants.REST_RESPONSE_SUCCESS) {
-              messageService.showInfoMessage('cars.synchronize_car_catalogs_success');
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                messageService, 'cars.synchronize_car_catalogs_error');
-            }
-            if (refresh) {
-              refresh().subscribe();
-            }
-          },
-          error: (error) => {
-            spinnerService.hide();
-            // Check status
-            switch (error.status) {
-              // Email already exists
-              case HTTPError.CANNOT_ACQUIRE_LOCK:
-                messageService.showWarningMessage('cars.synchronize_car_catalogs_ongoing');
-                break;
-              // Unexpected error`
-              default:
-                Utils.handleHttpError(error, router, messageService, centralServerService, 'cars.synchronize_car_catalogs_error');
-            }
-          }
-        });
-      }
-    });
+  private synchronizeCarCatalogs(
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) {
+    dialogService
+      .createAndShowYesNoDialog(
+        translateService.instant('settings.car.synchronize_car_catalogs_dialog_title'),
+        translateService.instant('settings.car.synchronize_car_catalogs_dialog_confirm')
+      )
+      .subscribe((response) => {
+        if (response === ButtonAction.YES) {
+          spinnerService.show();
+          centralServerService.synchronizeCarsCatalog().subscribe({
+            next: (synchronizeResponse) => {
+              spinnerService.hide();
+              if (synchronizeResponse.status === Constants.REST_RESPONSE_SUCCESS) {
+                messageService.showInfoMessage('cars.synchronize_car_catalogs_success');
+              } else {
+                Utils.handleError(
+                  JSON.stringify(response),
+                  messageService,
+                  'cars.synchronize_car_catalogs_error'
+                );
+              }
+              if (refresh) {
+                refresh().subscribe();
+              }
+            },
+            error: (error) => {
+              spinnerService.hide();
+              // Check status
+              switch (error.status) {
+                // Email already exists
+                case HTTPError.CANNOT_ACQUIRE_LOCK:
+                  messageService.showWarningMessage('cars.synchronize_car_catalogs_ongoing');
+                  break;
+                // Unexpected error`
+                default:
+                  Utils.handleHttpError(
+                    error,
+                    router,
+                    messageService,
+                    centralServerService,
+                    'cars.synchronize_car_catalogs_error'
+                  );
+              }
+            },
+          });
+        }
+      });
   }
 }

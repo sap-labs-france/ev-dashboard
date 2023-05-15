@@ -26,7 +26,8 @@ export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteAr
     private router: Router,
     private centralServerService: CentralServerService,
     private authorizationService: AuthorizationService,
-    private componentService: ComponentService) {
+    private componentService: ComponentService
+  ) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -48,16 +49,24 @@ export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteAr
       if (this.siteIDs) {
         filterValues['SiteID'] = this.siteIDs;
       }
-      this.centralServerService.getSiteAreas(filterValues, this.getPaging(), this.getSorting()).subscribe({
-        next: (siteAreas) => {
-          observer.next(siteAreas);
-          observer.complete();
-        },
-        error: (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          observer.error(error);
-        }
-      });
+      this.centralServerService
+        .getSiteAreas(filterValues, this.getPaging(), this.getSorting())
+        .subscribe({
+          next: (siteAreas) => {
+            observer.next(siteAreas);
+            observer.complete();
+          },
+          error: (error) => {
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.error_backend'
+            );
+            observer.error(error);
+          },
+        });
     });
   }
 
@@ -89,7 +98,8 @@ export class SiteAreasDialogTableDataSource extends DialogTableDataSource<SiteAr
         name: 'site_areas.smart_charging',
         headerClass: 'col-10p text-center',
         class: 'col-10p text-center',
-        formatter: (smartCharging: boolean) => Utils.displayYesNo(this.translateService, smartCharging),
+        formatter: (smartCharging: boolean) =>
+          Utils.displayYesNo(this.translateService, smartCharging),
         visible: this.componentService.isActive(TenantComponents.SMART_CHARGING),
       },
       {

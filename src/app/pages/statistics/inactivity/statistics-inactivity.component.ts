@@ -18,7 +18,6 @@ import { StatisticsExportService } from '../shared/statistics-export.service';
   selector: 'app-statistics-inactivity',
   templateUrl: 'statistics-inactivity.component.html',
 })
-
 export class StatisticsInactivityComponent implements OnInit {
   @ViewChild('inactivityBarChart', { static: true }) public ctxBarChart!: ElementRef;
   @ViewChild('inactivityPieChart', { static: true }) public ctxPieChart!: ElementRef;
@@ -45,7 +44,8 @@ export class StatisticsInactivityComponent implements OnInit {
     private localeService: LocaleService,
     private spinnerService: SpinnerService,
     private statisticsBuildService: StatisticsBuildService,
-    private statisticsExportService: StatisticsExportService) {
+    private statisticsExportService: StatisticsExportService
+  ) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
     });
@@ -76,11 +76,18 @@ export class StatisticsInactivityComponent implements OnInit {
   }
 
   public exportData(): void {
-    const enhancedFilterParams = this.statisticsExportService.enhanceFilterParams(this.filterParams, 'Inactivity',
-      this.selectedCategory, this.selectedYear, this.selectedChart);
-    this.statisticsExportService.exportDataWithDialog(enhancedFilterParams,
+    const enhancedFilterParams = this.statisticsExportService.enhanceFilterParams(
+      this.filterParams,
+      'Inactivity',
+      this.selectedCategory,
+      this.selectedYear,
+      this.selectedChart
+    );
+    this.statisticsExportService.exportDataWithDialog(
+      enhancedFilterParams,
       this.translateService.instant('statistics.dialog.inactivity.export.title'),
-      this.translateService.instant('statistics.dialog.inactivity.export.confirm'));
+      this.translateService.instant('statistics.dialog.inactivity.export.confirm')
+    );
   }
 
   public getChartLabel(): string {
@@ -91,34 +98,44 @@ export class StatisticsInactivityComponent implements OnInit {
     }
     if (this.selectedChart === 'month') {
       if (this.selectedCategory === 'C') {
-        mainLabel = this.translateService.instant('statistics.inactivity_per_cs_month_title',
-          { total: Math.round(this.totalInactivity).toLocaleString(this.language) });
+        mainLabel = this.translateService.instant('statistics.inactivity_per_cs_month_title', {
+          total: Math.round(this.totalInactivity).toLocaleString(this.language),
+        });
       } else {
-        mainLabel = this.translateService.instant('statistics.inactivity_per_user_month_title',
-          { total: Math.round(this.totalInactivity).toLocaleString(this.language) });
+        mainLabel = this.translateService.instant('statistics.inactivity_per_user_month_title', {
+          total: Math.round(this.totalInactivity).toLocaleString(this.language),
+        });
       }
     } else {
       if (this.selectedCategory === 'C') {
         if (this.selectedYear > 0) {
-          mainLabel = this.translateService.instant('statistics.inactivity_per_cs_year_title',
-            { total: Math.round(this.totalInactivity).toLocaleString(this.language) });
+          mainLabel = this.translateService.instant('statistics.inactivity_per_cs_year_title', {
+            total: Math.round(this.totalInactivity).toLocaleString(this.language),
+          });
         } else if (this.selectedYear < 0) {
-          mainLabel = this.translateService.instant('statistics.inactivity_per_cs_timeFrame_title',
-            { total: Math.round(this.totalInactivity).toLocaleString(this.language) });
+          mainLabel = this.translateService.instant(
+            'statistics.inactivity_per_cs_timeFrame_title',
+            { total: Math.round(this.totalInactivity).toLocaleString(this.language) }
+          );
         } else {
-          mainLabel = this.translateService.instant('statistics.inactivity_per_cs_total_title',
-            { total: Math.round(this.totalInactivity).toLocaleString(this.language) });
+          mainLabel = this.translateService.instant('statistics.inactivity_per_cs_total_title', {
+            total: Math.round(this.totalInactivity).toLocaleString(this.language),
+          });
         }
       } else {
         if (this.selectedYear > 0) {
-          mainLabel = this.translateService.instant('statistics.inactivity_per_user_year_title',
-            { total: Math.round(this.totalInactivity).toLocaleString(this.language) });
+          mainLabel = this.translateService.instant('statistics.inactivity_per_user_year_title', {
+            total: Math.round(this.totalInactivity).toLocaleString(this.language),
+          });
         } else if (this.selectedYear < 0) {
-          mainLabel = this.translateService.instant('statistics.inactivity_per_user_timeFrame_title',
-            { total: Math.round(this.totalInactivity).toLocaleString(this.language) });
+          mainLabel = this.translateService.instant(
+            'statistics.inactivity_per_user_timeFrame_title',
+            { total: Math.round(this.totalInactivity).toLocaleString(this.language) }
+          );
         } else {
-          mainLabel = this.translateService.instant('statistics.inactivity_per_user_total_title',
-            { total: Math.round(this.totalInactivity).toLocaleString(this.language) });
+          mainLabel = this.translateService.instant('statistics.inactivity_per_user_total_title', {
+            total: Math.round(this.totalInactivity).toLocaleString(this.language),
+          });
         }
       }
     }
@@ -126,14 +143,32 @@ export class StatisticsInactivityComponent implements OnInit {
   }
 
   public initCharts(): void {
-    const labelXAxis: string = this.translateService.instant('statistics.graphic_title_month_x_axis');
-    const labelYAxis: string = this.translateService.instant('statistics.graphic_title_inactivity_y_axis');
+    const labelXAxis: string = this.translateService.instant(
+      'statistics.graphic_title_month_x_axis'
+    );
+    const labelYAxis: string = this.translateService.instant(
+      'statistics.graphic_title_inactivity_y_axis'
+    );
     const toolTipUnit: string = this.translateService.instant('statistics.hours');
-    this.barChart = new SimpleChart(this.language, ChartTypeValues.STACKED_BAR,
-      this.getChartLabel(), labelXAxis, labelYAxis, toolTipUnit, true);
+    this.barChart = new SimpleChart(
+      this.language,
+      ChartTypeValues.STACKED_BAR,
+      this.getChartLabel(),
+      labelXAxis,
+      labelYAxis,
+      toolTipUnit,
+      true
+    );
     this.barChart.initChart(this.ctxBarChart);
-    this.pieChart = new SimpleChart(this.language, ChartTypeValues.PIE,
-      this.getChartLabel(), undefined, undefined, toolTipUnit, true);
+    this.pieChart = new SimpleChart(
+      this.language,
+      ChartTypeValues.PIE,
+      this.getChartLabel(),
+      undefined,
+      undefined,
+      toolTipUnit,
+      true
+    );
     this.pieChart.initChart(this.ctxPieChart);
     this.chartsInitialized = true;
   }
@@ -164,12 +199,21 @@ export class StatisticsInactivityComponent implements OnInit {
     this.filterParams['WithAuth'] = 'true';
     this.spinnerService.show();
     if (this.selectedCategory === 'C') {
-      this.centralServerService.getChargingStationInactivityStatistics(this.selectedYear, this.filterParams)
+      this.centralServerService
+        .getChargingStationInactivityStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
           this.initAuth(statisticsData);
-          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData.result, 2);
-          this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
-          this.totalInactivity = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
+          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(
+            statisticsData.result,
+            2
+          );
+          this.pieChartData =
+            this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(
+              this.barChartData
+            );
+          this.totalInactivity = this.statisticsBuildService.calculateTotalValueFromChartData(
+            this.barChartData
+          );
           if (this.selectedChart === 'month') {
             this.barChart.updateChart(this.barChartData, this.getChartLabel());
           } else {
@@ -178,12 +222,21 @@ export class StatisticsInactivityComponent implements OnInit {
           this.spinnerService.hide();
         });
     } else {
-      this.centralServerService.getUserInactivityStatistics(this.selectedYear, this.filterParams)
+      this.centralServerService
+        .getUserInactivityStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
           this.initAuth(statisticsData);
-          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData.result, 2);
-          this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
-          this.totalInactivity = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
+          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(
+            statisticsData.result,
+            2
+          );
+          this.pieChartData =
+            this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(
+              this.barChartData
+            );
+          this.totalInactivity = this.statisticsBuildService.calculateTotalValueFromChartData(
+            this.barChartData
+          );
           if (this.selectedChart === 'month') {
             this.barChart.updateChart(this.barChartData, this.getChartLabel());
           } else {
@@ -196,11 +249,11 @@ export class StatisticsInactivityComponent implements OnInit {
 
   private initAuth(statisticsData: StatisticDataResult) {
     this.authorizations = {
-      canListUsers:  Utils.convertToBoolean(statisticsData.canListUsers),
-      canListChargingStations:  Utils.convertToBoolean(statisticsData.canListChargingStations),
-      canListSites:  Utils.convertToBoolean(statisticsData.canListSites),
-      canListSiteAreas:  Utils.convertToBoolean(statisticsData.canListSiteAreas),
-      canExport:  Utils.convertToBoolean(statisticsData.canExport),
+      canListUsers: Utils.convertToBoolean(statisticsData.canListUsers),
+      canListChargingStations: Utils.convertToBoolean(statisticsData.canListChargingStations),
+      canListSites: Utils.convertToBoolean(statisticsData.canListSites),
+      canListSiteAreas: Utils.convertToBoolean(statisticsData.canListSiteAreas),
+      canExport: Utils.convertToBoolean(statisticsData.canExport),
     };
   }
 }

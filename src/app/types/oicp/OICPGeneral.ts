@@ -16,5 +16,5 @@ export enum OICPEndpointPaths {
   PRICING = '/api/oicp/dynamicpricing/v10/operators/{operatorID}/evse-pricing',
   CDR = '/api/oicp/cdrmgmt/v22/operators/{operatorID}/charge-detail-record',
   PRICING_PRODUCTS = '/api/oicp/dynamicpricing/v10/operators/{operatorID}/pricing-products',
-  NOTIFICATIONS = '/api/oicp/notificationmgmt/v11/charging-notifications'
+  NOTIFICATIONS = '/api/oicp/notificationmgmt/v11/charging-notifications',
 }

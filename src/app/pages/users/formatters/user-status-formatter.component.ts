@@ -9,8 +9,8 @@ import { User, UserStatus } from '../../../types/User';
   selector: 'app-user-status-formatter',
   template: `
     <mat-chip-list [selectable]="false">
-      <mat-chip [ngClass]="row.status | appFormatUserStatus:'class'" [disabled]="true">
-        {{row.status | appFormatUserStatus:'text' | translate}}
+      <mat-chip [ngClass]="row.status | appFormatUserStatus : 'class'" [disabled]="true">
+        {{ row.status | appFormatUserStatus : 'text' | translate }}
       </mat-chip>
     </mat-chip-list>
   `,
@@ -19,7 +19,7 @@ export class UserStatusFormatterComponent extends CellContentTemplateDirective {
   @Input() public row!: User;
 }
 
-@Pipe({name: 'appFormatUserStatus'})
+@Pipe({ name: 'appFormatUserStatus' })
 export class AppFormatUserStatusPipe implements PipeTransform {
   public transform(userStatus: string, type: string): string {
     if (type === 'class') {

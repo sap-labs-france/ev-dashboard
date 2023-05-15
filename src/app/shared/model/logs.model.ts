@@ -16,7 +16,7 @@ export const sources: KeyValue[] = [
   { key: 'OData', value: 'OData Server' },
   { key: 'Soap', value: 'Soap Server' },
   { key: 'Rest', value: 'Rest Server' },
-  { key: 'CentralServer', value: 'Central Server' }
+  { key: 'CentralServer', value: 'Central Server' },
 ];
 
 export const LOG_ACTIONS: KeyValue[] = Object.values(ServerAction)
@@ -63,4 +63,3 @@ export const LOG_HOSTS: KeyValue[] = [
   }
   return 0;
 });
-

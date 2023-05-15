@@ -7,13 +7,13 @@ const config = convict({
     doc: 'The test environment.',
     format: ['local', 'production', 'development'],
     default: 'local',
-    env: 'TEST_ENV'
+    env: 'TEST_ENV',
   },
   trace_logs: {
     doc: 'Set to true to trace communication with servers',
     format: Boolean,
     default: 'false',
-    env: 'TRACE_LOGS'
+    env: 'TRACE_LOGS',
   },
   frontEndServer: {
     scheme: {
@@ -26,22 +26,22 @@ const config = convict({
       doc: 'The SERVER server IP address to bind.',
       format: String,
       default: '127.0.0.1',
-      env: 'SERVER_HOSTNAME'
+      env: 'SERVER_HOSTNAME',
     },
     port: {
       doc: 'The SERVER server port to bind.',
       format: 'port',
       default: 45000,
       env: 'SERVER_PORT',
-      arg: 'server_port'
+      arg: 'server_port',
     },
     logs: {
       doc: '"json" to trace central server communication, "none" to not trace them',
       format: ['json', 'none'],
       default: 'none',
-      env: 'SERVER_LOGS'
-    }
-  }
+      env: 'SERVER_LOGS',
+    },
+  },
 });
 
 // Load environment dependent configuration
@@ -54,7 +54,7 @@ if (fs.existsSync(fileName)) {
 
 // Perform validation
 config.validate({
-  allowed: 'strict'
+  allowed: 'strict',
 });
 
 module.exports = config;

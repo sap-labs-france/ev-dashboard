@@ -1,33 +1,58 @@
 <div *ngIf="transaction" class="main-content vw-90 vh-90 transaction-dialog-size">
   <div class="card card-profile card-testimonial">
-    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-close-action">
+    <mat-tab-group
+      animationDuration="0ms"
+      disableRipple="true"
+      class="mat-tab-info mat-tabs-with-close-action"
+    >
       <mat-tab>
         <ng-template mat-tab-label>
-          <span>{{transaction.chargeBoxID}} -
-            {{transaction.connectorId | appConnectorId}} - {{transaction.id}} {{transaction?.stop?.reason ? '- ' + transaction?.stop?.reason : ''}}</span>
+          <span
+            >{{ transaction.chargeBoxID }} - {{ transaction.connectorId | appConnectorId }} -
+            {{ transaction.id }}
+            {{ transaction?.stop?.reason ? '- ' + transaction?.stop?.reason : '' }}</span
+          >
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content pt-0">
           <div class="tab-content">
             <!-- header -->
-            <app-transaction-header [transaction]="transaction" [loggedUserImage]="loggedUserImage" [carImage]="carImage"></app-transaction-header>
+            <app-transaction-header
+              [transaction]="transaction"
+              [loggedUserImage]="loggedUserImage"
+              [carImage]="carImage"
+            ></app-transaction-header>
             <!-- chart -->
             <mat-divider class="space-before-chart"></mat-divider>
-            <app-transaction-chart #chartConsumption [transaction]="transaction" [transactionId]="transaction.id" [inDialog]="inDialog" class="w-100" ratio="3"></app-transaction-chart>
+            <app-transaction-chart
+              #chartConsumption
+              [transaction]="transaction"
+              [transactionId]="transaction.id"
+              [inDialog]="inDialog"
+              class="w-100"
+              ratio="3"
+            ></app-transaction-chart>
           </div>
         </div>
       </mat-tab>
       <mat-tab *ngIf="showPricingDetail">
         <ng-template mat-tab-label>
           <mat-icon>money</mat-icon>
-          <span>{{'general.menu.pricing' | translate}}</span>
+          <span>{{ 'general.menu.pricing' | translate }}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content pt-0">
           <div class="tab-content">
             <div class="h-100">
               <!-- header -->
-              <app-transaction-header [transaction]="transaction" [loggedUserImage]="loggedUserImage" [carImage]="carImage"></app-transaction-header>
+              <app-transaction-header
+                [transaction]="transaction"
+                [loggedUserImage]="loggedUserImage"
+                [carImage]="carImage"
+              ></app-transaction-header>
               <mat-divider class="space-before-chart"></mat-divider>
-              <app-transaction-pricing [transaction]="transaction" class="w-100"></app-transaction-pricing>
+              <app-transaction-pricing
+                [transaction]="transaction"
+                class="w-100"
+              ></app-transaction-pricing>
             </div>
           </div>
         </div>

@@ -9,6 +9,5 @@ import { TransactionsInErrorTableDataSource } from './transactions-in-error-tabl
 })
 export class TransactionsInErrorComponent {
   // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    public transactionsInErrorDataSource: TransactionsInErrorTableDataSource) {}
+  public constructor(public transactionsInErrorDataSource: TransactionsInErrorTableDataSource) {}
 }

@@ -31,7 +31,7 @@ export class TableDeletePaymentMethodAction extends TableDeleteAction {
     centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
     dialogService.createAndShowYesNoDialog(
       translateService.instant('settings.billing.payment_methods_delete_title'),
-      translateService.instant('settings.billing.payment_methods_delete_confirm', { last4: paymentMethod.last4 }),
+      translateService.instant('settings.billing.payment_methods_delete_confirm'),
     ).subscribe((result) => {
       if (result === ButtonAction.YES) {
         spinnerService.show();
@@ -40,7 +40,7 @@ export class TableDeletePaymentMethodAction extends TableDeleteAction {
             spinnerService.hide();
             if (response.succeeded) {
               messageService.showSuccessMessage(
-                translateService.instant('settings.billing.payment_methods_delete_success', { last4: paymentMethod.last4 }));
+                translateService.instant('settings.billing.payment_methods_delete_success'));
               if (refresh) {
                 refresh().subscribe();
               }

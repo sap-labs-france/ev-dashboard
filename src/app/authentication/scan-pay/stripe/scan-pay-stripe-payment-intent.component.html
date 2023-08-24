@@ -1,0 +1,29 @@
+<div class="wrapper wrapper-full-page">
+  <div class="page-header login-page header-filter" filter-color="black">
+    <div class="container">
+      <div class="col-lg-6 ms-auto me-auto">
+        <div class="card card-login">
+          <div class="card-header {{headerClass}} text-center h-25">
+            <div class="social-line">
+              <div style="height: 125px; display: contents; margin: 5px;">
+                <h4 class="mb2 card-title text-center titleClass" style="padding: 10px;">{{title | translate}}</h4>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <h4 *ngIf="isSendClicked || !isTokenValid" class="mb2 card-title text-center" style="padding: 10px;">{{message | translate}}</h4>
+            <form [hidden]="isSendClicked || !isTokenValid" class="form">
+              <div id="payment-element">
+                <!-- Mount the Payment Element here -->
+              </div>
+              <p id="prepaymentMessage">{{prepaymentMessage}}</p>
+            </form>
+          </div>
+          <div *ngIf="isTokenValid && !isSendClicked" class="card-footer justify-content-center mb-4">
+            <button [disabled]="!showButton || !isTokenValid" mat-raised-button color="primary" type="submit" (click)=linkCardToAccount()>{{'settings.scan_pay.payment_intent.save_start' | translate}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

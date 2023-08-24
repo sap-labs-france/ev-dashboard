@@ -527,7 +527,9 @@ export enum RESTServerRoute {
 
   REST_CHARGING_STATIONS_DOWNLOAD_FIRMWARE = 'charging-stations/firmware/download',
   REST_CHARGING_STATIONS_QRCODE_GENERATE = 'charging-stations/:id/connectors/:connectorId/qrcode/generate',
+  REST_CHARGING_STATIONS_QRCODE_GENERATE_SCAN_PAY = 'charging-stations/:id/connectors/:connectorId/qrcode/generate/scan-pay',
   REST_CHARGING_STATIONS_QRCODE_DOWNLOAD = 'charging-stations/qrcode/download',
+  REST_CHARGING_STATIONS_QRCODE_SCAN_PAY_DOWNLOAD = 'charging-stations/qrcode/scan-pay/download',
 
   REST_CHARGING_STATION_GET_OCPP_PARAMETERS = 'charging-stations/:id/ocpp/parameters',
   REST_CHARGING_STATIONS_REQUEST_OCPP_PARAMETERS = 'charging-stations/ocpp/parameters',
@@ -709,6 +711,11 @@ export enum RESTServerRoute {
   REST_BILLING_ACCOUNT_ONBOARD = 'billing/accounts/:id/onboard',
   REST_BILLING_ACCOUNT_REFRESH = 'billing/accounts/:id/refresh',
   REST_BILLING_ACCOUNT_ACTIVATE = 'billing/accounts/:id/activate',
+
+  // BILLING / SCAN AND PAY
+  REST_SCAN_PAY_VERIFY_EMAIL = 'billing/scan-pay/verify-email',
+  REST_SCAN_PAY_PAYMENT_INTENT_SETUP = 'billing/scan-pay/setup',
+  REST_SCAN_PAY_PAYMENT_INTENT_RETRIEVE = 'billing/scan-pay/retrieve',
 
   // BILLING URLs for CRUD operations on INVOICES
   REST_BILLING_INVOICES = 'invoices',

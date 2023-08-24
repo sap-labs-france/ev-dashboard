@@ -3,20 +3,22 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as FileSaver from 'file-saver';
-import { Utils } from 'utils/Utils';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
+import { Utils } from '../../../utils/Utils';
 
 @Component({
   templateUrl: 'qr-code-dialog.component.html',
+  styleUrls: ['qr-code.component.scss']
 })
+
 export class QrCodeDialogComponent {
   public qrCode: string;
   public chargingStationID: string;
   public connectorID: number;
-  public dialogTitle: string;
+  public isScanPayQRCode: boolean;
 
   public constructor(
     protected dialogRef: MatDialogRef<QrCodeDialogComponent>,
@@ -36,13 +38,14 @@ export class QrCodeDialogComponent {
       if (data.qrCode) {
         this.qrCode = data.qrCode;
       }
+      this.isScanPayQRCode = data.isScanPayQRCode;
     }
     Utils.registerCloseKeyEvents(this.dialogRef);
   }
 
   public download() {
     this.spinnerService.show();
-    this.centralServerService.downloadChargingStationQrCodes(this.chargingStationID, this.connectorID).subscribe({
+    this.centralServerService.downloadChargingStationQrCodes(this.chargingStationID, this.isScanPayQRCode, this.connectorID).subscribe({
       next: (result) => {
         this.spinnerService.hide();
         FileSaver.saveAs(result, `${this.chargingStationID.toLowerCase()}-${Utils.getConnectorLetterFromConnectorID(this.connectorID).toLowerCase()}-qr-codes.pdf`);
@@ -55,7 +58,9 @@ export class QrCodeDialogComponent {
     });
   }
 
-  public cancel() {
-    this.dialogRef.close();
+  public close() {
+    if (this.dialogRef) {
+      this.dialogRef.close();
+    }
   }
 }

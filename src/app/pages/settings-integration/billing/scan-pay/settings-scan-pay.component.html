@@ -1,0 +1,24 @@
+<div class="card">
+  <div class="card-header card-header-icon card-header-primary">
+    <div class="card-icon">
+      <mat-icon>payments</mat-icon>
+    </div>
+    <h3 class="card-title">{{'settings.scan_pay.title' | translate}}</h3>
+  </div>
+  <div class="card-body">
+    <div class="row mt-1">
+      <div *ngIf="!isScanPayActive" class="col-md-12 mb-2">
+        <span class="mat-subheading-2 text-danger">{{'settings.billing.deactivated_setting_message' | translate}}</span>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field>
+          <input matInput type="text" [formControl]="amount" required
+                 placeholder="{{'settings.scan_pay.hold_amount' | translate}}">
+          <mat-error *ngIf="amount.errors?.pattern">
+            {{"settings.scan_pay.pattern_error" | translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>

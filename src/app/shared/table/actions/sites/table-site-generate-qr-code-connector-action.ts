@@ -1,16 +1,16 @@
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import * as FileSaver from 'file-saver';
-import { CentralServerService } from 'services/central-server.service';
-import { MessageService } from 'services/message.service';
-import { SpinnerService } from 'services/spinner.service';
-import { TableAction } from 'shared/table/actions/table-action';
-import { ChargingStationButtonAction } from 'types/ChargingStation';
-import { ButtonActionColor } from 'types/GlobalType';
-import { TableActionDef } from 'types/Table';
-import { Utils } from 'utils/Utils';
 
+import { CentralServerService } from '../../../../services/central-server.service';
+import { MessageService } from '../../../../services/message.service';
+import { SpinnerService } from '../../../../services/spinner.service';
+import { TableAction } from '../../../../shared/table/actions/table-action';
+import { ChargingStationButtonAction } from '../../../../types/ChargingStation';
+import { ButtonActionColor } from '../../../../types/GlobalType';
 import { Site } from '../../../../types/Site';
+import { TableActionDef } from '../../../../types/Table';
+import { Utils } from '../../../../utils/Utils';
 
 export interface TableSiteGenerateQrCodeConnectorsActionDef extends TableActionDef {
   action: (site: Site, translateService: TranslateService, spinnerService: SpinnerService,
@@ -35,7 +35,7 @@ export class TableSiteGenerateQrCodeConnectorAction implements TableAction {
   private downloadQrCodePDF(site: Site, translateService: TranslateService, spinnerService: SpinnerService,
     messageService: MessageService, centralServerService: CentralServerService, router: Router) {
     spinnerService.show();
-    centralServerService.downloadSiteQrCodes(site.id).subscribe({
+    centralServerService.downloadSiteQrCodes(site.id, false).subscribe({
       next: (result) => {
         spinnerService.hide();
         FileSaver.saveAs(result, `site-${site.name.toLowerCase()}-qr-codes.pdf`);

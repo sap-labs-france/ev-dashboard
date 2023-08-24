@@ -11,11 +11,13 @@ import pkg from '../../../../package.json';
 export class AuthLayoutComponent implements OnInit {
   public version: string = pkg.version;
   public mobileMenuVisible: any = 0;
+  public scanPay: boolean;
   private toggleButton: any;
   private sidebarVisible: boolean;
 
   public constructor(private router: Router, private element: ElementRef) {
     this.sidebarVisible = false;
+    this.scanPay = this.router.url.includes('scan-pay');
   }
 
   public ngOnInit() {

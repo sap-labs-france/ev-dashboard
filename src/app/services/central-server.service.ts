@@ -25,14 +25,14 @@ import { OicpEndpoint } from '../types/oicp/OICPEndpoint';
 import PricingDefinition from '../types/Pricing';
 import { RefundReport } from '../types/Refund';
 import { RegistrationToken } from '../types/RegistrationToken';
-import { RESTServerRoute, ServerAction } from '../types/Server';
+import { RESTServerRoute } from '../types/Server';
 import { BillingSettings, SettingDB } from '../types/Setting';
 import { Site } from '../types/Site';
 import { SiteArea, SiteAreaConsumption, SubSiteAreaAction } from '../types/SiteArea';
 import { Tag } from '../types/Tag';
 import { Tenant } from '../types/Tenant';
 import { OcpiData, Transaction } from '../types/Transaction';
-import { User, UserSessionContext, UserToken } from '../types/User';
+import { User, UserRole, UserSessionContext, UserToken } from '../types/User';
 import { Constants } from '../utils/Constants';
 import { Utils } from '../utils/Utils';
 import { ConfigService } from './config.service';
@@ -770,14 +770,15 @@ export class CentralServerService {
       );
   }
 
-  public getConnectorQrCode(chargingStationID: string, connectorID: number): Observable<Image> {
+  public getConnectorQrCode(chargingStationID: string, connectorID: number, isScanPayQRCode: boolean): Observable<Image> {
     // Verify init
     this.checkInit();
     if (!chargingStationID || connectorID < 0) {
       return EMPTY;
     }
+    const urlPattern: RESTServerRoute = isScanPayQRCode ? RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_GENERATE_SCAN_PAY : RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_GENERATE;
     // Execute the REST service
-    return this.httpClient.get<Image>(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_GENERATE, { id: chargingStationID, connectorId: connectorID}),
+    return this.httpClient.get<Image>(this.buildRestEndpointUrl(urlPattern, { id: chargingStationID, connectorId: connectorID }),
       {
         headers: this.buildHttpHeaders(),
       })
@@ -881,7 +882,7 @@ export class CentralServerService {
   public getUserSessionContext(userID: string, chargingStationID: string, connectorID: number): Observable<UserSessionContext> {
     // Verify init
     this.checkInit();
-    return this.httpClient.get<UserSessionContext>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_SESSION_CONTEXT, { id: userID } ),
+    return this.httpClient.get<UserSessionContext>(this.buildRestEndpointUrl(RESTServerRoute.REST_USER_SESSION_CONTEXT, { id: userID }),
       {
         headers: this.buildHttpHeaders(),
         params: {
@@ -1601,6 +1602,41 @@ export class CentralServerService {
     );
   }
 
+  public scanPayHandlePaymentIntent(parameters: any): Observable<BillingOperationResult> {
+    this.checkInit();
+    // Build the URL
+    const url = this.buildRestEndpointUrl(RESTServerRoute.REST_SCAN_PAY_PAYMENT_INTENT_SETUP);
+    // Execute the REST service
+    return this.httpClient.post<BillingOperationResult>(url, {
+      email: parameters.email,
+      locale: parameters.locale,
+      chargingStationID: parameters.chargingStationID,
+      connectorID: parameters.connectorID,
+      verificationToken: parameters.verificationToken,
+    }, {
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
+  }
+
+  public scanPayHandlePaymentIntentRetrieve(parameters: any): Observable<BillingOperationResult> {
+    this.checkInit();
+    // Execute the REST service
+    return this.httpClient.post<BillingOperationResult>(this.buildRestEndpointUrl(RESTServerRoute.REST_SCAN_PAY_PAYMENT_INTENT_RETRIEVE), {
+      email: parameters.email,
+      locale: parameters.locale,
+      paymentIntentID: parameters.paymentIntentID,
+      chargingStationID: parameters.chargingStationID,
+      connectorID: parameters.connectorID,
+      verificationToken: parameters.verificationToken,
+    }, {
+      headers: this.buildHttpHeaders(),
+    }).pipe(
+      catchError(this.handleHttpError),
+    );
+  }
+
   public updateBillingSettings(billingSettings: BillingSettings): Observable<ActionResponse> {
     // Verify init
     this.checkInit();
@@ -1722,7 +1758,7 @@ export class CentralServerService {
     // Verify init
     this.checkInit();
     // Execute
-    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_ACCOUNTS), account,{
+    return this.httpClient.post<ActionResponse>(this.buildRestEndpointUrl(RESTServerRoute.REST_BILLING_ACCOUNTS), account, {
       headers: this.buildHttpHeaders(),
     }).pipe(
       catchError(this.handleHttpError),
@@ -1836,11 +1872,12 @@ export class CentralServerService {
       );
   }
 
-  public downloadSiteQrCodes(siteID: string): Observable<Blob> {
+  public downloadSiteQrCodes(siteID: string, isScanPayQRCode: boolean): Observable<Blob> {
     this.checkInit();
     const params: { [param: string]: string } = {};
     params['SiteID'] = siteID;
-    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_DOWNLOAD),
+    const urlPattern: RESTServerRoute = isScanPayQRCode ? RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_SCAN_PAY_DOWNLOAD : RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_DOWNLOAD;
+    return this.httpClient.get(this.buildRestEndpointUrl(urlPattern),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1851,11 +1888,12 @@ export class CentralServerService {
       );
   }
 
-  public downloadSiteAreaQrCodes(siteAreaID?: string): Observable<Blob> {
+  public downloadSiteAreaQrCodes(siteAreaID: string, isScanPayQRCode: boolean): Observable<Blob> {
     this.checkInit();
     const params: { [param: string]: string } = {};
     params['SiteAreaID'] = siteAreaID;
-    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_DOWNLOAD),
+    const urlPattern: RESTServerRoute = isScanPayQRCode ? RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_SCAN_PAY_DOWNLOAD : RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_DOWNLOAD;
+    return this.httpClient.get(this.buildRestEndpointUrl(urlPattern),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -1866,14 +1904,16 @@ export class CentralServerService {
       );
   }
 
-  public downloadChargingStationQrCodes(chargingStationID: string, connectorID?: number): Observable<Blob> {
+  public downloadChargingStationQrCodes(chargingStationID: string, isScanPayQRCode: boolean, connectorID?: number): Observable<Blob> {
     this.checkInit();
     const params: { [param: string]: string } = {};
     params['ChargingStationID'] = chargingStationID;
     if (connectorID) {
       params['ConnectorID'] = connectorID.toString();
     }
-    return this.httpClient.get(this.buildRestEndpointUrl(RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_DOWNLOAD),
+    const urlPattern: RESTServerRoute = isScanPayQRCode ? RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_SCAN_PAY_DOWNLOAD : RESTServerRoute.REST_CHARGING_STATIONS_QRCODE_DOWNLOAD;
+    // Execute the REST service
+    return this.httpClient.get(this.buildRestEndpointUrl(urlPattern),
       {
         headers: this.buildHttpHeaders(),
         params,
@@ -2051,7 +2091,7 @@ export class CentralServerService {
   }
 
   public isAuthenticated(): boolean {
-    return this.getLoggedUserToken() && !new JwtHelperService().isTokenExpired(this.getLoggedUserToken());
+    return this.getLoggedUserToken() && !new JwtHelperService().isTokenExpired(this.getLoggedUserToken()) && this.getLoggedUser().role !== UserRole.EXTERNAL;
   }
 
   public getCurrentUserSubject(): BehaviorSubject<UserToken> {
@@ -2527,7 +2567,7 @@ export class CentralServerService {
     this.checkInit();
     // Execute
     return this.httpClient.put<OICPJobStatusesResponse>(
-      this.buildRestEndpointUrl(RESTServerRoute.REST_OICP_ENDPOINT_SEND_EVSES, {id: oicpEndpoint.id }), {},
+      this.buildRestEndpointUrl(RESTServerRoute.REST_OICP_ENDPOINT_SEND_EVSES, { id: oicpEndpoint.id }), {},
       {
         headers: this.buildHttpHeaders(),
       })
@@ -3150,8 +3190,7 @@ export class CentralServerService {
       );
   }
 
-  public getChargingStationCompositeSchedule(id: string, connectorId: number, duration: number, unit: string):
-  Observable<GetCompositeScheduleCommandResult | GetCompositeScheduleCommandResult[]> {
+  public getChargingStationCompositeSchedule(id: string, connectorId: number, duration: number, unit: string): Observable<GetCompositeScheduleCommandResult | GetCompositeScheduleCommandResult[]> {
     // Verify init
     this.checkInit();
     // build request
@@ -3379,7 +3418,7 @@ export class CentralServerService {
 
   public getPricingDefinitions(params: FilterParams,
     paging: Paging = Constants.DEFAULT_PAGING, ordering: Ordering[] = [],
-    context?: { entityID: string; entityType: string}): Observable<PricingDefinitionDataResult> {
+    context?: { entityID: string; entityType: string }): Observable<PricingDefinitionDataResult> {
     // Verify init
     this.checkInit();
     // Build Paging
@@ -3516,6 +3555,22 @@ export class CentralServerService {
       );
   }
 
+  public scanPayVerifyEmail(data: any): Observable<ActionResponse> {
+    // Verify init
+    this.checkInit();
+    // Set the tenant
+    data['tenant'] = this.windowService.getSubdomain();
+    // Execute
+    return this.httpClient.post<ActionResponse>(`${this.restServerAuthURL}/${RESTServerRoute.REST_SCAN_PAY_VERIFY_EMAIL}`,
+      data,
+      {
+        headers: this.buildHttpHeaders(),
+      })
+      .pipe(
+        catchError(this.handleHttpError),
+      );
+  }
+
   public buildImportTagsUsersHttpHeaders(
     autoActivateUserAtImport?: boolean, autoActivateTagAtImport?: boolean): { name: string; value: string }[] {
     // Build File Header
@@ -3631,7 +3686,7 @@ export class CentralServerService {
     // We might use a remote logging infrastructure
     const errorInfo = { status: 0, message: '', details: null };
     // Handle redirection of Tenant
-    if ( error.status === StatusCodes.MOVED_TEMPORARILY && error.error.size > 0) {
+    if (error.status === StatusCodes.MOVED_TEMPORARILY && error.error.size > 0) {
       return new Observable(observer => {
         const reader = new FileReader();
         reader.readAsText(error.error); // convert blob to Text
@@ -3647,7 +3702,7 @@ export class CentralServerService {
       errorInfo.status = StatusCodes.REQUEST_TIMEOUT;
       errorInfo.message = error.message;
       errorInfo.details = null;
-    } else  {
+    } else {
       errorInfo.status = error.status;
       errorInfo.message = error.message ?? error.toString();
       errorInfo.details = error.error ?? null;

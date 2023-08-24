@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Constants } from 'utils/Constants';
 
 import { ActionResponse, BillingAccountDataResult, Ordering, Paging } from '../types/DataResult';
-import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, CarConnectorConnectionType, CarConnectorSettings, CarConnectorSettingsType, CryptoSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, SettingDB, SmartChargingSettings, SmartChargingSettingsType, TechnicalSettings, UserSettings, UserSettingsType } from '../types/Setting';
+import { AnalyticsSettings, AssetConnectionType, AssetSettings, AssetSettingsType, BillingSettings, BillingSettingsType, CarConnectorConnectionType, CarConnectorSettings, CarConnectorSettingsType, CryptoSettings, PricingSettings, PricingSettingsType, RefundSettings, RefundSettingsType, RoamingSettings, ScanPaySettings, ScanPaySettingsType, SmartChargingSettings, SmartChargingSettingsType, TechnicalSettings, UserSettings, UserSettingsType } from '../types/Setting';
 import { TenantComponents } from '../types/Tenant';
+import { Constants } from '../utils/Constants';
 import { Utils } from '../utils/Utils';
 import { CentralServerService } from './central-server.service';
 
@@ -81,6 +81,15 @@ export class ComponentService {
     delete settingsToSave.content.sensitiveData;
     // Save
     return this.centralServerService.updateSetting(settingsToSave);
+  }
+
+  public saveScanPaySettings(settings: ScanPaySettings): Observable<ActionResponse> {
+    // Check the type
+    if (!settings.type) {
+      settings.type = ScanPaySettingsType.SCAN_PAY;
+    }
+    // Save
+    return this.centralServerService.updateSetting(settings);
   }
 
   public saveBillingSettings(settings: BillingSettings): Observable<ActionResponse> {
@@ -262,6 +271,21 @@ export class ComponentService {
       this.centralServerService.getBillingSettings().subscribe({
         next: (billingSettings) => {
           observer.next(billingSettings);
+          observer.complete();
+        },
+        error: (error) => {
+          observer.error(error);
+        }
+      });
+    });
+  }
+
+  public getScanPaySettings(): Observable<ScanPaySettings> {
+    return new Observable((observer) => {
+      // Get the Scan & Pay settings
+      this.centralServerService.getSetting(TenantComponents.SCAN_PAY).subscribe({
+        next: (settings) => {
+          observer.next(settings as ScanPaySettings);
           observer.complete();
         },
         error: (error) => {

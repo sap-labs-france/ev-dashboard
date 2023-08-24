@@ -233,6 +233,7 @@ export enum ChargingStationButtonAction {
   SAVE_OCPP_PARAMETER = 'save_ocpp_parameter',
   NAVIGATE_TO_CHARGING_PLANS = 'navigate_to_charging_plans',
   GENERATE_QR_CODE = 'generate_qr_code',
+  GENERATE_QR_CODE_SCAN_PAY = 'generate_qr_code_scan_pay',
   NAVIGATE_TO_SITE_AREA = 'navigate_to_site_area'
 }
 

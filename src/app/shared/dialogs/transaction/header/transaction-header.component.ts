@@ -15,6 +15,7 @@ export class TransactionHeaderComponent implements OnChanges {
   @Input() public transaction: Transaction;
   @Input() public loggedUserImage: string;
   @Input() public carImage: string;
+  @Input() public scanPay?: boolean;
 
   public isCarComponentActive = false;
   public canDisplayCar = false;

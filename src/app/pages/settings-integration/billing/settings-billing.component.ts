@@ -1,26 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { StatusCodes } from 'http-status-codes';
-import { SettingAuthorizationActions } from 'types/Authorization';
 
 import { CentralServerService } from '../../../services/central-server.service';
 import { ComponentService } from '../../../services/component.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
+import { SettingAuthorizationActions } from '../../../types/Authorization';
 import { ButtonAction, RestResponse } from '../../../types/GlobalType';
-import { BillingSetting, BillingSettings, BillingSettingsType, StripeBillingSetting } from '../../../types/Setting';
+import { BillingSetting, BillingSettings, BillingSettingsType, ScanPaySettings, StripeBillingSetting } from '../../../types/Setting';
 import { TenantComponents } from '../../../types/Tenant';
 import { Utils } from '../../../utils/Utils';
+import { SettingsScanPayComponent } from './scan-pay/settings-scan-pay.component';
 
 @Component({
   selector: 'app-settings-billing',
   templateUrl: 'settings-billing.component.html',
 })
 export class SettingsBillingComponent implements OnInit {
+  @ViewChild('settingsScanPayComponent') public settingsScanPayComponent!: SettingsScanPayComponent;
+
   public isBillingActive = false;
+  public isPricingActive = false;
+  public isScanPayActive = false;
   public authorizations: SettingAuthorizationActions;
   public isBillingPlatformActive = false;
   public isBillingTransactionEnabled = false;
@@ -28,6 +33,7 @@ export class SettingsBillingComponent implements OnInit {
 
   public formGroup!: FormGroup;
   public billingSettings!: BillingSettings;
+  public scanPaySettings!: ScanPaySettings;
   public transactionBillingActivated: boolean; // ##CR - reverting some changes
   public isClearTestDataVisible = false;
 
@@ -42,6 +48,8 @@ export class SettingsBillingComponent implements OnInit {
   ) {
     this.isBillingActive = this.componentService.isActive(TenantComponents.BILLING);
     this.isBillingPlatformActive = this.componentService.isActive(TenantComponents.BILLING_PLATFORM);
+    this.isPricingActive = this.componentService.isActive(TenantComponents.PRICING);
+    this.isScanPayActive = this.componentService.isActive(TenantComponents.SCAN_PAY);
   }
 
   public ngOnInit(): void {
@@ -49,11 +57,11 @@ export class SettingsBillingComponent implements OnInit {
     this.formGroup = new FormGroup({});
     // Load the conf
     if (this.isBillingActive) {
-      this.loadConfiguration();
+      this.loadBillingConfiguration();
     }
   }
 
-  public loadConfiguration() {
+  public loadBillingConfiguration() {
     this.spinnerService.show();
     this.componentService.getBillingSettings().subscribe({
       next: (settings) => {
@@ -63,6 +71,7 @@ export class SettingsBillingComponent implements OnInit {
           canUpdate: Utils.convertToBoolean(settings.canUpdate),
           canCheckBillingConnection: Utils.convertToBoolean(settings.canCheckBillingConnection),
           canActivateBilling: Utils.convertToBoolean(settings.canUpdate), // Using update auth
+          canSetScanPayAmount: Utils.convertToBoolean(settings.canUpdate), // Using update auth
         };
         // Keep
         this.billingSettings = settings;
@@ -123,10 +132,12 @@ export class SettingsBillingComponent implements OnInit {
         }
       }
     });
+    this.settingsScanPayComponent.save(newSettings);
   }
 
   public refresh() {
-    this.loadConfiguration();
+    this.loadBillingConfiguration();
+    this.settingsScanPayComponent.loadScanPayConfiguration();
   }
 
   public checkConnection(activateTransactionBilling = false) {

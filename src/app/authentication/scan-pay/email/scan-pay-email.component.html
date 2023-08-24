@@ -1,0 +1,74 @@
+<div class="wrapper wrapper-full-page">
+  <div class="page-header login-page header-filter" filter-color="black">
+    <div class="container">
+      <div class="col-lg-6 ms-auto me-auto">
+        <form class="form" [formGroup]="formGroup">
+          <div class="card card-login card-hidden">
+            <div class="card-header {{headerClass}} text-center h-25">
+              <div class="social-line">
+                <div style="height: 125px; display: contents; margin: 5px;">
+                  <h4 class="mb2 card-title text-center" style="padding: 10px;">{{title | translate}}</h4>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h4 class="mb2 card-title text-center" style="padding: 10px;" *ngIf="isSendClicked">{{message | translate}}</h4>
+              <span *ngIf="!isSendClicked" class="bmd-form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <mat-icon>email</mat-icon>
+                      <mat-form-field class="ms-2">
+                        <input appAutofocus matInput type="text" placeholder="{{'authentication.email' | translate}}"
+                          [formControl]="email">
+                        <mat-error *ngIf="email.errors?.email">{{"authentication.invalid_email" | translate}}</mat-error>
+                        <mat-error *ngIf="email.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      </mat-form-field>
+                    </span>
+                  </div>
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <mat-icon>account_circle</mat-icon>
+                      <mat-form-field class="ms-2">
+                        <input id="last-name-field" matInput type="text" placeholder="{{'users.name' | translate}}"
+                          [formControl]="name" (input)="toUpperCase(name)">
+                          <mat-error *ngIf="name.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                      </mat-form-field>
+                    </span>
+                  </div>
+                  <div class="input-group-prepend input-group-no-icon">
+                    <mat-form-field class="ms-2">
+                      <input id="first-name-field" matInput type="text" placeholder="{{'users.first_name' | translate}}"
+                        [formControl]="firstName" (input)="firstLetterToUpperCase(firstName)">
+                        <mat-error *ngIf="firstName.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="recaptcha-text">
+                  {{"general.captcha_text_1" | translate}}
+                  <a href="https://policies.google.com/privacy"
+                    target="_blank">{{"general.captcha_text_2" | translate}}</a>{{"general.captcha_text_3" | translate}}
+                  <a href="https://policies.google.com/terms"
+                    target="_blank">{{"general.captcha_text_4" | translate}}</a>{{"general.captcha_text_5" | translate}}.
+                </div>
+                <div class="input-group-prepend text-center mt-3 ms-2">
+                  <mat-checkbox [formControl]="acceptEula" required>
+                    <span id="eula-checkbox" class="adapt-font-size">{{'authentication.accept' | translate}} </span>
+                    <a class="auth-link" href="/auth/eula" target="_blank">
+                      <span class="adapt-font-size">{{'authentication.eula' | translate}}</span>
+                    </a>
+                  </mat-checkbox>
+                </div>
+              </span>
+            </div>
+            <div class="card-footer justify-content-center mb-4" *ngIf="!isSendClicked">
+              <button mat-raised-button color="primary" (click)="sendEmailVerificationScanAndPay(formGroup.value)"
+                [disabled]="!formGroup.valid || isSendClicked">{{"settings.scan_pay.payment_intent.create_account_send_email" | translate}}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

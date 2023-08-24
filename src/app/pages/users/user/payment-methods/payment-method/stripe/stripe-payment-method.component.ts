@@ -145,7 +145,7 @@ export class StripePaymentMethodComponent implements OnInit {
       this.isSaveClicked = false;
     } else {
       // Operation succeeded
-      this.messageService.showSuccessMessage('settings.billing.payment_methods_create_success', { last4: operationResult.internalData.card.last4 });
+      this.messageService.showSuccessMessage('settings.billing.payment_methods_create_success');
       this.close(true);
     }
   }
@@ -192,7 +192,6 @@ export class StripePaymentMethodComponent implements OnInit {
     try {
       this.spinnerService.show();
       const response: BillingOperationResult = await this.centralServerService.setupPaymentMethod({
-        setupIntentId: operationResult.setupIntent?.id,
         paymentMethodId: operationResult.setupIntent?.payment_method,
         userID: this.userID
       }).toPromise();

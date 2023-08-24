@@ -292,6 +292,7 @@ export interface SiteAreaAuthorizationActions extends AuthorizationActions {
   canReadChargingStations?: boolean;
   canExportOCPPParams?: boolean;
   canGenerateQrCode?: boolean;
+  canGenerateQrCodeScanPay?: boolean;
 }
 
 export interface SitesAuthorizations extends AuthorizationAttributes, SitesAuthorizationActions {
@@ -306,6 +307,7 @@ export interface SiteAuthorizationActions extends AuthorizationActions {
   canListSiteUsers?: boolean;
   canExportOCPPParams?: boolean;
   canGenerateQrCode?: boolean;
+  canGenerateQrCodeScanPay?: boolean;
   canMaintainPricingDefinitions?: boolean;
 }
 
@@ -394,6 +396,7 @@ export interface ChargingStationAuthorizationActions extends AuthorizationAction
   canUnlockConnector?: boolean;
   canDataTransfer?: boolean;
   canGenerateQrCode?: boolean;
+  canGenerateQrCodeScanPay?: boolean;
   canMaintainPricingDefinitions?: boolean;
   canUpdateOCPPParams?: boolean;
   canLimitPower?: boolean;
@@ -448,6 +451,7 @@ export interface SettingAuthorizationActions extends AuthorizationActions {
   canActivateBilling?: boolean;
   canCheckSmartChargingConnection?: boolean;
   canCheckAssetConnection?: boolean;
+  canSetScanPayAmount?: boolean;
 }
 
 export interface OcpiEndpointsAuthorizations extends AuthorizationAttributes, OcpiEndpointsAuthorizationActions {

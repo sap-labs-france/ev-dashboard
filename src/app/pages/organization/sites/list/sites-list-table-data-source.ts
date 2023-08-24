@@ -3,38 +3,39 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { ComponentService } from 'services/component.service';
-import { PricingDefinitionsDialogComponent } from 'shared/pricing-definitions/pricing-definitions.dialog.component';
-import { TableSiteGenerateQrCodeConnectorAction, TableSiteGenerateQrCodeConnectorsActionDef } from 'shared/table/actions/sites/table-site-generate-qr-code-connector-action';
-import { TableViewPricingDefinitionsAction, TableViewPricingDefinitionsActionDef } from 'shared/table/actions/table-view-pricing-definitions-action';
-import { SitesAuthorizations } from 'types/Authorization';
-import { PricingButtonAction, PricingEntity } from 'types/Pricing';
-import { TenantComponents } from 'types/Tenant';
 
 import { CentralServerService } from '../../../../services/central-server.service';
+import { ComponentService } from '../../../../services/component.service';
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
+import { PricingDefinitionsDialogComponent } from '../../../../shared/pricing-definitions/pricing-definitions.dialog.component';
 import { TableExportOCPPParamsAction, TableExportOCPPParamsActionDef } from '../../../../shared/table/actions/charging-stations/table-export-ocpp-params-action';
 import { TableAssignUsersToSiteAction, TableAssignUsersToSiteActionDef } from '../../../../shared/table/actions/sites/table-assign-users-to-site-action';
 import { TableViewAssignedUsersOfSiteAction, TableViewAssignedUsersOfSiteActionDef } from '../../../../shared/table/actions/sites/table-assign-view-users-of-site-action';
 import { TableCreateSiteAction, TableCreateSiteActionDef } from '../../../../shared/table/actions/sites/table-create-site-action';
 import { TableDeleteSiteAction, TableDeleteSiteActionDef } from '../../../../shared/table/actions/sites/table-delete-site-action';
 import { TableEditSiteAction, TableEditSiteActionDef } from '../../../../shared/table/actions/sites/table-edit-site-action';
+import { TableSiteGenerateQrCodeConnectorAction, TableSiteGenerateQrCodeConnectorsActionDef } from '../../../../shared/table/actions/sites/table-site-generate-qr-code-connector-action';
+import { TableSiteGenerateQrCodeScanPayConnectorAction, TableSiteGenerateQrCodeScanPayConnectorsActionDef } from '../../../../shared/table/actions/sites/table-site-generate-qr-code-scan-pay-connector-action';
 import { TableViewSiteAction, TableViewSiteActionDef } from '../../../../shared/table/actions/sites/table-view-site-action';
 import { TableAutoRefreshAction } from '../../../../shared/table/actions/table-auto-refresh-action';
 import { TableMoreAction } from '../../../../shared/table/actions/table-more-action';
 import { TableOpenInMapsAction } from '../../../../shared/table/actions/table-open-in-maps-action';
 import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
+import { TableViewPricingDefinitionsAction, TableViewPricingDefinitionsActionDef } from '../../../../shared/table/actions/table-view-pricing-definitions-action';
 import { CompanyTableFilter } from '../../../../shared/table/filters/company-table-filter';
 import { IssuerFilter } from '../../../../shared/table/filters/issuer-filter';
 import { TableDataSource } from '../../../../shared/table/table-data-source';
+import { SitesAuthorizations } from '../../../../types/Authorization';
 import { ChargingStationButtonAction } from '../../../../types/ChargingStation';
 import { DataResult } from '../../../../types/DataResult';
 import { ButtonAction } from '../../../../types/GlobalType';
+import { PricingButtonAction, PricingEntity } from '../../../../types/Pricing';
 import { Site, SiteButtonAction } from '../../../../types/Site';
 import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../types/Table';
+import { TenantComponents } from '../../../../types/Tenant';
 import { User } from '../../../../types/User';
 import { Utils } from '../../../../utils/Utils';
 import { SiteUsersDialogComponent } from '../site-users/site-users-dialog.component';
@@ -43,6 +44,7 @@ import { SiteDialogComponent } from '../site/site-dialog.component';
 @Injectable()
 export class SitesListTableDataSource extends TableDataSource<Site> {
   private readonly isPricingComponentActive: boolean;
+  private readonly isScanPayComponentActive: boolean;
   private editAction = new TableEditSiteAction().getActionDef();
   private assignUsersToSite = new TableAssignUsersToSiteAction().getActionDef();
   private viewUsersOfSite = new TableViewAssignedUsersOfSiteAction().getActionDef();
@@ -50,6 +52,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
   private viewAction = new TableViewSiteAction().getActionDef();
   private exportOCPPParamsAction = new TableExportOCPPParamsAction().getActionDef();
   private siteGenerateQrCodeConnectorAction = new TableSiteGenerateQrCodeConnectorAction().getActionDef();
+  private siteGenerateQrCodeScanPayConnectorAction = new TableSiteGenerateQrCodeScanPayConnectorAction().getActionDef();
   private createAction = new TableCreateSiteAction().getActionDef();
   private maintainPricingDefinitionsAction = new TableViewPricingDefinitionsAction().getActionDef();
   private companyFilter: TableFilterDef;
@@ -68,6 +71,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     private componentService: ComponentService) {
     super(spinnerService, translateService);
     this.isPricingComponentActive = this.componentService.isActive(TenantComponents.PRICING);
+    this.isScanPayComponentActive = this.componentService.isActive(TenantComponents.SCAN_PAY);
     this.setStaticFilters([{ WithCompany: true }]);
     this.initDataSource();
   }
@@ -228,6 +232,9 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     if (site.canGenerateQrCode) {
       moreActions.addActionInMoreActions(this.siteGenerateQrCodeConnectorAction);
     }
+    if (this.isScanPayComponentActive && site.canGenerateQrCodeScanPay) {
+      moreActions.addActionInMoreActions(this.siteGenerateQrCodeScanPayConnectorAction);
+    }
     moreActions.addActionInMoreActions(openInMaps);
     if (site.canDelete) {
       moreActions.addActionInMoreActions(this.deleteAction);
@@ -248,6 +255,7 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
     }
   }
 
+  // eslint-disable-next-line complexity
   public rowActionTriggered(actionDef: TableActionDef, site: Site) {
     switch (actionDef.id) {
       case SiteButtonAction.EDIT_SITE:
@@ -296,6 +304,14 @@ export class SitesListTableDataSource extends TableDataSource<Site> {
       case ChargingStationButtonAction.GENERATE_QR_CODE:
         if (actionDef.action) {
           (actionDef as TableSiteGenerateQrCodeConnectorsActionDef).action(
+            site, this.translateService, this.spinnerService,
+            this.messageService, this.centralServerService, this.router
+          );
+        }
+        break;
+      case ChargingStationButtonAction.GENERATE_QR_CODE_SCAN_PAY:
+        if (actionDef.action) {
+          (actionDef as TableSiteGenerateQrCodeScanPayConnectorsActionDef).action(
             site, this.translateService, this.spinnerService,
             this.messageService, this.centralServerService, this.router
           );

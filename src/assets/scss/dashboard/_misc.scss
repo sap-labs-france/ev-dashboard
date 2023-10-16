@@ -1,11 +1,11 @@
-@import "../core/misc";
+@import '../core/misc';
 
-@keyframes spin{
-  0%{
-      transform:rotate(0)
+@keyframes spin {
+  0% {
+    transform: rotate(0);
   }
-  100%{
-      transform:rotate(360deg)
+  100% {
+    transform: rotate(360deg);
   }
 }
 
@@ -13,7 +13,10 @@
   padding: 8px 8px 0 8px;
 }
 
-.mat-form-field, .mat-select-content, .mat-select, .mat-option {
+.mat-form-field,
+.mat-select-content,
+.mat-select,
+.mat-option {
   font-size: $font-size-sm !important;
   width: 100%;
 }
@@ -43,15 +46,16 @@
   height: 150px;
   margin: -75px 0 0 -75px;
   border-radius: 50%;
-  box-shadow: 0 3px 3px 0 rgba(255,56,106,1);
-  transform: translate3d(0,0,0);
-  animation: spin 2s linear infinite
+  box-shadow: 0 3px 3px 0 rgba(255, 56, 106, 1);
+  transform: translate3d(0, 0, 0);
+  animation: spin 2s linear infinite;
 }
 
-.spinner div:first-child:after,.spinner div:first-child:before {
+.spinner div:first-child:after,
+.spinner div:first-child:before {
   content: '';
   position: absolute;
-  border-radius: 50%
+  border-radius: 50%;
 }
 
 .spinner div:first-child:before {
@@ -61,7 +65,7 @@
   bottom: 5px;
   box-shadow: 0 3px 3px 0 rgb(255, 228, 32);
   -webkit-animation: spin 3s linear infinite;
-  animation: spin 3s linear infinite
+  animation: spin 3s linear infinite;
 }
 
 .spinner div:first-child:after {
@@ -69,8 +73,8 @@
   left: 15px;
   right: 15px;
   bottom: 15px;
-  box-shadow: 0 3px 3px 0 rgba(61, 175, 255,1);
-  animation: spin 1.5s linear infinite
+  box-shadow: 0 3px 3px 0 rgba(61, 175, 255, 1);
+  animation: spin 1.5s linear infinite;
 }
 
 a {
@@ -82,7 +86,8 @@ a {
   }
 
   &.text-info {
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       color: darken($brand-info, 5%);
     }
   }
@@ -92,7 +97,7 @@ a {
   }
 }
 
-a[data-toggle="collapse"][aria-expanded="true"] .caret,
+a[data-toggle='collapse'][aria-expanded='true'] .caret,
 .dropdown.open .caret,
 .dropup.open .caret,
 .btn-group.bootstrap-select.open .caret {
@@ -102,6 +107,6 @@ a[data-toggle="collapse"][aria-expanded="true"] .caret,
 .caret,
 .bootstrap-tagsinput .tag,
 .sidebar a,
-.bootstrap-tagsinput [data-role="remove"] {
+.bootstrap-tagsinput [data-role='remove'] {
   @include transition-all($fast-transition-time, $transition-ease-in);
 }

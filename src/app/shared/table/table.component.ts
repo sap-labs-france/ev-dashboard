@@ -1,4 +1,14 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatFormField } from '@angular/material/form-field';
@@ -15,7 +25,15 @@ import { LocaleService } from '../../services/locale.service';
 import { SpinnerService } from '../../services/spinner.service';
 import { WindowService } from '../../services/window.service';
 import { ButtonAction } from '../../types/GlobalType';
-import { DropdownItem, FilterType, TableActionDef, TableColumnDef, TableData, TableEditType, TableFilterDef } from '../../types/Table';
+import {
+  DropdownItem,
+  FilterType,
+  TableActionDef,
+  TableColumnDef,
+  TableData,
+  TableEditType,
+  TableFilterDef,
+} from '../../types/Table';
 import { Constants } from '../../utils/Constants';
 import { Utils } from '../../utils/Utils';
 import { TableDataSource } from './table-data-source';
@@ -53,7 +71,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     public spinnerService: SpinnerService,
     protected localService: LocaleService,
     public windowService: WindowService,
-    private dialog: MatDialog) {
+    private dialog: MatDialog
+  ) {
     // Set placeholder
     this.searchPlaceholder = this.translateService.instant('general.search');
     this.refreshIntervalSecs = this.configService.getCentralSystemServer().pollIntervalSecs;
@@ -71,9 +90,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         this.dataSource.setSort(this.sort);
         // Compute number of columns
-        this.numberOfColumns = this.dataSource.tableColumnsDef.length +
-          (this.dataSource.tableDef.rowDetails && this.dataSource.tableDef.rowDetails.enabled ? 1 : 0) +
-          (this.dataSource.tableDef.rowSelection && this.dataSource.tableDef.rowSelection.enabled ? 1 : 0) +
+        this.numberOfColumns =
+          this.dataSource.tableColumnsDef.length +
+          (this.dataSource.tableDef.rowDetails && this.dataSource.tableDef.rowDetails.enabled
+            ? 1
+            : 0) +
+          (this.dataSource.tableDef.rowSelection && this.dataSource.tableDef.rowSelection.enabled
+            ? 1
+            : 0) +
           (this.dataSource.hasRowActions ? 1 : 0);
       }
     }
@@ -84,19 +108,25 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       this.alive = true;
       // Init Search
-      if (this.dataSource.tableDef && this.dataSource.tableDef.search && this.dataSource.tableDef.search.enabled) {
+      if (
+        this.dataSource.tableDef &&
+        this.dataSource.tableDef.search &&
+        this.dataSource.tableDef.search.enabled
+      ) {
         // Init initial value
         this.searchInput.nativeElement.value = this.dataSource.getSearchValue();
         // Observe the Search field
-        fromEvent(this.searchInput.nativeElement, 'input').pipe(
-          takeWhile(() => this.alive),
-          map((e: KeyboardEvent) => e.target['value']),
-          debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
-          distinctUntilChanged(),
-        ).subscribe((text: string) => {
-          this.dataSource.setSearchValue(text);
-          this.refresh();
-        });
+        fromEvent(this.searchInput.nativeElement, 'input')
+          .pipe(
+            takeWhile(() => this.alive),
+            map((e: KeyboardEvent) => e.target['value']),
+            debounceTime(this.configService.getAdvanced().debounceTimeSearchMillis),
+            distinctUntilChanged()
+          )
+          .subscribe((text: string) => {
+            this.dataSource.setSearchValue(text);
+            this.refresh();
+          });
       }
       // Search for Auto-Refresh
       for (const tableActionRightDef of this.dataSource.tableActionsRightDef) {
@@ -144,7 +174,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     if (currentValue?.startDate !== event.startDate || currentValue?.endDate !== event.endDate) {
       filterDef.currentValue = {
         startDate: event?.startDate.toDate(),
-        endDate: event?.endDate.toDate()
+        endDate: event?.endDate.toDate(),
       };
       for (const picker of this.datePickers) {
         picker.picker.updateCalendars();
@@ -157,8 +187,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   public dateRangeChangedDirectly(parent: MatFormField, filterDef: TableFilterDef) {
     let startDate;
     let endDate;
-    const parentHTMLElement = (parent.getConnectedOverlayOrigin().nativeElement as HTMLElement);
-    for(const picker of this.datePickers) {
+    const parentHTMLElement = parent.getConnectedOverlayOrigin().nativeElement as HTMLElement;
+    for (const picker of this.datePickers) {
       if (parentHTMLElement.contains(picker.picker.pickerContainer.nativeElement as HTMLElement)) {
         startDate = picker.picker.startDate;
         endDate = picker.picker.endDate;
@@ -166,13 +196,13 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.dateRangeChanged(filterDef, {
       startDate,
-      endDate
+      endDate,
     });
   }
 
   public openDateTimeRangePicker(parent: MatFormField, filterDef: TableFilterDef) {
     filterDef.dateRangeTableFilterDef.updateRanges();
-    const parentHTMLElement = (parent.getConnectedOverlayOrigin().nativeElement as HTMLElement);
+    const parentHTMLElement = parent.getConnectedOverlayOrigin().nativeElement as HTMLElement;
     for (const picker of this.datePickers) {
       // Close any other open pickers
       if (parentHTMLElement.contains(picker.picker.pickerContainer.nativeElement as HTMLElement)) {
@@ -216,11 +246,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     if (tableColumnDef.sortable) {
       if (this.sort.active === tableColumnDef.id) {
         // Reverse Sort
-        this.sort.direction = (this.sort.direction === 'asc' ? 'desc' : 'asc');
+        this.sort.direction = this.sort.direction === 'asc' ? 'desc' : 'asc';
       } else {
         // Initial Sort
         this.sort.active = tableColumnDef.id;
-        this.sort.direction = (tableColumnDef.direction ? tableColumnDef.direction : 'asc');
+        this.sort.direction = tableColumnDef.direction ? tableColumnDef.direction : 'asc';
       }
       this.refresh();
     }
@@ -237,8 +267,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public resetDialogTableFilter(filterDef: TableFilterDef) {
     let filterIsChanged = false;
-    if ((filterDef.type === FilterType.DIALOG_TABLE ||
-      filterDef.type === FilterType.DROPDOWN) && filterDef.multiple) {
+    if (
+      (filterDef.type === FilterType.DIALOG_TABLE || filterDef.type === FilterType.DROPDOWN) &&
+      filterDef.multiple
+    ) {
       if (!Utils.isEmptyArray(filterDef.currentValue)) {
         filterDef.currentValue = [];
         filterIsChanged = true;
@@ -273,12 +305,15 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Show
     const dialogRef = this.dialog.open(filterDef.dialogComponent, dialogConfig);
     // Add sites
-    dialogRef.afterClosed().pipe(takeWhile(() => this.alive)).subscribe((data) => {
-      if (data) {
-        filterDef.currentValue = data;
-        this.filterChanged(filterDef);
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeWhile(() => this.alive))
+      .subscribe((data) => {
+        if (data) {
+          filterDef.currentValue = data;
+          this.filterChanged(filterDef);
+        }
+      });
   }
 
   public toggleAutoRefresh({ checked }) {
@@ -311,7 +346,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
         },
         error: (error) => {
           refreshDone();
-        }
+        },
       });
     }
   }
@@ -323,7 +358,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     this.refresh();
   }
 
-  public resetSearchFilter(){
+  public resetSearchFilter() {
     this.searchInput.nativeElement.value = '';
     this.dataSource.setSearchValue('');
     this.refresh();
@@ -376,7 +411,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       error: (error) => {
         loadingDone();
-      }
+      },
     });
   }
 
@@ -384,17 +419,24 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     // Already Expanded
     if (!row.isExpanded) {
       // Already Loaded
-      if (this.dataSource && this.dataSource.tableDef && this.dataSource.tableDef.rowDetails
-        && this.dataSource.tableDef.rowDetails.enabled
-        && this.dataSource.tableDef.rowDetails.detailsField
-        && !row[this.dataSource.tableDef.rowDetails.detailsField]) {
+      if (
+        this.dataSource &&
+        this.dataSource.tableDef &&
+        this.dataSource.tableDef.rowDetails &&
+        this.dataSource.tableDef.rowDetails.enabled &&
+        this.dataSource.tableDef.rowDetails.detailsField &&
+        !row[this.dataSource.tableDef.rowDetails.detailsField]
+      ) {
         // No: Load details from data source
-        this.dataSource.getRowDetails(row).pipe(takeWhile(() => this.alive)).subscribe((details) => {
-          // Set details
-          row[this.dataSource.tableDef.rowDetails.detailsField] = details;
-          // No: Expand it!
-          row.isExpanded = true;
-        });
+        this.dataSource
+          .getRowDetails(row)
+          .pipe(takeWhile(() => this.alive))
+          .subscribe((details) => {
+            // Set details
+            row[this.dataSource.tableDef.rowDetails.detailsField] = details;
+            // No: Expand it!
+            row.isExpanded = true;
+          });
       } else {
         // Yes: Expand it!
         row.isExpanded = true;
@@ -406,7 +448,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private createAutoRefresh() {
-    if (!this.autoRefreshTimeout && this.refreshIntervalSecs && this.tableActionAutoRefresh?.currentValue) {
+    if (
+      !this.autoRefreshTimeout &&
+      this.refreshIntervalSecs &&
+      this.tableActionAutoRefresh?.currentValue
+    ) {
       // Create the timer
       this.autoRefreshTimeout = setTimeout(() => {
         if (this.alive && !this.loading && !this.ongoingRefresh) {

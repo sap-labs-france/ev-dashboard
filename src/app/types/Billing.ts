@@ -1,4 +1,8 @@
-import { BillingInvoiceAuthorizationActions, BillingPaymentMethodAuthorizationActions, BillingTransferAuthorizationActions } from './Authorization';
+import {
+  BillingInvoiceAuthorizationActions,
+  BillingPaymentMethodAuthorizationActions,
+  BillingTransferAuthorizationActions,
+} from './Authorization';
 import CreatedUpdatedProps from './CreatedUpdatedProps';
 import { BillingSettings } from './Setting';
 import { TableData } from './Table';
@@ -84,7 +88,7 @@ export interface PaymentDialogData extends TableData {
 export enum BillingAccountStatus {
   IDLE = 'idle',
   PENDING = 'pending',
-  ACTIVE = 'active'
+  ACTIVE = 'active',
 }
 
 export interface BillingPlatformFeeStrategy {
@@ -116,7 +120,7 @@ export enum BillingTransferStatus {
   DRAFT = 'draft',
   PENDING = 'pending',
   FINALIZED = 'finalized',
-  TRANSFERRED = 'transferred'
+  TRANSFERRED = 'transferred',
 }
 
 export interface BillingPlatformFeeData {
@@ -126,7 +130,10 @@ export interface BillingPlatformFeeData {
   invoiceExternalID?: string; // Invoice sent to the CPO
 }
 
-export interface BillingTransfer extends TableData, CreatedUpdatedProps, BillingTransferAuthorizationActions {
+export interface BillingTransfer
+  extends TableData,
+  CreatedUpdatedProps,
+  BillingTransferAuthorizationActions {
   id: string;
   status: BillingTransferStatus;
   sessionCounter: number; // Number of transactions
@@ -168,4 +175,3 @@ export enum TransferButtonAction {
   SEND_TRANSFER = 'send_transfer',
   DOWNLOAD_COMMISSION_INCOICE = 'download_commission_invoice',
 }
-

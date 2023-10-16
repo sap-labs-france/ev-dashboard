@@ -27,13 +27,11 @@ export class MessageService {
   `;
 
   // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    private translateService: TranslateService
-  ) {}
+  public constructor(private translateService: TranslateService) {}
 
   public showErrorMessageConnectionLost(): void {
     // Avoid multiple same messages when connection is lost during 5 secs
-    if ((new Date().getTime() - this.lastLostConnectionDate.getTime()) > 5000) {
+    if (new Date().getTime() - this.lastLostConnectionDate.getTime() > 5000) {
       this.showErrorMessage('general.backend_not_running');
       this.lastLostConnectionDate = new Date();
     }
@@ -47,11 +45,19 @@ export class MessageService {
     this.showMessage('info', message, title, params);
   }
 
-  public showWarningMessage(message: string, params?: Record<string, unknown>, title?: string): void {
+  public showWarningMessage(
+    message: string,
+    params?: Record<string, unknown>,
+    title?: string
+  ): void {
     this.showMessage('warning', message, title, params);
   }
 
-  public showSuccessMessage(message: string, params?: Record<string, unknown>, title?: string): void {
+  public showSuccessMessage(
+    message: string,
+    params?: Record<string, unknown>,
+    title?: string
+  ): void {
     this.showMessage('success', message, title, params);
   }
 
@@ -59,12 +65,21 @@ export class MessageService {
     this.showMessage('danger', message, title, params);
   }
 
-  public showActionsMessage(actionsResponse: ActionsResponse, messageSuccess: string, messageError: string,
-    messageSuccessAndError: string, messageNoSuccessNoError: string, displaySuccessAsInfo = false): void {
+  public showActionsMessage(
+    actionsResponse: ActionsResponse,
+    messageSuccess: string,
+    messageError: string,
+    messageSuccessAndError: string,
+    messageNoSuccessNoError: string,
+    displaySuccessAsInfo = false
+  ): void {
     // Success and Error
     if (actionsResponse.inSuccess > 0 && actionsResponse.inError > 0) {
-      this.showWarningMessage(messageSuccessAndError, { inSuccess: actionsResponse.inSuccess, inError: actionsResponse.inError });
-    // Success
+      this.showWarningMessage(messageSuccessAndError, {
+        inSuccess: actionsResponse.inSuccess,
+        inError: actionsResponse.inError,
+      });
+      // Success
     } else if (actionsResponse.inSuccess > 0) {
       if (displaySuccessAsInfo) {
         this.showInfoMessage(messageSuccess, { inSuccess: actionsResponse.inSuccess });
@@ -78,7 +93,15 @@ export class MessageService {
     }
   }
 
-  private showMessage(type: string, message: string, title = '', params?: Record<string, unknown>, from = 'top', align = 'right', icon = 'notifications') {
+  private showMessage(
+    type: string,
+    message: string,
+    title = '',
+    params?: Record<string, unknown>,
+    from = 'top',
+    align = 'right',
+    icon = 'notifications'
+  ) {
     let translatedMessage = this.translateService.instant(message, params);
     translatedMessage = $('<div/>').text(translatedMessage).html();
     $.notify(
@@ -98,7 +121,7 @@ export class MessageService {
         },
         z_index: 10000,
         template: this.messageTemplate,
-      },
+      }
     );
   }
 }

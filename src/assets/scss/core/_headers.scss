@@ -28,9 +28,8 @@
   .iframe-container {
     iframe {
       width: 100%;
-      box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56),
-      0 4px 25px 0px rgba(0, 0, 0, 0.12),
-      0 8px 10px -5px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12),
+        0 8px 10px -5px rgba(0, 0, 0, 0.2);
     }
   }
 }
@@ -47,11 +46,11 @@
     display: block;
     left: 0;
     top: 0;
-    content: "";
+    content: '';
   }
 
   &::before {
-    background: rgba(0, 0, 0, .3);
+    background: rgba(0, 0, 0, 0.3);
   }
 
   .container {

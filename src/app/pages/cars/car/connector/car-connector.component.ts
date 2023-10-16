@@ -37,19 +37,17 @@ export class CarConnectorComponent implements OnInit, OnChanges {
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private router: Router,
-    private componentService: ComponentService ) {
-  }
+    private componentService: ComponentService
+  ) {}
 
   public ngOnInit() {
     this.formGroup.addControl(
-      'carConnectorData', new UntypedFormGroup({
-        carConnectorID: new UntypedFormControl('',
-          Validators.compose([
-          ])),
-        carConnectorMeterID: new UntypedFormControl('',
-          Validators.compose([
-          ])),
-      }));
+      'carConnectorData',
+      new UntypedFormGroup({
+        carConnectorID: new UntypedFormControl('', Validators.compose([])),
+        carConnectorMeterID: new UntypedFormControl('', Validators.compose([])),
+      })
+    );
     this.carConnectorID = this.formGroup.get('carConnectorData.carConnectorID');
     this.carConnectorMeterID = this.formGroup.get('carConnectorData.carConnectorMeterID');
     this.initialized = true;
@@ -63,10 +61,12 @@ export class CarConnectorComponent implements OnInit, OnChanges {
 
   public loadCar() {
     if (this.initialized && this.car && this.carConnectorConnections) {
-      const foundCarConnectorConnection = this.carConnectorConnections.find((carConnectorConnection) =>
-        carConnectorConnection.id ===  this.car.carConnectorData?.carConnectorID);
+      const foundCarConnectorConnection = this.carConnectorConnections.find(
+        (carConnectorConnection) =>
+          carConnectorConnection.id === this.car.carConnectorData?.carConnectorID
+      );
       // Set
-      if(!Utils.isNullOrUndefined(foundCarConnectorConnection?.id)){
+      if (!Utils.isNullOrUndefined(foundCarConnectorConnection?.id)) {
         this.carConnectorID.setValue(foundCarConnectorConnection.id);
         this.carConnectorMeterID.setValue(this.car.carConnectorData?.carConnectorMeterID);
       } else {
@@ -92,7 +92,7 @@ export class CarConnectorComponent implements OnInit, OnChanges {
 
   public carConnectorChanged(event: MatSelectChange) {
     this.carConnectorID.setValue(event.value);
-    if(this.carConnectorID){
+    if (this.carConnectorID) {
       this.carConnectorMeterID.enable();
     } else {
       this.carConnectorMeterID.disable();
@@ -111,10 +111,15 @@ export class CarConnectorComponent implements OnInit, OnChanges {
             this.messageService.showErrorMessage('settings.car_connector.setting_not_found');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.unexpected_error_backend'
+            );
         }
-      }
+      },
     });
   }
 }

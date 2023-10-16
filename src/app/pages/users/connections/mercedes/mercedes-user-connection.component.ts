@@ -14,13 +14,13 @@ import { Utils } from '../../../../utils/Utils';
   templateUrl: 'mercedes-user-connection.component.html',
 })
 export class MercedesUserConnectionComponent extends AbstractTabComponent {
-
   public constructor(
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private router: Router,
     activatedRoute: ActivatedRoute,
-    windowService: WindowService) {
+    windowService: WindowService
+  ) {
     super(activatedRoute, windowService, [], false);
 
     if (this.activatedRoute.snapshot.queryParams['state']) {
@@ -36,31 +36,39 @@ export class MercedesUserConnectionComponent extends AbstractTabComponent {
       const payload = {
         userId: state.userId,
         connectorId: IntegrationConnectionType.MERCEDES,
-        data:
-          {
-            code: this.activatedRoute.snapshot.queryParams['code'],
-            redirectUri: this.windowService.getOrigin() + this.windowService.getPath(),
-          },
+        data: {
+          code: this.activatedRoute.snapshot.queryParams['code'],
+          redirectUri: this.windowService.getOrigin() + this.windowService.getPath(),
+        },
       };
       this.centralServerService.createIntegrationConnection(payload).subscribe({
         next: (response: ActionResponse) => {
           if (response.status === RestResponse.SUCCESS) {
             this.messageService.showSuccessMessage('settings.car_connector.mercedes.link_success');
           } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, 'settings.car_connector.mercedes.link_error');
+            Utils.handleError(
+              JSON.stringify(response),
+              this.messageService,
+              'settings.car_connector.mercedes.link_error'
+            );
           }
           void this.router.navigate(['/users/profile'], { fragment: 'connections' });
         },
         error: (error) => {
-          Utils.handleError(JSON.stringify(error),
-            this.messageService, 'settings.car_connector.mercedes.link_error');
+          Utils.handleError(
+            JSON.stringify(error),
+            this.messageService,
+            'settings.car_connector.mercedes.link_error'
+          );
           void this.router.navigate(['/users/profile'], { fragment: 'connections' });
-        }
+        },
       });
     } else if (this.activatedRoute.snapshot.queryParams['error']) {
-      Utils.handleError(this.activatedRoute.snapshot.queryParams['error'],
-        this.messageService, 'settings.car_connector.mercedes.link_error');
+      Utils.handleError(
+        this.activatedRoute.snapshot.queryParams['error'],
+        this.messageService,
+        'settings.car_connector.mercedes.link_error'
+      );
       void this.router.navigate(['/users/profile'], { fragment: 'connections' });
     }
   }

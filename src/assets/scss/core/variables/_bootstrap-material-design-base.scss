@@ -1,8 +1,11 @@
 $gray-lighter: rgba($brand-text, 0.12) !default;
 $gray-light: #999 !default;
-$gray-alpha: .54 !default;
+$gray-alpha: 0.54 !default;
 $gray: #555 !default; // spec color
-$brand-disabled: rgba($brand-text, 0.87) !default; // used for text color - others use grey-600 which is considerably lighter
+$brand-disabled: rgba(
+  $brand-text,
+  0.87
+) !default; // used for text color - others use grey-600 which is considerably lighter
 
 $bmd-font-weight-base: 400;
 
@@ -25,9 +28,9 @@ $border-radius-extreme: 30px !default;
 $mdb-font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif !default;
 $mdb-text-color-light: $brand-background !default;
 $mdb-text-color-light-hex: $brand-background !default; // for contrast function in inverse
-$mdb-text-color-primary: unquote("rgba($brand-text, 0.87)") !default;
-$mdb-text-color-primary-hex:$brand-text !default; // for contrast function in inverse
+$mdb-text-color-primary: unquote('rgba($brand-text, 0.87)') !default;
+$mdb-text-color-primary-hex: $brand-text !default; // for contrast function in inverse
 $icon-color: rgba(0, 0, 0, 0.5) !default;
 
-$mdb-label-color: unquote("rgba($brand-text, 0.26)") !default;
-$mdb-label-color-toggle-focus: unquote("rgba($brand-text, .54)") !default;
+$mdb-label-color: unquote('rgba($brand-text, 0.26)') !default;
+$mdb-label-color-toggle-focus: unquote('rgba($brand-text, .54)') !default;

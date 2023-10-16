@@ -36,7 +36,8 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
     private router: Router,
     private dialogService: DialogService,
     private spinnerService: SpinnerService,
-    private messageService: MessageService) {
+    private messageService: MessageService
+  ) {
     // Get translated messages
     this.translateService.get('chargers', {}).subscribe((messages) => {
       this.messages = messages;
@@ -48,44 +49,55 @@ export class ChargingStationFirmwareUpdateComponent implements OnInit {
   public ngOnInit() {
     // Init FormControl
     this.formGroup = new UntypedFormGroup({
-      url: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
+      url: new UntypedFormControl('', Validators.compose([Validators.required])),
     });
     this.url = this.formGroup.controls['url'];
     // Disable url if not authorized
-    if(!this.chargingStation.canUpdateFirmware) {
+    if (!this.chargingStation.canUpdateFirmware) {
       this.url.disable();
     }
   }
 
   public updateFirmware() {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('chargers.update_firmware_title'),
-      this.translateService.instant('chargers.update_firmware_confirm', { chargeBoxID: this.chargingStation.id }),
-    ).subscribe((result) => {
-      if (result === ButtonAction.YES) {
-        this.spinnerService.show();
-        this.centralServerService.chargingStationUpdateFirmware(this.chargingStation, this.url.value).subscribe({
-          next: () => {
-            this.spinnerService.hide();
-            this.messageService.showSuccessMessage(
-              this.translateService.instant('chargers.update_firmware_success', { chargeBoxID: this.chargingStation.id }));
-          },
-          error: (error) => {
-            this.spinnerService.hide();
-            switch (error.status) {
-              case StatusCodes.NOT_FOUND:
-                this.messageService.showErrorMessage(this.messages['update_firmware_error']);
-                break;
-              default:
-                Utils.handleHttpError(error, this.router, this.messageService,
-                  this.centralServerService, this.messages['update_firmware_error']);
-            }
-          }
-        });
-      }
-    });
+    this.dialogService
+      .createAndShowYesNoDialog(
+        this.translateService.instant('chargers.update_firmware_title'),
+        this.translateService.instant('chargers.update_firmware_confirm', {
+          chargeBoxID: this.chargingStation.id,
+        })
+      )
+      .subscribe((result) => {
+        if (result === ButtonAction.YES) {
+          this.spinnerService.show();
+          this.centralServerService
+            .chargingStationUpdateFirmware(this.chargingStation, this.url.value)
+            .subscribe({
+              next: () => {
+                this.spinnerService.hide();
+                this.messageService.showSuccessMessage(
+                  this.translateService.instant('chargers.update_firmware_success', {
+                    chargeBoxID: this.chargingStation.id,
+                  })
+                );
+              },
+              error: (error) => {
+                this.spinnerService.hide();
+                switch (error.status) {
+                  case StatusCodes.NOT_FOUND:
+                    this.messageService.showErrorMessage(this.messages['update_firmware_error']);
+                    break;
+                  default:
+                    Utils.handleHttpError(
+                      error,
+                      this.router,
+                      this.messageService,
+                      this.centralServerService,
+                      this.messages['update_firmware_error']
+                    );
+                }
+              },
+            });
+        }
+      });
   }
 }

@@ -16,7 +16,7 @@ export class ChargingStationTableFilter extends TableFilter {
       dialogComponent: ChargingStationsDialogComponent,
       multiple: true,
       cleared: true,
-      dependentFilters
+      dependentFilters,
     };
     // Set
     this.setFilterDef(filterDef);

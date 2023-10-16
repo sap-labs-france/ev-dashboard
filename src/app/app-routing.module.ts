@@ -10,26 +10,35 @@ import { Action, Entity } from './types/Authorization';
 
 const routes: Routes = [
   {
-    path: 'auth', component: AuthLayoutComponent,
-    loadChildren: async () => (await import('./authentication/authentication.module')).AuthenticationModule,
+    path: 'auth',
+    component: AuthLayoutComponent,
+    loadChildren: async () =>
+      (await import('./authentication/authentication.module')).AuthenticationModule,
   },
   {
-    path: 'verify-email', redirectTo: 'auth/verify-email', pathMatch: 'full',
+    path: 'verify-email',
+    redirectTo: 'auth/verify-email',
+    pathMatch: 'full',
   },
   {
-    path: 'define-password', redirectTo: 'auth/define-password', pathMatch: 'full',
+    path: 'define-password',
+    redirectTo: 'auth/define-password',
+    pathMatch: 'full',
   },
   {
-    path: '', component: AdminLayoutComponent,
+    path: '',
+    component: AdminLayoutComponent,
     children: [
       {
         path: '',
         redirectTo: 'charging-stations',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'charging-stations',
-        loadChildren: async () => (await import('./pages/charging-stations/charging-stations.module')).ChargingStationsModule,
+        loadChildren: async () =>
+          (await import('./pages/charging-stations/charging-stations.module'))
+            .ChargingStationsModule,
         data: {
           menu: {
             title: 'charging_stations',
@@ -44,8 +53,29 @@ const routes: Routes = [
         },
       },
       {
+        path: 'reservations',
+        loadChildren: async () =>
+          (await import('./pages/reservations/reservations.module')).ReservationsModule,
+        data: {
+          menu: {
+            title: 'reservations',
+            type: 'link',
+            icon: 'book',
+            path: '/reservations',
+          },
+          auth: {
+            entity: Entity.RESERVATION,
+            action: Action.LIST,
+          },
+          activeInSuperTenant: false,
+          displayInSuperTenant: false,
+          component: TenantComponents.RESERVATION,
+        },
+      },
+      {
         path: 'transactions',
-        loadChildren: async () => (await import('./pages/transactions/transactions.module')).TransactionsModule,
+        loadChildren: async () =>
+          (await import('./pages/transactions/transactions.module')).TransactionsModule,
         data: {
           menu: {
             title: 'transactions',
@@ -131,7 +161,9 @@ const routes: Routes = [
       },
       {
         path: 'charging-station-templates',
-        loadChildren: async () => (await import('./pages/charging-station-templates/charging-station-templates.module')).ChargingStationTemplatesModule,
+        loadChildren: async () =>
+          (await import('./pages/charging-station-templates/charging-station-templates.module'))
+            .ChargingStationTemplatesModule,
         data: {
           menu: {
             title: 'charging_station_templates',
@@ -183,7 +215,8 @@ const routes: Routes = [
       },
       {
         path: 'organization',
-        loadChildren: async () => (await import('./pages/organization/organization.module')).OrganizationModule,
+        loadChildren: async () =>
+          (await import('./pages/organization/organization.module')).OrganizationModule,
         data: {
           menu: {
             title: 'organization',
@@ -201,7 +234,8 @@ const routes: Routes = [
       },
       {
         path: 'statistics',
-        loadChildren: async () => (await import('./pages/statistics/statistics.module')).StatisticsModule,
+        loadChildren: async () =>
+          (await import('./pages/statistics/statistics.module')).StatisticsModule,
         data: {
           menu: {
             title: 'statistics',
@@ -218,7 +252,9 @@ const routes: Routes = [
       },
       {
         path: 'settings-integration',
-        loadChildren: async () => (await import('./pages/settings-integration/settings-integration.module')).SettingsIntegrationModule,
+        loadChildren: async () =>
+          (await import('./pages/settings-integration/settings-integration.module'))
+            .SettingsIntegrationModule,
         data: {
           menu: {
             title: 'integration_settings',
@@ -234,7 +270,9 @@ const routes: Routes = [
       },
       {
         path: 'settings-technical',
-        loadChildren: async () => (await import('./pages/settings-technical/settings-technical.module')).SettingsTechnicalModule,
+        loadChildren: async () =>
+          (await import('./pages/settings-technical/settings-technical.module'))
+            .SettingsTechnicalModule,
         data: {
           menu: {
             title: 'technical_settings',
@@ -265,23 +303,29 @@ const routes: Routes = [
         },
       },
       {
-        path: 'release-notes', component: ReleaseNotesComponent,
+        path: 'release-notes',
+        component: ReleaseNotesComponent,
       },
     ],
   },
   {
-    path: 'browser-not-supported', component: BrowserNotSupportedComponent,
+    path: 'browser-not-supported',
+    component: BrowserNotSupportedComponent,
   },
   {
-    path: '**', redirectTo: 'charging-stations', pathMatch: 'full',
+    path: '**',
+    redirectTo: 'charging-stations',
+    pathMatch: 'full',
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    useHash: false,
-    scrollPositionRestoration: 'enabled',
-  })],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(routes, {
+      useHash: false,
+      scrollPositionRestoration: 'enabled',
+    }),
+  ],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

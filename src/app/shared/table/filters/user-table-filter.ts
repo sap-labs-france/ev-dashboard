@@ -17,7 +17,7 @@ export class UserTableFilter extends TableFilter {
       dialogComponent: UsersDialogComponent,
       multiple: true,
       cleared: true,
-      dependentFilters
+      dependentFilters,
     };
     // Set
     this.setFilterDef(filterDef);

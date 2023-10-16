@@ -7,7 +7,10 @@ import { CentralServerService } from '../../../../services/central-server.servic
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
-import { ChargingStationButtonAction, OCPPGeneralResponse } from '../../../../types/ChargingStation';
+import {
+  ChargingStationButtonAction,
+  OCPPGeneralResponse,
+} from '../../../../types/ChargingStation';
 import { ActionResponse } from '../../../../types/DataResult';
 import { TableActionDef } from '../../../../types/Table';
 import { Transaction } from '../../../../types/Transaction';
@@ -15,10 +18,16 @@ import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
 export interface TableChargingStationsStopTransactionActionDef extends TableActionDef {
-  action: (transaction: Transaction,
-    dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
-    refresh?: () => Observable<void>) => void;
+  action: (
+    transaction: Transaction,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableChargingStationsStopTransactionAction implements TableAction {
@@ -36,52 +45,79 @@ export class TableChargingStationsStopTransactionAction implements TableAction {
     return this.action;
   }
 
-  private stopTransaction(transaction: Transaction,
-    dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
-    refresh?: () => Observable<void>) {
+  private stopTransaction(
+    transaction: Transaction,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) {
     // Get the charging station
     centralServerService.getChargingStation(transaction.chargeBoxID).subscribe({
       next: (chargingStation) => {
         if (chargingStation.issuer && !chargingStation.canStopTransaction) {
           dialogService.createAndShowOkDialog(
             translateService.instant('chargers.action_error.transaction_stop_title'),
-            translateService.instant('chargers.action_error.transaction_stop_not_authorized'));
+            translateService.instant('chargers.action_error.transaction_stop_not_authorized')
+          );
           return;
         }
         // Check authorization
-        dialogService.createAndShowYesNoDialog(
-          translateService.instant('chargers.stop_transaction_title'),
-          translateService.instant('chargers.stop_transaction_confirm', { chargeBoxID: chargingStation.id }),
-        ).subscribe((response) => {
-          if (response === ButtonAction.YES) {
-            // Stop
-            spinnerService.show();
-            centralServerService.stopTransaction(transaction.id).subscribe((res: ActionResponse) => {
-              spinnerService.hide();
-              if (res.status === OCPPGeneralResponse.ACCEPTED) {
-                messageService.showSuccessMessage(
-                  translateService.instant('chargers.stop_transaction_success',
-                    { chargeBoxID: transaction.chargeBoxID }));
-                if (refresh) {
-                  refresh().subscribe();
+        dialogService
+          .createAndShowYesNoDialog(
+            translateService.instant('chargers.stop_transaction_title'),
+            translateService.instant('chargers.stop_transaction_confirm', {
+              chargeBoxID: chargingStation.id,
+            })
+          )
+          .subscribe((response) => {
+            if (response === ButtonAction.YES) {
+              // Stop
+              spinnerService.show();
+              centralServerService.stopTransaction(transaction.id).subscribe(
+                (res: ActionResponse) => {
+                  spinnerService.hide();
+                  if (res.status === OCPPGeneralResponse.ACCEPTED) {
+                    messageService.showSuccessMessage(
+                      translateService.instant('chargers.stop_transaction_success', {
+                        chargeBoxID: transaction.chargeBoxID,
+                      })
+                    );
+                    if (refresh) {
+                      refresh().subscribe();
+                    }
+                  } else {
+                    messageService.showErrorMessage(
+                      translateService.instant('chargers.stop_transaction_error')
+                    );
+                  }
+                },
+                (error) => {
+                  spinnerService.hide();
+                  Utils.handleHttpError(
+                    error,
+                    router,
+                    messageService,
+                    centralServerService,
+                    'chargers.stop_transaction_error'
+                  );
                 }
-              } else {
-                messageService.showErrorMessage(
-                  translateService.instant('chargers.stop_transaction_error'));
-              }
-            }, (error) => {
-              spinnerService.hide();
-              Utils.handleHttpError(error, router, messageService,
-                centralServerService, 'chargers.stop_transaction_error');
-            });
-          }
-        });
+              );
+            }
+          });
       },
       error: (error) => {
-        Utils.handleHttpError(error, router, messageService,
-          centralServerService, 'chargers.charger_not_found');
-      }
+        Utils.handleHttpError(
+          error,
+          router,
+          messageService,
+          centralServerService,
+          'chargers.charger_not_found'
+        );
+      },
     });
   }
 }

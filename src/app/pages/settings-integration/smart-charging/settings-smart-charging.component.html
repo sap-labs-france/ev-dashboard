@@ -3,31 +3,45 @@
     <div class="card-icon">
       <mat-icon>info</mat-icon>
     </div>
-    <h3 class="card-title">{{'settings.information' | translate}}</h3>
+    <h3 class="card-title">{{ 'settings.information' | translate }}</h3>
   </div>
   <div class="card-body">
-    <div>{{'settings.smart_charging.description' | translate}}</div><br>
-    {{'settings.activation_contact_msg' | translate}}
+    <div>{{ 'settings.smart_charging.description' | translate }}</div>
+    <br />
+    {{ 'settings.activation_contact_msg' | translate }}
   </div>
 </div>
 <div *ngIf="isActive">
   <form class="form" [formGroup]="formGroup" height="100%">
     <div class="mat-toolbar-row left-actions">
-      <button mat-raised-button color="warn" (click)="save(formGroup.value)"
+      <button
+        mat-raised-button
+        color="warn"
+        (click)="save(formGroup.value)"
         [hidden]="!authorizations || !authorizations.canUpdate"
-        [disabled]="!formGroup.valid || !formGroup.dirty">
+        [disabled]="!formGroup.valid || !formGroup.dirty"
+      >
         <mat-icon>save</mat-icon>
-        <span>{{'general.save' | translate}}</span>
+        <span>{{ 'general.save' | translate }}</span>
       </button>
-      <button mat-raised-button color="primary" (click)="checkConnection()"
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="checkConnection()"
         [hidden]="!authorizations || !authorizations.canCheckSmartChargingConnection"
-        [disabled]="!formGroup.valid || formGroup.dirty">
+        [disabled]="!formGroup.valid || formGroup.dirty"
+      >
         <mat-icon>link</mat-icon>
-        <span>{{'settings.smart_charging.check_connection' | translate}}</span>
+        <span>{{ 'settings.smart_charging.check_connection' | translate }}</span>
       </button>
     </div>
     <!-- SAP Smart Charging -->
-    <app-settings-sap-smart-charging *ngIf="smartChargingSettings?.sapSmartCharging"
-      [smartChargingSettings]="smartChargingSettings" [formGroup]="formGroup" [authorizations]="authorizations"> </app-settings-sap-smart-charging>
+    <app-settings-sap-smart-charging
+      *ngIf="smartChargingSettings?.sapSmartCharging"
+      [smartChargingSettings]="smartChargingSettings"
+      [formGroup]="formGroup"
+      [authorizations]="authorizations"
+    >
+    </app-settings-sap-smart-charging>
   </form>
 </div>

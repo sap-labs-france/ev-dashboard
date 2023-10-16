@@ -7,7 +7,16 @@ import { first } from 'rxjs/operators';
 import { SpinnerService } from '../../services/spinner.service';
 import { DataResult, Ordering, Paging } from '../../types/DataResult';
 import { FilterParams } from '../../types/GlobalType';
-import { DropdownItem, FilterType, TableActionDef, TableColumnDef, TableData, TableDataSourceMode, TableDef, TableFilterDef } from '../../types/Table';
+import {
+  DropdownItem,
+  FilterType,
+  TableActionDef,
+  TableColumnDef,
+  TableData,
+  TableDataSourceMode,
+  TableDef,
+  TableFilterDef,
+} from '../../types/Table';
 import { Constants } from '../../utils/Constants';
 import { Utils } from '../../utils/Utils';
 import { TableResetFiltersAction } from './actions/table-reset-filters-action';
@@ -50,8 +59,8 @@ export abstract class TableDataSource<T extends TableData> {
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
-    public additionalParameters?: any) {
-  }
+    public additionalParameters?: any
+  ) {}
 
   public isRowSelectionEnabled(): boolean {
     return !!this.tableDef && !!this.tableDef.rowSelection && this.tableDef.rowSelection.enabled;
@@ -62,7 +71,11 @@ export abstract class TableDataSource<T extends TableData> {
   }
 
   public hasRowDetailsHideShowField(): boolean {
-    return !!this.tableDef && !!this.tableDef.rowDetails && Utils.objectHasProperty(this.tableDef.rowDetails, 'showDetailsField');
+    return (
+      !!this.tableDef &&
+      !!this.tableDef.rowDetails &&
+      Utils.objectHasProperty(this.tableDef.rowDetails, 'showDetailsField')
+    );
   }
 
   public isMultiSelectionEnabled(): boolean {
@@ -83,7 +96,11 @@ export abstract class TableDataSource<T extends TableData> {
 
   public setMultipleRowSelection(multipleRowSelection: boolean) {
     this.multipleRowSelection = multipleRowSelection;
-    if (this.tableDef && this.tableDef.rowSelection && !Utils.isUndefined(this.multipleRowSelection)) {
+    if (
+      this.tableDef &&
+      this.tableDef.rowSelection &&
+      !Utils.isUndefined(this.multipleRowSelection)
+    ) {
       this.tableDef.rowSelection.multiple = this.multipleRowSelection;
       if (!multipleRowSelection && this.selectedRows > 1) {
         this.clearSelectedRows();
@@ -96,7 +113,7 @@ export abstract class TableDataSource<T extends TableData> {
   }
 
   public hasSelectedRows(): boolean {
-    return (this.selectedRows > 0);
+    return this.selectedRows > 0;
   }
 
   public clearSelectedRows() {
@@ -149,7 +166,7 @@ export abstract class TableDataSource<T extends TableData> {
   }
 
   public isAllSelected() {
-    return (this.selectedRows === this.maxSelectableRows);
+    return this.selectedRows === this.maxSelectableRows;
   }
 
   public setSearchValue(searchValue: string) {
@@ -195,16 +212,12 @@ export abstract class TableDataSource<T extends TableData> {
   public getSorting(): Ordering[] {
     const sort = this.getSort();
     if (sort && sort.active) {
-      return [
-        { field: (sort.direction === 'desc' ? '-' : '') + sort.active },
-      ];
+      return [{ field: (sort.direction === 'desc' ? '-' : '') + sort.active }];
     }
     // Find Sorted columns
     const columnDef = this.tableColumnsDef.find((column) => column.sorted);
     if (columnDef) {
-      return [
-        { field: (sort.direction === 'desc' ? '-' : '') + sort.active },
-      ];
+      return [{ field: (sort.direction === 'desc' ? '-' : '') + sort.active }];
     }
     return [];
   }
@@ -231,9 +244,7 @@ export abstract class TableDataSource<T extends TableData> {
   public buildTableActionsDef(): TableActionDef[] {
     // Default
     if (!Utils.isEmptyArray(this.tableFiltersDef)) {
-      return [
-        new TableResetFiltersAction().getActionDef(),
-      ];
+      return [new TableResetFiltersAction().getActionDef()];
     }
     return [];
   }
@@ -289,9 +300,10 @@ export abstract class TableDataSource<T extends TableData> {
           if (Utils.isEmptyString(filter.currentValue[0].value)) {
             filter.label = '';
           } else {
-            filter.label = this.translateService.instant(filter.currentValue[0].value ?
-              filter.currentValue[0].value : filter.currentValue[0]) +
-              (filter.currentValue.length > 1 ? ` (+${filter.currentValue.length - 1})` : '');
+            filter.label =
+              this.translateService.instant(
+                filter.currentValue[0].value ? filter.currentValue[0].value : filter.currentValue[0]
+              ) + (filter.currentValue.length > 1 ? ` (+${filter.currentValue.length - 1})` : '');
           }
         } else {
           filter.label = '';
@@ -320,7 +332,7 @@ export abstract class TableDataSource<T extends TableData> {
           case 'date':
             if (Utils.objectHasProperty(filterDef, 'reset')) {
               filterDef.reset();
-            };
+            }
             break;
         }
         this.updateFilterLabel(filterDef);
@@ -332,16 +344,13 @@ export abstract class TableDataSource<T extends TableData> {
   }
 
   // eslint-disable-next-line no-empty,@typescript-eslint/no-empty-function
-  public rowCellUpdated(cellValue: any, rowIndex: number, columnDef: TableColumnDef) {
-  }
+  public rowCellUpdated(cellValue: any, rowIndex: number, columnDef: TableColumnDef) {}
 
   // eslint-disable-next-line no-empty,@typescript-eslint/no-empty-function
-  public actionTriggered(actionDef: TableActionDef) {
-  }
+  public actionTriggered(actionDef: TableActionDef) {}
 
   // eslint-disable-next-line no-empty,@typescript-eslint/no-empty-function
-  public rowActionTriggered(actionDef: TableActionDef, rowItem: any, dropdownItem?: DropdownItem) {
-  }
+  public rowActionTriggered(actionDef: TableActionDef, rowItem: any, dropdownItem?: DropdownItem) {}
 
   // eslint-disable-next-line complexity
   public buildFilterValues(withSearch: boolean = true): FilterParams {
@@ -356,8 +365,10 @@ export abstract class TableDataSource<T extends TableData> {
             filterJson[filterDef.httpId] = filterDef.currentValue.toISOString();
           } else if (filterDef.type === FilterType.DATE_RANGE) {
             // Date range
-            filterJson[filterDef.dateRangeTableFilterDef?.startDateTimeHttpId] = filterDef.currentValue.startDate.toISOString();
-            filterJson[filterDef.dateRangeTableFilterDef?.endDateTimeHttpId] = filterDef.currentValue.endDate.toISOString();
+            filterJson[filterDef.dateRangeTableFilterDef?.startDateTimeHttpId] =
+              filterDef.currentValue.startDate.toISOString();
+            filterJson[filterDef.dateRangeTableFilterDef?.endDateTimeHttpId] =
+              filterDef.currentValue.endDate.toISOString();
           } else if (filterDef.type === FilterType.DIALOG_TABLE) {
             // Mono selection
             if (!filterDef.multiple) {
@@ -375,16 +386,20 @@ export abstract class TableDataSource<T extends TableData> {
                   }
                 }
               }
-            // Multiple selections
+              // Multiple selections
             } else {
               if (!Utils.isEmptyArray(filterDef.currentValue)) {
-                filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
+                filterJson[filterDef.httpId] = filterDef.currentValue
+                  .map((obj) => obj.key)
+                  .join('|');
               }
             }
-          // Dropdown with multiple selections
+            // Dropdown with multiple selections
           } else if (filterDef.type === FilterType.DROPDOWN && filterDef.multiple) {
-            if (!Utils.isEmptyArray(filterDef.currentValue) &&
-                (filterDef.currentValue.length < filterDef.items.length || !filterDef.exhaustive)) {
+            if (
+              !Utils.isEmptyArray(filterDef.currentValue) &&
+              (filterDef.currentValue.length < filterDef.items.length || !filterDef.exhaustive)
+            ) {
               filterJson[filterDef.httpId] = filterDef.currentValue.map((obj) => obj.key).join('|');
             }
             // Others
@@ -419,8 +434,7 @@ export abstract class TableDataSource<T extends TableData> {
   }
 
   // eslint-disable-next-line no-empty, @typescript-eslint/no-empty-function
-  public onRowActionMenuOpen(action: TableActionDef, row: T) {
-  }
+  public onRowActionMenuOpen(action: TableActionDef, row: T) {}
 
   public refreshData(showSpinner = true): Observable<void> {
     // Init paging
@@ -443,64 +457,74 @@ export abstract class TableDataSource<T extends TableData> {
         this.spinnerService.show();
       }
       // Load data source
-      this.loadDataImpl().pipe(first()).subscribe({
-        next: (data) => {
-          // Set nbr of records
-          this.setTotalNumberOfRecords(data.count);
-          // Display only projected fields
-          if (!Utils.isEmptyArray(data.projectFields)) {
-            // Format createdBy/lastChangeBy properties Ids
-            data.projectFields = data.projectFields.map(projectedField => {
-              if (projectedField.split('.')[0] === 'createdBy' || projectedField.split('.')[0] === 'lastChangedBy') {
-                return projectedField.split('.')[0];
-              } else {
-                return projectedField;
+      this.loadDataImpl()
+        .pipe(first())
+        .subscribe({
+          next: (data) => {
+            // Set nbr of records
+            this.setTotalNumberOfRecords(data.count);
+            // Display only projected fields
+            if (!Utils.isEmptyArray(data.projectFields)) {
+              // Format createdBy/lastChangeBy properties Ids
+              data.projectFields = data.projectFields.map((projectedField) => {
+                if (
+                  projectedField.split('.')[0] === 'createdBy' ||
+                  projectedField.split('.')[0] === 'lastChangedBy'
+                ) {
+                  return projectedField.split('.')[0];
+                } else {
+                  return projectedField;
+                }
+              });
+              for (const tableColumnDef of this.tableColumnsDef) {
+                // If column visibility is not already set we use the project field
+                const isColumnIDInProjectedFields = data.projectFields.includes(tableColumnDef.id);
+                if (
+                  Utils.isNullOrUndefined(tableColumnDef.visible) ||
+                  !isColumnIDInProjectedFields
+                ) {
+                  tableColumnDef.visible = isColumnIDInProjectedFields;
+                }
               }
-            });
-            for (const tableColumnDef of this.tableColumnsDef) {
-              // If column visibility is not already set we use the project field
-              const isColumnIDInProjectedFields = data.projectFields.includes(tableColumnDef.id);
-              if (Utils.isNullOrUndefined(tableColumnDef.visible) || !isColumnIDInProjectedFields) {
-                tableColumnDef.visible = isColumnIDInProjectedFields;
-              }
-            }
-            // No projected fields, display all
-          } else {
-            for (const tableColumnDef of this.tableColumnsDef) {
-              // Only if prop is not provided
-              if (!Utils.objectHasProperty(tableColumnDef, 'visible')) {
-                // If column visibility is not already set we display it (project field is empty)
-                if (Utils.isNullOrUndefined(tableColumnDef.visible)) {
-                  tableColumnDef.visible = true;
+              // No projected fields, display all
+            } else {
+              for (const tableColumnDef of this.tableColumnsDef) {
+                // Only if prop is not provided
+                if (!Utils.objectHasProperty(tableColumnDef, 'visible')) {
+                  // If column visibility is not already set we display it (project field is empty)
+                  if (Utils.isNullOrUndefined(tableColumnDef.visible)) {
+                    tableColumnDef.visible = true;
+                  }
                 }
               }
             }
-          }
-          // Build stats
-          this.tableFooterStats = this.buildTableFooterStats(data);
-          this.setData(data.result);
-          // Loading on going?
-          if (!this.loadingNumberOfRecords) {
-            if (this.data.length !== this.totalNumberOfRecords &&  // Already have all the records?
-              this.totalNumberOfRecords === Constants.INFINITE_RECORDS) {
-              // Load records
-              this.requestNumberOfRecords();
+            // Build stats
+            this.tableFooterStats = this.buildTableFooterStats(data);
+            this.setData(data.result);
+            // Loading on going?
+            if (!this.loadingNumberOfRecords) {
+              if (
+                this.data.length !== this.totalNumberOfRecords && // Already have all the records?
+                this.totalNumberOfRecords === Constants.INFINITE_RECORDS
+              ) {
+                // Load records
+                this.requestNumberOfRecords();
+              }
             }
-          }
-          if (showSpinner) {
-            this.spinnerService.hide();
-          }
-          this.firstLoad = true;
-          observer.next();
-          observer.complete();
-        },
-        error: (error) => {
-          if (showSpinner) {
-            this.spinnerService.hide();
-          }
-          observer.error(error);
-        }
-      });
+            if (showSpinner) {
+              this.spinnerService.hide();
+            }
+            this.firstLoad = true;
+            observer.next();
+            observer.complete();
+          },
+          error: (error) => {
+            if (showSpinner) {
+              this.spinnerService.hide();
+            }
+            observer.error(error);
+          },
+        });
     });
   }
 
@@ -535,19 +559,18 @@ export abstract class TableDataSource<T extends TableData> {
     // Reset current
     this.resetTotalNumberOfRecords();
     // Set static filter
-    const staticFilters = [
-      ...this.getStaticFilters(),
-      { OnlyRecordCount: true },
-    ];
+    const staticFilters = [...this.getStaticFilters(), { OnlyRecordCount: true }];
     // Set
     this.setStaticFilters(staticFilters);
     // Load data
-    this.loadDataImpl(true).pipe(first()).subscribe((data) => {
-      this.setTotalNumberOfRecords(data.count);
-      this.tableFooterStats = this.buildTableFooterStats(data);
-      // Loading ended
-      this.loadingNumberOfRecords = false;
-    });
+    this.loadDataImpl(true)
+      .pipe(first())
+      .subscribe((data) => {
+        this.setTotalNumberOfRecords(data.count);
+        this.tableFooterStats = this.buildTableFooterStats(data);
+        // Loading ended
+        this.loadingNumberOfRecords = false;
+      });
     // Reset static filter
     staticFilters.splice(staticFilters.length - 1, 1);
     this.setStaticFilters(staticFilters);
@@ -573,11 +596,15 @@ export abstract class TableDataSource<T extends TableData> {
     this.initTableActionsDef(force);
     this.initTableActionsRightDef(force);
     this.initTableRowActions(force);
-    this.hasActions = !Utils.isEmptyArray(this.tableActionsDef) || !Utils.isEmptyArray(this.tableActionsRightDef);
+    this.hasActions =
+      !Utils.isEmptyArray(this.tableActionsDef) || !Utils.isEmptyArray(this.tableActionsRightDef);
     this.hasFilters = !Utils.isEmptyArray(this.tableFiltersDef);
-    this.isSearchEnabled = !!this.tableDef && !!this.tableDef.search && this.tableDef.search.enabled;
-    this.isFooterEnabled = !!this.tableDef && !!this.tableDef.footer && this.tableDef.footer.enabled;
-    this.hasRowActions = (!!this.tableRowActionsDef && this.tableRowActionsDef.length > 0) ||
+    this.isSearchEnabled =
+      !!this.tableDef && !!this.tableDef.search && this.tableDef.search.enabled;
+    this.isFooterEnabled =
+      !!this.tableDef && !!this.tableDef.footer && this.tableDef.footer.enabled;
+    this.hasRowActions =
+      (!!this.tableRowActionsDef && this.tableRowActionsDef.length > 0) ||
       (!!this.tableDef && !!this.tableDef.hasDynamicRowAction);
   }
 
@@ -633,7 +660,11 @@ export abstract class TableDataSource<T extends TableData> {
       this.tableDef = this.buildTableDef();
     }
     // Override multi-selection (let the undef check for boolean not yet assigned!)
-    if (this.tableDef && this.tableDef.rowSelection && !Utils.isUndefined(this.multipleRowSelection)) {
+    if (
+      this.tableDef &&
+      this.tableDef.rowSelection &&
+      !Utils.isUndefined(this.multipleRowSelection)
+    ) {
       this.tableDef.rowSelection.multiple = this.multipleRowSelection;
     }
     return this.tableDef;
@@ -652,9 +683,12 @@ export abstract class TableDataSource<T extends TableData> {
       this.data.splice(this.paging.skip, this.paging.limit, ...data);
     }
     // Update Selection variables
-    if (this.tableDef && this.tableDef.rowSelection &&
+    if (
+      this.tableDef &&
+      this.tableDef.rowSelection &&
       this.tableDef.rowSelection.enabled &&
-      this.tableDef.rowSelection.multiple) {
+      this.tableDef.rowSelection.multiple
+    ) {
       // Init
       this.maxSelectableRows = 0;
       this.selectedRows = 0;
@@ -718,7 +752,11 @@ export abstract class TableDataSource<T extends TableData> {
       const foundExpandedRow = expandedRowIDs.find((expandedRow) => expandedRow.id === freshRow.id);
       if (foundExpandedRow) {
         // Check if the table has a specific field to hide/show details
-        if (this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.showDetailsField) {
+        if (
+          this.tableDef &&
+          this.tableDef.rowDetails &&
+          this.tableDef.rowDetails.showDetailsField
+        ) {
           // Check if it's still visible
           if (Utils.objectHasProperty(freshRow, this.tableDef.rowDetails.showDetailsField)) {
             // Set
@@ -732,7 +770,8 @@ export abstract class TableDataSource<T extends TableData> {
         }
         // Detailed field?
         if (this.tableDef && this.tableDef.rowDetails && this.tableDef.rowDetails.detailsField) {
-          freshRow[this.tableDef.rowDetails.detailsField] = foundExpandedRow[this.tableDef.rowDetails.detailsField];
+          freshRow[this.tableDef.rowDetails.detailsField] =
+            foundExpandedRow[this.tableDef.rowDetails.detailsField];
         }
       }
       // Check if Selected

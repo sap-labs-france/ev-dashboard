@@ -9,12 +9,17 @@ import { Connector } from '../../../types/ChargingStation';
   template: `
     <div class="d-flex flex-column align-items-center mx-2">
       <div class="d-flex power-bar-text" [class.power-bar-text-error]="row.power === 0">
-        {{row | appChargingStationsFormatPowerConnector:'instantPowerKW'}}
+        {{ row | appChargingStationsFormatPowerConnector : 'instantPowerKW' }}
         &nbsp;/&nbsp;
-        {{row | appChargingStationsFormatPowerConnector:'maxPowerKW'}} kW
+        {{ row | appChargingStationsFormatPowerConnector : 'maxPowerKW' }} kW
       </div>
-      <mat-progress-bar color="accent" class="d-flex" [hidden]="row.power === 0"
-        [value]="row | appChargingStationsFormatPowerConnector:'instantPowerKWPercent'" mode="determinate">
+      <mat-progress-bar
+        color="accent"
+        class="d-flex"
+        [hidden]="row.power === 0"
+        [value]="row | appChargingStationsFormatPowerConnector : 'instantPowerKWPercent'"
+        mode="determinate"
+      >
       </mat-progress-bar>
     </div>
   `,
@@ -47,7 +52,7 @@ export class AppChargingStationsFormatPowerConnectorPipe implements PipeTransfor
           if (instantPowerKW === 0) {
             value = 0;
           }
-          value = Math.round((instantPowerKW * 1000 / connector.power) * 100);
+          value = Math.round(((instantPowerKW * 1000) / connector.power) * 100);
         } else {
           value = instantPowerKW;
         }

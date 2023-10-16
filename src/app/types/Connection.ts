@@ -17,5 +17,5 @@ export interface UserConnection {
 
 export enum IntegrationConnectionType {
   MERCEDES = 'mercedes',
-  CONCUR = 'concur'
+  CONCUR = 'concur',
 }

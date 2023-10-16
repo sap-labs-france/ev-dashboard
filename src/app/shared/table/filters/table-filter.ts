@@ -17,7 +17,8 @@ export abstract class TableFilter {
           }
         };
       } else {
-        filterDef.reset = () => filterDef.currentValue = filterDef.defaultValue ? filterDef.defaultValue : null;
+        filterDef.reset = () =>
+          (filterDef.currentValue = filterDef.defaultValue ? filterDef.defaultValue : null);
       }
     }
     filterDef.reset();

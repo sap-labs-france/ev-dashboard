@@ -13,7 +13,5 @@ import { TenantsListTableDataSource } from './tenants-list-table-data-source';
 })
 export class TenantsListComponent {
   // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    public tenantsListTableDataSource: TenantsListTableDataSource) {
-  }
+  public constructor(public tenantsListTableDataSource: TenantsListTableDataSource) {}
 }

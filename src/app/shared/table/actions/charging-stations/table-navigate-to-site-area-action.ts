@@ -8,7 +8,7 @@ export class TableNavigateToSiteAreaAction extends TableOpenURLAction {
       id: ChargingStationButtonAction.NAVIGATE_TO_SITE_AREA,
       name: 'site_areas.redirect',
       tooltip: 'site_areas.redirect',
-      icon: 'store_mall_directory'
+      icon: 'store_mall_directory',
     };
   }
 }

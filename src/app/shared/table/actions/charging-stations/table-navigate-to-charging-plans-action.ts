@@ -7,7 +7,7 @@ export class TableNavigateToChargingPlansAction extends TableOpenURLAction {
       ...super.getActionDef(),
       id: ChargingStationButtonAction.NAVIGATE_TO_CHARGING_PLANS,
       name: 'chargers.smart_charging.charging_plans.redirect',
-      tooltip: 'chargers.smart_charging.charging_plans.redirect'
+      tooltip: 'chargers.smart_charging.charging_plans.redirect',
     };
   }
 }

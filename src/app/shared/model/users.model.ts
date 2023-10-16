@@ -12,9 +12,7 @@ export const USER_STATUSES: KeyValue[] = [
 export class UserRoles {
   public static getAvailableRoles(role?: string): KeyValue[] {
     if (role === UserRole.SUPER_ADMIN) {
-      return [
-        { key: UserRole.SUPER_ADMIN, value: 'users.role_super_admin' },
-      ];
+      return [{ key: UserRole.SUPER_ADMIN, value: 'users.role_super_admin' }];
     }
     return [
       { key: UserRole.ADMIN, value: 'users.role_admin' },

@@ -45,7 +45,8 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     private windowService: WindowService,
     private translateService: TranslateService,
     private reCaptchaV3Service: ReCaptchaV3Service,
-    private configService: ConfigService) {
+    private configService: ConfigService
+  ) {
     // Load the translated messages
     this.translateService.get('authentication', {}).subscribe((messages) => {
       this.messages = messages;
@@ -54,11 +55,10 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     this.siteKey = this.configService.getUser().captchaSiteKey;
     // Init Form
     this.formGroup = new UntypedFormGroup({
-      email: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.email,
-        ])),
+      email: new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, Validators.email])
+      ),
     });
     // Form
     this.email = this.formGroup.controls['email'];
@@ -72,7 +72,10 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
     if (Utils.isInMobileApp(this.subDomain)) {
       // Forward to Mobile App
       const mobileAppURL: string = Utils.buildMobileAppDeepLink(
-        `verifyAccount/${this.windowService.getSubdomain()}/${this.verificationEmail}/${this.verificationToken}/${this.resetToken}`);
+        `verifyAccount/${this.windowService.getSubdomain()}/${this.verificationEmail}/${
+          this.verificationToken
+        }/${this.resetToken}`
+      );
       // ACHTUNG ! hack for email bug sent 800 times - need to find a
       // window.location.href = mobileAppURL;
     }
@@ -120,10 +123,15 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
               this.tenantLogo = Constants.NO_IMAGE;
               break;
             default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'general.unexpected_error_backend');
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'general.unexpected_error_backend'
+              );
           }
-        }
+        },
       });
     } else {
       this.tenantLogo = Constants.MASTER_TENANT_LOGO;
@@ -138,63 +146,79 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
 
   public verifyEmail(data: any) {
     this.spinnerService.show();
-    this.centralServerService.verifyEmail({ Email: data.email, VerificationToken: data.verificationToken }).subscribe({
-      next: (response: VerifyEmailResponse) => {
-        this.spinnerService.hide();
-        if (response.status && response.status === RestResponse.SUCCESS) {
-          if (this.resetToken) {
-            // Show message
-            this.messageService.showSuccessMessage(this.messages['verify_email_success_set_password']);
-            // Go to reset password
-            void this.router.navigate(['auth/define-password'], { queryParams: { hash: this.resetToken } });
-          } else {
-            if (response?.userStatus === UserStatus.INACTIVE) {
-              // Show message for inactive new account by default
-              this.messageService.showInfoMessage(this.messages['verify_email_success_inactive']);
+    this.centralServerService
+      .verifyEmail({ Email: data.email, VerificationToken: data.verificationToken })
+      .subscribe({
+        next: (response: VerifyEmailResponse) => {
+          this.spinnerService.hide();
+          if (response.status && response.status === RestResponse.SUCCESS) {
+            if (this.resetToken) {
+              // Show message
+              this.messageService.showSuccessMessage(
+                this.messages['verify_email_success_set_password']
+              );
+              // Go to reset password
+              void this.router.navigate(['auth/define-password'], {
+                queryParams: { hash: this.resetToken },
+              });
             } else {
-              // Show message for automatic activated account
-              this.messageService.showSuccessMessage(this.messages['verify_email_success']);
+              if (response?.userStatus === UserStatus.INACTIVE) {
+                // Show message for inactive new account by default
+                this.messageService.showInfoMessage(this.messages['verify_email_success_inactive']);
+              } else {
+                // Show message for automatic activated account
+                this.messageService.showSuccessMessage(this.messages['verify_email_success']);
+              }
+              // Go to login
+              void this.router.navigate(['/auth/login'], {
+                queryParams: { email: this.email.value },
+              });
             }
-            // Go to login
-            void this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value } });
-          }
-          // Unexpected Error
-        } else {
-          // Unexpected error
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, this.messages['verify_email_error']);
-        }
-      },
-      error: (error) => {
-        // Hide
-        this.spinnerService.hide();
-        // Check status error code
-        switch (error.status) {
-          // Account already active
-          case HTTPError.USER_ACCOUNT_ALREADY_ACTIVE_ERROR:
-            // Report the error
-            this.messageService.showInfoMessage(this.messages['verify_email_already_active']);
-            break;
-          // VerificationToken no longer valid
-          case HTTPError.INVALID_TOKEN_ERROR:
-            // Report the error
-            this.messageService.showErrorMessage(this.messages['verify_email_token_not_valid']);
-            break;
-          // Email does not exist
-          case StatusCodes.NOT_FOUND:
-            // Report the error
-            this.messageService.showErrorMessage(this.messages['verify_email_email_not_valid']);
-            break;
-          default:
             // Unexpected Error
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'authentication.verify_email_error');
-            break;
-        }
-        // Go to login
-        void this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value } });
-      }
-    });
+          } else {
+            // Unexpected error
+            Utils.handleError(
+              JSON.stringify(response),
+              this.messageService,
+              this.messages['verify_email_error']
+            );
+          }
+        },
+        error: (error) => {
+          // Hide
+          this.spinnerService.hide();
+          // Check status error code
+          switch (error.status) {
+            // Account already active
+            case HTTPError.USER_ACCOUNT_ALREADY_ACTIVE_ERROR:
+              // Report the error
+              this.messageService.showInfoMessage(this.messages['verify_email_already_active']);
+              break;
+            // VerificationToken no longer valid
+            case HTTPError.INVALID_TOKEN_ERROR:
+              // Report the error
+              this.messageService.showErrorMessage(this.messages['verify_email_token_not_valid']);
+              break;
+            // Email does not exist
+            case StatusCodes.NOT_FOUND:
+              // Report the error
+              this.messageService.showErrorMessage(this.messages['verify_email_email_not_valid']);
+              break;
+            default:
+              // Unexpected Error
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'authentication.verify_email_error'
+              );
+              break;
+          }
+          // Go to login
+          void this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value } });
+        },
+      });
   }
 
   public resendVerificationEmail(data: any) {
@@ -213,10 +237,15 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
           if (response.status && response.status === RestResponse.SUCCESS) {
             this.messageService.showSuccessMessage(this.messages['verify_email_resend_success']);
             // Go back to login
-            void this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value } });
+            void this.router.navigate(['/auth/login'], {
+              queryParams: { email: this.email.value },
+            });
           } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, this.messages['verify_email_resend_error']);
+            Utils.handleError(
+              JSON.stringify(response),
+              this.messageService,
+              this.messages['verify_email_resend_error']
+            );
           }
         },
         error: (error) => {
@@ -224,17 +253,24 @@ export class AuthenticationVerifyEmailComponent implements OnInit, OnDestroy {
           switch (error.status) {
             case HTTPError.USER_ACCOUNT_ALREADY_ACTIVE_ERROR:
               this.messageService.showInfoMessage(this.messages['verify_email_already_active']);
-              void this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value } });
+              void this.router.navigate(['/auth/login'], {
+                queryParams: { email: this.email.value },
+              });
               break;
             case StatusCodes.NOT_FOUND:
               this.messageService.showErrorMessage(this.messages['verify_email_email_not_valid']);
               break;
             default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'authentication.verify_email_resend_error');
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'authentication.verify_email_resend_error'
+              );
               break;
           }
-        }
+        },
       });
     });
   }

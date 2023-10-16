@@ -1,5 +1,4 @@
-export class FooterModule {
-}
+export class FooterModule {}
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -11,19 +10,8 @@ import { MaterialModule } from '../../app.module';
 import { AddressComponent } from './address.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    MaterialModule,
-    GooglePlaceModule,
-  ],
-  declarations: [
-    AddressComponent,
-  ],
-  exports: [
-    AddressComponent,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, MaterialModule, GooglePlaceModule],
+  declarations: [AddressComponent],
+  exports: [AddressComponent],
 })
-export class AddressModule {
-}
+export class AddressModule {}

@@ -11,14 +11,19 @@ import { SiteUser, UserRole, UserToken } from '../../../../types/User';
 import { Utils } from '../../../../utils/Utils';
 
 @Component({
-  template: `
-    <div class="d-flex justify-content-center">
-      <mat-checkbox class="mx-auto"
-        [checked]="row?.siteAdmin || row?.user?.role === UserRole.ADMIN"
-        [disabled]="(!isSiteAdmin && loggedUser.role !== UserRole.ADMIN) || columnDef.disabled || row?.user?.role === UserRole.ADMIN"
-        (change)="changeSiteAdmin($event)">
-      </mat-checkbox>
-    </div>`,
+  template: ` <div class="d-flex justify-content-center">
+    <mat-checkbox
+      class="mx-auto"
+      [checked]="row?.siteAdmin || row?.user?.role === UserRole.ADMIN"
+      [disabled]="
+        (!isSiteAdmin && loggedUser.role !== UserRole.ADMIN) ||
+        columnDef.disabled ||
+        row?.user?.role === UserRole.ADMIN
+      "
+      (change)="changeSiteAdmin($event)"
+    >
+    </mat-checkbox>
+  </div>`,
 })
 export class SiteUsersSiteAdminComponent extends CellContentTemplateDirective implements OnInit {
   @Input() public row!: SiteUser;
@@ -30,7 +35,8 @@ export class SiteUsersSiteAdminComponent extends CellContentTemplateDirective im
   public constructor(
     private messageService: MessageService,
     private centralServerService: CentralServerService,
-    private router: Router) {
+    private router: Router
+  ) {
     super();
     this.loggedUser = centralServerService.getLoggedUser();
   }
@@ -50,27 +56,43 @@ export class SiteUsersSiteAdminComponent extends CellContentTemplateDirective im
     // Set
     siteUser.siteAdmin = siteAdmin;
     // Update
-    this.centralServerService.updateSiteUserAdmin(siteUser.siteID, siteUser.user.id, siteAdmin).subscribe((response) => {
-      if (response.status === RestResponse.SUCCESS) {
-        if (siteAdmin) {
-          this.messageService.showSuccessMessage('sites.update_set_site_admin_success', {userName: Utils.buildUserFullName(siteUser.user)});
-        } else {
-          this.messageService.showSuccessMessage('sites.update_remove_site_admin_success', {userName: Utils.buildUserFullName(siteUser.user)});
+    this.centralServerService
+      .updateSiteUserAdmin(siteUser.siteID, siteUser.user.id, siteAdmin)
+      .subscribe(
+        (response) => {
+          if (response.status === RestResponse.SUCCESS) {
+            if (siteAdmin) {
+              this.messageService.showSuccessMessage('sites.update_set_site_admin_success', {
+                userName: Utils.buildUserFullName(siteUser.user),
+              });
+            } else {
+              this.messageService.showSuccessMessage('sites.update_remove_site_admin_success', {
+                userName: Utils.buildUserFullName(siteUser.user),
+              });
+            }
+          } else {
+            siteUser.siteAdmin = !siteAdmin;
+            Utils.handleError(
+              JSON.stringify(response),
+              this.messageService,
+              'sites.update_site_users_role_error',
+              {
+                userName: siteUser.user.name,
+              }
+            );
+          }
+        },
+        (error) => {
+          siteUser.siteAdmin = !siteAdmin;
+          Utils.handleHttpError(
+            error,
+            this.router,
+            this.messageService,
+            this.centralServerService,
+            'sites.update_site_users_role_error',
+            { userName: siteUser.user.name }
+          );
         }
-      } else {
-        siteUser.siteAdmin = !siteAdmin;
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'sites.update_site_users_role_error', {
-            userName: siteUser.user.name,
-          });
-      }
-    }
-    ,
-    (error) => {
-      siteUser.siteAdmin = !siteAdmin;
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        'sites.update_site_users_role_error', {userName: siteUser.user.name});
-    },
-    );
+      );
   }
 }

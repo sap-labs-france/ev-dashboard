@@ -12,8 +12,15 @@ import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
 export interface TableDownloadCommissionInvoiceDef extends TableActionDef {
-  action: (transferID: string, filename: string, translateService: TranslateService, spinnerService: SpinnerService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router) => void;
+  action: (
+    transferID: string,
+    filename: string,
+    translateService: TranslateService,
+    spinnerService: SpinnerService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    router: Router
+  ) => void;
 }
 
 export class TableDownloadCommissionInvoice implements TableAction {
@@ -33,8 +40,15 @@ export class TableDownloadCommissionInvoice implements TableAction {
   }
 
   // Download from UI
-  private downloadCommissionInvoice(transferID: string, filename: string, translateService: TranslateService, spinnerService: SpinnerService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router) {
+  private downloadCommissionInvoice(
+    transferID: string,
+    filename: string,
+    translateService: TranslateService,
+    spinnerService: SpinnerService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    router: Router
+  ) {
     spinnerService.show();
     centralServerService.downloadCommissionInvoice(transferID).subscribe({
       next: (result) => {
@@ -43,9 +57,14 @@ export class TableDownloadCommissionInvoice implements TableAction {
       },
       error: (error) => {
         spinnerService.hide();
-        Utils.handleHttpError(error, router, messageService,
-          centralServerService, translateService.instant('transfers.cannot_download_commission_incoice'));
-      }
+        Utils.handleHttpError(
+          error,
+          router,
+          messageService,
+          centralServerService,
+          translateService.instant('transfers.cannot_download_commission_incoice')
+        );
+      },
     });
   }
 }

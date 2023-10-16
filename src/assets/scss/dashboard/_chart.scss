@@ -23,7 +23,6 @@
   @include chart-color(mat.get-color-from-palette($app-primary, 300));
 }
 
-
 .chart-accent {
   @include chart-color($brand-accent);
 }
@@ -87,7 +86,7 @@
 
 .chart-container-profiles {
   position: relative;
-  height:27vh;
+  height: 27vh;
 }
 
 .chart-container-statistics {
@@ -98,10 +97,10 @@
     width: 95vw;
     height: calc(95vw * 0.5);
   }
-    .chartjs-render-monitor {
-      width: 100% !important;
-      height: 100% !important;
-    }
+  .chartjs-render-monitor {
+    width: 100% !important;
+    height: 100% !important;
+  }
 }
 
 .chart {
@@ -131,7 +130,7 @@
 // fit diagram to screen when not mobile display
 @media (min-width: 991px) {
   .fit-screen {
-    display:block;
-    width:calc(100vw - 330px);
+    display: block;
+    width: calc(100vw - 330px);
   }
 }

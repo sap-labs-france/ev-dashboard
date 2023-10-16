@@ -8,7 +8,7 @@ import { OCPIEndpoint } from '../../../../../types/ocpi/OCPIEndpoint';
   template: `
     <mat-chip-list [selectable]="false">
       <mat-chip ngClass="chip-width-5em chip-info" [disabled]="true">
-        {{row[columnDef.id]?.totalNbr || '0'}}
+        {{ row[columnDef.id]?.totalNbr || '0' }}
       </mat-chip>
     </mat-chip-list>
   `,

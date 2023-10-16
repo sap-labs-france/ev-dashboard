@@ -2,13 +2,19 @@
   <div class="page-header login-page header-filter" filter-color="black">
     <div class="container">
       <div class="col-md-6 ms-auto me-auto">
-        <form class="form" [formGroup]="formGroup" (ngSubmit)="resendVerificationEmail(formGroup.value)">
+        <form
+          class="form"
+          [formGroup]="formGroup"
+          (ngSubmit)="resendVerificationEmail(formGroup.value)"
+        >
           <div class="card card-login card-hidden">
             <div class="card-header card-header-primary text-center h-25">
               <div class="social-line">
                 <img class="big-card-logo mb-2" [src]="tenantLogo" />
               </div>
-              <h4 class="card-title text-center">{{"authentication.verify_email_title" | translate}}</h4>
+              <h4 class="card-title text-center">
+                {{ 'authentication.verify_email_title' | translate }}
+              </h4>
             </div>
             <div class="card-body">
               <span class="bmd-form-group">
@@ -17,26 +23,42 @@
                     <span class="input-group-text">
                       <mat-icon>email</mat-icon>
                       <mat-form-field class="ms-2">
-                        <input appAutofocus matInput type="text" placeholder="{{'authentication.email' | translate}}"
-                          [formControl]="email" required autocomplete="username" [readonly]="true">
-                        <mat-error *ngIf="email.errors?.email">{{"authentication.invalid_email" | translate}}</mat-error>
-                        <mat-error *ngIf="email.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                        <input
+                          appAutofocus
+                          matInput
+                          type="text"
+                          placeholder="{{ 'authentication.email' | translate }}"
+                          [formControl]="email"
+                          required
+                          autocomplete="username"
+                          [readonly]="true"
+                        />
+                        <mat-error *ngIf="email.errors?.email">{{
+                          'authentication.invalid_email' | translate
+                        }}</mat-error>
+                        <mat-error *ngIf="email.errors?.required">{{
+                          'general.mandatory_field' | translate
+                        }}</mat-error>
                       </mat-form-field>
                     </span>
                   </div>
                 </div>
                 <div class="recaptcha-text">
-                  {{"general.captcha_text_1" | translate}}
-                  <a href="https://policies.google.com/privacy"
-                    target="_blank">{{"general.captcha_text_2" | translate}}</a>{{"general.captcha_text_3" | translate}}
-                  <a href="https://policies.google.com/terms"
-                    target="_blank">{{"general.captcha_text_4" | translate}}</a>{{"general.captcha_text_5" | translate}}.
+                  {{ 'general.captcha_text_1' | translate }}
+                  <a href="https://policies.google.com/privacy" target="_blank">{{
+                    'general.captcha_text_2' | translate
+                  }}</a
+                  >{{ 'general.captcha_text_3' | translate }}
+                  <a href="https://policies.google.com/terms" target="_blank">{{
+                    'general.captcha_text_4' | translate
+                  }}</a
+                  >{{ 'general.captcha_text_5' | translate }}.
                 </div>
               </span>
             </div>
             <div class="card-footer justify-content-center mb-4" [hidden]="verifyEmailAction">
-              <button mat-button type="submit"
-                [disabled]="!formGroup.valid">{{"authentication.verify_email_resend_button" | translate}}
+              <button mat-button type="submit" [disabled]="!formGroup.valid">
+                {{ 'authentication.verify_email_resend_button' | translate }}
               </button>
             </div>
           </div>

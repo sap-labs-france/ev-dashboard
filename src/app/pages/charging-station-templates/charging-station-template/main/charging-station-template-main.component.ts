@@ -16,16 +16,14 @@ export class ChargingStationTemplateMainComponent implements OnInit, OnChanges {
   public template!: AbstractControl;
 
   // eslint-disable-next-line no-useless-constructor
-  public constructor() {
-  }
+  public constructor() {}
 
   public ngOnInit() {
     this.formGroup.addControl('id', new FormControl(''));
-    this.formGroup.addControl('template', new FormControl('',
-      Validators.compose([
-        Validators.required,
-        Templates.validateJSON
-      ])));
+    this.formGroup.addControl(
+      'template',
+      new FormControl('', Validators.compose([Validators.required, Templates.validateJSON]))
+    );
     // Form
     this.id = this.formGroup.controls['id'];
     this.template = this.formGroup.controls['template'];

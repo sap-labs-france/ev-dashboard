@@ -7,10 +7,17 @@ import { Utils } from '../../../utils/Utils';
 import { CellContentTemplateDirective } from '../../table/cell-content-template/cell-content-template.directive';
 
 @Component({
-  template:
-    `<app-transaction-chart #chartConsumption *ngIf="transactionId" [transactionId]="transactionId" [inDialog]="inDialog" ratio="3"></app-transaction-chart>`,
+  template: `<app-transaction-chart
+    #chartConsumption
+    *ngIf="transactionId"
+    [transactionId]="transactionId"
+    [inDialog]="inDialog"
+    ratio="3"
+  ></app-transaction-chart>`,
 })
-export class ConsumptionChartDetailComponent extends CellContentTemplateDirective implements OnChanges, OnInit {
+export class ConsumptionChartDetailComponent
+  extends CellContentTemplateDirective
+  implements OnChanges, OnInit {
   @Input() public inDialog!: boolean;
   @Input() public row!: Connector | Transaction;
   @ViewChild('chartConsumption') public chartComponent!: ConsumptionChartComponent;

@@ -6,9 +6,11 @@ import { ChargingStation } from '../../../types/ChargingStation';
 @Component({
   template: `
     <div class="d-flex justify-content-center">
-        <ng-container *ngFor="let connector of row.connectors">
-          <app-charging-stations-connector-cell [row]="connector"></app-charging-stations-connector-cell>
-        </ng-container>
+      <ng-container *ngFor="let connector of row.connectors">
+        <app-charging-stations-connector-cell
+          [row]="connector"
+        ></app-charging-stations-connector-cell>
+      </ng-container>
     </div>
   `,
 })

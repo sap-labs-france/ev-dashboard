@@ -8,8 +8,12 @@ import { Tag, TagButtonAction } from '../../../../types/Tag';
 import { TableCreateAction } from '../table-create-action';
 
 export interface TableCreateTagActionDef extends TableActionDef {
-  action: (tagDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams?: DialogParamsWithAuth<Tag, TagsAuthorizations>, refresh?: () => Observable<void>) => void;
+  action: (
+    tagDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams?: DialogParamsWithAuth<Tag, TagsAuthorizations>,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableCreateTagAction extends TableCreateAction {
@@ -18,12 +22,16 @@ export class TableCreateTagAction extends TableCreateAction {
       ...super.getActionDef(),
       id: TagButtonAction.CREATE_TAG,
       action: this.createTag,
-      visible: false
+      visible: false,
     };
   }
 
-  private createTag(tagDialogComponent: ComponentType<unknown>,
-    dialog: MatDialog, dialogParams?: DialogParamsWithAuth<Tag, TagsAuthorizations>, refresh?: () => Observable<void>) {
+  private createTag(
+    tagDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams?: DialogParamsWithAuth<Tag, TagsAuthorizations>,
+    refresh?: () => Observable<void>
+  ) {
     super.create(tagDialogComponent, dialog, dialogParams, refresh);
   }
 }

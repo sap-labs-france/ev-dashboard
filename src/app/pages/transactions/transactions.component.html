@@ -1,9 +1,14 @@
 <div class="transactions main-content">
-  <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex" animationDuration="0ms"
-    class="h-100 mat-tab-info" disableRipple="true">
+  <mat-tab-group
+    (selectedIndexChange)="updateRoute($event)"
+    [selectedIndex]="activeTabIndex"
+    animationDuration="0ms"
+    class="h-100 mat-tab-info"
+    disableRipple="true"
+  >
     <mat-tab *ngIf="canListTransactions">
       <ng-template mat-tab-label>
-        <mat-icon>flash_on</mat-icon><span>{{'transactions.tabs.in_progress' | translate}}</span>
+        <mat-icon>flash_on</mat-icon><span>{{ 'transactions.tabs.in_progress' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-transactions-in-progress></app-transactions-in-progress>
@@ -11,7 +16,7 @@
     </mat-tab>
     <mat-tab *ngIf="canListTransactions">
       <ng-template mat-tab-label>
-        <mat-icon>history</mat-icon><span>{{'transactions.tabs.history' | translate}}</span>
+        <mat-icon>history</mat-icon><span>{{ 'transactions.tabs.history' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-transactions-history></app-transactions-history>
@@ -20,7 +25,7 @@
     <ng-container *ngIf="canListTransactionsInError">
       <mat-tab>
         <ng-template mat-tab-label>
-          <mat-icon>warning</mat-icon><span>{{'transactions.tabs.in_error' | translate}}</span>
+          <mat-icon>warning</mat-icon><span>{{ 'transactions.tabs.in_error' | translate }}</span>
         </ng-template>
         <ng-template matTabContent>
           <app-transactions-in-error></app-transactions-in-error>
@@ -30,7 +35,7 @@
     <ng-container *ngIf="canRefundTransaction">
       <mat-tab>
         <ng-template mat-tab-label>
-          <mat-icon>money</mat-icon><span>{{'transactions.tabs.refund' | translate}}</span>
+          <mat-icon>money</mat-icon><span>{{ 'transactions.tabs.refund' | translate }}</span>
         </ng-template>
         <ng-template matTabContent>
           <app-transactions-refund></app-transactions-refund>

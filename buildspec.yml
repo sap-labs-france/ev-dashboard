@@ -1,6 +1,6 @@
 version: 0.2
 parameter-store:
-  build_ssh_key: "/CodeBuild/emobility_build_ssh_key"
+  build_ssh_key: '/CodeBuild/emobility_build_ssh_key'
 phases:
   install:
     runtime-versions:
@@ -25,14 +25,14 @@ phases:
       - npm install --force
   build:
     commands:
-      - npm run build:prod
+      - npm build:prod
 artifacts:
   type: zip
   files:
     - LICENSE
     - NOTICE
     - package.json
-    - package-lock.json
+    - npm-lock.json
     - appspec.yml
     - 'src/aws/*.sh'
     - 'dist/**/*'

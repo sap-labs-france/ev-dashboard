@@ -1,29 +1,50 @@
 <div class="card">
   <div class="card-header card-header-icon card-header-primary">
     <div class="card-icon">
-        <mat-icon>settings</mat-icon>
+      <mat-icon>settings</mat-icon>
     </div>
-    <h3 class="card-title">{{'technical_settings.crypto.crypto_key.title' | translate}}</h3>
+    <h3 class="card-title">{{ 'technical_settings.crypto.crypto_key.title' | translate }}</h3>
   </div>
   <div class="card-body">
-    <legend>{{'technical_settings.crypto.crypto_key.subtitle' | translate}}</legend>
+    <legend>{{ 'technical_settings.crypto.crypto_key.subtitle' | translate }}</legend>
     <div class="row">
       <div class="col-md-6">
         <mat-form-field>
-          <input matInput type="text" type="password" [formControl]="key"
-              placeholder="{{'technical_settings.crypto.crypto_key.key' | translate}}" required>
+          <input
+            matInput
+            type="text"
+            type="password"
+            [formControl]="key"
+            placeholder="{{ 'technical_settings.crypto.crypto_key.key' | translate }}"
+            required
+          />
         </mat-form-field>
         <mat-form-field>
-          <input matInput type="text" [formControl]="blockCypher"
-              placeholder="{{'technical_settings.crypto.crypto_key.block_cypher' | translate}}" required>
+          <input
+            matInput
+            type="text"
+            [formControl]="blockCypher"
+            placeholder="{{ 'technical_settings.crypto.crypto_key.block_cypher' | translate }}"
+            required
+          />
         </mat-form-field>
         <mat-form-field>
-          <input matInput type="text" [formControl]="blockSize"
-              placeholder="{{'technical_settings.crypto.crypto_key.block_size' | translate}}" required>
+          <input
+            matInput
+            type="text"
+            [formControl]="blockSize"
+            placeholder="{{ 'technical_settings.crypto.crypto_key.block_size' | translate }}"
+            required
+          />
         </mat-form-field>
         <mat-form-field>
-          <input matInput type="text" [formControl]="operationMode"
-              placeholder="{{'technical_settings.crypto.crypto_key.operation_mode' | translate}}" required>
+          <input
+            matInput
+            type="text"
+            [formControl]="operationMode"
+            placeholder="{{ 'technical_settings.crypto.crypto_key.operation_mode' | translate }}"
+            required
+          />
         </mat-form-field>
       </div>
     </div>

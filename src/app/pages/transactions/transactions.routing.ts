@@ -6,7 +6,10 @@ import { TransactionsComponent } from './transactions.component';
 
 export const TransactionsRoutes: Routes = [
   {
-    path: '', component: TransactionsComponent, canActivate: [RouteGuardService], data: {
+    path: '',
+    component: TransactionsComponent,
+    canActivate: [RouteGuardService],
+    data: {
       auth: {
         entity: Entity.TRANSACTION,
         action: Action.LIST,

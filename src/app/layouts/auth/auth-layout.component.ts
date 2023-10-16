@@ -59,7 +59,8 @@ export class AuthLayoutComponent implements OnInit {
       setTimeout(() => {
         $layer.classList.add('visible');
       }, 100);
-      $layer.onclick = () => { // Assign a function
+      $layer.onclick = () => {
+        // Assign a function
         body.classList.remove('nav-open');
         $layer.classList.remove('visible');
         this.sidebarClose();

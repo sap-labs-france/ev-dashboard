@@ -8,8 +8,12 @@ import { TableActionDef } from '../../../../types/Table';
 import { TableAssignAction } from '../table-assign-action';
 
 export interface TableAssignAssetsToSiteAreaActionDef extends TableActionDef {
-  action: (siteAreaAssetsDialogComponent: ComponentType<unknown>, dialog: MatDialog, dialogParams: DialogParamsWithAuth<SiteArea, SiteAreasAuthorizations>,
-    refresh?: () => Observable<void>) => void;
+  action: (
+    siteAreaAssetsDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<SiteArea, SiteAreasAuthorizations>,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableAssignAssetsToSiteAreaAction extends TableAssignAction {
@@ -24,8 +28,12 @@ export class TableAssignAssetsToSiteAreaAction extends TableAssignAction {
     };
   }
 
-  private assignAssetsToSiteArea(siteAreaAssetsDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<SiteArea, SiteAreasAuthorizations>, refresh?: () => Observable<void>) {
+  private assignAssetsToSiteArea(
+    siteAreaAssetsDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<SiteArea, SiteAreasAuthorizations>,
+    refresh?: () => Observable<void>
+  ) {
     super.assign(siteAreaAssetsDialogComponent, dialog, dialogParams, DialogMode.EDIT, refresh);
   }
 }

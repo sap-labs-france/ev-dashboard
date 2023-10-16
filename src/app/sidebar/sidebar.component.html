@@ -6,17 +6,17 @@
     </a>
   </div>
   <div *ngIf="!sidebarMinimized" class="simple-text ms-3 me-2">
-    {{'general.app_name' | translate}}
+    {{ 'general.app_name' | translate }}
     <div>
       <a routerLink="/release-notes" class="app-version">
-        {{'general.version' | translate}} {{version}}
+        {{ 'general.version' | translate }} {{ version }}
       </a>
     </div>
   </div>
 </div>
 <div class="logo text-center p-0">
   <div class="simple-text">
-    <img class="logo-img" [class.small-logo-img]="sidebarMinimized" [src]="logo" alt="">
+    <img class="logo-img" [class.small-logo-img]="sidebarMinimized" [src]="logo" alt="" />
   </div>
 </div>
 <div class="sidebar-wrapper">
@@ -27,26 +27,38 @@
     <div class="user-info">
       <a data-toggle="collapse" href="#collapseDetails" class="collapsed">
         <span>
-          {{loggedUser?.name}}
+          {{ loggedUser?.name }}
           <b class="caret"></b>
         </span>
         <span>
-          {{loggedUser?.firstName}}
+          {{ loggedUser?.firstName }}
         </span>
       </a>
       <div class="collapse" id="collapseDetails">
         <ul class="nav">
-          <li *ngIf="canEditProfile" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-            class="nav-item">
-            <a [routerLink]="['/users/profile' ]" class="nav-link">
-              <span class="sidebar-mini"><i class="material-icons sidebar-mini-icons">portrait</i></span>
-              <span class="sidebar-normal">{{'users.profile' | translate}}</span>
+          <li
+            *ngIf="canEditProfile"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="nav-item"
+          >
+            <a [routerLink]="['/users/profile']" class="nav-link">
+              <span class="sidebar-mini"
+                ><i class="material-icons sidebar-mini-icons">portrait</i></span
+              >
+              <span class="sidebar-normal">{{ 'users.profile' | translate }}</span>
             </a>
           </li>
-          <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+          <li
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="nav-item"
+          >
             <a href="javascript:void(0)" (click)="logout()" class="nav-link">
-              <span class="sidebar-mini"><i class="material-icons sidebar-mini-icons">lock</i></span>
-              <span class="sidebar-normal">{{'authentication.sign_out' | translate}}</span>
+              <span class="sidebar-mini"
+                ><i class="material-icons sidebar-mini-icons">lock</i></span
+              >
+              <span class="sidebar-normal">{{ 'authentication.sign_out' | translate }}</span>
             </a>
           </li>
         </ul>
@@ -54,29 +66,42 @@
     </div>
   </div>
   <ul class="nav nav-content">
-    <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" *ngFor="let menuItem of menuItems"
-      class="nav-item">
+    <li
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      *ngFor="let menuItem of menuItems"
+      class="nav-item"
+    >
       <!--If is a single link-->
       <a [routerLink]="[menuItem.path]" *ngIf="menuItem.type === 'link'" class="nav-link">
-        <i class="material-icons">{{menuItem.icon}}</i>
-        <p>{{'general.menu.' + menuItem.title | translate}}</p>
+        <i class="material-icons">{{ menuItem.icon }}</i>
+        <p>{{ 'general.menu.' + menuItem.title | translate }}</p>
       </a>
       <!--If it have a submenu-->
-      <a data-toggle="collapse" href="#{{menuItem.collapse}}" *ngIf="menuItem.type === 'sub'"
-        class="nav-link">
-        <i class="material-icons">{{menuItem.icontype}}</i>
-        <p>{{'general.menu.' + menuItem.title | translate}}
+      <a
+        data-toggle="collapse"
+        href="#{{ menuItem.collapse }}"
+        *ngIf="menuItem.type === 'sub'"
+        class="nav-link"
+      >
+        <i class="material-icons">{{ menuItem.icontype }}</i>
+        <p>
+          {{ 'general.menu.' + menuItem.title | translate }}
           <b class="caret"></b>
         </p>
       </a>
 
       <!--Display the submenu items-->
-      <div id="{{menuItem.collapse}}" class="collapse" *ngIf="menuItem.type === 'sub'">
+      <div id="{{ menuItem.collapse }}" class="collapse" *ngIf="menuItem.type === 'sub'">
         <ul class="nav">
-          <li routerLinkActive="active" *ngFor="let childitem of menuItem.children" class="nav-item">
+          <li
+            routerLinkActive="active"
+            *ngFor="let childitem of menuItem.children"
+            class="nav-item"
+          >
             <a [routerLink]="[menuItem.path, childitem.path]" class="nav-link">
-              <span class="sidebar-mini">{{childitem.ab}}</span>
-              <span class="sidebar-normal">{{childitem.title}}</span>
+              <span class="sidebar-mini">{{ childitem.ab }}</span>
+              <span class="sidebar-normal">{{ childitem.title }}</span>
             </a>
           </li>
         </ul>

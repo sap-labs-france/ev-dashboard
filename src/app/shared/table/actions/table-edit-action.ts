@@ -2,7 +2,12 @@ import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
-import { AuthorizationAttributes, DialogData, DialogMode, DialogParamsWithAuth } from '../../../types/Authorization';
+import {
+  AuthorizationAttributes,
+  DialogData,
+  DialogMode,
+  DialogParamsWithAuth,
+} from '../../../types/Authorization';
 import { ButtonAction, ButtonActionColor } from '../../../types/GlobalType';
 import { TableActionDef } from '../../../types/Table';
 import { TableAction } from './table-action';
@@ -22,8 +27,12 @@ export class TableEditAction implements TableAction {
     return this.action;
   }
 
-  protected edit(component: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<DialogData, AuthorizationAttributes>, refresh?: () => Observable<void>) {
+  protected edit(
+    component: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<DialogData, AuthorizationAttributes>,
+    refresh?: () => Observable<void>
+  ) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.maxWidth = '85vw';

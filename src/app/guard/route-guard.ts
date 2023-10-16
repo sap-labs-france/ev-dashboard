@@ -1,5 +1,14 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, CanLoad, Route, Router, RouterStateSnapshot, UrlSegment } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  CanActivateChild,
+  CanLoad,
+  Route,
+  Router,
+  RouterStateSnapshot,
+  UrlSegment,
+} from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Action, Entity } from 'types/Authorization';
 import { UserRole } from 'types/User';
@@ -12,7 +21,6 @@ import { MessageService } from '../services/message.service';
 
 @Injectable()
 export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad {
-
   public static readonly LOGIN_ROUTE = '/auth/login';
   public static readonly TENANT_ROUTE = '/tenants';
   public static readonly CHARGING_STATION_ROUTE = '/charging-stations';
@@ -24,6 +32,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
   public static readonly CAR_ROUTE = '/cars';
   public static readonly LOGGING_ROUTE = '/logs';
   public static readonly BROWSER_NOT_SUPPORTED_ROUTE = '/browser-not-supported';
+  public static readonly RESERVATION_ROUTE = '/reservations';
 
   private userRole?: string;
 
@@ -33,8 +42,8 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
     private authorizationService: AuthorizationService,
     private translateService: TranslateService,
     private centralServerService: CentralServerService,
-    private componentService: ComponentService) {
-
+    private componentService: ComponentService
+  ) {
     this.centralServerService.getCurrentUserSubject().subscribe((user) => {
       if (user) {
         this.userRole = user.role;
@@ -44,9 +53,13 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
     });
   }
 
-  public async canActivate(activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot): Promise<boolean> {
+  public async canActivate(
+    activatedRoute: ActivatedRouteSnapshot,
+    routerState: RouterStateSnapshot
+  ): Promise<boolean> {
     const isIE = /msie\s|trident\//i.test(window.navigator.userAgent);
-    const isActiveInSuperTenant: boolean = activatedRoute && activatedRoute.data ? activatedRoute.data['activeInSuperTenant'] : false;
+    const isActiveInSuperTenant: boolean =
+      activatedRoute && activatedRoute.data ? activatedRoute.data['activeInSuperTenant'] : false;
     if (isIE) {
       await this.redirectToBrowserNotSupportRoute();
       return false;
@@ -68,21 +81,27 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
     const password = activatedRoute.queryParams['password'];
     if (email && password) {
       // Login
-      this.centralServerService.login({
-        email,
-        password,
-        acceptEula: true,
-      }).subscribe(async (result) => {
-        // Success
-        this.centralServerService.loginSucceeded(result.token);
-        await this.redirectToDefaultRoute();
-      }, async (error) => {
-        // Report the error
-        this.messageService.showErrorMessage(
-          this.translateService.instant('authentication.wrong_email_or_password'));
-        // Navigate to login
-        await this.router.navigate([RouteGuardService.LOGIN_ROUTE], { queryParams: { email } });
-      });
+      this.centralServerService
+        .login({
+          email,
+          password,
+          acceptEula: true,
+        })
+        .subscribe(
+          async (result) => {
+            // Success
+            this.centralServerService.loginSucceeded(result.token);
+            await this.redirectToDefaultRoute();
+          },
+          async (error) => {
+            // Report the error
+            this.messageService.showErrorMessage(
+              this.translateService.instant('authentication.wrong_email_or_password')
+            );
+            // Navigate to login
+            await this.router.navigate([RouteGuardService.LOGIN_ROUTE], { queryParams: { email } });
+          }
+        );
     } else {
       // Not logged in so redirect to login page with the return url
       await this.router.navigate([RouteGuardService.LOGIN_ROUTE], { queryParams });
@@ -90,7 +109,10 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
     return false;
   }
 
-  public async canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+  public async canActivateChild(
+    childRoute: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Promise<boolean> {
     return this.canActivate(childRoute, state);
   }
 
@@ -109,7 +131,9 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
         return false;
       }
       if (Array.isArray(auth)) {
-        return auth.some(authElement => this.authorizationService.canAccess(authElement.entity, authElement.action));
+        return auth.some((authElement) =>
+          this.authorizationService.canAccess(authElement.entity, authElement.action)
+        );
       }
       return this.authorizationService.canAccess(auth.entity, auth.action);
     }
@@ -151,7 +175,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
   }
 
   private getFirstAuthorizedRoute(): string {
-    const entityRoutes: { entity: Entity; route: string } [] = [
+    const entityRoutes: { entity: Entity; route: string }[] = [
       { entity: Entity.CHARGING_STATION, route: RouteGuardService.CHARGING_STATION_ROUTE },
       { entity: Entity.TRANSACTION, route: RouteGuardService.TRANSACTION_ROUTE },
       { entity: Entity.USER, route: RouteGuardService.USER_ROUTE },
@@ -163,6 +187,7 @@ export class RouteGuardService implements CanActivate, CanActivateChild, CanLoad
       { entity: Entity.CAR, route: RouteGuardService.CHARGING_STATION_ROUTE },
       { entity: Entity.CAR_CATALOG, route: RouteGuardService.CHARGING_STATION_ROUTE },
       { entity: Entity.LOGGING, route: RouteGuardService.LOGGING_ROUTE },
+      { entity: Entity.RESERVATION, route: RouteGuardService.RESERVATION_ROUTE },
     ];
     for (const entityRoute of entityRoutes) {
       if (this.authorizationService.canAccess(entityRoute.entity, Action.LIST)) {

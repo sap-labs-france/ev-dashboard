@@ -1,6 +1,12 @@
 // alert-variations("", $brand-primary)
 @mixin alert-variations($component, $selector-suffix, $brand-default) {
-  @include generic-variations($component, $selector-suffix, $brand-default, "alert-variations-content", null);
+  @include generic-variations(
+    $component,
+    $selector-suffix,
+    $brand-default,
+    'alert-variations-content',
+    null
+  );
 }
 
 @mixin alert-variations-content($args) {
@@ -10,7 +16,8 @@
   background-color: lighten($variation-color, 3%);
   color: $variation-color-text;
 
-  a, .alert-link {
+  a,
+  .alert-link {
     color: $variation-color-text;
   }
 }
@@ -37,7 +44,7 @@
   } @else if $mixin-name == alert-variations-content {
     @include alert-variations-content($args);
   } @else {
-    @error "Unknown mixin: #{$mixin-name}"
+    @error "Unknown mixin: #{$mixin-name}";
   }
 }
 
@@ -52,7 +59,6 @@
 //
 
 @mixin generic-variations($component, $selector-suffix, $color-default, $mixin-name, $mdb-param-1) {
-
   //setup map to pass parameters (instead of the incredibly long-error-prone list for each and every @include)
   $args: (
     //extra: $selector-suffix,
@@ -64,64 +70,86 @@
   // bootstrap styles
   &#{$selector-suffix},
   &#{$component}-default#{$selector-suffix} {
-
-    $args-extra: map-merge($args, (
-      variation-color: $brand-text,
-      variation-color-text: $brand-disabled
-    ));
+    $args-extra: map-merge(
+      $args,
+      (
+        variation-color: $brand-text,
+        variation-color-text: $brand-disabled,
+      )
+    );
     @include call-variations-content-mixin($args-extra);
   }
   &#{$component}-inverse#{$selector-suffix} {
-    $args-inverse: map-merge($args, (
-      variation-color: #212121,
-      variation-color-text: $brand-background
-    ));
+    $args-inverse: map-merge(
+      $args,
+      (
+        variation-color: #212121,
+        variation-color-text: $brand-background,
+      )
+    );
     @include call-variations-content-mixin($args-inverse);
   }
   &#{$component}-primary#{$selector-suffix} {
-    $args-primary: map-merge($args, (
-      variation-color: $brand-text,
-      variation-color-text: $mdb-text-color-light
-    ));
+    $args-primary: map-merge(
+      $args,
+      (
+        variation-color: $brand-text,
+        variation-color-text: $mdb-text-color-light,
+      )
+    );
     @include call-variations-content-mixin($args-primary);
   }
   &#{$component}-success#{$selector-suffix} {
-    $args-success: map-merge($args, (
-      variation-color: $brand-success,
-      variation-color-text: $mdb-text-color-light
-    ));
+    $args-success: map-merge(
+      $args,
+      (
+        variation-color: $brand-success,
+        variation-color-text: $mdb-text-color-light,
+      )
+    );
     @include call-variations-content-mixin($args-success);
   }
   &#{$component}-info#{$selector-suffix} {
-    $args-info: map-merge($args, (
-      variation-color: $brand-info,
-      variation-color-text: $mdb-text-color-light
-    ));
+    $args-info: map-merge(
+      $args,
+      (
+        variation-color: $brand-info,
+        variation-color-text: $mdb-text-color-light,
+      )
+    );
     @include call-variations-content-mixin($args-info);
   }
   &#{$component}-warning#{$selector-suffix} {
-    $args-warning: map-merge($args, (
-      variation-color: $brand-warning,
-      variation-color-text: $mdb-text-color-light
-    ));
+    $args-warning: map-merge(
+      $args,
+      (
+        variation-color: $brand-warning,
+        variation-color-text: $mdb-text-color-light,
+      )
+    );
     @include call-variations-content-mixin($args-warning);
   }
   &#{$component}-danger#{$selector-suffix} {
-    $args-danger: map-merge($args, (
-      variation-color: $brand-danger,
-      variation-color-text: $mdb-text-color-light
-    ));
+    $args-danger: map-merge(
+      $args,
+      (
+        variation-color: $brand-danger,
+        variation-color-text: $mdb-text-color-light,
+      )
+    );
     @include call-variations-content-mixin($args-danger);
   }
 
   &#{$component}-rose#{$selector-suffix} {
-    $args-rose: map-merge($args, (
-      variation-color: $brand-info,
-      variation-color-text: $mdb-text-color-light
-    ));
+    $args-rose: map-merge(
+      $args,
+      (
+        variation-color: $brand-info,
+        variation-color-text: $mdb-text-color-light,
+      )
+    );
     @include call-variations-content-mixin($args-rose);
   }
-
 }
 
 @mixin alert-icon-color($color) {

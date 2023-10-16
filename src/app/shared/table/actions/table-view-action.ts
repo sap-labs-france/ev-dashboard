@@ -2,7 +2,11 @@ import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
-import { AuthorizationAttributes, DialogMode, DialogParamsWithAuth } from '../../../types/Authorization';
+import {
+  AuthorizationAttributes,
+  DialogMode,
+  DialogParamsWithAuth,
+} from '../../../types/Authorization';
 import { ButtonAction, ButtonActionColor } from '../../../types/GlobalType';
 import { TableActionDef, TableData } from '../../../types/Table';
 import { TableAction } from './table-action';
@@ -15,15 +19,19 @@ export class TableViewAction implements TableAction {
     color: ButtonActionColor.PRIMARY,
     name: 'general.tooltips.view',
     tooltip: 'general.tooltips.view',
-    action: this.view
+    action: this.view,
   };
 
   public getActionDef(): TableActionDef {
     return this.action;
   }
 
-  protected view(component: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<TableData, AuthorizationAttributes>, refresh?: () => Observable<void>) {
+  protected view(
+    component: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<TableData, AuthorizationAttributes>,
+    refresh?: () => Observable<void>
+  ) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.maxWidth = '95vw';

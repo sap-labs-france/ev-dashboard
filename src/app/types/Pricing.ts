@@ -17,7 +17,7 @@ export enum DimensionType {
   FLAT_FEE = 'flatFee',
   ENERGY = 'energy',
   CHARGING_TIME = 'chargingTime',
-  PARKING_TIME = 'parkingTime'
+  PARKING_TIME = 'parkingTime',
 }
 
 // TODO: erase this intrface after verifying it's not used anymore
@@ -84,7 +84,7 @@ export enum DayOfWeek {
   THURSDAY = 4,
   FRIDAY = 5,
   SATURDAY = 6,
-  SUNDAY = 7
+  SUNDAY = 7,
 }
 
 // Interface exposed by the pricing integration layer

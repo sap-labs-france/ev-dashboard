@@ -6,46 +6,46 @@ The Angular dashboard connects to the [Open e-Mobility NodeJs Server](https://gi
 
 The application features:
 
-* Charging Stations details and real-time statuses
-* Charging sessions curves in real time
-* Charging stations remote control (Reboot, Clear Cache, Stop Transaction, Unlock Connector)
-* Charging Station Template management: Zero configuration
-* User management
-* Badge management
-* Role management (ABAC)
-* Static Energy Management: Manually limit the charging station
-* Smart Charging with Assets, Fair Sharing, Peak Shaving, Cost Management and Phase Balancing
-* Realtime Asset Management (Building, Battery, Solar Panel) 
-* Billing with Stripe
-* Complex Pricing
-* Roaming integration (Gire, Hubject)
-* Refunding (SAP Concur)
-* Simple Statistics + Advanced Analytics (SAP Analytics)
-* Car Connector Management (Get the car's data to optimize the charging session)
+- Charging Stations details and real-time statuses
+- Charging sessions curves in real time
+- Charging stations remote control (Reboot, Clear Cache, Stop Transaction, Unlock Connector)
+- Charging Station Template management: Zero configuration
+- User management
+- Badge management
+- Role management (ABAC)
+- Static Energy Management: Manually limit the charging station
+- Smart Charging with Assets, Fair Sharing, Peak Shaving, Cost Management and Phase Balancing
+- Realtime Asset Management (Building, Battery, Solar Panel)
+- Billing with Stripe
+- Complex Pricing
+- Roaming integration (Gire, Hubject)
+- Refunding (SAP Concur)
+- Simple Statistics + Advanced Analytics (SAP Analytics)
+- Car Connector Management (Get the car's data to optimize the charging session)
 
 **Contact the author** <a href="https://www.linkedin.com/in/serge-fabiano-a420a218/" target="_blank">Serge FABIANO</a>
 
 ## Installation
 
-* Install NodeJS: https://nodejs.org/ (install the LTS version)
-* Clone this GitHub project
-* Go into the **ev-dashboard** directory and run **npm install** or **yarn install** (use sudo in Linux)
+- Install NodeJS: https://nodejs.org/ (install the LTS version)
+- Clone this GitHub project
+- Go into the **ev-dashboard** directory and run **npm install** or **yarn install** (use sudo in Linux)
 
 **NOTE**:
 
-* On Windows with **chocolatey** (https://chocolatey.org/), do as an administrator:
+- On Windows with **chocolatey** (https://chocolatey.org/), do as an administrator:
 
 ```powershell
 choco install -y nodejs-lts
 ```
 
-* On Mac OSX with **Homebrew** (https://brew.sh/), do:
+- On Mac OSX with **Homebrew** (https://brew.sh/), do:
 
 ```shell
 brew install node
 ```
 
-* Follow the rest of the setup below
+- Follow the rest of the setup below
 
 ## The Dashboard
 
@@ -74,15 +74,17 @@ Set the REST Server URL:
 ```
 
 ### Create and set a Google Maps API key
+
 Ev-dashboard requires you to setup a Google API key: https://developers.google.com/maps/documentation/javascript/get-api-key#restrict_key.
 Once the key is created it must be enabled (from the Google Console) and the value must replace the one present in /src/index.html, in Google Maps section:
 
-	src="https://maps.googleapis.com/maps/api/js?key=<YOUR_KEY_HERE>&libraries=places&language=en"></script>
+    src="https://maps.googleapis.com/maps/api/js?key=<YOUR_KEY_HERE>&libraries=places&language=en"></script>
 
 ### Setup the reCaptcha API key
+
 In order to call REST endpoints of ev-server, a reCaptcha key is required. Refers to this link https://www.google.com/recaptcha/admin/create to create one then copy the client key in config.json, in User section:
 
-```json 
+```json
 	"User": {
 	  "maxPictureKb": 150,
 	  "captchaSiteKey": "<GOOGLE_RECAPTCHA_KEY_CLIENT>"
@@ -100,27 +102,31 @@ npm start
 ### Production Mode
 
 First build the sources with:
+
 ```shell
-npm run build:prod
+npm build:prod
 ```
 
 Next, start the server with:
+
 ```shell
-npm run start:prod
+npm start:prod
 ```
 
 ### Secured Production Mode (SSL)
 
 Build the sources as above and run it with:
+
 ```shell
-npm run start:prod:ssl
+npm start:prod:ssl
 ```
 
 ## Integration tests
 
 To run integration tests, you first need to start the UI and run the below command:
+
 ```shell
-npm run test
+npm test
 ```
 
 This will run all integraiton tests written with **Jest** framework.

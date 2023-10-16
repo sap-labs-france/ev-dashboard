@@ -1,37 +1,51 @@
 <div class="main-content vw-90 vh-90 charging-station-limitation-dialog-size">
   <div class="card card-profile card-testimonial">
-    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-close-action">
+    <mat-tab-group
+      animationDuration="0ms"
+      disableRipple="true"
+      class="mat-tab-info mat-tabs-with-close-action"
+    >
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>battery_charging_full</mat-icon>
-          <span>{{'chargers.smart_charging.static_limit' | translate }}</span>
+          <span>{{ 'chargers.smart_charging.static_limit' | translate }}</span>
         </ng-template>
-        <div class="card-body"
-          *ngIf="chargingStation?.capabilities?.supportStaticLimitation; else notSupported">
+        <div
+          class="card-body"
+          *ngIf="chargingStation?.capabilities?.supportStaticLimitation; else notSupported"
+        >
           <div class="col-md-12">
-            <app-charging-station-static-limitation [chargingStation]="chargingStation" [chargingStationsAuthorizations]="chargingStationsAuthorizations">
+            <app-charging-station-static-limitation
+              [chargingStation]="chargingStation"
+              [chargingStationsAuthorizations]="chargingStationsAuthorizations"
+            >
             </app-charging-station-static-limitation>
           </div>
         </div>
         <ng-template #notSupported>
           <div class="card-body mat-subheading-2 text-danger pt-4">
-            {{'chargers.smart_charging.not_supported' | translate }}
+            {{ 'chargers.smart_charging.not_supported' | translate }}
           </div>
         </ng-template>
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>show_chart</mat-icon>
-          <span>{{'chargers.smart_charging.charging_profile_limit' | translate }}</span>
+          <span>{{ 'chargers.smart_charging.charging_profile_limit' | translate }}</span>
         </ng-template>
         <ng-template matTabContent>
-          <div class="card-body"
-            *ngIf="chargingStation?.capabilities?.supportChargingProfiles; else notSupported">
-            <app-charging-plans [chargingStation]="chargingStation" [chargingStationsAuthorizations]="chargingStationsAuthorizations"></app-charging-plans>
+          <div
+            class="card-body"
+            *ngIf="chargingStation?.capabilities?.supportChargingProfiles; else notSupported"
+          >
+            <app-charging-plans
+              [chargingStation]="chargingStation"
+              [chargingStationsAuthorizations]="chargingStationsAuthorizations"
+            ></app-charging-plans>
           </div>
           <ng-template #notSupported>
             <div class="card-body mat-subheading-2 text-danger pt-4">
-              {{'chargers.smart_charging.not_supported' | translate }}
+              {{ 'chargers.smart_charging.not_supported' | translate }}
             </div>
           </ng-template>
         </ng-template>
@@ -39,15 +53,20 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>info</mat-icon>
-          <span>{{'chargers.smart_charging.debug_charging_station' | translate }}</span>
+          <span>{{ 'chargers.smart_charging.debug_charging_station' | translate }}</span>
         </ng-template>
-        <div class="card-body"
-          *ngIf="chargingStation?.capabilities?.supportChargingProfiles; else notSupported">
-          <app-charging-station-advanced [chargingStation]="chargingStation" [chargingStationsAuthorizations]="chargingStationsAuthorizations"></app-charging-station-advanced>
+        <div
+          class="card-body"
+          *ngIf="chargingStation?.capabilities?.supportChargingProfiles; else notSupported"
+        >
+          <app-charging-station-advanced
+            [chargingStation]="chargingStation"
+            [chargingStationsAuthorizations]="chargingStationsAuthorizations"
+          ></app-charging-station-advanced>
         </div>
         <ng-template #notSupported>
           <div class="card-body mat-subheading-2 text-danger pt-4">
-            {{'chargers.smart_charging.not_supported' | translate }}
+            {{ 'chargers.smart_charging.not_supported' | translate }}
           </div>
         </ng-template>
       </mat-tab>

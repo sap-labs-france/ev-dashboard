@@ -24,8 +24,15 @@ import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableOpenURLActionDef } from '../../../shared/table/actions/table-open-url-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
-import { TableDeleteTransactionsAction, TableDeleteTransactionsActionDef } from '../../../shared/table/actions/transactions/table-delete-transactions-action';
-import { TableViewTransactionAction, TableViewTransactionActionDef, TransactionDialogData } from '../../../shared/table/actions/transactions/table-view-transaction-action';
+import {
+  TableDeleteTransactionsAction,
+  TableDeleteTransactionsActionDef,
+} from '../../../shared/table/actions/transactions/table-delete-transactions-action';
+import {
+  TableViewTransactionAction,
+  TableViewTransactionActionDef,
+  TransactionDialogData,
+} from '../../../shared/table/actions/transactions/table-view-transaction-action';
 import { ChargingStationTableFilter } from '../../../shared/table/filters/charging-station-table-filter';
 import { ConnectorTableFilter } from '../../../shared/table/filters/connector-table-filter';
 import { ErrorTypeTableFilter } from '../../../shared/table/filters/error-type-table-filter';
@@ -59,40 +66,58 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   private errorTypes = [
     {
       key: TransactionInErrorType.INVALID_START_DATE,
-      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.INVALID_START_DATE}.title`),
+      value: this.translateService.instant(
+        `transactions.errors.${TransactionInErrorType.INVALID_START_DATE}.title`
+      ),
     },
     {
       key: TransactionInErrorType.NEGATIVE_ACTIVITY,
-      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.NEGATIVE_ACTIVITY}.title`),
+      value: this.translateService.instant(
+        `transactions.errors.${TransactionInErrorType.NEGATIVE_ACTIVITY}.title`
+      ),
     },
     {
       key: TransactionInErrorType.LONG_INACTIVITY,
-      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.LONG_INACTIVITY}.title`),
+      value: this.translateService.instant(
+        `transactions.errors.${TransactionInErrorType.LONG_INACTIVITY}.title`
+      ),
     },
     {
       key: TransactionInErrorType.NO_CONSUMPTION,
-      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.NO_CONSUMPTION}.title`),
+      value: this.translateService.instant(
+        `transactions.errors.${TransactionInErrorType.NO_CONSUMPTION}.title`
+      ),
     },
     {
       key: TransactionInErrorType.LOW_CONSUMPTION,
-      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.LOW_CONSUMPTION}.title`),
+      value: this.translateService.instant(
+        `transactions.errors.${TransactionInErrorType.LOW_CONSUMPTION}.title`
+      ),
     },
     {
       key: TransactionInErrorType.OVER_CONSUMPTION,
-      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.OVER_CONSUMPTION}.title`),
+      value: this.translateService.instant(
+        `transactions.errors.${TransactionInErrorType.OVER_CONSUMPTION}.title`
+      ),
     },
     {
       key: TransactionInErrorType.NEGATIVE_DURATION,
-      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.NEGATIVE_DURATION}.title`),
+      value: this.translateService.instant(
+        `transactions.errors.${TransactionInErrorType.NEGATIVE_DURATION}.title`
+      ),
     },
     {
       key: TransactionInErrorType.LOW_DURATION,
-      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.LOW_DURATION}.title`),
+      value: this.translateService.instant(
+        `transactions.errors.${TransactionInErrorType.LOW_DURATION}.title`
+      ),
     },
     {
       key: TransactionInErrorType.MISSING_USER,
-      value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.MISSING_USER}.title`),
-    }
+      value: this.translateService.instant(
+        `transactions.errors.${TransactionInErrorType.MISSING_USER}.title`
+      ),
+    },
   ];
 
   public constructor(
@@ -109,20 +134,25 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     private datePipe: AppDatePipe,
     private appConnectorIdPipe: AppConnectorIdPipe,
     private appUserNamePipe: AppUserNamePipe,
-    private windowService: WindowService) {
+    private windowService: WindowService
+  ) {
     super(spinnerService, translateService);
     // If pricing is activated check that transactions have been priced
     if (this.componentService.isActive(TenantComponents.PRICING)) {
       this.errorTypes.push({
         key: TransactionInErrorType.MISSING_PRICE,
-        value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.MISSING_PRICE}.title`),
+        value: this.translateService.instant(
+          `transactions.errors.${TransactionInErrorType.MISSING_PRICE}.title`
+        ),
       });
     }
     // If billing is activated check that transactions have billing data
     if (this.componentService.isActive(TenantComponents.BILLING)) {
       this.errorTypes.push({
         key: TransactionInErrorType.NO_BILLING_DATA,
-        value: this.translateService.instant(`transactions.errors.${TransactionInErrorType.NO_BILLING_DATA}.title`),
+        value: this.translateService.instant(
+          `transactions.errors.${TransactionInErrorType.NO_BILLING_DATA}.title`
+        ),
       });
     }
     // Sort
@@ -133,7 +163,8 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
 
   public loadDataImpl(): Observable<TransactionInErrorDataResult> {
     return new Observable((observer) => {
-      this.centralServerService.getTransactionsInError(this.buildFilterValues(), this.getPaging(), this.getSorting())
+      this.centralServerService
+        .getTransactionsInError(this.buildFilterValues(), this.getPaging(), this.getSorting())
         .subscribe({
           next: (transactions) => {
             // Initialize transactions authorization
@@ -147,12 +178,13 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
               canExport: Utils.convertToBoolean(transactions.canExport),
               canDelete: Utils.convertToBoolean(transactions.canDelete),
               // metadata
-              metadata: transactions.metadata
+              metadata: transactions.metadata,
             };
             // Update filters visibility
             this.siteFilter.visible = this.transactionsAuthorizations.canListSites;
             this.siteAreaFilter.visible = this.transactionsAuthorizations.canListSiteAreas;
-            this.chargingStationFilter.visible = this.transactionsAuthorizations.canListChargingStations;
+            this.chargingStationFilter.visible =
+              this.transactionsAuthorizations.canListChargingStations;
             this.connectorFilter.visible = this.transactionsAuthorizations.canListChargingStations;
             this.userFilter.visible = this.transactionsAuthorizations.canListUsers;
             // Update action visibility
@@ -162,19 +194,22 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
             observer.complete();
           },
           error: (error) => {
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.error_backend'
+            );
             observer.error(error);
-          }
+          },
         });
     });
   }
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    return [
-      this.deleteManyAction,
-      ...tableActionsDef,
-    ];
+    return [this.deleteManyAction, ...tableActionsDef];
   }
 
   public buildTableDef(): TableDef {
@@ -186,7 +221,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         enabled: true,
         multiple: true,
       },
-      hasDynamicRowAction: true
+      hasDynamicRowAction: true,
     };
   }
 
@@ -196,9 +231,16 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
       case TransactionButtonAction.DELETE_TRANSACTIONS:
         if (actionDef.action) {
           (actionDef as TableDeleteTransactionsActionDef).action(
-            this.getSelectedRows(), this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.spinnerService, this.router,
-            this.clearSelectedRows.bind(this), this.refreshData.bind(this));
+            this.getSelectedRows(),
+            this.dialogService,
+            this.translateService,
+            this.messageService,
+            this.centralServerService,
+            this.spinnerService,
+            this.router,
+            this.clearSelectedRows.bind(this),
+            this.refreshData.bind(this)
+          );
         }
         break;
     }
@@ -251,7 +293,8 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         headerClass: 'col-30p',
         class: 'col-30p text-danger',
         sortable: true,
-        formatter: (value: string, row: TransactionInError) => this.translateService.instant(`transactions.errors.${row.errorCode}.title`),
+        formatter: (value: string, row: TransactionInError) =>
+          this.translateService.instant(`transactions.errors.${row.errorCode}.title`),
       },
       {
         id: 'stop.totalDurationSecs',
@@ -265,28 +308,31 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         name: 'transactions.consumption',
         headerClass: 'col-10p',
         class: 'col-10p',
-        formatter: (totalConsumptionWh: number) => this.appUnitPipe.transform(totalConsumptionWh, 'Wh', 'kWh'),
+        formatter: (totalConsumptionWh: number) =>
+          this.appUnitPipe.transform(totalConsumptionWh, 'Wh', 'kWh'),
       },
       {
         id: 'stateOfCharge',
         name: 'transactions.state_of_charge',
         headerClass: 'col-10p',
         class: 'col-10p',
-        formatter: (stateOfCharge: number, row: Transaction) => stateOfCharge ? `${stateOfCharge}% > ${row.stop.stateOfCharge}%` : '-',
+        formatter: (stateOfCharge: number, row: Transaction) =>
+          stateOfCharge ? `${stateOfCharge}% > ${row.stop.stateOfCharge}%` : '-',
       },
       {
         id: 'user.name',
         name: 'transactions.user',
         headerClass: 'col-15p',
         class: 'text-left col-15p',
-        formatter: (value: string, row: TransactionInError) => this.appUserNamePipe.transform(row.user),
+        formatter: (value: string, row: TransactionInError) =>
+          this.appUserNamePipe.transform(row.user),
       },
       {
         id: 'tagID',
         name: 'tags.id',
         headerClass: 'col-10p',
         class: 'text-left col-10p',
-        formatter: (tagID: string) => tagID ? tagID : '-',
+        formatter: (tagID: string) => (tagID ? tagID : '-'),
       },
       {
         id: 'carCatalog.vehicleMake',
@@ -294,8 +340,9 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         headerClass: 'text-center col-15p',
         class: 'text-center col-15p',
         sortable: true,
-        formatter: (value: string, row: Transaction) => row.carCatalog ? Utils.buildCarCatalogName(row.carCatalog) : '-',
-        visible: this.componentService.isActive(TenantComponents.CAR)
+        formatter: (value: string, row: Transaction) =>
+          row.carCatalog ? Utils.buildCarCatalogName(row.carCatalog) : '-',
+        visible: this.componentService.isActive(TenantComponents.CAR),
       },
       {
         id: 'car.licensePlate',
@@ -303,9 +350,9 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
         headerClass: 'text-center col-15p',
         class: 'text-center col-15p',
         sortable: true,
-        formatter: (licensePlate: string) => licensePlate ? licensePlate : '-',
-        visible: this.componentService.isActive(TenantComponents.CAR)
-      }
+        formatter: (licensePlate: string) => (licensePlate ? licensePlate : '-'),
+        visible: this.componentService.isActive(TenantComponents.CAR),
+      },
     ];
   }
 
@@ -314,13 +361,17 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-
     // this.issuerFilter = new IssuerFilter().getFilterDef();
-    this.dateRangeFilter = new DateRangeTableFilter({ translateService: this.translateService }).getFilterDef();
+    this.dateRangeFilter = new DateRangeTableFilter({
+      translateService: this.translateService,
+    }).getFilterDef();
     this.errorFilter = new ErrorTypeTableFilter(this.errorTypes).getFilterDef();
     this.siteFilter = new SiteTableFilter().getFilterDef();
     this.siteAreaFilter = new SiteAreaTableFilter([this.siteFilter]).getFilterDef();
-    this.chargingStationFilter = new ChargingStationTableFilter([this.siteFilter, this.siteAreaFilter]).getFilterDef();
+    this.chargingStationFilter = new ChargingStationTableFilter([
+      this.siteFilter,
+      this.siteAreaFilter,
+    ]).getFilterDef();
     this.connectorFilter = new ConnectorTableFilter().getFilterDef();
     this.userFilter = new UserTableFilter([this.siteFilter]).getFilterDef();
     // Create filters
@@ -337,9 +388,7 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   }
 
   public buildTableDynamicRowActions(transaction: TransactionInError): TableActionDef[] {
-    const rowActions: TableActionDef[] = [
-      this.viewAction
-    ];
+    const rowActions: TableActionDef[] = [this.viewAction];
     // More action
     const moreActions = new TableMoreAction([]);
     if (transaction.canListLogs) {
@@ -356,15 +405,24 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
     switch (actionDef.id) {
       case TransactionButtonAction.VIEW_TRANSACTION:
         if (actionDef.action) {
-          (actionDef as TableViewTransactionActionDef).action(TransactionDialogComponent, this.dialog,
+          (actionDef as TableViewTransactionActionDef).action(
+            TransactionDialogComponent,
+            this.dialog,
             { dialogData: { transactionID: transaction.id } as TransactionDialogData },
-            this.refreshData.bind(this));
+            this.refreshData.bind(this)
+          );
         }
         break;
       case LogButtonAction.NAVIGATE_TO_LOGS:
         if (actionDef.action) {
-          (actionDef as TableOpenURLActionDef).action('logs?ChargingStationID=' + transaction.chargeBoxID +
-            '&StartDateTime=' + transaction.timestamp + '&LogLevel=I', this.windowService);
+          (actionDef as TableOpenURLActionDef).action(
+            'logs?ChargingStationID=' +
+              transaction.chargeBoxID +
+              '&StartDateTime=' +
+              transaction.timestamp +
+              '&LogLevel=I',
+            this.windowService
+          );
         }
         break;
     }
@@ -378,14 +436,25 @@ export class TransactionsInErrorTableDataSource extends TableDataSource<Transact
   }
 
   protected deleteTransaction(transaction: Transaction) {
-    this.centralServerService.deleteTransaction(transaction.id).subscribe((response: ActionResponse) => {
-      this.messageService.showSuccessMessage(
-        this.translateService.instant('transactions.notification.delete.success',
-          { user: this.appUserNamePipe.transform(transaction.user) }));
-      this.refreshData().subscribe();
-    }, (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.notification.delete.error');
-    });
+    this.centralServerService.deleteTransaction(transaction.id).subscribe(
+      (response: ActionResponse) => {
+        this.messageService.showSuccessMessage(
+          this.translateService.instant('transactions.notification.delete.success', {
+            user: this.appUserNamePipe.transform(transaction.user),
+          })
+        );
+        this.refreshData().subscribe();
+      },
+      (error) => {
+        Utils.handleHttpError(
+          error,
+          this.router,
+          this.messageService,
+          this.centralServerService,
+          'transactions.notification.delete.error'
+        );
+      }
+    );
   }
 
   private formatErrorMessages(transactions: TransactionInError[]) {

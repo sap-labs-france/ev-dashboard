@@ -16,7 +16,6 @@ import { Constants } from '../../utils/Constants';
   selector: 'app-authentication-reset-password',
   templateUrl: 'authentication-reset-password.component.html',
 })
-
 export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
   public email: AbstractControl;
   public formGroup: UntypedFormGroup;
@@ -33,16 +32,16 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private reCaptchaV3Service: ReCaptchaV3Service,
     private windowService: WindowService,
-    private configService: ConfigService) {
+    private configService: ConfigService
+  ) {
     // Get the Site Key
     this.siteKey = this.configService.getUser().captchaSiteKey;
     // Init Form
     this.formGroup = new UntypedFormGroup({
-      email: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.email,
-        ])),
+      email: new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, Validators.email])
+      ),
     });
     // Keep the sub-domain
     this.subDomain = this.windowService.getSubdomain();
@@ -74,10 +73,15 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
               this.tenantLogo = Constants.NO_IMAGE;
               break;
             default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'general.unexpected_error_backend');
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'general.unexpected_error_backend'
+              );
           }
-        }
+        },
       });
     } else {
       this.tenantLogo = Constants.MASTER_TENANT_LOGO;
@@ -111,7 +115,7 @@ export class AuthenticationResetPasswordComponent implements OnInit, OnDestroy {
           this.spinnerService.hide();
           this.messageService.showSuccessMessage('authentication.reset_password_success');
           void this.router.navigate(['/auth/login']);
-        }
+        },
       });
     });
   }

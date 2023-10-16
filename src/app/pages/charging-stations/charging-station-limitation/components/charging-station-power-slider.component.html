@@ -1,27 +1,48 @@
 <table [class]="forChargingProfile ? 'col-md-12' : 'mb-4 col-md-12'">
   <tr *ngIf="!notSupported">
-    <td class="text-center col-5em p-1">
-      {{displayedMinPowerKW}}<br />({{this.minAmp}} A)
-    </td>
+    <td class="text-center col-5em p-1">{{ displayedMinPowerKW }}<br />({{ this.minAmp }} A)</td>
     <td class="p-3">
       <mat-slider
-        [disabled]="chargingStation?.inactive || !chargingStation.canLimitPower || (isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && chargingStation?.capabilities?.supportChargingProfiles && !chargingStation.excludeFromSmartCharging)"
-        thumbLabel class="col-md-12" [min]="minAmp" [max]="maxAmp" [step]="ampSteps" [value]="currentAmp"
-        [displayWith]="formatSlideLabelPowerKW" (change)="sliderChanged($event.value)">
+        [disabled]="
+          chargingStation?.inactive ||
+          !chargingStation.canLimitPower ||
+          (isSmartChargingComponentActive &&
+            chargingStation.siteArea?.smartCharging &&
+            chargingStation?.capabilities?.supportChargingProfiles &&
+            !chargingStation.excludeFromSmartCharging)
+        "
+        thumbLabel
+        class="col-md-12"
+        [min]="minAmp"
+        [max]="maxAmp"
+        [step]="ampSteps"
+        [value]="currentAmp"
+        [displayWith]="formatSlideLabelPowerKW"
+        (change)="sliderChanged($event.value)"
+      >
       </mat-slider>
-      <div [class]="forChargingProfile ? 'current-power-text-in-list text-center' : 'current-power-text text-center'"
-        colspan="3">
-        {{displayedCurrentPowerW}} ({{this.currentAmp}} A)
+      <div
+        [class]="
+          forChargingProfile
+            ? 'current-power-text-in-list text-center'
+            : 'current-power-text text-center'
+        "
+        colspan="3"
+      >
+        {{ displayedCurrentPowerW }} ({{ this.currentAmp }} A)
       </div>
     </td>
-    <td class="text-center col-5em p-2">
-      {{displayedMaxPowerKW}}<br />({{this.maxAmp}} A)
-    </td>
+    <td class="text-center col-5em p-2">{{ displayedMaxPowerKW }}<br />({{ this.maxAmp }} A)</td>
   </tr>
   <tr *ngIf="notSupported">
     <td
-      [class]="forChargingProfile ? 'col-md-12 text-center current-power-text-not-supported p-0' : 'col-md-12 text-center current-power-text-not-supported mb-4'">
-      {{'chargers.smart_charging.slider_power_disabled' | translate }}
+      [class]="
+        forChargingProfile
+          ? 'col-md-12 text-center current-power-text-not-supported p-0'
+          : 'col-md-12 text-center current-power-text-not-supported mb-4'
+      "
+    >
+      {{ 'chargers.smart_charging.slider_power_disabled' | translate }}
     </td>
   </tr>
 </table>

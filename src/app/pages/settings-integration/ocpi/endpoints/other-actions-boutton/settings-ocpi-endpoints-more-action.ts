@@ -12,9 +12,7 @@ export class SettingsOcpiEndpointsMoreAction implements TableAction {
     name: 'general.edit',
     tooltip: 'general.tooltips.more',
     isDropdownMenu: true,
-    dropdownActions: [
-      new SettingsOCPIStartJobAction().getActionDef(),
-    ],
+    dropdownActions: [new SettingsOCPIStartJobAction().getActionDef()],
   };
 
   public getActionDef(): TableActionDef {

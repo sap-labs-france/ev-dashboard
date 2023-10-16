@@ -1,10 +1,14 @@
 <div class="main-content">
-  <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex" animationDuration="0ms"
-    disableRipple="true" class="h-100 mat-tab-info">
-
+  <mat-tab-group
+    (selectedIndexChange)="updateRoute($event)"
+    [selectedIndex]="activeTabIndex"
+    animationDuration="0ms"
+    disableRipple="true"
+    class="h-100 mat-tab-info"
+  >
     <mat-tab *ngIf="canListOCPIEndpoints">
       <ng-template mat-tab-label>
-        <mat-icon>cloud</mat-icon><span>{{'settings.tabs.ocpi' | translate}}</span>
+        <mat-icon>cloud</mat-icon><span>{{ 'settings.tabs.ocpi' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-settings-ocpi></app-settings-ocpi>
@@ -13,7 +17,7 @@
 
     <mat-tab *ngIf="canListOICPEndpoints">
       <ng-template mat-tab-label>
-        <mat-icon>cloud</mat-icon><span>{{'settings.tabs.oicp' | translate}}</span>
+        <mat-icon>cloud</mat-icon><span>{{ 'settings.tabs.oicp' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-settings-oicp></app-settings-oicp>
@@ -22,7 +26,7 @@
 
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon>local_atm</mat-icon><span>{{'settings.tabs.refund' | translate}}</span>
+        <mat-icon>local_atm</mat-icon><span>{{ 'settings.tabs.refund' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-settings-refund></app-settings-refund>
@@ -31,7 +35,7 @@
 
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon>money</mat-icon><span>{{'settings.tabs.pricing' | translate}}</span>
+        <mat-icon>money</mat-icon><span>{{ 'settings.tabs.pricing' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-settings-pricing></app-settings-pricing>
@@ -40,7 +44,7 @@
 
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon>payment</mat-icon><span>{{'settings.tabs.billing' | translate}}</span>
+        <mat-icon>payment</mat-icon><span>{{ 'settings.tabs.billing' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-settings-billing></app-settings-billing>
@@ -49,7 +53,8 @@
 
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon>insert_chart_outlined</mat-icon><span>{{'settings.tabs.analytics' | translate}}</span>
+        <mat-icon>insert_chart_outlined</mat-icon
+        ><span>{{ 'settings.tabs.analytics' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-settings-analytics></app-settings-analytics>
@@ -58,7 +63,7 @@
 
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon>power</mat-icon><span>{{'settings.tabs.smart_charging' | translate}}</span>
+        <mat-icon>power</mat-icon><span>{{ 'settings.tabs.smart_charging' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-settings-smart-charging></app-settings-smart-charging>
@@ -67,7 +72,7 @@
 
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon>account_balance</mat-icon><span>{{'settings.tabs.asset' | translate}}</span>
+        <mat-icon>account_balance</mat-icon><span>{{ 'settings.tabs.asset' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-settings-asset></app-settings-asset>
@@ -76,7 +81,8 @@
 
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon>bluetooth_drive</mat-icon><span>{{'settings.tabs.car_connector' | translate}}</span>
+        <mat-icon>bluetooth_drive</mat-icon
+        ><span>{{ 'settings.tabs.car_connector' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-settings-car-connector></app-settings-car-connector>

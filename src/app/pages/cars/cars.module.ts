@@ -48,8 +48,6 @@ import { CarImageFormatterCellComponent } from './cell-components/car-image-form
     CarMainComponent,
     CarConnectorComponent,
   ],
-  providers: []
+  providers: [],
 })
-
-export class CarsModule {
-}
+export class CarsModule {}

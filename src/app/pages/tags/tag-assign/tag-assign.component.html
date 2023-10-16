@@ -1,20 +1,33 @@
 <div class="main-content vh-lg-25 vw-lg-40 vh-3xl-45 vw-3xl-20">
   <div class="card card-profile card-testimonial">
-    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info" [class]="dialogRef ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
+    <mat-tab-group
+      animationDuration="0ms"
+      disableRipple="true"
+      class="mat-tab-info"
+      [class]="dialogRef ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'"
+    >
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>portrait</mat-icon>
-          <span>{{'users.tags' | translate}}</span>
+          <span>{{ 'users.tags' | translate }}</span>
         </ng-template>
         <div class="card-body align-items-start">
           <div class="row">
             <div class="col-md-12">
-              <div class="form-group" appTooltip title="{{'tags.visual_id_instruction' | translate}}">
+              <div
+                class="form-group"
+                appTooltip
+                title="{{ 'tags.visual_id_instruction' | translate }}"
+              >
                 <mat-form-field>
-                  <input  matInput placeholder="{{'tags.visual_id' | translate}}"
-                    type="text" [formControl]="visualID">
+                  <input
+                    matInput
+                    placeholder="{{ 'tags.visual_id' | translate }}"
+                    type="text"
+                    [formControl]="visualID"
+                  />
                   <mat-error *ngIf="visualID.errors?.required">
-                    {{"general.mandatory_field" | translate}}
+                    {{ 'general.mandatory_field' | translate }}
                   </mat-error>
                 </mat-form-field>
               </div>
@@ -24,10 +37,14 @@
             <div class="col-md-12">
               <div class="form-group">
                 <mat-form-field>
-                  <input matInput placeholder="{{'general.description' | translate}}"
-                    type="text" [formControl]="description">
+                  <input
+                    matInput
+                    placeholder="{{ 'general.description' | translate }}"
+                    type="text"
+                    [formControl]="description"
+                  />
                   <mat-error *ngIf="description.errors?.required">
-                    {{"general.mandatory_field" | translate}}
+                    {{ 'general.mandatory_field' | translate }}
                   </mat-error>
                 </mat-form-field>
               </div>
@@ -38,7 +55,7 @@
               <div class="form-group">
                 <div class="text-left">
                   <mat-checkbox value="false" [formControl]="default">
-                    {{'tags.default_tag' | translate}}
+                    {{ 'tags.default_tag' | translate }}
                   </mat-checkbox>
                 </div>
               </div>
@@ -49,11 +66,20 @@
       </mat-tab>
     </mat-tab-group>
     <div [class]="dialogRef ? 'tabs-actions' : 'tabs-actions-embedded'">
-      <button mat-icon-button (click)="saveTag(formGroup.getRawValue())" title="{{'general.save' | translate}}"
-          [disabled]="!formGroup.valid || !formGroup.dirty">
+      <button
+        mat-icon-button
+        (click)="saveTag(formGroup.getRawValue())"
+        title="{{ 'general.save' | translate }}"
+        [disabled]="!formGroup.valid || !formGroup.dirty"
+      >
         <mat-icon>save</mat-icon>
       </button>
-      <button mat-icon-button *ngIf="inDialog" (click)="close()" title="{{'general.close' | translate}}">
+      <button
+        mat-icon-button
+        *ngIf="inDialog"
+        (click)="close()"
+        title="{{ 'general.close' | translate }}"
+      >
         <mat-icon>close</mat-icon>
       </button>
     </div>

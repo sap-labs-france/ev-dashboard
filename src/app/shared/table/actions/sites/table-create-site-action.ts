@@ -8,8 +8,12 @@ import { TableActionDef } from '../../../../types/Table';
 import { TableCreateAction } from '../table-create-action';
 
 export interface TableCreateSiteActionDef extends TableActionDef {
-  action: (siteDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<Site, SitesAuthorizations>, refresh?: () => Observable<void>) => void;
+  action: (
+    siteDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<Site, SitesAuthorizations>,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableCreateSiteAction extends TableCreateAction {
@@ -18,12 +22,16 @@ export class TableCreateSiteAction extends TableCreateAction {
       ...super.getActionDef(),
       id: SiteButtonAction.CREATE_SITE,
       action: this.createSite,
-      visible: false
+      visible: false,
     };
   }
 
-  private createSite(siteDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<Site, SitesAuthorizations>, refresh?: () => Observable<void>) {
+  private createSite(
+    siteDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<Site, SitesAuthorizations>,
+    refresh?: () => Observable<void>
+  ) {
     super.create(siteDialogComponent, dialog, dialogParams, refresh);
   }
 }

@@ -3,21 +3,36 @@
     <div class="row">
       <div class="col-md-6 form-group" *ngIf="chargingStation?.issuer">
         <mat-form-field>
-          <input matInput type="text" placeholder="{{'chargers.charger_url' | translate}}"
-            [formControl]="chargingStationURL" required [readOnly]="readOnly" />
+          <input
+            matInput
+            type="text"
+            placeholder="{{ 'chargers.charger_url' | translate }}"
+            [formControl]="chargingStationURL"
+            required
+            [readOnly]="readOnly"
+          />
         </mat-form-field>
-        <mat-error *ngIf="chargingStationURL?.invalid">{{'chargers.invalid_url' | translate}}</mat-error>
+        <mat-error *ngIf="chargingStationURL?.invalid">{{
+          'chargers.invalid_url' | translate
+        }}</mat-error>
       </div>
       <div class="col-md-6 form-group" [class.component-invisible]="!isOrganizationComponentActive">
         <mat-form-field>
-          <input matInput type="text" readonly=true placeholder="{{'chargers.site_area' | translate}}"
-            class="form-field-popup" (click)="assignSiteArea()" [formControl]="siteArea"
-            required />
+          <input
+            matInput
+            type="text"
+            readonly="true"
+            placeholder="{{ 'chargers.site_area' | translate }}"
+            class="form-field-popup"
+            (click)="assignSiteArea()"
+            [formControl]="siteArea"
+            required
+          />
           <button mat-button matSuffix mat-icon-button aria-label="Add" [hidden]="readOnly">
             <mat-icon>create</mat-icon>
           </button>
           <mat-error *ngIf="siteArea?.errors?.required">
-            {{"general.mandatory_field" | translate}}
+            {{ 'general.mandatory_field' | translate }}
           </mat-error>
         </mat-form-field>
       </div>
@@ -25,38 +40,84 @@
     <div class="row">
       <div class="col-md-3 form-group">
         <mat-form-field>
-          <input matInput placeholder="{{'chargers.maximum_energy' | translate}}" (input)="maximumPowerChanged()"
-            [formControl]="maximumPower" required [readOnly]="readOnly" />
-          <mat-error *ngIf="maximumPower?.invalid">{{'chargers.invalid_power' | translate}}</mat-error>
+          <input
+            matInput
+            placeholder="{{ 'chargers.maximum_energy' | translate }}"
+            (input)="maximumPowerChanged()"
+            [formControl]="maximumPower"
+            required
+            [readOnly]="readOnly"
+          />
+          <mat-error *ngIf="maximumPower?.invalid">{{
+            'chargers.invalid_power' | translate
+          }}</mat-error>
         </mat-form-field>
       </div>
       <div class="col-md-3 form-group">
         <mat-form-field>
-          <input matInput placeholder="{{'chargers.maximum_energy_amps' | translate}}" [formControl]="maximumPowerAmps"
-            [readOnly]="readOnly" />
-          <mat-error *ngIf="maximumPowerAmps?.invalid">{{'chargers.invalid_amperage' | translate}}</mat-error>
+          <input
+            matInput
+            placeholder="{{ 'chargers.maximum_energy_amps' | translate }}"
+            [formControl]="maximumPowerAmps"
+            [readOnly]="readOnly"
+          />
+          <mat-error *ngIf="maximumPowerAmps?.invalid">{{
+            'chargers.invalid_amperage' | translate
+          }}</mat-error>
         </mat-form-field>
       </div>
       <div class="col-md-3 form-group">
         <mat-form-field>
-          <input matInput placeholder="{{'general.latitude' | translate}}" type="text" required [formControl]="latitude"
-            [readOnly]="readOnly">
-          <mat-error *ngIf="latitude?.errors?.pattern">{{"general.invalid_value" | translate}}</mat-error>
-          <mat-error *ngIf="latitude?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
-          <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()"
-            [hidden]="readOnly">
+          <input
+            matInput
+            placeholder="{{ 'general.latitude' | translate }}"
+            type="text"
+            required
+            [formControl]="latitude"
+            [readOnly]="readOnly"
+          />
+          <mat-error *ngIf="latitude?.errors?.pattern">{{
+            'general.invalid_value' | translate
+          }}</mat-error>
+          <mat-error *ngIf="latitude?.errors?.required">{{
+            'general.mandatory_field' | translate
+          }}</mat-error>
+          <button
+            mat-button
+            matSuffix
+            mat-icon-button
+            aria-label="Add"
+            (click)="assignGeoMap()"
+            [hidden]="readOnly"
+          >
             <mat-icon>pin_drop</mat-icon>
           </button>
         </mat-form-field>
       </div>
       <div class="col-md-3 form-group">
         <mat-form-field>
-          <input matInput placeholder="{{'general.longitude' | translate}}" type="text" required
-            [formControl]="longitude" [readOnly]="readOnly">
-          <mat-error *ngIf="longitude?.errors?.pattern">{{"general.invalid_value" | translate}}</mat-error>
-          <mat-error *ngIf="longitude?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
-          <button mat-button matSuffix mat-icon-button aria-label="Add" (click)="assignGeoMap()"
-            [hidden]="readOnly">
+          <input
+            matInput
+            placeholder="{{ 'general.longitude' | translate }}"
+            type="text"
+            required
+            [formControl]="longitude"
+            [readOnly]="readOnly"
+          />
+          <mat-error *ngIf="longitude?.errors?.pattern">{{
+            'general.invalid_value' | translate
+          }}</mat-error>
+          <mat-error *ngIf="longitude?.errors?.required">{{
+            'general.mandatory_field' | translate
+          }}</mat-error>
+          <button
+            mat-button
+            matSuffix
+            mat-icon-button
+            aria-label="Add"
+            (click)="assignGeoMap()"
+            [hidden]="readOnly"
+          >
             <mat-icon>pin_drop</mat-icon>
           </button>
         </mat-form-field>
@@ -65,11 +126,18 @@
     <div class="row" *ngIf="ocpiActive && public.value && chargingStation?.issuer">
       <div class="col-md-3 text-left form-group">
         <mat-form-field>
-          <input matInput type="text" placeholder="{{'ocpi.tariff_id' | translate}}" [formControl]="tariffID"
-          (input)="emptyStringToNull(tariffID)" />
-          <mat-error *ngIf="tariffID?.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+          <input
+            matInput
+            type="text"
+            placeholder="{{ 'ocpi.tariff_id' | translate }}"
+            [formControl]="tariffID"
+            (input)="emptyStringToNull(tariffID)"
+          />
+          <mat-error *ngIf="tariffID?.errors?.required">{{
+            'general.mandatory_field' | translate
+          }}</mat-error>
           <mat-error *ngIf="tariffID?.errors?.maxlength">
-            <div [translate]="'general.error_max_length'" [translateParams]="{length: 36}"></div>
+            <div [translate]="'general.error_max_length'" [translateParams]="{ length: 36 }"></div>
           </mat-error>
         </mat-form-field>
       </div>
@@ -77,46 +145,66 @@
     <div class="row" *ngIf="chargingStation?.issuer">
       <div class="col-md-3 text-left form-group">
         <mat-checkbox [formControl]="public">
-          {{'chargers.public' | translate}}
+          {{ 'chargers.public' | translate }}
         </mat-checkbox>
       </div>
-      <div *ngIf="isSmartChargingComponentActive && chargingStation?.siteArea?.smartCharging"
-        class="col-md-3 text-left form-group">
+      <div
+        *ngIf="isSmartChargingComponentActive && chargingStation?.siteArea?.smartCharging"
+        class="col-md-3 text-left form-group"
+      >
         <mat-checkbox [formControl]="excludeFromSmartCharging">
-          {{'chargers.exclude_smart_charging' | translate}}
+          {{ 'chargers.exclude_smart_charging' | translate }}
         </mat-checkbox>
       </div>
       <div class="col-md-3 text-left form-group">
         <mat-checkbox [formControl]="forceInactive">
-          {{'chargers.force_inactive' | translate}}
+          {{ 'chargers.force_inactive' | translate }}
         </mat-checkbox>
       </div>
       <div class="col-md-3 text-left form-group">
-        <mat-checkbox [formControl]="manualConfiguration" (change)="manualConfigurationChanged($event.checked)">
-          {{'chargers.manual_configuration' | translate}}
+        <mat-checkbox
+          [formControl]="manualConfiguration"
+          (change)="manualConfigurationChanged($event.checked)"
+        >
+          {{ 'chargers.manual_configuration' | translate }}
         </mat-checkbox>
       </div>
       <div class="col-md-3 text-left form-group">
         <mat-checkbox [formControl]="masterSlave">
-          {{'chargers.master_slave' | translate}}
+          {{ 'chargers.master_slave' | translate }}
         </mat-checkbox>
       </div>
     </div>
-    <div class="row charging-station-connector-component"
-      *ngIf="chargingStation?.chargePoints?.length > 0; else chargingStationWithNoChargePoints">
+    <div
+      class="row charging-station-connector-component"
+      *ngIf="chargingStation?.chargePoints?.length > 0; else chargingStationWithNoChargePoints"
+    >
       <div class="col-md-12" *ngFor="let chargePoint of chargingStation.chargePoints">
-        <app-charging-station-charge-point [chargingStation]="chargingStation" [chargePoint]="chargePoint" [readOnly]="readOnly"
-          [formChargePointsArray]="chargePoints" [formConnectorsArray]="connectors" [isPublic]="public.value" 
-          (chargePointChanged)="chargePointChanged()" [manualConfiguration]="manualConfiguration.value">
+        <app-charging-station-charge-point
+          [chargingStation]="chargingStation"
+          [chargePoint]="chargePoint"
+          [readOnly]="readOnly"
+          [formChargePointsArray]="chargePoints"
+          [formConnectorsArray]="connectors"
+          [isPublic]="public.value"
+          (chargePointChanged)="chargePointChanged()"
+          [manualConfiguration]="manualConfiguration.value"
+        >
         </app-charging-station-charge-point>
       </div>
     </div>
     <ng-template #chargingStationWithNoChargePoints>
       <div class="row charging-station-connector-component">
         <div class="col-md-6" *ngFor="let connector of chargingStation?.connectors">
-          <app-charging-station-connector [chargingStation]="chargingStation" [connector]="connector" [readOnly]="readOnly"
-            [formConnectorsArray]="connectors" [isPublic]="public.value"
-            (connectorChanged)="connectorChanged()" [manualConfiguration]="manualConfiguration.value">
+          <app-charging-station-connector
+            [chargingStation]="chargingStation"
+            [connector]="connector"
+            [readOnly]="readOnly"
+            [formConnectorsArray]="connectors"
+            [isPublic]="public.value"
+            (connectorChanged)="connectorChanged()"
+            [manualConfiguration]="manualConfiguration.value"
+          >
           </app-charging-station-connector>
         </div>
       </div>

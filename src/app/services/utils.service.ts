@@ -10,7 +10,10 @@ export class UtilsService {
 
   public consoleDebugLog(msg: any, error?: any) {
     if (this.configService.getDebug().enabled) {
-      console.log(`${(new Date()).toISOString()} :: ${msg}${error ? ' :: Error details:' : ''}`, error ? error : '');
+      console.log(
+        `${new Date().toISOString()} :: ${msg}${error ? ' :: Error details:' : ''}`,
+        error ? error : ''
+      );
     }
   }
 

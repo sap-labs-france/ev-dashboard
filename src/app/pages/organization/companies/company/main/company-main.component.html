@@ -1,20 +1,41 @@
 <form class="form" [formGroup]="formGroup">
   <div class="row">
     <div class="col-md-3">
-      <div class="rotating-card-container" [ngStyle]="{ 'pointer-events': readOnly ? 'none' : 'all'}">
+      <div
+        class="rotating-card-container"
+        [ngStyle]="{ 'pointer-events': readOnly ? 'none' : 'all' }"
+      >
         <div class="card card-rotate card-background app-small-image mt-0">
-          <div class="front front-background" [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
-            <div class="card-body">
-            </div>
+          <div
+            class="front front-background"
+            [ngStyle]="{
+              'background-image': 'url(' + logo + ')',
+              'background-size': 'contain',
+              'background-repeat': 'no-repeat'
+            }"
+          >
+            <div class="card-body"></div>
           </div>
-          <div class="back back-background" [ngStyle]="{'background-image': 'url(' + logo + ')', 'background-size' : 'contain', 'background-repeat': 'no-repeat'}">
+          <div
+            class="back back-background"
+            [ngStyle]="{
+              'background-image': 'url(' + logo + ')',
+              'background-size': 'contain',
+              'background-repeat': 'no-repeat'
+            }"
+          >
             <div *ngIf="!readOnly" class="card-body">
               <div class="footer text-center">
                 <button mat-flat-button color="primary" class="me-2">
                   <mat-icon (click)="file.click()">mode_edit</mat-icon>
                   <div class="d-none">
-                    <input #file type="file" name="..." (change)="onLogoChanged($event)"
-                    accept="image/jpg,image/jpeg,image/png,image/gif">
+                    <input
+                      #file
+                      type="file"
+                      name="..."
+                      (change)="onLogoChanged($event)"
+                      accept="image/jpg,image/jpeg,image/png,image/gif"
+                    />
                   </div>
                 </button>
                 <button mat-flat-button color="warn">
@@ -29,9 +50,16 @@
     <div class="col-md-9">
       <div class="form-group">
         <mat-form-field>
-          <input appAutofocus matInput placeholder="{{'companies.name' | translate}}" type="text" [formControl]="name" required>
+          <input
+            appAutofocus
+            matInput
+            placeholder="{{ 'companies.name' | translate }}"
+            type="text"
+            [formControl]="name"
+            required
+          />
           <mat-error *ngIf="name.errors?.required">
-            {{"general.mandatory_field" | translate}}
+            {{ 'general.mandatory_field' | translate }}
           </mat-error>
         </mat-form-field>
       </div>
@@ -39,8 +67,13 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <app-address [address]="address" [formGroup]="formGroup" componentName="{{'companies.company' | translate}}"
-      [itemComponentName]="name.value" [onlyReadGeolocation]="readOnly"></app-address>
+      <app-address
+        [address]="address"
+        [formGroup]="formGroup"
+        componentName="{{ 'companies.company' | translate }}"
+        [itemComponentName]="name.value"
+        [onlyReadGeolocation]="readOnly"
+      ></app-address>
     </div>
   </div>
 </form>

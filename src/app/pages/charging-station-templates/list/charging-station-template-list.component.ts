@@ -11,5 +11,6 @@ import { ChargingStationTemplatesListTableDataSource } from './charging-station-
 export class ChargingStationTemplatesListComponent {
   // eslint-disable-next-line no-useless-constructor
   public constructor(
-    public chargingStationTemplatesListTableDataSource: ChargingStationTemplatesListTableDataSource) {}
+    public chargingStationTemplatesListTableDataSource: ChargingStationTemplatesListTableDataSource
+  ) {}
 }

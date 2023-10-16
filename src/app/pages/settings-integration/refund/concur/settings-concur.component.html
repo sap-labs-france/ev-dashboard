@@ -3,20 +3,38 @@
     <div class="card-icon">
       <mat-icon>business</mat-icon>
     </div>
-    <h3 class="card-title">{{'settings.refund.concur.title' | translate}}</h3>
+    <h3 class="card-title">{{ 'settings.refund.concur.title' | translate }}</h3>
   </div>
   <div class="card-body">
-    <div class="row  mt-1">
+    <div class="row mt-1">
       <div class="col-md-6">
         <mat-form-field>
-          <input appAutofocus matInput type="text" [formControl]="concurAuthenticationUrl"
-            placeholder="{{'settings.refund.concur.authentication_url' | translate}}" required>
-          <mat-error *ngIf="concurAuthenticationUrl.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+          <input
+            appAutofocus
+            matInput
+            type="text"
+            [formControl]="concurAuthenticationUrl"
+            placeholder="{{ 'settings.refund.concur.authentication_url' | translate }}"
+            required
+          />
+          <mat-error *ngIf="concurAuthenticationUrl.errors?.required">{{
+            'general.mandatory_field' | translate
+          }}</mat-error>
           <mat-error *ngIf="concurAuthenticationUrl.errors?.maxlength">
-            <div [translate]="'general.error_max_length'" [translateParams]="{length: concurAuthenticationUrl.errors?.maxlength.requiredLength}"></div>
+            <div
+              [translate]="'general.error_max_length'"
+              [translateParams]="{
+                length: concurAuthenticationUrl.errors?.maxlength.requiredLength
+              }"
+            ></div>
           </mat-error>
           <mat-error *ngIf="concurAuthenticationUrl.errors?.minlength">
-            <div [translate]="'general.error_min_length'" [translateParams]="{length: concurAuthenticationUrl.errors?.minlength.requiredLength}"></div>
+            <div
+              [translate]="'general.error_min_length'"
+              [translateParams]="{
+                length: concurAuthenticationUrl.errors?.minlength.requiredLength
+              }"
+            ></div>
           </mat-error>
           <mat-error *ngIf="concurAuthenticationUrl.errors?.pattern">
             <div [translate]="'general.error_url_pattern'"></div>
@@ -25,14 +43,27 @@
       </div>
       <div class="col-md-6">
         <mat-form-field>
-          <input matInput type="text" [formControl]="concurApiUrl"
-            placeholder="{{'settings.refund.concur.api_url' | translate}}" required>
-          <mat-error *ngIf="concurApiUrl.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+          <input
+            matInput
+            type="text"
+            [formControl]="concurApiUrl"
+            placeholder="{{ 'settings.refund.concur.api_url' | translate }}"
+            required
+          />
+          <mat-error *ngIf="concurApiUrl.errors?.required">{{
+            'general.mandatory_field' | translate
+          }}</mat-error>
           <mat-error *ngIf="concurApiUrl.errors?.maxlength">
-            <div [translate]="'general.error_max_length'" [translateParams]="{length: concurApiUrl.errors?.maxlength.requiredLength}"></div>
+            <div
+              [translate]="'general.error_max_length'"
+              [translateParams]="{ length: concurApiUrl.errors?.maxlength.requiredLength }"
+            ></div>
           </mat-error>
           <mat-error *ngIf="concurApiUrl.errors?.minlength">
-            <div [translate]="'general.error_min_length'" [translateParams]="{length: concurApiUrl.errors?.minlength.requiredLength}"></div>
+            <div
+              [translate]="'general.error_min_length'"
+              [translateParams]="{ length: concurApiUrl.errors?.minlength.requiredLength }"
+            ></div>
           </mat-error>
           <mat-error *ngIf="concurApiUrl.errors?.pattern">
             <div [translate]="'general.error_url_pattern'"></div>
@@ -43,27 +74,53 @@
     <div class="row">
       <div class="col-md-6">
         <mat-form-field>
-          <input matInput type="text" [formControl]="concurClientId"
-            placeholder="{{'settings.refund.concur.client_id' | translate}}" required>
-          <mat-error *ngIf="concurClientId.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+          <input
+            matInput
+            type="text"
+            [formControl]="concurClientId"
+            placeholder="{{ 'settings.refund.concur.client_id' | translate }}"
+            required
+          />
+          <mat-error *ngIf="concurClientId.errors?.required">{{
+            'general.mandatory_field' | translate
+          }}</mat-error>
           <mat-error *ngIf="concurClientId.errors?.maxlength">
-            <div [translate]="'general.error_max_length'" [translateParams]="{length: concurClientId.errors?.maxlength.requiredLength}"></div>
+            <div
+              [translate]="'general.error_max_length'"
+              [translateParams]="{ length: concurClientId.errors?.maxlength.requiredLength }"
+            ></div>
           </mat-error>
           <mat-error *ngIf="concurClientId.errors?.minlength">
-            <div [translate]="'general.error_min_length'" [translateParams]="{length: concurClientId.errors?.minlength.requiredLength}"></div>
+            <div
+              [translate]="'general.error_min_length'"
+              [translateParams]="{ length: concurClientId.errors?.minlength.requiredLength }"
+            ></div>
           </mat-error>
         </mat-form-field>
       </div>
       <div class="col-md-6">
         <mat-form-field>
-          <input matInput type="password" [formControl]="concurClientSecret"
-            placeholder="{{'settings.refund.concur.client_secret' | translate}}" required>
-          <mat-error *ngIf="concurClientSecret.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+          <input
+            matInput
+            type="password"
+            [formControl]="concurClientSecret"
+            placeholder="{{ 'settings.refund.concur.client_secret' | translate }}"
+            required
+          />
+          <mat-error *ngIf="concurClientSecret.errors?.required">{{
+            'general.mandatory_field' | translate
+          }}</mat-error>
           <mat-error *ngIf="concurClientSecret.errors?.maxlength">
-            <div [translate]="'general.error_max_length'" [translateParams]="{length: concurClientSecret.errors?.maxlength.requiredLength}"></div>
+            <div
+              [translate]="'general.error_max_length'"
+              [translateParams]="{ length: concurClientSecret.errors?.maxlength.requiredLength }"
+            ></div>
           </mat-error>
           <mat-error *ngIf="concurClientSecret.errors?.minlength">
-            <div [translate]="'general.error_min_length'" [translateParams]="{length: concurClientSecret.errors?.minlength.requiredLength}"></div>
+            <div
+              [translate]="'general.error_min_length'"
+              [translateParams]="{ length: concurClientSecret.errors?.minlength.requiredLength }"
+            ></div>
           </mat-error>
         </mat-form-field>
       </div>
@@ -71,27 +128,53 @@
     <div class="row">
       <div class="col-md-6">
         <mat-form-field>
-          <input matInput type="text" [formControl]="concurPaymentTypeId"
-            placeholder="{{'settings.refund.concur.payment_type_id' | translate}}" required>
-          <mat-error *ngIf="concurPaymentTypeId.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+          <input
+            matInput
+            type="text"
+            [formControl]="concurPaymentTypeId"
+            placeholder="{{ 'settings.refund.concur.payment_type_id' | translate }}"
+            required
+          />
+          <mat-error *ngIf="concurPaymentTypeId.errors?.required">{{
+            'general.mandatory_field' | translate
+          }}</mat-error>
           <mat-error *ngIf="concurPaymentTypeId.errors?.maxlength">
-            <div [translate]="'general.error_max_length'" [translateParams]="{length: concurPaymentTypeId.errors?.maxlength.requiredLength}"></div>
+            <div
+              [translate]="'general.error_max_length'"
+              [translateParams]="{ length: concurPaymentTypeId.errors?.maxlength.requiredLength }"
+            ></div>
           </mat-error>
           <mat-error *ngIf="concurPaymentTypeId.errors?.minlength">
-            <div [translate]="'general.error_min_length'" [translateParams]="{length: concurPaymentTypeId.errors?.minlength.requiredLength}"></div>
+            <div
+              [translate]="'general.error_min_length'"
+              [translateParams]="{ length: concurPaymentTypeId.errors?.minlength.requiredLength }"
+            ></div>
           </mat-error>
         </mat-form-field>
       </div>
       <div class="col-md-6">
         <mat-form-field>
-          <input matInput type="text" [formControl]="concurExpenseTypeCode"
-            placeholder="{{'settings.refund.concur.expense_type_code' | translate}}" required>
-          <mat-error *ngIf="concurExpenseTypeCode.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+          <input
+            matInput
+            type="text"
+            [formControl]="concurExpenseTypeCode"
+            placeholder="{{ 'settings.refund.concur.expense_type_code' | translate }}"
+            required
+          />
+          <mat-error *ngIf="concurExpenseTypeCode.errors?.required">{{
+            'general.mandatory_field' | translate
+          }}</mat-error>
           <mat-error *ngIf="concurExpenseTypeCode.errors?.maxlength">
-            <div [translate]="'general.error_max_length'" [translateParams]="{length: concurExpenseTypeCode.errors?.maxlength.requiredLength}"></div>
+            <div
+              [translate]="'general.error_max_length'"
+              [translateParams]="{ length: concurExpenseTypeCode.errors?.maxlength.requiredLength }"
+            ></div>
           </mat-error>
           <mat-error *ngIf="concurExpenseTypeCode.errors?.minlength">
-            <div [translate]="'general.error_min_length'" [translateParams]="{length: concurExpenseTypeCode.errors?.minlength.requiredLength}"></div>
+            <div
+              [translate]="'general.error_min_length'"
+              [translateParams]="{ length: concurExpenseTypeCode.errors?.minlength.requiredLength }"
+            ></div>
           </mat-error>
         </mat-form-field>
       </div>
@@ -99,27 +182,53 @@
     <div class="row">
       <div class="col-md-6">
         <mat-form-field>
-          <input matInput type="text" [formControl]="concurPolicyId"
-            placeholder="{{'settings.refund.concur.policy_id' | translate}}" required>
-          <mat-error *ngIf="concurPaymentTypeId.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+          <input
+            matInput
+            type="text"
+            [formControl]="concurPolicyId"
+            placeholder="{{ 'settings.refund.concur.policy_id' | translate }}"
+            required
+          />
+          <mat-error *ngIf="concurPaymentTypeId.errors?.required">{{
+            'general.mandatory_field' | translate
+          }}</mat-error>
           <mat-error *ngIf="concurPaymentTypeId.errors?.maxlength">
-            <div [translate]="'general.error_max_length'" [translateParams]="{length: concurPaymentTypeId.errors?.maxlengt.requiredLength}"></div>
+            <div
+              [translate]="'general.error_max_length'"
+              [translateParams]="{ length: concurPaymentTypeId.errors?.maxlengt.requiredLength }"
+            ></div>
           </mat-error>
           <mat-error *ngIf="concurPaymentTypeId.errors?.minlength">
-            <div [translate]="'general.error_min_length'" [translateParams]="{length: concurPaymentTypeId.errors?.minlength.requiredLength}"></div>
+            <div
+              [translate]="'general.error_min_length'"
+              [translateParams]="{ length: concurPaymentTypeId.errors?.minlength.requiredLength }"
+            ></div>
           </mat-error>
         </mat-form-field>
       </div>
       <div class="col-md-6">
         <mat-form-field>
-          <input matInput type="text" [formControl]="concurReportName"
-            placeholder="{{'settings.refund.concur.report_name' | translate}}" required>
-          <mat-error *ngIf="concurExpenseTypeCode.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+          <input
+            matInput
+            type="text"
+            [formControl]="concurReportName"
+            placeholder="{{ 'settings.refund.concur.report_name' | translate }}"
+            required
+          />
+          <mat-error *ngIf="concurExpenseTypeCode.errors?.required">{{
+            'general.mandatory_field' | translate
+          }}</mat-error>
           <mat-error *ngIf="concurExpenseTypeCode.errors?.maxlength">
-            <div [translate]="'general.error_max_length'" [translateParams]="{length: concurExpenseTypeCode.errors?.maxlength.requiredLength}"></div>
+            <div
+              [translate]="'general.error_max_length'"
+              [translateParams]="{ length: concurExpenseTypeCode.errors?.maxlength.requiredLength }"
+            ></div>
           </mat-error>
           <mat-error *ngIf="concurExpenseTypeCode.errors?.minlength">
-            <div [translate]="'general.error_min_length'" [translateParams]="{length: concurExpenseTypeCode.errors?.minlength.requiredLength}"></div>
+            <div
+              [translate]="'general.error_min_length'"
+              [translateParams]="{ length: concurExpenseTypeCode.errors?.minlength.requiredLength }"
+            ></div>
           </mat-error>
         </mat-form-field>
       </div>
@@ -127,14 +236,27 @@
     <div class="row">
       <div class="col-md-12">
         <mat-form-field>
-          <input matInput type="text" [formControl]="concurAppUrl"
-            placeholder="{{'settings.refund.concur.app_url' | translate}}" required>
-          <mat-error *ngIf="concurAppUrl.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+          <input
+            matInput
+            type="text"
+            [formControl]="concurAppUrl"
+            placeholder="{{ 'settings.refund.concur.app_url' | translate }}"
+            required
+          />
+          <mat-error *ngIf="concurAppUrl.errors?.required">{{
+            'general.mandatory_field' | translate
+          }}</mat-error>
           <mat-error *ngIf="concurAppUrl.errors?.maxlength">
-            <div [translate]="'general.error_max_length'" [translateParams]="{length: concurAppUrl.errors?.maxlength.requiredLength}"></div>
+            <div
+              [translate]="'general.error_max_length'"
+              [translateParams]="{ length: concurAppUrl.errors?.maxlength.requiredLength }"
+            ></div>
           </mat-error>
           <mat-error *ngIf="concurAppUrl.errors?.minlength">
-            <div [translate]="'general.error_min_length'" [translateParams]="{length: concurAppUrl.errors?.minlength.requiredLength}"></div>
+            <div
+              [translate]="'general.error_min_length'"
+              [translateParams]="{ length: concurAppUrl.errors?.minlength.requiredLength }"
+            ></div>
           </mat-error>
           <mat-error *ngIf="concurAppUrl.errors?.pattern">
             <div [translate]="'general.error_url_pattern'"></div>

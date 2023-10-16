@@ -35,7 +35,7 @@ export class SettingsPricingComponent implements OnInit {
     private dialogService: DialogService,
     private messageService: MessageService,
     private translateService: TranslateService,
-    private router: Router,
+    private router: Router
   ) {
     this.isActive = this.componentService.isActive(TenantComponents.PRICING);
   }
@@ -56,7 +56,7 @@ export class SettingsPricingComponent implements OnInit {
         this.spinnerService.hide();
         // Init auth
         this.authorizations = {
-          canUpdate: Utils.convertToBoolean(settings.canUpdate)
+          canUpdate: Utils.convertToBoolean(settings.canUpdate),
         };
         // Keep
         this.pricingSettings = settings;
@@ -72,9 +72,15 @@ export class SettingsPricingComponent implements OnInit {
             this.messageService.showErrorMessage('settings.pricing.not_found');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.unexpected_error_backend'
+            );
         }
-      }
+      },
     });
   }
 
@@ -89,7 +95,7 @@ export class SettingsPricingComponent implements OnInit {
       // Show Pricing Definitions - only shown when the currency code is set
       this.showPricingDefinitions = this.showSimplePricing && this.isCurrencyCodeReadonly;
       // Check the User Token
-      if ( settings?.simple.currency && currentCurrencyCode !== settings?.simple.currency ) {
+      if (settings?.simple.currency && currentCurrencyCode !== settings?.simple.currency) {
         // Not in sync - Currency has been change by another user
         // TODO: Force logout?
       }
@@ -104,17 +110,22 @@ export class SettingsPricingComponent implements OnInit {
     } else {
       return;
     }
-    if (content.simple && !!content.simple.currency
-      && content.simple.currency !== this.centralServerService.getCurrencyCode()) {
+    if (
+      content.simple &&
+      !!content.simple.currency &&
+      content.simple.currency !== this.centralServerService.getCurrencyCode()
+    ) {
       // Ask for confirmation
-      this.dialogService.createAndShowYesNoDialog(
-        this.translateService.instant('settings.pricing.pricing_currency_changed_title'),
-        this.translateService.instant('settings.pricing.pricing_currency_changed_confirm'),
-      ).subscribe((response) => {
-        if (response === ButtonAction.YES) {
-          this.savePricingSettings();
-        }
-      });
+      this.dialogService
+        .createAndShowYesNoDialog(
+          this.translateService.instant('settings.pricing.pricing_currency_changed_title'),
+          this.translateService.instant('settings.pricing.pricing_currency_changed_confirm')
+        )
+        .subscribe((response) => {
+          if (response === ButtonAction.YES) {
+            this.savePricingSettings();
+          }
+        });
     } else {
       // Do not ask for confirmation
       this.savePricingSettings();
@@ -133,11 +144,19 @@ export class SettingsPricingComponent implements OnInit {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
           this.messageService.showSuccessMessage(
-            (!this.pricingSettings.id ? 'settings.pricing.create_success' : 'settings.pricing.update_success'));
+            !this.pricingSettings.id
+              ? 'settings.pricing.create_success'
+              : 'settings.pricing.update_success'
+          );
           this.refresh();
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, (!this.pricingSettings.id ? 'settings.pricing.create_error' : 'settings.pricing.update_error'));
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            !this.pricingSettings.id
+              ? 'settings.pricing.create_error'
+              : 'settings.pricing.update_error'
+          );
         }
       },
       error: (error) => {
@@ -147,10 +166,17 @@ export class SettingsPricingComponent implements OnInit {
             this.messageService.showErrorMessage('settings.pricing.setting_do_not_exist');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              (!this.pricingSettings.id ? 'settings.pricing.create_error' : 'settings.pricing.update_error'));
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              !this.pricingSettings.id
+                ? 'settings.pricing.create_error'
+                : 'settings.pricing.update_error'
+            );
         }
-      }
+      },
     });
   }
 }

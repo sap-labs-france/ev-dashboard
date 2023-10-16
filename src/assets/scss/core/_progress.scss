@@ -2,7 +2,7 @@
   height: 4px;
   border-radius: 0;
   box-shadow: none;
-  background: #DDDDDD;
+  background: #dddddd;
   margin-bottom: 20px;
   .progress-bar {
     box-shadow: none;
@@ -24,18 +24,18 @@
   }
 
   &.progress-line-primary {
-    background: rgba($brand-primary, .2);
+    background: rgba($brand-primary, 0.2);
   }
   &.progress-line-info {
-    background: rgba($brand-info, .2);
+    background: rgba($brand-info, 0.2);
   }
   &.progress-line-success {
-    background: rgba($brand-success, .2);
+    background: rgba($brand-success, 0.2);
   }
   &.progress-line-warning {
-    background: rgba($brand-warning, .2);
+    background: rgba($brand-warning, 0.2);
   }
   &.progress-line-danger {
-    background: rgba($brand-danger, .2);
+    background: rgba($brand-danger, 0.2);
   }
 }

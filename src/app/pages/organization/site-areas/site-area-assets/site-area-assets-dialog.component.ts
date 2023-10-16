@@ -8,7 +8,7 @@ import { SiteAreaAssetsDataSource } from './site-area-assets-table-data-source';
 @Component({
   templateUrl: 'site-area-assets-dialog.component.html',
   providers: [SiteAreaAssetsDataSource],
-  styleUrls: ['site-area-assets-dialog.component.scss']
+  styleUrls: ['site-area-assets-dialog.component.scss'],
 })
 export class SiteAreaAssetsDialogComponent {
   public dialogTitle: string;
@@ -17,15 +17,18 @@ export class SiteAreaAssetsDialogComponent {
     public siteAreaAssetsDataSource: SiteAreaAssetsDataSource,
     private dialogRef: MatDialogRef<SiteAreaAssetsDialogComponent>,
     private translateService: TranslateService,
-    @Inject(MAT_DIALOG_DATA) dialogParams) {
+    @Inject(MAT_DIALOG_DATA) dialogParams
+  ) {
     // default title
     this.dialogTitle = this.translateService.instant('assets.titles');
     if (dialogParams) {
       this.siteAreaAssetsDataSource.setMode(
-        Utils.getTableDataSourceModeFromDialogMode(dialogParams.dialogMode));
+        Utils.getTableDataSourceModeFromDialogMode(dialogParams.dialogMode)
+      );
       this.siteAreaAssetsDataSource.setSiteArea(dialogParams.dialogData);
-      this.dialogTitle = this.translateService.instant(
-        'site_areas.assigned_assets_to_site_area', { siteAreaName: dialogParams.dialogData.name });
+      this.dialogTitle = this.translateService.instant('site_areas.assigned_assets_to_site_area', {
+        siteAreaName: dialogParams.dialogData.name,
+      });
       this.siteAreaAssetsDataSource.initDataSource(true);
     }
     Utils.registerCloseKeyEvents(this.dialogRef);

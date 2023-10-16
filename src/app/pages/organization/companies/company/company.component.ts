@@ -23,7 +23,7 @@ import { CompanyMainComponent } from './main/company-main.component';
 @Component({
   selector: 'app-company',
   templateUrl: 'company.component.html',
-  styleUrls: ['company.component.scss']
+  styleUrls: ['company.component.scss'],
 })
 export class CompanyComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentCompanyID!: string;
@@ -50,10 +50,13 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
     protected windowService: WindowService,
     protected activatedRoute: ActivatedRoute,
     private translateService: TranslateService,
-    private router: Router) {
+    private router: Router
+  ) {
     super(activatedRoute, windowService, ['main'], false);
     this.isBillingActive = this.componentService.isActive(TenantComponents.BILLING);
-    this.isBillingPlatformActive = this.componentService.isActive(TenantComponents.BILLING_PLATFORM);
+    this.isBillingPlatformActive = this.componentService.isActive(
+      TenantComponents.BILLING_PLATFORM
+    );
   }
 
   public ngOnInit() {
@@ -91,10 +94,15 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
               this.messageService.showErrorMessage('companies.company_not_found');
               break;
             default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'general.unexpected_error_backend');
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'general.unexpected_error_backend'
+              );
           }
-        }
+        },
       });
     }
   }
@@ -106,8 +114,13 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
   }
 
   public close() {
-    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
-      this.translateService, this.saveCompany.bind(this), this.closeDialog.bind(this));
+    Utils.checkAndSaveAndCloseDialog(
+      this.formGroup,
+      this.dialogService,
+      this.translateService,
+      this.saveCompany.bind(this),
+      this.closeDialog.bind(this)
+    );
   }
 
   public saveCompany(company: Company) {
@@ -131,13 +144,17 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
       next: (response) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage('companies.create_success',
-            { companyName: company.name });
+          this.messageService.showSuccessMessage('companies.create_success', {
+            companyName: company.name,
+          });
           this.currentCompanyID = company.id;
           this.closeDialog(true);
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, 'companies.create_error');
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            'companies.create_error'
+          );
         }
       },
       error: (error) => {
@@ -147,10 +164,15 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
             this.messageService.showErrorMessage('companies.company_not_found');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'companies.create_error');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'companies.create_error'
+            );
         }
-      }
+      },
     });
   }
 
@@ -167,11 +189,16 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
       next: (response) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage('companies.update_success', { companyName: company.name });
+          this.messageService.showSuccessMessage('companies.update_success', {
+            companyName: company.name,
+          });
           this.closeDialog(true);
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, 'companies.update_error');
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            'companies.update_error'
+          );
         }
       },
       error: (error) => {
@@ -181,10 +208,15 @@ export class CompanyComponent extends AbstractTabComponent implements OnInit {
             this.messageService.showErrorMessage('companies.company_not_found');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'companies.update_error');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'companies.update_error'
+            );
         }
-      }
+      },
     });
   }
 }

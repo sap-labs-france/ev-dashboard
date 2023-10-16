@@ -23,10 +23,7 @@ export class ConfigService {
   private config: Configuration;
 
   // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    private http: HttpClient,
-    @Inject(WINDOW) private window: Window) {
-  }
+  public constructor(private http: HttpClient, @Inject(WINDOW) private window: Window) {}
 
   public initConfig(): Observable<void> {
     return new Observable((observer: Observer<void>) => {
@@ -37,7 +34,7 @@ export class ConfigService {
         },
         error: (error) => {
           observer.error(error);
-        }
+        },
       });
     });
   }
@@ -57,7 +54,7 @@ export class ConfigService {
     if (!centralSystemServer.port) {
       centralSystemServer.port = Utils.convertToInteger(this.window.location.port);
     }
-    return centralSystemServer ;
+    return centralSystemServer;
   }
 
   public getAuthorization(): AuthorizationConfiguration {

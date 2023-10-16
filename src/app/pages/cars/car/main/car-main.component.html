@@ -2,70 +2,132 @@
   <div class="row w-100">
     <div class="col-md-12 col-xl-5 d-block">
       <div class="card card-background mt-0 mb-0">
-        <img class="front front-background" alt="" crossorigin="anonymous"
-          [ngStyle]="{'background-size' : 'contain', 'background-repeat': 'no-repeat'}"
-          [src]="carCatalogImage" onerror="this.src='/assets/img/theme/no-image.png';">
+        <img
+          class="front front-background"
+          alt=""
+          crossorigin="anonymous"
+          [ngStyle]="{ 'background-size': 'contain', 'background-repeat': 'no-repeat' }"
+          [src]="carCatalogImage"
+          onerror="this.src='/assets/img/theme/no-image.png';"
+        />
       </div>
     </div>
     <div class="col-md-12 col-xl-7">
       <div class="form-group">
         <mat-form-field>
-          <input matInput type="text" readonly="true" placeholder="{{ 'car.tabs.car_catalogs' | translate }}" class="form-field-popup" (click)="changeCarCatalog()" [formControl]="carCatalog" required/>
-          <button type="button" *ngIf="carCatalog.enabled" mat-button matSuffix mat-icon-button aria-label="Add" (click)="changeCarCatalog()" >
+          <input
+            matInput
+            type="text"
+            readonly="true"
+            placeholder="{{ 'car.tabs.car_catalogs' | translate }}"
+            class="form-field-popup"
+            (click)="changeCarCatalog()"
+            [formControl]="carCatalog"
+            required
+          />
+          <button
+            type="button"
+            *ngIf="carCatalog.enabled"
+            mat-button
+            matSuffix
+            mat-icon-button
+            aria-label="Add"
+            (click)="changeCarCatalog()"
+          >
             <mat-icon>create</mat-icon>
           </button>
           <mat-error *ngIf="carCatalog.errors?.required">
-            {{ "general.mandatory_field" | translate }}
+            {{ 'general.mandatory_field' | translate }}
           </mat-error>
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field>
-          <mat-label for="converterType">{{ "cars.converter" | translate }} * </mat-label>
-          <mat-select id="converterType" [formControl]="converterType" (selectionChange)="converterChanged($event)" >
-            <mat-option *ngFor="let carCatalogConverter of carCatalogConverters" [value]="carCatalogConverter.type" >
+          <mat-label for="converterType">{{ 'cars.converter' | translate }} * </mat-label>
+          <mat-select
+            id="converterType"
+            [formControl]="converterType"
+            (selectionChange)="converterChanged($event)"
+          >
+            <mat-option
+              *ngFor="let carCatalogConverter of carCatalogConverters"
+              [value]="carCatalogConverter.type"
+            >
               {{ carCatalogConverter.value }}
             </mat-option>
           </mat-select>
-          <mat-error *ngIf="carCatalog.errors?.required"> {{ "general.mandatory_field" | translate }}</mat-error>
+          <mat-error *ngIf="carCatalog.errors?.required">
+            {{ 'general.mandatory_field' | translate }}</mat-error
+          >
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field>
-          <input appAutofocus matInput placeholder="{{ 'cars.vin' | translate }}" type="text" [formControl]="vin" required />
-          <mat-error *ngIf="vin.errors?.required"> {{ "general.mandatory_field" | translate }}
+          <input
+            appAutofocus
+            matInput
+            placeholder="{{ 'cars.vin' | translate }}"
+            type="text"
+            [formControl]="vin"
+            required
+          />
+          <mat-error *ngIf="vin.errors?.required">
+            {{ 'general.mandatory_field' | translate }}
           </mat-error>
-          <mat-error *ngIf="vin.errors?.invalidVIN">{{ "cars.invalid_vin" | translate }}</mat-error>
+          <mat-error *ngIf="vin.errors?.invalidVIN">{{ 'cars.invalid_vin' | translate }}</mat-error>
         </mat-form-field>
       </div>
       <div class="form-group">
         <mat-form-field>
-          <input appAutofocus matInput placeholder="{{ 'cars.license_plate' | translate }}" type="text" [formControl]="licensePlate" required />
+          <input
+            appAutofocus
+            matInput
+            placeholder="{{ 'cars.license_plate' | translate }}"
+            type="text"
+            [formControl]="licensePlate"
+            required
+          />
           <mat-error *ngIf="licensePlate.errors?.required">
-            {{ "general.mandatory_field" | translate }}
+            {{ 'general.mandatory_field' | translate }}
           </mat-error>
           <mat-error *ngIf="licensePlate.errors?.pattern">
-            {{ "users.invalid_plate_id" | translate }}
+            {{ 'users.invalid_plate_id' | translate }}
           </mat-error>
         </mat-form-field>
       </div>
       <div class="form-group" *ngIf="carsAuthorizations?.canListUsers">
         <mat-form-field>
-          <input matInput type="text" readonly=true placeholder="{{'cars.user' | translate}}"
-            class="form-field-popup" (click)="assignUser()" [formControl]="user" [required]="carsAuthorizations?.metadata?.userID?.mandatory" />
+          <input
+            matInput
+            type="text"
+            readonly="true"
+            placeholder="{{ 'cars.user' | translate }}"
+            class="form-field-popup"
+            (click)="assignUser()"
+            [formControl]="user"
+            [required]="carsAuthorizations?.metadata?.userID?.mandatory"
+          />
           <button mat-button matSuffix mat-icon-button aria-label="Add">
             <mat-icon>create</mat-icon>
           </button>
-          <button *ngIf="userID.value" mat-icon-button matSuffix (click)="clearUser()" aria-label="Add">
+          <button
+            *ngIf="userID.value"
+            mat-icon-button
+            matSuffix
+            (click)="clearUser()"
+            aria-label="Add"
+          >
             <mat-icon>clear</mat-icon>
           </button>
-          <mat-error *ngIf="userID.errors?.required"> {{ "general.mandatory_field" | translate }}</mat-error>
+          <mat-error *ngIf="userID.errors?.required">
+            {{ 'general.mandatory_field' | translate }}</mat-error
+          >
         </mat-form-field>
       </div>
       <div class="form-group">
         <div class="text-left">
           <mat-checkbox value="false" [formControl]="default">
-            {{ "cars.default_car" | translate }}
+            {{ 'cars.default_car' | translate }}
           </mat-checkbox>
         </div>
       </div>
@@ -74,7 +136,7 @@
           <mat-radio-group [formControl]="type">
             <div *ngFor="let type of carTypes" class="mt-1">
               <mat-radio-button value="{{ type.key }}">
-                {{type.value | translate}}
+                {{ type.value | translate }}
               </mat-radio-button>
             </div>
           </mat-radio-group>

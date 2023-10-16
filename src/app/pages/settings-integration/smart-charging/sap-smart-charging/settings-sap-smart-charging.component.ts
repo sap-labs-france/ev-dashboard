@@ -24,22 +24,14 @@ export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
 
   public ngOnInit(): void {
     this.sapSmartCharging = new FormGroup({
-      optimizerUrl: new FormControl('',
-        Validators.compose([
-          Validators.required,
-        ]),
+      optimizerUrl: new FormControl('', Validators.compose([Validators.required])),
+      user: new FormControl(
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(100)])
       ),
-      user: new FormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(100),
-        ]),
-      ),
-      password: new FormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(100),
-        ]),
+      password: new FormControl(
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(100)])
       ),
       stickyLimitation: new FormControl<boolean>(false),
       limitBufferDC: new FormControl<number>(0),
@@ -78,20 +70,47 @@ export class SettingsSapSmartChargingComponent implements OnInit, OnChanges {
 
   public updateFormData() {
     // Set data
-    if (this.smartChargingSettings && this.smartChargingSettings.sapSmartCharging && this.sapSmartCharging) {
-      this.optimizerUrl.setValue(this.smartChargingSettings.sapSmartCharging.optimizerUrl ? this.smartChargingSettings.sapSmartCharging.optimizerUrl : '');
-      this.user.setValue(this.smartChargingSettings.sapSmartCharging.user ? this.smartChargingSettings.sapSmartCharging.user : '');
-      this.password.setValue(this.smartChargingSettings.sapSmartCharging.password ? this.smartChargingSettings.sapSmartCharging.password : '');
-      this.stickyLimitation.setValue(this.smartChargingSettings.sapSmartCharging.stickyLimitation ? this.smartChargingSettings.sapSmartCharging.stickyLimitation : false);
-      this.limitBufferDC.setValue(this.smartChargingSettings.sapSmartCharging.limitBufferDC ? this.smartChargingSettings.sapSmartCharging.limitBufferDC : 0);
-      this.limitBufferAC.setValue(this.smartChargingSettings.sapSmartCharging.limitBufferAC ? this.smartChargingSettings.sapSmartCharging.limitBufferAC : 0);
+    if (
+      this.smartChargingSettings &&
+      this.smartChargingSettings.sapSmartCharging &&
+      this.sapSmartCharging
+    ) {
+      this.optimizerUrl.setValue(
+        this.smartChargingSettings.sapSmartCharging.optimizerUrl
+          ? this.smartChargingSettings.sapSmartCharging.optimizerUrl
+          : ''
+      );
+      this.user.setValue(
+        this.smartChargingSettings.sapSmartCharging.user
+          ? this.smartChargingSettings.sapSmartCharging.user
+          : ''
+      );
+      this.password.setValue(
+        this.smartChargingSettings.sapSmartCharging.password
+          ? this.smartChargingSettings.sapSmartCharging.password
+          : ''
+      );
+      this.stickyLimitation.setValue(
+        this.smartChargingSettings.sapSmartCharging.stickyLimitation
+          ? this.smartChargingSettings.sapSmartCharging.stickyLimitation
+          : false
+      );
+      this.limitBufferDC.setValue(
+        this.smartChargingSettings.sapSmartCharging.limitBufferDC
+          ? this.smartChargingSettings.sapSmartCharging.limitBufferDC
+          : 0
+      );
+      this.limitBufferAC.setValue(
+        this.smartChargingSettings.sapSmartCharging.limitBufferAC
+          ? this.smartChargingSettings.sapSmartCharging.limitBufferAC
+          : 0
+      );
       this.formGroup.markAsPristine();
       // Read only
-      if(!this.authorizations.canUpdate) {
+      if (!this.authorizations.canUpdate) {
         // Async call for letting the sub form groups to init
         setTimeout(() => this.formGroup.disable(), 0);
       }
-
     }
   }
 }

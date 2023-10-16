@@ -15,7 +15,12 @@ export class Users {
   }
 
   public static validatePassword(control: AbstractControl): ValidationErrors | null {
-    if (!control.value || /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!#@:;,<>\/''\$%\^&\*\.\?\-_\+\=\(\)])(?=.{8,})/.test(control.value)) {
+    if (
+      !control.value ||
+      /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!#@:;,<>\/''\$%\^&\*\.\?\-_\+\=\(\)])(?=.{8,})/.test(
+        control.value
+      )
+    ) {
       return null;
     }
     return { invalidPassword: true };

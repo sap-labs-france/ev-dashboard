@@ -7,9 +7,9 @@ import PricingDefinition from 'types/Pricing';
 
 @Component({
   selector: 'app-pricing-definition-detail-cell',
-  templateUrl: './pricing-definition-detail-cell.template.html'
+  templateUrl: './pricing-definition-detail-cell.template.html',
 })
-export class PricingDefinitionDetailCellComponent extends CellContentTemplateDirective{
+export class PricingDefinitionDetailCellComponent extends CellContentTemplateDirective {
   @Input() public row!: PricingDefinition;
 
   // eslint-disable-next-line @typescript-eslint/explicit-member-accessibility
@@ -21,21 +21,25 @@ export class PricingDefinitionDetailCellComponent extends CellContentTemplateDir
     super();
   }
 
-  public getConnectorText(): string{
+  public getConnectorText(): string {
     let connectorText;
     const connectorPowerkW = this.row?.staticRestrictions?.connectorPowerkW;
-    if(this.row?.staticRestrictions?.connectorType) {
+    if (this.row?.staticRestrictions?.connectorType) {
       connectorText = this.translateService.instant(
         this.appConnectorPipe.transform(this.row.staticRestrictions.connectorType, 'text')
       );
     }
-    if(connectorPowerkW) {
-      connectorText += ` - ${this.translateService.instant('settings.pricing.connector_power')}: ${connectorPowerkW} ${this.translateService.instant('settings.pricing.connector_power_unit')}`;
+    if (connectorPowerkW) {
+      connectorText += ` - ${this.translateService.instant(
+        'settings.pricing.connector_power'
+      )}: ${connectorPowerkW} ${this.translateService.instant(
+        'settings.pricing.connector_power_unit'
+      )}`;
     }
     return connectorText;
   }
 
-  public getDaysOfWeek(): string{
+  public getDaysOfWeek(): string {
     const days = [];
     for (const day of this.row?.restrictions?.daysOfWeek) {
       days.push(this.appDayPipe.transform(day));
@@ -43,7 +47,7 @@ export class PricingDefinitionDetailCellComponent extends CellContentTemplateDir
     return days.join(', ');
   }
 
-  public getTimeRestrictions(): string{
+  public getTimeRestrictions(): string {
     return `${this.row.restrictions.timeFrom} - ${this.row.restrictions.timeTo}`;
   }
 
@@ -53,10 +57,18 @@ export class PricingDefinitionDetailCellComponent extends CellContentTemplateDir
     const minDurationValue = this.row?.restrictions?.minDurationSecs;
     const maxDurationValue = this.row?.restrictions?.maxDurationSecs;
     if (minDurationValue) {
-      minDurationText = `${this.translateService.instant('settings.pricing.restriction_min_duration')}: ${minDurationValue / 60} ${this.translateService.instant('settings.pricing.restriction_min_duration_unit')}`;
+      minDurationText = `${this.translateService.instant(
+        'settings.pricing.restriction_min_duration'
+      )}: ${minDurationValue / 60} ${this.translateService.instant(
+        'settings.pricing.restriction_min_duration_unit'
+      )}`;
     }
     if (maxDurationValue) {
-      maxDurationText = `${this.translateService.instant('settings.pricing.restriction_max_duration')}: ${maxDurationValue / 60} ${this.translateService.instant('settings.pricing.restriction_max_duration_unit')}`;
+      maxDurationText = `${this.translateService.instant(
+        'settings.pricing.restriction_max_duration'
+      )}: ${maxDurationValue / 60} ${this.translateService.instant(
+        'settings.pricing.restriction_max_duration_unit'
+      )}`;
     }
     if (minDurationValue && maxDurationValue) {
       return `${minDurationText} - ${maxDurationText}`;
@@ -73,10 +85,18 @@ export class PricingDefinitionDetailCellComponent extends CellContentTemplateDir
     const minEnergyValue = this.row?.restrictions?.minEnergyKWh;
     const maxEnergyValue = this.row?.restrictions?.maxEnergyKWh;
     if (minEnergyValue) {
-      minEnergyText = `${this.translateService.instant('settings.pricing.restriction_min_energy')}: ${minEnergyValue} ${this.translateService.instant('settings.pricing.restriction_min_energy_unit')}`;
+      minEnergyText = `${this.translateService.instant(
+        'settings.pricing.restriction_min_energy'
+      )}: ${minEnergyValue} ${this.translateService.instant(
+        'settings.pricing.restriction_min_energy_unit'
+      )}`;
     }
     if (maxEnergyValue) {
-      maxEnergyText = `${this.translateService.instant('settings.pricing.restriction_max_energy')}: ${maxEnergyValue} ${this.translateService.instant('settings.pricing.restriction_max_energy_unit')}`;
+      maxEnergyText = `${this.translateService.instant(
+        'settings.pricing.restriction_max_energy'
+      )}: ${maxEnergyValue} ${this.translateService.instant(
+        'settings.pricing.restriction_max_energy_unit'
+      )}`;
     }
     if (minEnergyValue && maxEnergyValue) {
       return `${minEnergyText} - ${maxEnergyText}`;

@@ -10,16 +10,31 @@ import { CentralServerService } from '../../../services/central-server.service';
 import { DialogService } from '../../../services/dialog.service';
 import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
-import { TableCreateTemplateAction, TableCreateTemplateActionDef } from '../../../shared/table/actions/charging-station-templates/table-create-template-action';
-import { TableDeleteTemplateAction, TableDeleteTemplateActionDef } from '../../../shared/table/actions/charging-station-templates/table-delete-template-action';
-import { TableEditTemplateAction, TableEditTemplateActionDef } from '../../../shared/table/actions/charging-station-templates/table-edit-template-action';
+import {
+  TableCreateTemplateAction,
+  TableCreateTemplateActionDef,
+} from '../../../shared/table/actions/charging-station-templates/table-create-template-action';
+import {
+  TableDeleteTemplateAction,
+  TableDeleteTemplateActionDef,
+} from '../../../shared/table/actions/charging-station-templates/table-delete-template-action';
+import {
+  TableEditTemplateAction,
+  TableEditTemplateActionDef,
+} from '../../../shared/table/actions/charging-station-templates/table-edit-template-action';
 import { TableExportTemplatesActionDef } from '../../../shared/table/actions/charging-station-templates/table-export-templates-action';
-import { TableViewTemplateAction, TableViewTemplateActionDef } from '../../../shared/table/actions/charging-station-templates/table-view-template-action';
+import {
+  TableViewTemplateAction,
+  TableViewTemplateActionDef,
+} from '../../../shared/table/actions/charging-station-templates/table-view-template-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableMoreAction } from '../../../shared/table/actions/table-more-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { TableDataSource } from '../../../shared/table/table-data-source';
-import { ChargingStationTemplate, ChargingStationTemplateButtonAction } from '../../../types/ChargingStationTemplate';
+import {
+  ChargingStationTemplate,
+  ChargingStationTemplateButtonAction,
+} from '../../../types/ChargingStationTemplate';
 import { DataResult } from '../../../types/DataResult';
 import { TableActionDef, TableColumnDef, TableDef } from '../../../types/Table';
 import { Utils } from '../../../utils/Utils';
@@ -40,7 +55,8 @@ export class ChargingStationTemplatesListTableDataSource extends TableDataSource
     private router: Router,
     private dialog: MatDialog,
     private centralServerService: CentralServerService,
-    private datePipe: AppDatePipe) {
+    private datePipe: AppDatePipe
+  ) {
     super(spinnerService, translateService);
     // With user
     this.setStaticFilters([{ WithUser: true }]);
@@ -50,17 +66,25 @@ export class ChargingStationTemplatesListTableDataSource extends TableDataSource
   public loadDataImpl(): Observable<DataResult<ChargingStationTemplate>> {
     return new Observable((observer) => {
       // Get Sites
-      this.centralServerService.getChargingStationTemplates(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
-        next: (chargingStationTemplate) => {
-          this.createAction.visible = Utils.convertToBoolean(chargingStationTemplate.canCreate);
-          observer.next(chargingStationTemplate);
-          observer.complete();
-        },
-        error: (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          observer.error(error);
-        }
-      });
+      this.centralServerService
+        .getChargingStationTemplates(this.buildFilterValues(), this.getPaging(), this.getSorting())
+        .subscribe({
+          next: (chargingStationTemplate) => {
+            this.createAction.visible = Utils.convertToBoolean(chargingStationTemplate.canCreate);
+            observer.next(chargingStationTemplate);
+            observer.complete();
+          },
+          error: (error) => {
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.error_backend'
+            );
+            observer.error(error);
+          },
+        });
     });
   }
 
@@ -144,13 +168,12 @@ export class ChargingStationTemplatesListTableDataSource extends TableDataSource
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    return [
-      this.createAction,
-      ...tableActionsDef,
-    ];
+    return [this.createAction, ...tableActionsDef];
   }
 
-  public buildTableDynamicRowActions(chargingStationTemplate: ChargingStationTemplate): TableActionDef[] {
+  public buildTableDynamicRowActions(
+    chargingStationTemplate: ChargingStationTemplate
+  ): TableActionDef[] {
     const rowActions = [];
     if (chargingStationTemplate.canUpdate) {
       rowActions.push(this.editAction);
@@ -158,9 +181,7 @@ export class ChargingStationTemplatesListTableDataSource extends TableDataSource
       rowActions.push(this.viewAction);
     }
     if (chargingStationTemplate.canDelete) {
-      rowActions.push(new TableMoreAction([
-        this.deleteAction,
-      ]).getActionDef());
+      rowActions.push(new TableMoreAction([this.deleteAction]).getActionDef());
     }
     return rowActions;
   }
@@ -171,8 +192,11 @@ export class ChargingStationTemplatesListTableDataSource extends TableDataSource
       // Add
       case ChargingStationTemplateButtonAction.CREATE_TEMPLATE:
         if (actionDef.action) {
-          (actionDef as TableCreateTemplateActionDef).action(ChargingStationTemplateDialogComponent,
-            this.dialog, this.refreshData.bind(this));
+          (actionDef as TableCreateTemplateActionDef).action(
+            ChargingStationTemplateDialogComponent,
+            this.dialog,
+            this.refreshData.bind(this)
+          );
         }
     }
   }
@@ -181,28 +205,49 @@ export class ChargingStationTemplatesListTableDataSource extends TableDataSource
     switch (actionDef.id) {
       case ChargingStationTemplateButtonAction.EDIT_TEMPLATE:
         if (actionDef.action) {
-          (actionDef as TableEditTemplateActionDef).action(ChargingStationTemplateDialogComponent, this.dialog,
-            { dialogData: template }, this.refreshData.bind(this));
+          (actionDef as TableEditTemplateActionDef).action(
+            ChargingStationTemplateDialogComponent,
+            this.dialog,
+            { dialogData: template },
+            this.refreshData.bind(this)
+          );
         }
         break;
       case ChargingStationTemplateButtonAction.VIEW_TEMPLATE:
         if (actionDef.action) {
-          (actionDef as TableViewTemplateActionDef).action(ChargingStationTemplateDialogComponent, this.dialog,
-            { dialogData: template }, this.refreshData.bind(this));
+          (actionDef as TableViewTemplateActionDef).action(
+            ChargingStationTemplateDialogComponent,
+            this.dialog,
+            { dialogData: template },
+            this.refreshData.bind(this)
+          );
         }
         break;
       case ChargingStationTemplateButtonAction.DELETE_TEMPLATE:
         if (actionDef.action) {
           (actionDef as TableDeleteTemplateActionDef).action(
-            template, this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this));
+            template,
+            this.dialogService,
+            this.translateService,
+            this.messageService,
+            this.centralServerService,
+            this.spinnerService,
+            this.router,
+            this.refreshData.bind(this)
+          );
         }
         break;
       case ChargingStationTemplateButtonAction.EXPORT_TEMPLATE:
         if (actionDef.action) {
           (actionDef as TableExportTemplatesActionDef).action(
-            this.buildFilterValues(), this.dialogService, this.translateService,
-            this.messageService, this.centralServerService, this.router, this.spinnerService);
+            this.buildFilterValues(),
+            this.dialogService,
+            this.translateService,
+            this.messageService,
+            this.centralServerService,
+            this.router,
+            this.spinnerService
+          );
         }
         break;
     }

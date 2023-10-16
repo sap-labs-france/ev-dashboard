@@ -1,0 +1,18 @@
+<div class="main-content flex-grow-1">
+  <mat-tab-group
+    (selectedIndexChange)="updateRoute($event)"
+    [selectedIndex]="activeTabIndex"
+    animationDuration="0ms"
+    disableRipple="true"
+    class="h-100 mat-tab-info"
+  >
+    <mat-tab *ngIf="canListReservations">
+      <ng-template mat-tab-label>
+        <mat-icon>book</mat-icon><span>{{ 'reservations.tabs.list' | translate }}</span>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-reservations-list></app-reservations-list>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>

@@ -1,7 +1,7 @@
 <div class="main-content">
   <div class="row" *ngIf="chargingStation.inactive">
     <div class="col-md-12 text-left mat-subheading-2 text-danger">
-      {{"chargers.smart_charging.charging_station_inactive" | translate }}
+      {{ 'chargers.smart_charging.charging_station_inactive' | translate }}
     </div>
   </div>
   <div class="row">
@@ -11,7 +11,10 @@
           <mat-icon>schedule</mat-icon>
         </div>
         <h3 class="card-title text-left">
-          {{'chargers.smart_charging.debug_charging_station_title' | translate: {chargeBoxID: chargingStation.id} }}
+          {{
+            'chargers.smart_charging.debug_charging_station_title'
+              | translate : { chargeBoxID: chargingStation.id }
+          }}
         </h3>
       </div>
       <div class="card-body">
@@ -19,23 +22,35 @@
           <div class="row">
             <div class="col-md-6">
               <mat-form-field>
-                <mat-select [formControl]="connectorControl" placeholder="{{'chargers.connector' | translate}}">
+                <mat-select
+                  [formControl]="connectorControl"
+                  placeholder="{{ 'chargers.connector' | translate }}"
+                >
                   <mat-option *ngFor="let connectorId of connectorIds" [value]="connectorId">
-                    {{'chargers.connector' | translate}} {{connectorId}}
+                    {{ 'chargers.connector' | translate }} {{ connectorId }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
             <div class="col-md-6">
               <mat-form-field>
-                <input [formControl]="durationControl" matInput
-                  placeholder="{{'chargers.smart_charging.duration' | translate}}" type="number">
+                <input
+                  [formControl]="durationControl"
+                  matInput
+                  placeholder="{{ 'chargers.smart_charging.duration' | translate }}"
+                  type="number"
+                />
               </mat-form-field>
             </div>
           </div>
-          <button mat-raised-button color="primary" (click)="getChargingProfilesForConnector()"
-            [disabled]="chargingStation.inactive || !formGroup.valid">
-            <mat-icon>get_app</mat-icon><span>{{'chargers.smart_charging.retrieve_schedule' | translate}}</span>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="getChargingProfilesForConnector()"
+            [disabled]="chargingStation.inactive || !formGroup.valid"
+          >
+            <mat-icon>get_app</mat-icon
+            ><span>{{ 'chargers.smart_charging.retrieve_schedule' | translate }}</span>
           </button>
         </div>
         <div class="col-md-12 text-left charging-station-debug-component">

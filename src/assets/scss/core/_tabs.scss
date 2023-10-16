@@ -1,4 +1,3 @@
-
 .nav-tabs {
   border: 0;
   border-radius: $border-radius-base;
@@ -54,14 +53,32 @@
   }
 
   // colors
-  @include bmd-tabs-color($bmd-nav-tabs-color, $bmd-nav-tabs-active-color, $bmd-nav-tabs-active-border-color, $bmd-nav-tabs-disabled-link-color, $bmd-nav-tabs-disabled-link-color-hover);
+  @include bmd-tabs-color(
+    $bmd-nav-tabs-color,
+    $bmd-nav-tabs-active-color,
+    $bmd-nav-tabs-active-border-color,
+    $bmd-nav-tabs-disabled-link-color,
+    $bmd-nav-tabs-disabled-link-color-hover
+  );
 
   &.header-primary {
-    @include bmd-tabs-color($bmd-nav-tabs-primary-color, $bmd-nav-tabs-primary-active-color, $bmd-nav-tabs-primary-active-border-color, $bmd-nav-tabs-primary-disabled-link-color, $bmd-nav-tabs-primary-disabled-link-color-hover);
+    @include bmd-tabs-color(
+      $bmd-nav-tabs-primary-color,
+      $bmd-nav-tabs-primary-active-color,
+      $bmd-nav-tabs-primary-active-border-color,
+      $bmd-nav-tabs-primary-disabled-link-color,
+      $bmd-nav-tabs-primary-disabled-link-color-hover
+    );
   }
 
   &.bg-inverse {
-    @include bmd-tabs-color($bmd-nav-tabs-inverse-color, $bmd-nav-tabs-inverse-active-color, $bmd-nav-tabs-inverse-active-border-color, $bmd-nav-tabs-inverse-disabled-link-color, $bmd-nav-tabs-inverse-disabled-link-color-hover);
+    @include bmd-tabs-color(
+      $bmd-nav-tabs-inverse-color,
+      $bmd-nav-tabs-inverse-active-color,
+      $bmd-nav-tabs-inverse-active-border-color,
+      $bmd-nav-tabs-inverse-disabled-link-color,
+      $bmd-nav-tabs-inverse-disabled-link-color-hover
+    );
   }
 }
 
@@ -225,7 +242,7 @@
     font-weight: $font-weight-bold;
   }
   &:hover {
-    background-color: rgba($brand-background, .1);
+    background-color: rgba($brand-background, 0.1);
   }
   .btn-link {
     color: white !important;

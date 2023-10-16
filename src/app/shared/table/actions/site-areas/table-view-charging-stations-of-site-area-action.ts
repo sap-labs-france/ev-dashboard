@@ -8,8 +8,12 @@ import { TableActionDef } from '../../../../types/Table';
 import { TableViewAction } from '../table-view-action';
 
 export interface TableViewChargingStationsOfSiteAreaActionDef extends TableActionDef {
-  action: (siteAreaChargingStationsDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<SiteArea, SiteAreasAuthorizations>, refresh?: () => Observable<void>) => void;
+  action: (
+    siteAreaChargingStationsDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<SiteArea, SiteAreasAuthorizations>,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableViewChargingStationsOfSiteAreaAction extends TableViewAction {
@@ -23,8 +27,12 @@ export class TableViewChargingStationsOfSiteAreaAction extends TableViewAction {
     };
   }
 
-  private viewChargingStations(siteAreaChargingStationsDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<SiteArea, SiteAreasAuthorizations>, refresh?: () => Observable<void>) {
+  private viewChargingStations(
+    siteAreaChargingStationsDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<SiteArea, SiteAreasAuthorizations>,
+    refresh?: () => Observable<void>
+  ) {
     super.view(siteAreaChargingStationsDialogComponent, dialog, dialogParams, refresh);
   }
 }

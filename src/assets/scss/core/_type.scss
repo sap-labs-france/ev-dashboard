@@ -3,40 +3,56 @@ html * {
   -moz-osx-font-smoothing: grayscale;
 }
 
-body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4 {
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4 {
   font-family: $font-family-sans-serif;
   font-weight: 300;
   line-height: 1.5em;
 }
 
-h1, .h1 {
+h1,
+.h1 {
   font-size: $font-size-h1;
   line-height: 1.15em;
 }
 
-h2, .h2 {
+h2,
+.h2 {
   font-size: $font-size-h2;
 }
 
-h3, .h3 {
+h3,
+.h3 {
   font-size: $font-size-h3;
   line-height: 1.4em;
   margin: 20px 0 10px;
 }
 
-h4, .h4 {
+h4,
+.h4 {
   font-size: $font-size-h4;
   line-height: 1.4em;
   font-weight: 300;
 }
 
-h5, .h5 {
+h5,
+.h5 {
   font-size: $font-size-h5;
   line-height: 1.4em;
   margin-bottom: 15px;
 }
 
-h6, .h6 {
+h6,
+.h6 {
   font-size: $font-size-h6;
   text-transform: uppercase;
   font-weight: $font-weight-bold;
@@ -54,7 +70,7 @@ h6, .h6 {
 
   &,
   a {
-    color:$brand-text;
+    color: $brand-text;
     text-decoration: none;
   }
 }

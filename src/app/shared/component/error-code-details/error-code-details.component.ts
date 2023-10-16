@@ -10,9 +10,13 @@ import { ErrorCodeDetailsDialogComponent } from '../../dialogs/error-code-detail
       <mat-icon class="text-danger">info_outline</mat-icon>
     </button>
   `,
-  styles: [`.no-margin {
-    margin: 0
-  }`],
+  styles: [
+    `
+      .no-margin {
+        margin: 0;
+      }
+    `,
+  ],
 })
 export class ErrorCodeDetailsComponent extends CellContentTemplateDirective {
   @Input() public row: any;

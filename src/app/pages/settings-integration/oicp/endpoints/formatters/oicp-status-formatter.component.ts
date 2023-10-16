@@ -13,8 +13,8 @@ export const oicpStatuses: KeyValue[] = [
 @Component({
   template: `
     <mat-chip-list [selectable]="false">
-      <mat-chip [ngClass]="row.status | appFormatOicpStatus:'class'" [disabled]="true">
-        {{row.status | appFormatOicpStatus:'text' | translate}}
+      <mat-chip [ngClass]="row.status | appFormatOicpStatus : 'class'" [disabled]="true">
+        {{ row.status | appFormatOicpStatus : 'text' | translate }}
       </mat-chip>
     </mat-chip-list>
   `,

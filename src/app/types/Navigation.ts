@@ -1,4 +1,3 @@
-
 export interface RouteInfo {
   id: string;
   path: string;

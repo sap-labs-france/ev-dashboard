@@ -5,7 +5,7 @@ import { AssetIothinkConnectionType } from '../../../../../types/Setting';
 
 @Component({
   selector: 'app-settings-iothink-connection',
-  templateUrl: 'iothink-asset-connection.component.html'
+  templateUrl: 'iothink-asset-connection.component.html',
 })
 export class IothinkAssetConnectionComponent implements OnInit {
   @Input() public formGroup!: UntypedFormGroup;
@@ -18,14 +18,8 @@ export class IothinkAssetConnectionComponent implements OnInit {
   public ngOnInit(): void {
     // Set login credentials form
     this.iothinkLoginForm = new UntypedFormGroup({
-      user: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      password: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
+      user: new UntypedFormControl('', Validators.compose([Validators.required])),
+      password: new UntypedFormControl('', Validators.compose([Validators.required])),
     });
     if (!this.formGroup.disabled) {
       this.formGroup.addControl('iothinkConnection', this.iothinkLoginForm);

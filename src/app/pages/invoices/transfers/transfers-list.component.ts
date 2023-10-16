@@ -25,6 +25,5 @@ export class TransfersListComponent implements OnInit {
   ) {}
 
   // Download from email
-  public ngOnInit() {
-  }
+  public ngOnInit() {}
 }

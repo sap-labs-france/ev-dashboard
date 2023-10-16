@@ -25,15 +25,18 @@ export class AppInactivityPipe implements PipeTransform {
     let totalInactivitySecs = 0;
     if (transaction.stop) {
       totalDurationSecs = transaction.stop.totalDurationSecs;
-      totalInactivitySecs = transaction.stop.totalInactivitySecs + transaction.stop.extraInactivitySecs;
+      totalInactivitySecs =
+        transaction.stop.totalInactivitySecs + transaction.stop.extraInactivitySecs;
     } else {
       totalDurationSecs = transaction.currentTotalDurationSecs;
       totalInactivitySecs = transaction.currentTotalInactivitySecs;
     }
     if (totalDurationSecs) {
-      const percentage = totalDurationSecs > 0 ? (totalInactivitySecs / totalDurationSecs) : 0;
-      return this.appDurationPipe.transform(totalInactivitySecs) +
-        ` (${this.percentPipe.transform(percentage, '1.0-0')})`;
+      const percentage = totalDurationSecs > 0 ? totalInactivitySecs / totalDurationSecs : 0;
+      return (
+        this.appDurationPipe.transform(totalInactivitySecs) +
+        ` (${this.percentPipe.transform(percentage, '1.0-0')})`
+      );
     }
     return this.appDurationPipe.transform(totalInactivitySecs);
   }

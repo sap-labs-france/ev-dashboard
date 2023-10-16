@@ -9,7 +9,7 @@ import { Transaction } from '../../../../types/Transaction';
 @Component({
   selector: 'app-transaction-header',
   templateUrl: 'transaction-header.component.html',
-  styleUrls: ['transaction-header.component.scss']
+  styleUrls: ['transaction-header.component.scss'],
 })
 export class TransactionHeaderComponent implements OnChanges {
   @Input() public transaction: Transaction;
@@ -28,10 +28,10 @@ export class TransactionHeaderComponent implements OnChanges {
 
   public constructor(
     private authorizationService: AuthorizationService,
-    private componentService: ComponentService,
+    private componentService: ComponentService
   ) {
     this.isCarComponentActive = this.componentService.isActive(TenantComponents.CAR);
-    if ( this.isCarComponentActive ) {
+    if (this.isCarComponentActive) {
       this.canUpdateCar = this.authorizationService.canUpdateCar();
       this.canDisplayCar = this.authorizationService.canReadCar();
     }
@@ -49,7 +49,8 @@ export class TransactionHeaderComponent implements OnChanges {
         this.stateOfCharge = transaction.stateOfCharge;
         this.endStateOfCharge = transaction.stop.stateOfCharge;
         this.totalDurationSecs = transaction.stop.totalDurationSecs;
-        this.isStoppedByAnotherUser = (transaction.user && transaction.user.id !== transaction.stop.user.id);
+        this.isStoppedByAnotherUser =
+          transaction.user && transaction.user.id !== transaction.stop.user.id;
       } else {
         this.totalConsumptionWh = transaction.currentTotalConsumptionWh;
         this.stateOfCharge = transaction.stateOfCharge;

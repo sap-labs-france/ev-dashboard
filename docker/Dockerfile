@@ -6,8 +6,11 @@ WORKDIR /usr/builder
 
 COPY package.json package-lock.json ./
 
-RUN npm set progress=false && npm config set depth 0 && npm cache clean --force
-RUN HUSKY_SKIP_INSTALL=1 npm install --force
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+
+RUN set -ex \
+  && HUSKY_SKIP_INSTALL=1 npm install --ignore-scripts
 
 COPY NOTICE LICENSE ./
 COPY src ./src

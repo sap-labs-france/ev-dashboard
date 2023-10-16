@@ -9,13 +9,14 @@ import { LogActionsDialogTableDataSource } from './log-actions-dialog-table-data
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
-  styleUrls: ['../dialog-table-data-xs.component.scss']
+  styleUrls: ['../dialog-table-data-xs.component.scss'],
 })
 export class LogActionsDialogComponent extends DialogTableDataComponent<LogAction> {
   public constructor(
     protected dialogRef: MatDialogRef<LogActionsDialogComponent>,
     private logActionsDialogTableDataSource: LogActionsDialogTableDataSource,
-    @Inject(MAT_DIALOG_DATA) data: any) {
+    @Inject(MAT_DIALOG_DATA) data: any
+  ) {
     super(data, dialogRef, logActionsDialogTableDataSource);
     // Default title
     if (Utils.isEmptyString(this.title)) {
@@ -30,7 +31,8 @@ export class LogActionsDialogComponent extends DialogTableDataComponent<LogActio
       selectedRows.forEach((row) => {
         items.push({
           key: row.id.toString(),
-          value: `${row.action}`, objectRef: row
+          value: `${row.action}`,
+          objectRef: row,
         });
       });
     }

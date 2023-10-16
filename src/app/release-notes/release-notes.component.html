@@ -5,14 +5,21 @@
         <div class="card" *ngFor="let releaseNote of releaseNotes">
           <div class="card-header card-header-text card-header-primary">
             <div class="card-text pt-1">
-              <h4 class="card-title">{{'general.version' | translate}} {{releaseNote.version}} ({{releaseNote.date | date:'fullDate'}})</h4>
+              <h4 class="card-title">
+                {{ 'general.version' | translate }} {{ releaseNote.version }} ({{
+                  releaseNote.date | date : 'fullDate'
+                }})
+              </h4>
             </div>
           </div>
           <div class="card-body table-responsive">
-            <table class="table table-hover" *ngFor="let componentChange of releaseNote.componentChanges">
+            <table
+              class="table table-hover"
+              *ngFor="let componentChange of releaseNote.componentChanges"
+            >
               <tbody>
                 <tr class="release-notes-row" *ngFor="let change of componentChange.changes">
-                  <td>{{change}}</td>
+                  <td>{{ change }}</td>
                 </tr>
               </tbody>
             </table>

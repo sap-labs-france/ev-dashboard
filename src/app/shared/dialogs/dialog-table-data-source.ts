@@ -9,7 +9,8 @@ import { TableDataSource } from '../table/table-data-source';
 export abstract class DialogTableDataSource<T extends TableData> extends TableDataSource<T> {
   public constructor(
     public spinnerService: SpinnerService,
-    public translateService: TranslateService) {
+    public translateService: TranslateService
+  ) {
     super(spinnerService, translateService);
   }
 

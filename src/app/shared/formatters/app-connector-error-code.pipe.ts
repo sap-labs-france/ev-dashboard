@@ -23,10 +23,11 @@ export class AppConnectorErrorCodePipe implements PipeTransform {
   };
 
   // eslint-disable-next-line no-useless-constructor
-  public constructor(private translateService: TranslateService) {};
+  public constructor(private translateService: TranslateService) {}
 
   public transform(errorCode: string): string {
-    return this.connectorErrorCodeMap[errorCode] ?
-      this.translateService.instant(this.connectorErrorCodeMap[errorCode]) : '';
+    return this.connectorErrorCodeMap[errorCode]
+      ? this.translateService.instant(this.connectorErrorCodeMap[errorCode])
+      : '';
   }
 }

@@ -10,7 +10,7 @@ import { SiteAreaChargingStationsDataSource } from './site-area-charging-station
 @Component({
   templateUrl: 'site-area-charging-stations-dialog.component.html',
   providers: [SiteAreaChargingStationsDataSource],
-  styleUrls: ['site-area-charging-stations-dialog.component.scss']
+  styleUrls: ['site-area-charging-stations-dialog.component.scss'],
 })
 export class SiteAreaChargingStationsDialogComponent {
   public dialogTitle: string;
@@ -19,17 +19,21 @@ export class SiteAreaChargingStationsDialogComponent {
     public siteAreaChargersDataSource: SiteAreaChargingStationsDataSource,
     private dialogRef: MatDialogRef<SiteAreaChargingStationsDialogComponent>,
     private translateService: TranslateService,
-    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<SiteArea, SiteAreasAuthorizations>) {
+    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<SiteArea, SiteAreasAuthorizations>
+  ) {
     // default title
     this.dialogTitle = this.translateService.instant('chargers.chargers');
     if (dialogParams) {
       if (dialogParams.dialogData) {
         this.siteAreaChargersDataSource.setSiteArea(dialogParams.dialogData);
-        this.dialogTitle = this.translateService.instant('site_areas.assigned_chargers_to_site_area',
-          { siteAreaName: dialogParams.dialogData.name });
+        this.dialogTitle = this.translateService.instant(
+          'site_areas.assigned_chargers_to_site_area',
+          { siteAreaName: dialogParams.dialogData.name }
+        );
       }
       this.siteAreaChargersDataSource.setMode(
-        Utils.getTableDataSourceModeFromDialogMode(dialogParams.dialogMode));
+        Utils.getTableDataSourceModeFromDialogMode(dialogParams.dialogMode)
+      );
       this.siteAreaChargersDataSource.initDataSource(true);
     }
     Utils.registerCloseKeyEvents(this.dialogRef);

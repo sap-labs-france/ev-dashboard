@@ -3,30 +3,42 @@
     <div class="card-body">
       <a [attr.href]="getRefundUrl()" target="_blank">
         <div class="d-flex flex-row align-items-center">
-          <img src="/assets/img/integrations/concur-logo.png"
-            class="card-logo img-thumbnail me-3"/>
+          <img
+            src="/assets/img/integrations/concur-logo.png"
+            class="card-logo img-thumbnail me-3"
+          />
           <h2 class="card-title">Concur</h2>
         </div>
       </a>
     </div>
     <div class="card-footer">
-      <div *ngIf="isRefundConnectionValid"
-            class="d-flex flex-row align-items-center justify-content-between">
+      <div
+        *ngIf="isRefundConnectionValid"
+        class="d-flex flex-row align-items-center justify-content-between"
+      >
         <div class="d-flex flex-column align-items-start">
-          <span>{{'users.connectors.created_on' | translate}} {{ refundConnection.createdAt | appDate}}</span>
-          <span>{{'users.connectors.expired_on' | translate}} {{ refundConnection.validUntil | appDate}}</span>
+          <span
+            >{{ 'users.connectors.created_on' | translate }}
+            {{ refundConnection.createdAt | appDate }}</span
+          >
+          <span
+            >{{ 'users.connectors.expired_on' | translate }}
+            {{ refundConnection.validUntil | appDate }}</span
+          >
         </div>
         <button mat-raised-button color="warn" (click)="revokeRefundAccount()">
           <mat-icon>delete</mat-icon>
-          <span>{{'users.connectors.revoke' | translate}}</span>
+          <span>{{ 'users.connectors.revoke' | translate }}</span>
         </button>
       </div>
-      <div *ngIf="!isRefundConnectionValid"
-          class="d-flex flex-row align-items-center justify-content-between">
-        <span>{{'users.connectors.not_connected' | translate}} </span>
+      <div
+        *ngIf="!isRefundConnectionValid"
+        class="d-flex flex-row align-items-center justify-content-between"
+      >
+        <span>{{ 'users.connectors.not_connected' | translate }} </span>
         <button mat-raised-button color="primary" (click)="linkRefundAccount()">
           <mat-icon>launch</mat-icon>
-          <span>{{'users.connectors.connect' | translate}}</span>
+          <span>{{ 'users.connectors.connect' | translate }}</span>
         </button>
       </div>
     </div>

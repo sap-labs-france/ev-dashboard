@@ -1,5 +1,11 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  UntypedFormArray,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Address as GoogleAddress } from 'ngx-google-places-autocomplete/objects/address';
@@ -35,9 +41,7 @@ export class AddressComponent implements OnInit, OnChanges {
   public initialized = false;
 
   // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    private translateService: TranslateService,
-    private dialog: MatDialog) {}
+  public constructor(private translateService: TranslateService, private dialog: MatDialog) {}
 
   public ngOnInit() {
     // Set Address form group
@@ -50,19 +54,23 @@ export class AddressComponent implements OnInit, OnChanges {
       region: new UntypedFormControl(''),
       country: new UntypedFormControl(''),
       coordinates: new UntypedFormArray([
-        new UntypedFormControl('',
+        new UntypedFormControl(
+          '',
           Validators.compose([
             Validators.max(180),
             Validators.min(-180),
             Validators.pattern(Constants.REGEX_VALIDATION_LONGITUDE),
-          ])),
-        new UntypedFormControl('',
+          ])
+        ),
+        new UntypedFormControl(
+          '',
           Validators.compose([
             Validators.max(90),
             Validators.min(-90),
             Validators.pattern(Constants.REGEX_VALIDATION_LATITUDE),
-          ])),
-      ])
+          ])
+        ),
+      ]),
     });
     // Add the form group to the parent component
     if (!this.formGroup.disabled) {
@@ -139,7 +147,7 @@ export class AddressComponent implements OnInit, OnChanges {
     // Set data
     let streetNumber = '';
     let route = '';
-    address.address_components.forEach(((addressComponent) => {
+    address.address_components.forEach((addressComponent) => {
       switch (addressComponent.types[0]) {
         // Postal Code
         case 'postal_code':
@@ -168,7 +176,7 @@ export class AddressComponent implements OnInit, OnChanges {
           streetNumber = addressComponent.long_name;
           break;
       }
-    }));
+    });
     // Address
     this.address1.setValue(address.name);
     // Latitude
@@ -210,18 +218,28 @@ export class AddressComponent implements OnInit, OnChanges {
     }
     // Set data
     dialogConfig.data = {
-      dialogTitle: (this.componentName && this.itemComponentName) ? this.translateService.instant('geomap.dialog_geolocation_title',
-        { componentName: this.componentName, itemComponentName: this.itemComponentName }) : this.translateService.instant('geomap.select_geolocation'),
+      dialogTitle:
+        this.componentName && this.itemComponentName
+          ? this.translateService.instant('geomap.dialog_geolocation_title', {
+            componentName: this.componentName,
+            itemComponentName: this.itemComponentName,
+          })
+          : this.translateService.instant('geomap.select_geolocation'),
       latitude,
       longitude,
       label: this.itemComponentName ? this.itemComponentName : '',
-      displayOnly: this.onlyReadGeolocation ?? false
+      displayOnly: this.onlyReadGeolocation ?? false,
     };
     // Disable outside click close
     dialogConfig.disableClose = true;
     // Open
-    this.dialog.open<GeoMapDialogComponent, GeoMapDialogData, GeoMapDialogResult>(GeoMapDialogComponent, dialogConfig)
-      .afterClosed().subscribe((result: GeoMapDialogResult) => {
+    this.dialog
+      .open<GeoMapDialogComponent, GeoMapDialogData, GeoMapDialogResult>(
+      GeoMapDialogComponent,
+      dialogConfig
+    )
+      .afterClosed()
+      .subscribe((result: GeoMapDialogResult) => {
         if (result) {
           if (result.latitude) {
             this.latitude.setValue(result.latitude);

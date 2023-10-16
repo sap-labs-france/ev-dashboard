@@ -4,7 +4,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AccountsComponent } from 'pages/accounts/accounts.component';
-import { AccountStatusFormatterComponent, AppFormatAccountStatusPipe } from 'pages/accounts/formatters/account-status-formatter.component';
+import {
+  AccountStatusFormatterComponent,
+  AppFormatAccountStatusPipe,
+} from 'pages/accounts/formatters/account-status-formatter.component';
 import { PricingDefinitionsModule } from 'shared/pricing-definitions/pricing-definitions.module';
 
 import { MaterialModule } from '../../app.module';
@@ -41,8 +44,14 @@ import { SettingsOcpiEndpointDialogComponent } from './ocpi/endpoints/endpoint/s
 import { OcpiDetailFailureFormatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-failure-formatter.component';
 import { OcpiDetailSuccessFormatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-success-formatter.component';
 import { OcpiDetailTotalFormatterComponent } from './ocpi/endpoints/formatters/ocpi-detail-total-formatter.component';
-import { AppFormatOcpiPatchJobStatusPipe, OcpiPatchJobStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-patch-job-status-formatter.component';
-import { AppFormatOcpiStatusPipe, OcpiEndpointStatusFormatterComponent } from './ocpi/endpoints/formatters/ocpi-status-formatter.component';
+import {
+  AppFormatOcpiPatchJobStatusPipe,
+  OcpiPatchJobStatusFormatterComponent,
+} from './ocpi/endpoints/formatters/ocpi-patch-job-status-formatter.component';
+import {
+  AppFormatOcpiStatusPipe,
+  OcpiEndpointStatusFormatterComponent,
+} from './ocpi/endpoints/formatters/ocpi-status-formatter.component';
 import { SettingsOcpiEndpointsDetailsTableDataSource } from './ocpi/endpoints/ocpi-details/settings-ocpi-endpoints-details-table-data-source';
 import { SettingsOcpiEndpointsDetailsComponent } from './ocpi/endpoints/ocpi-details/settings-ocpi-endpoints-details.component';
 import { SettingsOcpiEndpointsTableDataSource } from './ocpi/endpoints/settings-ocpi-endpoints-table-data-source';
@@ -50,14 +59,35 @@ import { SettingsOcpiEndpointsComponent } from './ocpi/endpoints/settings-ocpi-e
 import { SettingsOcpiComponent } from './ocpi/settings-ocpi.component';
 import { SettingsOicpEndpointComponent } from './oicp/endpoints/endpoint/settings-oicp-endpoint.component';
 import { SettingsOicpEndpointDialogComponent } from './oicp/endpoints/endpoint/settings-oicp-endpoint.dialog.component';
-import { AppFormatOicpEvsesFailurePipe, OicpDetailFailureEvsesStatusFormatterComponent } from './oicp/endpoints/formatters/oicp-detail-failure-evses-status-formatter.component';
-import { AppFormatOicpDetailJobStatusPipe, OicpDetailJobStatusFormatterComponent } from './oicp/endpoints/formatters/oicp-detail-job-status-formatter.component';
+import {
+  AppFormatOicpEvsesFailurePipe,
+  OicpDetailFailureEvsesStatusFormatterComponent,
+} from './oicp/endpoints/formatters/oicp-detail-failure-evses-status-formatter.component';
+import {
+  AppFormatOicpDetailJobStatusPipe,
+  OicpDetailJobStatusFormatterComponent,
+} from './oicp/endpoints/formatters/oicp-detail-job-status-formatter.component';
 import { OicpDetailSuccessEvsesStatusFormatterComponent } from './oicp/endpoints/formatters/oicp-detail-success-evses-status-formatter.component';
-import { AppFormatOicpEvsesTotalPipe, OicpDetailTotalEvsesStatusFormatterComponent } from './oicp/endpoints/formatters/oicp-detail-total-evses-status-formatter.component';
-import { AppFormatOicpJobResultPipe, OicpJobResultFormatterComponent } from './oicp/endpoints/formatters/oicp-job-result-formatter.component';
-import { AppFormatOicpPatchJobResultPipe, OicpPatchJobResultFormatterComponent } from './oicp/endpoints/formatters/oicp-patch-job-result-formatter.component';
-import { AppFormatOicpPatchJobStatusPipe, OicpPatchJobStatusFormatterComponent } from './oicp/endpoints/formatters/oicp-patch-job-status-formatter.component';
-import { AppFormatOicpStatusPipe, OicpEndpointStatusFormatterComponent } from './oicp/endpoints/formatters/oicp-status-formatter.component';
+import {
+  AppFormatOicpEvsesTotalPipe,
+  OicpDetailTotalEvsesStatusFormatterComponent,
+} from './oicp/endpoints/formatters/oicp-detail-total-evses-status-formatter.component';
+import {
+  AppFormatOicpJobResultPipe,
+  OicpJobResultFormatterComponent,
+} from './oicp/endpoints/formatters/oicp-job-result-formatter.component';
+import {
+  AppFormatOicpPatchJobResultPipe,
+  OicpPatchJobResultFormatterComponent,
+} from './oicp/endpoints/formatters/oicp-patch-job-result-formatter.component';
+import {
+  AppFormatOicpPatchJobStatusPipe,
+  OicpPatchJobStatusFormatterComponent,
+} from './oicp/endpoints/formatters/oicp-patch-job-status-formatter.component';
+import {
+  AppFormatOicpStatusPipe,
+  OicpEndpointStatusFormatterComponent,
+} from './oicp/endpoints/formatters/oicp-status-formatter.component';
 import { SettingsOicpEndpointsDetailsTableDataSource } from './oicp/endpoints/oicp-details/settings-oicp-endpoints-details-table-data-source';
 import { SettingsOicpEndpointsDetailsComponent } from './oicp/endpoints/oicp-details/settings-oicp-endpoints-details.component';
 import { SettingsOicpEndpointsTableDataSource } from './oicp/endpoints/settings-oicp-endpoints-table-data-source';
@@ -151,7 +181,7 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     AccountDialogComponent,
     AccountStatusFormatterComponent,
     AppFormatAccountStatusPipe,
-    AccountsComponent
+    AccountsComponent,
   ],
   providers: [
     SettingsOcpiEndpointsDetailsTableDataSource,
@@ -162,8 +192,6 @@ import { SettingsSmartChargingComponent } from './smart-charging/settings-smart-
     SettingsCarConnectorConnectionEditableTableDataSource,
     AnalyticsLinksTableDataSource,
     BillingAccountsTableDataSource,
-  ]
+  ],
 })
-
-export class SettingsIntegrationModule {
-}
+export class SettingsIntegrationModule {}

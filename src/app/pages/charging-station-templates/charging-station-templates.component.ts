@@ -5,13 +5,10 @@ import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab
 
 @Component({
   selector: 'app-charging-station-templates',
-  templateUrl: 'charging-station-templates.component.html'
+  templateUrl: 'charging-station-templates.component.html',
 })
 export class ChargingStationTemplatesComponent extends AbstractTabComponent {
-  public constructor(
-    activatedRoute: ActivatedRoute,
-    windowService: WindowService,
-  ) {
+  public constructor(activatedRoute: ActivatedRoute, windowService: WindowService) {
     super(activatedRoute, windowService, ['charging-station-templates']);
   }
 }

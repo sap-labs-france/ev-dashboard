@@ -10,7 +10,10 @@ import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { CommonDirectivesModule } from '../../shared/directives/directives.module';
 import { FormattersModule } from '../../shared/formatters/formatters.module';
 import { TableModule } from '../../shared/table/table.module';
-import { AppFormatTagStatusPipe, TagStatusFormatterComponent } from './formatters/tag-status-formatter.component';
+import {
+  AppFormatTagStatusPipe,
+  TagStatusFormatterComponent,
+} from './formatters/tag-status-formatter.component';
 import { TagsListComponent } from './list/tags-list.component';
 import { TagAssignDialogComponent } from './tag-assign/tag-assign-dialog.component';
 import { TagAssignComponent } from './tag-assign/tag-assign.component';
@@ -45,8 +48,6 @@ import { TagRoutes } from './tags.routing';
     TagsComponent,
   ],
   exports: [],
-  providers: []
+  providers: [],
 })
-
-export class TagsModule {
-}
+export class TagsModule {}

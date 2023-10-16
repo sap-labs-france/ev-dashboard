@@ -36,27 +36,23 @@ export class AssetConnectionComponent implements OnInit, OnChanges {
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private router: Router
-  ) {
-  }
+  ) {}
 
   public ngOnInit() {
     // Init the form
-    this.formGroup.addControl('connectionID', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-      ])
-    ));
-    this.formGroup.addControl('dynamicAsset', new UntypedFormControl(false,
-      Validators.compose([
-        Validators.required,
-      ])
-    ));
+    this.formGroup.addControl(
+      'connectionID',
+      new UntypedFormControl('', Validators.compose([Validators.required]))
+    );
+    this.formGroup.addControl(
+      'dynamicAsset',
+      new UntypedFormControl(false, Validators.compose([Validators.required]))
+    );
     this.formGroup.addControl('usesPushAPI', new UntypedFormControl(false));
-    this.formGroup.addControl('meterID', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-      ])
-    ));
+    this.formGroup.addControl(
+      'meterID',
+      new UntypedFormControl('', Validators.compose([Validators.required]))
+    );
     // Form
     this.dynamicAsset = this.formGroup.controls['dynamicAsset'];
     this.usesPushAPI = this.formGroup.controls['usesPushAPI'];
@@ -90,7 +86,11 @@ export class AssetConnectionComponent implements OnInit, OnChanges {
   }
 
   public disableConnectionDetails() {
-    if (Utils.convertToBoolean(this.dynamicAsset.value && !Utils.convertToBoolean(this.usesPushAPI.value))) {
+    if (
+      Utils.convertToBoolean(
+        this.dynamicAsset.value && !Utils.convertToBoolean(this.usesPushAPI.value)
+      )
+    ) {
       this.connectionID.enable();
       this.meterID.enable();
     } else {
@@ -122,9 +122,14 @@ export class AssetConnectionComponent implements OnInit, OnChanges {
       },
       error: (error) => {
         this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService,
-          this.centralServerService, 'assets.asset_settings_error');
-      }
+        Utils.handleHttpError(
+          error,
+          this.router,
+          this.messageService,
+          this.centralServerService,
+          'assets.asset_settings_error'
+        );
+      },
     });
   }
 }

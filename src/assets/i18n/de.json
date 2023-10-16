@@ -191,7 +191,8 @@
       "cars": "Fahrzeuge",
       "invoices": "Rechnungen",
       "tags": "Badges",
-      "charging_station_templates": "Charging Station Templates"
+      "charging_station_templates": "Charging Station Templates",
+      "reservations": "Reservierungen"
     },
     "tooltips": {
       "push_cdr": "CDR senden",
@@ -1520,6 +1521,7 @@
     "save_error_smart_charging": "Organisation muss für Smart-Charging aktiv sein",
     "save_error_asset": "Organisation muss aktiv sein, um Assets zu nutzen zu können",
     "save_error_car_connector": "Fahrzeug Management muss aktiv sein, um Fahrzeug Verbindungen zu nutzen",
+    "save_error_reservation": "Organisation muss aktiv sein, um Reservierung nutzen zu können Reservation",
     "smart_charging_still_active_for_site_area": [
       "Smart-Charging ist für ausgewählte Standortbereiche noch immer aktiv.",
       "Bitte deaktivieren Sie Smart-Charging für alle Standortbereiche des Mandanten."
@@ -2743,5 +2745,138 @@
     "end_user_error_notification": "Benachrichtigen Sie mich, wenn ein Nutzer einen Fehler meldet",
     "billing_new_invoice": "Benachrichtigen Sie mich, wenn eine neue Rechnung verfügbar ist",
     "admin_account_verification": "Benachichtigen Sie mich, wenn ein neues Nutzerkonto verifiziert werden muss"
+  },
+  "reservations": {
+    "titles": "Reservierungen",
+    "description": "Das Reservierungs-Interface ermöglicht Erstellen und Bearbeiten von geplanten und unmittelbaren Reservierungen für den Ladestationbetreiber.",
+    "title": "Reservierung",
+    "id": "ID",
+    "created_on": "Erstellungsdatum",
+    "chargingstation_id": "Ladestation",
+    "connector_id": "Anschluss",
+    "connector_status": "Anschluss Verfügbarkeit",
+    "expiry_date": "Ablaufdatum",
+    "from_date": "Gültig ab",
+    "to_date": "Gültig bis",
+    "arrival_time": "Ankunftszeit",
+    "departure_time": "Abfahrtszeit",
+    "tag_id": "Tag ID",
+    "status": "Status",
+    "type": "Reservierungs-Typ",
+    "properties_title": "Details",
+    "delete_title": "Reservierung löschen",
+    "user": "Nutzer",
+    "car": "Fahrzeug",
+    "tabs": {
+      "list": "Reservierungen"
+    },
+    "dialog": {
+      "general": {
+        "expiry_date": "Ablaufdatum festlegen"
+      },
+      "reserve_now": {
+        "title": "Reservierung abschließen",
+        "tooltips": "Jetzt Reservieren",
+        "confirm": "Wollen Sie für den Nutzer '{{userName}}' an der Ladestation '{{chargingStationID}}' an Anschluss '{{connectorID}}' eine Reservierung tätigen?",
+        "details": "Anschluss '{{connectorID}}' an Ladestation '{{chargingStationID}}' reservieren",
+        "success": "Die Reservierung an Ladestation '{{chargingStationID}}' für Anschluss '{{connectorID}}' wurde erfolgreich durchgeführt",
+        "error": "Beim Versuch eine Reservierung zu tätigen ist ein Fehler aufgetreten"
+      },
+      "cancel_reservation": {
+        "title": "Reservierung stornieren",
+        "tooltips": "Reservierung stornieren",
+        "confirm": "Wollen Sie an der Ladestation '{{chargingStationID}}' die Reservierung stornieren?'",
+        "details": "",
+        "success": "Die Reservierung an der Ladestation '{{chargingStationID}}' wurde erfolgreich storniert",
+        "error": "Beim Versuch die Reservierung an der Ladestation '{{chargingStationID}}' zu stornieren ist ein Fehler aufgetreten"
+      },
+      "create": {
+        "title": "Reservierung erstellen",
+        "tooltips": "Reservierung erstellen",
+        "confirm": "Wollen Sie an der Ladestation '{{chargingStationID}}' an Anschluss '{{connectorID}}' eine Reservierung vom Typ '{{reservationType}}' erstellen?",
+        "details": "",
+        "success": "Die Reservierung an der Ladestation '{{chargingStationID}}' an Anschluss '{{connectorID}}' wurde erfolgreich erstellt",
+        "error": "Beim Erstellen der Reservierung ist ein Fehler aufgetreten"
+      },
+      "update": {
+        "title": "Reservierung aktualisieren",
+        "tooltips": "Reservierung aktualisieren",
+        "confirm": "",
+        "details": "",
+        "success": "Die Reservierung für die Ladestation '{{chargingStationID}}' an Anschluss '{{connectorID}}' wurde erfolgreich gespeichert",
+        "error": "Die Reservierung kann nicht verändert werden, siehe Log-Nachrichten für Details"
+      },
+      "delete": {
+        "title": "Reservierung löschen",
+        "tooltips": "Reservierung löschen",
+        "confirm": "Sind Sie sich sicher, dass Sie die Reservierung wirklich löschen wollen?",
+        "details": "",
+        "success": "Die Reservierung an der Ladestation '{{chargingStationID}}' an Anschluss '{{connectorID}}' wurde erfolgreich gelöscht",
+        "error": "Beim Löschen der Reservierung ist ein Fehler aufgetreten"
+      },
+      "export": {
+        "title": "Exportieren der Reservierungen",
+        "confirm": "Möchten Sie alle Reservierungen entsprechend der angewendeten Filter exportieren?",
+        "error": "Beim Exportieren der Reservierungen ist ein Fehler aufgetreten",
+        "tooltips": "",
+        "details": "",
+        "success": ""
+      },
+      "delete_reservations": {
+        "title": "Lösche Reservierungen",
+        "confirm": "Wollen Sie wirlich '{{quantity}}' Reservierung(en) löschen?",
+        "success": "{{inSuccess}} Reservierungen wurden erfolgreich gelöscht",
+        "partial": "{{inSuccess}} Reservierungen wurden erfolgreich gelöscht und {{inError}} Reservierungen haben einen Fehler ausgelöst",
+        "error": "{{inError}} Reservierungen konnten nicht gelöscht werden, bitte überprüfen Sie die Logs",
+        "unexpected_error": "Beim Löschen der Reservierungen ist ein unerwarteter Fehler ist aufgetreten, bitte überprüfen Sie die Logs",
+        "reject_deletion_ongoing_reservations": "Sie können keine laufenden Reservierungen löschen."
+      }
+    },
+    "action_error": {
+      "general": {
+        "not_found": "Die Reservierung wurde nicht gefunden",
+        "already_exists": "Die Reservierung mit der ID '{{reservationID}}' existiert bereits für einen anderen Nutzer",
+        "not_supported": "Das Feature 'Reservierungen' ist für diese Ladestation nicht aktiviert",
+        "rejected": "The reservation was rejected",
+        "collision": "Die Reservierung kollidiert mit anderen Reservierung(en) für den gewünschten Zeitraum. Wählen Sie ein anderes Zeitfenster aus",
+        "faulted": "Die gewünschte Ladesäule oder der gewünschte Anschluss änderten ihren Status in 'FEHLERHAFT' während der Reservierung",
+        "occupied": "Die gewünschte Ladesäule oder der gewünschte Anschluss änderten ihren Status in 'BESETZT' während der Reservierung",
+        "unavailable": "Die gewünschte Ladesäule oder der gewünschte Anschluss änderten ihren Status in 'NICHT VERFÜGBAR' während der Reservierung",
+        "multiple_reserve_now": "Es ist nur eine 'RESERVE NOW' Reservierung pro Nutzer zeitgleich möglich"
+      },
+      "reserve_now": {
+        "title": "Fehler beim Reservieren der Ladestation",
+        "not_available": "Anschluss ist nicht verfügbar, Ladestation kann nicht reserviert werden"
+      },
+      "cancel_reservation": {
+        "title": "Fehler beim Stornieren der Reservierung mit der ID '{{reservationId}}'",
+        "not_available": "Anschluss ist nicht verfügbar, die Reservierung kann nicht storniert werden"
+      }
+    },
+    "error": {
+      "invalid_date": "Das gewählte Datum ist invalide",
+      "invalid_date_range": "Das gewählte Zeitfenster ist nicht valide",
+      "invalid_expiry_date": "Das Ablaufdatum muss in der Zukunft liegen"
+    },
+    "state": {
+      "scheduled": "Geplant",
+      "done": "Wahrgenommen",
+      "in_progress": "Aktiv",
+      "inactive": "Inaktiv",
+      "cancelled": "Storniert",
+      "expired": "Abgelaufen",
+      "unmet": "Unerfüllt"
+    },
+    "types": {
+      "reserve_now": "Direkt",
+      "planned_reservation": "Geplant",
+      "unknown": "Unbekannt"
+    },
+    "select_charger": "Ladestation auswählen",
+    "select_connector": "Anschluss auswählen",
+    "select_car": "Fahrzeug auswählen",
+    "select_tag": "Badge auswählen",
+    "select_user": "Nutzer auswählen",
+    "select_date_range": "Zeitraum auswählen"
   }
 }

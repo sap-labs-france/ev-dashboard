@@ -15,7 +15,8 @@ export class TagsComponent extends AbstractTabComponent {
   public constructor(
     activatedRoute: ActivatedRoute,
     authorizationService: AuthorizationService,
-    windowService: WindowService) {
+    windowService: WindowService
+  ) {
     super(activatedRoute, windowService, ['all']);
     this.canListTags = authorizationService.canListTags();
   }

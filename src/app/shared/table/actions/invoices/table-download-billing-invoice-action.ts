@@ -12,8 +12,15 @@ import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
 export interface TableDownloadBillingInvoiceDef extends TableActionDef {
-  action: (invoiceID: string, filename: string, translateService: TranslateService, spinnerService: SpinnerService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router) => void;
+  action: (
+    invoiceID: string,
+    filename: string,
+    translateService: TranslateService,
+    spinnerService: SpinnerService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    router: Router
+  ) => void;
 }
 
 export class TableDownloadBillingInvoice implements TableAction {
@@ -33,8 +40,15 @@ export class TableDownloadBillingInvoice implements TableAction {
   }
 
   // Download from UI
-  private downloadInvoice(invoiceID: string, filename: string, translateService: TranslateService, spinnerService: SpinnerService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router) {
+  private downloadInvoice(
+    invoiceID: string,
+    filename: string,
+    translateService: TranslateService,
+    spinnerService: SpinnerService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    router: Router
+  ) {
     spinnerService.show();
     centralServerService.downloadInvoice(invoiceID).subscribe({
       next: (result) => {
@@ -43,9 +57,14 @@ export class TableDownloadBillingInvoice implements TableAction {
       },
       error: (error) => {
         spinnerService.hide();
-        Utils.handleHttpError(error, router, messageService,
-          centralServerService, translateService.instant('invoices.cannot_download_invoice'));
-      }
+        Utils.handleHttpError(
+          error,
+          router,
+          messageService,
+          centralServerService,
+          translateService.instant('invoices.cannot_download_invoice')
+        );
+      },
     });
   }
 }

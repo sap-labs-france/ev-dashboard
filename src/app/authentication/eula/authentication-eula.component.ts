@@ -13,13 +13,16 @@ export class AuthenticationEulaComponent implements OnInit {
     private translateService: TranslateService,
     private spinnerService: SpinnerService,
     private windowService: WindowService,
-    private centralServerService: CentralServerService) {
+    private centralServerService: CentralServerService
+  ) {
     this.spinnerService.hide();
   }
   public ngOnInit() {
     const language = this.windowService.getUrlParameterValue('Language');
-    this.centralServerService.getEndUserLicenseAgreement(language ?? this.translateService.getBrowserLang()).subscribe((eula) => {
-      this.eulaText = eula.text;
-    });
+    this.centralServerService
+      .getEndUserLicenseAgreement(language ?? this.translateService.getBrowserLang())
+      .subscribe((eula) => {
+        this.eulaText = eula.text;
+      });
   }
 }

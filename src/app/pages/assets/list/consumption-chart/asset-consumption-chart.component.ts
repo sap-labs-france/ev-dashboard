@@ -19,7 +19,6 @@ import { Utils } from '../../../../utils/Utils';
   selector: 'app-asset-chart',
   templateUrl: 'asset-consumption-chart.component.html',
 })
-
 export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
   @Input() public assetID!: string;
   @Input() public asset!: AssetConsumption;
@@ -50,7 +49,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
   private firstLabel: number;
   private visibleDatasets = [
     ConsumptionChartDatasetOrder.INSTANT_WATTS,
-    ConsumptionChartDatasetOrder.STATE_OF_CHARGE
+    ConsumptionChartDatasetOrder.STATE_OF_CHARGE,
   ];
   private gridDisplay = {
     [ConsumptionChartAxis.POWER]: true,
@@ -66,15 +65,15 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
     private decimalPipe: AppDecimalPipe,
     private unitPipe: AppUnitPipe,
     private datePipe: AppDatePipe,
-    private durationPipe: AppDurationPipe) {
-  }
+    private durationPipe: AppDurationPipe
+  ) {}
 
   public ngOnInit() {
     // Date control
-    this.dateControl = new UntypedFormControl('dateControl',
-      Validators.compose([
-        Validators.required,
-      ]));
+    this.dateControl = new UntypedFormControl(
+      'dateControl',
+      Validators.compose([Validators.required])
+    );
     this.dateControl.setValue(this.startDate);
   }
 
@@ -93,15 +92,19 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
   public refresh() {
     this.spinnerService.show();
     // Change Date for testing e.g.:
-    this.centralServerService.getAssetConsumption(this.assetID, this.startDate, this.endDate)
-      .subscribe((assetConsumption: AssetConsumption) => {
-        this.spinnerService.hide();
-        this.asset = assetConsumption;
-        this.prepareOrUpdateGraph();
-      }, (error) => {
-        this.spinnerService.hide();
-        delete this.asset;
-      });
+    this.centralServerService
+      .getAssetConsumption(this.assetID, this.startDate, this.endDate)
+      .subscribe(
+        (assetConsumption: AssetConsumption) => {
+          this.spinnerService.hide();
+          this.asset = assetConsumption;
+          this.prepareOrUpdateGraph();
+        },
+        (error) => {
+          this.spinnerService.hide();
+          delete this.asset;
+        }
+      );
   }
 
   public unitChanged(key: ConsumptionUnit) {
@@ -123,17 +126,17 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
 
   private updateVisibleDatasets() {
     this.visibleDatasets = [];
-    this.data.datasets.forEach(dataset => {
-      if(!dataset.hidden){
+    this.data.datasets.forEach((dataset) => {
+      if (!dataset.hidden) {
         this.visibleDatasets.push(dataset.order);
       }
     });
   }
 
   private updateVisibleGridLines() {
-    const visibleDatasets = this.data.datasets.filter(ds => !ds.hidden).map(ds => ds.order);
+    const visibleDatasets = this.data.datasets.filter((ds) => !ds.hidden).map((ds) => ds.order);
     for (const key in this.gridDisplay) {
-      if(Object.prototype.hasOwnProperty.call(this.gridDisplay, key)) {
+      if (Object.prototype.hasOwnProperty.call(this.gridDisplay, key)) {
         this.gridDisplay[key] = false;
       }
     }
@@ -147,7 +150,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
       visibleDatasets.includes(ConsumptionChartDatasetOrder.LIMIT_AMPS)
     ) {
       this.gridDisplay[ConsumptionChartAxis.AMPERAGE] = true;
-    } else if( visibleDatasets.includes(ConsumptionChartDatasetOrder.STATE_OF_CHARGE) ) {
+    } else if (visibleDatasets.includes(ConsumptionChartDatasetOrder.STATE_OF_CHARGE)) {
       this.gridDisplay[ConsumptionChartAxis.PERCENTAGE] = true;
     }
   }
@@ -181,30 +184,50 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
     // Instant Amps/Power
     datasets.push({
       type: 'line',
-      hidden: this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.INSTANT_AMPS) === -1
-        && this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.INSTANT_WATTS) === -1,
+      hidden:
+        this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.INSTANT_AMPS) === -1 &&
+        this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.INSTANT_WATTS) === -1,
       data: [],
-      yAxisID: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartAxis.AMPERAGE : ConsumptionChartAxis.POWER,
+      yAxisID:
+        this.selectedUnit === ConsumptionUnit.AMPERE
+          ? ConsumptionChartAxis.AMPERAGE
+          : ConsumptionChartAxis.POWER,
       lineTension: this.lineTension,
       ...Utils.formatLineColor(this.instantPowerColor),
-      label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
-        'transactions.graph.amps' : 'asset.graph.power'),
+      label: this.translateService.instant(
+        this.selectedUnit === ConsumptionUnit.AMPERE
+          ? 'transactions.graph.amps'
+          : 'asset.graph.power'
+      ),
       fill: 'origin',
-      order: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartDatasetOrder.INSTANT_AMPS : ConsumptionChartDatasetOrder.INSTANT_WATTS,
+      order:
+        this.selectedUnit === ConsumptionUnit.AMPERE
+          ? ConsumptionChartDatasetOrder.INSTANT_AMPS
+          : ConsumptionChartDatasetOrder.INSTANT_WATTS,
     });
     // Limit Amps/Power
     datasets.push({
       type: 'line',
-      hidden: this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.LIMIT_AMPS) === -1
-        && this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.LIMIT_WATTS) === -1,
+      hidden:
+        this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.LIMIT_AMPS) === -1 &&
+        this.visibleDatasets.indexOf(ConsumptionChartDatasetOrder.LIMIT_WATTS) === -1,
       data: [],
-      yAxisID: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartAxis.AMPERAGE : ConsumptionChartAxis.POWER,
+      yAxisID:
+        this.selectedUnit === ConsumptionUnit.AMPERE
+          ? ConsumptionChartAxis.AMPERAGE
+          : ConsumptionChartAxis.POWER,
       lineTension: this.lineTension,
       ...Utils.formatLineColor(this.limitColor),
-      label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
-        'transactions.graph.limit_amps' : 'asset.graph.limit_watts'),
+      label: this.translateService.instant(
+        this.selectedUnit === ConsumptionUnit.AMPERE
+          ? 'transactions.graph.limit_amps'
+          : 'asset.graph.limit_watts'
+      ),
       fill: 'origin',
-      order: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartDatasetOrder.LIMIT_AMPS : ConsumptionChartDatasetOrder.LIMIT_WATTS,
+      order:
+        this.selectedUnit === ConsumptionUnit.AMPERE
+          ? ConsumptionChartDatasetOrder.LIMIT_AMPS
+          : ConsumptionChartDatasetOrder.LIMIT_WATTS,
     });
     if (this.asset.values[this.asset.values.length - 1].stateOfCharge) {
       datasets.push({
@@ -226,7 +249,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
 
   private getDataSetByOrder(order: number): number[] | null {
     const dataSet = this.data.datasets.find((d) => d.order === order);
-    return dataSet ? dataSet.data as number[] : null;
+    return dataSet ? (dataSet.data as number[]) : null;
   }
 
   private canDisplayGraph() {
@@ -242,7 +265,9 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
     const instantAmpsDataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.INSTANT_AMPS);
     const limitWattsDataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.LIMIT_WATTS);
     const limitAmpsDataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.LIMIT_AMPS);
-    const stateOfChargeDataSet = this.getDataSetByOrder(ConsumptionChartDatasetOrder.STATE_OF_CHARGE);
+    const stateOfChargeDataSet = this.getDataSetByOrder(
+      ConsumptionChartDatasetOrder.STATE_OF_CHARGE
+    );
     const labels: number[] = [];
     // Add last point
     if (!Utils.isEmptyArray(this.asset.values)) {
@@ -254,25 +279,39 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
     for (const consumption of this.asset.values) {
       labels.push(new Date(consumption.startedAt).getTime());
       if (instantPowerDataSet) {
-        const value = (this.assetType === AssetType.PRODUCTION ? consumption.instantWatts * -1 : consumption.instantWatts);
+        const value =
+          this.assetType === AssetType.PRODUCTION
+            ? consumption.instantWatts * -1
+            : consumption.instantWatts;
         instantPowerDataSet.push(value);
       }
       if (instantAmpsDataSet) {
-        const value = (this.assetType === AssetType.PRODUCTION ? consumption.instantAmps * -1 : consumption.instantAmps);
+        const value =
+          this.assetType === AssetType.PRODUCTION
+            ? consumption.instantAmps * -1
+            : consumption.instantAmps;
         instantAmpsDataSet.push(value);
       }
       if (limitWattsDataSet) {
         if (consumption.limitWatts) {
           limitWattsDataSet.push(consumption.limitWatts);
         } else {
-          limitWattsDataSet.push(!Utils.isEmptyArray(limitWattsDataSet) ? limitWattsDataSet[limitWattsDataSet.length - 1] : 0);
+          limitWattsDataSet.push(
+            !Utils.isEmptyArray(limitWattsDataSet)
+              ? limitWattsDataSet[limitWattsDataSet.length - 1]
+              : 0
+          );
         }
       }
       if (limitAmpsDataSet) {
         if (consumption.limitAmps) {
           limitAmpsDataSet.push(consumption.limitAmps);
         } else {
-          limitAmpsDataSet.push(!Utils.isEmptyArray(limitAmpsDataSet) ? limitAmpsDataSet[limitAmpsDataSet.length - 1] : 0);
+          limitAmpsDataSet.push(
+            !Utils.isEmptyArray(limitAmpsDataSet)
+              ? limitAmpsDataSet[limitAmpsDataSet.length - 1]
+              : 0
+          );
         }
       }
       if (stateOfChargeDataSet) {
@@ -302,14 +341,14 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
           },
           onHover: (e, legendItem, legend) => {
             const status = legend.chart.data.datasets[legendItem.datasetIndex].hidden;
-            if(!status){
-              legend.chart.data.datasets.forEach((dataset) => dataset.borderWidth = 1);
+            if (!status) {
+              legend.chart.data.datasets.forEach((dataset) => (dataset.borderWidth = 1));
               legend.chart.data.datasets[legendItem.datasetIndex].borderWidth = 5;
               legend.chart.update();
             }
           },
           onLeave: (e, legendItem, legend) => {
-            legend.chart.data.datasets.forEach((dataset) => dataset.borderWidth = 3);
+            legend.chart.data.datasets.forEach((dataset) => (dataset.borderWidth = 3));
             legend.chart.update();
           },
           onClick: (e, legendItem, legend) => {
@@ -320,7 +359,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
             this.updateVisibleGridLines();
             legend.chart.options = this.createOptions();
             legend.chart.update();
-          }
+          },
         },
         tooltip: {
           bodySpacing: 5,
@@ -342,29 +381,33 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
               let tooltipLabel = '';
               switch (context.dataset.order) {
                 case ConsumptionChartDatasetOrder.INSTANT_WATTS:
-                  tooltipLabel =   ' ' + this.unitPipe.transform(value, 'W', 'kW', true, 1, 0, 1);
+                  tooltipLabel = ' ' + this.unitPipe.transform(value, 'W', 'kW', true, 1, 0, 1);
                   break;
                 case ConsumptionChartDatasetOrder.INSTANT_AMPS:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value, '1.0-0') + 'A';
+                  tooltipLabel = ' ' + this.decimalPipe.transform(value, '1.0-0') + 'A';
                   break;
                 case ConsumptionChartDatasetOrder.LIMIT_WATTS:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value / 1000, '1.0-1') + 'kW';
+                  tooltipLabel = ' ' + this.decimalPipe.transform(value / 1000, '1.0-1') + 'kW';
                   break;
                 case ConsumptionChartDatasetOrder.LIMIT_AMPS:
-                  tooltipLabel =   ' ' + this.decimalPipe.transform(value, '1.0-0') + 'A';
+                  tooltipLabel = ' ' + this.decimalPipe.transform(value, '1.0-0') + 'A';
                   break;
                 case ConsumptionChartDatasetOrder.STATE_OF_CHARGE:
-                  tooltipLabel =   ` ${value} %`;
+                  tooltipLabel = ` ${value} %`;
                   break;
                 default:
-                  tooltipLabel =   value + '';
+                  tooltipLabel = value + '';
               }
               return `${label}: ${tooltipLabel}`;
             },
             title: (tooltipItems) => {
               const firstDate = new Date(this.firstLabel);
               const currentDate = new Date(tooltipItems[0].parsed.x);
-              return this.datePipe.transform(currentDate) + ' - ' + this.durationPipe.transform((currentDate.getTime() - firstDate.getTime()) / 1000);
+              return (
+                this.datePipe.transform(currentDate) +
+                ' - ' +
+                this.durationPipe.transform((currentDate.getTime() - firstDate.getTime()) / 1000)
+              );
             },
           },
         },
@@ -374,7 +417,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
         intersect: false,
       },
       scales: {
-        [ConsumptionChartAxis.X]:{
+        [ConsumptionChartAxis.X]: {
           type: 'time',
           time: {
             tooltipFormat: moment.localeData().longDateFormat('LT'),
@@ -409,7 +452,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
           title: {
             display: true,
             text: this.translateService.instant('transactions.consumption') + ' (W)',
-          }
+          },
         },
         [ConsumptionChartAxis.AMPERAGE]: {
           type: 'linear',
@@ -427,7 +470,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
           title: {
             display: true,
             text: this.translateService.instant('transactions.consumption') + ' (A)',
-          }
+          },
         },
         [ConsumptionChartAxis.PERCENTAGE]: {
           type: 'linear',
@@ -445,7 +488,7 @@ export class AssetConsumptionChartComponent implements OnInit, AfterViewInit {
           title: {
             display: true,
             text: this.translateService.instant('transactions.graph.battery'),
-          }
+          },
         },
       },
     };

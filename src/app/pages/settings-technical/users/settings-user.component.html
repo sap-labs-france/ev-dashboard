@@ -1,9 +1,13 @@
 <form class="form" [formGroup]="formGroup" height="100%">
   <div class="mat-toolbar-row left-actions">
-    <button mat-raised-button color="warn" (click)="save()" 
-      [hidden]="!authorizations || !authorizations.canUpdate"  
-      [disabled]="isDisabled">
-      <mat-icon>save</mat-icon><span>{{ "general.save" | translate }}</span>
+    <button
+      mat-raised-button
+      color="warn"
+      (click)="save()"
+      [hidden]="!authorizations || !authorizations.canUpdate"
+      [disabled]="isDisabled"
+    >
+      <mat-icon>save</mat-icon><span>{{ 'general.save' | translate }}</span>
     </button>
   </div>
   <div *ngIf="userSettings?.user" class="card">
@@ -11,7 +15,7 @@
       <div class="card-icon">
         <mat-icon>how_to_reg</mat-icon>
       </div>
-      <h3 class="card-title">{{ "technical_settings.user.title" | translate }}</h3>
+      <h3 class="card-title">{{ 'technical_settings.user.title' | translate }}</h3>
     </div>
     <div class="card-body">
       <div class="row">
@@ -20,7 +24,7 @@
             formControlName="autoActivateAccountAfterValidation"
             (change)="handleAccountActivation()"
           >
-            {{ "technical_settings.user.auto_activation" | translate }}
+            {{ 'technical_settings.user.auto_activation' | translate }}
           </mat-checkbox>
         </div>
       </div>

@@ -11,8 +11,16 @@ import { Company, CompanyButtonAction } from '../../../../types/Company';
 import { TableActionDef } from '../../../../types/Table';
 
 export interface TableDeleteCompanyActionDef extends TableActionDef {
-  action: (company: Company, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) => void;
+  action: (
+    company: Company,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableDeleteCompanyAction extends TableDeleteAction {
@@ -24,13 +32,30 @@ export class TableDeleteCompanyAction extends TableDeleteAction {
     };
   }
 
-  private deleteCompany(company: Company, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
+  private deleteCompany(
+    company: Company,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) {
     super.delete(
-      company, 'companies.delete_title',
+      company,
+      'companies.delete_title',
       translateService.instant('companies.delete_confirm', { companyName: company.name }),
       translateService.instant('companies.delete_success', { companyName: company.name }),
-      'companies.delete_error', centralServerService.deleteCompany.bind(centralServerService),
-      dialogService, translateService, messageService, centralServerService, spinnerService, router, refresh);
+      'companies.delete_error',
+      centralServerService.deleteCompany.bind(centralServerService),
+      dialogService,
+      translateService,
+      messageService,
+      centralServerService,
+      spinnerService,
+      router,
+      refresh
+    );
   }
 }

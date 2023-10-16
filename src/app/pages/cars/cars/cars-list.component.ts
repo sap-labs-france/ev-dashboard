@@ -9,7 +9,5 @@ import { CarsListTableDataSource } from './cars-list-table-data-source';
 })
 export class CarsListComponent {
   // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    public carsListTableDataSource: CarsListTableDataSource,
-  ) {}
+  public constructor(public carsListTableDataSource: CarsListTableDataSource) {}
 }

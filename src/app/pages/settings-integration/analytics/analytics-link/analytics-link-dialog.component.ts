@@ -12,7 +12,7 @@ import { Utils } from '../../../../utils/Utils';
 
 @Component({
   templateUrl: 'analytics-link-dialog.component.html',
-  styleUrls: ['analytics-link-dialog.component.scss']
+  styleUrls: ['analytics-link-dialog.component.scss'],
 })
 export class AnalyticsLinkDialogComponent implements OnInit {
   public formGroup!: UntypedFormGroup;
@@ -31,7 +31,8 @@ export class AnalyticsLinkDialogComponent implements OnInit {
     private translateService: TranslateService,
     private dialogService: DialogService,
     private appUserMultipleRolesPipe: AppUserMultipleRolesPipe,
-    @Inject(MAT_DIALOG_DATA) data: SettingLink) {
+    @Inject(MAT_DIALOG_DATA) data: SettingLink
+  ) {
     // Check if data is passed to the dialog
     this.currentLink = data;
   }
@@ -40,23 +41,29 @@ export class AnalyticsLinkDialogComponent implements OnInit {
     this.roleList = [
       { key: 'A', value: '' },
       { key: 'D', value: '' },
-      { key: '', value: '' } ];
-    this.roleList.forEach((role) => role.value = this.translateService.instant(this.appUserMultipleRolesPipe.transform(role.key)));
+      { key: '', value: '' },
+    ];
+    this.roleList.forEach(
+      (role) =>
+        (role.value = this.translateService.instant(
+          this.appUserMultipleRolesPipe.transform(role.key)
+        ))
+    );
     this.formGroup = new UntypedFormGroup({
       id: new UntypedFormControl(this.currentLink ? this.currentLink.id : ''),
-      name: new UntypedFormControl(this.currentLink ? this.currentLink.name : '',
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(100),
-        ])),
-      description: new UntypedFormControl(this.currentLink ? this.currentLink.description : '',
-        Validators.required),
+      name: new UntypedFormControl(
+        this.currentLink ? this.currentLink.name : '',
+        Validators.compose([Validators.required, Validators.maxLength(100)])
+      ),
+      description: new UntypedFormControl(
+        this.currentLink ? this.currentLink.description : '',
+        Validators.required
+      ),
       role: new UntypedFormControl(this.currentLink ? this.currentLink.role : ''),
-      url: new UntypedFormControl(this.currentLink ? this.currentLink.url : '',
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(Constants.URL_PATTERN),
-        ])),
+      url: new UntypedFormControl(
+        this.currentLink ? this.currentLink.url : '',
+        Validators.compose([Validators.required, Validators.pattern(Constants.URL_PATTERN)])
+      ),
     });
     this.id = this.formGroup.controls['id'];
     this.name = this.formGroup.controls['name'];
@@ -64,8 +71,12 @@ export class AnalyticsLinkDialogComponent implements OnInit {
     this.role = this.formGroup.controls['role'];
     this.url = this.formGroup.controls['url'];
     // Register key event
-    Utils.registerSaveCloseKeyEvents(this.dialogRef, this.formGroup,
-      this.save.bind(this), this.close.bind(this));
+    Utils.registerSaveCloseKeyEvents(
+      this.dialogRef,
+      this.formGroup,
+      this.save.bind(this),
+      this.close.bind(this)
+    );
     // Get Create/Update submit translation
     this.submitButtonType = this.submitButtonTranslation();
   }
@@ -75,8 +86,13 @@ export class AnalyticsLinkDialogComponent implements OnInit {
   }
 
   public close() {
-    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
-      this.translateService, this.save.bind(this), this.closeDialog.bind(this));
+    Utils.checkAndSaveAndCloseDialog(
+      this.formGroup,
+      this.dialogService,
+      this.translateService,
+      this.save.bind(this),
+      this.closeDialog.bind(this)
+    );
   }
 
   public save(analyticsLink: SettingLink) {

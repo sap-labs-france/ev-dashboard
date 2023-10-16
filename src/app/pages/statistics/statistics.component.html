@@ -1,19 +1,23 @@
 <div class="main-content">
-  <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex" animationDuration="0ms"
-                 disableRipple="true" class="h-100 mat-tab-info">
-
+  <mat-tab-group
+    (selectedIndexChange)="updateRoute($event)"
+    [selectedIndex]="activeTabIndex"
+    animationDuration="0ms"
+    disableRipple="true"
+    class="h-100 mat-tab-info"
+  >
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon>power</mat-icon><span>{{'general.menu.consumption' | translate}}</span>
+        <mat-icon>power</mat-icon><span>{{ 'general.menu.consumption' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
-      <app-statistics-consumption></app-statistics-consumption>
+        <app-statistics-consumption></app-statistics-consumption>
       </ng-template>
     </mat-tab>
 
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon>timer</mat-icon><span>{{'general.menu.usage' | translate}}</span>
+        <mat-icon>timer</mat-icon><span>{{ 'general.menu.usage' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-statistics-usage></app-statistics-usage>
@@ -22,7 +26,7 @@
 
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon>timer_off</mat-icon><span>{{'general.menu.inactivity' | translate}}</span>
+        <mat-icon>timer_off</mat-icon><span>{{ 'general.menu.inactivity' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-statistics-inactivity></app-statistics-inactivity>
@@ -31,7 +35,7 @@
 
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon>restore</mat-icon><span>{{'general.menu.transactions' | translate}}</span>
+        <mat-icon>restore</mat-icon><span>{{ 'general.menu.transactions' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-statistics-transactions></app-statistics-transactions>
@@ -40,7 +44,7 @@
 
     <mat-tab *ngIf="isPricingActive">
       <ng-template mat-tab-label>
-        <mat-icon>money</mat-icon><span>{{'general.menu.pricing' | translate}}</span>
+        <mat-icon>money</mat-icon><span>{{ 'general.menu.pricing' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-statistics-pricing></app-statistics-pricing>

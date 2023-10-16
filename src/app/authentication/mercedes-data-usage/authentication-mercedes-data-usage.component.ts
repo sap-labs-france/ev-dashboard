@@ -1,4 +1,4 @@
-import { Component, } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { SpinnerService } from '../../services/spinner.service';
 
@@ -6,11 +6,7 @@ import { SpinnerService } from '../../services/spinner.service';
   templateUrl: 'authentication-mercedes-data-usage.component.html',
 })
 export class AuthenticationMercedesDataUsageComponent {
-
-  public constructor(
-    private spinnerService: SpinnerService,
-  ) {
+  public constructor(private spinnerService: SpinnerService) {
     this.spinnerService.hide();
   }
 }
-

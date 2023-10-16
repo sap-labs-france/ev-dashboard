@@ -11,8 +11,14 @@ import { MessageService } from '../../../services/message.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { AppDecimalPipe } from '../../../shared/formatters/app-decimal.pipe';
 import { AppUnitPipe } from '../../../shared/formatters/app-unit.pipe';
-import { TableSyncCarCatalogsAction, TableSyncCarCatalogsActionDef } from '../../../shared/table/actions/cars/table-sync-car-catalogs-action';
-import { TableViewCarCatalogAction, TableViewCarCatalogActionDef } from '../../../shared/table/actions/cars/table-view-car-catalog-action';
+import {
+  TableSyncCarCatalogsAction,
+  TableSyncCarCatalogsActionDef,
+} from '../../../shared/table/actions/cars/table-sync-car-catalogs-action';
+import {
+  TableViewCarCatalogAction,
+  TableViewCarCatalogActionDef,
+} from '../../../shared/table/actions/cars/table-view-car-catalog-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { CarMakerTableFilter } from '../../../shared/table/filters/car-maker-table-filter';
@@ -39,7 +45,7 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
     private centralServerService: CentralServerService,
     private config: ConfigService,
     private dialog: MatDialog,
-    private decimalPipe: AppDecimalPipe,
+    private decimalPipe: AppDecimalPipe
   ) {
     super(spinnerService, translateService);
     // Init
@@ -53,17 +59,25 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
   public loadDataImpl(): Observable<DataResult<CarCatalog>> {
     return new Observable((observer) => {
       // Get cars
-      this.centralServerService.getCarCatalogs(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
-        next: (carCatalogs) => {
-          observer.next(carCatalogs);
-          this.tableSyncCarCatalogsAction.visible = carCatalogs.canSync;
-          observer.complete();
-        },
-        error: (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.car_catalogs_error');
-          observer.error(error);
-        }
-      });
+      this.centralServerService
+        .getCarCatalogs(this.buildFilterValues(), this.getPaging(), this.getSorting())
+        .subscribe({
+          next: (carCatalogs) => {
+            observer.next(carCatalogs);
+            this.tableSyncCarCatalogsAction.visible = carCatalogs.canSync;
+            observer.complete();
+          },
+          error: (error) => {
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.car_catalogs_error'
+            );
+            observer.error(error);
+          },
+        });
     });
   }
 
@@ -82,10 +96,7 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    return [
-      this.tableSyncCarCatalogsAction,
-      ...tableActionsDef,
-    ];
+    return [this.tableSyncCarCatalogsAction, ...tableActionsDef];
   }
 
   public buildTableColumnDefs(): TableColumnDef[] {
@@ -124,7 +135,7 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         name: 'cars.vehicle_model_version',
         class: 'text-left',
         sortable: true,
-        formatter: (modelVersion: string) => modelVersion ? modelVersion : '-',
+        formatter: (modelVersion: string) => (modelVersion ? modelVersion : '-'),
       },
       {
         id: 'drivetrainPowerHP',
@@ -132,8 +143,12 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
-        formatter: (drivetrainPowerHP: number) => drivetrainPowerHP ?
-          `${this.decimalPipe.transform(drivetrainPowerHP)} ${this.translateService.instant('cars.unit.drivetrain_power_hp_unit')}` : '-',
+        formatter: (drivetrainPowerHP: number) =>
+          drivetrainPowerHP
+            ? `${this.decimalPipe.transform(drivetrainPowerHP)} ${this.translateService.instant(
+              'cars.unit.drivetrain_power_hp_unit'
+            )}`
+            : '-',
       },
       {
         id: 'batteryCapacityFull',
@@ -141,7 +156,8 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         headerClass: 'col-20p text-center',
         class: 'col-20p text-center',
         sortable: true,
-        formatter: (capacity: number) => capacity ? this.appUnitPipe.transform(capacity, 'kWh', 'kWh', true, 1, 0, 0) : '-',
+        formatter: (capacity: number) =>
+          capacity ? this.appUnitPipe.transform(capacity, 'kWh', 'kWh', true, 1, 0, 0) : '-',
       },
       {
         id: 'rangeWLTP',
@@ -149,8 +165,12 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
-        formatter: (rangeWLTP: number) => rangeWLTP ? this.decimalPipe.transform(rangeWLTP) + ' ' +
-          this.translateService.instant('cars.unit.kilometer') : '-',
+        formatter: (rangeWLTP: number) =>
+          rangeWLTP
+            ? this.decimalPipe.transform(rangeWLTP) +
+              ' ' +
+              this.translateService.instant('cars.unit.kilometer')
+            : '-',
       },
       {
         id: 'rangeReal',
@@ -158,8 +178,12 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
-        formatter: (rangeReal: number) => rangeReal ? this.decimalPipe.transform(rangeReal) + ' ' +
-          this.translateService.instant('cars.unit.kilometer') : '-',
+        formatter: (rangeReal: number) =>
+          rangeReal
+            ? this.decimalPipe.transform(rangeReal) +
+              ' ' +
+              this.translateService.instant('cars.unit.kilometer')
+            : '-',
       },
       {
         id: 'chargeStandardPower',
@@ -168,7 +192,9 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         class: 'col-20p',
         sortable: true,
         formatter: (chargeStandardPower: number) =>
-          chargeStandardPower ? this.appUnitPipe.transform(chargeStandardPower, 'kW', 'kW', true, 1, 0, 0) : '-',
+          chargeStandardPower
+            ? this.appUnitPipe.transform(chargeStandardPower, 'kW', 'kW', true, 1, 0, 0)
+            : '-',
       },
       {
         id: 'chargeStandardPhase',
@@ -176,7 +202,8 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         headerClass: 'col-20p text-center',
         class: 'col-20p text-center',
         sortable: true,
-        formatter: (chargeStandardPhase: number) => chargeStandardPhase ? this.decimalPipe.transform(chargeStandardPhase) : '-',
+        formatter: (chargeStandardPhase: number) =>
+          chargeStandardPhase ? this.decimalPipe.transform(chargeStandardPhase) : '-',
       },
       {
         id: 'chargePlug',
@@ -184,7 +211,7 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         headerClass: 'col-20p text-center',
         class: 'col-20p text-center',
         sortable: true,
-        formatter: (chargePlug: string) => chargePlug ? chargePlug : '-',
+        formatter: (chargePlug: string) => (chargePlug ? chargePlug : '-'),
       },
       {
         id: 'fastChargePowerMax',
@@ -192,8 +219,10 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
-        formatter: (fastChargePowerMax: number) => fastChargePowerMax ?
-          this.appUnitPipe.transform(fastChargePowerMax, 'kW', 'kW', true, 1, 0, 0) : '-',
+        formatter: (fastChargePowerMax: number) =>
+          fastChargePowerMax
+            ? this.appUnitPipe.transform(fastChargePowerMax, 'kW', 'kW', true, 1, 0, 0)
+            : '-',
       },
       {
         id: 'fastChargePlug',
@@ -201,7 +230,7 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         headerClass: 'col-20p text-center',
         class: 'col-20p text-center',
         sortable: true,
-        formatter: (fastChargePlug: string) => fastChargePlug ? fastChargePlug : '-',
+        formatter: (fastChargePlug: string) => (fastChargePlug ? fastChargePlug : '-'),
       },
       {
         id: 'performanceTopspeed',
@@ -209,8 +238,12 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
-        formatter: (topSpeed: number) => topSpeed ?
-          this.decimalPipe.transform(topSpeed) + ' ' + this.translateService.instant('cars.unit.kilometer') : '-',
+        formatter: (topSpeed: number) =>
+          topSpeed
+            ? this.decimalPipe.transform(topSpeed) +
+              ' ' +
+              this.translateService.instant('cars.unit.kilometer')
+            : '-',
       },
       {
         id: 'performanceAcceleration',
@@ -218,8 +251,12 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
         headerClass: 'col-20p',
         class: 'col-20p',
         sortable: true,
-        formatter: (acceleration: number) => acceleration ?
-          this.decimalPipe.transform(acceleration) + ' ' + this.translateService.instant('cars.unit.secondes') : '-',
+        formatter: (acceleration: number) =>
+          acceleration
+            ? this.decimalPipe.transform(acceleration) +
+              ' ' +
+              this.translateService.instant('cars.unit.secondes')
+            : '-',
       },
     ];
   }
@@ -228,8 +265,12 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
     switch (actionDef.id) {
       case CarButtonAction.VIEW_CAR_CATALOG:
         if (actionDef.action) {
-          (actionDef as TableViewCarCatalogActionDef).action(CarCatalogDialogComponent, this.dialog,
-            { dialogData: carCatalog }, this.refreshData.bind(this));
+          (actionDef as TableViewCarCatalogActionDef).action(
+            CarCatalogDialogComponent,
+            this.dialog,
+            { dialogData: carCatalog },
+            this.refreshData.bind(this)
+          );
         }
         break;
     }
@@ -241,8 +282,13 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
       case CarButtonAction.SYNCHRONIZE:
         if (actionDef.action) {
           (actionDef as TableSyncCarCatalogsActionDef).action(
-            this.dialogService, this.translateService, this.messageService,
-            this.centralServerService, this.spinnerService, this.router, this.refreshData.bind(this)
+            this.dialogService,
+            this.translateService,
+            this.messageService,
+            this.centralServerService,
+            this.spinnerService,
+            this.router,
+            this.refreshData.bind(this)
           );
         }
         break;
@@ -261,8 +307,6 @@ export class CarCatalogsListTableDataSource extends TableDataSource<CarCatalog> 
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
-    return [
-      new CarMakerTableFilter().getFilterDef(),
-    ];
+    return [new CarMakerTableFilter().getFilterDef()];
   }
 }

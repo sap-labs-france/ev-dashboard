@@ -1,53 +1,93 @@
 <div class="main-content vw-90 vh-90 car-catalog-dialog-size">
   <div class="card card-testimonial card-profile">
-    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info mat-tabs-with-close-action">
+    <mat-tab-group
+      animationDuration="0ms"
+      disableRipple="true"
+      class="mat-tab-info mat-tabs-with-close-action"
+    >
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>directions_car</mat-icon>
-          <span class="d-block">{{carCatalog?.vehicleMake}} {{carCatalog?.vehicleModel}} {{carCatalog?.vehicleModelVersion}}
+          <span class="d-block"
+            >{{ carCatalog?.vehicleMake }} {{ carCatalog?.vehicleModel }}
+            {{ carCatalog?.vehicleModelVersion }}
           </span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content">
           <div class="row">
             <div class="col-md-5">
               <div class="card card-background mt-0 mb-0">
-                <img class="front front-background" alt="" crossorigin="anonymous"
-                  [ngStyle]="{'background-size' : 'contain', 'background-repeat': 'no-repeat'}"
-                  [src]="carCatalog.image" onerror="this.src='/assets/img/theme/no-image.png';">
+                <img
+                  class="front front-background"
+                  alt=""
+                  crossorigin="anonymous"
+                  [ngStyle]="{ 'background-size': 'contain', 'background-repeat': 'no-repeat' }"
+                  [src]="carCatalog.image"
+                  onerror="this.src='/assets/img/theme/no-image.png';"
+                />
               </div>
             </div>
             <div class="col-md-7 text-left">
               <div class="row app-car-important-props">
-                <div class="col-md-4 font-weight-bold">{{"cars.vehicle_make" | translate}}</div>
-                <div class="col-md-8">{{carCatalog?.vehicleMake}}</div>
+                <div class="col-md-4 font-weight-bold">{{ 'cars.vehicle_make' | translate }}</div>
+                <div class="col-md-8">{{ carCatalog?.vehicleMake }}</div>
               </div>
               <div class="row mt-3 app-car-important-props">
-                <div class="col-md-4 font-weight-bold">{{"cars.vehicle_model" | translate}}</div>
-                <div class="col-md-8">{{carCatalog?.vehicleModel}}</div>
+                <div class="col-md-4 font-weight-bold">{{ 'cars.vehicle_model' | translate }}</div>
+                <div class="col-md-8">{{ carCatalog?.vehicleModel }}</div>
               </div>
               <div class="row mt-3 app-car-important-props">
-                <div class="col-md-4 font-weight-bold">{{"cars.vehicle_model_version" | translate}}</div>
-                <div class="col-md-8">{{carCatalog?.vehicleModelVersion ? carCatalog.vehicleModelVersion : '-'}}</div>
+                <div class="col-md-4 font-weight-bold">
+                  {{ 'cars.vehicle_model_version' | translate }}
+                </div>
+                <div class="col-md-8">
+                  {{ carCatalog?.vehicleModelVersion ? carCatalog.vehicleModelVersion : '-' }}
+                </div>
               </div>
               <div class="row mt-3">
-                <div class="col-md-4 font-weight-bold">{{"cars.performance_acceleration" | translate}}</div>
-                <div class="col-md-8">{{carCatalog?.performanceAcceleration ? carCatalog.performanceAcceleration : '-'}} {{"cars.unit.seconde" | translate}}</div>
+                <div class="col-md-4 font-weight-bold">
+                  {{ 'cars.performance_acceleration' | translate }}
+                </div>
+                <div class="col-md-8">
+                  {{
+                    carCatalog?.performanceAcceleration ? carCatalog.performanceAcceleration : '-'
+                  }}
+                  {{ 'cars.unit.seconde' | translate }}
+                </div>
               </div>
               <div class="row mt-3">
-                <div class="col-md-4 font-weight-bold">{{"cars.drivetrain_torque" | translate}}</div>
-                <div class="col-md-8">{{carCatalog?.drivetrainTorque ? carCatalog.drivetrainTorque : '-'}} {{"cars.unit.newton_metre" | translate}}</div>
+                <div class="col-md-4 font-weight-bold">
+                  {{ 'cars.drivetrain_torque' | translate }}
+                </div>
+                <div class="col-md-8">
+                  {{ carCatalog?.drivetrainTorque ? carCatalog.drivetrainTorque : '-' }}
+                  {{ 'cars.unit.newton_metre' | translate }}
+                </div>
               </div>
               <div class="row mt-3">
-                <div class="col-md-4 font-weight-bold">{{"cars.performance_top_speed" | translate}}</div>
-                <div class="col-md-8">{{carCatalog?.performanceTopspeed ? carCatalog.performanceTopspeed : '-'}} km/h</div>
+                <div class="col-md-4 font-weight-bold">
+                  {{ 'cars.performance_top_speed' | translate }}
+                </div>
+                <div class="col-md-8">
+                  {{ carCatalog?.performanceTopspeed ? carCatalog.performanceTopspeed : '-' }} km/h
+                </div>
               </div>
               <div class="row mt-3">
-                <div class="col-md-4 font-weight-bold">{{"cars.drivetrain_propulsion" | translate}}</div>
-                <div class="col-md-8">{{carCatalog?.drivetrainPropulsion ? carCatalog.drivetrainPropulsion : '-'}}</div>
+                <div class="col-md-4 font-weight-bold">
+                  {{ 'cars.drivetrain_propulsion' | translate }}
+                </div>
+                <div class="col-md-8">
+                  {{ carCatalog?.drivetrainPropulsion ? carCatalog.drivetrainPropulsion : '-' }}
+                </div>
               </div>
               <div class="row mt-3">
-                <div class="col-md-4 font-weight-bold">{{"cars.misc_turning_circle" | translate}}</div>
-                <div class="col-md-8">{{carCatalog?.miscTurningCircle ? carCatalog.miscTurningCircle : '-'}} {{"cars.unit.meters" | translate}}</div>
+                <div class="col-md-4 font-weight-bold">
+                  {{ 'cars.misc_turning_circle' | translate }}
+                </div>
+                <div class="col-md-8">
+                  {{ carCatalog?.miscTurningCircle ? carCatalog.miscTurningCircle : '-' }}
+                  {{ 'cars.unit.meters' | translate }}
+                </div>
               </div>
             </div>
           </div>
@@ -55,84 +95,162 @@
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>
-          <mat-icon>battery_charging_full</mat-icon><span>{{"cars.battery" | translate}}</span>
+          <mat-icon>battery_charging_full</mat-icon><span>{{ 'cars.battery' | translate }}</span>
         </ng-template>
         <div class="card-body d-flex flex-column mt-lg-3">
           <div class="col-md-12 w-100 align-items-start text-left">
             <div class="row app-car-important-props">
-              <div class="col-md-5 col-xl-3 font-weight-bold">{{"cars.battery_capacity_full" | translate}}</div>
-              <div class="col-md-7 col-xl-9">{{carCatalog?.batteryCapacityFull ? (carCatalog.batteryCapacityFull | appDecimal:'1.0-1') : '-'}} {{carCatalog?.batteryCapacityFull ? ("cars.unit.kilowatt_heure" | translate) : ''}}</div>
+              <div class="col-md-5 col-xl-3 font-weight-bold">
+                {{ 'cars.battery_capacity_full' | translate }}
+              </div>
+              <div class="col-md-7 col-xl-9">
+                {{
+                  carCatalog?.batteryCapacityFull
+                    ? (carCatalog.batteryCapacityFull | appDecimal : '1.0-1')
+                    : '-'
+                }}
+                {{
+                  carCatalog?.batteryCapacityFull ? ('cars.unit.kilowatt_heure' | translate) : ''
+                }}
+              </div>
             </div>
             <div class="row mt-3 app-car-important-props">
-              <div class="col-md-5 col-xl-3 font-weight-bold">{{"cars.battery_capacity_useable" | translate}}</div>
-              <div class="col-md-7 col-xl-9">{{carCatalog?.batteryCapacityUseable ? (carCatalog.batteryCapacityUseable | appDecimal:'1.0-1') : '-'}} {{carCatalog?.batteryCapacityUseable ? ("cars.unit.kilowatt_heure" | translate) : ''}}</div>
+              <div class="col-md-5 col-xl-3 font-weight-bold">
+                {{ 'cars.battery_capacity_useable' | translate }}
+              </div>
+              <div class="col-md-7 col-xl-9">
+                {{
+                  carCatalog?.batteryCapacityUseable
+                    ? (carCatalog.batteryCapacityUseable | appDecimal : '1.0-1')
+                    : '-'
+                }}
+                {{
+                  carCatalog?.batteryCapacityUseable ? ('cars.unit.kilowatt_heure' | translate) : ''
+                }}
+              </div>
             </div>
             <div class="row mt-3">
-              <div class="col-md-5 col-xl-3 font-weight-bold">{{"cars.charge_plug" | translate}}</div>
-              <div class="col-md-7 col-xl-9">{{carCatalog?.chargePlug ? carCatalog.chargePlug : '-'}}</div>
+              <div class="col-md-5 col-xl-3 font-weight-bold">
+                {{ 'cars.charge_plug' | translate }}
+              </div>
+              <div class="col-md-7 col-xl-9">
+                {{ carCatalog?.chargePlug ? carCatalog.chargePlug : '-' }}
+              </div>
             </div>
             <div class="row">
               <div class="col-md-12">
                 <div class="row mt-2">
-                  <div class="col-md-5 col-xl-3 font-weight-bold">{{"cars.charge_standard_power" | translate}}</div>
-                  <div class="col-md-7 col-xl-9">{{carCatalog?.chargeStandardPower ? (carCatalog.chargeStandardPower | appDecimal:'1.0-1') : '-'}} {{carCatalog?.chargeStandardPower ? ("cars.unit.kilowatt" | translate) : ''}}</div>
+                  <div class="col-md-5 col-xl-3 font-weight-bold">
+                    {{ 'cars.charge_standard_power' | translate }}
+                  </div>
+                  <div class="col-md-7 col-xl-9">
+                    {{
+                      carCatalog?.chargeStandardPower
+                        ? (carCatalog.chargeStandardPower | appDecimal : '1.0-1')
+                        : '-'
+                    }}
+                    {{ carCatalog?.chargeStandardPower ? ('cars.unit.kilowatt' | translate) : '' }}
+                  </div>
                 </div>
                 <div class="row mt-2">
-                  <div class="col-md-5 col-xl-3 font-weight-bold">{{"cars.evse_phase_ac_standard" | translate}}</div>
-                  <div class="col-md-7 col-xl-9">{{carCatalog?.chargeStandardPhase ? carCatalog.chargeStandardPhase : '-'}}</div>
+                  <div class="col-md-5 col-xl-3 font-weight-bold">
+                    {{ 'cars.evse_phase_ac_standard' | translate }}
+                  </div>
+                  <div class="col-md-7 col-xl-9">
+                    {{ carCatalog?.chargeStandardPhase ? carCatalog.chargeStandardPhase : '-' }}
+                  </div>
                 </div>
               </div>
             </div>
             <div class="row mt-3">
-              <div class="col-md-5 col-xl-3 font-weight-bold">{{"cars.fast_charge_plug" | translate}}</div>
-              <div class="col-md-7 col-xl-9">{{carCatalog?.fastChargePlug ? carCatalog.fastChargePlug : '-'}}</div>
+              <div class="col-md-5 col-xl-3 font-weight-bold">
+                {{ 'cars.fast_charge_plug' | translate }}
+              </div>
+              <div class="col-md-7 col-xl-9">
+                {{ carCatalog?.fastChargePlug ? carCatalog.fastChargePlug : '-' }}
+              </div>
             </div>
             <div class="row mt-2">
-              <div class="col-md-5 col-xl-3 font-weight-bold">{{"cars.fast_charge_power_max" | translate}}</div>
-              <div class="col-md-7 col-xl-9">{{carCatalog?.fastChargePowerMax ? (carCatalog.fastChargePowerMax | appDecimal:'1.0-1') : '-'}} {{carCatalog?.fastChargePowerMax ? ("cars.unit.kilowatt" | translate) : ''}}</div>
+              <div class="col-md-5 col-xl-3 font-weight-bold">
+                {{ 'cars.fast_charge_power_max' | translate }}
+              </div>
+              <div class="col-md-7 col-xl-9">
+                {{
+                  carCatalog?.fastChargePowerMax
+                    ? (carCatalog.fastChargePowerMax | appDecimal : '1.0-1')
+                    : '-'
+                }}
+                {{ carCatalog?.fastChargePowerMax ? ('cars.unit.kilowatt' | translate) : '' }}
+              </div>
             </div>
             <div class="row mt-3">
-              <div class="col-md-5 col-xl-3 font-weight-bold">{{"cars.charge_plug_location" | translate}}</div>
-              <div class="col-md-7 col-xl-9">{{carCatalog?.chargePlugLocation ? carCatalog.chargePlugLocation : '-'}}</div>
+              <div class="col-md-5 col-xl-3 font-weight-bold">
+                {{ 'cars.charge_plug_location' | translate }}
+              </div>
+              <div class="col-md-7 col-xl-9">
+                {{ carCatalog?.chargePlugLocation ? carCatalog.chargePlugLocation : '-' }}
+              </div>
             </div>
           </div>
         </div>
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>
-          <mat-icon>photo_camera</mat-icon><span>{{"general.pictures" | translate}}</span>
+          <mat-icon>photo_camera</mat-icon><span>{{ 'general.pictures' | translate }}</span>
         </ng-template>
         <ng-template matTabContent>
-          <div class="card-body d-flex flex-column justify-content-around mt-lg-3 car-catalog-carousel text-center">
+          <div
+            class="card-body d-flex flex-column justify-content-around mt-lg-3 car-catalog-carousel text-center"
+          >
             <app-carousel [carCatalogID]="carCatalog?.id"></app-carousel>
           </div>
         </ng-template>
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>
-          <mat-icon>more_horiz</mat-icon><span>{{"cars.miscellaneous" | translate}}</span>
+          <mat-icon>more_horiz</mat-icon><span>{{ 'cars.miscellaneous' | translate }}</span>
         </ng-template>
         <div class="card-body d-flex flex-column mt-lg-3">
           <div class="col-md-12 w-100 align-items-start text-left">
             <div class="row">
-              <div class="col-md-3 col-xl-2 font-weight-bold">{{"cars.misc_seats" | translate}}</div>
-              <div class="col-md-9 col-xl-10">{{carCatalog?.miscSeats ? carCatalog.miscSeats : '-'}}</div>
+              <div class="col-md-3 col-xl-2 font-weight-bold">
+                {{ 'cars.misc_seats' | translate }}
+              </div>
+              <div class="col-md-9 col-xl-10">
+                {{ carCatalog?.miscSeats ? carCatalog.miscSeats : '-' }}
+              </div>
             </div>
             <div class="row mt-3">
-              <div class="col-md-3 col-xl-2 font-weight-bold">{{"cars.misc_body" | translate}}</div>
-              <div class="col-md-9 col-xl-10">{{carCatalog?.miscBody ? carCatalog.miscBody : '-'}}</div>
+              <div class="col-md-3 col-xl-2 font-weight-bold">
+                {{ 'cars.misc_body' | translate }}
+              </div>
+              <div class="col-md-9 col-xl-10">
+                {{ carCatalog?.miscBody ? carCatalog.miscBody : '-' }}
+              </div>
             </div>
             <div class="row mt-3">
-              <div class="col-md-3 col-xl-2 font-weight-bold">{{"cars.misc_isofix" | translate}}</div>
-              <div class="col-md-9 col-xl-10">{{carCatalog?.miscIsofix ? carCatalog.miscIsofix : '-'}}</div>
+              <div class="col-md-3 col-xl-2 font-weight-bold">
+                {{ 'cars.misc_isofix' | translate }}
+              </div>
+              <div class="col-md-9 col-xl-10">
+                {{ carCatalog?.miscIsofix ? carCatalog.miscIsofix : '-' }}
+              </div>
             </div>
             <div class="row mt-3">
-              <div class="col-md-3 col-xl-2 font-weight-bold">{{"cars.misc_isofix_seats" | translate}}</div>
-              <div class="col-md-9 col-xl-10">{{carCatalog?.miscIsofixSeats ? carCatalog.miscIsofixSeats : '-'}}</div>
+              <div class="col-md-3 col-xl-2 font-weight-bold">
+                {{ 'cars.misc_isofix_seats' | translate }}
+              </div>
+              <div class="col-md-9 col-xl-10">
+                {{ carCatalog?.miscIsofixSeats ? carCatalog.miscIsofixSeats : '-' }}
+              </div>
             </div>
             <div class="row mt-3">
-              <div class="col-md-3 col-xl-2 font-weight-bold">{{"cars.misc_segment" | translate}}</div>
-              <div class="col-md-9 col-xl-10">{{carCatalog?.miscSegment ? carCatalog.miscSegment : '-'}}</div>
+              <div class="col-md-3 col-xl-2 font-weight-bold">
+                {{ 'cars.misc_segment' | translate }}
+              </div>
+              <div class="col-md-9 col-xl-10">
+                {{ carCatalog?.miscSegment ? carCatalog.miscSegment : '-' }}
+              </div>
             </div>
           </div>
         </div>

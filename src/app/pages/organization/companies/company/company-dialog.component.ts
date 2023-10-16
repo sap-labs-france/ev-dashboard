@@ -7,7 +7,8 @@ import { Utils } from '../../../../utils/Utils';
 import { CompanyComponent } from './company.component';
 
 @Component({
-  template: '<app-company #appRef [currentCompanyID]="companyID" [companiesAuthorizations]="companiesAuthorizations" [dialogMode]="dialogMode" [dialogRef]="dialogRef"></app-company>',
+  template:
+    '<app-company #appRef [currentCompanyID]="companyID" [companiesAuthorizations]="companiesAuthorizations" [dialogMode]="dialogMode" [dialogRef]="dialogRef"></app-company>',
 })
 export class CompanyDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: CompanyComponent;
@@ -17,7 +18,8 @@ export class CompanyDialogComponent implements AfterViewInit {
 
   public constructor(
     public dialogRef: MatDialogRef<CompanyDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<Company, CompaniesAuthorizations>) {
+    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<Company, CompaniesAuthorizations>
+  ) {
     this.companyID = dialogParams.dialogData?.id;
     this.dialogMode = dialogParams.dialogMode;
     this.companiesAuthorizations = dialogParams.authorizations;
@@ -25,7 +27,11 @@ export class CompanyDialogComponent implements AfterViewInit {
 
   public ngAfterViewInit() {
     // Register key event
-    Utils.registerSaveCloseKeyEvents(this.dialogRef, this.appRef.formGroup,
-      this.appRef.saveCompany.bind(this.appRef), this.appRef.close.bind(this.appRef));
+    Utils.registerSaveCloseKeyEvents(
+      this.dialogRef,
+      this.appRef.formGroup,
+      this.appRef.saveCompany.bind(this.appRef),
+      this.appRef.close.bind(this.appRef)
+    );
   }
 }

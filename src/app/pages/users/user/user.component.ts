@@ -29,7 +29,7 @@ import { UserDialogComponent } from './user-dialog.component';
 @Component({
   selector: 'app-user',
   templateUrl: 'user.component.html',
-  styleUrls: ['user.component.scss']
+  styleUrls: ['user.component.scss'],
 })
 export class UserComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentUserID!: string;
@@ -38,7 +38,8 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   @Input() public dialogMode!: DialogMode;
 
   @ViewChild('userMainComponent') public userMainComponent!: UserMainComponent;
-  @ViewChild('userNotificationsComponent') public userNotificationsComponent!: UserNotificationsComponent;
+  @ViewChild('userNotificationsComponent')
+  public userNotificationsComponent!: UserNotificationsComponent;
   @ViewChild('userSecurityComponent') public userSecurityComponent!: UserSecurityComponent;
 
   public isAdmin = false;
@@ -65,8 +66,14 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
     private translateService: TranslateService,
     private router: Router,
     protected activatedRoute: ActivatedRoute,
-    protected windowService: WindowService) {
-    super(activatedRoute, windowService, ['main', 'notifications', 'address', 'password', 'connections', 'miscs', 'billing'], false);
+    protected windowService: WindowService
+  ) {
+    super(
+      activatedRoute,
+      windowService,
+      ['main', 'notifications', 'address', 'password', 'connections', 'miscs', 'billing'],
+      false
+    );
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
@@ -126,10 +133,15 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
               this.messageService.showErrorMessage('users.user_do_not_exist');
               break;
             default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'general.unexpected_error_backend');
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'general.unexpected_error_backend'
+              );
           }
-        }
+        },
       });
     }
   }
@@ -154,8 +166,13 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
   }
 
   public close() {
-    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
-      this.translateService, this.saveUser.bind(this), this.closeDialog.bind(this));
+    Utils.checkAndSaveAndCloseDialog(
+      this.formGroup,
+      this.dialogService,
+      this.translateService,
+      this.saveUser.bind(this),
+      this.closeDialog.bind(this)
+    );
   }
 
   public roleChanged(role: UserRole) {
@@ -170,7 +187,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       next: (response: ActionResponse) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage('users.create_success', { userFullName: user.firstName + ' ' + user.name });
+          this.messageService.showSuccessMessage('users.create_success', {
+            userFullName: user.firstName + ' ' + user.name,
+          });
           user.id = response.id ?? '';
           this.currentUserID = response.id ?? '';
           this.closeDialog(true);
@@ -190,9 +209,15 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
             this.messageService.showErrorMessage('users.user_do_not_exist');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.create_error');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'users.create_error'
+            );
         }
-      }
+      },
     });
   }
 
@@ -204,7 +229,9 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
       next: (response) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage('users.update_success', { userFullName: user.firstName + ' ' + user.name });
+          this.messageService.showSuccessMessage('users.update_success', {
+            userFullName: user.firstName + ' ' + user.name,
+          });
           this.closeDialog(true);
         } else {
           Utils.handleError(JSON.stringify(response), this.messageService, 'users.update_error');
@@ -222,9 +249,15 @@ export class UserComponent extends AbstractTabComponent implements OnInit {
             this.messageService.showErrorMessage('users.user_do_not_exist');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'users.update_error');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'users.update_error'
+            );
         }
-      }
+      },
     });
   }
 }

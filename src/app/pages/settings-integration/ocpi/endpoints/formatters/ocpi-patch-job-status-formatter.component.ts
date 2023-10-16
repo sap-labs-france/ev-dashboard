@@ -7,8 +7,11 @@ import { OCPIEndpoint } from '../../../../../types/ocpi/OCPIEndpoint';
 @Component({
   template: `
     <mat-chip-list [selectable]="false">
-      <mat-chip [ngClass]="row.backgroundPatchJob | appFormatOcpiPatchJobStatus:'class'" [disabled]="true">
-        {{row.backgroundPatchJob | appFormatOcpiPatchJobStatus:'text' | translate}}
+      <mat-chip
+        [ngClass]="row.backgroundPatchJob | appFormatOcpiPatchJobStatus : 'class'"
+        [disabled]="true"
+      >
+        {{ row.backgroundPatchJob | appFormatOcpiPatchJobStatus : 'text' | translate }}
       </mat-chip>
     </mat-chip-list>
   `,

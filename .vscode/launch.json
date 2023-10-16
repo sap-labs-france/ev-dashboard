@@ -6,29 +6,38 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Debug Super Admin",
+      "request": "launch",
+      "type": "msedge",
+      "url": "http://localhost:45000",
+      "webRoot": "${workspaceFolder}",
+      "preLaunchTask": "Build & Serve"
+    },
+    {
       "name": "Debug Tenant 'slf'",
       "request": "launch",
-      "type": "pwa-chrome",
+      "type": "msedge",
       "url": "http://slf.localhost:45000",
-      "webRoot": "${workspaceFolder}"
+      "webRoot": "${workspaceFolder}",
+      "preLaunchTask": "Build & Serve"
     },
     {
       "name": "Debug Tenant 'utbilling'",
-      "type": "pwa-chrome",
+      "type": "msedge",
       "request": "launch",
       "url": "http://utbilling.localhost:45000",
       "webRoot": "${workspaceFolder}"
     },
     {
       "name": "Debug Tenant 'utbillingplatform'",
-      "type": "pwa-chrome",
+      "type": "msedge",
       "request": "launch",
       "url": "http://utbillingplatform.localhost:45000",
       "webRoot": "${workspaceFolder}"
     },
     {
       "name": "Debug Tenant 'salvatore'",
-      "type": "pwa-chrome",
+      "type": "msedge",
       "request": "launch",
       "url": "http://salvatore.localhost:45000",
       "webRoot": "${workspaceFolder}"
@@ -44,7 +53,7 @@
         "--config='./jest.config.ts'",
         "--reporters='default'",
         "--reporters='./test/JestEvseReporter'",
-        "--watchAll=false",
+        "--watchAll=false"
       ],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
@@ -53,6 +62,6 @@
       "windows": {
         "program": "${workspaceFolder}/node_modules/jest/bin/jest"
       }
-    },
+    }
   ]
 }

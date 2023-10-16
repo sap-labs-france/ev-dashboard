@@ -19,7 +19,7 @@ import { Utils } from '../../../utils/Utils';
 
 @Component({
   selector: 'app-tag-assign',
-  templateUrl: 'tag-assign.component.html'
+  templateUrl: 'tag-assign.component.html',
 })
 export class TagAssignComponent implements OnInit {
   @Input() public currentTagVisualID!: string;
@@ -35,7 +35,6 @@ export class TagAssignComponent implements OnInit {
   public visualID!: AbstractControl;
   public canListUsers: boolean;
 
-
   public constructor(
     public spinnerService: SpinnerService,
     private authorizationService: AuthorizationService,
@@ -44,33 +43,19 @@ export class TagAssignComponent implements OnInit {
     private translateService: TranslateService,
     private dialogService: DialogService,
     private router: Router,
-    private dialog: MatDialog) {
+    private dialog: MatDialog
+  ) {
     this.canListUsers = this.authorizationService.canListUsers();
   }
 
   public ngOnInit() {
     // Init the form
     this.formGroup = new UntypedFormGroup({
-      user: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      userID: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      description: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      visualID: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      default: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
+      user: new UntypedFormControl('', Validators.compose([Validators.required])),
+      userID: new UntypedFormControl('', Validators.compose([Validators.required])),
+      description: new UntypedFormControl('', Validators.compose([Validators.required])),
+      visualID: new UntypedFormControl('', Validators.compose([Validators.required])),
+      default: new UntypedFormControl('', Validators.compose([Validators.required])),
     });
 
     // Form
@@ -119,10 +104,15 @@ export class TagAssignComponent implements OnInit {
               this.messageService.showErrorMessage('tags.tag_not_found');
               break;
             default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'tags.tag_error');
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'tags.tag_error'
+              );
           }
-        }
+        },
       });
     }
   }
@@ -138,8 +128,13 @@ export class TagAssignComponent implements OnInit {
   }
 
   public close() {
-    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
-      this.translateService, this.saveTag.bind(this), this.closeDialog.bind(this));
+    Utils.checkAndSaveAndCloseDialog(
+      this.formGroup,
+      this.dialogService,
+      this.translateService,
+      this.saveTag.bind(this),
+      this.closeDialog.bind(this)
+    );
   }
 
   public saveTag(tag: Tag) {
@@ -156,7 +151,9 @@ export class TagAssignComponent implements OnInit {
       next: (response: ActionResponse) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage('tags.update_by_visual_id_success', { visualID: tag.visualID });
+          this.messageService.showSuccessMessage('tags.update_by_visual_id_success', {
+            visualID: tag.visualID,
+          });
           this.closeDialog(true);
         } else {
           Utils.handleError(JSON.stringify(response), this.messageService, 'tags.update_error');
@@ -166,12 +163,20 @@ export class TagAssignComponent implements OnInit {
         this.spinnerService.hide();
         switch (error.status) {
           case HTTPError.TAG_VISUAL_ID_ALREADY_EXIST_ERROR:
-            this.messageService.showErrorMessage('tags.tag_visual_id_already_used', { visualID: tag.visualID });
+            this.messageService.showErrorMessage('tags.tag_visual_id_already_used', {
+              visualID: tag.visualID,
+            });
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tags.update_error');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'tags.update_error'
+            );
         }
-      }
+      },
     });
   }
 
@@ -181,7 +186,9 @@ export class TagAssignComponent implements OnInit {
       next: (response: ActionResponse) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage('tags.register_success', { visualID: tag.visualID });
+          this.messageService.showSuccessMessage('tags.register_success', {
+            visualID: tag.visualID,
+          });
           this.closeDialog(true);
         } else {
           Utils.handleError(JSON.stringify(response), this.messageService, 'tags.register_error');
@@ -191,15 +198,23 @@ export class TagAssignComponent implements OnInit {
         this.spinnerService.hide();
         switch (error.status) {
           case StatusCodes.NOT_FOUND:
-            this.messageService.showErrorMessage('tags.tag_visual_id_does_not_match_tag', { visualID: tag.visualID });
+            this.messageService.showErrorMessage('tags.tag_visual_id_does_not_match_tag', {
+              visualID: tag.visualID,
+            });
             break;
           case HTTPError.TAG_INACTIVE:
             this.messageService.showErrorMessage('tags.tag_inactive', { visualID: tag.visualID });
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'tags.register_error');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'tags.register_error'
+            );
         }
-      }
+      },
     });
   }
 }

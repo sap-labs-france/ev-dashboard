@@ -1,4 +1,3 @@
-
 export interface GeoMapDialogData {
   label: string;
   longitude: number;

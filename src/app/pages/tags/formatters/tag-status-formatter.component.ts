@@ -8,8 +8,8 @@ import { Tag } from '../../../types/Tag';
   selector: 'app-tag-status-formatter',
   template: `
     <mat-chip-list [selectable]="false">
-      <mat-chip [ngClass]="row.active | appFormatTagStatus:'class'" [disabled]="true">
-        {{row.active | appFormatTagStatus:'text' | translate}}
+      <mat-chip [ngClass]="row.active | appFormatTagStatus : 'class'" [disabled]="true">
+        {{ row.active | appFormatTagStatus : 'text' | translate }}
       </mat-chip>
     </mat-chip-list>
   `,
@@ -18,7 +18,7 @@ export class TagStatusFormatterComponent extends CellContentTemplateDirective {
   @Input() public row!: Tag;
 }
 
-@Pipe({name: 'appFormatTagStatus'})
+@Pipe({ name: 'appFormatTagStatus' })
 export class AppFormatTagStatusPipe implements PipeTransform {
   public transform(active: boolean, type: string): string {
     if (type === 'class') {

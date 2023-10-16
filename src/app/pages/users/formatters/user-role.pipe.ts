@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 import { UserRoles } from '../../../shared/model/users.model';
 
-@Pipe({name: 'appUserRole'})
+@Pipe({ name: 'appUserRole' })
 export class AppUserRolePipe implements PipeTransform {
   public transform(role: string, currentRole = ''): string {
     for (const userRole of UserRoles.getAvailableRoles(currentRole)) {

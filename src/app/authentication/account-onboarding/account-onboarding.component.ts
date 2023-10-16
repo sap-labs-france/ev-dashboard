@@ -27,13 +27,11 @@ export class AccountOnboardingComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private spinnerService: SpinnerService,
     private messageService: MessageService,
-    private windowService: WindowService) {
+    private windowService: WindowService
+  ) {
     // Init Form
     this.formGroup = new UntypedFormGroup({
-      email: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required
-        ])),
+      email: new UntypedFormControl('', Validators.compose([Validators.required])),
     });
     // Get data from URL parameters
     // e.g.:
@@ -43,8 +41,8 @@ export class AccountOnboardingComponent implements OnInit, OnDestroy {
     this.tenantID = this.route.snapshot.queryParamMap.get('TenantID');
     this.accountID = this.route.snapshot.queryParamMap.get('AccountID');
     this.operationResult = this.route.snapshot.queryParamMap.get('OperationResult');
-    if ( this.operationResult === 'Success' ) {
-      this.onboardingHasBeenDone = true ;
+    if (this.operationResult === 'Success') {
+      this.onboardingHasBeenDone = true;
     }
     setTimeout(() => {
       const card = document.getElementsByClassName('card')[0];
@@ -57,7 +55,7 @@ export class AccountOnboardingComponent implements OnInit, OnDestroy {
     const body = document.getElementsByTagName('body')[0];
     body.classList.add('lock-page');
     body.classList.add('off-canvas-sidebar');
-    if ( this.onboardingHasBeenDone) {
+    if (this.onboardingHasBeenDone) {
       this.triggerAccountActivation();
     }
   }
@@ -69,7 +67,7 @@ export class AccountOnboardingComponent implements OnInit, OnDestroy {
   }
 
   public navigate() {
-    if ( this.onboardingHasBeenDone ) {
+    if (this.onboardingHasBeenDone) {
       // Go to login
       void this.router.navigate(['/auth/login']);
     } else {
@@ -92,8 +90,14 @@ export class AccountOnboardingComponent implements OnInit, OnDestroy {
       error: (error) => {
         this.spinnerService.hide();
         this.accountActivationFailed = true;
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'accounts.onboarding.onboarding_process_failed');
-      }
+        Utils.handleHttpError(
+          error,
+          this.router,
+          this.messageService,
+          this.centralServerService,
+          'accounts.onboarding.onboarding_process_failed'
+        );
+      },
     });
   }
 
@@ -108,8 +112,14 @@ export class AccountOnboardingComponent implements OnInit, OnDestroy {
       error: (error) => {
         this.spinnerService.hide();
         this.accountActivationFailed = true;
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'accounts.onboarding.onboarding_process_failed');
-      }
+        Utils.handleHttpError(
+          error,
+          this.router,
+          this.messageService,
+          this.centralServerService,
+          'accounts.onboarding.onboarding_process_failed'
+        );
+      },
     });
   }
 }

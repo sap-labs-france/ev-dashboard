@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Injectable, Input, OnChanges, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Injectable,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+} from '@angular/core';
 
 import { ComponentService } from '../../../../services/component.service';
 import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal.pipe';
@@ -35,20 +43,33 @@ export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
   public constructor(
     private appUnitFormatter: AppUnitPipe,
     private componentService: ComponentService,
-    private decimalPipe: AppDecimalPipe) {
-    this.isSmartChargingComponentActive = this.componentService.isActive(TenantComponents.SMART_CHARGING);
+    private decimalPipe: AppDecimalPipe
+  ) {
+    this.isSmartChargingComponentActive = this.componentService.isActive(
+      TenantComponents.SMART_CHARGING
+    );
   }
 
   public ngOnChanges() {
     // Update Power
     this.displayedCurrentPowerW = Utils.convertAmpToWattString(
-      this.chargingStation, null, 0, this.appUnitFormatter, this.currentAmp, 'W');
+      this.chargingStation,
+      null,
+      0,
+      this.appUnitFormatter,
+      this.currentAmp,
+      'W'
+    );
   }
 
   public ngOnInit() {
     // Get powers
     const chargerPowers = Utils.getChargingStationPowers(
-      this.chargingStation, this.chargePoint, this.connector ? this.connector.connectorId : 0, this.forChargingProfile);
+      this.chargingStation,
+      this.chargePoint,
+      this.connector ? this.connector.connectorId : 0,
+      this.forChargingProfile
+    );
     if (Utils.isUndefined(this.currentAmp)) {
       this.currentAmp = chargerPowers.currentAmp;
     }
@@ -66,20 +87,48 @@ export class ChargingStationPowerSliderComponent implements OnInit, OnChanges {
   }
 
   public formatSlideLabelPowerKW = (currentAmp: number): string | null => {
-    const powerKW = Math.floor(Utils.convertAmpToWatt(this.chargingStation, null, 0, currentAmp) / 1000);
+    const powerKW = Math.floor(
+      Utils.convertAmpToWatt(this.chargingStation, null, 0, currentAmp) / 1000
+    );
     return this.decimalPipe.transform(powerKW) + 'kW';
   };
 
   public sliderChanged(value: number) {
     this.currentAmp = value;
     // Update Power
-    this.displayedCurrentPowerW = Utils.convertAmpToWattString(this.chargingStation, null, 0, this.appUnitFormatter, value, 'W');
+    this.displayedCurrentPowerW = Utils.convertAmpToWattString(
+      this.chargingStation,
+      null,
+      0,
+      this.appUnitFormatter,
+      value,
+      'W'
+    );
     this.sliderChangedEmitter.emit(value);
   }
 
   private updateDisplayedPowerKW() {
-    this.displayedMinPowerKW = Utils.convertAmpToWattString(this.chargingStation, null, 0, this.appUnitFormatter, this.minAmp);
-    this.displayedMaxPowerKW = Utils.convertAmpToWattString(this.chargingStation, null, 0, this.appUnitFormatter, this.maxAmp);
-    this.displayedCurrentPowerW = Utils.convertAmpToWattString(this.chargingStation, null, 0, this.appUnitFormatter, this.currentAmp, 'W');
+    this.displayedMinPowerKW = Utils.convertAmpToWattString(
+      this.chargingStation,
+      null,
+      0,
+      this.appUnitFormatter,
+      this.minAmp
+    );
+    this.displayedMaxPowerKW = Utils.convertAmpToWattString(
+      this.chargingStation,
+      null,
+      0,
+      this.appUnitFormatter,
+      this.maxAmp
+    );
+    this.displayedCurrentPowerW = Utils.convertAmpToWattString(
+      this.chargingStation,
+      null,
+      0,
+      this.appUnitFormatter,
+      this.currentAmp,
+      'W'
+    );
   }
 }

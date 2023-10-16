@@ -9,13 +9,14 @@ import { CarCatalogsDialogTableDataSource } from './car-catalogs-dialog-table-da
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
-  styleUrls: ['../dialog-table-data.component.scss']
+  styleUrls: ['../dialog-table-data.component.scss'],
 })
 export class CarCatalogsDialogComponent extends DialogTableDataComponent<CarCatalog> {
   public constructor(
     protected dialogRef: MatDialogRef<CarCatalogsDialogComponent>,
     private carCatalogsDialogTableDataSource: CarCatalogsDialogTableDataSource,
-    @Inject(MAT_DIALOG_DATA) data: any) {
+    @Inject(MAT_DIALOG_DATA) data: any
+  ) {
     super(data, dialogRef, carCatalogsDialogTableDataSource);
     // Default title
     if (Utils.isEmptyString(this.title)) {
@@ -30,7 +31,8 @@ export class CarCatalogsDialogComponent extends DialogTableDataComponent<CarCata
       selectedRows.forEach((row) => {
         items.push({
           key: row.id.toString(),
-          value: `${row.vehicleMake} ${row.vehicleModel ? row.vehicleModel : ''}`, objectRef: row
+          value: `${row.vehicleMake} ${row.vehicleModel ? row.vehicleModel : ''}`,
+          objectRef: row,
         });
       });
     }

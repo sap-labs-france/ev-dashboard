@@ -5,16 +5,20 @@ import { ChargingStation } from '../../../types/ChargingStation';
 import { ChargingStationConnectorsTableDataSource } from './charging-station-connectors-table-data-source';
 
 @Component({
-  template: '<app-table class="connectors-details" [dataSource]="chargingStationsConnectorsDetailTableDataSource"></app-table>',
+  template:
+    '<app-table class="connectors-details" [dataSource]="chargingStationsConnectorsDetailTableDataSource"></app-table>',
   providers: [ChargingStationConnectorsTableDataSource],
   styleUrls: ['charging-station-connectors-component.component.scss'],
 })
-
-export class ChargingStationConnectorsComponent extends CellContentTemplateDirective implements OnInit, OnChanges {
+export class ChargingStationConnectorsComponent
+  extends CellContentTemplateDirective
+  implements OnInit, OnChanges {
   @Input() public row!: ChargingStation;
 
   public constructor(
-    @Self() public chargingStationsConnectorsDetailTableDataSource: ChargingStationConnectorsTableDataSource) {
+    @Self()
+    public chargingStationsConnectorsDetailTableDataSource: ChargingStationConnectorsTableDataSource
+  ) {
     super();
   }
 
@@ -28,7 +32,8 @@ export class ChargingStationConnectorsComponent extends CellContentTemplateDirec
 
   private refreshData(): void {
     // Pass Additional params
-    this.chargingStationsConnectorsDetailTableDataSource.additionalParameters = this.tableDef.rowDetails?.additionalParameters;
+    this.chargingStationsConnectorsDetailTableDataSource.additionalParameters =
+      this.tableDef.rowDetails?.additionalParameters;
     // Set the charger
     this.chargingStationsConnectorsDetailTableDataSource.setChargingStation(this.row);
     // Reload data

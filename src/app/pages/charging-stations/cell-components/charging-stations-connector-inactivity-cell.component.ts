@@ -8,7 +8,7 @@ import { Connector } from '../../../types/ChargingStation';
     <span>
       <ng-container>
         <span class="ms-1" [ngClass]="row.currentInactivityStatus | appColorByStatus">
-          {{{ currentTotalInactivitySecs: row.currentTotalInactivitySecs } | appInactivity}}
+          {{ { currentTotalInactivitySecs: row.currentTotalInactivitySecs } | appInactivity }}
         </span>
       </ng-container>
     </span>

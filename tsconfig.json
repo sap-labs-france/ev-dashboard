@@ -14,12 +14,7 @@
     "allowSyntheticDefaultImports": true,
     "target": "es2020",
     "module": "es2020",
-    "lib": [
-      "es2018",
-      "dom"
-    ],
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    "lib": ["es2019", "dom"],
+    "typeRoots": ["node_modules/@types"]
   }
 }

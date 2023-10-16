@@ -17,8 +17,17 @@ export class TableDownloadAction implements TableAction {
     tooltip: 'invoices.tooltips.download',
   };
 
-  public constructor(id?: ButtonAction | ChargingStationButtonAction | UserButtonAction | TransactionButtonAction | SiteButtonAction | OCPIButtonAction,
-    name?: string, tooltip?: string) {
+  public constructor(
+    id?:
+    | ButtonAction
+    | ChargingStationButtonAction
+    | UserButtonAction
+    | TransactionButtonAction
+    | SiteButtonAction
+    | OCPIButtonAction,
+    name?: string,
+    tooltip?: string
+  ) {
     if (id) {
       this.action.id = id;
     }

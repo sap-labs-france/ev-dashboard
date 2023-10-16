@@ -11,8 +11,16 @@ import { TableActionDef } from '../../../../types/Table';
 import { TableDeleteAction } from '../table-delete-action';
 
 export interface TableDeleteChargingStationActionDef extends TableActionDef {
-  action: (chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) => void;
+  action: (
+    chargingStation: ChargingStation,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableDeleteChargingStationAction extends TableDeleteAction {
@@ -24,20 +32,40 @@ export class TableDeleteChargingStationAction extends TableDeleteAction {
     };
   }
 
-  private deleteChargingStation(chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
-    if (chargingStation.connectors.findIndex((connector) => connector.currentTransactionID > 0) >= 0) {
+  private deleteChargingStation(
+    chargingStation: ChargingStation,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) {
+    if (
+      chargingStation.connectors.findIndex((connector) => connector.currentTransactionID > 0) >= 0
+    ) {
       // Do not delete when active transaction on going
       dialogService.createAndShowOkDialog(
         translateService.instant('chargers.action_error.delete_title'),
-        translateService.instant('chargers.action_error.delete_active_transaction'));
+        translateService.instant('chargers.action_error.delete_active_transaction')
+      );
     } else {
       super.delete(
-        chargingStation, 'chargers.delete_title',
+        chargingStation,
+        'chargers.delete_title',
         translateService.instant('chargers.delete_confirm', { chargeBoxID: chargingStation.id }),
         translateService.instant('chargers.delete_success', { chargeBoxID: chargingStation.id }),
-        'chargers.delete_error', centralServerService.deleteChargingStation.bind(centralServerService),
-        dialogService, translateService, messageService, centralServerService, spinnerService, router, refresh);
+        'chargers.delete_error',
+        centralServerService.deleteChargingStation.bind(centralServerService),
+        dialogService,
+        translateService,
+        messageService,
+        centralServerService,
+        spinnerService,
+        router,
+        refresh
+      );
     }
   }
 }

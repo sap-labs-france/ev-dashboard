@@ -1,7 +1,18 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  UntypedFormArray,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 
-import { ChargePoint, ChargingStation, CurrentType, Voltage } from '../../../../../types/ChargingStation';
+import {
+  ChargePoint,
+  ChargingStation,
+  CurrentType,
+  Voltage,
+} from '../../../../../types/ChargingStation';
 
 @Component({
   selector: 'app-charging-station-charge-point',
@@ -40,51 +51,29 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
     // Init charge point
     this.formChargePointGroup = new UntypedFormGroup({
       chargePointID: new UntypedFormControl(this.chargePoint.chargePointID),
-      ocppParamForPowerLimitation: new UntypedFormControl(this.chargePoint.ocppParamForPowerLimitation),
-      currentType: new UntypedFormControl(CurrentType.AC,
-        Validators.compose([
-        ])
+      ocppParamForPowerLimitation: new UntypedFormControl(
+        this.chargePoint.ocppParamForPowerLimitation
       ),
-      voltage: new UntypedFormControl(Voltage.VOLTAGE_230,
-        Validators.compose([
-          Validators.min(1),
-          Validators.pattern('^[+]?[0-9]*$'),
-        ])
+      currentType: new UntypedFormControl(CurrentType.AC, Validators.compose([])),
+      voltage: new UntypedFormControl(
+        Voltage.VOLTAGE_230,
+        Validators.compose([Validators.min(1), Validators.pattern('^[+]?[0-9]*$')])
       ),
-      amperage: new UntypedFormControl(0,
-        Validators.compose([
-          Validators.min(1),
-          Validators.pattern('^[+]?[0-9]*$'),
-        ])
+      amperage: new UntypedFormControl(
+        0,
+        Validators.compose([Validators.min(1), Validators.pattern('^[+]?[0-9]*$')])
       ),
-      numberOfConnectedPhase: new UntypedFormControl(3,
-        Validators.compose([
-          Validators.required,
-        ])
+      numberOfConnectedPhase: new UntypedFormControl(3, Validators.compose([Validators.required])),
+      cannotChargeInParallel: new UntypedFormControl(false, Validators.compose([])),
+      sharePowerToAllConnectors: new UntypedFormControl(false, Validators.compose([])),
+      excludeFromPowerLimitation: new UntypedFormControl(false, Validators.compose([])),
+      power: new UntypedFormControl(
+        0,
+        Validators.compose([Validators.min(1), Validators.pattern('^[+]?[0-9]*$')])
       ),
-      cannotChargeInParallel: new UntypedFormControl(false,
-        Validators.compose([
-        ])
-      ),
-      sharePowerToAllConnectors: new UntypedFormControl(false,
-        Validators.compose([
-        ])
-      ),
-      excludeFromPowerLimitation: new UntypedFormControl(false,
-        Validators.compose([
-        ])
-      ),
-      power: new UntypedFormControl(0,
-        Validators.compose([
-          Validators.min(1),
-          Validators.pattern('^[+]?[0-9]*$'),
-        ])
-      ),
-      efficiency: new UntypedFormControl(0,
-        Validators.compose([
-          Validators.max(100),
-          Validators.pattern('^[+]?[0-9]*$'),
-        ])
+      efficiency: new UntypedFormControl(
+        0,
+        Validators.compose([Validators.max(100), Validators.pattern('^[+]?[0-9]*$')])
       ),
       connectorIDs: new UntypedFormControl([]),
     });
@@ -96,8 +85,10 @@ export class ChargingStationChargePointComponent implements OnInit, OnChanges {
     this.amperage = this.formChargePointGroup.controls['amperage'];
     this.numberOfConnectedPhase = this.formChargePointGroup.controls['numberOfConnectedPhase'];
     this.cannotChargeInParallel = this.formChargePointGroup.controls['cannotChargeInParallel'];
-    this.sharePowerToAllConnectors = this.formChargePointGroup.controls['sharePowerToAllConnectors'];
-    this.excludeFromPowerLimitation = this.formChargePointGroup.controls['excludeFromPowerLimitation'];
+    this.sharePowerToAllConnectors =
+      this.formChargePointGroup.controls['sharePowerToAllConnectors'];
+    this.excludeFromPowerLimitation =
+      this.formChargePointGroup.controls['excludeFromPowerLimitation'];
     this.power = this.formChargePointGroup.controls['power'];
     this.efficiency = this.formChargePointGroup.controls['efficiency'];
     this.connectorIDs = this.formChargePointGroup.controls['connectorIDs'];

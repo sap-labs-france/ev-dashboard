@@ -1,40 +1,72 @@
 <div class="main-content vw-90 vh-90 site-area-dialog-size">
   <div class="card card-profile card-testimonial">
-    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info" [class]="dialogRef && !readOnly ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
+    <mat-tab-group
+      animationDuration="0ms"
+      disableRipple="true"
+      class="mat-tab-info"
+      [class]="dialogRef && !readOnly ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'"
+    >
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>portrait</mat-icon>
-          <span>{{'site_areas.title' | translate}} - {{formGroup.controls['name'].value}}</span>
+          <span>{{ 'site_areas.title' | translate }} - {{ formGroup.controls['name'].value }}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content">
-          <app-site-area-main #siteAreaMainComponent [formGroup]="formGroup" [siteArea]="siteArea" [readOnly]="readOnly" (siteChanged)="siteChanged($event)"></app-site-area-main>
+          <app-site-area-main
+            #siteAreaMainComponent
+            [formGroup]="formGroup"
+            [siteArea]="siteArea"
+            [readOnly]="readOnly"
+            (siteChanged)="siteChanged($event)"
+          ></app-site-area-main>
         </div>
       </mat-tab>
       <mat-tab *ngIf="formGroup.controls['issuer'].value">
         <ng-template mat-tab-label>
           <mat-icon>portrait</mat-icon>
-          <span>{{'site_areas.limits' | translate}}</span>
+          <span>{{ 'site_areas.limits' | translate }}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content">
-          <app-site-area-limits #siteAreaLimitsComponent [formGroup]="formGroup" [siteArea]="siteArea" [smartChargingSessionParametersActive]="smartChargingSessionParametersActive" [readOnly]="readOnly"></app-site-area-limits>
+          <app-site-area-limits
+            #siteAreaLimitsComponent
+            [formGroup]="formGroup"
+            [siteArea]="siteArea"
+            [smartChargingSessionParametersActive]="smartChargingSessionParametersActive"
+            [readOnly]="readOnly"
+          ></app-site-area-limits>
         </div>
       </mat-tab>
       <mat-tab *ngIf="ocpiActive && ocpiHasVisibleFields && formGroup.controls.issuer.value">
         <ng-template mat-tab-label>
           <mat-icon>cloud</mat-icon>
-          <span>{{'settings.tabs.ocpi' | translate}}</span>
+          <span>{{ 'settings.tabs.ocpi' | translate }}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content">
-          <app-site-area-ocpi #siteAreaOcpiComponent [formGroup]="formGroup" [siteArea]="siteArea" [readOnly]="readOnly"></app-site-area-ocpi>
+          <app-site-area-ocpi
+            #siteAreaOcpiComponent
+            [formGroup]="formGroup"
+            [siteArea]="siteArea"
+            [readOnly]="readOnly"
+          ></app-site-area-ocpi>
         </div>
       </mat-tab>
     </mat-tab-group>
     <div [class]="dialogRef ? 'tabs-actions' : 'tabs-actions-embedded'">
-      <button mat-icon-button *ngIf="!readOnly" (click)="saveSiteArea(formGroup.getRawValue())" title="{{'general.save' | translate}}"
-          [disabled]="!formGroup.valid || !formGroup.dirty">
+      <button
+        mat-icon-button
+        *ngIf="!readOnly"
+        (click)="saveSiteArea(formGroup.getRawValue())"
+        title="{{ 'general.save' | translate }}"
+        [disabled]="!formGroup.valid || !formGroup.dirty"
+      >
         <mat-icon>save</mat-icon>
       </button>
-      <button mat-icon-button *ngIf="dialogRef" (click)="close()" title="{{'general.close' | translate}}">
+      <button
+        mat-icon-button
+        *ngIf="dialogRef"
+        (click)="close()"
+        title="{{ 'general.close' | translate }}"
+      >
         <mat-icon>close</mat-icon>
       </button>
     </div>

@@ -9,8 +9,5 @@ import { TagsListTableDataSource } from './tags-list-table-data-source';
 })
 export class TagsListComponent {
   // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    public tagsListTableDataSource: TagsListTableDataSource
-  ) {}
+  public constructor(public tagsListTableDataSource: TagsListTableDataSource) {}
 }
-

@@ -1,4 +1,7 @@
-<nav class="navbar navbar-expand-lg bg-primary navbar-transparent navbar-absolute navbar-auth" color-on-scroll="500">
+<nav
+  class="navbar navbar-expand-lg bg-primary navbar-transparent navbar-absolute navbar-auth"
+  color-on-scroll="500"
+>
   <div class="container">
     <button mat-button class="navbar-toggler pr-0" type="button" (click)="sidebarToggle()">
       <span class="sr-only">Toggle navigation</span>
@@ -8,25 +11,28 @@
     </button>
     <div class="navbar-wrapper">
       <div class="d-block">
-        <a class="navbar-brand ms-0 pb-0" routerLink="/" target="_blank">{{'general.app_name' | translate}}</a>
-        <div class="small">{{"general.version" | translate}} {{version}}</div>
+        <a class="navbar-brand ms-0 pb-0" routerLink="/" target="_blank">{{
+          'general.app_name' | translate
+        }}</a>
+        <div class="small">{{ 'general.version' | translate }} {{ version }}</div>
       </div>
     </div>
     <div class="collapse navbar-collapse justify-content-end">
       <ul class="navbar-nav">
         <li id="sign-in-link" class="nav-item" routerLinkActive="active">
           <a class="nav-link" [routerLink]="['/auth/login']">
-            <mat-icon>fingerprint</mat-icon><span>{{'authentication.sign_in' | translate}}</span>
+            <mat-icon>fingerprint</mat-icon><span>{{ 'authentication.sign_in' | translate }}</span>
           </a>
         </li>
         <li class="nav-item" routerLinkActive="active">
           <a id="register-link" class="nav-link" [routerLink]="['/auth/register']">
-            <mat-icon>person_add</mat-icon><span>{{'authentication.sign_up' | translate}}</span>
+            <mat-icon>person_add</mat-icon><span>{{ 'authentication.sign_up' | translate }}</span>
           </a>
         </li>
         <li id="reset-password-link" class="nav-item" routerLinkActive="active">
           <a class="nav-link" [routerLink]="['/auth/reset-password']">
-            <mat-icon>lock_open</mat-icon><span>{{'authentication.forgot_password' | translate}}</span>
+            <mat-icon>lock_open</mat-icon
+            ><span>{{ 'authentication.forgot_password' | translate }}</span>
           </a>
         </li>
       </ul>

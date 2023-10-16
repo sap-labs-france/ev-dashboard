@@ -1,24 +1,26 @@
 <script src="error-code-details-dialog.component.ts"></script>
-<h2 class="dialog-title" mat-dialog-title>{{error.title | translate:error.titleParameters}}</h2>
+<h2 class="dialog-title" mat-dialog-title>{{ error.title | translate : error.titleParameters }}</h2>
 <mat-dialog-content>
   <div class="row">
     <div class="col-md-3 text-right">
-      <strong>{{'errors.description' | translate}}</strong>
+      <strong>{{ 'errors.description' | translate }}</strong>
     </div>
     <div class="col">
-      {{error.description | translate:error.descriptionParameters}}
+      {{ error.description | translate : error.descriptionParameters }}
     </div>
   </div>
   <div class="row" *ngIf="error.action">
     <div class="col-md-3 text-right">
-      <strong>{{'errors.action' | translate}}</strong>
+      <strong>{{ 'errors.action' | translate }}</strong>
     </div>
     <div class="col">
-      {{error.action | translate:error.actionParameters}}
+      {{ error.action | translate : error.actionParameters }}
     </div>
   </div>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-raised-button mat-dialog-close color="primary">{{"general.close" | translate}}</button>
+  <button mat-raised-button mat-dialog-close color="primary">
+    {{ 'general.close' | translate }}
+  </button>
 </mat-dialog-actions>

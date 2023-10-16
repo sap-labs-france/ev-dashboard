@@ -34,18 +34,18 @@ export class CompanyMainComponent implements OnInit, OnChanges {
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private configService: ConfigService,
-    private router: Router) {
+    private router: Router
+  ) {
     this.maxSize = this.configService.getCompany().maxLogoKb;
   }
 
   public ngOnInit() {
     this.formGroup.addControl('issuer', new UntypedFormControl(true));
     this.formGroup.addControl('id', new UntypedFormControl(''));
-    this.formGroup.addControl('name', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-      ])
-    ));
+    this.formGroup.addControl(
+      'name',
+      new UntypedFormControl('', Validators.compose([Validators.required]))
+    );
     // Form
     this.issuer = this.formGroup.controls['issuer'];
     this.id = this.formGroup.controls['id'];
@@ -85,10 +85,15 @@ export class CompanyMainComponent implements OnInit, OnChanges {
                 this.logo = Constants.NO_IMAGE;
                 break;
               default:
-                Utils.handleHttpError(error, this.router, this.messageService,
-                  this.centralServerService, 'general.unexpected_error_backend');
+                Utils.handleHttpError(
+                  error,
+                  this.router,
+                  this.messageService,
+                  this.centralServerService,
+                  'general.unexpected_error_backend'
+                );
             }
-          }
+          },
         });
       }
     }
@@ -103,8 +108,11 @@ export class CompanyMainComponent implements OnInit, OnChanges {
   }
 
   public updateCompanyCoordinates(company: Company) {
-    if (company.address && company.address.coordinates &&
-      !(company.address.coordinates[0] || company.address.coordinates[1])) {
+    if (
+      company.address &&
+      company.address.coordinates &&
+      !(company.address.coordinates[0] || company.address.coordinates[1])
+    ) {
       delete company.address.coordinates;
     }
   }
@@ -113,8 +121,10 @@ export class CompanyMainComponent implements OnInit, OnChanges {
     // load picture
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-      if (file.size > (this.maxSize * 1024)) {
-        this.messageService.showErrorMessage('companies.logo_size_error', { maxPictureKb: this.maxSize });
+      if (file.size > this.maxSize * 1024) {
+        this.messageService.showErrorMessage('companies.logo_size_error', {
+          maxPictureKb: this.maxSize,
+        });
       } else {
         const reader = new FileReader();
         reader.onload = () => {

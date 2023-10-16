@@ -8,8 +8,14 @@ import { MaterialModule } from '../../app.module';
 import { AddressModule } from '../../shared/address/address.module';
 import { DialogsModule } from '../../shared/dialogs/dialogs.module';
 import { TableModule } from '../../shared/table/table.module';
-import { AppFormatInvoiceStatusPipe, InvoiceStatusFormatterComponent } from './formatters/invoice-status-formatter.component';
-import { AppFormatTransferStatusPipe, TransferStatusFormatterComponent } from './formatters/transfer-status-formatter.component';
+import {
+  AppFormatInvoiceStatusPipe,
+  InvoiceStatusFormatterComponent,
+} from './formatters/invoice-status-formatter.component';
+import {
+  AppFormatTransferStatusPipe,
+  TransferStatusFormatterComponent,
+} from './formatters/transfer-status-formatter.component';
 import { InvoicesComponent } from './invoices.component';
 import { InvoicesRoutes } from './invoices.routing';
 import { InvoicesListComponent } from './list/invoices-list.component';
@@ -35,12 +41,8 @@ import { TransfersListComponent } from './transfers/transfers-list.component';
     TransfersListComponent,
     TransferStatusFormatterComponent,
     AppFormatInvoiceStatusPipe,
-    AppFormatTransferStatusPipe
+    AppFormatTransferStatusPipe,
   ],
-  providers: [
-    InvoicesTableDataSource,
-  ]
+  providers: [InvoicesTableDataSource],
 })
-
-export class InvoicesModule {
-}
+export class InvoicesModule {}

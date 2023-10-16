@@ -1,12 +1,21 @@
-import { Component, ComponentFactoryResolver, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  ComponentFactoryResolver,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewContainerRef,
+} from '@angular/core';
 
 import { TableColumnDef, TableData, TableDef } from '../../../types/Table';
 import { CellContentTemplateDirective } from './cell-content-template.directive';
 
 @Component({
   selector: 'app-cell-content-template-container',
-  template: `
-    <ng-template></ng-template>`,
+  template: ` <ng-template></ng-template>`,
 })
 export class CellContentTemplateContainerComponent implements OnInit, OnChanges {
   @Input() public row!: TableData;
@@ -20,7 +29,8 @@ export class CellContentTemplateContainerComponent implements OnInit, OnChanges 
   // eslint-disable-next-line no-useless-constructor
   public constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
-    public viewContainerRef: ViewContainerRef) {}
+    public viewContainerRef: ViewContainerRef
+  ) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (this.cellComponent) {
@@ -47,7 +57,7 @@ export class CellContentTemplateContainerComponent implements OnInit, OnChanges 
       this.viewContainerRef.clear();
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
       this.cellComponentRef = this.viewContainerRef.createComponent(componentFactory);
-      this.cellComponent = (this.cellComponentRef.instance as CellContentTemplateDirective);
+      this.cellComponent = this.cellComponentRef.instance as CellContentTemplateDirective;
       // Pass the data
       this.cellComponent.row = this.row;
       this.cellComponent.columnDef = this.columnDef;

@@ -1,0 +1,5 @@
+dist/
+# FIXME: ESM import parse error
+build-requirements.mjs
+*.cjs
+*.js

@@ -25,7 +25,8 @@ export class QrCodeDialogComponent {
     private centralServerService: CentralServerService,
     private messageService: MessageService,
     private router: Router,
-    @Inject(MAT_DIALOG_DATA) data) {
+    @Inject(MAT_DIALOG_DATA) data
+  ) {
     if (data) {
       if (data.chargingStationID) {
         this.chargingStationID = data.chargingStationID;
@@ -42,17 +43,29 @@ export class QrCodeDialogComponent {
 
   public download() {
     this.spinnerService.show();
-    this.centralServerService.downloadChargingStationQrCodes(this.chargingStationID, this.connectorID).subscribe({
-      next: (result) => {
-        this.spinnerService.hide();
-        FileSaver.saveAs(result, `${this.chargingStationID.toLowerCase()}-${Utils.getConnectorLetterFromConnectorID(this.connectorID).toLowerCase()}-qr-codes.pdf`);
-      },
-      error: (error) => {
-        this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService,
-          this.centralServerService, this.translateService.instant('chargers.qr_code_generation_error'));
-      }
-    });
+    this.centralServerService
+      .downloadChargingStationQrCodes(this.chargingStationID, this.connectorID)
+      .subscribe({
+        next: (result) => {
+          this.spinnerService.hide();
+          FileSaver.saveAs(
+            result,
+            `${this.chargingStationID.toLowerCase()}-${Utils.getConnectorLetterFromConnectorID(
+              this.connectorID
+            ).toLowerCase()}-qr-codes.pdf`
+          );
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          Utils.handleHttpError(
+            error,
+            this.router,
+            this.messageService,
+            this.centralServerService,
+            this.translateService.instant('chargers.qr_code_generation_error')
+          );
+        },
+      });
   }
 
   public cancel() {

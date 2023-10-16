@@ -1,32 +1,51 @@
 <div [class]="dialogRef ? 'main-content vw-90 vh-90 user-dialog-size' : 'main-content flex-grow-1'">
   <div class="card card-profile card-testimonial">
     <form [formGroup]="formGroup" class="form">
-      <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex"
-          animationDuration="0ms" disableRipple="true" class="h-100 mat-tab-info" [class]="dialogRef ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
+      <mat-tab-group
+        (selectedIndexChange)="updateRoute($event)"
+        [selectedIndex]="activeTabIndex"
+        animationDuration="0ms"
+        disableRipple="true"
+        class="h-100 mat-tab-info"
+        [class]="dialogRef ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'"
+      >
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>portrait</mat-icon>
-            <span>{{'users.title' | translate}} - {{formGroup.controls['name'].value}} {{formGroup.controls['firstName'].value}}</span>
+            <span
+              >{{ 'users.title' | translate }} - {{ formGroup.controls['name'].value }}
+              {{ formGroup.controls['firstName'].value }}</span
+            >
           </ng-template>
           <div class="card-body mat-tab-dialog-body-content">
-            <app-user-main #userMainComponent [formGroup]="formGroup" [user]='user' [metadata]='metadata' (roleChanged)="roleChanged($event)">
+            <app-user-main
+              #userMainComponent
+              [formGroup]="formGroup"
+              [user]="user"
+              [metadata]="metadata"
+              (roleChanged)="roleChanged($event)"
+            >
             </app-user-main>
           </div>
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>email</mat-icon>
-            <span>{{'general.notifications' | translate}}</span>
+            <span>{{ 'general.notifications' | translate }}</span>
           </ng-template>
           <div class="card-body text-left">
-            <app-user-notifications #userNotificationsComponent [formGroup]="formGroup" [user]='user'>
+            <app-user-notifications
+              #userNotificationsComponent
+              [formGroup]="formGroup"
+              [user]="user"
+            >
             </app-user-notifications>
           </div>
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>location_on</mat-icon>
-            <span>{{'general.address' | translate}}</span>
+            <span>{{ 'general.address' | translate }}</span>
           </ng-template>
           <div class="card-body">
             <app-address [address]="address" [formGroup]="formGroup" [hideGeolocation]="true">
@@ -36,54 +55,60 @@
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>lock</mat-icon>
-            <span>{{'users.security' | translate}}</span>
+            <span>{{ 'users.security' | translate }}</span>
           </ng-template>
           <div class="card-body">
-            <app-user-security #userSecurityComponent [formGroup]="formGroup" [user]='user'>
+            <app-user-security #userSecurityComponent [formGroup]="formGroup" [user]="user">
             </app-user-security>
           </div>
         </mat-tab>
         <mat-tab *ngIf="!isSuperAdmin">
           <ng-template mat-tab-label>
             <mat-icon>link</mat-icon>
-            <span>{{'general.connectors' | translate}}</span>
+            <span>{{ 'general.connectors' | translate }}</span>
           </ng-template>
           <ng-template matTabContent>
             <div class="card-body">
-              <app-user-connectors [user]='user'>
-              </app-user-connectors>
+              <app-user-connectors [user]="user"> </app-user-connectors>
             </div>
           </ng-template>
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon>more_horiz</mat-icon>
-            <span>{{'users.miscs' | translate}}</span>
+            <span>{{ 'users.miscs' | translate }}</span>
           </ng-template>
           <div class="card-body">
-            <app-user-miscs [formGroup]="formGroup" [user]='user'>
-            </app-user-miscs>
+            <app-user-miscs [formGroup]="formGroup" [user]="user"> </app-user-miscs>
           </div>
         </mat-tab>
-        <mat-tab *ngIf="isBillingComponentActive && canListPaymentMethods && (dialogMode !== 'C')">
+        <mat-tab *ngIf="isBillingComponentActive && canListPaymentMethods && dialogMode !== 'C'">
           <ng-template mat-tab-label>
             <mat-icon>payment</mat-icon>
-            <span>{{'users.tabs.billing' | translate}}</span>
+            <span>{{ 'users.tabs.billing' | translate }}</span>
           </ng-template>
           <ng-template matTabContent>
             <div class="card-body card-profile">
-              <app-payment-methods [currentUserID]="currentUserID">
-              </app-payment-methods>
+              <app-payment-methods [currentUserID]="currentUserID"> </app-payment-methods>
             </div>
           </ng-template>
         </mat-tab>
       </mat-tab-group>
       <div [class]="dialogRef ? 'tabs-actions' : 'tabs-actions-embedded'">
-        <button mat-icon-button (click)="saveUser(formGroup.getRawValue())" title="{{'general.save' | translate}}"
-            [disabled]="!formGroup.valid || !formGroup.dirty">
+        <button
+          mat-icon-button
+          (click)="saveUser(formGroup.getRawValue())"
+          title="{{ 'general.save' | translate }}"
+          [disabled]="!formGroup.valid || !formGroup.dirty"
+        >
           <mat-icon>save</mat-icon>
         </button>
-        <button mat-icon-button *ngIf="dialogRef" (click)="close()" title="{{'general.close' | translate}}">
+        <button
+          mat-icon-button
+          *ngIf="dialogRef"
+          (click)="close()"
+          title="{{ 'general.close' | translate }}"
+        >
           <mat-icon>close</mat-icon>
         </button>
       </div>

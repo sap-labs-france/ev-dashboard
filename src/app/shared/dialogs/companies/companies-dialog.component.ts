@@ -10,13 +10,14 @@ import { CompaniesDialogTableDataSource } from './companies-dialog-table-data-so
 @Component({
   templateUrl: '../dialog-table-data.component.html',
   providers: [CompaniesDialogTableDataSource],
-  styleUrls: ['../dialog-table-data.component.scss']
+  styleUrls: ['../dialog-table-data.component.scss'],
 })
 export class CompaniesDialogComponent extends DialogTableDataComponent<Company> {
   public constructor(
     public companiesDataSource: CompaniesDialogTableDataSource,
     protected dialogRef: MatDialogRef<CompaniesDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: any) {
+    @Inject(MAT_DIALOG_DATA) data: any
+  ) {
     // Super class
     super(data, dialogRef, companiesDataSource);
     // Default title

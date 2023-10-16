@@ -22,7 +22,7 @@ import { ChargingStationParametersComponent } from './parameters/charging-statio
 @Component({
   selector: 'app-charging-station',
   templateUrl: 'charging-station.component.html',
-  styleUrls: ['charging-station.component.scss']
+  styleUrls: ['charging-station.component.scss'],
 })
 export class ChargingStationComponent implements OnInit {
   @Input() public chargingStationID!: string;
@@ -30,7 +30,8 @@ export class ChargingStationComponent implements OnInit {
   @Input() public dialogMode!: DialogMode;
   @Input() public chargingStationsAuthorizations!: ChargingStationsAuthorizations;
 
-  @ViewChild('chargingStationParameters', { static: true }) public chargingStationParametersComponent!: ChargingStationParametersComponent;
+  @ViewChild('chargingStationParameters', { static: true })
+  public chargingStationParametersComponent!: ChargingStationParametersComponent;
 
   public formGroup: UntypedFormGroup;
   public chargingStation: ChargingStation;
@@ -54,7 +55,8 @@ export class ChargingStationComponent implements OnInit {
     private dialogService: DialogService,
     protected activatedRoute: ActivatedRoute,
     private utilsService: UtilsService,
-    private router: Router) {
+    private router: Router
+  ) {
     // Get Locales
     this.userLocales = this.localeService.getLocales();
     this.formGroup = new UntypedFormGroup({});
@@ -93,10 +95,15 @@ export class ChargingStationComponent implements OnInit {
               this.messageService.showErrorMessage('chargers.charger_not_found');
               break;
             default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'chargers.charger_not_found');
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'chargers.charger_not_found'
+              );
           }
-        }
+        },
       });
     }
   }
@@ -116,8 +123,9 @@ export class ChargingStationComponent implements OnInit {
       next: (response) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage('chargers.change_config_success',
-            { chargeBoxID: this.chargingStation.id });
+          this.messageService.showSuccessMessage('chargers.change_config_success', {
+            chargeBoxID: this.chargingStation.id,
+          });
           this.closeDialog(true);
         } else {
           this.messageService.showErrorMessage('chargers.change_config_error');
@@ -139,10 +147,15 @@ export class ChargingStationComponent implements OnInit {
             this.messageService.showErrorMessage('chargers.update_public_cs_error');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'chargers.change_config_error');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'chargers.change_config_error'
+            );
         }
-      }
+      },
     });
   }
 
@@ -157,8 +170,12 @@ export class ChargingStationComponent implements OnInit {
   }
 
   public close() {
-    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService, this.translateService,
-      this.saveChargingStation.bind(this), this.closeDialog.bind(this));
+    Utils.checkAndSaveAndCloseDialog(
+      this.formGroup,
+      this.dialogService,
+      this.translateService,
+      this.saveChargingStation.bind(this),
+      this.closeDialog.bind(this)
+    );
   }
-
 }

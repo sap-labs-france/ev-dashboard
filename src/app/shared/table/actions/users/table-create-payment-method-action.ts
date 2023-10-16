@@ -9,8 +9,12 @@ import { TableActionDef } from '../../../../types/Table';
 import { TableCreateAction } from '../table-create-action';
 
 export interface TableCreatePaymentMethodActionDef extends TableActionDef {
-  action: (paymentMethodDialogComponent: ComponentType<unknown>, dialog: MatDialog, dialogParams: DialogParams<PaymentDialogData>,
-    refresh?: () => Observable<void>) => void;
+  action: (
+    paymentMethodDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParams<PaymentDialogData>,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableCreatePaymentMethodAction extends TableCreateAction {
@@ -25,8 +29,12 @@ export class TableCreatePaymentMethodAction extends TableCreateAction {
     };
   }
 
-  private createPaymentMethod(paymentMethodDialogComponent: ComponentType<unknown>,
-    dialog: MatDialog, dialogParams: DialogParams<PaymentDialogData>, refresh?: () => Observable<void>) {
+  private createPaymentMethod(
+    paymentMethodDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParams<PaymentDialogData>,
+    refresh?: () => Observable<void>
+  ) {
     super.create(paymentMethodDialogComponent, dialog, dialogParams, refresh);
   }
 }

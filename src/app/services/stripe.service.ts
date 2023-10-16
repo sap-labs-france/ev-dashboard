@@ -13,7 +13,6 @@ import { MessageService } from './message.service';
 
 @Injectable()
 export class StripeService {
-
   private static stripeFacade: Stripe;
 
   // eslint-disable-next-line no-useless-constructor
@@ -21,9 +20,8 @@ export class StripeService {
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private messageService: MessageService,
-    private router: Router,
-  ) {
-  }
+    private router: Router
+  ) {}
 
   public async initializeStripe(): Promise<Stripe> {
     if (!StripeService.stripeFacade) {
@@ -54,8 +52,13 @@ export class StripeService {
           this.messageService.showErrorMessage('settings.billing.not_found');
           break;
         default:
-          Utils.handleHttpError(error, this.router, this.messageService,
-            this.centralServerService, 'general.unexpected_error_backend');
+          Utils.handleHttpError(
+            error,
+            this.router,
+            this.messageService,
+            this.centralServerService,
+            'general.unexpected_error_backend'
+          );
       }
     }
   }

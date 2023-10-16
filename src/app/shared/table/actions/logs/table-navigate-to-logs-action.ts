@@ -7,7 +7,7 @@ export class TableNavigateToLogsAction extends TableOpenURLAction {
       ...super.getActionDef(),
       id: LogButtonAction.NAVIGATE_TO_LOGS,
       name: 'logs.redirect',
-      tooltip: 'logs.redirect'
+      tooltip: 'logs.redirect',
     };
   }
 }

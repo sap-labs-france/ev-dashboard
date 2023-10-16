@@ -24,12 +24,7 @@ import { TableComponent } from './table.component';
     ReactiveFormsModule,
     NgxDaterangepickerMd,
   ],
-  declarations: [
-    TableComponent,
-  ],
-  exports: [
-    TableComponent,
-  ],
+  declarations: [TableComponent],
+  exports: [TableComponent],
 })
-export class TableModule {
-}
+export class TableModule {}

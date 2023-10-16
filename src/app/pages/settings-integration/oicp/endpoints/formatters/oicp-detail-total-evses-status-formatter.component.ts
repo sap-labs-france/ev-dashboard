@@ -7,8 +7,8 @@ import { OicpEndpointDetail } from '../../../../../types/oicp/OICPEndpoint';
 @Component({
   template: `
     <mat-chip-list [selectable]="false">
-      <mat-chip [ngClass]="row.totalNbr | appFormatOicpEvsesTotal:'class'" [disabled]="true">
-        {{row.totalNbr | appFormatOicpEvsesTotal:'text'}}
+      <mat-chip [ngClass]="row.totalNbr | appFormatOicpEvsesTotal : 'class'" [disabled]="true">
+        {{ row.totalNbr | appFormatOicpEvsesTotal : 'text' }}
       </mat-chip>
     </mat-chip-list>
   `,
@@ -30,7 +30,7 @@ export class AppFormatOicpEvsesTotalPipe implements PipeTransform {
       return classNames;
     }
     if (type === 'text') {
-      return (totalNbr > 0 ? totalNbr.toString() : '-');
+      return totalNbr > 0 ? totalNbr.toString() : '-';
     }
     return '';
   }

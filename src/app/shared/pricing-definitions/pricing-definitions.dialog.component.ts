@@ -7,7 +7,8 @@ import { PricingDefinitionDialogData } from '../../types/Pricing';
 import { PricingDefinitionsComponent } from './pricing-definitions.component';
 
 @Component({
-  template: '<app-pricing-definitions #appRef [currentPricingDefinitionID]="currentPricingDefinitionID" [currentEntityID]="currentEntityID" [currentEntityType]="currentEntityType" [currentEntityName]="currentEntityName" [inDialog]="true" [dialogRef]="dialogRef"></app-pricing-definitions>',
+  template:
+    '<app-pricing-definitions #appRef [currentPricingDefinitionID]="currentPricingDefinitionID" [currentEntityID]="currentEntityID" [currentEntityType]="currentEntityType" [currentEntityName]="currentEntityName" [inDialog]="true" [dialogRef]="dialogRef"></app-pricing-definitions>',
 })
 export class PricingDefinitionsDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: PricingDefinitionsComponent;
@@ -19,7 +20,8 @@ export class PricingDefinitionsDialogComponent implements AfterViewInit {
 
   public constructor(
     public dialogRef: MatDialogRef<PricingDefinitionsComponent>,
-    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<PricingDefinitionDialogData>) {
+    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<PricingDefinitionDialogData>
+  ) {
     this.currentPricingDefinitionID = dialogParams?.dialogData?.id;
     this.currentEntityID = dialogParams?.dialogData?.context?.entityID;
     this.currentEntityType = dialogParams?.dialogData?.context?.entityType;
@@ -36,5 +38,4 @@ export class PricingDefinitionsDialogComponent implements AfterViewInit {
     // Register key event
     Utils.registerCloseKeyEvents(this.dialogRef);
   }
-
 }

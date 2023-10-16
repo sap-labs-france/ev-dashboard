@@ -1,5 +1,12 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { AbstractControl, UntypedFormArray, UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  UntypedFormArray,
+  UntypedFormControl,
+  UntypedFormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CentralServerService } from 'services/central-server.service';
@@ -8,7 +15,14 @@ import { MessageService } from 'services/message.service';
 import { SpinnerService } from 'services/spinner.service';
 import { QrCodeDialogComponent } from 'shared/dialogs/qr-code/qr-code-dialog.component';
 import { CONNECTOR_TYPE_MAP } from 'shared/formatters/app-connector-type.pipe';
-import { ChargePoint, ChargingStation, Connector, CurrentType, OCPPPhase, Voltage } from 'types/ChargingStation';
+import {
+  ChargePoint,
+  ChargingStation,
+  Connector,
+  CurrentType,
+  OCPPPhase,
+  Voltage,
+} from 'types/ChargingStation';
 import { Image } from 'types/GlobalType';
 import { TenantComponents } from 'types/Tenant';
 import { Utils } from 'utils/Utils';
@@ -38,14 +52,44 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
     { key: CurrentType.DC, description: 'chargers.direct_current' },
   ];
   public phaseAssignmentToGridMapThreePhased = [
-    { description: 'chargers.phase_combinations.three_phased.cs_1_g_1', phaseAssignmentToGrid: { csPhaseL1: OCPPPhase.L1, csPhaseL2: OCPPPhase.L2, csPhaseL3: OCPPPhase.L3 } },
-    { description: 'chargers.phase_combinations.three_phased.cs_1_g_2', phaseAssignmentToGrid: { csPhaseL1: OCPPPhase.L2, csPhaseL2: OCPPPhase.L3, csPhaseL3: OCPPPhase.L1 } },
-    { description: 'chargers.phase_combinations.three_phased.cs_1_g_3', phaseAssignmentToGrid: { csPhaseL1: OCPPPhase.L3, csPhaseL2: OCPPPhase.L1, csPhaseL3: OCPPPhase.L2 } },
+    {
+      description: 'chargers.phase_combinations.three_phased.cs_1_g_1',
+      phaseAssignmentToGrid: {
+        csPhaseL1: OCPPPhase.L1,
+        csPhaseL2: OCPPPhase.L2,
+        csPhaseL3: OCPPPhase.L3,
+      },
+    },
+    {
+      description: 'chargers.phase_combinations.three_phased.cs_1_g_2',
+      phaseAssignmentToGrid: {
+        csPhaseL1: OCPPPhase.L2,
+        csPhaseL2: OCPPPhase.L3,
+        csPhaseL3: OCPPPhase.L1,
+      },
+    },
+    {
+      description: 'chargers.phase_combinations.three_phased.cs_1_g_3',
+      phaseAssignmentToGrid: {
+        csPhaseL1: OCPPPhase.L3,
+        csPhaseL2: OCPPPhase.L1,
+        csPhaseL3: OCPPPhase.L2,
+      },
+    },
   ];
   public phaseAssignmentToGridMapSinglePhased = [
-    { description: 'chargers.phase_combinations.single_phased.cs_1_g_1', phaseAssignmentToGrid: { csPhaseL1: OCPPPhase.L1, csPhaseL2: null, csPhaseL3: null } },
-    { description: 'chargers.phase_combinations.single_phased.cs_1_g_2', phaseAssignmentToGrid: { csPhaseL1: OCPPPhase.L2, csPhaseL2: null, csPhaseL3: null } },
-    { description: 'chargers.phase_combinations.single_phased.cs_1_g_3', phaseAssignmentToGrid: { csPhaseL1: OCPPPhase.L3, csPhaseL2: null, csPhaseL3: null } },
+    {
+      description: 'chargers.phase_combinations.single_phased.cs_1_g_1',
+      phaseAssignmentToGrid: { csPhaseL1: OCPPPhase.L1, csPhaseL2: null, csPhaseL3: null },
+    },
+    {
+      description: 'chargers.phase_combinations.single_phased.cs_1_g_2',
+      phaseAssignmentToGrid: { csPhaseL1: OCPPPhase.L2, csPhaseL2: null, csPhaseL3: null },
+    },
+    {
+      description: 'chargers.phase_combinations.single_phased.cs_1_g_3',
+      phaseAssignmentToGrid: { csPhaseL1: OCPPPhase.L3, csPhaseL2: null, csPhaseL3: null },
+    },
   ];
   public phaseAssignmentToGridMap = this.phaseAssignmentToGridMapThreePhased;
   public initialized = false;
@@ -68,7 +112,8 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
     private centralServerService: CentralServerService,
     private spinnerService: SpinnerService,
     private router: Router,
-    private messageService: MessageService) {
+    private messageService: MessageService
+  ) {
     this.ocpiActive = this.componentService.isActive(TenantComponents.OCPI);
   }
 
@@ -76,27 +121,28 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
     // Init connectors
     this.formConnectorGroup = new UntypedFormGroup({
       connectorId: new UntypedFormControl(this.connector.connectorId),
-      type: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.pattern('^[^U]*$'),
-        ])
+      type: new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, Validators.pattern('^[^U]*$')])
       ),
-      power: new UntypedFormControl(0,
-        Validators.compose([
-          Validators.required,
-          Validators.min(1),
-          Validators.pattern('^[+]?[0-9]*$'),
-        ])
-      ),
-      voltage: new UntypedFormControl(Voltage.VOLTAGE_230,
+      power: new UntypedFormControl(
+        0,
         Validators.compose([
           Validators.required,
           Validators.min(1),
           Validators.pattern('^[+]?[0-9]*$'),
         ])
       ),
-      amperage: new UntypedFormControl(0,
+      voltage: new UntypedFormControl(
+        Voltage.VOLTAGE_230,
+        Validators.compose([
+          Validators.required,
+          Validators.min(1),
+          Validators.pattern('^[+]?[0-9]*$'),
+        ])
+      ),
+      amperage: new UntypedFormControl(
+        0,
         Validators.compose([
           Validators.required,
           Validators.min(1),
@@ -104,29 +150,18 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
           this.amperagePhaseValidator.bind(this),
         ])
       ),
-      amperagePerPhase: new UntypedFormControl(0,
+      amperagePerPhase: new UntypedFormControl(
+        0,
         Validators.compose([
           Validators.required,
           Validators.min(1),
           Validators.pattern('^[+]?[0-9]*$'),
         ])
       ),
-      numberOfConnectedPhase: new UntypedFormControl(3,
-        Validators.compose([
-          Validators.required,
-        ])
-      ),
-      phaseAssignmentToGrid: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])
-      ),
+      numberOfConnectedPhase: new UntypedFormControl(3, Validators.compose([Validators.required])),
+      phaseAssignmentToGrid: new UntypedFormControl('', Validators.compose([Validators.required])),
       currentType: new UntypedFormControl(CurrentType.AC),
-      tariffID: new UntypedFormControl(null,
-        Validators.compose([
-          Validators.maxLength(36)
-        ])
-      )
+      tariffID: new UntypedFormControl(null, Validators.compose([Validators.maxLength(36)])),
     });
     // Add to form array
     this.formConnectorsArray.push(this.formConnectorGroup);
@@ -157,31 +192,66 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
 
   public loadConnector() {
     if (this.initialized && this.connector && this.formConnectorGroup) {
-      const chargePoint = Utils.getChargePointFromID(this.chargingStation, this.connector.chargePointID);
+      const chargePoint = Utils.getChargePointFromID(
+        this.chargingStation,
+        this.connector.chargePointID
+      );
       // Update connector values
       this.type.setValue(this.connector.type);
       this.power.setValue(
-        Utils.getChargingStationPower(this.chargingStation, this.chargePoint, this.connector.connectorId));
+        Utils.getChargingStationPower(
+          this.chargingStation,
+          this.chargePoint,
+          this.connector.connectorId
+        )
+      );
       this.voltage.setValue(
-        Utils.getChargingStationVoltage(this.chargingStation, this.chargePoint, this.connector.connectorId));
+        Utils.getChargingStationVoltage(
+          this.chargingStation,
+          this.chargePoint,
+          this.connector.connectorId
+        )
+      );
       this.amperage.setValue(
-        Utils.getChargingStationAmperage(this.chargingStation, this.chargePoint, this.connector.connectorId));
+        Utils.getChargingStationAmperage(
+          this.chargingStation,
+          this.chargePoint,
+          this.connector.connectorId
+        )
+      );
       this.currentType.setValue(
-        Utils.getChargingStationCurrentType(this.chargingStation, this.chargePoint, this.connector.connectorId));
+        Utils.getChargingStationCurrentType(
+          this.chargingStation,
+          this.chargePoint,
+          this.connector.connectorId
+        )
+      );
       this.numberOfConnectedPhase.setValue(
-        Utils.getNumberOfConnectedPhases(this.chargingStation, chargePoint, this.connector.connectorId));
+        Utils.getNumberOfConnectedPhases(
+          this.chargingStation,
+          chargePoint,
+          this.connector.connectorId
+        )
+      );
       if (this.numberOfConnectedPhase.value === 1) {
         this.phaseAssignmentToGridMap = this.phaseAssignmentToGridMapSinglePhased;
       } else {
         this.phaseAssignmentToGridMap = this.phaseAssignmentToGridMapThreePhased;
       }
       if (this.connector.phaseAssignmentToGrid) {
-        this.phaseAssignmentToGrid.setValue(this.phaseAssignmentToGridMap[
-          this.phaseAssignmentToGridMap.findIndex(phaseAssignmentToGridMap =>
-            phaseAssignmentToGridMap.phaseAssignmentToGrid.csPhaseL1 === this.connector.phaseAssignmentToGrid.csPhaseL1)].
-          phaseAssignmentToGrid);
+        this.phaseAssignmentToGrid.setValue(
+          this.phaseAssignmentToGridMap[
+            this.phaseAssignmentToGridMap.findIndex(
+              (phaseAssignmentToGridMap) =>
+                phaseAssignmentToGridMap.phaseAssignmentToGrid.csPhaseL1 ===
+                this.connector.phaseAssignmentToGrid.csPhaseL1
+            )
+          ].phaseAssignmentToGrid
+        );
       }
-      this.amperagePerPhase.setValue((this.amperage.value as number) / (this.numberOfConnectedPhase.value as number));
+      this.amperagePerPhase.setValue(
+        (this.amperage.value as number) / (this.numberOfConnectedPhase.value as number)
+      );
       if (this.chargePoint && !this.manualConfiguration) {
         this.formConnectorGroup.disable();
         if (!this.readOnly) {
@@ -204,7 +274,8 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   public refreshPower() {
     if ((this.amperage.value as number) > 0 && (this.voltage.value as number) > 0) {
       this.power.setValue(
-        Math.floor((this.amperage.value as number) * (this.voltage.value as number)));
+        Math.floor((this.amperage.value as number) * (this.voltage.value as number))
+      );
     } else {
       this.power.setValue(0);
     }
@@ -231,7 +302,9 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
 
   public refreshTotalAmperage() {
     if ((this.amperagePerPhase.value as number) > 0) {
-      this.amperage.setValue((this.amperagePerPhase.value as number) * (this.numberOfConnectedPhase.value as number));
+      this.amperage.setValue(
+        (this.amperagePerPhase.value as number) * (this.numberOfConnectedPhase.value as number)
+      );
     } else {
       this.amperage.setValue(0);
     }
@@ -245,36 +318,44 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
 
   public generateQRCode() {
     this.spinnerService.show();
-    this.centralServerService.getConnectorQrCode(this.chargingStation.id, this.connector.connectorId).subscribe({
-      next: (qrCode: Image) => {
-        this.spinnerService.hide();
-        if (qrCode) {
-          // Create the dialog
-          const dialogConfig = new MatDialogConfig();
-          dialogConfig.minWidth = '70vw';
-          dialogConfig.minHeight = '70vh';
-          dialogConfig.disableClose = false;
-          dialogConfig.panelClass = 'transparent-dialog-container';
-          // Set data
-          dialogConfig.data = {
-            qrCode: qrCode.image,
-            connectorID: this.connector.connectorId,
-            chargingStationID: this.chargingStation.id,
-          };
-          // Disable outside click close
-          dialogConfig.disableClose = true;
-          // Open
-          this.dialog.open(QrCodeDialogComponent, dialogConfig)
-            .afterClosed().subscribe((result) => {
-            });
-        }
-      },
-      error: (error) => {
-        this.spinnerService.hide();
-        Utils.handleHttpError(error, this.router, this.messageService,
-          this.centralServerService, 'chargers.qr_code_generation_error');
-      }
-    });
+    this.centralServerService
+      .getConnectorQrCode(this.chargingStation.id, this.connector.connectorId)
+      .subscribe({
+        next: (qrCode: Image) => {
+          this.spinnerService.hide();
+          if (qrCode) {
+            // Create the dialog
+            const dialogConfig = new MatDialogConfig();
+            dialogConfig.minWidth = '70vw';
+            dialogConfig.minHeight = '70vh';
+            dialogConfig.disableClose = false;
+            dialogConfig.panelClass = 'transparent-dialog-container';
+            // Set data
+            dialogConfig.data = {
+              qrCode: qrCode.image,
+              connectorID: this.connector.connectorId,
+              chargingStationID: this.chargingStation.id,
+            };
+            // Disable outside click close
+            dialogConfig.disableClose = true;
+            // Open
+            this.dialog
+              .open(QrCodeDialogComponent, dialogConfig)
+              .afterClosed()
+              .subscribe((result) => {});
+          }
+        },
+        error: (error) => {
+          this.spinnerService.hide();
+          Utils.handleHttpError(
+            error,
+            this.router,
+            this.messageService,
+            this.centralServerService,
+            'chargers.qr_code_generation_error'
+          );
+        },
+      });
   }
 
   public amperageChanged() {
@@ -303,8 +384,10 @@ export class ChargingStationConnectorComponent implements OnInit, OnChanges {
   }
 
   private amperagePhaseValidator(amperageControl: AbstractControl): ValidationErrors | null {
-    if (!amperageControl.value ||
-      (((amperageControl.value as number) % (this.numberOfConnectedPhase.value as number)) === 0)) {
+    if (
+      !amperageControl.value ||
+      (amperageControl.value as number) % (this.numberOfConnectedPhase.value as number) === 0
+    ) {
       return null;
     }
     return { amperagePhases: true };

@@ -8,7 +8,7 @@
               <div class="social-line">
                 <img class="big-card-logo mb-2" [src]="tenantLogo" />
               </div>
-              <h4 class="card-title text-center">{{"authentication.register" | translate}}</h4>
+              <h4 class="card-title text-center">{{ 'authentication.register' | translate }}</h4>
             </div>
             <div class="card-body">
               <span class="bmd-form-group">
@@ -17,17 +17,35 @@
                     <span class="input-group-text">
                       <mat-icon>account_circle</mat-icon>
                       <mat-form-field class="ms-2">
-                        <input appAutofocus id="last-name-field" matInput type="text" placeholder="{{'users.name' | translate}}"
-                          [formControl]="name" required (input)="toUpperCase(name)">
-                        <mat-error *ngIf="name.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                        <input
+                          appAutofocus
+                          id="last-name-field"
+                          matInput
+                          type="text"
+                          placeholder="{{ 'users.name' | translate }}"
+                          [formControl]="name"
+                          required
+                          (input)="toUpperCase(name)"
+                        />
+                        <mat-error *ngIf="name.errors?.required">{{
+                          'general.mandatory_field' | translate
+                        }}</mat-error>
                       </mat-form-field>
                     </span>
                   </div>
                   <div class="input-group-prepend input-group-no-icon">
                     <mat-form-field class="ms-2">
-                      <input id="first-name-field" matInput type="text" placeholder="{{'users.first_name' | translate}}"
-                        [formControl]="firstName" (input)="firstLetterToUpperCase(firstName)" required>
-                      <mat-error *ngIf="firstName.errors?.required">{{"general.mandatory_field" | translate}}
+                      <input
+                        id="first-name-field"
+                        matInput
+                        type="text"
+                        placeholder="{{ 'users.first_name' | translate }}"
+                        [formControl]="firstName"
+                        (input)="firstLetterToUpperCase(firstName)"
+                        required
+                      />
+                      <mat-error *ngIf="firstName.errors?.required"
+                        >{{ 'general.mandatory_field' | translate }}
                       </mat-error>
                     </mat-form-field>
                   </div>
@@ -35,10 +53,21 @@
                     <span class="input-group-text">
                       <mat-icon>email</mat-icon>
                       <mat-form-field class="ms-2">
-                        <input id="email-field" matInput type="text" placeholder="{{'authentication.email' | translate}}"
-                          [formControl]="email" autocomplete="username" required>
-                        <mat-error *ngIf="email.errors?.email">{{"authentication.invalid_email" | translate}}</mat-error>
-                        <mat-error *ngIf="email.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                        <input
+                          id="email-field"
+                          matInput
+                          type="text"
+                          placeholder="{{ 'authentication.email' | translate }}"
+                          [formControl]="email"
+                          autocomplete="username"
+                          required
+                        />
+                        <mat-error *ngIf="email.errors?.email">{{
+                          'authentication.invalid_email' | translate
+                        }}</mat-error>
+                        <mat-error *ngIf="email.errors?.required">{{
+                          'general.mandatory_field' | translate
+                        }}</mat-error>
                       </mat-form-field>
                     </span>
                   </div>
@@ -46,9 +75,18 @@
                     <span class="input-group-text">
                       <mat-icon>smartphone</mat-icon>
                       <mat-form-field class="ms-2">
-                        <input [formControl]="mobile" matInput placeholder="{{'users.mobile' | translate}}" type="text">
-                        <mat-error *ngIf="mobile.errors?.invalidPhone">{{"users.invalid_phone_number" | translate}}</mat-error>
-                        <mat-error *ngIf="mobile.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                        <input
+                          [formControl]="mobile"
+                          matInput
+                          placeholder="{{ 'users.mobile' | translate }}"
+                          type="text"
+                        />
+                        <mat-error *ngIf="mobile.errors?.invalidPhone">{{
+                          'users.invalid_phone_number' | translate
+                        }}</mat-error>
+                        <mat-error *ngIf="mobile.errors?.required">{{
+                          'general.mandatory_field' | translate
+                        }}</mat-error>
                       </mat-form-field>
                     </span>
                   </div>
@@ -56,45 +94,83 @@
                     <span class="input-group-text">
                       <mat-icon>lock_outline</mat-icon>
                       <mat-form-field class="ms-2">
-                        <input id="password-field" matInput type="password" autocomplete="new-password"
-                          placeholder="{{'authentication.password' | translate}}"
-                          [type]="hidePassword ? 'password' : 'text'" [formControl]="password" required>
-                        <mat-icon matSuffix class="icon-clickable" (click)="hidePassword = !hidePassword">
-                          {{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
-                        <mat-error *ngIf="password.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
-                        <mat-error *ngIf="password.errors?.noSpace">{{"authentication.no_space_in_password" | translate}}
+                        <input
+                          id="password-field"
+                          matInput
+                          type="password"
+                          autocomplete="new-password"
+                          placeholder="{{ 'authentication.password' | translate }}"
+                          [type]="hidePassword ? 'password' : 'text'"
+                          [formControl]="password"
+                          required
+                        />
+                        <mat-icon
+                          matSuffix
+                          class="icon-clickable"
+                          (click)="hidePassword = !hidePassword"
+                        >
+                          {{ hidePassword ? 'visibility' : 'visibility_off' }}</mat-icon
+                        >
+                        <mat-error *ngIf="password.errors?.required">{{
+                          'general.mandatory_field' | translate
+                        }}</mat-error>
+                        <mat-error *ngIf="password.errors?.noSpace"
+                          >{{ 'authentication.no_space_in_password' | translate }}
                         </mat-error>
-                        <mat-error *ngIf="password.errors?.invalidPassword">{{"authentication.password_rule" | translate}}
+                        <mat-error *ngIf="password.errors?.invalidPassword"
+                          >{{ 'authentication.password_rule' | translate }}
                         </mat-error>
                       </mat-form-field>
                     </span>
                   </div>
                   <div class="input-group-prepend input-group-no-icon">
                     <mat-form-field class="ms-2">
-                      <input id="password-repeat-field" matInput type="password" autocomplete="new-password"
-                        placeholder="{{'authentication.repeat_password' | translate}}"
-                        [type]="hideRepeatPassword ? 'password' : 'text'" [formControl]="repeatPassword"
-                        [errorStateMatcher]="parentErrorStateMatcher" required>
-                      <mat-icon matSuffix class="icon-clickable" (click)="hideRepeatPassword = !hideRepeatPassword">
-                        {{hideRepeatPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
-                      <mat-error *ngIf="repeatPassword.errors?.required">{{"general.mandatory_field" | translate}}
+                      <input
+                        id="password-repeat-field"
+                        matInput
+                        type="password"
+                        autocomplete="new-password"
+                        placeholder="{{ 'authentication.repeat_password' | translate }}"
+                        [type]="hideRepeatPassword ? 'password' : 'text'"
+                        [formControl]="repeatPassword"
+                        [errorStateMatcher]="parentErrorStateMatcher"
+                        required
+                      />
+                      <mat-icon
+                        matSuffix
+                        class="icon-clickable"
+                        (click)="hideRepeatPassword = !hideRepeatPassword"
+                      >
+                        {{ hideRepeatPassword ? 'visibility' : 'visibility_off' }}</mat-icon
+                      >
+                      <mat-error *ngIf="repeatPassword.errors?.required"
+                        >{{ 'general.mandatory_field' | translate }}
                       </mat-error>
-                      <mat-error *ngIf="!repeatPassword.errors?.required && passwords.errors?.notEqual">
-                        {{"authentication.password_not_equal" | translate}}</mat-error>
+                      <mat-error
+                        *ngIf="!repeatPassword.errors?.required && passwords.errors?.notEqual"
+                      >
+                        {{ 'authentication.password_not_equal' | translate }}</mat-error
+                      >
                     </mat-form-field>
                   </div>
                   <div class="recaptcha-text">
-                    {{"general.captcha_text_1" | translate}}
-                    <a href="https://policies.google.com/privacy"
-                      target="_blank">{{"general.captcha_text_2" | translate}}</a>{{"general.captcha_text_3" | translate}}
-                    <a href="https://policies.google.com/terms"
-                      target="_blank">{{"general.captcha_text_4" | translate}}</a>{{"general.captcha_text_5" | translate}}.
+                    {{ 'general.captcha_text_1' | translate }}
+                    <a href="https://policies.google.com/privacy" target="_blank">{{
+                      'general.captcha_text_2' | translate
+                    }}</a
+                    >{{ 'general.captcha_text_3' | translate }}
+                    <a href="https://policies.google.com/terms" target="_blank">{{
+                      'general.captcha_text_4' | translate
+                    }}</a
+                    >{{ 'general.captcha_text_5' | translate }}.
                   </div>
                   <div class="input-group-prepend text-center mt-3 ms-2">
                     <mat-checkbox [formControl]="acceptEula" required>
-                      <span id="eula-checkbox" class="adapt-font-size">{{'authentication.accept' | translate}} </span>
+                      <span id="eula-checkbox" class="adapt-font-size"
+                        >{{ 'authentication.accept' | translate }}
+                      </span>
                       <a class="auth-link" href="/auth/eula" target="_blank">
-                        <span class="adapt-font-size">{{'authentication.eula' | translate}}</span>
+                        <span class="adapt-font-size">{{ 'authentication.eula' | translate }}</span>
                       </a>
                     </mat-checkbox>
                   </div>
@@ -102,8 +178,8 @@
               </span>
             </div>
             <div class="card-footer justify-content-center mb-4">
-              <button id="register-button" mat-button type="submit" [disabled]="!formGroup.valid">{{"authentication.register" |
-                translate}}
+              <button id="register-button" mat-button type="submit" [disabled]="!formGroup.valid">
+                {{ 'authentication.register' | translate }}
               </button>
             </div>
           </div>

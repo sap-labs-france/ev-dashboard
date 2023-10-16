@@ -16,21 +16,19 @@ import { UsersListTableDataSource } from './users-list-table-data-source';
   providers: [UsersListTableDataSource, UserComponent],
 })
 export class UsersListComponent implements OnInit {
-
   // eslint-disable-next-line no-useless-constructor
   public constructor(
     public usersListTableDataSource: UsersListTableDataSource,
     private authorizationService: AuthorizationService,
     private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
-    private router: Router) {
-  }
+    private router: Router
+  ) {}
 
   public ngOnInit(): void {
     let userID: string = null;
     // Check we are in /users/id route and get User ID if so or don't go further if user not authorize to update
-    if (this.activatedRoute.snapshot.params['id'] &&
-        !this.authorizationService.canUpdateUser()) {
+    if (this.activatedRoute.snapshot.params['id'] && !this.authorizationService.canUpdateUser()) {
       void this.router.navigate(['/']);
     } else if (this.activatedRoute.snapshot.params['id']) {
       this.activatedRoute.params.subscribe((params: Params) => {
@@ -40,7 +38,7 @@ export class UsersListComponent implements OnInit {
       const editAction = new TableEditUserAction().getActionDef();
       editAction.action(UserDialogComponent, this.dialog, {
         dialogData: { id: userID } as User,
-        dialogMode: DialogMode.EDIT
+        dialogMode: DialogMode.EDIT,
       });
     }
   }

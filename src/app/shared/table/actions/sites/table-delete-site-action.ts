@@ -11,8 +11,16 @@ import { TableActionDef } from '../../../../types/Table';
 import { TableDeleteAction } from '../table-delete-action';
 
 export interface TableDeleteSiteActionDef extends TableActionDef {
-  action: (site: Site, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) => void;
+  action: (
+    site: Site,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableDeleteSiteAction extends TableDeleteAction {
@@ -24,13 +32,30 @@ export class TableDeleteSiteAction extends TableDeleteAction {
     };
   }
 
-  private deleteSite(site: Site, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
+  private deleteSite(
+    site: Site,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) {
     super.delete(
-      site, 'sites.delete_title',
+      site,
+      'sites.delete_title',
       translateService.instant('sites.delete_confirm', { siteName: site.name }),
       translateService.instant('sites.delete_success', { siteName: site.name }),
-      'sites.delete_error', centralServerService.deleteSite.bind(centralServerService),
-      dialogService, translateService, messageService, centralServerService, spinnerService, router, refresh);
+      'sites.delete_error',
+      centralServerService.deleteSite.bind(centralServerService),
+      dialogService,
+      translateService,
+      messageService,
+      centralServerService,
+      spinnerService,
+      router,
+      refresh
+    );
   }
 }

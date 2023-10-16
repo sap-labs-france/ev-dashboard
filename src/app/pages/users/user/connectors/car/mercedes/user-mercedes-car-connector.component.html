@@ -2,29 +2,41 @@
   <div class="card mt-0">
     <div class="card-body">
       <div class="d-flex flex-row align-items-center">
-        <img src="/assets/img/integrations/mercedes-logo.png"
-          class="card-logo img-thumbnail me-3"/>
-        <h2 class="card-title">{{'settings.car_connector.types.mercedes' | translate}}</h2>
+        <img
+          src="/assets/img/integrations/mercedes-logo.png"
+          class="card-logo img-thumbnail me-3"
+        />
+        <h2 class="card-title">{{ 'settings.car_connector.types.mercedes' | translate }}</h2>
       </div>
     </div>
     <div class="card-footer">
-      <div *ngIf="isMercedesUserConnectionValid"
-            class="d-flex flex-row align-items-center justify-content-between">
+      <div
+        *ngIf="isMercedesUserConnectionValid"
+        class="d-flex flex-row align-items-center justify-content-between"
+      >
         <div class="d-flex flex-column align-items-start">
-          <span>{{'users.connectors.created_on' | translate}} {{ mercedesUserConnection.createdAt | appDate}}</span>
-          <span>{{'users.connectors.expired_on' | translate}} {{ mercedesUserConnection.validUntil | appDate}}</span>
+          <span
+            >{{ 'users.connectors.created_on' | translate }}
+            {{ mercedesUserConnection.createdAt | appDate }}</span
+          >
+          <span
+            >{{ 'users.connectors.expired_on' | translate }}
+            {{ mercedesUserConnection.validUntil | appDate }}</span
+          >
         </div>
         <button mat-raised-button color="warn" (click)="revokeMercedesAccount()">
           <mat-icon>delete</mat-icon>
-          <span>{{'users.connectors.revoke' | translate}}</span>
+          <span>{{ 'users.connectors.revoke' | translate }}</span>
         </button>
       </div>
-      <div *ngIf="!isMercedesUserConnectionValid"
-          class="d-flex flex-row align-items-center justify-content-between">
-        <span>{{'users.connectors.not_connected' | translate}} </span>
+      <div
+        *ngIf="!isMercedesUserConnectionValid"
+        class="d-flex flex-row align-items-center justify-content-between"
+      >
+        <span>{{ 'users.connectors.not_connected' | translate }} </span>
         <button mat-raised-button color="primary" (click)="linkMercedesAccount()">
           <mat-icon>launch</mat-icon>
-          <span>{{'users.connectors.connect' | translate}}</span>
+          <span>{{ 'users.connectors.connect' | translate }}</span>
         </button>
       </div>
     </div>

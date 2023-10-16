@@ -8,8 +8,12 @@ import { TableActionDef } from '../../../../types/Table';
 import { TableEditAction } from '../table-edit-action';
 
 export interface TableEditCarActionDef extends TableActionDef {
-  action: (carDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<Car, CarsAuthorizations>, refresh?: () => Observable<void>) => void;
+  action: (
+    carDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<Car, CarsAuthorizations>,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableEditCarAction extends TableEditAction {
@@ -21,8 +25,12 @@ export class TableEditCarAction extends TableEditAction {
     };
   }
 
-  private editCar(carDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<Car, CarsAuthorizations>, refresh?: () => Observable<void>) {
+  private editCar(
+    carDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<Car, CarsAuthorizations>,
+    refresh?: () => Observable<void>
+  ) {
     super.edit(carDialogComponent, dialog, dialogParams, refresh);
   }
 }

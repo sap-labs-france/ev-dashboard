@@ -1,37 +1,68 @@
 <div class="main-content">
   <div class="row" *ngIf="chargingStation.inactive">
     <div class="col-md-12 text-left mat-subheading-2 text-danger mb-3">
-      {{"chargers.smart_charging.charging_station_inactive" | translate }}
+      {{ 'chargers.smart_charging.charging_station_inactive' | translate }}
     </div>
   </div>
-  <div class="row"
-    *ngIf="!chargingStation.inactive && isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && chargingStation?.capabilities?.supportChargingProfiles && !chargingStation.excludeFromSmartCharging">
+  <div
+    class="row"
+    *ngIf="
+      !chargingStation.inactive &&
+      isSmartChargingComponentActive &&
+      chargingStation.siteArea?.smartCharging &&
+      chargingStation?.capabilities?.supportChargingProfiles &&
+      !chargingStation.excludeFromSmartCharging
+    "
+  >
     <div class="col-md-12 text-left mat-subheading-2 text-danger mb-3">
-      {{"chargers.smart_charging.smart_charging_enabled_static_limitation" | translate }}
+      {{ 'chargers.smart_charging.smart_charging_enabled_static_limitation' | translate }}
     </div>
   </div>
   <div class="row">
     <div class="col-md-6" *ngFor="let chargePoint of chargingStation?.chargePoints">
-      <div class="card"
-        *ngIf="chargePoint && !chargePoint.excludeFromPowerLimitation && chargePoint.ocppParamForPowerLimitation">
+      <div
+        class="card"
+        *ngIf="
+          chargePoint &&
+          !chargePoint.excludeFromPowerLimitation &&
+          chargePoint.ocppParamForPowerLimitation
+        "
+      >
         <div class="card-header card-header-primary card-header-icon">
           <div class="card-icon">
             <mat-icon>vertical_align_bottom</mat-icon>
           </div>
           <h3 class="card-title text-left">
-            {{chargingStation.id}} - {{'chargers.charge_point' | translate}} {{chargePoint.chargePointID}}
+            {{ chargingStation.id }} - {{ 'chargers.charge_point' | translate }}
+            {{ chargePoint.chargePointID }}
           </h3>
         </div>
         <div class="card-body">
           <div class="row pt-3">
-            <app-charging-station-power-slider class="col-md-12" [chargingStation]="chargingStation"
-              [chargePoint]="chargePoint" (sliderChangedEmitter)="powerSliderChanged(chargePoint, $event)">
+            <app-charging-station-power-slider
+              class="col-md-12"
+              [chargingStation]="chargingStation"
+              [chargePoint]="chargePoint"
+              (sliderChangedEmitter)="powerSliderChanged(chargePoint, $event)"
+            >
             </app-charging-station-power-slider>
           </div>
           <div class="col-md-12 text-right">
-            <button mat-raised-button color="primary" (click)="applyStaticLimitConfirm(chargePoint)"
-              [disabled]="chargingStation.inactive || !chargePoint?.ampCurrentLimit || !chargingStation.canLimitPower || (isSmartChargingComponentActive && chargingStation.siteArea?.smartCharging && chargingStation?.capabilities?.supportChargingProfiles && !chargingStation.excludeFromSmartCharging)">
-              <mat-icon>save</mat-icon><span>{{'general.apply' | translate}}</span>
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="applyStaticLimitConfirm(chargePoint)"
+              [disabled]="
+                chargingStation.inactive ||
+                !chargePoint?.ampCurrentLimit ||
+                !chargingStation.canLimitPower ||
+                (isSmartChargingComponentActive &&
+                  chargingStation.siteArea?.smartCharging &&
+                  chargingStation?.capabilities?.supportChargingProfiles &&
+                  !chargingStation.excludeFromSmartCharging)
+              "
+            >
+              <mat-icon>save</mat-icon><span>{{ 'general.apply' | translate }}</span>
             </button>
           </div>
         </div>

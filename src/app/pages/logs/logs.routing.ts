@@ -6,7 +6,10 @@ import { LogsListComponent } from './list/logs-list.component';
 
 export const LogsRoutes: Routes = [
   {
-    path: '', component: LogsListComponent, canActivate: [RouteGuardService], data: {
+    path: '',
+    component: LogsListComponent,
+    canActivate: [RouteGuardService],
+    data: {
       auth: {
         entity: Entity.LOGGING,
         action: Action.LIST,

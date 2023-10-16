@@ -83,7 +83,7 @@ import { SiteComponent } from './sites/site/site.component';
     SiteUsersSiteAdminComponent,
     SiteUsersSiteOwnerComponent,
     SiteAreaConsumptionChartComponent,
-    SiteAreaConsumptionChartDetailComponent
+    SiteAreaConsumptionChartDetailComponent,
   ],
   providers: [
     CompaniesListTableDataSource,
@@ -92,8 +92,6 @@ import { SiteComponent } from './sites/site/site.component';
     SiteAreaAssetsDataSource,
     SitesListTableDataSource,
     SiteUsersTableDataSource,
-  ]
+  ],
 })
-
-export class OrganizationModule {
-}
+export class OrganizationModule {}

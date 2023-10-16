@@ -1,9 +1,15 @@
 <div class="main-content">
-  <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex" animationDuration="0ms"
-    disableRipple="true" class="h-100 mat-tab-info">
+  <mat-tab-group
+    (selectedIndexChange)="updateRoute($event)"
+    [selectedIndex]="activeTabIndex"
+    animationDuration="0ms"
+    disableRipple="true"
+    class="h-100 mat-tab-info"
+  >
     <mat-tab *ngIf="canReadTenant">
       <ng-template mat-tab-label>
-        <mat-icon>business</mat-icon><span>{{'technical_settings.tabs.organization' | translate}}</span>
+        <mat-icon>business</mat-icon
+        ><span>{{ 'technical_settings.tabs.organization' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-tenant-data></app-tenant-data>
@@ -11,7 +17,8 @@
     </mat-tab>
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon>enhanced_encryption</mat-icon><span>{{'technical_settings.tabs.crypto' | translate}}</span>
+        <mat-icon>enhanced_encryption</mat-icon
+        ><span>{{ 'technical_settings.tabs.crypto' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-settings-crypto></app-settings-crypto>
@@ -19,7 +26,8 @@
     </mat-tab>
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon>manage_accounts</mat-icon><span>{{'technical_settings.tabs.users' | translate}}</span>
+        <mat-icon>manage_accounts</mat-icon
+        ><span>{{ 'technical_settings.tabs.users' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-settings-user></app-settings-user>

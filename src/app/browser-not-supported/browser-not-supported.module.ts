@@ -6,9 +6,6 @@ import { BrowserNotSupportedComponent } from './browser-not-supported.component'
 
 @NgModule({
   declarations: [BrowserNotSupportedComponent],
-  imports: [
-    CommonModule,
-    TranslateModule,
-  ],
+  imports: [CommonModule, TranslateModule],
 })
-export class BrowserNotSupportedModule { }
+export class BrowserNotSupportedModule {}

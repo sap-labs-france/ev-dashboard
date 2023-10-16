@@ -5,7 +5,7 @@ import { TenantComponents } from './Tenant';
 
 export enum TechnicalSettings {
   USER = 'user',
-  CRYPTO = 'crypto'
+  CRYPTO = 'crypto',
 }
 export interface Setting extends TableData, CreatedUpdatedProps, SettingAuthorizationActions {
   identifier: TenantComponents | TechnicalSettings;
@@ -16,16 +16,18 @@ export interface SettingDB extends CreatedUpdatedProps, Setting {
   content: SettingDBContent;
 }
 
-type SettingsType = CryptoSettingsType
-| RoamingSettingsType
-| AnalyticsSettingsType
-| RefundSettingsType
-| PricingSettingsType
-| BillingSettingsType
-| SmartChargingSettingsType
-| AssetSettingsType
-| CarConnectorSettingsType
-| UserSettingsType;
+type SettingsType =
+  | CryptoSettingsType
+  | RoamingSettingsType
+  | AnalyticsSettingsType
+  | RefundSettingsType
+  | PricingSettingsType
+  | BillingSettingsType
+  | SmartChargingSettingsType
+  | AssetSettingsType
+  | CarConnectorSettingsType
+  | UserSettingsType
+  | ReservationSettingsType;
 
 export interface SettingDBContent {
   type: SettingsType;
@@ -267,7 +269,9 @@ export interface AssetGreencomConnectionType {
   clientSecret: string;
 }
 
-export interface AssetWitConnectionType extends AssetUserPasswordConnectionType, OAuth2ConnectionType  {
+export interface AssetWitConnectionType
+  extends AssetUserPasswordConnectionType,
+  OAuth2ConnectionType {
   authenticationUrl: string;
 }
 
@@ -299,7 +303,7 @@ export enum CarConnectorConnectionType {
   NONE = '',
   MERCEDES = 'mercedes',
   TRONITY = 'tronity',
-  TARGA_TELEMATICS = 'targaTelematics'
+  TARGA_TELEMATICS = 'targaTelematics',
 }
 
 export interface OAuth2ConnectionType {
@@ -356,4 +360,14 @@ export interface UserSettings extends SettingDB {
 
 export interface UserSetting {
   autoActivateAccountAfterValidation: boolean;
+}
+
+export enum ReservationSettingsType {
+  RESERVE_NOW = 'reservation',
+  PLANNED_RESERVATION = 'planned_reservation',
+}
+
+export interface ReservationSettings extends SettingDB {
+  identifier: TenantComponents.RESERVATION;
+  type: ReservationSettingsType;
 }

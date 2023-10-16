@@ -10,7 +10,5 @@ import { AssetsListTableDataSource } from './assets-list-table-data-source';
 })
 export class AssetsListComponent {
   // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    public assetsListTableDataSource: AssetsListTableDataSource,
-  ) {}
+  public constructor(public assetsListTableDataSource: AssetsListTableDataSource) {}
 }

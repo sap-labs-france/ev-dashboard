@@ -7,7 +7,8 @@ import { Utils } from '../../../utils/Utils';
 import { AssetComponent } from './asset.component';
 
 @Component({
-  template: '<app-asset #appRef [currentAssetID]="assetID" [dialogMode]="dialogMode" [assetsAuthorizations]="assetsAuthorizations" [dialogRef]="dialogRef"></app-asset>',
+  template:
+    '<app-asset #appRef [currentAssetID]="assetID" [dialogMode]="dialogMode" [assetsAuthorizations]="assetsAuthorizations" [dialogRef]="dialogRef"></app-asset>',
 })
 export class AssetDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: AssetComponent;
@@ -17,7 +18,8 @@ export class AssetDialogComponent implements AfterViewInit {
 
   public constructor(
     public dialogRef: MatDialogRef<AssetDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<Asset, AssetsAuthorizations>) {
+    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<Asset, AssetsAuthorizations>
+  ) {
     this.assetID = dialogParams.dialogData?.id as string;
     this.dialogMode = dialogParams.dialogMode;
     this.assetsAuthorizations = dialogParams.authorizations;
@@ -25,7 +27,11 @@ export class AssetDialogComponent implements AfterViewInit {
 
   public ngAfterViewInit() {
     // Register key event
-    Utils.registerSaveCloseKeyEvents(this.dialogRef, this.appRef.formGroup,
-      this.appRef.saveAsset.bind(this.appRef), this.appRef.close.bind(this.appRef));
+    Utils.registerSaveCloseKeyEvents(
+      this.dialogRef,
+      this.appRef.formGroup,
+      this.appRef.saveAsset.bind(this.appRef),
+      this.appRef.close.bind(this.appRef)
+    );
   }
 }

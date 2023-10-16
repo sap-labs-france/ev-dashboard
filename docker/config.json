@@ -1,9 +1,9 @@
 {
   "CentralSystemServer": {
     "protocol": "http",
-    "host": "localhost",
+    "host": "server",
     "port": 81,
-		"pollIntervalSecs": 10
+    "pollIntervalSecs": 10
   },
   "Authorization": {
     "debug": false
@@ -36,7 +36,7 @@
   "Vehicle": {
     "maxPictureKb": 250
   },
-  
+
   "Advanced": {
     "debounceTimeNotifMillis": 50,
     "debounceTimeSearchMillis": 500

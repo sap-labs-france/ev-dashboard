@@ -6,41 +6,54 @@
           <mat-icon>group_work</mat-icon>
         </div>
         <h4 class="card-title text-left">
-          {{'chargers.charge_point' | translate}} {{chargePoint?.chargePointID}}
+          {{ 'chargers.charge_point' | translate }} {{ chargePoint?.chargePointID }}
         </h4>
       </div>
       <div class="card-body">
         <div class="d-flex flex-row text-left">
           <div class="col-md-3" *ngIf="currentType?.value === 'DC'">
             <mat-form-field>
-              <input matInput placeholder="{{'chargers.efficiency' | translate}}" [formControl]="efficiency"
-                [readOnly]="readOnly" />
-              <mat-error *ngIf="efficiency?.invalid">{{'chargers.invalid_efficiency' | translate}}</mat-error>
+              <input
+                matInput
+                placeholder="{{ 'chargers.efficiency' | translate }}"
+                [formControl]="efficiency"
+                [readOnly]="readOnly"
+              />
+              <mat-error *ngIf="efficiency?.invalid">{{
+                'chargers.invalid_efficiency' | translate
+              }}</mat-error>
             </mat-form-field>
           </div>
           <div class="ms-2 col-md-3 align-self-center" *ngIf="connectorIDs?.value?.length > 1">
             <mat-checkbox [formControl]="cannotChargeInParallel" (change)="adjustMaximumPower()">
-              {{'chargers.cant_charge_in_parallel' | translate}}
+              {{ 'chargers.cant_charge_in_parallel' | translate }}
             </mat-checkbox>
           </div>
           <div class="col-md-3 align-self-center" *ngIf="connectorIDs?.value?.length > 1">
             <mat-checkbox [formControl]="sharePowerToAllConnectors" (change)="adjustMaximumPower()">
-              {{'chargers.share_power_to_all_connectors' | translate}}
+              {{ 'chargers.share_power_to_all_connectors' | translate }}
             </mat-checkbox>
           </div>
           <div class="col-md-3 align-self-center">
             <mat-checkbox [formControl]="excludeFromPowerLimitation">
-              {{'chargers.exclude_from_power_limitation' | translate}}
+              {{ 'chargers.exclude_from_power_limitation' | translate }}
             </mat-checkbox>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6" *ngFor="let connectorID of chargePoint?.connectorIDs">
             <div *ngFor="let connector of chargingStation?.connectors">
-              <app-charging-station-connector *ngIf="connectorID === connector.connectorId" [readOnly]="readOnly"
-                [chargingStation]="chargingStation" [chargePoint]="chargePoint" [connector]="connector"
-                [formConnectorsArray]="formConnectorsArray" [isPublic]="isPublic"
-                (connectorChanged)="connectorChanged()" [manualConfiguration]="manualConfiguration">
+              <app-charging-station-connector
+                *ngIf="connectorID === connector.connectorId"
+                [readOnly]="readOnly"
+                [chargingStation]="chargingStation"
+                [chargePoint]="chargePoint"
+                [connector]="connector"
+                [formConnectorsArray]="formConnectorsArray"
+                [isPublic]="isPublic"
+                (connectorChanged)="connectorChanged()"
+                [manualConfiguration]="manualConfiguration"
+              >
               </app-charging-station-connector>
             </div>
           </div>

@@ -99,5 +99,4 @@ import { AppUserNamePipe } from './app-user-name.pipe';
     AppDayPipe,
   ],
 })
-export class FormattersModule {
-}
+export class FormattersModule {}

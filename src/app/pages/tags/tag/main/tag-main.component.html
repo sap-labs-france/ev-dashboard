@@ -3,38 +3,53 @@
     <div class="col-md-6">
       <div class="form-group">
         <mat-form-field>
-          <input appAutofocus matInput placeholder="{{'tags.id' | translate}}" type="text"
-          [formControl]="id" (input)="toUpperCase(id)">
+          <input
+            appAutofocus
+            matInput
+            placeholder="{{ 'tags.id' | translate }}"
+            type="text"
+            [formControl]="id"
+            (input)="toUpperCase(id)"
+          />
           <mat-error *ngIf="id.errors?.required">
-            {{"general.mandatory_field" | translate}}
+            {{ 'general.mandatory_field' | translate }}
           </mat-error>
-          <mat-error *ngIf="id.errors?.pattern">{{"users.invalid_tag_id" | translate}}</mat-error>
+          <mat-error *ngIf="id.errors?.pattern">{{ 'users.invalid_tag_id' | translate }}</mat-error>
           <mat-error *ngIf="id.errors?.maxlength">
-            <div [translate]="'general.error_max_length'" [translateParams]="{length: 20}"></div>
+            <div [translate]="'general.error_max_length'" [translateParams]="{ length: 20 }"></div>
           </mat-error>
           <mat-error *ngIf="id.errors?.minlength">
-            <div [translate]="'general.error_min_length'" [translateParams]="{length: 1}"></div>
+            <div [translate]="'general.error_min_length'" [translateParams]="{ length: 1 }"></div>
           </mat-error>
         </mat-form-field>
       </div>
     </div>
     <div *ngIf="dialogMode === DialogMode.CREATE" class="col-md-6">
-      <button mat-raised-button [title]="'general.generate' | translate" color="primary" (click)="generateTagID()">
+      <button
+        mat-raised-button
+        [title]="'general.generate' | translate"
+        color="primary"
+        (click)="generateTagID()"
+      >
         <mat-icon>refresh</mat-icon>
         <ng-container>
-          <span>{{'general.generate' | translate}}</span>
+          <span>{{ 'general.generate' | translate }}</span>
         </ng-container>
       </button>
-  </div>
+    </div>
   </div>
   <div class="row">
     <div class="col-md-6">
-      <div class="form-group" appTooltip title="{{'tags.visual_id_instruction' | translate}}">
+      <div class="form-group" appTooltip title="{{ 'tags.visual_id_instruction' | translate }}">
         <mat-form-field>
-          <input  matInput placeholder="{{'tags.visual_id' | translate}}"
-          type="text" [formControl]="visualID">
+          <input
+            matInput
+            placeholder="{{ 'tags.visual_id' | translate }}"
+            type="text"
+            [formControl]="visualID"
+          />
           <mat-error *ngIf="id.errors?.required">
-            {{"general.mandatory_field" | translate}}
+            {{ 'general.mandatory_field' | translate }}
           </mat-error>
         </mat-form-field>
       </div>
@@ -44,10 +59,14 @@
     <div class="col-md-12">
       <div class="form-group">
         <mat-form-field>
-          <input matInput placeholder="{{'general.description' | translate}}"
-          type="text" [formControl]="description">
+          <input
+            matInput
+            placeholder="{{ 'general.description' | translate }}"
+            type="text"
+            [formControl]="description"
+          />
           <mat-error *ngIf="id.errors?.required">
-            {{"general.mandatory_field" | translate}}
+            {{ 'general.mandatory_field' | translate }}
           </mat-error>
         </mat-form-field>
       </div>
@@ -57,13 +76,27 @@
     <div class="col-md-6">
       <div class="form-group">
         <mat-form-field>
-          <input matInput type="text" readonly=true placeholder="{{'users.title' | translate}}"
-            class="form-field-popup" (click)="assignUser()" [formControl]="user" [required]="tagsAuthorizations?.metadata?.userID?.mandatory"/>
-          <button *ngIf="user.enabled && user.value" mat-icon-button matSuffix (click)="resetUser()" aria-label="Clear">
+          <input
+            matInput
+            type="text"
+            readonly="true"
+            placeholder="{{ 'users.title' | translate }}"
+            class="form-field-popup"
+            (click)="assignUser()"
+            [formControl]="user"
+            [required]="tagsAuthorizations?.metadata?.userID?.mandatory"
+          />
+          <button
+            *ngIf="user.enabled && user.value"
+            mat-icon-button
+            matSuffix
+            (click)="resetUser()"
+            aria-label="Clear"
+          >
             <mat-icon>clear</mat-icon>
           </button>
           <mat-error *ngIf="user.errors?.required">
-            {{"general.mandatory_field" | translate}}
+            {{ 'general.mandatory_field' | translate }}
           </mat-error>
         </mat-form-field>
       </div>
@@ -73,11 +106,13 @@
     <div class="col-md-6">
       <div class="form-group">
         <mat-form-field>
-          <mat-select [formControl]="active" placeholder="{{'tags.status' | translate}}" required>
-            <mat-option [value]="true">{{'tags.activated' | translate}}</mat-option>
-            <mat-option [value]="false">{{'tags.deactivated' | translate}}</mat-option>
+          <mat-select [formControl]="active" placeholder="{{ 'tags.status' | translate }}" required>
+            <mat-option [value]="true">{{ 'tags.activated' | translate }}</mat-option>
+            <mat-option [value]="false">{{ 'tags.deactivated' | translate }}</mat-option>
           </mat-select>
-          <mat-error *ngIf="active.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+          <mat-error *ngIf="active.errors?.required">{{
+            'general.mandatory_field' | translate
+          }}</mat-error>
         </mat-form-field>
       </div>
     </div>
@@ -87,7 +122,7 @@
       <div class="form-group">
         <div class="text-left">
           <mat-checkbox value="false" [formControl]="default">
-            {{'tags.default_tag' | translate}}
+            {{ 'tags.default_tag' | translate }}
           </mat-checkbox>
         </div>
       </div>

@@ -17,7 +17,12 @@ import { ChargingStationDataResult } from '../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
 import { HTTPError } from '../../../../types/HTTPError';
 import { SiteArea } from '../../../../types/SiteArea';
-import { TableActionDef, TableColumnDef, TableDataSourceMode, TableDef } from '../../../../types/Table';
+import {
+  TableActionDef,
+  TableColumnDef,
+  TableDataSourceMode,
+  TableDef,
+} from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 
 @Injectable()
@@ -33,7 +38,8 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
     private router: Router,
     private dialog: MatDialog,
     private dialogService: DialogService,
-    private centralServerService: CentralServerService) {
+    private centralServerService: CentralServerService
+  ) {
     super(spinnerService, translateService);
   }
 
@@ -44,16 +50,24 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
       // siteArea provided?
       if (this.siteArea) {
         // Yes: Get data
-        this.centralServerService.getChargingStations(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
-          next: (chargingStations) => {
-            observer.next(chargingStations);
-            observer.complete();
-          },
-          error: (error) => {
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-            observer.error(error);
-          }
-        });
+        this.centralServerService
+          .getChargingStations(this.buildFilterValues(), this.getPaging(), this.getSorting())
+          .subscribe({
+            next: (chargingStations) => {
+              observer.next(chargingStations);
+              observer.complete();
+            },
+            error: (error) => {
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'general.error_backend'
+              );
+              observer.error(error);
+            },
+          });
       } else {
         observer.next({
           count: 0,
@@ -68,9 +82,9 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
     if (this.getMode() === TableDataSourceMode.READ_WRITE) {
       return {
         class: 'table-dialog-list',
-        rowSelection:
-        {
-          enabled: this.siteArea?.canAssignChargingStations || this.siteArea?.canUnassignChargingStations,
+        rowSelection: {
+          enabled:
+            this.siteArea?.canAssignChargingStations || this.siteArea?.canUnassignChargingStations,
           multiple: true,
         },
         search: {
@@ -80,8 +94,7 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
     }
     return {
       class: 'table-dialog-list',
-      rowSelection:
-      {
+      rowSelection: {
         enabled: false,
         multiple: false,
       },
@@ -116,9 +129,7 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
 
   public setSiteArea(siteArea: SiteArea) {
     // Set static filter
-    this.setStaticFilters([
-      { SiteAreaID: siteArea.id },
-    ]);
+    this.setStaticFilters([{ SiteAreaID: siteArea.id }]);
     // Set user
     this.siteArea = siteArea;
   }
@@ -148,18 +159,22 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
       case ButtonAction.REMOVE:
         // Empty?
         if (Utils.isEmptyArray(this.getSelectedRows())) {
-          this.messageService.showErrorMessage(this.translateService.instant('general.select_at_least_one_record'));
+          this.messageService.showErrorMessage(
+            this.translateService.instant('general.select_at_least_one_record')
+          );
         } else {
           // Confirm
-          this.dialogService.createAndShowYesNoDialog(
-            this.translateService.instant('site_areas.remove_chargers_title'),
-            this.translateService.instant('site_areas.remove_chargers_confirm'),
-          ).subscribe((response) => {
-            if (response === ButtonAction.YES) {
-              // Remove
-              this.removeChargers(this.getSelectedRows().map((row) => row.id));
-            }
-          });
+          this.dialogService
+            .createAndShowYesNoDialog(
+              this.translateService.instant('site_areas.remove_chargers_title'),
+              this.translateService.instant('site_areas.remove_chargers_confirm')
+            )
+            .subscribe((response) => {
+              if (response === ButtonAction.YES) {
+                // Remove
+                this.removeChargers(this.getSelectedRows().map((row) => row.id));
+              }
+            });
         }
         break;
     }
@@ -187,19 +202,30 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
       next: (response) => {
         // Ok?
         if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage(this.translateService.instant('site_areas.remove_chargers_success'));
+          this.messageService.showSuccessMessage(
+            this.translateService.instant('site_areas.remove_chargers_success')
+          );
           // Refresh
           this.refreshData().subscribe();
           // Clear selection
           this.clearSelectedRows();
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, this.translateService.instant('site_areas.remove_chargers_error'));
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            this.translateService.instant('site_areas.remove_chargers_error')
+          );
         }
       },
       error: (error) => {
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.remove_chargers_error');
-      }
+        Utils.handleHttpError(
+          error,
+          this.router,
+          this.messageService,
+          this.centralServerService,
+          'site_areas.remove_chargers_error'
+        );
+      },
     });
   }
 
@@ -212,14 +238,19 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
         next: (response) => {
           // Ok?
           if (response.status === RestResponse.SUCCESS) {
-            this.messageService.showSuccessMessage(this.translateService.instant('site_areas.update_chargers_success'));
+            this.messageService.showSuccessMessage(
+              this.translateService.instant('site_areas.update_chargers_success')
+            );
             // Refresh
             this.refreshData().subscribe();
             // Clear selection
             this.clearSelectedRows();
           } else {
-            Utils.handleError(JSON.stringify(response),
-              this.messageService, this.translateService.instant('site_areas.update_error'));
+            Utils.handleError(
+              JSON.stringify(response),
+              this.messageService,
+              this.translateService.instant('site_areas.update_error')
+            );
           }
         },
         error: (error) => {
@@ -228,9 +259,15 @@ export class SiteAreaChargingStationsDataSource extends TableDataSource<Charging
               this.messageService.showErrorMessage('chargers.change_config_phase_error');
               break;
             default:
-              Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'site_areas.update_error');
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'site_areas.update_error'
+              );
           }
-        }
+        },
       });
     }
   }

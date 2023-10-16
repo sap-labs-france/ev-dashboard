@@ -13,14 +13,16 @@ import { SpinnerService } from '../../../services/spinner.service';
 import { FilterParams } from '../../../types/GlobalType';
 import { TenantComponents } from '../../../types/Tenant';
 import { SimpleChart } from '../shared/chart-utilities';
-import { StatisticsBuildService, StatisticsBuildValueWithUnit } from '../shared/statistics-build.service';
+import {
+  StatisticsBuildService,
+  StatisticsBuildValueWithUnit,
+} from '../shared/statistics-build.service';
 import { StatisticsExportService } from '../shared/statistics-export.service';
 
 @Component({
   selector: 'app-statistics-pricing',
   templateUrl: 'statistics-pricing.component.html',
 })
-
 export class StatisticsPricingComponent implements OnInit {
   @ViewChild('pricingBarChart', { static: true }) public ctxBarChart!: ElementRef;
   @ViewChild('pricingPieChart', { static: true }) public ctxPieChart!: ElementRef;
@@ -50,7 +52,8 @@ export class StatisticsPricingComponent implements OnInit {
     private localeService: LocaleService,
     private spinnerService: SpinnerService,
     private statisticsBuildService: StatisticsBuildService,
-    private statisticsExportService: StatisticsExportService) {
+    private statisticsExportService: StatisticsExportService
+  ) {
     this.isPricingActive = this.componentService.isActive(TenantComponents.PRICING);
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
@@ -84,11 +87,18 @@ export class StatisticsPricingComponent implements OnInit {
   }
 
   public exportData(): void {
-    const enhancedFilterParams = this.statisticsExportService.enhanceFilterParams(this.filterParams, 'Pricing',
-      this.selectedCategory, this.selectedYear, this.selectedChart);
-    this.statisticsExportService.exportDataWithDialog(enhancedFilterParams,
+    const enhancedFilterParams = this.statisticsExportService.enhanceFilterParams(
+      this.filterParams,
+      'Pricing',
+      this.selectedCategory,
+      this.selectedYear,
+      this.selectedChart
+    );
+    this.statisticsExportService.exportDataWithDialog(
+      enhancedFilterParams,
       this.translateService.instant('statistics.dialog.pricing.export.title'),
-      this.translateService.instant('statistics.dialog.pricing.export.confirm'));
+      this.translateService.instant('statistics.dialog.pricing.export.confirm')
+    );
   }
 
   public getChartLabel(): string {
@@ -102,38 +112,47 @@ export class StatisticsPricingComponent implements OnInit {
       if (totalPriceString) {
         totalPriceString += ' + ';
       }
-      totalPriceString += Math.round(object.value).toLocaleString(this.language) + ' ' + object.unit;
+      totalPriceString +=
+        Math.round(object.value).toLocaleString(this.language) + ' ' + object.unit;
     });
     if (this.selectedChart === 'month') {
       if (this.selectedCategory === 'C') {
-        mainLabel = this.translateService.instant('statistics.pricing_per_cs_month_title',
-          { total: totalPriceString });
+        mainLabel = this.translateService.instant('statistics.pricing_per_cs_month_title', {
+          total: totalPriceString,
+        });
       } else {
-        mainLabel = this.translateService.instant('statistics.pricing_per_user_month_title',
-          { total: totalPriceString });
+        mainLabel = this.translateService.instant('statistics.pricing_per_user_month_title', {
+          total: totalPriceString,
+        });
       }
     } else {
       if (this.selectedCategory === 'C') {
         if (this.selectedYear > 0) {
-          mainLabel = this.translateService.instant('statistics.pricing_per_cs_year_title',
-            { total: totalPriceString });
+          mainLabel = this.translateService.instant('statistics.pricing_per_cs_year_title', {
+            total: totalPriceString,
+          });
         } else if (this.selectedYear < 0) {
-          mainLabel = this.translateService.instant('statistics.pricing_per_cs_timeFrame_title',
-            { total: totalPriceString });
+          mainLabel = this.translateService.instant('statistics.pricing_per_cs_timeFrame_title', {
+            total: totalPriceString,
+          });
         } else {
-          mainLabel = this.translateService.instant('statistics.pricing_per_cs_total_title',
-            { total: totalPriceString });
+          mainLabel = this.translateService.instant('statistics.pricing_per_cs_total_title', {
+            total: totalPriceString,
+          });
         }
       } else {
         if (this.selectedYear > 0) {
-          mainLabel = this.translateService.instant('statistics.pricing_per_user_year_title',
-            { total: totalPriceString });
+          mainLabel = this.translateService.instant('statistics.pricing_per_user_year_title', {
+            total: totalPriceString,
+          });
         } else if (this.selectedYear < 0) {
-          mainLabel = this.translateService.instant('statistics.pricing_per_user_timeFrame_title',
-            { total: totalPriceString });
+          mainLabel = this.translateService.instant('statistics.pricing_per_user_timeFrame_title', {
+            total: totalPriceString,
+          });
         } else {
-          mainLabel = this.translateService.instant('statistics.pricing_per_user_total_title',
-            { total: totalPriceString });
+          mainLabel = this.translateService.instant('statistics.pricing_per_user_total_title', {
+            total: totalPriceString,
+          });
         }
       }
     }
@@ -145,14 +164,32 @@ export class StatisticsPricingComponent implements OnInit {
     // Guess a currency unit (to be adjusted later)
     this.totalPriceWithUnit.push({ value: 0, unit: 'EUR' });
     const toolTipUnit: string = this.totalPriceWithUnit[0].unit;
-    const labelXAxis: string = this.translateService.instant('statistics.graphic_title_month_x_axis');
-    const labelYAxis: string = this.translateService.instant('statistics.graphic_title_pricing_y_axis',
-      { currency: toolTipUnit });
-    this.barChart = new SimpleChart(this.language, ChartTypeValues.STACKED_BAR,
-      this.getChartLabel(), labelXAxis, labelYAxis, toolTipUnit, true);
+    const labelXAxis: string = this.translateService.instant(
+      'statistics.graphic_title_month_x_axis'
+    );
+    const labelYAxis: string = this.translateService.instant(
+      'statistics.graphic_title_pricing_y_axis',
+      { currency: toolTipUnit }
+    );
+    this.barChart = new SimpleChart(
+      this.language,
+      ChartTypeValues.STACKED_BAR,
+      this.getChartLabel(),
+      labelXAxis,
+      labelYAxis,
+      toolTipUnit,
+      true
+    );
     this.barChart.initChart(this.ctxBarChart);
-    this.pieChart = new SimpleChart(this.language, ChartTypeValues.PIE,
-      this.getChartLabel(), undefined, undefined, toolTipUnit, true);
+    this.pieChart = new SimpleChart(
+      this.language,
+      ChartTypeValues.PIE,
+      this.getChartLabel(),
+      undefined,
+      undefined,
+      toolTipUnit,
+      true
+    );
     this.pieChart.initChart(this.ctxPieChart);
     this.chartsInitialized = true;
   }
@@ -188,29 +225,51 @@ export class StatisticsPricingComponent implements OnInit {
     let newLabelYAxis: string;
     let addUnitToLabel = false;
     if (this.selectedCategory === 'C') {
-      this.centralServerService.getChargingStationPricingStatistics(this.selectedYear, this.filterParams)
+      this.centralServerService
+        .getChargingStationPricingStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
           this.initAuth(statisticsData);
-          this.totalPriceWithUnit = this.statisticsBuildService.calculateTotalsWithUnits(statisticsData, 2);
+          this.totalPriceWithUnit = this.statisticsBuildService.calculateTotalsWithUnits(
+            statisticsData,
+            2
+          );
           if (this.totalPriceWithUnit.length > 1) {
             addUnitToLabel = true;
             newToolTipUnit = this.translateService.instant('statistics.multiple_currencies');
           } else {
             newToolTipUnit = this.totalPriceWithUnit[0].unit;
           }
-          newLabelYAxis = this.translateService.instant('statistics.graphic_title_pricing_y_axis', { currency: newToolTipUnit });
-          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData.result, 2, addUnitToLabel);
-          this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
-          this.barChart.updateChart(this.barChartData, this.getChartLabel(), newToolTipUnit, newLabelYAxis);
+          newLabelYAxis = this.translateService.instant('statistics.graphic_title_pricing_y_axis', {
+            currency: newToolTipUnit,
+          });
+          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(
+            statisticsData.result,
+            2,
+            addUnitToLabel
+          );
+          this.pieChartData =
+            this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(
+              this.barChartData
+            );
+          this.barChart.updateChart(
+            this.barChartData,
+            this.getChartLabel(),
+            newToolTipUnit,
+            newLabelYAxis
+          );
           this.pieChart.updateChart(this.pieChartData, this.getChartLabel(), newToolTipUnit);
           this.spinnerService.hide();
         });
     } else {
-      this.centralServerService.getUserPricingStatistics(this.selectedYear, this.filterParams)
+      this.centralServerService
+        .getUserPricingStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
           this.initAuth(statisticsData);
           if (statisticsData.count > 1) {
-            this.totalPriceWithUnit = this.statisticsBuildService.calculateTotalsWithUnits(statisticsData, 2);
+            this.totalPriceWithUnit = this.statisticsBuildService.calculateTotalsWithUnits(
+              statisticsData,
+              2
+            );
           }
           if (this.totalPriceWithUnit.length > 1) {
             addUnitToLabel = true;
@@ -218,10 +277,24 @@ export class StatisticsPricingComponent implements OnInit {
           } else {
             newToolTipUnit = this.totalPriceWithUnit[0].unit;
           }
-          newLabelYAxis = this.translateService.instant('statistics.graphic_title_pricing_y_axis', { currency: newToolTipUnit });
-          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData.result, 2, addUnitToLabel);
-          this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
-          this.barChart.updateChart(this.barChartData, this.getChartLabel(), newToolTipUnit, newLabelYAxis);
+          newLabelYAxis = this.translateService.instant('statistics.graphic_title_pricing_y_axis', {
+            currency: newToolTipUnit,
+          });
+          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(
+            statisticsData.result,
+            2,
+            addUnitToLabel
+          );
+          this.pieChartData =
+            this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(
+              this.barChartData
+            );
+          this.barChart.updateChart(
+            this.barChartData,
+            this.getChartLabel(),
+            newToolTipUnit,
+            newLabelYAxis
+          );
           this.pieChart.updateChart(this.pieChartData, this.getChartLabel(), newToolTipUnit);
           this.spinnerService.hide();
         });
@@ -230,11 +303,11 @@ export class StatisticsPricingComponent implements OnInit {
 
   private initAuth(statisticsData: StatisticDataResult) {
     this.authorizations = {
-      canListUsers:  Utils.convertToBoolean(statisticsData.canListUsers),
-      canListChargingStations:  Utils.convertToBoolean(statisticsData.canListChargingStations),
-      canListSites:  Utils.convertToBoolean(statisticsData.canListSites),
-      canListSiteAreas:  Utils.convertToBoolean(statisticsData.canListSiteAreas),
-      canExport:  Utils.convertToBoolean(statisticsData.canExport),
+      canListUsers: Utils.convertToBoolean(statisticsData.canListUsers),
+      canListChargingStations: Utils.convertToBoolean(statisticsData.canListChargingStations),
+      canListSites: Utils.convertToBoolean(statisticsData.canListSites),
+      canListSiteAreas: Utils.convertToBoolean(statisticsData.canListSiteAreas),
+      canExport: Utils.convertToBoolean(statisticsData.canExport),
     };
   }
 }

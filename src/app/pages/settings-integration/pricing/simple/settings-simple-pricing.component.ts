@@ -21,18 +21,17 @@ export class SettingsSimplePricingComponent implements OnInit, OnChanges {
   public ngOnInit(): void {
     // Simple pricing
     this.simplePricing = new FormGroup({
-      price: new UntypedFormControl('',
+      price: new UntypedFormControl(
+        '',
         Validators.compose([
           Validators.required,
           Validators.pattern(/^-?((\d+(\.\d+)?))$/),
           Validators.maxLength(10),
-        ]),
+        ])
       ),
-      currency: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(3),
-        ]),
+      currency: new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(3)])
       ),
     });
     // Add
@@ -40,7 +39,7 @@ export class SettingsSimplePricingComponent implements OnInit, OnChanges {
     // Keep
     this.price = this.simplePricing.controls['price'];
     this.currency = this.simplePricing.controls['currency'];
-    if ( this.isCurrencyCodeReadonly ) {
+    if (this.isCurrencyCodeReadonly) {
       this.currency.disable();
     }
     // Set
@@ -58,7 +57,7 @@ export class SettingsSimplePricingComponent implements OnInit, OnChanges {
       this.currency.setValue(this.pricingSettings.simple.currency);
     }
     // Read only
-    if(!this.authorizations.canUpdate) {
+    if (!this.authorizations.canUpdate) {
       // Async call for letting the sub form groups to init
       setTimeout(() => this.formGroup.disable(), 0);
     }

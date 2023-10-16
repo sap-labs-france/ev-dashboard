@@ -26,18 +26,19 @@ export class NavbarComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private guard: RouteGuardService,
-    @Inject(DOCUMENT) private document: Document) {
+    @Inject(DOCUMENT) private document: Document
+  ) {
     this.location = location;
     this.sidebarVisible = false;
 
     // On Router Change
-    router.events.pipe(
-      filter(event => event instanceof NavigationStart)
-    ).subscribe((event: NavigationStart) => {
-      if (this.mobileMenuVisible) {
-        this.mobileMenuVisible = 0;
-      }
-    });
+    router.events
+      .pipe(filter((event) => event instanceof NavigationStart))
+      .subscribe((event: NavigationStart) => {
+        if (this.mobileMenuVisible) {
+          this.mobileMenuVisible = 0;
+        }
+      });
   }
 
   public minimizeSidebar() {
@@ -45,7 +46,6 @@ export class NavbarComponent implements OnInit {
     if (this.sidebarMinimized === true) {
       body.classList.remove('sidebar-mini');
       this.sidebarMinimized = false;
-
     } else {
       setTimeout(() => {
         body.classList.add('sidebar-mini');
@@ -84,10 +84,14 @@ export class NavbarComponent implements OnInit {
   }
 
   public ngOnInit() {
-    if (this.activatedRoute && this.activatedRoute.routeConfig && this.activatedRoute.routeConfig.children) {
+    if (
+      this.activatedRoute &&
+      this.activatedRoute.routeConfig &&
+      this.activatedRoute.routeConfig.children
+    ) {
       this.listTitles = this.activatedRoute.routeConfig.children
         .filter((route) => route.data && route.data.menu && this.guard.isRouteAllowed(route))
-        .map((route) => route.data ? route.data.menu : null);
+        .map((route) => (route.data ? route.data.menu : null));
     }
     const navbar: HTMLElement = this.element.nativeElement;
     const body = this.document.getElementsByTagName('body')[0];

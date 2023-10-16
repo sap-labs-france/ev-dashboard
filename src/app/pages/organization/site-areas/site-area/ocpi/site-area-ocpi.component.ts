@@ -21,10 +21,10 @@ export class SiteAreaOcpiComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     // Init the form
-    this.formGroup.addControl('tariffID', new UntypedFormControl(null,
-      Validators.compose([
-        Validators.maxLength(36),
-      ])));
+    this.formGroup.addControl(
+      'tariffID',
+      new UntypedFormControl(null, Validators.compose([Validators.maxLength(36)]))
+    );
     // Form
     this.tariffID = this.formGroup.controls['tariffID'];
     this.enableDisableTariffID();

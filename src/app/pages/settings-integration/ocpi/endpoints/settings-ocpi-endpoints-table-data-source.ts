@@ -22,7 +22,11 @@ import { TableUnregisterAction } from '../../../../shared/table/actions/table-un
 import { TableDataSource } from '../../../../shared/table/table-data-source';
 import { OcpiEndpointDataResult } from '../../../../types/DataResult';
 import { ButtonAction, RestResponse } from '../../../../types/GlobalType';
-import { OCPIButtonAction, OCPIEndpoint, OCPIRegistrationStatus } from '../../../../types/ocpi/OCPIEndpoint';
+import {
+  OCPIButtonAction,
+  OCPIEndpoint,
+  OCPIRegistrationStatus,
+} from '../../../../types/ocpi/OCPIEndpoint';
 import { DropdownItem, TableActionDef, TableColumnDef, TableDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { SettingsOcpiEndpointDialogComponent } from './endpoint/settings-ocpi-endpoint.dialog.component';
@@ -32,14 +36,12 @@ import { SettingsOcpiEndpointsDetailsComponent } from './ocpi-details/settings-o
 
 @Injectable()
 export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OCPIEndpoint> {
-
   private authorizations: OcpiEndpointsAuthorizationActions;
 
   private editAction = new TableEditAction().getActionDef();
   private deleteAction = new TableDeleteAction().getActionDef();
   private createAction = new TableCreateAction().getActionDef();
   private viewAction = new TableViewAction().getActionDef();
-
 
   public constructor(
     public spinnerService: SpinnerService,
@@ -48,7 +50,8 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OCPIEn
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
-    private centralServerService: CentralServerService) {
+    private centralServerService: CentralServerService
+  ) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -57,24 +60,32 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OCPIEn
   public loadDataImpl(): Observable<OcpiEndpointDataResult> {
     return new Observable((observer) => {
       // Get the OCPI Endpoints
-      this.centralServerService.getOcpiEndpoints(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
-        next: (ocpiEndpoints) => {
-          // Init auth
-          this.authorizations = {
-            canCreate: Utils.convertToBoolean(ocpiEndpoints.canCreate),
-            canGenerateLocalToken: Utils.convertToBoolean(ocpiEndpoints.canGenerateLocalToken),
-            canPing: Utils.convertToBoolean(ocpiEndpoints.canPing),
-          };
-          // Set visibility
-          this.createAction.visible = this.authorizations.canCreate;
-          observer.next(ocpiEndpoints);
-          observer.complete();
-        },
-        error: (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          observer.error(error);
-        }
-      });
+      this.centralServerService
+        .getOcpiEndpoints(this.buildFilterValues(), this.getPaging(), this.getSorting())
+        .subscribe({
+          next: (ocpiEndpoints) => {
+            // Init auth
+            this.authorizations = {
+              canCreate: Utils.convertToBoolean(ocpiEndpoints.canCreate),
+              canGenerateLocalToken: Utils.convertToBoolean(ocpiEndpoints.canGenerateLocalToken),
+              canPing: Utils.convertToBoolean(ocpiEndpoints.canPing),
+            };
+            // Set visibility
+            this.createAction.visible = this.authorizations.canCreate;
+            observer.next(ocpiEndpoints);
+            observer.complete();
+          },
+          error: (error) => {
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.error_backend'
+            );
+            observer.error(error);
+          },
+        });
     });
   }
 
@@ -156,10 +167,7 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OCPIEn
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    return [
-      this.createAction,
-      ...tableActionsDef,
-    ];
+    return [this.createAction, ...tableActionsDef];
   }
 
   public buildTableDynamicRowActions(ocpiEndpoint: OCPIEndpoint): TableActionDef[] {
@@ -208,7 +216,11 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OCPIEn
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, ocpiEndpoint: OCPIEndpoint, dropdownItem?: DropdownItem) {
+  public rowActionTriggered(
+    actionDef: TableActionDef,
+    ocpiEndpoint: OCPIEndpoint,
+    dropdownItem?: DropdownItem
+  ) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
         this.showOcpiEndpointDialog(DialogMode.EDIT, ocpiEndpoint);
@@ -232,13 +244,13 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OCPIEn
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {
-    return [
-      new TableAutoRefreshAction().getActionDef(),
-      new TableRefreshAction().getActionDef(),
-    ];
+    return [new TableAutoRefreshAction().getActionDef(), new TableRefreshAction().getActionDef()];
   }
 
-  private showOcpiEndpointDialog(dialogMode: DialogMode, endpoint: OCPIEndpoint = {} as OCPIEndpoint ) {
+  private showOcpiEndpointDialog(
+    dialogMode: DialogMode,
+    endpoint: OCPIEndpoint = {} as OCPIEndpoint
+  ) {
     // Create the dialog
     const dialogConfig = new MatDialogConfig();
     dialogConfig.minWidth = '50vw';
@@ -246,7 +258,8 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OCPIEn
     dialogConfig.data = {
       dialogData: endpoint,
       dialogMode,
-      authorizations: this.authorizations };
+      authorizations: this.authorizations,
+    };
     // disable outside click close
     dialogConfig.disableClose = true;
     // Open
@@ -259,102 +272,154 @@ export class SettingsOcpiEndpointsTableDataSource extends TableDataSource<OCPIEn
   }
 
   private deleteOcpiEndpoint(ocpiendpoint: OCPIEndpoint) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('ocpiendpoints.delete_title'),
-      this.translateService.instant('ocpiendpoints.delete_confirm', { name: ocpiendpoint.name }),
-    ).subscribe((result) => {
-      if (result === ButtonAction.YES) {
-        this.centralServerService.deleteOcpiEndpoint(ocpiendpoint.id).subscribe({
-          next: (response) => {
-            if (response.status === RestResponse.SUCCESS) {
-              this.messageService.showSuccessMessage('ocpiendpoints.delete_success', { name: ocpiendpoint.name });
-              this.refreshData().subscribe();
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, 'ocpiendpoints.delete_error');
-            }
-          },
-          error: (error) => {
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              'ocpiendpoints.delete_error');
-          }
-        });
-      }
-    });
+    this.dialogService
+      .createAndShowYesNoDialog(
+        this.translateService.instant('ocpiendpoints.delete_title'),
+        this.translateService.instant('ocpiendpoints.delete_confirm', { name: ocpiendpoint.name })
+      )
+      .subscribe((result) => {
+        if (result === ButtonAction.YES) {
+          this.centralServerService.deleteOcpiEndpoint(ocpiendpoint.id).subscribe({
+            next: (response) => {
+              if (response.status === RestResponse.SUCCESS) {
+                this.messageService.showSuccessMessage('ocpiendpoints.delete_success', {
+                  name: ocpiendpoint.name,
+                });
+                this.refreshData().subscribe();
+              } else {
+                Utils.handleError(
+                  JSON.stringify(response),
+                  this.messageService,
+                  'ocpiendpoints.delete_error'
+                );
+              }
+            },
+            error: (error) => {
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'ocpiendpoints.delete_error'
+              );
+            },
+          });
+        }
+      });
   }
 
   private registerOcpiEndpoint(ocpiendpoint: OCPIEndpoint) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('ocpiendpoints.register_title'),
-      this.translateService.instant('ocpiendpoints.register_confirm', { name: ocpiendpoint.name }),
-    ).subscribe((result) => {
-      if (result === ButtonAction.YES) {
-        this.centralServerService.registerOcpiEndpoint(ocpiendpoint.id).subscribe({
-          next: (response) => {
-            if (response.status === RestResponse.SUCCESS) {
-              this.messageService.showSuccessMessage('ocpiendpoints.register_success', { name: ocpiendpoint.name });
-              this.refreshData().subscribe();
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, 'ocpiendpoints.register_error');
-            }
-          },
-          error: (error) => {
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              'ocpiendpoints.register_error');
-          }
-        });
-      }
-    });
+    this.dialogService
+      .createAndShowYesNoDialog(
+        this.translateService.instant('ocpiendpoints.register_title'),
+        this.translateService.instant('ocpiendpoints.register_confirm', { name: ocpiendpoint.name })
+      )
+      .subscribe((result) => {
+        if (result === ButtonAction.YES) {
+          this.centralServerService.registerOcpiEndpoint(ocpiendpoint.id).subscribe({
+            next: (response) => {
+              if (response.status === RestResponse.SUCCESS) {
+                this.messageService.showSuccessMessage('ocpiendpoints.register_success', {
+                  name: ocpiendpoint.name,
+                });
+                this.refreshData().subscribe();
+              } else {
+                Utils.handleError(
+                  JSON.stringify(response),
+                  this.messageService,
+                  'ocpiendpoints.register_error'
+                );
+              }
+            },
+            error: (error) => {
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'ocpiendpoints.register_error'
+              );
+            },
+          });
+        }
+      });
   }
 
   private unregisterOcpiEndpoint(ocpiendpoint: OCPIEndpoint) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('ocpiendpoints.unregister_title'),
-      this.translateService.instant('ocpiendpoints.unregister_confirm', { name: ocpiendpoint.name }),
-    ).subscribe((result) => {
-      if (result === ButtonAction.YES) {
-        this.centralServerService.unregisterOcpiEndpoint(ocpiendpoint.id).subscribe({
-          next: (response) => {
-            if (response.status === RestResponse.SUCCESS) {
-              this.messageService.showSuccessMessage('ocpiendpoints.unregister_success', { name: ocpiendpoint.name });
-              this.refreshData().subscribe();
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, 'ocpiendpoints.unregister_error');
-            }
-          },
-          error: (error) => {
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              'ocpiendpoints.unregister_error');
-          }
-        });
-      }
-    });
+    this.dialogService
+      .createAndShowYesNoDialog(
+        this.translateService.instant('ocpiendpoints.unregister_title'),
+        this.translateService.instant('ocpiendpoints.unregister_confirm', {
+          name: ocpiendpoint.name,
+        })
+      )
+      .subscribe((result) => {
+        if (result === ButtonAction.YES) {
+          this.centralServerService.unregisterOcpiEndpoint(ocpiendpoint.id).subscribe({
+            next: (response) => {
+              if (response.status === RestResponse.SUCCESS) {
+                this.messageService.showSuccessMessage('ocpiendpoints.unregister_success', {
+                  name: ocpiendpoint.name,
+                });
+                this.refreshData().subscribe();
+              } else {
+                Utils.handleError(
+                  JSON.stringify(response),
+                  this.messageService,
+                  'ocpiendpoints.unregister_error'
+                );
+              }
+            },
+            error: (error) => {
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'ocpiendpoints.unregister_error'
+              );
+            },
+          });
+        }
+      });
   }
 
   private updateCredentialsOcpiEndpoint(ocpiendpoint: OCPIEndpoint) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('ocpiendpoints.update_credentials_title'),
-      this.translateService.instant('ocpiendpoints.update_credentials_confirm', { name: ocpiendpoint.name }),
-    ).subscribe((result) => {
-      if (result === ButtonAction.YES) {
-        this.centralServerService.updateCredentialsOcpiEndpoint(ocpiendpoint.id).subscribe({
-          next: (response) => {
-            if (response.status === RestResponse.SUCCESS) {
-              this.messageService.showSuccessMessage('ocpiendpoints.update_credentials_success', { name: ocpiendpoint.name });
-              this.refreshData().subscribe();
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, 'ocpiendpoints.update_credentials_error');
-            }
-          },
-          error: (error) => {
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              'ocpiendpoints.update_credentials_error');
-          }
-        });
-      }
-    });
+    this.dialogService
+      .createAndShowYesNoDialog(
+        this.translateService.instant('ocpiendpoints.update_credentials_title'),
+        this.translateService.instant('ocpiendpoints.update_credentials_confirm', {
+          name: ocpiendpoint.name,
+        })
+      )
+      .subscribe((result) => {
+        if (result === ButtonAction.YES) {
+          this.centralServerService.updateCredentialsOcpiEndpoint(ocpiendpoint.id).subscribe({
+            next: (response) => {
+              if (response.status === RestResponse.SUCCESS) {
+                this.messageService.showSuccessMessage('ocpiendpoints.update_credentials_success', {
+                  name: ocpiendpoint.name,
+                });
+                this.refreshData().subscribe();
+              } else {
+                Utils.handleError(
+                  JSON.stringify(response),
+                  this.messageService,
+                  'ocpiendpoints.update_credentials_error'
+                );
+              }
+            },
+            error: (error) => {
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'ocpiendpoints.update_credentials_error'
+              );
+            },
+          });
+        }
+      });
   }
 }

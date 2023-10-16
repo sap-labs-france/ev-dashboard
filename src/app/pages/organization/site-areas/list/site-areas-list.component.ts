@@ -10,6 +10,5 @@ import { SiteAreasListTableDataSource } from './site-areas-list-table-data-sourc
 })
 export class SiteAreasListComponent {
   // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    public siteAreasListTableDataSource: SiteAreasListTableDataSource) {}
+  public constructor(public siteAreasListTableDataSource: SiteAreasListTableDataSource) {}
 }

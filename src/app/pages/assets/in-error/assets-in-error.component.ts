@@ -9,7 +9,5 @@ import { AssetsInErrorTableDataSource } from './assets-in-error-table-data-sourc
 })
 export class AssetsInErrorComponent {
   // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    public assetsInErrorTableDataSource: AssetsInErrorTableDataSource,
-  ) {}
+  public constructor(public assetsInErrorTableDataSource: AssetsInErrorTableDataSource) {}
 }

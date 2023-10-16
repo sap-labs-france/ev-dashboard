@@ -7,8 +7,12 @@ import { Transaction } from '../../../types/Transaction';
   template: `
     <span>
       <ng-container>
-        <span [ngClass]="(row.stop ? row.stop.inactivityStatus : row.currentInactivityStatus) | appColorByStatus">
-          {{row | appInactivity}}
+        <span
+          [ngClass]="
+            (row.stop ? row.stop.inactivityStatus : row.currentInactivityStatus) | appColorByStatus
+          "
+        >
+          {{ row | appInactivity }}
         </span>
       </ng-container>
     </span>

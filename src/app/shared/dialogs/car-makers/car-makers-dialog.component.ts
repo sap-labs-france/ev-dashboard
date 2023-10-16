@@ -9,13 +9,14 @@ import { CarMakersTableDataSource } from './car-makers-dialog-table-data-source'
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
-  styleUrls: ['../dialog-table-data.component.scss']
+  styleUrls: ['../dialog-table-data.component.scss'],
 })
 export class CarMakersDialogComponent extends DialogTableDataComponent<CarMaker> {
   public constructor(
     public carMakersDataSource: CarMakersTableDataSource,
     protected dialogRef: MatDialogRef<CarMakersDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: any) {
+    @Inject(MAT_DIALOG_DATA) data: any
+  ) {
     // Super class
     super(data, dialogRef, carMakersDataSource);
     // Default title

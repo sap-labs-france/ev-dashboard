@@ -7,7 +7,8 @@ import { Utils } from '../../../../utils/Utils';
 import { CarConnectorConnectionComponent } from './car-connector-connection.component';
 
 @Component({
-  template: '<app-settings-car-connector-connection #appRef [currentCarConnectorConnection]="currentConnection" [dialogRef]="dialogRef" [dialogMode]="dialogMode"></app-settings-car-connector-connection>',
+  template:
+    '<app-settings-car-connector-connection #appRef [currentCarConnectorConnection]="currentConnection" [dialogRef]="dialogRef" [dialogMode]="dialogMode"></app-settings-car-connector-connection>',
 })
 export class CarConnectorConnectionDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: CarConnectorConnectionComponent;
@@ -16,14 +17,19 @@ export class CarConnectorConnectionDialogComponent implements AfterViewInit {
 
   public constructor(
     public dialogRef: MatDialogRef<CarConnectorConnectionDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<CarConnectorConnectionSetting>) {
+    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<CarConnectorConnectionSetting>
+  ) {
     this.currentConnection = dialogParams.dialogData;
     this.dialogMode = dialogParams.dialogMode;
   }
 
   public ngAfterViewInit() {
     // Register key event
-    Utils.registerSaveCloseKeyEvents(this.dialogRef, this.appRef.formGroup,
-      this.appRef.save.bind(this.appRef), this.appRef.close.bind(this.appRef));
+    Utils.registerSaveCloseKeyEvents(
+      this.dialogRef,
+      this.appRef.formGroup,
+      this.appRef.save.bind(this.appRef),
+      this.appRef.close.bind(this.appRef)
+    );
   }
 }

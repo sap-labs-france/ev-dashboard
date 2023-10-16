@@ -8,7 +8,7 @@
               <div class="social-line">
                 <img class="big-card-logo mb-2" [src]="tenantLogo" />
               </div>
-              <h4 class="card-title text-center">{{"authentication.sign_in" | translate}}</h4>
+              <h4 class="card-title text-center">{{ 'authentication.sign_in' | translate }}</h4>
             </div>
             <div class="card-body">
               <span class="bmd-form-group">
@@ -17,10 +17,22 @@
                     <span class="input-group-text">
                       <mat-icon>email</mat-icon>
                       <mat-form-field class="ms-2">
-                        <input appAutofocus id="email-field" matInput type="text" placeholder="{{'authentication.email' | translate}}"
-                          autocomplete="username" [formControl]="email" required>
-                        <mat-error *ngIf="email.errors?.email">{{"authentication.invalid_email" | translate}}</mat-error>
-                        <mat-error *ngIf="email.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+                        <input
+                          appAutofocus
+                          id="email-field"
+                          matInput
+                          type="text"
+                          placeholder="{{ 'authentication.email' | translate }}"
+                          autocomplete="username"
+                          [formControl]="email"
+                          required
+                        />
+                        <mat-error *ngIf="email.errors?.email">{{
+                          'authentication.invalid_email' | translate
+                        }}</mat-error>
+                        <mat-error *ngIf="email.errors?.required">{{
+                          'general.mandatory_field' | translate
+                        }}</mat-error>
                       </mat-form-field>
                     </span>
                   </div>
@@ -28,13 +40,28 @@
                     <span class="input-group-text">
                       <mat-icon>lock_outline</mat-icon>
                       <mat-form-field class="ms-2">
-                        <input id="password-field" matInput type="password"
-                          placeholder="{{'authentication.password' | translate}}" autocomplete="current-password"
-                          [type]="hidePassword ? 'password' : 'text'" [formControl]="password" required>
-                        <mat-icon matSuffix class="icon-clickable" (click)="hidePassword = !hidePassword">
-                          {{hidePassword ? 'visibility' : 'visibility_off'}}</mat-icon>
-                        <mat-error *ngIf="password.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
-                        <mat-error *ngIf="password.errors?.noSpace">{{"authentication.no_space_in_password" | translate}}
+                        <input
+                          id="password-field"
+                          matInput
+                          type="password"
+                          placeholder="{{ 'authentication.password' | translate }}"
+                          autocomplete="current-password"
+                          [type]="hidePassword ? 'password' : 'text'"
+                          [formControl]="password"
+                          required
+                        />
+                        <mat-icon
+                          matSuffix
+                          class="icon-clickable"
+                          (click)="hidePassword = !hidePassword"
+                        >
+                          {{ hidePassword ? 'visibility' : 'visibility_off' }}</mat-icon
+                        >
+                        <mat-error *ngIf="password.errors?.required">{{
+                          'general.mandatory_field' | translate
+                        }}</mat-error>
+                        <mat-error *ngIf="password.errors?.noSpace"
+                          >{{ 'authentication.no_space_in_password' | translate }}
                         </mat-error>
                       </mat-form-field>
                     </span>
@@ -42,17 +69,19 @@
                 </div>
                 <div class="input-group-prepend text-center mt-3 ms-2">
                   <mat-checkbox [formControl]="acceptEula" required>
-                    <span id="eula-checkbox" class="adapt-font-size">{{'authentication.accept' | translate}} </span>
+                    <span id="eula-checkbox" class="adapt-font-size"
+                      >{{ 'authentication.accept' | translate }}
+                    </span>
                     <a class="auth-link" href="/auth/eula" target="_blank">
-                      <span class="adapt-font-size">{{'authentication.eula' | translate}}</span>
+                      <span class="adapt-font-size">{{ 'authentication.eula' | translate }}</span>
                     </a>
                   </mat-checkbox>
                 </div>
               </span>
             </div>
             <div class="card-footer justify-content-center mb-4">
-              <button id="sign-in-button" mat-button type="submit"
-                [disabled]="!formGroup.valid">{{"authentication.sign_in" | translate}}
+              <button id="sign-in-button" mat-button type="submit" [disabled]="!formGroup.valid">
+                {{ 'authentication.sign_in' | translate }}
               </button>
             </div>
           </div>

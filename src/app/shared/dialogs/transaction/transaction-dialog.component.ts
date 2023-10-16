@@ -7,8 +7,12 @@ import { Utils } from '../../../utils/Utils';
 
 @Component({
   template: `<app-transaction
-    [transactionID]="transactionID" [connectorID]="connectorID" [chargingStationID]="chargingStationID"
-    [inDialog]="true" [dialogRef]="dialogRef"></app-transaction>`,
+    [transactionID]="transactionID"
+    [connectorID]="connectorID"
+    [chargingStationID]="chargingStationID"
+    [inDialog]="true"
+    [dialogRef]="dialogRef"
+  ></app-transaction>`,
 })
 export class TransactionDialogComponent {
   public transactionID!: number;

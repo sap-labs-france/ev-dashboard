@@ -6,7 +6,10 @@ import { CentralServerService } from 'services/central-server.service';
 import { ComponentService } from 'services/component.service';
 import { MessageService } from 'services/message.service';
 import { SpinnerService } from 'services/spinner.service';
-import { TableOnboardAccountAction, TableOnboardAccountActionDef } from 'shared/table/actions/settings/billing/table-onboard-account';
+import {
+  TableOnboardAccountAction,
+  TableOnboardAccountActionDef,
+} from 'shared/table/actions/settings/billing/table-onboard-account';
 import { TableCreateAction } from 'shared/table/actions/table-create-action';
 import { TableRefreshAction } from 'shared/table/actions/table-refresh-action';
 import { TableDataSource } from 'shared/table/table-data-source';
@@ -31,7 +34,8 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
     private messageService: MessageService,
-    private dialog: MatDialog) {
+    private dialog: MatDialog
+  ) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -82,7 +86,8 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
         headerClass: 'col-25p',
         class: 'col-25p',
         direction: 'asc',
-        formatter: (name: string, account: BillingAccount) => Utils.buildUserFullName(account.businessOwner),
+        formatter: (name: string, account: BillingAccount) =>
+          Utils.buildUserFullName(account.businessOwner),
         sortable: true,
       },
       {
@@ -98,20 +103,18 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
         headerClass: 'col-25p',
         class: 'col-25p',
         sortable: true,
-      }
+      },
     ];
   }
 
   public buildTableActionsDef(): TableActionDef[] {
-    return [
-      this.createAction,
-    ];
+    return [this.createAction];
   }
 
   public buildTableDynamicRowActions(row?: BillingAccount): TableActionDef[] {
     const rowActions: TableActionDef[] = [];
     const onboardAction = new TableOnboardAccountAction().getActionDef();
-    if(row.status === BillingAccountStatus.IDLE){
+    if (row.status === BillingAccountStatus.IDLE) {
       rowActions.push(onboardAction);
     }
     return rowActions;
@@ -136,9 +139,7 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
   }
 
   public buildTableActionsRightDef(): TableActionDef[] {
-    return [
-      new TableRefreshAction().getActionDef(),
-    ];
+    return [new TableRefreshAction().getActionDef()];
   }
 
   public buildTableFiltersDef(): TableFilterDef[] {
@@ -147,10 +148,7 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
 
   public loadDataImpl(): Observable<DataResult<BillingAccount>> {
     return new Observable((observer) => {
-      this.componentService.getBillingAccounts(
-        this.getPaging(),
-        this.getSorting()
-      ).subscribe({
+      this.componentService.getBillingAccounts(this.getPaging(), this.getSorting()).subscribe({
         next: (accounts) => {
           this.createAction.visible = Utils.convertToBoolean(accounts.canCreate);
           this.accounts = accounts.result;
@@ -162,7 +160,7 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
         },
         error: (error) => {
           observer.error(error);
-        }
+        },
       });
     });
   }
@@ -189,24 +187,29 @@ export class BillingAccountsTableDataSource extends TableDataSource<BillingAccou
 
   private onboardAccount(onboardAction: TableOnboardAccountActionDef, account: BillingAccount) {
     this.spinnerService.show();
-    onboardAction.action(
-      account,
-      this.centralServerService
-    ).subscribe({
+    onboardAction.action(account, this.centralServerService).subscribe({
       next: (response) => {
         this.spinnerService.hide();
-        if(response) {
+        if (response) {
           this.messageService.showSuccessMessage('accounts.message.onboard_success');
           this.refreshData().subscribe();
           this.changed.emit(true);
         } else {
-          Utils.handleError(JSON.stringify(response), this.messageService, 'accounts.message.onboard_error');
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            'accounts.message.onboard_error'
+          );
         }
       },
       error: (error) => {
         this.spinnerService.hide();
-        Utils.handleError(JSON.stringify(error), this.messageService, 'accounts.message.onboard_error');
-      }
+        Utils.handleError(
+          JSON.stringify(error),
+          this.messageService,
+          'accounts.message.onboard_error'
+        );
+      },
     });
   }
 }

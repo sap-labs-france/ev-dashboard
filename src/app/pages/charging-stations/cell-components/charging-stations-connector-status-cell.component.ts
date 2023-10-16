@@ -7,8 +7,11 @@ import { ChargePointStatus, Connector } from '../../../types/ChargingStation';
 @Component({
   template: `
     <mat-chip-list [selectable]="false">
-      <mat-chip [ngClass]="row.status | appChargingStationsFormatConnectorStatus:'class'" [disabled]="true">
-        {{row.status | appChargingStationsFormatConnectorStatus:'text' | translate}}
+      <mat-chip
+        [ngClass]="row.status | appChargingStationsFormatConnectorStatus : 'class'"
+        [disabled]="true"
+      >
+        {{ row.status | appChargingStationsFormatConnectorStatus : 'text' | translate }}
       </mat-chip>
     </mat-chip-list>
   `,

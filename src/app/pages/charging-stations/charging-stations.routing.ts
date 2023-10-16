@@ -7,7 +7,10 @@ import { ChargingStationsComponent } from './charging-stations.component';
 
 export const ChargingStationsRoutes: Routes = [
   {
-    path: ':id', component: ChargingStationDialogComponent, canActivate: [RouteGuardService], data: {
+    path: ':id',
+    component: ChargingStationDialogComponent,
+    canActivate: [RouteGuardService],
+    data: {
       auth: {
         entity: Entity.CHARGING_STATION,
         action: Action.READ,
@@ -15,7 +18,10 @@ export const ChargingStationsRoutes: Routes = [
     },
   },
   {
-    path: '', component: ChargingStationsComponent, canActivate: [RouteGuardService], data: {
+    path: '',
+    component: ChargingStationsComponent,
+    canActivate: [RouteGuardService],
+    data: {
       auth: {
         entity: Entity.CHARGING_STATION,
         action: Action.LIST,

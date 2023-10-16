@@ -3,19 +3,30 @@
     <div class="card-icon">
       <mat-icon>settings</mat-icon>
     </div>
-    <h3 class="card-title">{{'settings.analytics.sac.title' | translate}}</h3>
+    <h3 class="card-title">{{ 'settings.analytics.sac.title' | translate }}</h3>
   </div>
   <div class="card-body">
     <div class="row">
       <div class="col-md-6">
         <mat-form-field>
-          <input appAutofocus matInput type="text" [formControl]="mainUrl"
-            placeholder="{{'analytics.mainurl' | translate}}">
+          <input
+            appAutofocus
+            matInput
+            type="text"
+            [formControl]="mainUrl"
+            placeholder="{{ 'analytics.mainurl' | translate }}"
+          />
           <mat-error *ngIf="mainUrl.errors?.pattern">
             <div [translate]="'general.error_url_pattern'"></div>
           </mat-error>
-          <button mat-button matSuffix mat-icon-button aria-label="View" (click)="openUrl()"
-            [disabled]="mainUrl.errors?.pattern">
+          <button
+            mat-button
+            matSuffix
+            mat-icon-button
+            aria-label="View"
+            (click)="openUrl()"
+            [disabled]="mainUrl.errors?.pattern"
+          >
             <mat-icon>open_in_new</mat-icon>
           </button>
         </mat-form-field>
@@ -24,8 +35,10 @@
     <div class="row">
       <div class="col-md-3">
         <mat-form-field>
-          <mat-select [formControl]="timezone" placeholder="{{'analytics.timezone' | translate}}">
-            <mat-option *ngFor="let timezoneId of timezoneList" value="{{timezoneId}}">{{timezoneId}}</mat-option>
+          <mat-select [formControl]="timezone" placeholder="{{ 'analytics.timezone' | translate }}">
+            <mat-option *ngFor="let timezoneId of timezoneList" value="{{ timezoneId }}">{{
+              timezoneId
+            }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>

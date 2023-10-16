@@ -3,14 +3,14 @@
     <div class="col-md-12 col-xl-4">
       <div class="form-group">
         <mat-checkbox [formControl]="dynamicAsset" (change)="disableConnectionDetails()">
-          {{'assets.dynamic_asset' | translate}}
+          {{ 'assets.dynamic_asset' | translate }}
         </mat-checkbox>
       </div>
     </div>
     <div class="col-md-12 col-xl-4">
       <div class="form-group">
         <mat-checkbox [formControl]="usesPushAPI" (change)="disableConnectionDetails()">
-          {{'assets.uses_push_api' | translate}}
+          {{ 'assets.uses_push_api' | translate }}
         </mat-checkbox>
       </div>
     </div>
@@ -19,13 +19,17 @@
     <div class="col-md-12 col-xl-5">
       <div class="form-group">
         <mat-form-field>
-          <mat-select [formControl]="connectionID" placeholder="{{'chargers.connector' | translate}}" required>
-            <mat-option *ngFor="let connection of assetConnections" value="{{connection.key}}">
-              {{connection.value}}
+          <mat-select
+            [formControl]="connectionID"
+            placeholder="{{ 'chargers.connector' | translate }}"
+            required
+          >
+            <mat-option *ngFor="let connection of assetConnections" value="{{ connection.key }}">
+              {{ connection.value }}
             </mat-option>
           </mat-select>
           <mat-error *ngIf="connectionID.errors?.required">
-            {{"general.mandatory_field" | translate}}
+            {{ 'general.mandatory_field' | translate }}
           </mat-error>
         </mat-form-field>
       </div>
@@ -35,10 +39,15 @@
     <div class="col-md-12 col-xl-5">
       <div class="form-group">
         <mat-form-field>
-          <input matInput type="text" placeholder="{{'assets.meter_id' | translate}}" [formControl]="meterID"
-            required />
+          <input
+            matInput
+            type="text"
+            placeholder="{{ 'assets.meter_id' | translate }}"
+            [formControl]="meterID"
+            required
+          />
           <mat-error *ngIf="meterID.errors?.required">
-            {{"general.mandatory_field" | translate}}
+            {{ 'general.mandatory_field' | translate }}
           </mat-error>
         </mat-form-field>
       </div>

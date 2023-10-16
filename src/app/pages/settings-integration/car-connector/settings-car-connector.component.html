@@ -3,22 +3,27 @@
     <div class="card-icon">
       <mat-icon>info</mat-icon>
     </div>
-    <h3 class="card-title">{{'settings.information' | translate}}</h3>
+    <h3 class="card-title">{{ 'settings.information' | translate }}</h3>
   </div>
   <div class="card-body">
-    <div>{{'settings.car_connector.description' | translate}}</div><br>
-    {{'settings.activation_contact_msg' | translate}}
+    <div>{{ 'settings.car_connector.description' | translate }}</div>
+    <br />
+    {{ 'settings.activation_contact_msg' | translate }}
   </div>
 </div>
 
 <div *ngIf="isActive" class="settings-table">
   <form class="form h-100" [formGroup]="formGroup">
     <div class="mat-toolbar-row mat-toolbar-settings">
-      <button mat-raised-button color="warn" (click)="save()"
-          [hidden]="!authorizations || !authorizations.canUpdate"
-          [disabled]="!formGroup.valid || !formGroup.dirty">
+      <button
+        mat-raised-button
+        color="warn"
+        (click)="save()"
+        [hidden]="!authorizations || !authorizations.canUpdate"
+        [disabled]="!formGroup.valid || !formGroup.dirty"
+      >
         <mat-icon>save</mat-icon>
-        <span>{{'general.save' | translate}}</span>
+        <span>{{ 'general.save' | translate }}</span>
       </button>
     </div>
     <!-- Connections -->
@@ -27,7 +32,7 @@
         <div class="card-icon">
           <mat-icon>bluetooth_drive</mat-icon>
         </div>
-        <h3 class="card-title">{{'settings.car_connector.connection.title' | translate}}</h3>
+        <h3 class="card-title">{{ 'settings.car_connector.connection.title' | translate }}</h3>
       </div>
       <div class="card-body">
         <app-table [dataSource]="settingsCarConnectorConnectionTableDataSource"></app-table>

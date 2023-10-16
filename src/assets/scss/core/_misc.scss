@@ -15,8 +15,8 @@
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
-input:-webkit-autofill:active  {
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
 legend {
@@ -99,7 +99,7 @@ label {
 .animation-transition-fast,
 .navbar,
 .bootstrap-tagsinput .tag,
-.bootstrap-tagsinput [data-role="remove"] {
+.bootstrap-tagsinput [data-role='remove'] {
   @include transitions($fast-transition-time, $transition-ease);
 }
 
@@ -374,7 +374,7 @@ label {
 }
 
 .separator {
-  content: "Separator";
+  content: 'Separator';
   color: $brand-text;
   display: block;
   width: 100%;
@@ -382,14 +382,14 @@ label {
 }
 
 .separator-line {
-  background-color: #EEE;
+  background-color: #eee;
   height: 1px;
   width: 100%;
   display: block;
 }
 
 .separator.separator-gray {
-  background-color: #EEEEEE;
+  background-color: #eeeeee;
 }
 
 .social-buttons-demo .btn {

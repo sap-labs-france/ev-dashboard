@@ -11,9 +11,15 @@ import { TableActionDef } from '../../../../types/Table';
 import { UserButtonAction } from '../../../../types/User';
 
 export interface TableExportUsersActionDef extends TableActionDef {
-  action: (filters: FilterParams, dialogService: DialogService, translateService: TranslateService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router,
-    spinnerService: SpinnerService) => void;
+  action: (
+    filters: FilterParams,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    router: Router,
+    spinnerService: SpinnerService
+  ) => void;
 }
 
 export class TableExportUsersAction extends TableExportAction {
@@ -25,14 +31,28 @@ export class TableExportUsersAction extends TableExportAction {
     };
   }
 
-  private exportUsers(filters: FilterParams, dialogService: DialogService, translateService: TranslateService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router,
-    spinnerService: SpinnerService) {
-    super.export(filters, 'exported-users.csv',
-      'users.export_users_title', 'users.export_users_confirm',
+  private exportUsers(
+    filters: FilterParams,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    router: Router,
+    spinnerService: SpinnerService
+  ) {
+    super.export(
+      filters,
+      'exported-users.csv',
+      'users.export_users_title',
+      'users.export_users_confirm',
       'users.export_users_error',
       centralServerService.exportUsers.bind(centralServerService),
-      dialogService, translateService, messageService,
-      centralServerService, spinnerService, router);
+      dialogService,
+      translateService,
+      messageService,
+      centralServerService,
+      spinnerService,
+      router
+    );
   }
 }

@@ -4,7 +4,10 @@ import { TableData } from '../Table';
 import { OCPIBusinessDetails } from './OCPIBusinessDetails';
 import { OCPIRole } from './OCPIRole';
 
-export interface OCPIEndpoint extends TableData, OcpiEndpointAuthorizationActions, CreatedUpdatedProps {
+export interface OCPIEndpoint
+  extends TableData,
+  OcpiEndpointAuthorizationActions,
+  CreatedUpdatedProps {
   id: string;
   role: OCPIRole;
   name: string;

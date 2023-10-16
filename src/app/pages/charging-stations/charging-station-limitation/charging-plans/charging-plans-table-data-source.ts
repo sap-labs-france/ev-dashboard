@@ -25,7 +25,7 @@ export class ChargingPlansTableDataSource extends TableDataSource<Schedule> {
     public translateService: TranslateService,
     private datePipe: AppDatePipe,
     private decimalPipe: AppDecimalPipe,
-    private unitPipe: AppUnitPipe,
+    private unitPipe: AppUnitPipe
   ) {
     super(spinnerService, translateService);
     this.initDataSource();
@@ -56,7 +56,10 @@ export class ChargingPlansTableDataSource extends TableDataSource<Schedule> {
         headerClass: 'col-15p',
         editType: TableEditType.INPUT,
         class: 'text-center col-15p',
-        formatter: (value: number) => `${this.decimalPipe.transform(value)} ${this.translateService.instant('chargers.smart_charging.minutes')}`
+        formatter: (value: number) =>
+          `${this.decimalPipe.transform(value)} ${this.translateService.instant(
+            'chargers.smart_charging.minutes'
+          )}`,
       },
       {
         id: 'endDate',
@@ -72,8 +75,18 @@ export class ChargingPlansTableDataSource extends TableDataSource<Schedule> {
         headerClass: 'col-50p',
         class: 'col-45p',
         formatter: (limit: number) => `${Utils.convertAmpToWattString(
-          this.chargingStation, this.chargePoint, this.chargingProfile.connectorID, this.unitPipe, limit, 'kW', true, 3)}
-        ${this.translateService.instant('chargers.smart_charging.limit_in_amps', { limitInAmps: limit })}`
+          this.chargingStation,
+          this.chargePoint,
+          this.chargingProfile.connectorID,
+          this.unitPipe,
+          limit,
+          'kW',
+          true,
+          3
+        )}
+        ${this.translateService.instant('chargers.smart_charging.limit_in_amps', {
+    limitInAmps: limit,
+  })}`,
       },
     ];
     return tableColumnDef;

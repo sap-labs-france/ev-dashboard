@@ -6,14 +6,22 @@ import { DialogMode } from 'types/Authorization';
 import { Utils } from 'utils/Utils';
 
 import { KeyValue } from '../../../../types/GlobalType';
-import { AssetConnectionSetting, AssetConnectionType, AssetGreencomConnectionType, AssetIothinkConnectionType, AssetLacroixConnectionType, AssetSchneiderConnectionType, AssetWitConnectionType } from '../../../../types/Setting';
+import {
+  AssetConnectionSetting,
+  AssetConnectionType,
+  AssetGreencomConnectionType,
+  AssetIothinkConnectionType,
+  AssetLacroixConnectionType,
+  AssetSchneiderConnectionType,
+  AssetWitConnectionType,
+} from '../../../../types/Setting';
 import { Constants } from '../../../../utils/Constants';
 import { AssetConnectionDialogComponent } from './asset-connection.dialog.component';
 
 @Component({
   selector: 'app-settings-asset-connection',
   templateUrl: 'asset-connection.component.html',
-  styleUrls: ['asset-connection.component.scss']
+  styleUrls: ['asset-connection.component.scss'],
 })
 export class AssetConnectionComponent implements OnInit {
   @Input() public currentAssetConnection!: AssetConnectionSetting;
@@ -39,40 +47,31 @@ export class AssetConnectionComponent implements OnInit {
     { key: AssetConnectionType.GREENCOM, value: 'settings.asset.types.greencom' },
     { key: AssetConnectionType.IOTHINK, value: 'settings.asset.types.iothink' },
     { key: AssetConnectionType.WIT, value: 'settings.asset.types.wit' },
-    { key: AssetConnectionType.LACROIX, value: 'settings.asset.types.lacroix' }
+    { key: AssetConnectionType.LACROIX, value: 'settings.asset.types.lacroix' },
   ];
   public submitButtonTranslation!: any;
 
   // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    private translateService: TranslateService) { }
+  public constructor(private translateService: TranslateService) {}
 
   public ngOnInit(): void {
     // Init Form
     this.formGroup = new FormGroup({
       id: new FormControl(''),
-      name: new FormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(100),
-        ])),
-      description: new FormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      type: new FormControl<AssetConnectionType>(AssetConnectionType.NONE,
-        Validators.compose([
-          Validators.required,
-        ])),
-      url: new FormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(Constants.URL_PATTERN),
-        ])),
-      refreshIntervalMins: new FormControl<number>(1,
-        Validators.compose([
-          Validators.min(1),
-        ])),
+      name: new FormControl(
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(100)])
+      ),
+      description: new FormControl('', Validators.compose([Validators.required])),
+      type: new FormControl<AssetConnectionType>(
+        AssetConnectionType.NONE,
+        Validators.compose([Validators.required])
+      ),
+      url: new FormControl(
+        '',
+        Validators.compose([Validators.required, Validators.pattern(Constants.URL_PATTERN)])
+      ),
+      refreshIntervalMins: new FormControl<number>(1, Validators.compose([Validators.min(1)])),
     });
     // Form
     this.id = this.formGroup.controls['id'];

@@ -7,16 +7,27 @@ import { CentralServerService } from '../../../../services/central-server.servic
 import { DialogService } from '../../../../services/dialog.service';
 import { MessageService } from '../../../../services/message.service';
 import { SpinnerService } from '../../../../services/spinner.service';
-import { ChargingStation, ChargingStationButtonAction, OCPPGeneralResponse } from '../../../../types/ChargingStation';
+import {
+  ChargingStation,
+  ChargingStationButtonAction,
+  OCPPGeneralResponse,
+} from '../../../../types/ChargingStation';
 import { ActionResponse } from '../../../../types/DataResult';
 import { TableActionDef } from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { TableAction } from '../table-action';
 
 export interface TableUpdateOCPPParamsActionDef extends TableActionDef {
-  action: (chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router, spinnerService: SpinnerService,
-    refresh?: () => Observable<void>) => void;
+  action: (
+    chargingStation: ChargingStation,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    router: Router,
+    spinnerService: SpinnerService,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableUpdateOCPPParamsAction implements TableAction {
@@ -34,36 +45,60 @@ export class TableUpdateOCPPParamsAction implements TableAction {
     return this.action;
   }
 
-  private updateOCPPParameters(chargingStation: ChargingStation, dialogService: DialogService, translateService: TranslateService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router, spinnerService: SpinnerService,
-    refresh?: () => Observable<void>) {
-    dialogService.createAndShowYesNoDialog(
-      translateService.instant('chargers.ocpp_params_update_from_template_title'),
-      translateService.instant('chargers.ocpp_params_update_from_template_confirm', { chargeBoxID: chargingStation.id })
-    ).subscribe((result) => {
-      if (result === ButtonAction.YES) {
-        spinnerService.show();
-        centralServerService.updateChargingStationOCPPParamWithTemplate(chargingStation.id).subscribe({
-          next: (response: ActionResponse) => {
-            spinnerService.hide();
-            if (response.status === OCPPGeneralResponse.ACCEPTED) {
-              messageService.showSuccessMessage(
-                translateService.instant('chargers.ocpp_params_update_from_template_success', { chargeBoxID: chargingStation.id }));
-              if (refresh) {
-                refresh().subscribe();
-              }
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                messageService, 'chargers.ocpp_params_update_from_template_error');
-            }
-          },
-          error: (error: any) => {
-            spinnerService.hide();
-            Utils.handleHttpError(error, router, messageService,
-              centralServerService, 'chargers.ocpp_params_update_from_template_error');
-          }
-        });
-      }
-    });
+  private updateOCPPParameters(
+    chargingStation: ChargingStation,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    router: Router,
+    spinnerService: SpinnerService,
+    refresh?: () => Observable<void>
+  ) {
+    dialogService
+      .createAndShowYesNoDialog(
+        translateService.instant('chargers.ocpp_params_update_from_template_title'),
+        translateService.instant('chargers.ocpp_params_update_from_template_confirm', {
+          chargeBoxID: chargingStation.id,
+        })
+      )
+      .subscribe((result) => {
+        if (result === ButtonAction.YES) {
+          spinnerService.show();
+          centralServerService
+            .updateChargingStationOCPPParamWithTemplate(chargingStation.id)
+            .subscribe({
+              next: (response: ActionResponse) => {
+                spinnerService.hide();
+                if (response.status === OCPPGeneralResponse.ACCEPTED) {
+                  messageService.showSuccessMessage(
+                    translateService.instant('chargers.ocpp_params_update_from_template_success', {
+                      chargeBoxID: chargingStation.id,
+                    })
+                  );
+                  if (refresh) {
+                    refresh().subscribe();
+                  }
+                } else {
+                  Utils.handleError(
+                    JSON.stringify(response),
+                    messageService,
+                    'chargers.ocpp_params_update_from_template_error'
+                  );
+                }
+              },
+              error: (error: any) => {
+                spinnerService.hide();
+                Utils.handleHttpError(
+                  error,
+                  router,
+                  messageService,
+                  centralServerService,
+                  'chargers.ocpp_params_update_from_template_error'
+                );
+              },
+            });
+        }
+      });
   }
 }

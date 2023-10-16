@@ -28,35 +28,53 @@ export class TableDeleteAction implements TableAction {
     return this.action;
   }
 
-  protected delete(data: TableData, messageTitle: string, messageConfirm: string, messageSuccess: string, messageError: string,
-    deleteData: (id: string|number) => Observable<ActionResponse>,
-    dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
-    dialogService.createAndShowYesNoDialog(
-      translateService.instant(messageTitle),
-      translateService.instant(messageConfirm),
-    ).subscribe((result) => {
-      if (result === ButtonAction.YES) {
-        spinnerService.show();
-        deleteData(data.id).subscribe({
-          next: (response) => {
-            spinnerService.hide();
-            if (response.status === RestResponse.SUCCESS) {
-              messageService.showSuccessMessage(messageSuccess);
-              if (refresh) {
-                refresh().subscribe();
+  protected delete(
+    data: TableData,
+    messageTitle: string,
+    messageConfirm: string,
+    messageSuccess: string,
+    messageError: string,
+    deleteData: (id: string | number) => Observable<ActionResponse>,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) {
+    dialogService
+      .createAndShowYesNoDialog(
+        translateService.instant(messageTitle),
+        translateService.instant(messageConfirm)
+      )
+      .subscribe((result) => {
+        if (result === ButtonAction.YES) {
+          spinnerService.show();
+          deleteData(data.id).subscribe({
+            next: (response) => {
+              spinnerService.hide();
+              if (response.status === RestResponse.SUCCESS) {
+                messageService.showSuccessMessage(messageSuccess);
+                if (refresh) {
+                  refresh().subscribe();
+                }
+              } else {
+                Utils.handleError(JSON.stringify(response), messageService, messageError);
               }
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                messageService, messageError);
-            }
-          },
-          error: (error) => {
-            spinnerService.hide();
-            Utils.handleHttpError(error, router, messageService, centralServerService, messageError);
-          }
-        });
-      }
-    });
+            },
+            error: (error) => {
+              spinnerService.hide();
+              Utils.handleHttpError(
+                error,
+                router,
+                messageService,
+                centralServerService,
+                messageError
+              );
+            },
+          });
+        }
+      });
   }
 }

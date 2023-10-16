@@ -5,11 +5,17 @@ import { Asset, AssetType } from '../../../../types/Asset';
 import { AssetConsumptionChartComponent } from './asset-consumption-chart.component';
 
 @Component({
-  template:
-    `<app-asset-chart #assetConsumptionChart *ngIf="assetID" [assetID]="assetID" [assetType]="assetType" ratio="3"></app-asset-chart>`,
+  template: `<app-asset-chart
+    #assetConsumptionChart
+    *ngIf="assetID"
+    [assetID]="assetID"
+    [assetType]="assetType"
+    ratio="3"
+  ></app-asset-chart>`,
 })
-
-export class AssetConsumptionChartDetailComponent extends CellContentTemplateDirective implements OnChanges, OnInit {
+export class AssetConsumptionChartDetailComponent
+  extends CellContentTemplateDirective
+  implements OnChanges, OnInit {
   @Input() public row!: Asset;
   @ViewChild('assetConsumptionChart') public chartComponent!: AssetConsumptionChartComponent;
   public assetID!: string;

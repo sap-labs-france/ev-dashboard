@@ -7,8 +7,7 @@ import { LocaleService } from '../../services/locale.service';
 export class AppPercentPipe implements PipeTransform {
   private percentPipe!: PercentPipe;
 
-  public constructor(
-    private localeService: LocaleService) {
+  public constructor(private localeService: LocaleService) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.percentPipe = new PercentPipe(locale.currentLocaleJS);
     });

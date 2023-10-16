@@ -3,9 +3,12 @@
     <div class="card-icon">
       <mat-icon>call_split</mat-icon>
     </div>
-    <h3 class="card-title">{{"oicp.roaming_platforms" | translate}}</h3>
+    <h3 class="card-title">{{ 'oicp.roaming_platforms' | translate }}</h3>
   </div>
   <div class="card-body">
-    <app-table class="endpoints-table" [dataSource]="settingsOicpEndpointsTableDataSource"></app-table>
+    <app-table
+      class="endpoints-table"
+      [dataSource]="settingsOicpEndpointsTableDataSource"
+    ></app-table>
   </div>
 </div>

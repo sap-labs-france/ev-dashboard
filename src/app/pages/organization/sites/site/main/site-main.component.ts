@@ -44,7 +44,8 @@ export class SiteMainComponent implements OnInit, OnChanges {
     private dialog: MatDialog,
     private configService: ConfigService,
     private messageService: MessageService,
-    private router: Router) {
+    private router: Router
+  ) {
     this.maxSize = this.configService.getSite().maxPictureKb;
   }
 
@@ -52,19 +53,21 @@ export class SiteMainComponent implements OnInit, OnChanges {
     // Init the form
     this.formGroup.addControl('issuer', new UntypedFormControl(true));
     this.formGroup.addControl('id', new UntypedFormControl(''));
-    this.formGroup.addControl('name', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-        Validators.maxLength(255),
-      ])));
-    this.formGroup.addControl('company', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-      ])));
-    this.formGroup.addControl('companyID', new UntypedFormControl('',
-      Validators.compose([
-        Validators.required,
-      ])));
+    this.formGroup.addControl(
+      'name',
+      new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(255)])
+      )
+    );
+    this.formGroup.addControl(
+      'company',
+      new UntypedFormControl('', Validators.compose([Validators.required]))
+    );
+    this.formGroup.addControl(
+      'companyID',
+      new UntypedFormControl('', Validators.compose([Validators.required]))
+    );
     this.formGroup.addControl('autoUserSiteAssignment', new UntypedFormControl(false));
     this.formGroup.addControl('public', new UntypedFormControl(false));
     // Form
@@ -111,7 +114,10 @@ export class SiteMainComponent implements OnInit, OnChanges {
       if (this.site.address) {
         this.address = this.site.address;
       }
-      if (this.site.metadata?.autoUserSiteAssignment && !this.site.metadata?.autoUserSiteAssignment.enabled) {
+      if (
+        this.site.metadata?.autoUserSiteAssignment &&
+        !this.site.metadata?.autoUserSiteAssignment.enabled
+      ) {
         this.autoUserSiteAssignment.disable();
       }
       // Get Site image
@@ -127,10 +133,15 @@ export class SiteMainComponent implements OnInit, OnChanges {
                 this.image = Constants.NO_IMAGE;
                 break;
               default:
-                Utils.handleHttpError(error, this.router, this.messageService,
-                  this.centralServerService, 'general.unexpected_error_backend');
+                Utils.handleHttpError(
+                  error,
+                  this.router,
+                  this.messageService,
+                  this.centralServerService,
+                  'general.unexpected_error_backend'
+                );
             }
-          }
+          },
         });
       }
     }
@@ -145,23 +156,29 @@ export class SiteMainComponent implements OnInit, OnChanges {
       sitesAdminOnly: true,
       rowMultipleSelection: false,
       staticFilter: {
-        Issuer: true
-      }
+        Issuer: true,
+      },
     };
     // Open
-    this.dialog.open(CompaniesDialogComponent, dialogConfig).afterClosed().subscribe((result) => {
-      if (!Utils.isEmptyArray(result) && result[0].objectRef) {
-        const company: Company = (result[0].objectRef) as Company;
-        this.company.setValue(company.name);
-        this.companyID.setValue(company.id);
-        this.formGroup.markAsDirty();
-      }
-    });
+    this.dialog
+      .open(CompaniesDialogComponent, dialogConfig)
+      .afterClosed()
+      .subscribe((result) => {
+        if (!Utils.isEmptyArray(result) && result[0].objectRef) {
+          const company: Company = result[0].objectRef as Company;
+          this.company.setValue(company.name);
+          this.companyID.setValue(company.id);
+          this.formGroup.markAsDirty();
+        }
+      });
   }
 
   public updateSiteCoordinates(site: Site) {
-    if (site.address && site.address.coordinates &&
-      !(site.address.coordinates[0] || site.address.coordinates[1])) {
+    if (
+      site.address &&
+      site.address.coordinates &&
+      !(site.address.coordinates[0] || site.address.coordinates[1])
+    ) {
       delete site.address.coordinates;
     }
   }
@@ -187,8 +204,10 @@ export class SiteMainComponent implements OnInit, OnChanges {
   public onImageChanged(event: any) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-      if (file.size > (this.maxSize * 1024)) {
-        this.messageService.showErrorMessage('sites.image_size_error', { maxPictureKb: this.maxSize });
+      if (file.size > this.maxSize * 1024) {
+        this.messageService.showErrorMessage('sites.image_size_error', {
+          maxPictureKb: this.maxSize,
+        });
       } else {
         const reader = new FileReader();
         reader.onload = () => {

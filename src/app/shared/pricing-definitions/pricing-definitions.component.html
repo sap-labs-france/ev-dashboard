@@ -3,7 +3,7 @@
     <div class="card-icon">
       <mat-icon>money</mat-icon>
     </div>
-    <h3 class="card-title">{{'settings.pricing.title' | translate}}</h3>
+    <h3 class="card-title">{{ 'settings.pricing.title' | translate }}</h3>
   </div>
   <div class="card-body">
     <app-table [dataSource]="pricingTableDataSource"></app-table>
@@ -11,10 +11,14 @@
 </div>
 <div class="main-content vw-90 vh-90 pricing-definitions-dialog-size" *ngIf="inDialog">
   <div class="card card-profile card-testimonial">
-    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info charger-dialog-container mat-tabs-with-close-action">
+    <mat-tab-group
+      animationDuration="0ms"
+      disableRipple="true"
+      class="mat-tab-info charger-dialog-container mat-tabs-with-close-action"
+    >
       <mat-tab>
         <ng-template mat-tab-label>
-          <mat-icon>money</mat-icon><span>{{'settings.pricing.title' | translate}}</span>
+          <mat-icon>money</mat-icon><span>{{ 'settings.pricing.title' | translate }}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content">
           <div class="tab-content">
@@ -23,7 +27,7 @@
         </div>
       </mat-tab>
     </mat-tab-group>
-    <div class='tabs-actions'>
+    <div class="tabs-actions">
       <button mat-icon-button (click)="close()">
         <mat-icon>close</mat-icon>
       </button>

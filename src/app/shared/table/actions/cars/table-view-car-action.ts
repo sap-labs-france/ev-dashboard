@@ -8,8 +8,12 @@ import { TableActionDef } from '../../../../types/Table';
 import { TableViewAction } from '../table-view-action';
 
 export interface TableViewCarActionDef extends TableActionDef {
-  action: (carDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParams<Car>, refresh?: () => Observable<void>) => void;
+  action: (
+    carDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParams<Car>,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableViewCarAction extends TableViewAction {
@@ -21,8 +25,12 @@ export class TableViewCarAction extends TableViewAction {
     };
   }
 
-  private viewCar(carDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParams<Car>, refresh?: () => Observable<void>) {
+  private viewCar(
+    carDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParams<Car>,
+    refresh?: () => Observable<void>
+  ) {
     super.view(carDialogComponent, dialog, dialogParams, refresh);
   }
 }

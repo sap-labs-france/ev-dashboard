@@ -51,28 +51,41 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
     private appUnitPipe: AppUnitPipe,
     private appCurrencyPipe: AppCurrencyPipe,
     private appUserNamePipe: AppUserNamePipe,
-    private windowService: WindowService) {
+    private windowService: WindowService
+  ) {
     super(spinnerService, translateService);
     // Load settings
     // this.loadSettings();
     // Init
-    this.setStaticFilters([{
-      WithUser: true,
-    }]);
+    this.setStaticFilters([
+      {
+        WithUser: true,
+      },
+    ]);
     this.initDataSource();
   }
 
   public loadDataImpl(): Observable<DataResult<BillingTransfer>> {
     return new Observable((observer) => {
       const filters = this.buildFilterValues();
-      this.centralServerService.getTransfers(filters, this.getPaging(), this.getSorting())
-        .subscribe((transfers) => {
-          observer.next(transfers);
-          observer.complete();
-        }, (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          observer.error(error);
-        });
+      this.centralServerService
+        .getTransfers(filters, this.getPaging(), this.getSorting())
+        .subscribe(
+          (transfers) => {
+            observer.next(transfers);
+            observer.complete();
+          },
+          (error) => {
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.error_backend'
+            );
+            observer.error(error);
+          }
+        );
     });
   }
 
@@ -140,7 +153,8 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
       {
         id: 'collectedFunds',
         name: 'transfers.collected_funds',
-        formatter: (amount: number, transfer: BillingTransfer) => this.appCurrencyPipe.transform(amount, transfer.currency),
+        formatter: (amount: number, transfer: BillingTransfer) =>
+          this.appCurrencyPipe.transform(amount, transfer.currency),
         headerClass: 'col-10p',
         class: 'col-10p',
         sortable: false,
@@ -148,7 +162,8 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
       {
         id: 'collectedFees',
         name: 'transfers.platform_fee_amount',
-        formatter: (amount: number, transfer: BillingTransfer) => this.appCurrencyPipe.transform(amount, transfer.currency),
+        formatter: (amount: number, transfer: BillingTransfer) =>
+          this.appCurrencyPipe.transform(amount, transfer.currency),
         headerClass: 'col-10p',
         class: 'col-10p',
         sortable: false,
@@ -156,7 +171,8 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
       {
         id: 'invoice.totalAmount',
         name: 'transfers.platform_fee_tax_inclusive',
-        formatter: (amount: number, transfer: BillingTransfer) => this.appCurrencyPipe.transform(amount, transfer.currency),
+        formatter: (amount: number, transfer: BillingTransfer) =>
+          this.appCurrencyPipe.transform(amount, transfer.currency),
         headerClass: 'col-10p',
         class: 'col-10p',
         sortable: false,
@@ -164,7 +180,8 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
       {
         id: 'transferAmount',
         name: 'transfers.transferAmount',
-        formatter: (amount: number, transfer: BillingTransfer) => this.appCurrencyPipe.transform(amount, transfer.currency),
+        formatter: (amount: number, transfer: BillingTransfer) =>
+          this.appCurrencyPipe.transform(amount, transfer.currency),
         headerClass: 'col-10p',
         class: 'col-10p',
         sortable: false,
@@ -189,7 +206,8 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
         name: 'transfers.accountOwner',
         headerClass: 'col-20p text-left',
         class: 'col-20p text-left',
-        formatter: (dummy: string, transfer: BillingTransfer) => this.appUserNamePipe.transform(transfer.businessOwner),
+        formatter: (dummy: string, transfer: BillingTransfer) =>
+          this.appUserNamePipe.transform(transfer.businessOwner),
       },
       {
         id: 'account.accountExternalID',
@@ -207,7 +225,7 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
         sorted: true,
         sortable: false,
         direction: 'desc',
-      },
+      }
     );
     return columns;
   }
@@ -215,7 +233,7 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
   public buildTableFiltersDef(): TableFilterDef[] {
     const filters: TableFilterDef[] = [
       new DateRangeTableFilter({
-        translateService: this.translateService
+        translateService: this.translateService,
       }).getFilterDef(),
       new TransfersStatusFilter().getFilterDef(),
     ];
@@ -264,7 +282,8 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
   }
 
   public actionTriggered(actionDef: TableActionDef) {
-    switch (actionDef.id) {
+    switch (
+      actionDef.id
       // case TransferButtonAction.EXPORT_TRANSFERS:
       //   if (actionDef.action) {
       //     (actionDef as TableExportTransfersActionDef).action(this.buildFilterValues(), this.dialogService,
@@ -272,6 +291,7 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
       //       this.spinnerService);
       //   }
       // break;
+    ) {
     }
   }
 
@@ -283,9 +303,7 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
   }
 
   public buildTableRowActions(): TableActionDef[] {
-    return [
-      this.viewAction
-    ];
+    return [this.viewAction];
   }
 
   public rowActionTriggered(actionDef: TableActionDef, transfer: BillingTransfer) {
@@ -300,25 +318,38 @@ export class TransfersTableDataSource extends TableDataSource<BillingTransfer> {
       case TransferButtonAction.DOWNLOAD_COMMISSION_INCOICE:
         if (this.downloadCommissionInvoice.action) {
           this.downloadCommissionInvoice.action(
-            transfer.id, 'invoice_' + transfer.invoice?.invoiceID, this.translateService, this.spinnerService,
-            this.messageService, this.centralServerService, this.router
+            transfer.id,
+            'invoice_' + transfer.invoice?.invoiceID,
+            this.translateService,
+            this.spinnerService,
+            this.messageService,
+            this.centralServerService,
+            this.router
           );
         }
         break;
       case TransferButtonAction.FINALIZE_TRANSFER:
         if (this.finalizeBillingTransferAction.action) {
-          this.finalizeBillingTransferAction.action(transfer.id,
-            this.translateService, this.spinnerService,
-            this.messageService, this.centralServerService, this.router,
+          this.finalizeBillingTransferAction.action(
+            transfer.id,
+            this.translateService,
+            this.spinnerService,
+            this.messageService,
+            this.centralServerService,
+            this.router,
             this.refreshData.bind(this)
           );
         }
         break;
       case TransferButtonAction.SEND_TRANSFER:
         if (this.sendBillingTransferAction.action) {
-          this.sendBillingTransferAction.action(transfer.id,
-            this.translateService, this.spinnerService,
-            this.messageService, this.centralServerService, this.router,
+          this.sendBillingTransferAction.action(
+            transfer.id,
+            this.translateService,
+            this.spinnerService,
+            this.messageService,
+            this.centralServerService,
+            this.router,
             this.refreshData.bind(this)
           );
         }

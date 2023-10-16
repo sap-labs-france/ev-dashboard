@@ -11,9 +11,16 @@ import { Tenant, TenantButtonAction } from '../../../../types/Tenant';
 import { TableDeleteAction } from '../table-delete-action';
 
 export interface TableDeleteTenantActionDef extends TableActionDef {
-  action: (tenant: Tenant, dialogService: DialogService,
-    translateService: TranslateService, messageService: MessageService, centralServerService: CentralServerService,
-    spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) => void;
+  action: (
+    tenant: Tenant,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableDeleteTenantAction extends TableDeleteAction {
@@ -25,14 +32,30 @@ export class TableDeleteTenantAction extends TableDeleteAction {
     };
   }
 
-  private deleteTenant(tenant: Tenant, dialogService: DialogService,
-    translateService: TranslateService, messageService: MessageService, centralServerService: CentralServerService,
-    spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
+  private deleteTenant(
+    tenant: Tenant,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) {
     super.delete(
-      tenant, 'tenants.delete_title',
+      tenant,
+      'tenants.delete_title',
       translateService.instant('tenants.delete_confirm', { name: tenant.name }),
       translateService.instant('tenants.delete_success', { name: tenant.name }),
-      'tenants.delete_error', centralServerService.deleteTenant.bind(centralServerService),
-      dialogService, translateService, messageService, centralServerService, spinnerService, router, refresh);
+      'tenants.delete_error',
+      centralServerService.deleteTenant.bind(centralServerService),
+      dialogService,
+      translateService,
+      messageService,
+      centralServerService,
+      spinnerService,
+      router,
+      refresh
+    );
   }
 }

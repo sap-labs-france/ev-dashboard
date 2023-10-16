@@ -6,8 +6,18 @@ import { SpinnerService } from '../../../../services/spinner.service';
 import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 import { EditableTableDataSource } from '../../../../shared/table/editable-table-data-source';
 import { ChargingProfile, Schedule } from '../../../../types/ChargingProfile';
-import { ChargePoint, ChargingStation, ChargingStationPowers } from '../../../../types/ChargingStation';
-import { DropdownItem, TableActionDef, TableColumnDef, TableDef, TableEditType } from '../../../../types/Table';
+import {
+  ChargePoint,
+  ChargingStation,
+  ChargingStationPowers,
+} from '../../../../types/ChargingStation';
+import {
+  DropdownItem,
+  TableActionDef,
+  TableColumnDef,
+  TableDef,
+  TableEditType,
+} from '../../../../types/Table';
 import { Utils } from '../../../../utils/Utils';
 import { ChargingStationPowerSliderCellComponent } from '../cell-components/charging-station-power-slider-cell.component';
 
@@ -24,7 +34,7 @@ export class ChargingPlansEditableTableDataSource extends EditableTableDataSourc
   public constructor(
     public spinnerService: SpinnerService,
     public translateService: TranslateService,
-    private datePipe: AppDatePipe,
+    private datePipe: AppDatePipe
   ) {
     super(spinnerService, translateService);
   }
@@ -59,8 +69,16 @@ export class ChargingPlansEditableTableDataSource extends EditableTableDataSourc
           Validators.pattern(/^(0|[1-9]\d*$)/),
         ],
         errors: [
-          { id: 'min', message: 'chargers.smart_charging.invalid_min_duration', messageParams: { minDuration: 1 } },
-          { id: 'max', message: 'chargers.smart_charging.invalid_max_duration', messageParams: { maxDuration: 1440 } },
+          {
+            id: 'min',
+            message: 'chargers.smart_charging.invalid_min_duration',
+            messageParams: { minDuration: 1 },
+          },
+          {
+            id: 'max',
+            message: 'chargers.smart_charging.invalid_max_duration',
+            messageParams: { maxDuration: 1440 },
+          },
           { id: 'pattern', message: 'general.error_number_pattern' },
           { id: 'required', message: 'general.mandatory_field' },
         ],
@@ -107,13 +125,22 @@ export class ChargingPlansEditableTableDataSource extends EditableTableDataSourc
         // Update the date of the next records
         if (i < chargingSchedules.length - 1) {
           chargingSchedules[i + 1].startDate = new Date(
-            chargingSchedules[i].startDate.getTime() + chargingSchedules[i].duration * 60 * 1000);
+            chargingSchedules[i].startDate.getTime() + chargingSchedules[i].duration * 60 * 1000
+          );
         }
         // Update the limit in kW
-        chargingSchedules[i].limitInkW = Utils.roundTo(Utils.convertAmpToWatt(
-          this.chargingStation, this.chargePoint, this.connectorID, chargingSchedules[i].limit) / 1000, 2);
-        chargingSchedules[i].endDate =
-          new Date(chargingSchedules[i].startDate.getTime() + chargingSchedules[i].duration * 60 * 1000);
+        chargingSchedules[i].limitInkW = Utils.roundTo(
+          Utils.convertAmpToWatt(
+            this.chargingStation,
+            this.chargePoint,
+            this.connectorID,
+            chargingSchedules[i].limit
+          ) / 1000,
+          2
+        );
+        chargingSchedules[i].endDate = new Date(
+          chargingSchedules[i].startDate.getTime() + chargingSchedules[i].duration * 60 * 1000
+        );
         // Add
         this.endDate.setTime(this.endDate.getTime() + chargingSchedules[i].duration * 60 * 1000);
       }
@@ -124,8 +151,15 @@ export class ChargingPlansEditableTableDataSource extends EditableTableDataSourc
     const chargingSchedulePeriod = {
       startDate: this.startDate,
       duration: 60,
-      limitInkW: Utils.roundTo(Utils.convertAmpToWatt(
-        this.chargingStation, this.chargePoint, this.connectorID, this.chargerPowers.maxAmp) / 1000, 2),
+      limitInkW: Utils.roundTo(
+        Utils.convertAmpToWatt(
+          this.chargingStation,
+          this.chargePoint,
+          this.connectorID,
+          this.chargerPowers.maxAmp
+        ) / 1000,
+        2
+      ),
       limit: this.chargerPowers.maxAmp,
       key: '',
       id: 0,
@@ -133,17 +167,29 @@ export class ChargingPlansEditableTableDataSource extends EditableTableDataSourc
     // Fix the start date
     const chargingSchedules = this.getContent();
     if (chargingSchedules.length > 0) {
-      chargingSchedulePeriod.startDate =
-        new Date(chargingSchedules[chargingSchedules.length - 1].startDate.getTime() + chargingSchedulePeriod.duration * 60 * 1000);
-      chargingSchedulePeriod.endDate =
-        new Date(chargingSchedulePeriod.startDate.getTime() + chargingSchedulePeriod.duration * 60 * 1000);
+      chargingSchedulePeriod.startDate = new Date(
+        chargingSchedules[chargingSchedules.length - 1].startDate.getTime() +
+          chargingSchedulePeriod.duration * 60 * 1000
+      );
+      chargingSchedulePeriod.endDate = new Date(
+        chargingSchedulePeriod.startDate.getTime() + chargingSchedulePeriod.duration * 60 * 1000
+      );
     }
     return chargingSchedulePeriod;
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, schedule: Schedule, dropdownItem?: DropdownItem) {
+  public rowActionTriggered(
+    actionDef: TableActionDef,
+    schedule: Schedule,
+    dropdownItem?: DropdownItem
+  ) {
     // Call parent
-    super.rowActionTriggered(actionDef, schedule, dropdownItem, this.refreshChargingSchedules.bind(this));
+    super.rowActionTriggered(
+      actionDef,
+      schedule,
+      dropdownItem,
+      this.refreshChargingSchedules.bind(this)
+    );
   }
 
   public rowCellUpdated(cellValue: number, rowIndex: number, columnDef: TableColumnDef) {

@@ -41,7 +41,8 @@ export class SettingsOicpEndpointsTableDataSource extends TableDataSource<OicpEn
     private dialogService: DialogService,
     private router: Router,
     private dialog: MatDialog,
-    private centralServerService: CentralServerService) {
+    private centralServerService: CentralServerService
+  ) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -50,16 +51,24 @@ export class SettingsOicpEndpointsTableDataSource extends TableDataSource<OicpEn
   public loadDataImpl(): Observable<DataResult<OicpEndpoint>> {
     return new Observable((observer) => {
       // Get the OICP Endpoints
-      this.centralServerService.getOicpEndpoints(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
-        next: (oicpEndpoints) => {
-          observer.next(oicpEndpoints);
-          observer.complete();
-        },
-        error: (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          observer.error(error);
-        }
-      });
+      this.centralServerService
+        .getOicpEndpoints(this.buildFilterValues(), this.getPaging(), this.getSorting())
+        .subscribe({
+          next: (oicpEndpoints) => {
+            observer.next(oicpEndpoints);
+            observer.complete();
+          },
+          error: (error) => {
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.error_backend'
+            );
+            observer.error(error);
+          },
+        });
     });
   }
 
@@ -153,19 +162,11 @@ export class SettingsOicpEndpointsTableDataSource extends TableDataSource<OicpEn
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    return [
-      new TableCreateAction().getActionDef(),
-      ...tableActionsDef,
-    ];
+    return [new TableCreateAction().getActionDef(), ...tableActionsDef];
   }
 
   public buildTableRowActions(): TableActionDef[] {
-    return [
-      this.editAction,
-      this.registerAction,
-      this.unregisterAction,
-      this.deleteAction,
-    ];
+    return [this.editAction, this.registerAction, this.unregisterAction, this.deleteAction];
   }
 
   public actionTriggered(actionDef: TableActionDef) {
@@ -178,7 +179,11 @@ export class SettingsOicpEndpointsTableDataSource extends TableDataSource<OicpEn
     }
   }
 
-  public rowActionTriggered(actionDef: TableActionDef, oicpEndpoint: OicpEndpoint, dropdownItem?: DropdownItem) {
+  public rowActionTriggered(
+    actionDef: TableActionDef,
+    oicpEndpoint: OicpEndpoint,
+    dropdownItem?: DropdownItem
+  ) {
     switch (actionDef.id) {
       case ButtonAction.EDIT:
         this.showOicpEndpointDialog(oicpEndpoint);
@@ -222,77 +227,115 @@ export class SettingsOicpEndpointsTableDataSource extends TableDataSource<OicpEn
   }
 
   private deleteOicpEndpoint(oicpendpoint: OicpEndpoint) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('oicpendpoints.delete_title'),
-      this.translateService.instant('oicpendpoints.delete_confirm', { name: oicpendpoint.name }),
-    ).subscribe((result) => {
-      if (result === ButtonAction.YES) {
-        this.centralServerService.deleteOicpEndpoint(oicpendpoint.id).subscribe({
-          next: (response) => {
-            if (response.status === RestResponse.SUCCESS) {
-              this.messageService.showSuccessMessage('oicpendpoints.delete_success', { name: oicpendpoint.name });
-              this.refreshData().subscribe();
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, 'oicpendpoints.delete_error');
-            }
-          },
-          error: (error) => {
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              'oicpendpoints.delete_error');
-          }
-        });
-      }
-    });
+    this.dialogService
+      .createAndShowYesNoDialog(
+        this.translateService.instant('oicpendpoints.delete_title'),
+        this.translateService.instant('oicpendpoints.delete_confirm', { name: oicpendpoint.name })
+      )
+      .subscribe((result) => {
+        if (result === ButtonAction.YES) {
+          this.centralServerService.deleteOicpEndpoint(oicpendpoint.id).subscribe({
+            next: (response) => {
+              if (response.status === RestResponse.SUCCESS) {
+                this.messageService.showSuccessMessage('oicpendpoints.delete_success', {
+                  name: oicpendpoint.name,
+                });
+                this.refreshData().subscribe();
+              } else {
+                Utils.handleError(
+                  JSON.stringify(response),
+                  this.messageService,
+                  'oicpendpoints.delete_error'
+                );
+              }
+            },
+            error: (error) => {
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'oicpendpoints.delete_error'
+              );
+            },
+          });
+        }
+      });
   }
 
   private registerOicpEndpoint(oicpendpoint: OicpEndpoint) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('oicpendpoints.register_title'),
-      this.translateService.instant('oicpendpoints.register_confirm', { name: oicpendpoint.name }),
-    ).subscribe((result) => {
-      if (result === ButtonAction.YES) {
-        this.centralServerService.registerOicpEndpoint(oicpendpoint.id).subscribe({
-          next: (response) => {
-            if (response.status === RestResponse.SUCCESS) {
-              this.messageService.showSuccessMessage('oicpendpoints.register_success', { name: oicpendpoint.name });
-              this.refreshData().subscribe();
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, 'oicpendpoints.register_error');
-            }
-          },
-          error: (error) => {
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              'oicpendpoints.register_error');
-          }
-        });
-      }
-    });
+    this.dialogService
+      .createAndShowYesNoDialog(
+        this.translateService.instant('oicpendpoints.register_title'),
+        this.translateService.instant('oicpendpoints.register_confirm', { name: oicpendpoint.name })
+      )
+      .subscribe((result) => {
+        if (result === ButtonAction.YES) {
+          this.centralServerService.registerOicpEndpoint(oicpendpoint.id).subscribe({
+            next: (response) => {
+              if (response.status === RestResponse.SUCCESS) {
+                this.messageService.showSuccessMessage('oicpendpoints.register_success', {
+                  name: oicpendpoint.name,
+                });
+                this.refreshData().subscribe();
+              } else {
+                Utils.handleError(
+                  JSON.stringify(response),
+                  this.messageService,
+                  'oicpendpoints.register_error'
+                );
+              }
+            },
+            error: (error) => {
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'oicpendpoints.register_error'
+              );
+            },
+          });
+        }
+      });
   }
 
   private unregisterOicpEndpoint(oicpendpoint: OicpEndpoint) {
-    this.dialogService.createAndShowYesNoDialog(
-      this.translateService.instant('oicpendpoints.unregister_title'),
-      this.translateService.instant('oicpendpoints.unregister_confirm', { name: oicpendpoint.name }),
-    ).subscribe((result) => {
-      if (result === ButtonAction.YES) {
-        this.centralServerService.unregisterOicpEndpoint(oicpendpoint.id).subscribe({
-          next: (response) => {
-            if (response.status === RestResponse.SUCCESS) {
-              this.messageService.showSuccessMessage('oicpendpoints.unregister_success', { name: oicpendpoint.name });
-              this.refreshData().subscribe();
-            } else {
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, 'oicpendpoints.unregister_error');
-            }
-          },
-          error: (error) => {
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              'oicpendpoints.unregister_error');
-          }
-        });
-      }
-    });
+    this.dialogService
+      .createAndShowYesNoDialog(
+        this.translateService.instant('oicpendpoints.unregister_title'),
+        this.translateService.instant('oicpendpoints.unregister_confirm', {
+          name: oicpendpoint.name,
+        })
+      )
+      .subscribe((result) => {
+        if (result === ButtonAction.YES) {
+          this.centralServerService.unregisterOicpEndpoint(oicpendpoint.id).subscribe({
+            next: (response) => {
+              if (response.status === RestResponse.SUCCESS) {
+                this.messageService.showSuccessMessage('oicpendpoints.unregister_success', {
+                  name: oicpendpoint.name,
+                });
+                this.refreshData().subscribe();
+              } else {
+                Utils.handleError(
+                  JSON.stringify(response),
+                  this.messageService,
+                  'oicpendpoints.unregister_error'
+                );
+              }
+            },
+            error: (error) => {
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'oicpendpoints.unregister_error'
+              );
+            },
+          });
+        }
+      });
   }
 }

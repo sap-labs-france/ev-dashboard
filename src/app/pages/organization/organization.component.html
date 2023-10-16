@@ -1,9 +1,14 @@
 <div class="main-content">
-  <mat-tab-group (selectedIndexChange)="updateRoute($event)" [selectedIndex]="activeTabIndex" animationDuration="0ms"
-    disableRipple="true" class="h-100 mat-tab-info">
+  <mat-tab-group
+    (selectedIndexChange)="updateRoute($event)"
+    [selectedIndex]="activeTabIndex"
+    animationDuration="0ms"
+    disableRipple="true"
+    class="h-100 mat-tab-info"
+  >
     <mat-tab *ngIf="canListCompanies">
       <ng-template mat-tab-label>
-        <mat-icon>business</mat-icon><span>{{'organization.tabs.companies' | translate}}</span>
+        <mat-icon>business</mat-icon><span>{{ 'organization.tabs.companies' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-companies-list></app-companies-list>
@@ -11,7 +16,8 @@
     </mat-tab>
     <mat-tab *ngIf="canListSites">
       <ng-template mat-tab-label>
-        <mat-icon>store_mall_directory</mat-icon><span>{{'organization.tabs.sites' | translate}}</span>
+        <mat-icon>store_mall_directory</mat-icon
+        ><span>{{ 'organization.tabs.sites' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-sites-list></app-sites-list>
@@ -19,7 +25,7 @@
     </mat-tab>
     <mat-tab *ngIf="canListSiteAreas">
       <ng-template mat-tab-label>
-        <mat-icon>view_week</mat-icon><span>{{'organization.tabs.siteareas' | translate}}</span>
+        <mat-icon>view_week</mat-icon><span>{{ 'organization.tabs.siteareas' | translate }}</span>
       </ng-template>
       <ng-template matTabContent>
         <app-site-areas-list></app-site-areas-list>

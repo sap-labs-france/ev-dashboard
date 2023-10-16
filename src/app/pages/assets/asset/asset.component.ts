@@ -20,7 +20,7 @@ import { AssetMainComponent } from './main/asset-main.component';
 @Component({
   selector: 'app-asset',
   templateUrl: 'asset.component.html',
-  styleUrls: ['asset.component.scss']
+  styleUrls: ['asset.component.scss'],
 })
 export class AssetComponent extends AbstractTabComponent implements OnInit {
   @Input() public currentAssetID!: string;
@@ -42,7 +42,8 @@ export class AssetComponent extends AbstractTabComponent implements OnInit {
     private translateService: TranslateService,
     protected activatedRoute: ActivatedRoute,
     protected windowService: WindowService,
-    private router: Router) {
+    private router: Router
+  ) {
     super(activatedRoute, windowService, ['main', 'connection'], false);
   }
 
@@ -79,10 +80,15 @@ export class AssetComponent extends AbstractTabComponent implements OnInit {
               this.messageService.showErrorMessage('assets.asset_not_found');
               break;
             default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'general.unexpected_error_backend');
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'general.unexpected_error_backend'
+              );
           }
-        }
+        },
       });
     }
   }
@@ -94,8 +100,13 @@ export class AssetComponent extends AbstractTabComponent implements OnInit {
   }
 
   public close() {
-    Utils.checkAndSaveAndCloseDialog(this.formGroup, this.dialogService,
-      this.translateService, this.saveAsset.bind(this), this.closeDialog.bind(this));
+    Utils.checkAndSaveAndCloseDialog(
+      this.formGroup,
+      this.dialogService,
+      this.translateService,
+      this.saveAsset.bind(this),
+      this.closeDialog.bind(this)
+    );
   }
 
   public saveAsset(asset: Asset) {
@@ -117,13 +128,13 @@ export class AssetComponent extends AbstractTabComponent implements OnInit {
       next: (response) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage('assets.create_success',
-            { assetName: asset.name });
+          this.messageService.showSuccessMessage('assets.create_success', {
+            assetName: asset.name,
+          });
           this.currentAssetID = asset.id;
           this.closeDialog(true);
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, 'assets.create_error');
+          Utils.handleError(JSON.stringify(response), this.messageService, 'assets.create_error');
         }
       },
       error: (error) => {
@@ -133,10 +144,15 @@ export class AssetComponent extends AbstractTabComponent implements OnInit {
             this.messageService.showErrorMessage('assets.asset_not_found');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'assets.create_error');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'assets.create_error'
+            );
         }
-      }
+      },
     });
   }
 
@@ -151,11 +167,12 @@ export class AssetComponent extends AbstractTabComponent implements OnInit {
       next: (response) => {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
-          this.messageService.showSuccessMessage('assets.update_success', { assetName: asset.name });
+          this.messageService.showSuccessMessage('assets.update_success', {
+            assetName: asset.name,
+          });
           this.closeDialog(true);
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, 'assets.update_error');
+          Utils.handleError(JSON.stringify(response), this.messageService, 'assets.update_error');
         }
       },
       error: (error) => {
@@ -165,10 +182,15 @@ export class AssetComponent extends AbstractTabComponent implements OnInit {
             this.messageService.showErrorMessage('assets.asset_not_found');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'assets.update_error');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'assets.update_error'
+            );
         }
-      }
+      },
     });
   }
 }

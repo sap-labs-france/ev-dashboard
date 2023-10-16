@@ -5,7 +5,7 @@
         <mat-icon>business</mat-icon>
       </div>
       <h4 class="card-title">
-        <mat-label>{{'accounts.list.billing_account' | translate}}</mat-label>
+        <mat-label>{{ 'accounts.list.billing_account' | translate }}</mat-label>
       </h4>
     </div>
     <div class="card-body mat-tab-dialog-body-content">
@@ -13,13 +13,31 @@
         <div class="col-md-6">
           <div class="form-group">
             <mat-form-field>
-              <input matInput type="text" readonly=true placeholder="{{ (companyName.value ? 'accounts.list.company_name' : 'accounts.list.select_account') | translate}}"
-                class="form-field-popup" (click)="assignAccount()" [formControl]="companyName"/>
-              <button *ngIf="companyName.enabled && companyName.value" mat-icon-button matSuffix (click)="resetAccount()" aria-label="Clear">
+              <input
+                matInput
+                type="text"
+                readonly="true"
+                placeholder="{{
+                  (companyName.value
+                    ? 'accounts.list.company_name'
+                    : 'accounts.list.select_account'
+                  ) | translate
+                }}"
+                class="form-field-popup"
+                (click)="assignAccount()"
+                [formControl]="companyName"
+              />
+              <button
+                *ngIf="companyName.enabled && companyName.value"
+                mat-icon-button
+                matSuffix
+                (click)="resetAccount()"
+                aria-label="Clear"
+              >
                 <mat-icon>clear</mat-icon>
               </button>
               <mat-error *ngIf="companyName.errors?.required">
-                {{"general.mandatory_field" | translate}}
+                {{ 'general.mandatory_field' | translate }}
               </mat-error>
             </mat-form-field>
           </div>
@@ -27,9 +45,13 @@
         <div class="col-md-6">
           <div class="form-group">
             <mat-form-field>
-              <input matInput type="text" disabled
-                placeholder="{{'accounts.list.business_owner' | translate}}"
-                value="{{ businessOwnerName }}"/>
+              <input
+                matInput
+                type="text"
+                disabled
+                placeholder="{{ 'accounts.list.business_owner' | translate }}"
+                value="{{ businessOwnerName }}"
+              />
             </mat-form-field>
           </div>
         </div>
@@ -42,18 +64,24 @@
                 <mat-icon>payments</mat-icon>
               </div>
               <h4 class="card-title">
-                <mat-label>{{'accounts.platform_fee.platform_fee_group_title' | translate}}</mat-label>
+                <mat-label>{{
+                  'accounts.platform_fee.platform_fee_group_title' | translate
+                }}</mat-label>
               </h4>
             </div>
             <div class="card-body">
               <div class="row">
                 <div class="form-group">
                   <mat-form-field>
-                    <input matInput type="text"
-                        placeholder="{{'accounts.platform_fee.platform_flat_fee' | translate}}" type="text" [formControl]="flatFee">
-                    <mat-error
-                      *ngIf="flatFee.errors?.pattern || flatFee.errors?.max">
-                      {{"accounts.platform_fee.platform_flat_fee_invalid" | translate}}
+                    <input
+                      matInput
+                      type="text"
+                      placeholder="{{ 'accounts.platform_fee.platform_flat_fee' | translate }}"
+                      type="text"
+                      [formControl]="flatFee"
+                    />
+                    <mat-error *ngIf="flatFee.errors?.pattern || flatFee.errors?.max">
+                      {{ 'accounts.platform_fee.platform_flat_fee_invalid' | translate }}
                     </mat-error>
                   </mat-form-field>
                 </div>
@@ -61,11 +89,16 @@
               <div class="row">
                 <div class="form-group">
                   <mat-form-field>
-                    <input matInput
-                        placeholder="{{'accounts.platform_fee.platform_fee_percentage' | translate}}" type="text" [formControl]="percentage">
-                    <mat-error
-                      *ngIf="percentage.errors?.pattern || percentage.errors?.max">
-                      {{"accounts.platform_fee.platform_fee_percentage_invalid" | translate}}
+                    <input
+                      matInput
+                      placeholder="{{
+                        'accounts.platform_fee.platform_fee_percentage' | translate
+                      }}"
+                      type="text"
+                      [formControl]="percentage"
+                    />
+                    <mat-error *ngIf="percentage.errors?.pattern || percentage.errors?.max">
+                      {{ 'accounts.platform_fee.platform_fee_percentage_invalid' | translate }}
                     </mat-error>
                   </mat-form-field>
                 </div>

@@ -30,19 +30,23 @@ export class SettingsUserComponent implements OnInit {
     private messageService: MessageService,
     private centralServerService: CentralServerService,
     private spinnerService: SpinnerService,
-    private componentService: ComponentService) {
+    private componentService: ComponentService
+  ) {
     this.isDisabled = true;
   }
 
   public ngOnInit(): void {
     this.formGroup = new FormGroup({
-      autoActivateAccountAfterValidation : new FormControl<boolean>(false),
+      autoActivateAccountAfterValidation: new FormControl<boolean>(false),
     });
-    this.autoActivateAccountAfterValidation = this.formGroup.controls['autoActivateAccountAfterValidation'];
+    this.autoActivateAccountAfterValidation =
+      this.formGroup.controls['autoActivateAccountAfterValidation'];
     // Register check event
-    this.formGroup.controls['autoActivateAccountAfterValidation'].valueChanges.subscribe((value: boolean) => {
-      this.userSettings.user.autoActivateAccountAfterValidation = value;
-    });
+    this.formGroup.controls['autoActivateAccountAfterValidation'].valueChanges.subscribe(
+      (value: boolean) => {
+        this.userSettings.user.autoActivateAccountAfterValidation = value;
+      }
+    );
     this.loadSettings();
   }
 
@@ -60,7 +64,9 @@ export class SettingsUserComponent implements OnInit {
           this.refresh();
         } else {
           Utils.handleError(
-            JSON.stringify(response), this.messageService, 'technical_settings.user.update_error'
+            JSON.stringify(response),
+            this.messageService,
+            'technical_settings.user.update_error'
           );
         }
       },
@@ -72,10 +78,14 @@ export class SettingsUserComponent implements OnInit {
             break;
           default:
             Utils.handleHttpError(
-              error, this.router, this.messageService, this.centralServerService, 'technical_settings.user.update_error'
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'technical_settings.user.update_error'
             );
         }
-      }
+      },
     });
   }
 
@@ -92,9 +102,11 @@ export class SettingsUserComponent implements OnInit {
         // Init values
         this.isDisabled = true;
         this.userSettings = settings;
-        this.autoActivateAccountAfterValidation.setValue(this.userSettings.user.autoActivateAccountAfterValidation);
+        this.autoActivateAccountAfterValidation.setValue(
+          this.userSettings.user.autoActivateAccountAfterValidation
+        );
         // Read only
-        if(!this.authorizations.canUpdate) {
+        if (!this.authorizations.canUpdate) {
           // Async call for letting the sub form groups to init
           setTimeout(() => this.formGroup.disable(), 0);
         }
@@ -106,10 +118,15 @@ export class SettingsUserComponent implements OnInit {
             this.messageService.showErrorMessage('technical_settings.user.setting_do_not_exist');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.unexpected_error_backend'
+            );
         }
-      }
+      },
     });
   }
 

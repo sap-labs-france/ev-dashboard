@@ -1,10 +1,15 @@
 <div class="main-content vw-90 vh-90 stripe-payment-method-dialog-size">
   <div class="card card-profile card-testimonial">
-    <mat-tab-group animationDuration="0ms" disableRipple="true" class="mat-tab-info" [class]="dialogRef ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'">
+    <mat-tab-group
+      animationDuration="0ms"
+      disableRipple="true"
+      class="mat-tab-info"
+      [class]="dialogRef ? 'mat-tabs-with-actions' : 'mat-tabs-with-close-action'"
+    >
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>payment</mat-icon>
-          <span>{{'settings.billing.payment_methods_create_title' | translate}}</span>
+          <span>{{ 'settings.billing.payment_methods_create_title' | translate }}</span>
         </ng-template>
         <div class="card-body mat-tab-dialog-body-content">
           <form class="form">
@@ -13,13 +18,13 @@
                 <div class="col-md-8">
                   <div class="form-group">
                     <mat-form-field>
-                      <label>{{'settings.billing.payment_methods_card' | translate}}</label>
+                      <label>{{ 'settings.billing.payment_methods_card' | translate }}</label>
                       <span id="cardNumber">
-                        <input matInput/>
+                        <input matInput />
                       </span>
                     </mat-form-field>
                     <mat-error *ngIf="cardNumberError">
-                      {{cardNumberError}}
+                      {{ cardNumberError }}
                     </mat-error>
                   </div>
                 </div>
@@ -28,26 +33,30 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <mat-form-field>
-                      <label>{{'settings.billing.payment_methods_expiring_on' | translate}}</label>
+                      <label>{{
+                        'settings.billing.payment_methods_expiring_on' | translate
+                      }}</label>
                       <span id="cardExp">
-                        <input matInput>
+                        <input matInput />
                       </span>
                     </mat-form-field>
                     <mat-error *ngIf="expirationDateError">
-                      {{expirationDateError}}
+                      {{ expirationDateError }}
                     </mat-error>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
                     <mat-form-field>
-                      <label>{{'settings.billing.payment_methods_verification_code' | translate}}</label>
+                      <label>{{
+                        'settings.billing.payment_methods_verification_code' | translate
+                      }}</label>
                       <span id="cardCvc">
-                        <input matInput/>
+                        <input matInput />
                       </span>
                     </mat-form-field>
                     <mat-error *ngIf="cvcError">
-                      {{cvcError}}
+                      {{ cvcError }}
                     </mat-error>
                   </div>
                 </div>
@@ -56,7 +65,7 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <div class="payment-method-user-consent">
-                      {{'settings.billing.payment_methods_conditions' | translate}}
+                      {{ 'settings.billing.payment_methods_conditions' | translate }}
                     </div>
                   </div>
                 </div>
@@ -65,8 +74,11 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <div>
-                      <mat-checkbox [formControl]="acceptConditions" (change)="handleAcceptConditions()">
-                        {{'settings.billing.payment_methods_check' | translate}}
+                      <mat-checkbox
+                        [formControl]="acceptConditions"
+                        (change)="handleAcceptConditions()"
+                      >
+                        {{ 'settings.billing.payment_methods_check' | translate }}
                       </mat-checkbox>
                     </div>
                   </div>
@@ -78,11 +90,27 @@
       </mat-tab>
     </mat-tab-group>
     <div [class]="dialogRef ? 'tabs-actions' : 'tabs-actions-embedded'">
-      <button mat-icon-button (click)="linkCardToAccount()" title="{{'general.save' | translate}}"
-          [disabled]="!hasAcceptedConditions || !isCardNumberValid || !isCvcValid || !isExpirationDateValid || isSaveClicked">
+      <button
+        mat-icon-button
+        (click)="linkCardToAccount()"
+        title="{{ 'general.save' | translate }}"
+        [disabled]="
+          !hasAcceptedConditions ||
+          !isCardNumberValid ||
+          !isCvcValid ||
+          !isExpirationDateValid ||
+          isSaveClicked
+        "
+      >
         <mat-icon>save</mat-icon>
       </button>
-      <button mat-icon-button *ngIf="inDialog" (click)="close()" [disabled]="isSaveClicked" title="{{'general.close' | translate}}">
+      <button
+        mat-icon-button
+        *ngIf="inDialog"
+        (click)="close()"
+        [disabled]="isSaveClicked"
+        title="{{ 'general.close' | translate }}"
+      >
         <mat-icon>close</mat-icon>
       </button>
     </div>

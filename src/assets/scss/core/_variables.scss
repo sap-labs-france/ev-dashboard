@@ -1,18 +1,18 @@
 @import 'variables/theme';
-@import "variables/brand";
-@import "variables/shadow";
-@import "variables/bootstrap-material-design-base";
+@import 'variables/brand';
+@import 'variables/shadow';
+@import 'variables/bootstrap-material-design-base';
 // Customized BS variables
-@import "variables/forms";
-@import "variables/nav";
-@import "variables/state";
-@import "variables/type";
-@import "variables/modals";
+@import 'variables/forms';
+@import 'variables/nav';
+@import 'variables/state';
+@import 'variables/type';
+@import 'variables/modals';
 
 // import their vars after customization for use below
 $enable-flex: true; // fully adopt flexbox layouts
 $enable-shadows: true; // enable shadows, set to false to turn off shadows
 
-@import "variables/layout";
+@import 'variables/layout';
 
-@import "variables/bootstrap-material-design";
+@import 'variables/bootstrap-material-design';

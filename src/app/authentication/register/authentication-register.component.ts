@@ -22,7 +22,6 @@ import { Utils } from '../../utils/Utils';
   selector: 'app-authentication-register',
   templateUrl: 'authentication-register.component.html',
 })
-
 export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
   public parentErrorStateMatcher = new ParentErrorStateMatcher();
   public formGroup: UntypedFormGroup;
@@ -52,7 +51,8 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private reCaptchaV3Service: ReCaptchaV3Service,
     private windowService: WindowService,
-    private configService: ConfigService) {
+    private configService: ConfigService
+  ) {
     // Load the translated messages
     this.translateService.get('authentication', {}).subscribe((messages) => {
       this.messages = messages;
@@ -63,46 +63,38 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
     this.subDomain = this.windowService.getSubdomain();
     // Init Form
     this.formGroup = new UntypedFormGroup({
-      name: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      firstName: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      email: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.email,
-        ])),
-      mobile: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-          Users.validatePhone,
-        ])),
-      passwords: new UntypedFormGroup({
-        password: new UntypedFormControl('',
-          Validators.compose([
-            Validators.required,
-            Users.passwordWithNoSpace,
-            Users.validatePassword,
-          ])),
-        repeatPassword: new UntypedFormControl('',
-          Validators.compose([
-            Validators.required,
-          ])),
-      }, (passwordFormGroup: UntypedFormGroup) => Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')),
-      acceptEula: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
+      name: new UntypedFormControl('', Validators.compose([Validators.required])),
+      firstName: new UntypedFormControl('', Validators.compose([Validators.required])),
+      email: new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, Validators.email])
+      ),
+      mobile: new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, Users.validatePhone])
+      ),
+      passwords: new UntypedFormGroup(
+        {
+          password: new UntypedFormControl(
+            '',
+            Validators.compose([
+              Validators.required,
+              Users.passwordWithNoSpace,
+              Users.validatePassword,
+            ])
+          ),
+          repeatPassword: new UntypedFormControl('', Validators.compose([Validators.required])),
+        },
+        (passwordFormGroup: UntypedFormGroup) =>
+          Utils.validateEqual(passwordFormGroup, 'password', 'repeatPassword')
+      ),
+      acceptEula: new UntypedFormControl('', Validators.compose([Validators.required])),
     });
     // Form
     this.name = this.formGroup.controls['name'];
     this.email = this.formGroup.controls['email'];
     this.mobile = this.formGroup.controls['mobile'];
-    this.passwords = (this.formGroup.controls['passwords'] as UntypedFormGroup);
+    this.passwords = this.formGroup.controls['passwords'] as UntypedFormGroup;
     this.password = this.passwords.controls['password'];
     this.repeatPassword = this.passwords.controls['repeatPassword'];
     this.firstName = this.formGroup.controls['firstName'];
@@ -133,10 +125,15 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
               this.tenantLogo = Constants.NO_IMAGE;
               break;
             default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'general.unexpected_error_backend');
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'general.unexpected_error_backend'
+              );
           }
-        }
+        },
       });
     } else {
       this.tenantLogo = Constants.MASTER_TENANT_LOGO;
@@ -177,17 +174,24 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
               // Show success
               if (Utils.isEmptyString(this.subDomain)) {
                 // Super User in Master Tenant
-                this.messageService.showSuccessMessage(this.messages['register_super_user_success']);
+                this.messageService.showSuccessMessage(
+                  this.messages['register_super_user_success']
+                );
               } else {
                 // User in Tenant
                 this.messageService.showSuccessMessage(this.messages['register_user_success']);
               }
               // Login successful so redirect to return url
-              void this.router.navigate(['/auth/login'], { queryParams: { email: this.email.value } });
+              void this.router.navigate(['/auth/login'], {
+                queryParams: { email: this.email.value },
+              });
             } else {
               // Unexpected Error
-              Utils.handleError(JSON.stringify(response),
-                this.messageService, this.messages['register_user_error']);
+              Utils.handleError(
+                JSON.stringify(response),
+                this.messageService,
+                this.messages['register_user_error']
+              );
             }
           },
           error: (error) => {
@@ -205,9 +209,15 @@ export class AuthenticationRegisterComponent implements OnInit, OnDestroy {
                 break;
               // Unexpected error
               default:
-                Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.unexpected_error_backend');
+                Utils.handleHttpError(
+                  error,
+                  this.router,
+                  this.messageService,
+                  this.centralServerService,
+                  'general.unexpected_error_backend'
+                );
             }
-          }
+          },
         });
       }
     });

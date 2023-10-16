@@ -26,7 +26,8 @@ export class LocaleService {
   public constructor(
     private translateService: TranslateService,
     private configService: ConfigService,
-    private centralServerService: CentralServerService) {
+    private centralServerService: CentralServerService
+  ) {
     this.considerBrowserLocale();
     this.centralServerService.getCurrentUserSubject().subscribe((user) => {
       this.considerUserLocale(user);
@@ -42,17 +43,18 @@ export class LocaleService {
   }
 
   public getLocales(): KeyValue[] {
-    return Constants.SUPPORTED_LOCALES.map( aLocale => ({
+    return Constants.SUPPORTED_LOCALES.map((aLocale) => ({
       key: aLocale,
-      value: this.getLocaleDescription(aLocale)
+      value: this.getLocaleDescription(aLocale),
     }));
   }
 
   public getLocaleByKey(localeKey: string): KeyValue {
     // Return the found key
     const locales: KeyValue[] = this.getLocales().filter((locale) => locale.key === localeKey);
-    return (!Utils.isEmptyArray(locales) ? locales[0] :
-      { key: 'U', value: this.translateService.instant('users.locale_unknown', {}) });
+    return !Utils.isEmptyArray(locales)
+      ? locales[0]
+      : { key: 'U', value: this.translateService.instant('users.locale_unknown', {}) };
   }
 
   public getI18nDay(): string {
@@ -80,7 +82,7 @@ export class LocaleService {
   }
 
   private considerBrowserLocale() {
-    if ( !LocaleService.considerBrowserLocaleAlreadyDone ) {
+    if (!LocaleService.considerBrowserLocaleAlreadyDone) {
       LocaleService.considerBrowserLocaleAlreadyDone = true;
       const locale = Utils.convertToLocale(this.translateService.getBrowserCultureLang());
       this.updateLocale(locale);
@@ -120,7 +122,7 @@ export class LocaleService {
     return {
       language,
       currentLocale,
-      currentLocaleJS: Utils.convertToBrowserLocale(locale)
+      currentLocaleJS: Utils.convertToBrowserLocale(locale),
     };
   }
 }

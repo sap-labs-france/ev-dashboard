@@ -7,7 +7,8 @@ import { Utils } from '../../../utils/Utils';
 import { PricingDefinitionComponent } from './pricing-definition.component';
 
 @Component({
-  template: '<app-pricing-definition #appRef [dialogMode]="dialogMode" [currentPricingDefinitionID]="pricingDefinitionID" [currentEntityID]="entityID" [currentEntityType]="entityType" [currentEntityName]="entityName" [dialogRef]="dialogRef"></app-pricing-definition>',
+  template:
+    '<app-pricing-definition #appRef [dialogMode]="dialogMode" [currentPricingDefinitionID]="pricingDefinitionID" [currentEntityID]="entityID" [currentEntityType]="entityType" [currentEntityName]="entityName" [dialogRef]="dialogRef"></app-pricing-definition>',
 })
 export class PricingDefinitionDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: PricingDefinitionComponent;
@@ -19,7 +20,8 @@ export class PricingDefinitionDialogComponent implements AfterViewInit {
 
   public constructor(
     public dialogRef: MatDialogRef<PricingDefinitionComponent>,
-    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<PricingDefinitionDialogData>) {
+    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<PricingDefinitionDialogData>
+  ) {
     this.pricingDefinitionID = dialogParams?.dialogData?.id;
     this.entityID = dialogParams?.dialogData?.context?.entityID;
     this.entityType = dialogParams?.dialogData?.context?.entityType;
@@ -29,7 +31,11 @@ export class PricingDefinitionDialogComponent implements AfterViewInit {
 
   public ngAfterViewInit() {
     // Register key event
-    Utils.registerSaveCloseKeyEvents(this.dialogRef, this.appRef.formGroup,
-      this.appRef.savePricingDefinition.bind(this.appRef), this.appRef.close.bind(this.appRef));
+    Utils.registerSaveCloseKeyEvents(
+      this.dialogRef,
+      this.appRef.formGroup,
+      this.appRef.savePricingDefinition.bind(this.appRef),
+      this.appRef.close.bind(this.appRef)
+    );
   }
 }

@@ -1,16 +1,29 @@
 <div class="d-flex flex-column">
   <div class="left-actions d-flex flex-row mat-toolbar-row">
-    <button mat-raised-button color="primary" class="mb-2" (click)="updateFirmware()"
-      [disabled]="!formGroup.valid || !formGroup.dirty">
+    <button
+      mat-raised-button
+      color="primary"
+      class="mb-2"
+      (click)="updateFirmware()"
+      [disabled]="!formGroup.valid || !formGroup.dirty"
+    >
       <mat-icon>system_update_alt</mat-icon>
-      <span>{{'chargers.button_update_firmware' | translate}}</span>
+      <span>{{ 'chargers.button_update_firmware' | translate }}</span>
     </button>
     <div class="col-md-10">
       <div class="form-group">
         <mat-form-field>
-          <input matInput appAutofocus [formControl]="url" placeholder="{{'chargers.charger_url' | translate}}"
-            type="text" required>
-            <mat-error *ngIf="url.errors?.required">{{"general.mandatory_field" | translate}}</mat-error>
+          <input
+            matInput
+            appAutofocus
+            [formControl]="url"
+            placeholder="{{ 'chargers.charger_url' | translate }}"
+            type="text"
+            required
+          />
+          <mat-error *ngIf="url.errors?.required">{{
+            'general.mandatory_field' | translate
+          }}</mat-error>
         </mat-form-field>
       </div>
     </div>

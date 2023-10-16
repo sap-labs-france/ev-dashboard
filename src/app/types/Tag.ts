@@ -16,17 +16,8 @@ export interface Tag extends TableData, TagAuthorizationActions {
   default?: boolean;
 }
 
-export const TagRequiredImportProperties = [
-  'id',
-  'visualID'
-];
-export const TagOptionalImportProperties = [
-  'description',
-  'email',
-  'firstName',
-  'name',
-  'siteIDs'
-];
+export const TagRequiredImportProperties = ['id', 'visualID'];
+export const TagOptionalImportProperties = ['description', 'email', 'firstName', 'name', 'siteIDs'];
 
 export enum TagButtonAction {
   VIEW_TAG = 'view_tag',
@@ -42,5 +33,5 @@ export enum TagButtonAction {
   EXPORT_TAGS = 'export_tags',
   ACTIVATE_TAG = 'activate_tag',
   DEACTIVATE_TAG = 'deactivate_tag',
-  NAVIGATE_TO_TAGS = 'navigate_to_tags'
+  NAVIGATE_TO_TAGS = 'navigate_to_tags',
 }

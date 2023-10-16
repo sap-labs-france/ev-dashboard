@@ -16,12 +16,13 @@ export class ChargingStationsComponent extends AbstractTabComponent {
   public constructor(
     private authorizationService: AuthorizationService,
     activatedRoute: ActivatedRoute,
-    windowService: WindowService,
+    windowService: WindowService
   ) {
     super(activatedRoute, windowService, ['all', 'chargingplans', 'inerror', 'connection']);
     this.canListTokens = this.authorizationService.canListTokens();
     this.canListChargingProfiles = this.authorizationService.canListChargingProfiles();
     this.canListChargingStations = this.authorizationService.canListChargingStations();
-    this.canListChargingStationsInError = this.authorizationService.canListChargingStationsInError();
+    this.canListChargingStationsInError =
+      this.authorizationService.canListChargingStationsInError();
   }
 }

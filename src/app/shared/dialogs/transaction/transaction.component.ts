@@ -18,7 +18,7 @@ import { Utils } from '../../../utils/Utils';
 @Component({
   selector: 'app-transaction',
   templateUrl: 'transaction.component.html',
-  styleUrls: ['transaction.component.scss']
+  styleUrls: ['transaction.component.scss'],
 })
 export class TransactionComponent implements OnInit, OnDestroy {
   @ViewChild('chartConsumption') public chartComponent!: ConsumptionChartComponent;
@@ -44,7 +44,8 @@ export class TransactionComponent implements OnInit, OnDestroy {
     private router: Router,
     private centralServerService: CentralServerService,
     private componentService: ComponentService,
-    private configService: ConfigService) {
+    private configService: ConfigService
+  ) {
     this.isCarComponentActive = this.componentService.isActive(TenantComponents.CAR);
     this.isPricingComponentActive = this.componentService.isActive(TenantComponents.PRICING);
   }
@@ -62,23 +63,33 @@ export class TransactionComponent implements OnInit, OnDestroy {
   public loadData() {
     if (!this.transactionID) {
       this.spinnerService.show();
-      this.centralServerService.getLastTransaction(this.chargingStationID, this.connectorID).subscribe({
-        next: (dataResult) => {
-          this.spinnerService.hide();
-          if (!Utils.isEmptyArray(dataResult.result)) {
-            this.transactionID = Utils.convertToInteger(dataResult.result[0].id);
-            this.loadConsumption();
-          } else {
+      this.centralServerService
+        .getLastTransaction(this.chargingStationID, this.connectorID)
+        .subscribe({
+          next: (dataResult) => {
             this.spinnerService.hide();
-            this.messageService.showInfoMessage('chargers.no_transaction_found', { chargerID: this.chargingStationID });
-            this.dialogRef.close();
-          }
-        },
-        error: (error) => {
-          this.spinnerService.hide();
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.load_transaction_error');
-        }
-      });
+            if (!Utils.isEmptyArray(dataResult.result)) {
+              this.transactionID = Utils.convertToInteger(dataResult.result[0].id);
+              this.loadConsumption();
+            } else {
+              this.spinnerService.hide();
+              this.messageService.showInfoMessage('chargers.no_transaction_found', {
+                chargerID: this.chargingStationID,
+              });
+              this.dialogRef.close();
+            }
+          },
+          error: (error) => {
+            this.spinnerService.hide();
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'transactions.load_transaction_error'
+            );
+          },
+        });
     } else {
       this.loadConsumption();
     }
@@ -101,7 +112,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
           this.showPricingDetail = true;
         }
         // Load User's image
-        if ((this.loggedUserImage === Constants.USER_NO_PICTURE) && transaction.user) {
+        if (this.loggedUserImage === Constants.USER_NO_PICTURE && transaction.user) {
           this.centralServerService.getUserImage(transaction.user.id).subscribe({
             next: (userImage) => {
               this.loggedUserImage = userImage ?? Constants.USER_NO_PICTURE;
@@ -112,27 +123,47 @@ export class TransactionComponent implements OnInit, OnDestroy {
                   this.loggedUserImage = Constants.USER_NO_PICTURE;
                   break;
                 default:
-                  Utils.handleHttpError(error, this.router, this.messageService,
-                    this.centralServerService, 'general.unexpected_error_backend');
+                  Utils.handleHttpError(
+                    error,
+                    this.router,
+                    this.messageService,
+                    this.centralServerService,
+                    'general.unexpected_error_backend'
+                  );
               }
-            }
+            },
           });
         }
         // Load Car's image
-        if (this.isCarComponentActive && this.carImage === Constants.NO_IMAGE && transaction?.carCatalogID) {
-          this.centralServerService.getCarCatalogImages(transaction.carCatalogID, {},
-            { limit: 1, skip: Constants.DEFAULT_SKIP }).subscribe((carImage) => {
-            if (carImage.count > 0) {
-              this.carImage = carImage.result[0].image;
-            }
-          });
+        if (
+          this.isCarComponentActive &&
+          this.carImage === Constants.NO_IMAGE &&
+          transaction?.carCatalogID
+        ) {
+          this.centralServerService
+            .getCarCatalogImages(
+              transaction.carCatalogID,
+              {},
+              { limit: 1, skip: Constants.DEFAULT_SKIP }
+            )
+            .subscribe((carImage) => {
+              if (carImage.count > 0) {
+                this.carImage = carImage.result[0].image;
+              }
+            });
         }
       },
       error: (error) => {
         this.spinnerService.hide();
         this.dialogRef.close();
-        Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'transactions.load_transaction_error');
-      }
+        Utils.handleHttpError(
+          error,
+          this.router,
+          this.messageService,
+          this.centralServerService,
+          'transactions.load_transaction_error'
+        );
+      },
     });
   }
 

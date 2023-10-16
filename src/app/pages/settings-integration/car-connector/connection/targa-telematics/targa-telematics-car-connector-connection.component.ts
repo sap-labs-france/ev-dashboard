@@ -6,7 +6,7 @@ import { CarConnectorTargaTelematicsConnectionType } from '../../../../../types/
 
 @Component({
   selector: 'app-settings-targa-telematics-connection',
-  templateUrl: 'targa-telematics-car-connector-connection.component.html'
+  templateUrl: 'targa-telematics-car-connector-connection.component.html',
 })
 export class TargaTelematicsCarConnectorConnectionComponent implements OnInit {
   @Input() public formGroup!: UntypedFormGroup;
@@ -21,24 +21,16 @@ export class TargaTelematicsCarConnectorConnectionComponent implements OnInit {
   public ngOnInit(): void {
     // Set login credentials form
     this.targaTelematicsCredentials = new UntypedFormGroup({
-      authenticationUrl: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(Constants.URL_PATTERN),
-        ])),
-      apiUrl: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(Constants.URL_PATTERN),
-        ])),
-      clientId: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      clientSecret: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
+      authenticationUrl: new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, Validators.pattern(Constants.URL_PATTERN)])
+      ),
+      apiUrl: new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, Validators.pattern(Constants.URL_PATTERN)])
+      ),
+      clientId: new UntypedFormControl('', Validators.compose([Validators.required])),
+      clientSecret: new UntypedFormControl('', Validators.compose([Validators.required])),
     });
     if (!this.formGroup.disabled) {
       this.formGroup.addControl('targaTelematicsConnection', this.targaTelematicsCredentials);
@@ -56,16 +48,24 @@ export class TargaTelematicsCarConnectorConnectionComponent implements OnInit {
   public loadCredentials(): void {
     if (this.targaTelematicsConnection) {
       if (this.targaTelematicsConnection.authenticationUrl) {
-        this.targaTelematicsCredentials.controls.authenticationUrl.setValue(this.targaTelematicsConnection.authenticationUrl);
+        this.targaTelematicsCredentials.controls.authenticationUrl.setValue(
+          this.targaTelematicsConnection.authenticationUrl
+        );
       }
       if (this.targaTelematicsConnection.apiUrl) {
-        this.targaTelematicsCredentials.controls.apiUrl.setValue(this.targaTelematicsConnection.apiUrl);
+        this.targaTelematicsCredentials.controls.apiUrl.setValue(
+          this.targaTelematicsConnection.apiUrl
+        );
       }
       if (this.targaTelematicsConnection.clientId) {
-        this.targaTelematicsCredentials.controls.clientId.setValue(this.targaTelematicsConnection.clientId);
+        this.targaTelematicsCredentials.controls.clientId.setValue(
+          this.targaTelematicsConnection.clientId
+        );
       }
       if (this.targaTelematicsConnection.clientSecret) {
-        this.targaTelematicsCredentials.controls.clientSecret.setValue(this.targaTelematicsConnection.clientSecret);
+        this.targaTelematicsCredentials.controls.clientSecret.setValue(
+          this.targaTelematicsConnection.clientSecret
+        );
       }
     }
   }

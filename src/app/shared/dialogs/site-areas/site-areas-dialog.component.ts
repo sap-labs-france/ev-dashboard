@@ -10,13 +10,14 @@ import { SiteAreasDialogTableDataSource } from './site-areas-dialog-table-data-s
 @Component({
   templateUrl: '../dialog-table-data.component.html',
   providers: [SiteAreasDialogTableDataSource],
-  styleUrls: ['../dialog-table-data-xl.component.scss']
+  styleUrls: ['../dialog-table-data-xl.component.scss'],
 })
 export class SiteAreasDialogComponent extends DialogTableDataComponent<SiteArea> {
   public constructor(
     public siteAreasDataSource: SiteAreasDialogTableDataSource,
     protected dialogRef: MatDialogRef<SiteAreasDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: any) {
+    @Inject(MAT_DIALOG_DATA) data: any
+  ) {
     // Super class
     super(data, dialogRef, siteAreasDataSource);
     // Default title
@@ -31,7 +32,7 @@ export class SiteAreasDialogComponent extends DialogTableDataComponent<SiteArea>
     const items: KeyValue[] = [];
     if (!Utils.isEmptyArray(selectedRows)) {
       selectedRows.forEach((row) => {
-        items.push({key: row.id, value: row.name, objectRef: row});
+        items.push({ key: row.id, value: row.name, objectRef: row });
       });
     }
     return items;

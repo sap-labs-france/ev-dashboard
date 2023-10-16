@@ -2,7 +2,7 @@
   &:after {
     display: table;
     clear: both;
-    content: " ";
+    content: ' ';
   }
 
   &.wrapper-full-page {
@@ -12,11 +12,10 @@
 }
 
 .full-page {
-
   &:after,
   &:before {
     display: block;
-    content: "";
+    content: '';
     position: absolute;
     width: 100%;
     height: 100%;
@@ -26,11 +25,11 @@
   }
 
   &:before {
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0, 0, 0, 0.5);
   }
 
   &[data-image]:after {
-    opacity: .8;
+    opacity: 0.8;
   }
 
   > .content,
@@ -53,7 +52,6 @@
     left: 0;
     background-size: cover;
     background-position: center center;
-
   }
 
   .footer nav > ul a:not(.btn),
@@ -61,7 +59,6 @@
   .footer .copyright a {
     color: $brand-text;
   }
-
 }
 
 .login-page,
@@ -88,7 +85,6 @@
 }
 
 .login-page {
-
   .card-login {
     @include transform-translate-y(0);
     @extend .animation-transition-general;
@@ -136,7 +132,6 @@
 }
 
 .lock-page {
-
   .card-profile {
     width: 240px;
     margin: 60px auto 0;
@@ -193,11 +188,9 @@
       }
     }
   }
-
 }
 
 .register-page {
-
   .container {
     position: relative;
     z-index: 3;

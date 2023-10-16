@@ -13,7 +13,7 @@ import { Utils } from '../../../utils/Utils';
 @Component({
   selector: 'app-charging-station-limitation',
   templateUrl: 'charging-station-limitation.component.html',
-  styleUrls: ['charging-station-limitation.component.scss']
+  styleUrls: ['charging-station-limitation.component.scss'],
 })
 export class ChargingStationLimitationComponent implements OnInit {
   @Input() public chargingStationID!: string;
@@ -28,8 +28,8 @@ export class ChargingStationLimitationComponent implements OnInit {
     private spinnerService: SpinnerService,
     private centralServerService: CentralServerService,
     private messageService: MessageService,
-    private router: Router) {
-  }
+    private router: Router
+  ) {}
 
   public ngOnInit() {
     this.loadChargingStation();
@@ -56,10 +56,15 @@ export class ChargingStationLimitationComponent implements OnInit {
               this.messageService.showErrorMessage('chargers.charger_not_found');
               break;
             default:
-              Utils.handleHttpError(error, this.router, this.messageService,
-                this.centralServerService, 'chargers.charger_not_found');
+              Utils.handleHttpError(
+                error,
+                this.router,
+                this.messageService,
+                this.centralServerService,
+                'chargers.charger_not_found'
+              );
           }
-        }
+        },
       });
     }
   }

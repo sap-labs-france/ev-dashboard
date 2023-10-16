@@ -16,8 +16,9 @@ import { ChargingStationOcppParametersEditableTableDataSource } from './charging
 
 @Component({
   selector: 'app-charging-station-ocpp-parameters',
-  template: '<div class="h-100"><app-table [dataSource]="ocppParametersDataSource"></app-table></div>',
-  providers: [ChargingStationOcppParametersEditableTableDataSource]
+  template:
+    '<div class="h-100"><app-table [dataSource]="ocppParametersDataSource"></app-table></div>',
+  providers: [ChargingStationOcppParametersEditableTableDataSource],
 })
 // @Injectable()
 export class ChargingStationOcppParametersComponent implements OnInit {
@@ -34,7 +35,7 @@ export class ChargingStationOcppParametersComponent implements OnInit {
     private messageService: MessageService,
     private spinnerService: SpinnerService,
     private localeService: LocaleService,
-    private router: Router,
+    private router: Router
   ) {
     this.userLocales = this.localeService.getLocales();
     this.formGroup = new UntypedFormGroup({});
@@ -53,7 +54,8 @@ export class ChargingStationOcppParametersComponent implements OnInit {
   public loadOcppParameters() {
     if (this.chargingStation) {
       this.spinnerService.show();
-      this.centralServerService.getChargingStationOcppParameters(this.chargingStation.id)
+      this.centralServerService
+        .getChargingStationOcppParameters(this.chargingStation.id)
         .subscribe({
           next: (ocppParametersResult: DataResult<OcppParameter>) => {
             this.ocppParametersDataSource.setContent(ocppParametersResult.result);
@@ -67,10 +69,15 @@ export class ChargingStationOcppParametersComponent implements OnInit {
                 this.messageService.showErrorMessage('chargers.charger_not_found');
                 break;
               default:
-                Utils.handleHttpError(error, this.router, this.messageService,
-                  this.centralServerService, 'general.unexpected_error_backend');
+                Utils.handleHttpError(
+                  error,
+                  this.router,
+                  this.messageService,
+                  this.centralServerService,
+                  'general.unexpected_error_backend'
+                );
             }
-          }
+          },
         });
     }
   }

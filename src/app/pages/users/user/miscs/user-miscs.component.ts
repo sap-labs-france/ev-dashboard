@@ -19,11 +19,10 @@ export class UserMiscsComponent implements OnInit, OnChanges {
   public ngOnInit(): void {
     // Init the form
     this.formGroup.addControl('iNumber', new UntypedFormControl(''));
-    this.formGroup.addControl('costCenter', new UntypedFormControl('',
-      Validators.compose([
-        Validators.pattern('^[0-9]*$'),
-      ])
-    ));
+    this.formGroup.addControl(
+      'costCenter',
+      new UntypedFormControl('', Validators.compose([Validators.pattern('^[0-9]*$')]))
+    );
     // Form
     this.iNumber = this.formGroup.controls['iNumber'];
     this.costCenter = this.formGroup.controls['costCenter'];

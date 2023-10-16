@@ -11,9 +11,15 @@ import { TableActionDef } from '../../../../types/Table';
 import { TableExportAction } from '../table-export-action';
 
 export interface TableExportChargingStationsActionDef extends TableActionDef {
-  action: (filters: FilterParams, dialogService: DialogService, translateService: TranslateService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router,
-    spinnerService: SpinnerService) => void;
+  action: (
+    filters: FilterParams,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    router: Router,
+    spinnerService: SpinnerService
+  ) => void;
 }
 
 export class TableExportChargingStationsAction extends TableExportAction {
@@ -25,13 +31,28 @@ export class TableExportChargingStationsAction extends TableExportAction {
     };
   }
 
-  private exportChargingStations(filters: FilterParams, dialogService: DialogService, translateService: TranslateService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router,
-    spinnerService: SpinnerService) {
-    super.export(filters, 'exported-charging-stations.csv',
-      'chargers.dialog.export.title', 'chargers.dialog.export.confirm', 'chargers.dialog.export.error',
+  private exportChargingStations(
+    filters: FilterParams,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    router: Router,
+    spinnerService: SpinnerService
+  ) {
+    super.export(
+      filters,
+      'exported-charging-stations.csv',
+      'chargers.dialog.export.title',
+      'chargers.dialog.export.confirm',
+      'chargers.dialog.export.error',
       centralServerService.exportChargingStations.bind(centralServerService),
-      dialogService, translateService, messageService,
-      centralServerService, spinnerService, router);
+      dialogService,
+      translateService,
+      messageService,
+      centralServerService,
+      spinnerService,
+      router
+    );
   }
 }

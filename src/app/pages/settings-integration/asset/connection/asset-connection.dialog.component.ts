@@ -7,7 +7,8 @@ import { Utils } from '../../../../utils/Utils';
 import { AssetConnectionComponent } from './asset-connection.component';
 
 @Component({
-  template: '<app-settings-asset-connection #appRef [currentAssetConnection]="currentConnection" [inDialog]="true" [dialogMode]="dialogMode" [dialogRef]="dialogRef"></app-settings-asset-connection>',
+  template:
+    '<app-settings-asset-connection #appRef [currentAssetConnection]="currentConnection" [inDialog]="true" [dialogMode]="dialogMode" [dialogRef]="dialogRef"></app-settings-asset-connection>',
 })
 export class AssetConnectionDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: AssetConnectionComponent;
@@ -16,14 +17,19 @@ export class AssetConnectionDialogComponent implements AfterViewInit {
 
   public constructor(
     public dialogRef: MatDialogRef<AssetConnectionDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<AssetConnectionSetting>) {
+    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParams<AssetConnectionSetting>
+  ) {
     this.currentConnection = dialogParams.dialogData;
     this.dialogMode = dialogParams.dialogMode;
   }
 
   public ngAfterViewInit() {
     // Register key event
-    Utils.registerSaveCloseKeyEvents(this.dialogRef, this.appRef.formGroup,
-      this.appRef.save.bind(this.appRef), this.appRef.close.bind(this.appRef));
+    Utils.registerSaveCloseKeyEvents(
+      this.dialogRef,
+      this.appRef.formGroup,
+      this.appRef.save.bind(this.appRef),
+      this.appRef.close.bind(this.appRef)
+    );
   }
 }

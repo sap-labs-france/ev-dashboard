@@ -11,14 +11,15 @@ import { User, UserRole, UserToken } from '../../../types/User';
 import { Utils } from '../../../utils/Utils';
 
 @Component({
-  template: `
-    <div class="d-flex justify-content-center">
-      <mat-checkbox class="mx-auto"
-        [checked]="row?.siteOwner"
-        [disabled]="(!isSiteAdmin && loggedUser.role !== UserRole.ADMIN) || columnDef.disabled"
-        (change)="changeSiteOwner($event)">
-      </mat-checkbox>
-    </div>`
+  template: ` <div class="d-flex justify-content-center">
+    <mat-checkbox
+      class="mx-auto"
+      [checked]="row?.siteOwner"
+      [disabled]="(!isSiteAdmin && loggedUser.role !== UserRole.ADMIN) || columnDef.disabled"
+      (change)="changeSiteOwner($event)"
+    >
+    </mat-checkbox>
+  </div>`,
 })
 export class UserSitesSiteOwnerComponent extends CellContentTemplateDirective implements OnInit {
   @Input() public row!: UserSite;
@@ -30,7 +31,8 @@ export class UserSitesSiteOwnerComponent extends CellContentTemplateDirective im
   public constructor(
     private messageService: MessageService,
     private centralServerService: CentralServerService,
-    private router: Router) {
+    private router: Router
+  ) {
     super();
     this.loggedUser = centralServerService.getLoggedUser();
   }
@@ -48,25 +50,41 @@ export class UserSitesSiteOwnerComponent extends CellContentTemplateDirective im
 
   private setUserSiteOwner(userSite: UserSite, siteOwner: boolean) {
     // Update
-    this.centralServerService.updateSiteOwner(userSite.site.id, userSite.userID, siteOwner).subscribe((response) => {
-      if (response.status === RestResponse.SUCCESS) {
-        if (siteOwner) {
-          this.messageService.showSuccessMessage('users.update_set_site_owner_success', {siteName: userSite.site.name});
-        } else {
-          this.messageService.showSuccessMessage('users.update_remove_site_owner_success', {siteName: userSite.site.name});
+    this.centralServerService
+      .updateSiteOwner(userSite.site.id, userSite.userID, siteOwner)
+      .subscribe(
+        (response) => {
+          if (response.status === RestResponse.SUCCESS) {
+            if (siteOwner) {
+              this.messageService.showSuccessMessage('users.update_set_site_owner_success', {
+                siteName: userSite.site.name,
+              });
+            } else {
+              this.messageService.showSuccessMessage('users.update_remove_site_owner_success', {
+                siteName: userSite.site.name,
+              });
+            }
+          } else {
+            Utils.handleError(
+              JSON.stringify(response),
+              this.messageService,
+              'users.update_site_users_owner_error',
+              {
+                siteName: userSite.site.name,
+              }
+            );
+          }
+        },
+        (error) => {
+          Utils.handleHttpError(
+            error,
+            this.router,
+            this.messageService,
+            this.centralServerService,
+            'users.update_site_users_owner_error',
+            { siteName: userSite.site.name }
+          );
         }
-      } else {
-        Utils.handleError(JSON.stringify(response),
-          this.messageService, 'users.update_site_users_owner_error', {
-            siteName: userSite.site.name,
-          });
-      }
-    }
-    ,
-    (error) => {
-      Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-        'users.update_site_users_owner_error', {siteName: userSite.site.name});
-    },
-    );
+      );
   }
 }

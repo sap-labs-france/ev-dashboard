@@ -6,7 +6,7 @@ import { AbstractTabComponent } from 'shared/component/abstract-tab/abstract-tab
 
 @Component({
   selector: 'app-settings-technical',
-  templateUrl: 'settings-technical.component.html'
+  templateUrl: 'settings-technical.component.html',
 })
 export class SettingsTechnicalComponent extends AbstractTabComponent {
   public canReadTenant: boolean;
@@ -14,7 +14,7 @@ export class SettingsTechnicalComponent extends AbstractTabComponent {
   public constructor(
     private authorizationService: AuthorizationService,
     activatedRoute: ActivatedRoute,
-    windowService: WindowService,
+    windowService: WindowService
   ) {
     super(activatedRoute, windowService, ['organization', 'crypto', 'users']);
     this.canReadTenant = this.authorizationService.canReadTenant();

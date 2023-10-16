@@ -11,8 +11,14 @@ import { TableActionDef } from 'types/Table';
 import { Utils } from 'utils/Utils';
 
 export interface TableChargingStationGenerateQrCodeConnectorActionDef extends TableActionDef {
-  action: (chargingStation: ChargingStation, translateService: TranslateService, spinnerService: SpinnerService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router) => void;
+  action: (
+    chargingStation: ChargingStation,
+    translateService: TranslateService,
+    spinnerService: SpinnerService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    router: Router
+  ) => void;
 }
 
 export class TableChargingStationGenerateQrCodeConnectorAction implements TableAction {
@@ -30,8 +36,14 @@ export class TableChargingStationGenerateQrCodeConnectorAction implements TableA
     return this.action;
   }
 
-  private downloadQrCodePDF(chargingStation: ChargingStation, translateService: TranslateService, spinnerService: SpinnerService,
-    messageService: MessageService, centralServerService: CentralServerService, router: Router) {
+  private downloadQrCodePDF(
+    chargingStation: ChargingStation,
+    translateService: TranslateService,
+    spinnerService: SpinnerService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    router: Router
+  ) {
     spinnerService.show();
     centralServerService.downloadChargingStationQrCodes(chargingStation.id).subscribe({
       next: (result) => {
@@ -40,9 +52,14 @@ export class TableChargingStationGenerateQrCodeConnectorAction implements TableA
       },
       error: (error) => {
         spinnerService.hide();
-        Utils.handleHttpError(error, router, messageService,
-          centralServerService, translateService.instant('chargers.qr_code_generation_error'));
-      }
+        Utils.handleHttpError(
+          error,
+          router,
+          messageService,
+          centralServerService,
+          translateService.instant('chargers.qr_code_generation_error')
+        );
+      },
     });
   }
 }

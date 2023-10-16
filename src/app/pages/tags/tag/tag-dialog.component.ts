@@ -7,7 +7,8 @@ import { Utils } from '../../../utils/Utils';
 import { TagComponent } from './tag.component';
 
 @Component({
-  template: '<app-tag #appRef [currentTagID]="tagID" [currentTagVisualID]="tagVisualID" [dialogMode]="dialogMode" [tagsAuthorizations]="tagsAuthorizations" [dialogRef]="dialogRef"></app-tag>',
+  template:
+    '<app-tag #appRef [currentTagID]="tagID" [currentTagVisualID]="tagVisualID" [dialogMode]="dialogMode" [tagsAuthorizations]="tagsAuthorizations" [dialogRef]="dialogRef"></app-tag>',
 })
 export class TagDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: TagComponent;
@@ -18,7 +19,8 @@ export class TagDialogComponent implements AfterViewInit {
 
   public constructor(
     public dialogRef: MatDialogRef<TagDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<Tag, TagsAuthorizations>) {
+    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<Tag, TagsAuthorizations>
+  ) {
     this.tagID = dialogParams.dialogData?.id;
     this.tagVisualID = dialogParams.dialogData?.visualID;
     this.dialogMode = dialogParams.dialogMode;
@@ -27,8 +29,11 @@ export class TagDialogComponent implements AfterViewInit {
 
   public ngAfterViewInit() {
     // Register key event
-    Utils.registerSaveCloseKeyEvents(this.dialogRef, this.appRef.formGroup,
+    Utils.registerSaveCloseKeyEvents(
+      this.dialogRef,
+      this.appRef.formGroup,
       this.appRef.saveTag.bind(this.appRef),
-      this.appRef.close.bind(this.appRef));
+      this.appRef.close.bind(this.appRef)
+    );
   }
 }

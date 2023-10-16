@@ -19,7 +19,10 @@ import { SpinnerService } from '../../../services/spinner.service';
 import { WindowService } from '../../../services/window.service';
 import { AppDatePipe } from '../../../shared/formatters/app-date.pipe';
 import { logLevels } from '../../../shared/model/logs.model';
-import { TableExportLogsAction, TableExportLogsActionDef } from '../../../shared/table/actions/logs/table-export-logs-action';
+import {
+  TableExportLogsAction,
+  TableExportLogsActionDef,
+} from '../../../shared/table/actions/logs/table-export-logs-action';
 import { TableAutoRefreshAction } from '../../../shared/table/actions/table-auto-refresh-action';
 import { TableRefreshAction } from '../../../shared/table/actions/table-refresh-action';
 import { UserTableFilter } from '../../../shared/table/filters/user-table-filter';
@@ -48,7 +51,8 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     private router: Router,
     private centralServerService: CentralServerService,
     private datePipe: AppDatePipe,
-    private windowService: WindowService) {
+    private windowService: WindowService
+  ) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -59,11 +63,12 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     // Server Actions
     const actions = this.windowService.getUrlParameterValue('actions');
     if (actions) {
-      const logActionTableFilter = this.tableFiltersDef.find(filter => filter.id === 'action');
+      const logActionTableFilter = this.tableFiltersDef.find((filter) => filter.id === 'action');
       if (logActionTableFilter) {
         for (const action of actions.split('|')) {
           logActionTableFilter.currentValue.push({
-            key: action, value: action
+            key: action,
+            value: action,
           });
         }
         this.filterChanged(logActionTableFilter);
@@ -72,7 +77,7 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     // Charging Station
     const chargingStationID = this.windowService.getUrlParameterValue('ChargingStationID');
     if (chargingStationID) {
-      const logSourceTableFilter = this.tableFiltersDef.find(filter => filter.id === 'charger');
+      const logSourceTableFilter = this.tableFiltersDef.find((filter) => filter.id === 'charger');
       if (logSourceTableFilter) {
         logSourceTableFilter.currentValue = [{ key: chargingStationID, value: chargingStationID }];
         this.filterChanged(logSourceTableFilter);
@@ -81,9 +86,11 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
     // Log Level
     const logLevel = this.windowService.getUrlParameterValue('LogLevel');
     if (logLevel) {
-      const logLevelTableFilter = this.tableFiltersDef.find(filter => filter.id === 'level');
+      const logLevelTableFilter = this.tableFiltersDef.find((filter) => filter.id === 'level');
       if (logLevelTableFilter) {
-        logLevelTableFilter.currentValue = [logLevels.find(logLevelObject => logLevelObject.key === logLevel)];
+        logLevelTableFilter.currentValue = [
+          logLevels.find((logLevelObject) => logLevelObject.key === logLevel),
+        ];
         this.filterChanged(logLevelTableFilter);
       }
     }
@@ -96,12 +103,12 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
       if (endDateTime) {
         endDateTimeValue = moment(endDateTime);
       }
-      const dateRangeFilter = this.tableFiltersDef.find(filter => filter.id === 'dateRange');
+      const dateRangeFilter = this.tableFiltersDef.find((filter) => filter.id === 'dateRange');
       if (dateRangeFilter) {
         dateRangeFilter.currentValue.startDate = startDateTimeValue;
         dateRangeFilter.currentValue.endDate = endDateTimeValue;
         this.filterChanged(dateRangeFilter);
-        const timestampColumn = this.tableColumnsDef.find(column => column.id === 'timestamp');
+        const timestampColumn = this.tableColumnsDef.find((column) => column.id === 'timestamp');
         if (timestampColumn) {
           this.tableColumnsDef.forEach((column) => {
             if (column.id === timestampColumn.id) {
@@ -118,40 +125,51 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
 
   public loadDataImpl(): Observable<DataResult<Log>> {
     return new Observable((observer) => {
-      this.centralServerService.getLogs(this.buildFilterValues(), this.getPaging(), this.getSorting()).subscribe({
-        next: (logs) => {
-          this.exportAction.visible = logs.canExport;
-          // Add the users in the message
-          for (const log of logs.result) {
-            let user;
-            // Set User
-            if (log.user) {
-              user = Utils.buildUserFullName(log.user);
+      this.centralServerService
+        .getLogs(this.buildFilterValues(), this.getPaging(), this.getSorting())
+        .subscribe({
+          next: (logs) => {
+            this.exportAction.visible = logs.canExport;
+            // Add the users in the message
+            for (const log of logs.result) {
+              let user;
+              // Set User
+              if (log.user) {
+                user = Utils.buildUserFullName(log.user);
+              }
+              // Set Action On User
+              if (log.actionOnUser) {
+                user = user
+                  ? `${user} > ${Utils.buildUserFullName(log.actionOnUser)}`
+                  : Utils.buildUserFullName(log.actionOnUser);
+              }
+              // Set
+              if (user) {
+                log.message = `${user} > ${log.message}`;
+              }
             }
-            // Set Action On User
-            if (log.actionOnUser) {
-              user = (user ? `${user} > ${Utils.buildUserFullName(log.actionOnUser)}` : Utils.buildUserFullName(log.actionOnUser));
-            }
-            // Set
-            if (user) {
-              log.message = `${user} > ${log.message}`;
-            }
-          }
-          observer.next(logs);
-          observer.complete();
-        },
-        error: (error) => {
-          Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService, 'general.error_backend');
-          observer.error(error);
-        }
-      });
+            observer.next(logs);
+            observer.complete();
+          },
+          error: (error) => {
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.error_backend'
+            );
+            observer.error(error);
+          },
+        });
     });
   }
 
   public getRowDetails(row: Log): Observable<string> {
     // Read the log details
-    return this.centralServerService.getLog(row.id).pipe(
-      map((log) => Formatters.formatTextToHTML(log.detailedMessages)));
+    return this.centralServerService
+      .getLog(row.id)
+      .pipe(map((log) => Formatters.formatTextToHTML(log.detailedMessages)));
   }
 
   public buildTableDef(): TableDef {
@@ -223,19 +241,22 @@ export class LogsListTableDataSource extends TableDataSource<Log> {
 
   public buildTableActionsDef(): TableActionDef[] {
     const tableActionsDef = super.buildTableActionsDef();
-    return [
-      this.exportAction,
-      ...tableActionsDef,
-    ];
+    return [this.exportAction, ...tableActionsDef];
   }
 
   public actionTriggered(actionDef: TableActionDef) {
     switch (actionDef.id) {
       case LogButtonAction.EXPORT_LOGS:
         if (actionDef.action) {
-          (actionDef as TableExportLogsActionDef).action(this.buildFilterValues(), this.dialogService,
-            this.translateService, this.messageService, this.centralServerService, this.router,
-            this.spinnerService);
+          (actionDef as TableExportLogsActionDef).action(
+            this.buildFilterValues(),
+            this.dialogService,
+            this.translateService,
+            this.messageService,
+            this.centralServerService,
+            this.router,
+            this.spinnerService
+          );
         }
         break;
     }

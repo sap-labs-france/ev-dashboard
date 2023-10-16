@@ -8,8 +8,8 @@ import { RegistrationToken } from '../../../../types/RegistrationToken';
 @Component({
   template: `
     <mat-chip-list [selectable]="false">
-      <mat-chip [ngClass]="row | appRegistrationTokenStatus:'class'" [disabled]="true">
-          {{row | appRegistrationTokenStatus:'text' | translate}}
+      <mat-chip [ngClass]="row | appRegistrationTokenStatus : 'class'" [disabled]="true">
+        {{ row | appRegistrationTokenStatus : 'text' | translate }}
       </mat-chip>
     </mat-chip-list>
   `,
@@ -18,7 +18,7 @@ export class ChargingStationsRegistrationTokenStatusComponent extends CellConten
   @Input() public row!: RegistrationToken;
 }
 
-@Pipe({name: 'appRegistrationTokenStatus'})
+@Pipe({ name: 'appRegistrationTokenStatus' })
 export class AppRegistrationTokenStatusPipe implements PipeTransform {
   public transform(registrationToken: RegistrationToken, type: string): string {
     if (type === 'class') {

@@ -34,8 +34,8 @@ export class UserConcurRefundConnectorComponent implements OnInit, OnChanges {
     private componentService: ComponentService,
     private centralServerService: CentralServerService,
     private windowService: WindowService,
-    @Inject(DOCUMENT) private document: any) {
-  }
+    @Inject(DOCUMENT) private document: any
+  ) {}
 
   public ngOnInit(): void {
     this.loadConcurSettings();
@@ -67,23 +67,32 @@ export class UserConcurRefundConnectorComponent implements OnInit, OnChanges {
         if (response.status === RestResponse.SUCCESS) {
           this.messageService.showSuccessMessage('settings.refund.concur.revoke_success');
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, 'settings.refund.concur.revoke_error');
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            'settings.refund.concur.revoke_error'
+          );
         }
         this.connectorChanged.emit();
       },
       error: (error) => {
-        Utils.handleError(JSON.stringify(error),
-          this.messageService, 'settings.refund.concur.revoke_error');
+        Utils.handleError(
+          JSON.stringify(error),
+          this.messageService,
+          'settings.refund.concur.revoke_error'
+        );
         this.connectorChanged.emit();
-      }
+      },
     });
   }
 
   public linkRefundAccount() {
     if (!this.refundSetting || !this.refundSetting.concur) {
       this.messageService.showErrorMessage(
-        this.translateService.instant('transactions.notification.refund.tenant_concur_connection_invalid'));
+        this.translateService.instant(
+          'transactions.notification.refund.tenant_concur_connection_invalid'
+        )
+      );
     } else {
       // Concur
       const concurSetting = this.refundSetting.concur;
@@ -94,8 +103,12 @@ export class UserConcurRefundConnectorComponent implements OnInit, OnChanges {
         userId: this.user?.id,
       };
       this.document.location.href =
-      // eslint-disable-next-line max-len
-      `${concurSetting.authenticationUrl}/oauth2/v0/authorize?client_id=${concurSetting.clientId}&response_type=code&scope=EXPRPT&redirect_uri=${returnedUrl}&state=${JSON.stringify(state)}`;
+        // eslint-disable-next-line max-len
+        `${concurSetting.authenticationUrl}/oauth2/v0/authorize?client_id=${
+          concurSetting.clientId
+        }&response_type=code&scope=EXPRPT&redirect_uri=${returnedUrl}&state=${JSON.stringify(
+          state
+        )}`;
     }
   }
 

@@ -9,13 +9,15 @@ export class AppPricingDimensionsPrice implements PipeTransform {
   // eslint-disable-next-line no-useless-constructor
   public constructor(
     private translateService: TranslateService,
-    private appCurrencyPipe: AppCurrencyPipe) {
-  }
+    private appCurrencyPipe: AppCurrencyPipe
+  ) {}
 
   public transform(i18nKey: string, price: number): any {
     if (!Utils.isNullOrUndefined(price)) {
       const formattedPrice = this.appCurrencyPipe.transform(price);
-      return this.translateService.instant(`settings.pricing.${i18nKey}`, { price: formattedPrice });
+      return this.translateService.instant(`settings.pricing.${i18nKey}`, {
+        price: formattedPrice,
+      });
     }
     return '-';
   }

@@ -6,13 +6,19 @@ import { DialogMode } from 'types/Authorization';
 import { Utils } from 'utils/Utils';
 
 import { KeyValue } from '../../../../types/GlobalType';
-import { CarConnectorConnectionSetting, CarConnectorConnectionType, CarConnectorMercedesConnectionType, CarConnectorTargaTelematicsConnectionType, CarConnectorTronityConnectionType } from '../../../../types/Setting';
+import {
+  CarConnectorConnectionSetting,
+  CarConnectorConnectionType,
+  CarConnectorMercedesConnectionType,
+  CarConnectorTargaTelematicsConnectionType,
+  CarConnectorTronityConnectionType,
+} from '../../../../types/Setting';
 import { CarConnectorConnectionDialogComponent } from './car-connector-connection.dialog.component';
 
 @Component({
   selector: 'app-settings-car-connector-connection',
   templateUrl: 'car-connector-connection.component.html',
-  styleUrls: ['car-connector-connection.component.scss']
+  styleUrls: ['car-connector-connection.component.scss'],
 })
 export class CarConnectorConnectionComponent implements OnInit {
   @Input() public currentCarConnectorConnection!: CarConnectorConnectionSetting;
@@ -31,31 +37,29 @@ export class CarConnectorConnectionComponent implements OnInit {
   public carConnectorConnectionTypes: KeyValue[] = [
     { key: CarConnectorConnectionType.MERCEDES, value: 'settings.car_connector.types.mercedes' },
     { key: CarConnectorConnectionType.TRONITY, value: 'settings.car_connector.types.tronity' },
-    { key: CarConnectorConnectionType.TARGA_TELEMATICS, value: 'settings.car_connector.types.targa_telematics' }
+    {
+      key: CarConnectorConnectionType.TARGA_TELEMATICS,
+      value: 'settings.car_connector.types.targa_telematics',
+    },
   ];
   public submitButtonTranslation!: any;
 
   // eslint-disable-next-line no-useless-constructor
-  public constructor(
-    private translateService: TranslateService) {}
+  public constructor(private translateService: TranslateService) {}
 
   public ngOnInit(): void {
     // Init Form
     this.formGroup = new FormGroup({
       id: new FormControl(''),
-      name: new FormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.maxLength(100),
-        ])),
-      description: new FormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      type: new FormControl<CarConnectorConnectionType>(CarConnectorConnectionType.NONE,
-        Validators.compose([
-          Validators.required,
-        ])),
+      name: new FormControl(
+        '',
+        Validators.compose([Validators.required, Validators.maxLength(100)])
+      ),
+      description: new FormControl('', Validators.compose([Validators.required])),
+      type: new FormControl<CarConnectorConnectionType>(
+        CarConnectorConnectionType.NONE,
+        Validators.compose([Validators.required])
+      ),
     });
     // Form
     this.id = this.formGroup.controls['id'];
@@ -95,7 +99,8 @@ export class CarConnectorConnectionComponent implements OnInit {
         this.tronityConnection = this.currentCarConnectorConnection.tronityConnection;
         break;
       case CarConnectorConnectionType.TARGA_TELEMATICS:
-        this.targaTelematicsConnection = this.currentCarConnectorConnection.targaTelematicsConnection;
+        this.targaTelematicsConnection =
+          this.currentCarConnectorConnection.targaTelematicsConnection;
         break;
     }
   }

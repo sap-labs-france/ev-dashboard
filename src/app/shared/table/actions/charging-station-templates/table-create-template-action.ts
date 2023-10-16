@@ -7,8 +7,11 @@ import { TableActionDef } from '../../../../types/Table';
 import { TableCreateAction } from '../table-create-action';
 
 export interface TableCreateTemplateActionDef extends TableActionDef {
-  action: (templateDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    refresh?: () => Observable<void>) => void;
+  action: (
+    templateDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableCreateTemplateAction extends TableCreateAction {
@@ -17,12 +20,15 @@ export class TableCreateTemplateAction extends TableCreateAction {
       ...super.getActionDef(),
       id: ChargingStationTemplateButtonAction.CREATE_TEMPLATE,
       action: this.createTemplate,
-      visible: false
+      visible: false,
     };
   }
 
-  private createTemplate(templateDialogComponent: ComponentType<unknown>,
-    dialog: MatDialog, refresh?: () => Observable<void>) {
+  private createTemplate(
+    templateDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    refresh?: () => Observable<void>
+  ) {
     super.create(templateDialogComponent, dialog, null, refresh);
   }
 }

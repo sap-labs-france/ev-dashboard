@@ -4,16 +4,16 @@ $nav-disabled-link-color: $brand-disabled !default;
 $nav-disabled-link-hover-color: $brand-disabled !default;
 
 $bmd-navbar-link-font-weight: $bmd-font-weight-base !default; //
-$bmd-navbar-link-font-size: .875rem !default; // 14
-$bmd-navbar-link-padding: .5321rem; // 7
+$bmd-navbar-link-font-size: 0.875rem !default; // 14
+$bmd-navbar-link-padding: 0.5321rem; // 7
 
 // tabs & pills
 $bmd-nav-tabs-pills-font-weight: 500 !default; //
-$bmd-nav-tabs-pills-font-size: .875rem !default; // 14
-$bmd-nav-tabs-pills-link-padding: 1.4286em .8575em !default; // spec // was .5em 1em   // relative em based on 14
+$bmd-nav-tabs-pills-font-size: 0.875rem !default; // 14
+$bmd-nav-tabs-pills-link-padding: 1.4286em 0.8575em !default; // spec // was .5em 1em   // relative em based on 14
 
 // tabs only
-$bmd-nav-tabs-border-size: .214rem !default; // 3px
+$bmd-nav-tabs-border-size: 0.214rem !default; // 3px
 
 $bmd-nav-tabs-color: $brand-disabled !default;
 $bmd-nav-tabs-active-color: $brand-disabled !default;

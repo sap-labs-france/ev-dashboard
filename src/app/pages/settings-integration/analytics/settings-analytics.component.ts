@@ -17,7 +17,7 @@ import { AnalyticsLinksTableDataSource } from './analytics-link/analytics-links-
 @Component({
   selector: 'app-settings-analytics',
   templateUrl: 'settings-analytics.component.html',
-  styleUrls: ['settings-analytics.component.scss']
+  styleUrls: ['settings-analytics.component.scss'],
 })
 export class SettingsAnalyticsComponent implements OnInit {
   public isActive = false;
@@ -31,7 +31,7 @@ export class SettingsAnalyticsComponent implements OnInit {
     private spinnerService: SpinnerService,
     private messageService: MessageService,
     private router: Router,
-    public analyticsLinksTableDataSource: AnalyticsLinksTableDataSource,
+    public analyticsLinksTableDataSource: AnalyticsLinksTableDataSource
   ) {
     this.analyticsLinksTableDataSource.changed.subscribe(() => {
       this.formGroup.markAsDirty();
@@ -74,10 +74,15 @@ export class SettingsAnalyticsComponent implements OnInit {
             this.messageService.showErrorMessage('settings.analytics.setting_not_found');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService,
-              this.centralServerService, 'general.unexpected_error_backend');
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              'general.unexpected_error_backend'
+            );
         }
-      }
+      },
     });
   }
 
@@ -97,11 +102,19 @@ export class SettingsAnalyticsComponent implements OnInit {
         this.spinnerService.hide();
         if (response.status === RestResponse.SUCCESS) {
           this.messageService.showSuccessMessage(
-            (!this.analyticsSettings.id ? 'settings.analytics.create_success' : 'settings.analytics.update_success'));
+            !this.analyticsSettings.id
+              ? 'settings.analytics.create_success'
+              : 'settings.analytics.update_success'
+          );
           this.refresh();
         } else {
-          Utils.handleError(JSON.stringify(response),
-            this.messageService, (!this.analyticsSettings.id ? 'settings.analytics.create_error' : 'settings.analytics.update_error'));
+          Utils.handleError(
+            JSON.stringify(response),
+            this.messageService,
+            !this.analyticsSettings.id
+              ? 'settings.analytics.create_error'
+              : 'settings.analytics.update_error'
+          );
         }
       },
       error: (error) => {
@@ -111,10 +124,17 @@ export class SettingsAnalyticsComponent implements OnInit {
             this.messageService.showErrorMessage('settings.analytics.setting_do_not_exist');
             break;
           default:
-            Utils.handleHttpError(error, this.router, this.messageService, this.centralServerService,
-              (!this.analyticsSettings.id ? 'settings.analytics.create_error' : 'settings.analytics.update_error'));
+            Utils.handleHttpError(
+              error,
+              this.router,
+              this.messageService,
+              this.centralServerService,
+              !this.analyticsSettings.id
+                ? 'settings.analytics.create_error'
+                : 'settings.analytics.update_error'
+            );
         }
-      }
+      },
     });
   }
 

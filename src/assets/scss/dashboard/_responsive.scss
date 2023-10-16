@@ -1,9 +1,8 @@
-@import "../core/responsive";
+@import '../core/responsive';
 
 /*          Changes for small display      */
 
 @media (max-width: 991px) {
-
   .form-group {
     textarea {
       padding-top: 15px;
@@ -199,7 +198,7 @@
   .navbar .container .navbar-wrapper,
   .navbar .container {
     @include transform-translate-x(0px);
-    @include transitions (0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1));
+    @include transitions(0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1));
     left: 0;
   }
 
@@ -209,7 +208,7 @@
 
   .main-panel,
   .navbar-collapse {
-    @include transitions (0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1));
+    @include transitions(0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1));
   }
 
   .navbar .navbar-collapse.collapse,
@@ -248,7 +247,7 @@
     left: auto;
     z-index: 1032;
     visibility: visible;
-    background-color: #9A9A9A;
+    background-color: #9a9a9a;
     overflow-y: visible;
     border-top: none;
     text-align: left;
@@ -256,7 +255,7 @@
     padding-left: 0;
 
     @include transform-translate-x(260px);
-    @include transitions (0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1));
+    @include transitions(0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1));
     > ul {
       position: relative;
       z-index: 4;
@@ -270,7 +269,7 @@
       position: absolute;
       background-color: #282828;
       display: block;
-      content: "";
+      content: '';
       z-index: 1;
     }
 
@@ -298,7 +297,6 @@
   }
 
   .form-group {
-
     &.form-search {
       .form-control {
         font-size: 1.7em;
@@ -324,7 +322,7 @@
     top: 0;
     left: auto;
     background: rgba(0, 0, 0, 0.35);
-    content: "";
+    content: '';
     z-index: 1999;
     overflow-x: hidden;
 
@@ -437,7 +435,7 @@
     }
   }
 
-  [class*="navbar-"] .navbar-nav {
+  [class*='navbar-'] .navbar-nav {
     & > li > a,
     > li > a:hover,
     > li > a:focus,
@@ -457,7 +455,7 @@
     .open .dropdown-menu > li > a,
     .open .dropdown-menu > li > a:hover,
     .open .dropdown-menu > li > a:focus {
-      opacity: .7;
+      opacity: 0.7;
       background: transparent;
     }
 
@@ -475,7 +473,6 @@
         border-top-color: white;
       }
     }
-
   }
 
   .dropdown-menu {
@@ -492,7 +489,7 @@
     top: 0;
     left: auto;
     right: 260px;
-    content: "";
+    content: '';
     z-index: 1999;
     overflow-x: hidden;
   }
@@ -515,7 +512,8 @@
   .form-control + .form-control-feedback {
     margin-top: -8px;
   }
-  .navbar-toggle:hover, .navbar-toggle:focus {
+  .navbar-toggle:hover,
+  .navbar-toggle:focus {
     background-color: transparent !important;
   }
 
@@ -535,7 +533,8 @@
   .navbar-collapse.collapse.in {
     display: block;
   }
-  .navbar-header .collapse, .navbar-toggle {
+  .navbar-header .collapse,
+  .navbar-toggle {
     display: block !important;
   }
   .navbar-header {

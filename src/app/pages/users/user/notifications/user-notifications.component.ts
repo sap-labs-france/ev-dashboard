@@ -46,8 +46,7 @@ export class UserNotificationsComponent implements OnInit, OnChanges {
   private adminNotificationControls: AbstractControl[] = [];
   private notificationControls: AbstractControl[] = [];
 
-  public constructor(
-    private authorizationService: AuthorizationService) {
+  public constructor(private authorizationService: AuthorizationService) {
     // Admin?
     this.isAdmin = this.authorizationService.isAdmin();
     this.isSuperAdmin = this.authorizationService.isSuperAdmin();
@@ -57,79 +56,94 @@ export class UserNotificationsComponent implements OnInit, OnChanges {
   public ngOnInit(): void {
     // Init the form
     this.formGroup.addControl('notificationsActive', new UntypedFormControl(true));
-    this.formGroup.addControl('notifications', new UntypedFormGroup({
-      sendSessionStarted: new UntypedFormControl(true),
-      sendOptimalChargeReached: new UntypedFormControl(true),
-      sendCarCatalogSynchronizationFailed: new UntypedFormControl(true),
-      sendEndOfCharge: new UntypedFormControl(true),
-      sendEndOfSession: new UntypedFormControl(true),
-      sendUserAccountStatusChanged: new UntypedFormControl(true),
-      sendSessionNotStarted: new UntypedFormControl(true),
-      sendUserAccountInactivity: new UntypedFormControl(true),
-      sendUnknownUserBadged: new UntypedFormControl(false),
-      sendChargingStationStatusError: new UntypedFormControl(false),
-      sendChargingStationRegistered: new UntypedFormControl(false),
-      sendOfflineChargingStations: new UntypedFormControl(false),
-      sendPreparingSessionNotStarted: new UntypedFormControl(false),
-      sendOcpiPatchStatusError: new UntypedFormControl(false),
-      sendOicpPatchStatusError: new UntypedFormControl(false),
-      sendBillingSynchronizationFailed: new UntypedFormControl(false),
-      sendBillingPeriodicOperationFailed: new UntypedFormControl(false),
-      sendComputeAndApplyChargingProfilesFailed: new UntypedFormControl(false),
-      sendEndUserErrorNotification: new UntypedFormControl(false),
-      sendBillingNewInvoice: new UntypedFormControl(true),
-      sendAdminAccountVerificationNotification: new UntypedFormControl(true)
-    }));
+    this.formGroup.addControl(
+      'notifications',
+      new UntypedFormGroup({
+        sendSessionStarted: new UntypedFormControl(true),
+        sendOptimalChargeReached: new UntypedFormControl(true),
+        sendCarCatalogSynchronizationFailed: new UntypedFormControl(true),
+        sendEndOfCharge: new UntypedFormControl(true),
+        sendEndOfSession: new UntypedFormControl(true),
+        sendUserAccountStatusChanged: new UntypedFormControl(true),
+        sendSessionNotStarted: new UntypedFormControl(true),
+        sendUserAccountInactivity: new UntypedFormControl(true),
+        sendUnknownUserBadged: new UntypedFormControl(false),
+        sendChargingStationStatusError: new UntypedFormControl(false),
+        sendChargingStationRegistered: new UntypedFormControl(false),
+        sendOfflineChargingStations: new UntypedFormControl(false),
+        sendPreparingSessionNotStarted: new UntypedFormControl(false),
+        sendOcpiPatchStatusError: new UntypedFormControl(false),
+        sendOicpPatchStatusError: new UntypedFormControl(false),
+        sendBillingSynchronizationFailed: new UntypedFormControl(false),
+        sendBillingPeriodicOperationFailed: new UntypedFormControl(false),
+        sendComputeAndApplyChargingProfilesFailed: new UntypedFormControl(false),
+        sendEndUserErrorNotification: new UntypedFormControl(false),
+        sendBillingNewInvoice: new UntypedFormControl(true),
+        sendAdminAccountVerificationNotification: new UntypedFormControl(true),
+      })
+    );
     // Form
     this.notificationsActive = this.formGroup.controls['notificationsActive'];
     this.notifications = this.formGroup.controls['notifications'] as UntypedFormGroup;
     this.sendSessionStarted = this.notifications.controls['sendSessionStarted'];
     this.sendOptimalChargeReached = this.notifications.controls['sendOptimalChargeReached'];
-    this.sendCarCatalogSynchronizationFailed = this.notifications.controls['sendCarCatalogSynchronizationFailed'];
+    this.sendCarCatalogSynchronizationFailed =
+      this.notifications.controls['sendCarCatalogSynchronizationFailed'];
     this.sendEndOfCharge = this.notifications.controls['sendEndOfCharge'];
     this.sendEndOfSession = this.notifications.controls['sendEndOfSession'];
     this.sendUserAccountStatusChanged = this.notifications.controls['sendUserAccountStatusChanged'];
     this.sendUnknownUserBadged = this.notifications.controls['sendUnknownUserBadged'];
-    this.sendChargingStationStatusError = this.notifications.controls['sendChargingStationStatusError'];
-    this.sendChargingStationRegistered = this.notifications.controls['sendChargingStationRegistered'];
+    this.sendChargingStationStatusError =
+      this.notifications.controls['sendChargingStationStatusError'];
+    this.sendChargingStationRegistered =
+      this.notifications.controls['sendChargingStationRegistered'];
     this.sendOfflineChargingStations = this.notifications.controls['sendOfflineChargingStations'];
     this.sendOcpiPatchStatusError = this.notifications.controls['sendOcpiPatchStatusError'];
     this.sendOicpPatchStatusError = this.notifications.controls['sendOicpPatchStatusError'];
-    this.sendPreparingSessionNotStarted = this.notifications.controls['sendPreparingSessionNotStarted'];
-    this.sendBillingSynchronizationFailed = this.notifications.controls['sendBillingSynchronizationFailed'];
-    this.sendBillingPeriodicOperationFailed = this.notifications.controls['sendBillingPeriodicOperationFailed'];
+    this.sendPreparingSessionNotStarted =
+      this.notifications.controls['sendPreparingSessionNotStarted'];
+    this.sendBillingSynchronizationFailed =
+      this.notifications.controls['sendBillingSynchronizationFailed'];
+    this.sendBillingPeriodicOperationFailed =
+      this.notifications.controls['sendBillingPeriodicOperationFailed'];
     this.sendSessionNotStarted = this.notifications.controls['sendSessionNotStarted'];
     this.sendUserAccountInactivity = this.notifications.controls['sendUserAccountInactivity'];
-    this.sendComputeAndApplyChargingProfilesFailed = this.notifications.controls['sendComputeAndApplyChargingProfilesFailed'];
+    this.sendComputeAndApplyChargingProfilesFailed =
+      this.notifications.controls['sendComputeAndApplyChargingProfilesFailed'];
     this.sendEndUserErrorNotification = this.notifications.controls['sendEndUserErrorNotification'];
     this.sendBillingNewInvoice = this.notifications.controls['sendBillingNewInvoice'];
-    this.sendAdminAccountVerificationNotification = this.notifications.controls['sendAdminAccountVerificationNotification'];
+    this.sendAdminAccountVerificationNotification =
+      this.notifications.controls['sendAdminAccountVerificationNotification'];
     // Keep notifs
-    this.notificationControls.push(...[
-      this.sendSessionStarted,
-      this.sendOptimalChargeReached,
-      this.sendEndOfCharge,
-      this.sendEndOfSession,
-      this.sendUserAccountStatusChanged,
-      this.sendSessionNotStarted,
-      this.sendUserAccountInactivity,
-      this.sendBillingNewInvoice,
-      this.sendPreparingSessionNotStarted,
-    ]);
-    this.adminNotificationControls.push(...[
-      this.sendUnknownUserBadged,
-      this.sendUnknownUserBadged,
-      this.sendChargingStationStatusError,
-      this.sendOfflineChargingStations,
-      this.sendOcpiPatchStatusError,
-      this.sendOicpPatchStatusError,
-      this.sendBillingSynchronizationFailed,
-      this.sendBillingPeriodicOperationFailed,
-      this.sendComputeAndApplyChargingProfilesFailed,
-      this.sendEndUserErrorNotification,
-      this.sendChargingStationRegistered,
-      this.sendAdminAccountVerificationNotification,
-    ]);
+    this.notificationControls.push(
+      ...[
+        this.sendSessionStarted,
+        this.sendOptimalChargeReached,
+        this.sendEndOfCharge,
+        this.sendEndOfSession,
+        this.sendUserAccountStatusChanged,
+        this.sendSessionNotStarted,
+        this.sendUserAccountInactivity,
+        this.sendBillingNewInvoice,
+        this.sendPreparingSessionNotStarted,
+      ]
+    );
+    this.adminNotificationControls.push(
+      ...[
+        this.sendUnknownUserBadged,
+        this.sendUnknownUserBadged,
+        this.sendChargingStationStatusError,
+        this.sendOfflineChargingStations,
+        this.sendOcpiPatchStatusError,
+        this.sendOicpPatchStatusError,
+        this.sendBillingSynchronizationFailed,
+        this.sendBillingPeriodicOperationFailed,
+        this.sendComputeAndApplyChargingProfilesFailed,
+        this.sendEndUserErrorNotification,
+        this.sendChargingStationRegistered,
+        this.sendAdminAccountVerificationNotification,
+      ]
+    );
     this.initialized = true;
     this.loadUser();
   }
@@ -150,7 +164,10 @@ export class UserNotificationsComponent implements OnInit, OnChanges {
       // Set notifications
       this.setNotificationsInitialValue(this.user.notifications, 'sendSessionStarted');
       this.setNotificationsInitialValue(this.user.notifications, 'sendOptimalChargeReached');
-      this.setNotificationsInitialValue(this.user.notifications, 'sendCarCatalogSynchronizationFailed');
+      this.setNotificationsInitialValue(
+        this.user.notifications,
+        'sendCarCatalogSynchronizationFailed'
+      );
       this.setNotificationsInitialValue(this.user.notifications, 'sendEndOfCharge');
       this.setNotificationsInitialValue(this.user.notifications, 'sendEndOfSession');
       this.setNotificationsInitialValue(this.user.notifications, 'sendUserAccountStatusChanged');
@@ -161,15 +178,27 @@ export class UserNotificationsComponent implements OnInit, OnChanges {
       this.setNotificationsInitialValue(this.user.notifications, 'sendOcpiPatchStatusError');
       this.setNotificationsInitialValue(this.user.notifications, 'sendOicpPatchStatusError');
       this.setNotificationsInitialValue(this.user.notifications, 'sendPreparingSessionNotStarted');
-      this.setNotificationsInitialValue(this.user.notifications, 'sendBillingSynchronizationFailed');
-      this.setNotificationsInitialValue(this.user.notifications, 'sendBillingPeriodicOperationFailed');
+      this.setNotificationsInitialValue(
+        this.user.notifications,
+        'sendBillingSynchronizationFailed'
+      );
+      this.setNotificationsInitialValue(
+        this.user.notifications,
+        'sendBillingPeriodicOperationFailed'
+      );
       this.setNotificationsInitialValue(this.user.notifications, 'sendUserAccountInactivity');
       this.setNotificationsInitialValue(this.user.notifications, 'sendSessionNotStarted');
-      this.setNotificationsInitialValue(this.user.notifications, 'sendComputeAndApplyChargingProfilesFailed');
+      this.setNotificationsInitialValue(
+        this.user.notifications,
+        'sendComputeAndApplyChargingProfilesFailed'
+      );
       this.setNotificationsInitialValue(this.user.notifications, 'sendEndUserErrorNotification');
       this.setNotificationsInitialValue(this.user.notifications, 'sendBillingNewInvoice');
       this.setNotificationsInitialValue(this.user.notifications, 'sendBillingNewInvoice');
-      this.setNotificationsInitialValue(this.user.notifications, 'sendAdminAccountVerificationNotification');
+      this.setNotificationsInitialValue(
+        this.user.notifications,
+        'sendAdminAccountVerificationNotification'
+      );
     }
   }
 

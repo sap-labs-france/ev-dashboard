@@ -9,7 +9,7 @@ import { Transaction } from '../../../../types/Transaction';
 @Component({
   selector: 'app-transaction-pricing',
   templateUrl: 'transaction-pricing.component.html',
-  styleUrls: ['transaction-pricing.component.scss']
+  styleUrls: ['transaction-pricing.component.scss'],
 })
 export class TransactionPricingComponent extends AbstractTabComponent implements OnChanges {
   @Input() public transaction: Transaction;
@@ -18,7 +18,8 @@ export class TransactionPricingComponent extends AbstractTabComponent implements
 
   public constructor(
     protected activatedRoute: ActivatedRoute,
-    protected windowService: WindowService) {
+    protected windowService: WindowService
+  ) {
     super(activatedRoute, windowService, ['main', 'pricing'], false);
   }
 
@@ -29,14 +30,18 @@ export class TransactionPricingComponent extends AbstractTabComponent implements
   }
 
   private shrinkPricingData(pricingModel: ResolvedPricingModel): PricingDefinition[] {
-    const pricingDefinitions: PricingDefinition[] = pricingModel.pricingDefinitions.filter((pricingDefinition) => {
-      if ( pricingDefinition.dimensions?.flatFee?.pricedData
-        || pricingDefinition.dimensions?.energy?.pricedData
-        || pricingDefinition.dimensions?.chargingTime?.pricedData
-        || pricingDefinition.dimensions?.parkingTime?.pricedData) {
-        return pricingDefinition;
+    const pricingDefinitions: PricingDefinition[] = pricingModel.pricingDefinitions.filter(
+      (pricingDefinition) => {
+        if (
+          pricingDefinition.dimensions?.flatFee?.pricedData ||
+          pricingDefinition.dimensions?.energy?.pricedData ||
+          pricingDefinition.dimensions?.chargingTime?.pricedData ||
+          pricingDefinition.dimensions?.parkingTime?.pricedData
+        ) {
+          return pricingDefinition;
+        }
       }
-    });
+    );
     return pricingDefinitions;
   }
 }

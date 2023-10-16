@@ -8,11 +8,14 @@ import { SettingsOcpiEndpointsDetailsTableDataSource } from './settings-ocpi-end
   template: '<app-table [dataSource]="settingsOcpiEndpointsDetaislTableDataSource"></app-table>',
   providers: [SettingsOcpiEndpointsDetailsTableDataSource],
 })
-
-export class SettingsOcpiEndpointsDetailsComponent extends CellContentTemplateDirective implements OnChanges, OnInit {
+export class SettingsOcpiEndpointsDetailsComponent
+  extends CellContentTemplateDirective
+  implements OnChanges, OnInit {
   @Input() public row!: OCPIEndpoint;
 
-  public constructor(public settingsOcpiEndpointsDetaislTableDataSource: SettingsOcpiEndpointsDetailsTableDataSource) {
+  public constructor(
+    public settingsOcpiEndpointsDetaislTableDataSource: SettingsOcpiEndpointsDetailsTableDataSource
+  ) {
     super();
   }
 

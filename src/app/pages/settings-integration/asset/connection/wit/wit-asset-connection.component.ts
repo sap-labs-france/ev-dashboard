@@ -6,7 +6,7 @@ import { AssetWitConnectionType } from '../../../../../types/Setting';
 
 @Component({
   selector: 'app-settings-wit-connection',
-  templateUrl: 'wit-asset-connection.component.html'
+  templateUrl: 'wit-asset-connection.component.html',
 })
 export class WitAssetConnectionComponent implements OnInit {
   @Input() public formGroup!: UntypedFormGroup;
@@ -22,27 +22,14 @@ export class WitAssetConnectionComponent implements OnInit {
   public ngOnInit(): void {
     // Set login credentials form
     this.witLoginForm = new UntypedFormGroup({
-      authenticationUrl: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(Constants.URL_PATTERN),
-        ])),
-      clientId: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      clientSecret: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      user: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
-      password: new UntypedFormControl('',
-        Validators.compose([
-          Validators.required,
-        ])),
+      authenticationUrl: new UntypedFormControl(
+        '',
+        Validators.compose([Validators.required, Validators.pattern(Constants.URL_PATTERN)])
+      ),
+      clientId: new UntypedFormControl('', Validators.compose([Validators.required])),
+      clientSecret: new UntypedFormControl('', Validators.compose([Validators.required])),
+      user: new UntypedFormControl('', Validators.compose([Validators.required])),
+      password: new UntypedFormControl('', Validators.compose([Validators.required])),
     });
     if (!this.formGroup.disabled) {
       this.formGroup.addControl('witConnection', this.witLoginForm);

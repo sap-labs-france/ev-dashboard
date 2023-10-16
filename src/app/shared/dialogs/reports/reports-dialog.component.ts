@@ -9,13 +9,14 @@ import { ReportsDialogTableDataSource } from './reports-dialog-table-data-source
 
 @Component({
   templateUrl: '../dialog-table-data.component.html',
-  styleUrls: ['../dialog-table-data.component.scss']
+  styleUrls: ['../dialog-table-data.component.scss'],
 })
 export class ReportsDialogComponent extends DialogTableDataComponent<RefundReport> {
   public constructor(
     protected dialogRef: MatDialogRef<ReportsDialogComponent>,
     private transactionsListTableDataSource: ReportsDialogTableDataSource,
-    @Inject(MAT_DIALOG_DATA) data: any) {
+    @Inject(MAT_DIALOG_DATA) data: any
+  ) {
     super(data, dialogRef, transactionsListTableDataSource);
     // Default title
     if (Utils.isEmptyString(this.title)) {

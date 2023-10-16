@@ -7,7 +7,8 @@ import { Utils } from '../../../utils/Utils';
 import { CarComponent } from './car.component';
 
 @Component({
-  template: '<app-car #appRef [currentCarID]="carID" [dialogMode]="dialogMode" [dialogRef]="dialogRef" [carsAuthorizations]="carsAuthorizations"></app-car>',
+  template:
+    '<app-car #appRef [currentCarID]="carID" [dialogMode]="dialogMode" [dialogRef]="dialogRef" [carsAuthorizations]="carsAuthorizations"></app-car>',
 })
 export class CarDialogComponent implements AfterViewInit {
   @ViewChild('appRef') public appRef!: CarComponent;
@@ -17,7 +18,8 @@ export class CarDialogComponent implements AfterViewInit {
 
   public constructor(
     public dialogRef: MatDialogRef<CarDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<Car, CarsAuthorizations>) {
+    @Inject(MAT_DIALOG_DATA) dialogParams: DialogParamsWithAuth<Car, CarsAuthorizations>
+  ) {
     this.carID = dialogParams.dialogData?.id;
     this.dialogMode = dialogParams.dialogMode;
     this.carsAuthorizations = dialogParams.authorizations;
@@ -25,7 +27,11 @@ export class CarDialogComponent implements AfterViewInit {
 
   public ngAfterViewInit() {
     // Register key event
-    Utils.registerSaveCloseKeyEvents(this.dialogRef, this.appRef.formGroup,
-      this.appRef.saveCar.bind(this.appRef), this.appRef.close.bind(this.appRef));
+    Utils.registerSaveCloseKeyEvents(
+      this.dialogRef,
+      this.appRef.formGroup,
+      this.appRef.saveCar.bind(this.appRef),
+      this.appRef.close.bind(this.appRef)
+    );
   }
 }

@@ -1,4 +1,3 @@
-
 export default interface CreatedUpdatedProps {
   createdBy?: string;
   createdOn?: Date;

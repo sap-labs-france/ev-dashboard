@@ -3,13 +3,20 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { DialogParams } from '../../../../types/Authorization';
-import { ChargingStationTemplate, ChargingStationTemplateButtonAction } from '../../../../types/ChargingStationTemplate';
+import {
+  ChargingStationTemplate,
+  ChargingStationTemplateButtonAction,
+} from '../../../../types/ChargingStationTemplate';
 import { TableActionDef } from '../../../../types/Table';
 import { TableViewAction } from '../table-view-action';
 
 export interface TableViewTemplateActionDef extends TableActionDef {
-  action: (templateDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParams<ChargingStationTemplate>, refresh?: () => Observable<void>) => void;
+  action: (
+    templateDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParams<ChargingStationTemplate>,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableViewTemplateAction extends TableViewAction {
@@ -21,8 +28,12 @@ export class TableViewTemplateAction extends TableViewAction {
     };
   }
 
-  private viewTemplate(templateDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParams<ChargingStationTemplate>, refresh?: () => Observable<void>) {
+  private viewTemplate(
+    templateDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParams<ChargingStationTemplate>,
+    refresh?: () => Observable<void>
+  ) {
     super.view(templateDialogComponent, dialog, dialogParams, refresh);
   }
 }

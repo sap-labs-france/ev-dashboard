@@ -12,8 +12,16 @@ import { Utils } from '../../../../utils/Utils';
 import { TableDeleteAction } from '../table-delete-action';
 
 export interface TableDeleteCarActionDef extends TableActionDef {
-  action: (car: Car, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) => void;
+  action: (
+    car: Car,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableDeleteCarAction extends TableDeleteAction {
@@ -25,14 +33,34 @@ export class TableDeleteCarAction extends TableDeleteAction {
     };
   }
 
-  private deleteCar(car: Car, dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router, refresh?: () => Observable<void>) {
+  private deleteCar(
+    car: Car,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    refresh?: () => Observable<void>
+  ) {
     super.delete(
-      car, 'cars.delete_title',
-      translateService.instant('cars.delete_confirm', { carName: Utils.buildCarCatalogName(car.carCatalog) }),
-      translateService.instant('cars.delete_success', { carName: Utils.buildCarCatalogName(car.carCatalog) }),
+      car,
+      'cars.delete_title',
+      translateService.instant('cars.delete_confirm', {
+        carName: Utils.buildCarCatalogName(car.carCatalog),
+      }),
+      translateService.instant('cars.delete_success', {
+        carName: Utils.buildCarCatalogName(car.carCatalog),
+      }),
       'cars.delete_error',
       centralServerService.deleteCar.bind(centralServerService),
-      dialogService, translateService, messageService, centralServerService, spinnerService, router, refresh);
+      dialogService,
+      translateService,
+      messageService,
+      centralServerService,
+      spinnerService,
+      router,
+      refresh
+    );
   }
 }

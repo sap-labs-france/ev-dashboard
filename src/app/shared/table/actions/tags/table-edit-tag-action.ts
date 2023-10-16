@@ -8,8 +8,12 @@ import { Tag, TagButtonAction } from '../../../../types/Tag';
 import { TableEditAction } from '../table-edit-action';
 
 export interface TableEditTagActionDef extends TableActionDef {
-  action: (tagDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<Tag, TagsAuthorizations>, refresh?: () => Observable<void>) => void;
+  action: (
+    tagDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<Tag, TagsAuthorizations>,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableEditTagAction extends TableEditAction {
@@ -21,8 +25,12 @@ export class TableEditTagAction extends TableEditAction {
     };
   }
 
-  private editTag(tagDialogComponent: ComponentType<unknown>, dialog: MatDialog,
-    dialogParams: DialogParamsWithAuth<Tag, TagsAuthorizations>, refresh?: () => Observable<void>) {
+  private editTag(
+    tagDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParamsWithAuth<Tag, TagsAuthorizations>,
+    refresh?: () => Observable<void>
+  ) {
     super.edit(tagDialogComponent, dialog, dialogParams, refresh);
   }
 }

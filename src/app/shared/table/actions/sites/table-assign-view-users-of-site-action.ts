@@ -2,14 +2,22 @@ import { ComponentType } from '@angular/cdk/portal';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
-import { DialogMode, DialogParamsWithAuth, SitesAuthorizations } from '../../../../types/Authorization';
+import {
+  DialogMode,
+  DialogParamsWithAuth,
+  SitesAuthorizations,
+} from '../../../../types/Authorization';
 import { Site, SiteButtonAction } from '../../../../types/Site';
 import { TableActionDef } from '../../../../types/Table';
 import { TableAssignAction } from '../table-assign-action';
 
 export interface TableViewAssignedUsersOfSiteActionDef extends TableActionDef {
-  action: (siteUsersDialogComponent: ComponentType<unknown>, site: DialogParamsWithAuth<Site, SitesAuthorizations>,
-    dialog: MatDialog, refresh?: () => Observable<void>) => void;
+  action: (
+    siteUsersDialogComponent: ComponentType<unknown>,
+    site: DialogParamsWithAuth<Site, SitesAuthorizations>,
+    dialog: MatDialog,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableViewAssignedUsersOfSiteAction extends TableAssignAction {
@@ -24,8 +32,12 @@ export class TableViewAssignedUsersOfSiteAction extends TableAssignAction {
     };
   }
 
-  private viewAssignedUsersOfSite(siteUsersDialogComponent: ComponentType<unknown>, site: DialogParamsWithAuth<Site, SitesAuthorizations>,
-    dialog: MatDialog, refresh?: () => Observable<void>) {
+  private viewAssignedUsersOfSite(
+    siteUsersDialogComponent: ComponentType<unknown>,
+    site: DialogParamsWithAuth<Site, SitesAuthorizations>,
+    dialog: MatDialog,
+    refresh?: () => Observable<void>
+  ) {
     super.assign(siteUsersDialogComponent, dialog, site, DialogMode.VIEW, refresh);
   }
 }

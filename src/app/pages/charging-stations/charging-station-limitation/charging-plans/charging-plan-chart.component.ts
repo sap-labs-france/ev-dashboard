@@ -8,7 +8,11 @@ import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
 import { AppDecimalPipe } from '../../../../shared/formatters/app-decimal.pipe';
 import { AppDurationPipe } from '../../../../shared/formatters/app-duration.pipe';
 import { Schedule } from '../../../../types/ChargingProfile';
-import { ChargePoint, ChargingStation, ChargingStationPowers } from '../../../../types/ChargingStation';
+import {
+  ChargePoint,
+  ChargingStation,
+  ChargingStationPowers,
+} from '../../../../types/ChargingStation';
 import { ConsumptionUnit } from '../../../../types/Transaction';
 import { Utils } from '../../../../utils/Utils';
 
@@ -21,9 +25,9 @@ import { Utils } from '../../../../utils/Utils';
       </div>
     </div>
     <div class="chart-container chart-container-profiles">
-      <div #purple class='chart-purple'></div>
-      <div #primary class='chart-primary'></div>
-      <div #danger class='chart-danger'></div>
+      <div #purple class="chart-purple"></div>
+      <div #primary class="chart-primary"></div>
+      <div #danger class="chart-danger"></div>
       <canvas #chart></canvas>
     </div>
   `,
@@ -58,8 +62,8 @@ export class ChargingPlanChartComponent implements OnChanges {
     private translateService: TranslateService,
     private durationPipe: AppDurationPipe,
     private datePipe: AppDatePipe,
-    private decimalPipe: AppDecimalPipe) {
-  }
+    private decimalPipe: AppDecimalPipe
+  ) {}
 
   public ngOnChanges() {
     this.prepareAndCreateGraphData();
@@ -115,13 +119,21 @@ export class ChargingPlanChartComponent implements OnChanges {
       const chargingSlotDataSet: ChartDataset = {
         type: 'line',
         data: [],
-        yAxisID: this.selectedUnit === ConsumptionUnit.AMPERE ? ConsumptionChartAxis.AMPERAGE : ConsumptionChartAxis.POWER,
+        yAxisID:
+          this.selectedUnit === ConsumptionUnit.AMPERE
+            ? ConsumptionChartAxis.AMPERAGE
+            : ConsumptionChartAxis.POWER,
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.limitChargingPlan),
-        label: this.translateService.instant(this.selectedUnit === ConsumptionUnit.AMPERE ?
-          'transactions.graph.limit_plan_amps' : 'transactions.graph.limit_plan_watts'),
-        order: this.selectedUnit === ConsumptionUnit.AMPERE ?
-          ConsumptionChartDatasetOrder.PLAN_AMPS : ConsumptionChartDatasetOrder.PLAN_WATTS,
+        label: this.translateService.instant(
+          this.selectedUnit === ConsumptionUnit.AMPERE
+            ? 'transactions.graph.limit_plan_amps'
+            : 'transactions.graph.limit_plan_watts'
+        ),
+        order:
+          this.selectedUnit === ConsumptionUnit.AMPERE
+            ? ConsumptionChartDatasetOrder.PLAN_AMPS
+            : ConsumptionChartDatasetOrder.PLAN_WATTS,
         fill: 'origin',
       };
       // Create Schedule chart points
@@ -129,7 +141,10 @@ export class ChargingPlanChartComponent implements OnChanges {
         labels.push(chargingSlot.startDate.getTime());
         chargingSlotDataSet.data.push({
           x: chargingSlot.startDate.getTime(),
-          y: this.selectedUnit === ConsumptionUnit.AMPERE ? chargingSlot.limit : chargingSlot.limitInkW,
+          y:
+            this.selectedUnit === ConsumptionUnit.AMPERE
+              ? chargingSlot.limit
+              : chargingSlot.limitInkW,
         } as number & Point);
       }
       // Create the last Schedule point with the last duration
@@ -138,7 +153,10 @@ export class ChargingPlanChartComponent implements OnChanges {
         labels.push(chargingSlot.startDate.getTime() + chargingSlot.duration * 60 * 1000);
         chargingSlotDataSet.data.push({
           x: chargingSlot.startDate.getTime() - 1000 + chargingSlot.duration * 60 * 1000,
-          y: this.selectedUnit === ConsumptionUnit.AMPERE ? chargingSlot.limit : chargingSlot.limitInkW,
+          y:
+            this.selectedUnit === ConsumptionUnit.AMPERE
+              ? chargingSlot.limit
+              : chargingSlot.limitInkW,
         } as number & Point);
       }
       datasets.push(chargingSlotDataSet);
@@ -146,20 +164,32 @@ export class ChargingPlanChartComponent implements OnChanges {
       const limitDataSet: ChartDataset = {
         type: 'line',
         data: [],
-        yAxisID: (this.selectedUnit === ConsumptionUnit.AMPERE) ? ConsumptionChartAxis.AMPERAGE : ConsumptionChartAxis.POWER,
+        yAxisID:
+          this.selectedUnit === ConsumptionUnit.AMPERE
+            ? ConsumptionChartAxis.AMPERAGE
+            : ConsumptionChartAxis.POWER,
         lineTension: this.lineTension,
         ...Utils.formatLineColor(this.limitMax),
-        label: this.translateService.instant((this.selectedUnit === ConsumptionUnit.AMPERE) ?
-          'transactions.graph.plan_amps' : 'transactions.graph.plan_watts'),
-        order: this.selectedUnit === ConsumptionUnit.AMPERE ?
-          ConsumptionChartDatasetOrder.LIMIT_AMPS : ConsumptionChartDatasetOrder.LIMIT_WATTS,
+        label: this.translateService.instant(
+          this.selectedUnit === ConsumptionUnit.AMPERE
+            ? 'transactions.graph.plan_amps'
+            : 'transactions.graph.plan_watts'
+        ),
+        order:
+          this.selectedUnit === ConsumptionUnit.AMPERE
+            ? ConsumptionChartDatasetOrder.LIMIT_AMPS
+            : ConsumptionChartDatasetOrder.LIMIT_WATTS,
       };
       let chargingStationPowers: ChargingStationPowers;
       let chargePoint: ChargePoint;
       if (this.connectorId > 0) {
         const connector = Utils.getConnectorFromID(this.chargingStation, this.connectorId);
         chargePoint = Utils.getChargePointFromID(this.chargingStation, connector.chargePointID);
-        chargingStationPowers = Utils.getChargingStationPowers(this.chargingStation, chargePoint, this.connectorId);
+        chargingStationPowers = Utils.getChargingStationPowers(
+          this.chargingStation,
+          chargePoint,
+          this.connectorId
+        );
       } else {
         chargingStationPowers = Utils.getChargingStationPowers(this.chargingStation);
       }
@@ -168,8 +198,10 @@ export class ChargingPlanChartComponent implements OnChanges {
         // First
         limitDataSet.data.push({
           x: (data as Point).x,
-          y: this.selectedUnit === ConsumptionUnit.AMPERE ?
-            chargingStationPowers.currentAmp : chargingStationPowers.currentWatt / 1000,
+          y:
+            this.selectedUnit === ConsumptionUnit.AMPERE
+              ? chargingStationPowers.currentAmp
+              : chargingStationPowers.currentWatt / 1000,
         } as number & Point);
       }
       // Push in the graph
@@ -226,7 +258,11 @@ export class ChargingPlanChartComponent implements OnChanges {
             title: (tooltipItems) => {
               const firstDate = new Date(this.firstLabel);
               const currentDate = new Date(tooltipItems[0].parsed.x);
-              return this.datePipe.transform(currentDate) + ' - ' + this.durationPipe.transform((currentDate.getTime() - firstDate.getTime()) / 1000);
+              return (
+                this.datePipe.transform(currentDate) +
+                ' - ' +
+                this.durationPipe.transform((currentDate.getTime() - firstDate.getTime()) / 1000)
+              );
             },
           },
         },
@@ -258,7 +294,8 @@ export class ChargingPlanChartComponent implements OnChanges {
           type: 'linear',
           position: 'left',
           ticks: {
-            callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-2'), 10) + 'kW',
+            callback: (value: number) =>
+              parseInt(this.decimalPipe.transform(value, '1.0-2'), 10) + 'kW',
             color: this.defaultColor,
           },
           display: 'auto',
@@ -271,7 +308,8 @@ export class ChargingPlanChartComponent implements OnChanges {
           type: 'linear',
           position: 'left',
           ticks: {
-            callback: (value: number) => parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + 'A',
+            callback: (value: number) =>
+              parseInt(this.decimalPipe.transform(value, '1.0-0'), 10) + 'A',
             color: this.defaultColor,
           },
           display: 'auto',
@@ -279,7 +317,7 @@ export class ChargingPlanChartComponent implements OnChanges {
             display: true,
             color: 'rgba(0,0,0,0.2)',
           },
-        }
+        },
       },
       elements: {
         line: {

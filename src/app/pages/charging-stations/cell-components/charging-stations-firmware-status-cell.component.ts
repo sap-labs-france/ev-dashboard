@@ -6,21 +6,32 @@ import { ChargingStation, FirmwareStatus } from '../../../types/ChargingStation'
 
 @Component({
   template: `
-    <ng-container *ngIf="!row?.firmwareUpdateStatus || row?.firmwareUpdateStatus === 'Idle'; else displayFirmwareStatus">
-      <span class="d-none d-xl-table-cell text-center p-1">{{row.firmwareVersion}}</span>
+    <ng-container
+      *ngIf="
+        !row?.firmwareUpdateStatus || row?.firmwareUpdateStatus === 'Idle';
+        else displayFirmwareStatus
+      "
+    >
+      <span class="d-none d-xl-table-cell text-center p-1">{{ row.firmwareVersion }}</span>
     </ng-container>
     <ng-template #displayFirmwareStatus>
       <ng-container class="table-cell-angular-big-component">
         <mat-chip-list [selectable]="false">
-          <mat-chip [ngClass]="row.firmwareUpdateStatus | appChargingStationsFormatFirmwareStatus:'class'" [disabled]="true">
-            {{row.firmwareUpdateStatus | appChargingStationsFormatFirmwareStatus:'text' | translate}}
+          <mat-chip
+            [ngClass]="row.firmwareUpdateStatus | appChargingStationsFormatFirmwareStatus : 'class'"
+            [disabled]="true"
+          >
+            {{
+              row.firmwareUpdateStatus
+                | appChargingStationsFormatFirmwareStatus : 'text'
+                | translate
+            }}
           </mat-chip>
         </mat-chip-list>
       </ng-container>
     </ng-template>
   `,
 })
-
 export class ChargingStationsFirmwareStatusCellComponent extends CellContentTemplateDirective {
   @Input() public row!: ChargingStation;
 }
@@ -81,5 +92,4 @@ export class AppChargingStationsFormatFirmwareStatusPipe implements PipeTransfor
       return `chargers.status_firmware_${status.toLowerCase()}`;
     }
   }
-
 }

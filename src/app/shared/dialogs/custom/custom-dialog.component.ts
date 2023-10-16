@@ -17,13 +17,17 @@ export class CustomDialogComponent implements AfterViewInit {
   public constructor(
     protected dialogRef: MatDialogRef<CustomDialogComponent>,
     protected translateService: TranslateService,
-    @Inject(MAT_DIALOG_DATA) data: any) {
+    @Inject(MAT_DIALOG_DATA) data: any
+  ) {
     // Set
     this.title = data.title;
     this.message = data.message;
     this.buttons = data.buttons;
-    Utils.registerValidateCloseKeyEvents(this.dialogRef,
-      this.onEnter.bind(this), this.onEscape.bind(this));
+    Utils.registerValidateCloseKeyEvents(
+      this.dialogRef,
+      this.onEnter.bind(this),
+      this.onEscape.bind(this)
+    );
   }
 
   public ngAfterViewInit() {

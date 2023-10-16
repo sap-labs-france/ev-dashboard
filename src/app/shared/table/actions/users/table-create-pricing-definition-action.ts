@@ -9,8 +9,12 @@ import { TableActionDef } from '../../../../types/Table';
 import { TableCreateAction } from '../table-create-action';
 
 export interface TableCreatePricingDefinitionActionDef extends TableActionDef {
-  action: (pricingDefinitionDialogComponent: ComponentType<unknown>, dialog: MatDialog, dialogParams: DialogParams<PricingDefinitionDialogData>,
-    refresh?: () => Observable<void>) => void;
+  action: (
+    pricingDefinitionDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParams<PricingDefinitionDialogData>,
+    refresh?: () => Observable<void>
+  ) => void;
 }
 
 export class TableCreatePricingDefinitionAction extends TableCreateAction {
@@ -22,8 +26,12 @@ export class TableCreatePricingDefinitionAction extends TableCreateAction {
     };
   }
 
-  private createPricing(pricingDefinitionDialogComponent: ComponentType<unknown>,
-    dialog: MatDialog, dialogParams: DialogParams<PricingDefinitionDialogData>, refresh?: () => Observable<void>) {
+  private createPricing(
+    pricingDefinitionDialogComponent: ComponentType<unknown>,
+    dialog: MatDialog,
+    dialogParams: DialogParams<PricingDefinitionDialogData>,
+    refresh?: () => Observable<void>
+  ) {
     super.create(pricingDefinitionDialogComponent, dialog, dialogParams, refresh);
   }
 }

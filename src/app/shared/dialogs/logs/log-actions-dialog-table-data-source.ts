@@ -16,7 +16,8 @@ export class LogActionsDialogTableDataSource extends DialogTableDataSource<LogAc
 
   public constructor(
     public spinnerService: SpinnerService,
-    public translateService: TranslateService) {
+    public translateService: TranslateService
+  ) {
     super(spinnerService, translateService);
     // Init
     this.initDataSource();
@@ -34,20 +35,25 @@ export class LogActionsDialogTableDataSource extends DialogTableDataSource<LogAc
         LOG_ACTIONS.reverse();
         this.reversed = false;
       }
-      const selectedRowsActions = this.getSelectedRows().map(value => value.action.toString().toLowerCase());
+      const selectedRowsActions = this.getSelectedRows().map((value) =>
+        value.action.toString().toLowerCase()
+      );
       for (const [key, value] of Object.entries(LOG_ACTIONS)) {
         const actionValue = value.value.toLowerCase();
-        if (actionValue.includes(searchValue.toLowerCase()) || selectedRowsActions.includes(actionValue)) {
+        if (
+          actionValue.includes(searchValue.toLowerCase()) ||
+          selectedRowsActions.includes(actionValue)
+        ) {
           actions.push({
             action: value.value as ServerAction,
             key: value.key,
-            id: value.key
+            id: value.key,
           });
         }
       }
       observer.next({
         count: actions.length,
-        result: actions
+        result: actions,
       });
       observer.complete();
     });
@@ -61,8 +67,8 @@ export class LogActionsDialogTableDataSource extends DialogTableDataSource<LogAc
         class: 'text-left col-80p',
         sorted: true,
         direction: 'asc',
-        sortable: true
-      }
+        sortable: true,
+      },
     ];
   }
 }

@@ -21,7 +21,7 @@ export class TableDeleteManyAction implements TableAction {
     name: 'general.delete',
     tooltip: 'general.tooltips.delete',
     action: this.deleteMany,
-    linkedToListSelection: true
+    linkedToListSelection: true,
   };
 
   // Return an action
@@ -29,34 +29,61 @@ export class TableDeleteManyAction implements TableAction {
     return this.action;
   }
 
-  protected deleteMany(datas: TableData[], messageTitle: string, messageConfirm: string, messageSuccess: string, messageSuccessAndError: string,
-    messageError: string, messageNoSuccessNoError: string, messageUnexpectedError: string,
-    deleteManyData: (ids: (string|number)[]) => Observable<ActionsResponse>,
-    dialogService: DialogService, translateService: TranslateService, messageService: MessageService,
-    centralServerService: CentralServerService, spinnerService: SpinnerService, router: Router,
-    clearSelectedRows: () => void, refresh?: () => Observable<void>) {
+  protected deleteMany(
+    datas: TableData[],
+    messageTitle: string,
+    messageConfirm: string,
+    messageSuccess: string,
+    messageSuccessAndError: string,
+    messageError: string,
+    messageNoSuccessNoError: string,
+    messageUnexpectedError: string,
+    deleteManyData: (ids: (string | number)[]) => Observable<ActionsResponse>,
+    dialogService: DialogService,
+    translateService: TranslateService,
+    messageService: MessageService,
+    centralServerService: CentralServerService,
+    spinnerService: SpinnerService,
+    router: Router,
+    clearSelectedRows: () => void,
+    refresh?: () => Observable<void>
+  ) {
     // Confirm
-    dialogService.createAndShowYesNoDialog(
-      translateService.instant(messageTitle),
-      translateService.instant(messageConfirm, { quantity: datas.length }),
-    ).subscribe((response) => {
-      if (response === ButtonAction.YES) {
-        spinnerService.show();
-        deleteManyData(datas.map((data) => data.id)).subscribe({
-          next: (responseAction: ActionsResponse) => {
-            spinnerService.hide();
-            messageService.showActionsMessage(responseAction, messageSuccess, messageError, messageSuccessAndError, messageNoSuccessNoError);
-            clearSelectedRows();
-            if (refresh) {
-              refresh().subscribe();
-            }
-          },
-          error: (error) => {
-            Utils.handleHttpError(error, router, messageService, centralServerService, messageUnexpectedError);
-            spinnerService.hide();
-          }
-        });
-      }
-    });
+    dialogService
+      .createAndShowYesNoDialog(
+        translateService.instant(messageTitle),
+        translateService.instant(messageConfirm, { quantity: datas.length })
+      )
+      .subscribe((response) => {
+        if (response === ButtonAction.YES) {
+          spinnerService.show();
+          deleteManyData(datas.map((data) => data.id)).subscribe({
+            next: (responseAction: ActionsResponse) => {
+              spinnerService.hide();
+              messageService.showActionsMessage(
+                responseAction,
+                messageSuccess,
+                messageError,
+                messageSuccessAndError,
+                messageNoSuccessNoError
+              );
+              clearSelectedRows();
+              if (refresh) {
+                refresh().subscribe();
+              }
+            },
+            error: (error) => {
+              Utils.handleHttpError(
+                error,
+                router,
+                messageService,
+                centralServerService,
+                messageUnexpectedError
+              );
+              spinnerService.hide();
+            },
+          });
+        }
+      });
   }
 }

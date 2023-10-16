@@ -19,7 +19,6 @@ import { StatisticsExportService } from '../shared/statistics-export.service';
   selector: 'app-statistics-transactions',
   templateUrl: 'statistics-transactions.component.html',
 })
-
 export class StatisticsTransactionsComponent implements OnInit {
   @ViewChild('transactionsBarChart', { static: true }) public ctxBarChart!: ElementRef;
   @ViewChild('transactionsPieChart', { static: true }) public ctxPieChart!: ElementRef;
@@ -46,7 +45,8 @@ export class StatisticsTransactionsComponent implements OnInit {
     private localeService: LocaleService,
     private spinnerService: SpinnerService,
     private statisticsBuildService: StatisticsBuildService,
-    private statisticsExportService: StatisticsExportService) {
+    private statisticsExportService: StatisticsExportService
+  ) {
     this.localeService.getCurrentLocaleSubject().subscribe((locale) => {
       this.language = locale.language;
     });
@@ -77,11 +77,18 @@ export class StatisticsTransactionsComponent implements OnInit {
   }
 
   public exportData(): void {
-    const enhancedFilterParams = this.statisticsExportService.enhanceFilterParams(this.filterParams, 'Transactions',
-      this.selectedCategory, this.selectedYear, this.selectedChart);
-    this.statisticsExportService.exportDataWithDialog(enhancedFilterParams,
+    const enhancedFilterParams = this.statisticsExportService.enhanceFilterParams(
+      this.filterParams,
+      'Transactions',
+      this.selectedCategory,
+      this.selectedYear,
+      this.selectedChart
+    );
+    this.statisticsExportService.exportDataWithDialog(
+      enhancedFilterParams,
       this.translateService.instant('statistics.dialog.transactions.export.title'),
-      this.translateService.instant('statistics.dialog.transactions.export.confirm'));
+      this.translateService.instant('statistics.dialog.transactions.export.confirm')
+    );
   }
 
   public getChartLabel(): string {
@@ -92,34 +99,45 @@ export class StatisticsTransactionsComponent implements OnInit {
     }
     if (this.selectedChart === 'month') {
       if (this.selectedCategory === 'C') {
-        mainLabel = this.translateService.instant('statistics.transactions_per_cs_month_title',
-          { total: Math.round(this.totalTransactions).toLocaleString(this.language) });
+        mainLabel = this.translateService.instant('statistics.transactions_per_cs_month_title', {
+          total: Math.round(this.totalTransactions).toLocaleString(this.language),
+        });
       } else {
-        mainLabel = this.translateService.instant('statistics.transactions_per_user_month_title',
-          { total: Math.round(this.totalTransactions).toLocaleString(this.language) });
+        mainLabel = this.translateService.instant('statistics.transactions_per_user_month_title', {
+          total: Math.round(this.totalTransactions).toLocaleString(this.language),
+        });
       }
     } else {
       if (this.selectedCategory === 'C') {
         if (this.selectedYear > 0) {
-          mainLabel = this.translateService.instant('statistics.transactions_per_cs_year_title',
-            { total: Math.round(this.totalTransactions).toLocaleString(this.language) });
+          mainLabel = this.translateService.instant('statistics.transactions_per_cs_year_title', {
+            total: Math.round(this.totalTransactions).toLocaleString(this.language),
+          });
         } else if (this.selectedYear < 0) {
-          mainLabel = this.translateService.instant('statistics.transactions_per_cs_timeFrame_title',
-            { total: Math.round(this.totalTransactions).toLocaleString(this.language) });
+          mainLabel = this.translateService.instant(
+            'statistics.transactions_per_cs_timeFrame_title',
+            { total: Math.round(this.totalTransactions).toLocaleString(this.language) }
+          );
         } else {
-          mainLabel = this.translateService.instant('statistics.transactions_per_cs_total_title',
-            { total: Math.round(this.totalTransactions).toLocaleString(this.language) });
+          mainLabel = this.translateService.instant('statistics.transactions_per_cs_total_title', {
+            total: Math.round(this.totalTransactions).toLocaleString(this.language),
+          });
         }
       } else {
         if (this.selectedYear > 0) {
-          mainLabel = this.translateService.instant('statistics.transactions_per_user_year_title',
-            { total: Math.round(this.totalTransactions).toLocaleString(this.language) });
+          mainLabel = this.translateService.instant('statistics.transactions_per_user_year_title', {
+            total: Math.round(this.totalTransactions).toLocaleString(this.language),
+          });
         } else if (this.selectedYear < 0) {
-          mainLabel = this.translateService.instant('statistics.transactions_per_user_timeFrame_title',
-            { total: Math.round(this.totalTransactions).toLocaleString(this.language) });
+          mainLabel = this.translateService.instant(
+            'statistics.transactions_per_user_timeFrame_title',
+            { total: Math.round(this.totalTransactions).toLocaleString(this.language) }
+          );
         } else {
-          mainLabel = this.translateService.instant('statistics.transactions_per_user_total_title',
-            { total: Math.round(this.totalTransactions).toLocaleString(this.language) });
+          mainLabel = this.translateService.instant(
+            'statistics.transactions_per_user_total_title',
+            { total: Math.round(this.totalTransactions).toLocaleString(this.language) }
+          );
         }
       }
     }
@@ -128,14 +146,32 @@ export class StatisticsTransactionsComponent implements OnInit {
   }
 
   public initCharts(): void {
-    const labelXAxis: string = this.translateService.instant('statistics.graphic_title_month_x_axis');
-    const labelYAxis: string = this.translateService.instant('statistics.graphic_title_transactions_y_axis');
+    const labelXAxis: string = this.translateService.instant(
+      'statistics.graphic_title_month_x_axis'
+    );
+    const labelYAxis: string = this.translateService.instant(
+      'statistics.graphic_title_transactions_y_axis'
+    );
     const toolTipUnit = '';
-    this.barChart = new SimpleChart(this.language, ChartTypeValues.STACKED_BAR,
-      this.getChartLabel(), labelXAxis, labelYAxis, toolTipUnit, true);
+    this.barChart = new SimpleChart(
+      this.language,
+      ChartTypeValues.STACKED_BAR,
+      this.getChartLabel(),
+      labelXAxis,
+      labelYAxis,
+      toolTipUnit,
+      true
+    );
     this.barChart.initChart(this.ctxBarChart);
-    this.pieChart = new SimpleChart(this.language, ChartTypeValues.PIE,
-      this.getChartLabel(), undefined, undefined, toolTipUnit, true);
+    this.pieChart = new SimpleChart(
+      this.language,
+      ChartTypeValues.PIE,
+      this.getChartLabel(),
+      undefined,
+      undefined,
+      toolTipUnit,
+      true
+    );
     this.pieChart.initChart(this.ctxPieChart);
     this.chartsInitialized = true;
   }
@@ -167,12 +203,21 @@ export class StatisticsTransactionsComponent implements OnInit {
     this.filterParams['WithAuth'] = 'true';
     this.spinnerService.show();
     if (this.selectedCategory === 'C') {
-      this.centralServerService.getChargingStationTransactionsStatistics(this.selectedYear, this.filterParams)
+      this.centralServerService
+        .getChargingStationTransactionsStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
           this.initAuth(statisticsData);
-          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData.result, 2);
-          this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
-          this.totalTransactions = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
+          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(
+            statisticsData.result,
+            2
+          );
+          this.pieChartData =
+            this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(
+              this.barChartData
+            );
+          this.totalTransactions = this.statisticsBuildService.calculateTotalValueFromChartData(
+            this.barChartData
+          );
           if (this.selectedChart === 'month') {
             this.barChart.updateChart(this.barChartData, this.getChartLabel());
           } else {
@@ -181,12 +226,21 @@ export class StatisticsTransactionsComponent implements OnInit {
           this.spinnerService.hide();
         });
     } else {
-      this.centralServerService.getUserTransactionsStatistics(this.selectedYear, this.filterParams)
+      this.centralServerService
+        .getUserTransactionsStatistics(this.selectedYear, this.filterParams)
         .subscribe((statisticsData) => {
           this.initAuth(statisticsData);
-          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(statisticsData.result, 2);
-          this.pieChartData = this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(this.barChartData);
-          this.totalTransactions = this.statisticsBuildService.calculateTotalValueFromChartData(this.barChartData);
+          this.barChartData = this.statisticsBuildService.buildStackedChartDataForMonths(
+            statisticsData.result,
+            2
+          );
+          this.pieChartData =
+            this.statisticsBuildService.calculateTotalChartDataFromStackedChartData(
+              this.barChartData
+            );
+          this.totalTransactions = this.statisticsBuildService.calculateTotalValueFromChartData(
+            this.barChartData
+          );
           if (this.selectedChart === 'month') {
             this.barChart.updateChart(this.barChartData, this.getChartLabel());
           } else {
@@ -199,11 +253,11 @@ export class StatisticsTransactionsComponent implements OnInit {
 
   private initAuth(statisticsData: StatisticDataResult) {
     this.authorizations = {
-      canListUsers:  Utils.convertToBoolean(statisticsData.canListUsers),
-      canListChargingStations:  Utils.convertToBoolean(statisticsData.canListChargingStations),
-      canListSites:  Utils.convertToBoolean(statisticsData.canListSites),
-      canListSiteAreas:  Utils.convertToBoolean(statisticsData.canListSiteAreas),
-      canExport:  Utils.convertToBoolean(statisticsData.canExport),
+      canListUsers: Utils.convertToBoolean(statisticsData.canListUsers),
+      canListChargingStations: Utils.convertToBoolean(statisticsData.canListChargingStations),
+      canListSites: Utils.convertToBoolean(statisticsData.canListSites),
+      canListSiteAreas: Utils.convertToBoolean(statisticsData.canListSiteAreas),
+      canExport: Utils.convertToBoolean(statisticsData.canExport),
     };
   }
 }

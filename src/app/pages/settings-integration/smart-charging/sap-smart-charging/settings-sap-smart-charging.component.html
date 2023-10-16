@@ -3,16 +3,21 @@
     <div class="card-icon">
       <mat-icon>settings</mat-icon>
     </div>
-    <h3 class="card-title">{{'settings.smart_charging.sap_smart_charging.title' | translate}}</h3>
+    <h3 class="card-title">{{ 'settings.smart_charging.sap_smart_charging.title' | translate }}</h3>
   </div>
 
   <div class="card-body">
-    <legend>{{'settings.smart_charging.sap_smart_charging.settings' | translate}}</legend>
+    <legend>{{ 'settings.smart_charging.sap_smart_charging.settings' | translate }}</legend>
     <div class="row">
       <div class="col-md-12">
         <mat-form-field>
-          <input appAutofocus matInput type="text" [formControl]="optimizerUrl"
-            placeholder="{{'smart_charging.optimizerUrl' | translate}}">
+          <input
+            appAutofocus
+            matInput
+            type="text"
+            [formControl]="optimizerUrl"
+            placeholder="{{ 'smart_charging.optimizerUrl' | translate }}"
+          />
           <mat-error *ngIf="optimizerUrl.errors?.pattern">
             <div [translate]="'general.error_url_pattern'"></div>
           </mat-error>
@@ -20,16 +25,28 @@
       </div>
       <div class="col-md-6">
         <mat-form-field>
-          <input matInput type="text" [formControl]="user"
-            placeholder="{{'settings.smart_charging.sap_smart_charging.user' | translate}}" required>
-          <mat-error *ngIf="user.errors?.required">{{"general.mandatory_field"
-            | translate}}</mat-error>
+          <input
+            matInput
+            type="text"
+            [formControl]="user"
+            placeholder="{{ 'settings.smart_charging.sap_smart_charging.user' | translate }}"
+            required
+          />
+          <mat-error *ngIf="user.errors?.required">{{
+            'general.mandatory_field' | translate
+          }}</mat-error>
         </mat-form-field>
         <mat-form-field>
-          <input matInput type="password" [formControl]="password"
-            placeholder="{{'settings.smart_charging.sap_smart_charging.password' | translate}}" required>
-          <mat-error *ngIf="password.errors?.required">{{"general.mandatory_field"
-            | translate}}</mat-error>
+          <input
+            matInput
+            type="password"
+            [formControl]="password"
+            placeholder="{{ 'settings.smart_charging.sap_smart_charging.password' | translate }}"
+            required
+          />
+          <mat-error *ngIf="password.errors?.required">{{
+            'general.mandatory_field' | translate
+          }}</mat-error>
         </mat-form-field>
       </div>
     </div>
@@ -37,7 +54,7 @@
       <div class="col-md-6 col-xl-6 text-left">
         <div class="form-group">
           <mat-checkbox [formControl]="stickyLimitation" (change)="stickyLimitationChanged()">
-            {{'settings.smart_charging.sap_smart_charging.sticky_limitation' | translate}}
+            {{ 'settings.smart_charging.sap_smart_charging.sticky_limitation' | translate }}
           </mat-checkbox>
         </div>
       </div>
@@ -46,16 +63,28 @@
       <div class="col-md-2">
         <div class="form-group">
           <mat-form-field>
-            <input matInput placeholder="{{'settings.smart_charging.sap_smart_charging.limit_buffer_dc' | translate}}"
-              type="number" [formControl]="limitBufferDC">
+            <input
+              matInput
+              placeholder="{{
+                'settings.smart_charging.sap_smart_charging.limit_buffer_dc' | translate
+              }}"
+              type="number"
+              [formControl]="limitBufferDC"
+            />
           </mat-form-field>
         </div>
       </div>
       <div class="col-md-2">
         <div class="form-group">
           <mat-form-field>
-            <input matInput placeholder="{{'settings.smart_charging.sap_smart_charging.limit_buffer_ac' | translate}}"
-              type="number" [formControl]="limitBufferAC">
+            <input
+              matInput
+              placeholder="{{
+                'settings.smart_charging.sap_smart_charging.limit_buffer_ac' | translate
+              }}"
+              type="number"
+              [formControl]="limitBufferAC"
+            />
           </mat-form-field>
         </div>
       </div>

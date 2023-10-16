@@ -21,7 +21,7 @@ import { ChargingStationTemplatesListComponent } from './list/charging-station-t
     ChargingStationTemplateComponent,
     ChargingStationTemplateDialogComponent,
     ChargingStationTemplatesListComponent,
-    ChargingStationTemplateMainComponent
+    ChargingStationTemplateMainComponent,
   ],
   imports: [
     CommonModule,
@@ -32,14 +32,14 @@ import { ChargingStationTemplatesListComponent } from './list/charging-station-t
     CommonDirectivesModule,
     TableModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   entryComponents: [
     ChargingStationTemplatesComponent,
     ChargingStationTemplateComponent,
     ChargingStationTemplateDialogComponent,
     ChargingStationTemplatesListComponent,
-    ChargingStationTemplateMainComponent
-  ]
+    ChargingStationTemplateMainComponent,
+  ],
 })
-export class ChargingStationTemplatesModule { }
+export class ChargingStationTemplatesModule {}

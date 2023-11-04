@@ -45,4 +45,7 @@ export class Constants {
   /* App Info for STRIPE */
   public static readonly STRIPE_APP_NAME = 'Open e-Mobility';
   public static readonly STRIPE_PARTNER_ID = 'TECH-000685';
+
+  /* Set true to use new stripe element implementation - false to use old implementation */
+  public static readonly STRIPE_ELEMENTS = true;
 }

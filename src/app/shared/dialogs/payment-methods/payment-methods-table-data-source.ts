@@ -3,27 +3,27 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { BillingPaymentMethodsAuthorizationActions } from 'types/Authorization';
-import { HTTPError } from 'types/HTTPError';
 
-import { CentralServerService } from '../../../../services/central-server.service';
-import { ComponentService } from '../../../../services/component.service';
-import { DialogService } from '../../../../services/dialog.service';
-import { MessageService } from '../../../../services/message.service';
-import { SpinnerService } from '../../../../services/spinner.service';
-import { WindowService } from '../../../../services/window.service';
-import { AppDatePipe } from '../../../../shared/formatters/app-date.pipe';
-import { TableRefreshAction } from '../../../../shared/table/actions/table-refresh-action';
-import { TableCreatePaymentMethodAction, TableCreatePaymentMethodActionDef } from '../../../../shared/table/actions/users/table-create-payment-method-action';
-import { TableDeletePaymentMethodAction, TableDeletePaymentMethodActionDef } from '../../../../shared/table/actions/users/table-delete-payment-method';
-import { TableDataSource } from '../../../../shared/table/table-data-source';
-import { BillingButtonAction, BillingPaymentMethod } from '../../../../types/Billing';
-import { BillingPaymentMethodDataResult } from '../../../../types/DataResult';
-import { BillingSettings } from '../../../../types/Setting';
-import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../../types/Table';
-import { Utils } from '../../../../utils/Utils';
-import { PaymentMethodStatusComponent } from './payment-method/payment-method-status.component';
-import { PaymentMethodDialogComponent } from './payment-method/payment-method.dialog.component';
+import { PaymentMethodStatusComponent } from '../../../pages/users/user/payment-methods/payment-method/payment-method-status.component';
+import { CentralServerService } from '../../../services/central-server.service';
+import { ComponentService } from '../../../services/component.service';
+import { DialogService } from '../../../services/dialog.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { WindowService } from '../../../services/window.service';
+import { BillingPaymentMethodsAuthorizationActions } from '../../../types/Authorization';
+import { BillingButtonAction, BillingPaymentMethod } from '../../../types/Billing';
+import { BillingPaymentMethodDataResult } from '../../../types/DataResult';
+import { HTTPError } from '../../../types/HTTPError';
+import { BillingSettings } from '../../../types/Setting';
+import { TableActionDef, TableColumnDef, TableDef, TableFilterDef } from '../../../types/Table';
+import { Utils } from '../../../utils/Utils';
+import { PaymentMethodDialogComponent } from '../../dialogs/payment-methods/payment-method.dialog.component';
+import { AppDatePipe } from '../../formatters/app-date.pipe';
+import { TableRefreshAction } from '../../table/actions/table-refresh-action';
+import { TableCreatePaymentMethodAction, TableCreatePaymentMethodActionDef } from '../../table/actions/users/table-create-payment-method-action';
+import { TableDeletePaymentMethodAction, TableDeletePaymentMethodActionDef } from '../../table/actions/users/table-delete-payment-method';
+import { TableDataSource } from '../../table/table-data-source';
 
 @Injectable()
 export class PaymentMethodsTableDataSource extends TableDataSource<BillingPaymentMethod> {

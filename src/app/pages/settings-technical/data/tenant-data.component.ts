@@ -2,15 +2,17 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusCodes } from 'http-status-codes';
-import { CentralServerService } from 'services/central-server.service';
-import { ConfigService } from 'services/config.service';
-import { MessageService } from 'services/message.service';
-import { SpinnerService } from 'services/spinner.service';
-import { Address } from 'types/Address';
-import { RestResponse } from 'types/GlobalType';
-import { Tenant } from 'types/Tenant';
-import { Constants } from 'utils/Constants';
-import { Utils } from 'utils/Utils';
+
+import { CentralServerService } from '../../../services/central-server.service';
+import { ConfigService } from '../../../services/config.service';
+import { MessageService } from '../../../services/message.service';
+import { SpinnerService } from '../../../services/spinner.service';
+import { Address } from '../../../types/Address';
+import { RestResponse } from '../../../types/GlobalType';
+import { Tenant } from '../../../types/Tenant';
+import { TenantSupport } from '../../../types/TenantSupport';
+import { Constants } from '../../../utils/Constants';
+import { Utils } from '../../../utils/Utils';
 
 @Component({
   selector: 'app-tenant-data',
@@ -22,11 +24,18 @@ export class TenantDataComponent implements OnInit, OnChanges {
   public initialized = false;
   public formGroup!: UntypedFormGroup;
   public name!: AbstractControl;
+  public legalStatus!: AbstractControl;
+  public corporateName!: AbstractControl;
+  public website!: AbstractControl;
   public email!: AbstractControl;
+  public rcs!: AbstractControl;
+  public capital!: AbstractControl;
+  public siret!: AbstractControl;
   public logo = Constants.NO_IMAGE;
   public logoHasChanged = false;
   public logoMaxSize: number;
   public address: Address = {} as Address;
+  public tenantSupport: TenantSupport = {} as TenantSupport;
   public tenant: Tenant;
 
   public constructor(
@@ -54,9 +63,43 @@ export class TenantDataComponent implements OnInit, OnChanges {
         Validators.email,
       ]))
     );
+    this.formGroup.addControl('corporateName', new UntypedFormControl('',
+      Validators.compose([
+        Validators.maxLength(100),
+      ]))
+    );
+    this.formGroup.addControl('website', new UntypedFormControl('',
+      Validators.compose([
+        Validators.pattern(Constants.URL_PATTERN)
+      ]))
+    );
+    this.formGroup.addControl('rcs', new UntypedFormControl('',
+      Validators.compose([
+      ]))
+    );
+    this.formGroup.addControl('capital', new UntypedFormControl('',
+      Validators.compose([
+        Validators.pattern('^[0-9]*$')
+      ]))
+    );
+    this.formGroup.addControl('siret', new UntypedFormControl('',
+      Validators.compose([
+        Validators.pattern('^[0-9]{14}$')
+      ]))
+    );
+    this.formGroup.addControl('legalStatus', new UntypedFormControl('',
+      Validators.compose([
+      ]))
+    );
     // Assign
     this.name = this.formGroup.controls['name'];
     this.email = this.formGroup.controls['email'];
+    this.legalStatus = this.formGroup.controls['legalStatus'];
+    this.corporateName = this.formGroup.controls['corporateName'];
+    this.website = this.formGroup.controls['website'];
+    this.rcs = this.formGroup.controls['rcs'];
+    this.capital = this.formGroup.controls['capital'];
+    this.siret = this.formGroup.controls['siret'];
     this.initialized = true;
     this.loadTenant();
   }
@@ -70,8 +113,17 @@ export class TenantDataComponent implements OnInit, OnChanges {
     this.centralServerService.getTenant(this.centralServerService.getLoggedUser().tenantID).subscribe((tenant) => {
       this.name.setValue(tenant.name);
       this.email.setValue(tenant.email);
+      this.legalStatus.setValue(tenant.legalStatus);
+      this.corporateName.setValue(tenant.corporateName);
+      this.website.setValue(tenant.website);
+      this.rcs.setValue(tenant.rcs);
+      this.capital.setValue(tenant.capital);
+      this.siret.setValue(tenant.siret);
       if (tenant.address) {
         this.address = tenant.address;
+      }
+      if (tenant.support) {
+        this.tenantSupport = tenant.support;
       }
       this.tenant = tenant;
       this.formGroup.markAsPristine();
@@ -91,6 +143,10 @@ export class TenantDataComponent implements OnInit, OnChanges {
           }
         }
       });
+      // Update form group
+      this.formGroup.updateValueAndValidity();
+      this.formGroup.markAsPristine();
+      this.formGroup.markAllAsTouched();
     });
   }
 
@@ -114,6 +170,10 @@ export class TenantDataComponent implements OnInit, OnChanges {
         reader.readAsDataURL(file);
       }
     }
+  }
+
+  public toUpperCase(control: AbstractControl) {
+    control.setValue(control.value.toUpperCase());
   }
 
   public clearLogo() {
@@ -142,6 +202,7 @@ export class TenantDataComponent implements OnInit, OnChanges {
     this.spinnerService.show();
     this.updateTenantLogo(tenant);
     tenant.id = this.centralServerService.getLoggedUser().tenantID;
+    // forthis.tenantSupport
     this.centralServerService.updateTenantData(tenant).subscribe({
       next: (response) => {
         this.spinnerService.hide();

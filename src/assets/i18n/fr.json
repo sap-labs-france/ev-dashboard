@@ -1926,9 +1926,28 @@
   },
   "technical_settings": {
     "tabs": {
+      "organization": "Détails de l'entreprise",
       "crypto": "Chiffrement",
-      "users": "Utilisateurs",
-      "organization": "Organisation"
+      "users": "Utilisateurs"
+    },
+    "tenant": {
+      "public_name": "Nom commercial",
+      "email": "Email de contact",
+      "website": "Site web de l'organisation"
+    },
+    "business": {
+      "title": "Informations sur l'entreprise",
+      "corporate_name": "Dénomination sociale",
+      "rcs": "RCS",
+      "capital": "Capital",
+      "legal_status": "Statut juridique",
+      "siret": "SIRET",
+      "error_siret_pattern": "Numéro de SIRET invalide"
+    },
+    "support": {
+      "title": "Informations sur le support",
+      "email": "Email du support",
+      "phone": "Numéro de téléphone du support"
     },
     "crypto": {
       "crypto_key": {

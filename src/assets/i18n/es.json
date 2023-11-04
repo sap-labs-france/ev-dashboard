@@ -1926,9 +1926,28 @@
   },
   "technical_settings": {
     "tabs": {
+      "organization": "Business Details",
       "crypto": "Crypto",
-      "users": "Users",
-      "organization": "Organización"
+      "users": "Users"
+    },
+    "tenant": {
+      "public_name": "Public Name",
+      "email": "Public Email",
+      "website": "Organization's Website"
+    },
+    "business": {
+      "title": "Business Information",
+      "corporate_name": "Corporate Name",
+      "rcs": "RCS",
+      "capital": "Capital",
+      "legal_status": "Legal Status",
+      "siret": "SIRET",
+      "error_siret_pattern": "Invalid SIRET number"
+    },
+    "support": {
+      "title": "Support Information",
+      "email": "Support Email",
+      "phone": "Support Phone"
     },
     "crypto": {
       "crypto_key": {

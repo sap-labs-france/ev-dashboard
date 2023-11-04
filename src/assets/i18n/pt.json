@@ -160,6 +160,7 @@
     "invalid_file_error": "The provided file is invalid",
     "invalid_file_csv_header_error": "At least one of the required header was not provided in the CSV file, operation has been aborted",
     "import_already_ongoing": "Cannot upload the badges while an import is ongoing",
+    "add_new_sticker": "Type here to add new sticker",
     "menu": {
       "dashboard": "Painel de Controlo",
       "charging_stations": "Estações de Carga",

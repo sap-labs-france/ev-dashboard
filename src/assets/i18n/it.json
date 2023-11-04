@@ -160,6 +160,7 @@
     "invalid_file_error": "Il file non è valido",
     "invalid_file_csv_header_error": "Almeno uno dei campi obbligatori non è stato aggiunto nel file CSV, l'operazione è stata annullata",
     "import_already_ongoing": "Impossibile caricare un badge se un caricamento è già in corso",
+    "add_new_sticker": "Type here to add new sticker",
     "menu": {
       "dashboard": "Cruscotto",
       "charging_stations": "Stazioni di Ricarica",

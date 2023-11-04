@@ -160,6 +160,7 @@
     "invalid_file_error": "Poskytnutý soubor je neplatný",
     "invalid_file_csv_header_error": "Přinejmenším jedno z požadovaných záhlaví není poskytnuto v souboru CSV, akce byla přerušena",
     "import_already_ongoing": "Během importu nelze nahrát karty/čipy",
+    "add_new_sticker": "Type here to add new sticker",
     "menu": {
       "dashboard": "Ovládací panel",
       "charging_stations": "Nabíjecí stanice",
